@@ -2,7 +2,7 @@ use web_view::*;
 
 fn main()
 {
-	let html = "<html><body><h1>Hello</h1></body></html>";
+	let html = include_str!("../html/main.html");
 
 	web_view::builder()
 		.title("Open Character Sheet Manager")
