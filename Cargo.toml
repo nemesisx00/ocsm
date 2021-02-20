@@ -1,0 +1,8 @@
+[package]
+name = "ocsm"
+version = "0.1.0"
+authors = ["Peter Lunneberg <plunn.dev@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+web-view = { version = "0.7", features = ["edge"] }

@@ -48,3 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+
+
+# Added by cargo
+
+/target
