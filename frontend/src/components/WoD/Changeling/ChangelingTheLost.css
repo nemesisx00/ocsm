@@ -1,11 +1,10 @@
-.healthTracker
+.trackers
 {
 	width: 25%;
-	padding: 5px;
 }
 
+.healthTracker,
 .willpowerTracker
 {
-	width: 25%;
 	padding: 5px;
 }

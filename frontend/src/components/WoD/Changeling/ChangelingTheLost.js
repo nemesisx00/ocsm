@@ -64,8 +64,10 @@ class ChangelingTheLost extends React.Component
 	{
 		return (
 			<div>
-				<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
-				<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+				<div className="trackers">
+					<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
+					<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+				</div>
 			</div>
 		)
 	}

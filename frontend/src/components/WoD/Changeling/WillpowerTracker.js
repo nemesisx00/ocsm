@@ -18,7 +18,7 @@ class WillpowerTracker extends React.Component
 	
 	render()
 	{
-		//TODO: figure out how to update the current/damage state dynamically
+		//TODO: figure out how to update the spent/unspent state dynamically
 		
 		let boxes = []
 		for(let i = 0; i < this.state.max; i++)
