@@ -1,0 +1,16 @@
+{
+	"name": "ocsm",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "npm --prefix ./frontend/ run build && npm run tauri build",
+		"exe": "src-tauri\\target\\release\\ocsm.exe",
+		"tauri": "tauri"
+	},
+	"author": "Peter Lunneberg <plunn.dev@gmail.com>",
+	"license": "ISC",
+	"dependencies": {
+		"tauri": "^0.14.1"
+	}
+}
