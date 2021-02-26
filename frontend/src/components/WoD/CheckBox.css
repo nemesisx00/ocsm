@@ -1,0 +1,20 @@
+.checkbox
+{
+	position: relative;
+	width: 12px;
+	height: 12px;
+	border: 1px solid black;
+}
+
+.checkbox svg
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.checkbox svg path
+{
+	stroke: black;
+	stroke-width: 1px;
+}

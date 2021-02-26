@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "npm --prefix ./frontend/ run build && npm run tauri build",
 		"exe": "src-tauri\\target\\release\\ocsm.exe",
+		"reactStart": "npm --prefix ./frontend/ start",
 		"tauri": "tauri"
 	},
 	"author": "Peter Lunneberg <plunn.dev@gmail.com>",
