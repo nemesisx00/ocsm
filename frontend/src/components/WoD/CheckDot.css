@@ -1,0 +1,21 @@
+.checkDot
+{
+	position: relative;
+	width: 14px;
+	height: 14px;
+}
+
+.checkDot svg
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.checkDot svg circle
+{
+	stroke: black;
+	stroke-width: 1px;
+	fill: transparent;
+}
+.checkDot.checked svg circle { fill: black; }

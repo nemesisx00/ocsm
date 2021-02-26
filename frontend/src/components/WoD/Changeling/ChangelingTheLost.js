@@ -1,4 +1,5 @@
 import React from 'react'
+import Attributes from './Attributes'
 import HealthTracker from './HealthTracker'
 import WillpowerTracker from './WillpowerTracker'
 import './ChangelingTheLost.css'
@@ -64,6 +65,7 @@ class ChangelingTheLost extends React.Component
 	{
 		return (
 			<div>
+				<Attributes attributes={this.state.attributes} />
 				<div className="trackers">
 					<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
 					<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
