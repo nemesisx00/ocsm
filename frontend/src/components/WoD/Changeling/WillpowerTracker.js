@@ -23,7 +23,7 @@ class WillpowerTracker extends React.Component
 		let boxes = []
 		for(let i = 0; i < this.state.max; i++)
 		{
-			boxes.push(<CheckBox />);
+			boxes.push(<CheckBox key={`willpower-${i}`} />);
 		}
 		
 		return (

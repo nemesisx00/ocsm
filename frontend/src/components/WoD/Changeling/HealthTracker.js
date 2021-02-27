@@ -27,7 +27,7 @@ class HealthTracker extends React.Component
 		let boxes = []
 		for(let i = 0; i < this.state.max; i++)
 		{
-			boxes.push(<CheckBoxMulti />);
+			boxes.push(<CheckBoxMulti key={`health-${i}`} />);
 		}
 		
 		return (
