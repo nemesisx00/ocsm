@@ -1,8 +1,8 @@
 import React from 'react'
-import CheckDot from '../CheckDot'
+import FiveDots from '../FiveDots'
 import './Attributes.css'
 
-class Attributes extends React.Component
+export default class Attributes extends React.Component
 {
 	constructor(props)
 	{
@@ -36,27 +36,9 @@ class Attributes extends React.Component
 					<div className="label">Resolve:</div>
 				</div>
 				<div className="column">
-					<div className="dots intelligence">
-						<CheckDot checked={this.state.power.intelligence > 0} />
-						<CheckDot checked={this.state.power.intelligence > 1} />
-						<CheckDot checked={this.state.power.intelligence > 2} />
-						<CheckDot checked={this.state.power.intelligence > 3} />
-						<CheckDot checked={this.state.power.intelligence > 4} />
-					</div>
-					<div className="dots wits">
-						<CheckDot checked={this.state.finesse.wits > 0} />
-						<CheckDot checked={this.state.finesse.wits > 1} />
-						<CheckDot checked={this.state.finesse.wits > 2} />
-						<CheckDot checked={this.state.finesse.wits > 3} />
-						<CheckDot checked={this.state.finesse.wits > 4} />
-					</div>
-					<div className="dots resolve">
-						<CheckDot checked={this.state.resistance.resolve > 0} />
-						<CheckDot checked={this.state.resistance.resolve > 1} />
-						<CheckDot checked={this.state.resistance.resolve > 2} />
-						<CheckDot checked={this.state.resistance.resolve > 3} />
-						<CheckDot checked={this.state.resistance.resolve > 4} />
-					</div>
+					<FiveDots className="dots intelligence" value={this.state.power.intelligence} />
+					<FiveDots className="dots wits" value={this.state.finesse.wits} />
+					<FiveDots className="dots resolve" value={this.state.resistance.resolve} />
 				</div>
 				<div className="column">
 					<div className="label">Strength:</div>
@@ -64,27 +46,9 @@ class Attributes extends React.Component
 					<div className="label">Stamina:</div>
 				</div>
 				<div className="column">
-					<div className="dots strength">
-						<CheckDot checked={this.state.power.strength > 0} />
-						<CheckDot checked={this.state.power.strength > 1} />
-						<CheckDot checked={this.state.power.strength > 2} />
-						<CheckDot checked={this.state.power.strength > 3} />
-						<CheckDot checked={this.state.power.strength > 4} />
-					</div>
-					<div className="dots dexterity">
-						<CheckDot checked={this.state.finesse.dexterity > 0} />
-						<CheckDot checked={this.state.finesse.dexterity > 1} />
-						<CheckDot checked={this.state.finesse.dexterity > 2} />
-						<CheckDot checked={this.state.finesse.dexterity > 3} />
-						<CheckDot checked={this.state.finesse.dexterity > 4} />
-					</div>
-					<div className="dots stamina">
-						<CheckDot checked={this.state.resistance.stamina > 0} />
-						<CheckDot checked={this.state.resistance.stamina > 1} />
-						<CheckDot checked={this.state.resistance.stamina > 2} />
-						<CheckDot checked={this.state.resistance.stamina > 3} />
-						<CheckDot checked={this.state.resistance.stamina > 4} />
-					</div>
+					<FiveDots className="dots strength" value={this.state.power.strength} />
+					<FiveDots className="dots dexterity" value={this.state.finesse.dexterity} />
+					<FiveDots className="dots stamina" value={this.state.resistance.stamina} />
 				</div>
 				<div className="column">
 					<div className="label">Presence:</div>
@@ -92,31 +56,11 @@ class Attributes extends React.Component
 					<div className="label">Composure:</div>
 				</div>
 				<div className="column">
-					<div className="dots presence">
-						<CheckDot checked={this.state.power.presence > 0} />
-						<CheckDot checked={this.state.power.presence > 1} />
-						<CheckDot checked={this.state.power.presence > 2} />
-						<CheckDot checked={this.state.power.presence > 3} />
-						<CheckDot checked={this.state.power.presence > 4} />
-					</div>
-					<div className="dots manipulation">
-						<CheckDot checked={this.state.finesse.manipulation > 0} />
-						<CheckDot checked={this.state.finesse.manipulation > 1} />
-						<CheckDot checked={this.state.finesse.manipulation > 2} />
-						<CheckDot checked={this.state.finesse.manipulation > 3} />
-						<CheckDot checked={this.state.finesse.manipulation > 4} />
-					</div>
-					<div className="dots composure">
-						<CheckDot checked={this.state.resistance.composure > 0} />
-						<CheckDot checked={this.state.resistance.composure > 1} />
-						<CheckDot checked={this.state.resistance.composure > 2} />
-						<CheckDot checked={this.state.resistance.composure > 3} />
-						<CheckDot checked={this.state.resistance.composure > 4} />
-					</div>
+					<FiveDots className="dots presence" value={this.state.power.presence} />
+					<FiveDots className="dots manipulation" value={this.state.finesse.manipulation} />
+					<FiveDots className="dots composure" value={this.state.resistance.composure} />
 				</div>
 			</div>
 		)
 	}
 }
-
-export default Attributes
