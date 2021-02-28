@@ -4,7 +4,7 @@ import './WillpowerTracker.css'
 
 const AbsoluteMaxHealth = 10
 
-class WillpowerTracker extends React.Component
+export default class WillpowerTracker extends React.Component
 {
 	constructor(props)
 	{
@@ -50,5 +50,3 @@ class WillpowerTracker extends React.Component
 		}
 	}
 }
-
-export default WillpowerTracker

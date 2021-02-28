@@ -4,25 +4,25 @@
 	flex-direction: row;
 }
 
-.column
+.attributes > .column
 {
 	display: flex;
 	flex-direction: column;
 }
 
-.column > *
+.attributes > .column > *
 {
 	flex-grow: 1;
 	flex-shrink: 0;
 }
 
-.column .label
+.attributes > .column .label
 {
 	text-align: left;
 	margin: 0 5px 0 15px;
 }
 
-.dots
+.attributes .dots
 {
 	display: flex;
 	flex-direction: row;
@@ -30,7 +30,7 @@
 	padding-top: 5px;
 }
 
-.dots .checkDot
+.attributes .dots .checkDot
 {
 	flex-grow: 0;
 	flex-shrink: 0;

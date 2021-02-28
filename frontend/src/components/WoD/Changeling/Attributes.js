@@ -1,6 +1,6 @@
+import './Attributes.css'
 import React from 'react'
 import FiveDots from '../FiveDots'
-import './Attributes.css'
 
 export default class Attributes extends React.Component
 {

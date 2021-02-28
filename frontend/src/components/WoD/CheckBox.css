@@ -3,7 +3,7 @@
 	position: relative;
 	width: 12px;
 	height: 12px;
-	border: 1px solid black;
+	border: 1px solid #AAB9CC;
 }
 
 .checkbox svg
@@ -15,6 +15,6 @@
 
 .checkbox svg path
 {
-	stroke: black;
+	stroke: #AAB9CC;
 	stroke-width: 1px;
 }

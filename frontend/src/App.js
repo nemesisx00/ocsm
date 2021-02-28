@@ -1,12 +1,15 @@
 import './App.css'
-import ChangelingTheLost from './components/WoD/Changeling/ChangelingTheLost'
+import React from 'react'
+import ChangelingTheLost from './components/wod/changeling/ChangelingTheLost'
 
-function App() {
-	return (
-		<div className="App">
-			<ChangelingTheLost />
-		</div>
-	);
+export default class App extends React.Component
+{
+	render()
+	{
+		return (
+			<div className="App">
+				<ChangelingTheLost />
+			</div>
+		)
+	}
 }
-
-export default App

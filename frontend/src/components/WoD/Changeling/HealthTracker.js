@@ -4,7 +4,7 @@ import './HealthTracker.css'
 
 const AbsoluteMaxHealth = 16
 
-class HealthTracker extends React.Component
+export default class HealthTracker extends React.Component
 {
 	constructor(props)
 	{
@@ -54,5 +54,3 @@ class HealthTracker extends React.Component
 		}
 	}
 }
-
-export default HealthTracker

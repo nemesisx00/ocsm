@@ -14,8 +14,8 @@
 
 .checkDot svg circle
 {
-	stroke: black;
+	stroke: #AAB9CC;
 	stroke-width: 1px;
 	fill: transparent;
 }
-.checkDot.checked svg circle { fill: black; }
+.checkDot.checked svg circle { fill: #AAB9CC; }
