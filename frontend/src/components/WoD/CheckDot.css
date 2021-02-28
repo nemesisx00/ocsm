@@ -3,6 +3,7 @@
 	position: relative;
 	width: 14px;
 	height: 14px;
+	cursor: pointer;
 }
 
 .checkDot svg
@@ -14,8 +15,8 @@
 
 .checkDot svg circle
 {
-	stroke: #AAB9CC;
+	stroke: #A9ABB0;
 	stroke-width: 1px;
 	fill: transparent;
 }
-.checkDot.checked svg circle { fill: #AAB9CC; }
+.checkDot.checked svg circle { fill: #A9ABB0; }

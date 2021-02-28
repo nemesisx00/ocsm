@@ -1,4 +1,18 @@
 .App
 {
+	display: flex;
+	flex-direction: column;
 	text-align: center;
+}
+
+.App .mainMenu
+{
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+
+.App .sheet
+{
+	flex-grow: 1;
+	padding: 10px;
 }
