@@ -3,8 +3,9 @@ import Attributes from './Attributes'
 import HealthTracker from './HealthTracker'
 import WillpowerTracker from './WillpowerTracker'
 import './ChangelingTheLost.css'
+import Skills from './Skills'
 
-class ChangelingTheLost extends React.Component
+export default class ChangelingTheLost extends React.Component
 {
 	constructor(props)
 	{
@@ -64,15 +65,18 @@ class ChangelingTheLost extends React.Component
 	render()
 	{
 		return (
-			<div>
-				<Attributes attributes={this.state.attributes} />
-				<div className="trackers">
-					<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
-					<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+			<div className="sheet changelingTheLost">
+				<div className="column">
+					<Attributes attributes={this.state.attributes} />
+					<Skills />
+				</div>
+				<div className="column right">
+					<div className="trackers">
+						<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
+						<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+					</div>
 				</div>
 			</div>
 		)
 	}
 }
-
-export default ChangelingTheLost

@@ -1,0 +1,50 @@
+.tabs > div.tabControls
+{
+	display: flex;
+	flex-direction: row;
+}
+
+.tabs > div.tabControls > *
+{
+	flex-grow: 1;
+	cursor: pointer;
+	border-top: 1px solid #AAB9CC;
+	border-left: 1px solid #AAB9CC;
+	border-top-left-radius: 5px;
+}
+
+.tabs > div.tabControls > *:first-child
+{
+	border-left: 1px solid #AAB9CC;
+}
+
+.tabs > div.tabControls > *:last-child
+{
+	border-right: 1px solid #AAB9CC;
+	border-top-right-radius: 5px;
+}
+
+.tabs > div.tabControls > *.selected
+{
+	border-right: 1px solid #AAB9CC;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.tabs > div.tabContainer
+{
+	/*
+	We don't want this container messing with the
+	layout of the children more than it needs to.
+	*/
+	padding: 0;
+	margin: 0;
+	border: 1px solid #AAB9CC;
+}
+
+.tabs > div.tabContainer > div.hidden
+{
+	position: absolute;
+	opacity: 0;
+	visibility: hidden;
+}
