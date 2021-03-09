@@ -27,7 +27,8 @@ export default class Tabs extends React.Component
 		this.children = props.children
 		
 		this.state = {
-			index: 0
+			index: 0,
+			parentClassName: props.className
 		}
 	}
 	
@@ -50,7 +51,7 @@ export default class Tabs extends React.Component
 		})
 		
 		return (
-			<div className="tabs">
+			<div className={`tabs ${this.state.parentClassName}`}>
 				<div className="tabControls">
 					{tabs}
 				</div>
