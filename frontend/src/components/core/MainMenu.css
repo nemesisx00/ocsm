@@ -35,8 +35,8 @@
 {
 	position: absolute;
 	z-index: 1000;
-	opacity: 100%;
-	visibility: visible;
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 .mainMenu .separator

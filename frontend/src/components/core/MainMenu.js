@@ -1,5 +1,6 @@
 import './MainMenu.css'
 import React from 'react'
+import { invoke } from 'tauri/api/tauri'
 
 const MenuStates = Object.freeze({
 	Hide: '',
@@ -47,6 +48,10 @@ export default class MainMenu extends React.Component
 		console.log('Exit clicked!')
 		this.setState(() => {
 			return { subMenus: { file: MenuStates.Hide } }
+		})
+		
+		invoke({
+			cmd: 'exitApp'
 		})
 	}
 }

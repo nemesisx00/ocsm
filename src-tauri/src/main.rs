@@ -19,7 +19,7 @@ fn main()
 					match command
 					{
 						ExitApp { } => {
-							println!("Exit clicked!");
+							_webview.terminate()
 						}
 					}
 					Ok(())
