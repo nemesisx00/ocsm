@@ -1,6 +1,5 @@
 import React from 'react'
 import FiveDots from '../FiveDots'
-import Tabs from '../../core/Tabs'
 import './Skills.css'
 
 export default class Skills extends React.Component
