@@ -45,7 +45,6 @@ export default class MainMenu extends React.Component
 	
 	clickHandler_file_exit(ev)
 	{
-		console.log('Exit clicked!')
 		this.setState(() => {
 			return { subMenus: { file: MenuStates.Hide } }
 		})
