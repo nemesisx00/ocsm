@@ -1,8 +1,8 @@
 [package]
 name = "ocsm"
 version = "0.1.0"
-description = "A Tauri App"
-authors = [ "you" ]
+description = "An application for managing table top roleplaying game character sheets."
+authors = [ "Peter Lunneberg <plunn.dev@gmail.com>" ]
 license = ""
 repository = ""
 default-run = "ocsm"
