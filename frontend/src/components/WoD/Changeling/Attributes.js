@@ -14,9 +14,9 @@ export default class Attributes extends React.Component
 					<div className="label">Resolve:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots intelligence" value={this.props.attributes.power.intelligence} />
-					<FiveDots className="dots wits" value={this.props.attributes.finesse.wits} />
-					<FiveDots className="dots resolve" value={this.props.attributes.resistance.resolve} />
+					<FiveDots className="dots intelligence" value={this.props.attributes.intelligence} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'intelligence')} />
+					<FiveDots className="dots wits" value={this.props.attributes.wits} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'wits')} />
+					<FiveDots className="dots resolve" value={this.props.attributes.resolve} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'resolve')} />
 				</div>
 				<div className="column">
 					<div className="label">Strength:</div>
@@ -24,9 +24,9 @@ export default class Attributes extends React.Component
 					<div className="label">Stamina:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots strength" value={this.props.attributes.power.strength} />
-					<FiveDots className="dots dexterity" value={this.props.attributes.finesse.dexterity} />
-					<FiveDots className="dots stamina" value={this.props.attributes.resistance.stamina} />
+					<FiveDots className="dots strength" value={this.props.attributes.strength} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'strength')} />
+					<FiveDots className="dots dexterity" value={this.props.attributes.dexterity} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'dexterity')} />
+					<FiveDots className="dots stamina" value={this.props.attributes.stamina} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'stamina')} />
 				</div>
 				<div className="column">
 					<div className="label">Presence:</div>
@@ -34,9 +34,9 @@ export default class Attributes extends React.Component
 					<div className="label">Composure:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots presence" value={this.props.attributes.power.presence} />
-					<FiveDots className="dots manipulation" value={this.props.attributes.finesse.manipulation} />
-					<FiveDots className="dots composure" value={this.props.attributes.resistance.composure} />
+					<FiveDots className="dots presence" value={this.props.attributes.presence} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'presence')} />
+					<FiveDots className="dots manipulation" value={this.props.attributes.manipulation} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'manipulation')} />
+					<FiveDots className="dots composure" value={this.props.attributes.composure} valueChangedHandler={(arg) => this.props.changeHandler(arg, 'composure')} />
 				</div>
 			</div>
 		)

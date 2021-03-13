@@ -28,54 +28,42 @@ export default class ChangelingTheLost extends React.Component
 				court: ''
 			},
 			attributes: {
-				power: {
-					intelligence: 1,
-					strength: 2,
-					presence: 1
-				},
-				finesse: {
-					wits: 3,
-					dexterity: 4,
-					manipulation: 2
-				},
-				resistance: {
-					stamina: 2,
-					composure: 3,
-					resolve: 3
-				}
+				composure: 1,
+				dexterity: 1,
+				intelligence: 1,
+				manipulation: 1,
+				presence: 1,
+				resolve: 1,
+				stamina: 1,
+				strength: 1,
+				wits: 1
 			},
 			skills: {
-				mental: {
-					academics: 0,
-					computer: 2,
-					crafts: 0,
-					investigation: 3,
-					medicine: 2,
-					occult: 1,
-					politics: 0,
-					science: 0
-				},
-				physical: {
-					athletics: 2,
-					brawl: 2,
-					drive: 1,
-					firearms: 1,
-					larceny: 2,
-					stealth: 1,
-					survival: 1,
-					weaponry: 0
-				},
-				social: {
-					animalKen: 2,
-					empathy: 2,
-					expression: 0,
-					intimidation: 1,
-					socialize: 0,
-					streetwise: 1,
-					subterfuge: 1
-				}
+				academics: 0,
+				animalKen: 0,
+				athletics: 0,
+				brawl: 0,
+				computer: 0,
+				crafts: 0,
+				drive: 0,
+				empathy: 0,
+				expression: 0,
+				firearms: 0,
+				investigation: 0,
+				intimidation: 0,
+				larceny: 0,
+				medicine: 0,
+				occult: 0,
+				politics: 0,
+				science: 0,
+				socialize: 0,
+				stealth: 0,
+				streetwise: 0,
+				subterfuge: 0,
+				survival: 0,
+				weaponry: 0
 			},
-			wyrd: 5
+			wyrd: 1
 		}
 		
 		/*
@@ -96,18 +84,37 @@ export default class ChangelingTheLost extends React.Component
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
-					<Attributes attributes={this.state.attributes} />
-					<Skills skills={this.state.skills} />
+					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
-						<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+						<HealthTracker max={this.state.base.size + this.state.attributes.stamina} />
+						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} />
 						<GlamourTracker wyrd={this.state.wyrd} />
 						<WyrdTracker wyrd={this.state.wyrd} />
 					</div>
 				</div>
 			</div>
 		)
+	}
+	
+	//Child Component Event Handlers
+	attributeChangeHandler(value, attribute)
+	{
+		let newState = {
+			attributes: Object.assign({}, this.state.attributes)
+		}
+		newState.attributes[attribute] = value
+		this.setState(() => { return newState })
+	}
+	
+	skillChangeHandler(value, skill)
+	{
+		let newState = {
+			skills: Object.assign({}, this.state.skills)
+		}
+		newState.skills[skill] = value
+		this.setState(() => { return newState })
 	}
 }
