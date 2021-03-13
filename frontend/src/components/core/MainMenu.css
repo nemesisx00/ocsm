@@ -26,17 +26,15 @@
 	display: flex;
 	flex-direction: column;
 	
-	opacity: 0;
-	visibility: hidden;
+	position: absolute;
+	z-index: 1000;
 	border: 1px solid #838894;
 	background-color: #272B32;
 }
-.mainMenu .subMenu.show
+.mainMenu .subMenu.hide
 {
-	position: absolute;
-	z-index: 1000;
-	opacity: 1 !important;
-	visibility: visible !important;
+	opacity: 0;
+	visibility: hidden;
 }
 
 .mainMenu .separator

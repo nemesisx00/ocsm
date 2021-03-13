@@ -1,11 +1,16 @@
 import './MainMenu.css'
 import React from 'react'
-import { invoke } from 'tauri/api/tauri'
+import { devSafeInvoke } from './DevSafeTauriInvoke'
+const invoke = devSafeInvoke
+
+const menuNameRegex = /.*?\s(.*?)\s.*/gi
 
 const MenuStates = Object.freeze({
-	Hide: '',
-	Show: 'show'
+	Hide: 'hide',
+	Show: ''
 })
+
+let subMenuCloseTimeout = null
 
 export default class MainMenu extends React.Component
 {
@@ -24,7 +29,7 @@ export default class MainMenu extends React.Component
 		return (
 			<div className="mainMenu">
 				<div className="menu file" onClick={(ev) => this.clickHandler_menu(ev)}>File</div>
-				<div className={`subMenu file ${this.state.subMenus.file}`}>
+				<div className={`subMenu file ${this.state.subMenus.file}`} onMouseEnter={(ev) => this.genericMouseEnterHandler(ev)} onMouseLeave={(ev) => this.genericMouseLeaveHandler(ev)}>
 					<div className="menuItem" onClick={(ev) => this.clickHandler_file_exit(ev)}>Exit</div>
 				</div>
 			</div>
@@ -33,24 +38,38 @@ export default class MainMenu extends React.Component
 	
 	clickHandler_menu(ev)
 	{
-		let menuName = ev.target.innerText.toLowerCase()
-		let newState = { subMenus: {} }
-		
-		newState.subMenus[menuName] = this.state.subMenus[menuName] === MenuStates.Hide ? MenuStates.Show : MenuStates.Hide
-		
-		this.setState(() => {
-			return newState
-		})
+		this.switchSubmenuState(ev.target.classList[1].toLowerCase())
 	}
 	
-	clickHandler_file_exit(ev)
+	clickHandler_file_exit()
 	{
 		this.setState(() => {
 			return { subMenus: { file: MenuStates.Hide } }
 		})
 		
-		invoke({
-			cmd: 'exitApp'
-		})
+		invoke({ cmd: 'exitApp' })
+	}
+	
+	genericMouseEnterHandler()
+	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
+	}
+	
+	genericMouseLeaveHandler(ev)
+	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
+		
+		subMenuCloseTimeout = setTimeout(() => {
+			this.switchSubmenuState(ev.target.classList[1].toLowerCase())
+		}, 1500)
+	}
+	
+	switchSubmenuState(menuName)
+	{
+		let newState = { subMenus: {} }
+		newState.subMenus[menuName] = this.state.subMenus[menuName] === MenuStates.Hide ? MenuStates.Show : MenuStates.Hide
+		this.setState(() => { return newState })
 	}
 }
