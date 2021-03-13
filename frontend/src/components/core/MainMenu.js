@@ -3,6 +3,7 @@ import React from 'react'
 import { devSafeInvoke } from './DevSafeTauriInvoke'
 const invoke = devSafeInvoke
 
+const menuNameRegex = /.*?\s(.*?)\s.*/gi
 const subMenuCloseTimeoutTime = 1500
 let subMenuCloseTimeout = null
 
@@ -40,7 +41,9 @@ export default class MainMenu extends React.Component
 		if(subMenuCloseTimeout)
 			clearTimeout(subMenuCloseTimeout)
 		
-		this.switchSubmenuState(ev.target.classList[1].toLowerCase())
+		let name = ev.target.classList ? ev.target.classList[1] : this.findMenuName(ev.target)
+		if(name)
+			this.switchSubmenuState(name.toLowerCase())
 	}
 	
 	clickHandler_file_exit()
@@ -67,8 +70,19 @@ export default class MainMenu extends React.Component
 			clearTimeout(subMenuCloseTimeout)
 		
 		subMenuCloseTimeout = setTimeout(() => {
-			this.switchSubmenuState(ev.target.classList[1].toLowerCase())
+			let name = ev.target.classList ? ev.target.classList[1] : this.findMenuName(ev.target)
+			if(name)
+				this.switchSubmenuState(name.toLowerCase())
 		}, subMenuCloseTimeoutTime)
+	}
+	
+	findMenuName(el)
+	{
+		let matches = menuNameRegex.exec(el)
+		let name = null
+		if(matches.length > 1)
+			name = matches[1]
+		return name
 	}
 	
 	switchSubmenuState(menuName)
