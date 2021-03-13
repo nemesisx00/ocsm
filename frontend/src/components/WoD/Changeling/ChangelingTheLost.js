@@ -111,7 +111,8 @@ export default class ChangelingTheLost extends React.Component
 		)
 	}
 	
-	//Child Component Event Handlers
+	//Child Component Event Handlers --------------------------------------------------
+	
 	attributeChangeHandler(value, attribute)
 	{
 		let newState = {
