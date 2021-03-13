@@ -8,6 +8,7 @@
 	height: 20px;
 	border-bottom: 1px solid #4A4E5A;
 	color: #A9ABB0;
+	user-select: none;
 }
 
 .mainMenu .menu
