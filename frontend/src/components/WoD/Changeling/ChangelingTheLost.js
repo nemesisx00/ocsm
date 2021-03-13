@@ -6,6 +6,8 @@ import HealthTracker from './HealthTracker'
 import Skills from './Skills'
 import WillpowerTracker from './WillpowerTracker'
 import WyrdTracker from './WyrdTracker'
+import { WyrdGlamourIntervals } from './Enums'
+import { DamageState } from '../Enums'
 
 export default class ChangelingTheLost extends React.Component
 {
@@ -63,7 +65,16 @@ export default class ChangelingTheLost extends React.Component
 				survival: 0,
 				weaponry: 0
 			},
-			wyrd: 1
+			trackers: {
+				wyrd: 1,
+				damage: {
+					superficial: 0,
+					lethal: 0,
+					aggravated: 0
+				},
+				glamourSpent: 0,
+				willpowerSpent: 0
+			}
 		}
 		
 		/*
@@ -81,6 +92,7 @@ export default class ChangelingTheLost extends React.Component
 	
 	render()
 	{
+		console.log(this.state)
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
@@ -89,10 +101,10 @@ export default class ChangelingTheLost extends React.Component
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<HealthTracker max={this.state.base.size + this.state.attributes.stamina} />
-						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} />
-						<GlamourTracker wyrd={this.state.wyrd} />
-						<WyrdTracker wyrd={this.state.wyrd} />
+						<HealthTracker max={this.state.base.size + this.state.attributes.stamina} damage={this.state.trackers.damage} changeHandler={(damageType) => this.healthChangeHandler(damageType)} />
+						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+						<GlamourTracker max={WyrdGlamourIntervals[this.state.trackers.wyrd]} spent={this.state.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
+						<WyrdTracker wyrd={this.state.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
 					</div>
 				</div>
 			</div>
@@ -103,18 +115,86 @@ export default class ChangelingTheLost extends React.Component
 	attributeChangeHandler(value, attribute)
 	{
 		let newState = {
-			attributes: Object.assign({}, this.state.attributes)
+			attributes: {...this.state.attributes}
 		}
 		newState.attributes[attribute] = value
+		this.setState(() => { return newState })
+	}
+	
+	glamourChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.glamourSpent = value === this.state.trackers.glamourSpent ? value - 1 : value
+		this.setState(() => { return newState })
+	}
+	
+	healthChangeHandler(damageType)
+	{
+		let totalHealth = this.state.base.size + this.state.attributes.stamina
+		let possibleDamage = 0
+		let newValue = {
+			superficial: this.state.trackers.damage.superficial,
+			lethal: this.state.trackers.damage.lethal,
+			aggravated: this.state.trackers.damage.aggravated
+		}
+		switch(damageType)
+		{
+			case DamageState.Superficial:
+				possibleDamage = totalHealth - this.state.trackers.damage.aggravated
+				if(newValue.lethal < possibleDamage)
+				{
+					newValue.superficial--
+					newValue.lethal++
+				}
+				break
+			case DamageState.Lethal:
+				possibleDamage = totalHealth
+				if(newValue.aggravated < possibleDamage)
+				{
+					newValue.lethal--
+					newValue.aggravated++
+				}
+				break
+			case DamageState.Aggravated:
+				newValue.aggravated--
+				break;
+			default:
+				newValue.superficial++
+		}
+		
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.damage = newValue
 		this.setState(() => { return newState })
 	}
 	
 	skillChangeHandler(value, skill)
 	{
 		let newState = {
-			skills: Object.assign({}, this.state.skills)
+			skills: {...this.state.skills}
 		}
 		newState.skills[skill] = value
+		this.setState(() => { return newState })
+	}
+	
+	willpowerChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.willpowerSpent = value === this.state.trackers.willpowerSpent ? value - 1 : value
+		this.setState(() => { return newState })
+	}
+	
+	wyrdChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.wyrd = value
 		this.setState(() => { return newState })
 	}
 }

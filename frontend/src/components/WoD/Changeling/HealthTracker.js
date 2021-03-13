@@ -1,30 +1,24 @@
 import React from 'react'
 import CheckBoxMulti from '../CheckBoxMulti'
+import { DamageState } from './../Enums'
 import './HealthTracker.css'
 
 export default class HealthTracker extends React.Component
 {
-	constructor(props)
-	{
-		super(props)
-		this.state = {
-			current: 0,
-			damage: {
-				bludgeoning: 0,
-				lethal: 0,
-				aggravated: 0
-			}
-		}
-	}
-	
 	render()
 	{
-		//TODO: figure out how to update the current/damage state dynamically
-		
 		let boxes = []
 		for(let i = 0; i < this.props.max; i++)
 		{
-			boxes.push(<CheckBoxMulti key={`health-${i}`} />);
+			let damageType = DamageState.None
+			if(i < this.props.damage.aggravated + this.props.damage.lethal + this.props.damage.superficial)
+				damageType = DamageState.Superficial
+			if(i < this.props.damage.aggravated + this.props.damage.lethal)
+				damageType = DamageState.Lethal
+			if(i < this.props.damage.aggravated)
+				damageType = DamageState.Aggravated
+			
+			boxes.push(<CheckBoxMulti key={`health-${i}`} damageType={damageType} clickHandler={() => this.props.changeHandler(damageType)} />);
 		}
 		
 		return (
