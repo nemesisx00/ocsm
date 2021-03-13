@@ -10,44 +10,36 @@ export default class FiveDots extends React.Component
 		this.state = {
 			value: props.value
 		}
-		
-		this.mainDiv = React.createRef()
 	}
 	
-	clickHandler()
+	componentDidUpdate()
+	{
+		if(this.props.value !== this.state.value)
+			this.props.valueChangedHandler(this.state.value)
+	}
+	
+	clickHandler(value)
 	{
 		this.setState(() => {
-			return { value: this.mainDiv.current.querySelectorAll('.checkDot.checked').length }
+			return {
+				//Handle clicking a "checked" dot to "uncheck" it
+				value: this.state.value === value
+						? value - 1
+						: value
+			}
 		})
 	}
 	
 	render()
 	{
 		return (
-			<div className="fiveDots" ref={this.mainDiv} onClick={() => this.clickHandler()}>
-				<CheckDot className="one" checked={this.state.value > 0} />
-				<CheckDot className="two" checked={this.state.value > 1} />
-				<CheckDot className="three" checked={this.state.value > 2} />
-				<CheckDot className="four" checked={this.state.value > 3} />
-				<CheckDot className="five" checked={this.state.value > 4} />
+			<div className="fiveDots">
+				<CheckDot className="one" checked={this.state.value > 0} onClick={() => this.clickHandler(1)} />
+				<CheckDot className="two" checked={this.state.value > 1} onClick={() => this.clickHandler(2)} />
+				<CheckDot className="three" checked={this.state.value > 2} onClick={() => this.clickHandler(3)} />
+				<CheckDot className="four" checked={this.state.value > 3} onClick={() => this.clickHandler(4)} />
+				<CheckDot className="five" checked={this.state.value > 4} onClick={() => this.clickHandler(5)} />
 			</div>
 		)
-	}
-	
-	get value()
-	{
-		//Make sure we're getting the most up-to-date value
-		this.setState(() => {
-			return { value: this.mainDiv.current.querySelectorAll('.checkDot.checked').length }
-		})
-		
-		return this.state.value
-	}
-	
-	set value(val)
-	{
-		this.setState(() => {
-			return { value: val }
-		})
 	}
 }
