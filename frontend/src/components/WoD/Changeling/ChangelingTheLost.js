@@ -1,9 +1,11 @@
+import './ChangelingTheLost.css'
 import React from 'react'
 import Attributes from './Attributes'
+import GlamourTracker from './GlamourTracker'
 import HealthTracker from './HealthTracker'
-import WillpowerTracker from './WillpowerTracker'
-import './ChangelingTheLost.css'
 import Skills from './Skills'
+import WillpowerTracker from './WillpowerTracker'
+import WyrdTracker from './WyrdTracker'
 
 export default class ChangelingTheLost extends React.Component
 {
@@ -28,25 +30,52 @@ export default class ChangelingTheLost extends React.Component
 			attributes: {
 				power: {
 					intelligence: 1,
-					strength: 1,
+					strength: 2,
 					presence: 1
 				},
 				finesse: {
-					wits: 1,
-					dexterity: 1,
-					manipulation: 1
+					wits: 3,
+					dexterity: 4,
+					manipulation: 2
 				},
 				resistance: {
-					stamina: 1,
-					composure: 1,
-					resolve: 1
+					stamina: 2,
+					composure: 3,
+					resolve: 3
 				}
 			},
 			skills: {
-				mental: {},
-				physical: {},
-				social: {}
-			}
+				mental: {
+					academics: 0,
+					computer: 2,
+					crafts: 0,
+					investigation: 3,
+					medicine: 2,
+					occult: 1,
+					politics: 0,
+					science: 0
+				},
+				physical: {
+					athletics: 2,
+					brawl: 2,
+					drive: 1,
+					firearms: 1,
+					larceny: 2,
+					stealth: 1,
+					survival: 1,
+					weaponry: 0
+				},
+				social: {
+					animalKen: 2,
+					empathy: 2,
+					expression: 0,
+					intimidation: 1,
+					socialize: 0,
+					streetwise: 1,
+					subterfuge: 1
+				}
+			},
+			wyrd: 5
 		}
 		
 		/*
@@ -68,12 +97,14 @@ export default class ChangelingTheLost extends React.Component
 			<div className="sheet changelingTheLost">
 				<div className="column">
 					<Attributes attributes={this.state.attributes} />
-					<Skills />
+					<Skills skills={this.state.skills} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
 						<HealthTracker max={this.state.base.size + this.state.attributes.resistance.stamina} />
 						<WillpowerTracker max={this.state.attributes.resistance.composure + this.state.attributes.resistance.resolve} />
+						<GlamourTracker wyrd={this.state.wyrd} />
+						<WyrdTracker wyrd={this.state.wyrd} />
 					</div>
 				</div>
 			</div>

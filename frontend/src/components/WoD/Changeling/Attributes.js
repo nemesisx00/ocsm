@@ -4,28 +4,6 @@ import FiveDots from '../FiveDots'
 
 export default class Attributes extends React.Component
 {
-	constructor(props)
-	{
-		super(props)
-		this.state = {
-			power: {
-				intelligence: props.attributes.power.intelligence,
-				strength: props.attributes.power.strength,
-				presence: props.attributes.power.presence
-			},
-			finesse: {
-				wits: props.attributes.finesse.wits,
-				dexterity: props.attributes.finesse.dexterity,
-				manipulation: props.attributes.finesse.manipulation
-			},
-			resistance: {
-				stamina: props.attributes.resistance.stamina,
-				composure: props.attributes.resistance.composure,
-				resolve: props.attributes.resistance.resolve
-			}
-		}
-	}
-	
 	render()
 	{
 		return (
@@ -36,9 +14,9 @@ export default class Attributes extends React.Component
 					<div className="label">Resolve:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots intelligence" value={this.state.power.intelligence} />
-					<FiveDots className="dots wits" value={this.state.finesse.wits} />
-					<FiveDots className="dots resolve" value={this.state.resistance.resolve} />
+					<FiveDots className="dots intelligence" value={this.props.attributes.power.intelligence} />
+					<FiveDots className="dots wits" value={this.props.attributes.finesse.wits} />
+					<FiveDots className="dots resolve" value={this.props.attributes.resistance.resolve} />
 				</div>
 				<div className="column">
 					<div className="label">Strength:</div>
@@ -46,9 +24,9 @@ export default class Attributes extends React.Component
 					<div className="label">Stamina:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots strength" value={this.state.power.strength} />
-					<FiveDots className="dots dexterity" value={this.state.finesse.dexterity} />
-					<FiveDots className="dots stamina" value={this.state.resistance.stamina} />
+					<FiveDots className="dots strength" value={this.props.attributes.power.strength} />
+					<FiveDots className="dots dexterity" value={this.props.attributes.finesse.dexterity} />
+					<FiveDots className="dots stamina" value={this.props.attributes.resistance.stamina} />
 				</div>
 				<div className="column">
 					<div className="label">Presence:</div>
@@ -56,9 +34,9 @@ export default class Attributes extends React.Component
 					<div className="label">Composure:</div>
 				</div>
 				<div className="column">
-					<FiveDots className="dots presence" value={this.state.power.presence} />
-					<FiveDots className="dots manipulation" value={this.state.finesse.manipulation} />
-					<FiveDots className="dots composure" value={this.state.resistance.composure} />
+					<FiveDots className="dots presence" value={this.props.attributes.power.presence} />
+					<FiveDots className="dots manipulation" value={this.props.attributes.finesse.manipulation} />
+					<FiveDots className="dots composure" value={this.props.attributes.resistance.composure} />
 				</div>
 			</div>
 		)

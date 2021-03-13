@@ -4,43 +4,6 @@ import './Skills.css'
 
 export default class Skills extends React.Component
 {
-	constructor(props)
-	{
-		super(props)
-		
-		this.state = {
-			mental: {
-				academics: 0,
-				computer: 0,
-				crafts: 0,
-				investigation: 0,
-				medicine: 0,
-				occult: 0,
-				politics: 0,
-				science: 0
-			},
-			physical: {
-				athletics: 0,
-				brawl: 0,
-				drive: 0,
-				firearms: 0,
-				larceny: 0,
-				stealth: 0,
-				survival: 0,
-				weaponry: 0
-			},
-			social: {
-				animalKen: 0,
-				empathy: 0,
-				expression: 0,
-				intimidation: 0,
-				socialize: 0,
-				streetwise: 0,
-				subterfuge: 0
-			}
-		}
-	}
-	
 	render()
 	{
 		return (
@@ -57,14 +20,14 @@ export default class Skills extends React.Component
 						<div className="label">Science:</div>
 					</div>
 					<div className="column">
-						<FiveDots className="dots academics" value={this.state.mental.academics} />
-						<FiveDots className="dots computer" value={this.state.mental.computer} />
-						<FiveDots className="dots crafts" value={this.state.mental.crafts} />
-						<FiveDots className="dots investigation" value={this.state.mental.investigation} />
-						<FiveDots className="dots medicine" value={this.state.mental.medicine} />
-						<FiveDots className="dots occult" value={this.state.mental.occult} />
-						<FiveDots className="dots politics" value={this.state.mental.politics} />
-						<FiveDots className="dots science" value={this.state.mental.science} />
+						<FiveDots className="dots academics" value={this.props.skills.mental.academics} />
+						<FiveDots className="dots computer" value={this.props.skills.mental.computer} />
+						<FiveDots className="dots crafts" value={this.props.skills.mental.crafts} />
+						<FiveDots className="dots investigation" value={this.props.skills.mental.investigation} />
+						<FiveDots className="dots medicine" value={this.props.skills.mental.medicine} />
+						<FiveDots className="dots occult" value={this.props.skills.mental.occult} />
+						<FiveDots className="dots politics" value={this.props.skills.mental.politics} />
+						<FiveDots className="dots science" value={this.props.skills.mental.science} />
 					</div>
 				</div>
 				<div className="physical">
@@ -79,14 +42,14 @@ export default class Skills extends React.Component
 						<div className="label">Weaponry:</div>
 					</div>
 					<div className="column">
-						<FiveDots className="dots athletics" value={this.state.physical.athletics} />
-						<FiveDots className="dots brawl" value={this.state.physical.brawl} />
-						<FiveDots className="dots drive" value={this.state.physical.drive} />
-						<FiveDots className="dots firearms" value={this.state.physical.firearms} />
-						<FiveDots className="dots larceny" value={this.state.physical.larceny} />
-						<FiveDots className="dots stealth" value={this.state.physical.stealth} />
-						<FiveDots className="dots survival" value={this.state.physical.survival} />
-						<FiveDots className="dots weaponry" value={this.state.physical.weaponry} />
+						<FiveDots className="dots athletics" value={this.props.skills.physical.athletics} />
+						<FiveDots className="dots brawl" value={this.props.skills.physical.brawl} />
+						<FiveDots className="dots drive" value={this.props.skills.physical.drive} />
+						<FiveDots className="dots firearms" value={this.props.skills.physical.firearms} />
+						<FiveDots className="dots larceny" value={this.props.skills.physical.larceny} />
+						<FiveDots className="dots stealth" value={this.props.skills.physical.stealth} />
+						<FiveDots className="dots survival" value={this.props.skills.physical.survival} />
+						<FiveDots className="dots weaponry" value={this.props.skills.physical.weaponry} />
 					</div>
 				</div>
 				<div className="social">
@@ -101,14 +64,14 @@ export default class Skills extends React.Component
 						<div className="label">Subterfuge:</div>
 					</div>
 					<div className="column">
-						<FiveDots className="dots animalKen" value={this.state.social.animalKen} />
-						<FiveDots className="dots empathy" value={this.state.social.empathy} />
-						<FiveDots className="dots expression" value={this.state.social.expression} />
-						<FiveDots className="dots intimidation" value={this.state.social.intimidation} />
-						<FiveDots className="dots persuasion" value={this.state.social.persuasion} />
-						<FiveDots className="dots socialize" value={this.state.social.socialize} />
-						<FiveDots className="dots streetwise" value={this.state.social.streetwise} />
-						<FiveDots className="dots subterfuge" value={this.state.social.subterfuge} />
+						<FiveDots className="dots animalKen" value={this.props.skills.social.animalKen} />
+						<FiveDots className="dots empathy" value={this.props.skills.social.empathy} />
+						<FiveDots className="dots expression" value={this.props.skills.social.expression} />
+						<FiveDots className="dots intimidation" value={this.props.skills.social.intimidation} />
+						<FiveDots className="dots persuasion" value={this.props.skills.social.persuasion} />
+						<FiveDots className="dots socialize" value={this.props.skills.social.socialize} />
+						<FiveDots className="dots streetwise" value={this.props.skills.social.streetwise} />
+						<FiveDots className="dots subterfuge" value={this.props.skills.social.subterfuge} />
 					</div>
 				</div>
 			</div>

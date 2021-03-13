@@ -2,15 +2,12 @@ import React from 'react'
 import CheckBox from '../CheckBox'
 import './WillpowerTracker.css'
 
-const AbsoluteMaxHealth = 10
-
 export default class WillpowerTracker extends React.Component
 {
 	constructor(props)
 	{
 		super(props)
 		this.state = {
-			max: props.max ? props.max : 0,
 			spent: 0,
 			unspent: 0
 		}
@@ -21,7 +18,7 @@ export default class WillpowerTracker extends React.Component
 		//TODO: figure out how to update the spent/unspent state dynamically
 		
 		let boxes = []
-		for(let i = 0; i < this.state.max; i++)
+		for(let i = 0; i < this.props.max; i++)
 		{
 			boxes.push(<CheckBox key={`willpower-${i}`} />);
 		}
@@ -34,19 +31,5 @@ export default class WillpowerTracker extends React.Component
 				</div>
 			</div>
 		)
-	}
-	
-	/**
-	 * 
-	 * @param {int} max 
-	 */
-	setMaxHealth(max)
-	{
-		if(Number.isInteger(max) && max > 0)
-		{
-			this.setState(() => {
-				return { max: max > AbsoluteMaxHealth ? AbsoluteMaxHealth : max }
-			})
-		}
 	}
 }
