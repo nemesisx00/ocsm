@@ -1,0 +1,20 @@
+.wyrdTracker .label
+{
+	margin: 0 0 5px;
+	user-select: none;
+}
+
+.wyrdTracker .wyrd
+{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.wyrdTracker .wyrd .checkDot
+{
+	flex-grow: 0;
+	flex-shrink: 0;
+	margin: 0 2px;
+}
