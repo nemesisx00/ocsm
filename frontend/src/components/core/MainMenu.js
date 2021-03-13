@@ -37,11 +37,17 @@ export default class MainMenu extends React.Component
 	
 	clickHandler_menu(ev)
 	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
+		
 		this.switchSubmenuState(ev.target.classList[1].toLowerCase())
 	}
 	
 	clickHandler_file_exit()
 	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
+		
 		this.setState(() => {
 			return { subMenus: { file: MenuStates.Hide } }
 		})
