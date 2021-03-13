@@ -18,9 +18,7 @@ fn main()
 				Ok(command) => {
 					match command
 					{
-						ExitApp { } => {
-							_webview.terminate()
-						}
+						ExitApp { } => { _webview.terminate() }
 					}
 					Ok(())
 				}
