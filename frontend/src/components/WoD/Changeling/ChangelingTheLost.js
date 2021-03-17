@@ -1,11 +1,13 @@
 import './ChangelingTheLost.css'
 import React from 'react'
 import Attributes from './Attributes'
-import GlamourTracker from './GlamourTracker'
-import HealthTracker from './HealthTracker'
+import Details from './Details'
 import Skills from './Skills'
-import WillpowerTracker from './WillpowerTracker'
-import WyrdTracker from './WyrdTracker'
+import ClarityTracker from './trackers/ClarityTracker'
+import GlamourTracker from './trackers/GlamourTracker'
+import HealthTracker from '../trackers/HealthTracker'
+import WillpowerTracker from '../trackers/WillpowerTracker'
+import WyrdTracker from './trackers/WyrdTracker'
 import { WyrdGlamourIntervals } from './Enums'
 import { DamageState } from '../Enums'
 
@@ -66,36 +68,38 @@ export default class ChangelingTheLost extends React.Component
 				weaponry: 0
 			},
 			trackers: {
-				wyrd: 1,
+				clarity: 7,
 				damage: {
 					superficial: 0,
 					lethal: 0,
 					aggravated: 0
 				},
 				glamourSpent: 0,
-				willpowerSpent: 0
+				willpowerSpent: 0,
+				wyrd: 1
 			}
 		}
 		
 		/*
-		Notes: High weird allows attributes, skills, and contracts to go above 5 dots... I think. So that will need to be possible.
-		Should keep all the attributes visible at once
-		The skills can be put into a tabbed interface based on base category
-		Merits and Contracts should be visible at the same time
-		Flaws and Pledges aren't necessarily going to be needed at all times, so they can take a slightly lower priority in terms of the layout
-		
-		Merits, Contracts, Flaws, and Pledges should have a sort of "pop up" or "expandable" view mode as they all have more information associated with them than would good to show on the main page all the time
-		
-		
+		Notes:
+			High wyrd allows attributes, skills, and contracts to go above 5 dots... I think. So that will need to be possible.
+			Should keep all the attributes visible at once
+			The skills can be put into a tabbed interface based on base category
+			Merits and Contracts should be visible at the same time
+			Flaws and Pledges aren't necessarily going to be needed at all times, so they can take a slightly lower priority in terms of the layout
+			
+			Merits, Contracts, Flaws, and Pledges should have a sort of "pop up" or "expandable" view mode as they all have more information associated with them than would good to show on the main page all the time
 		*/
 	}
 	
 	render()
 	{
+		//TODO: Remove this console.log call when it is no longer necessary
 		console.log(this.state)
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
+					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
 					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 				</div>
@@ -105,6 +109,7 @@ export default class ChangelingTheLost extends React.Component
 						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
 						<GlamourTracker max={WyrdGlamourIntervals[this.state.trackers.wyrd]} spent={this.state.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
 						<WyrdTracker wyrd={this.state.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
+						<ClarityTracker clarity={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
 					</div>
 				</div>
 			</div>
@@ -119,6 +124,27 @@ export default class ChangelingTheLost extends React.Component
 			attributes: {...this.state.attributes}
 		}
 		newState.attributes[attribute] = value
+		this.setState(() => { return newState })
+	}
+	
+	clarityChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.clarity = value
+		this.setState(() => { return newState })
+	}
+	
+	detailsChangeHandler(obj)
+	{
+		let newState = {
+			details: {...this.state.details}
+		}
+		Object.keys(obj).forEach(key => {
+			if(Object.keys(newState.details).indexOf(key) > -1)
+				newState.details[key] = obj[key]
+		})
 		this.setState(() => { return newState })
 	}
 	
@@ -140,6 +166,7 @@ export default class ChangelingTheLost extends React.Component
 			lethal: this.state.trackers.damage.lethal,
 			aggravated: this.state.trackers.damage.aggravated
 		}
+		
 		switch(damageType)
 		{
 			case DamageState.Superficial:
