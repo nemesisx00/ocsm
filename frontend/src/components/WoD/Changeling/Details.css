@@ -1,0 +1,31 @@
+.details
+{
+	cursor: default;
+	display: flex;
+	flex-direction: row;
+}
+
+.details > .column
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.details > .column > *
+{
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+.details > .column .label
+{
+	text-align: left;
+	margin: 0 5px 0 15px;
+	user-select: none;
+}
+
+.details > .column input
+{
+	width: 100px;
+	margin-top: 2px;
+}
