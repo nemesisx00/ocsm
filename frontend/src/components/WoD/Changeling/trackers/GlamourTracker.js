@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckBox from '../CheckBox'
+import CheckBox from '../../CheckBox'
 import './GlamourTracker.css'
 
 const MaxRow = 10

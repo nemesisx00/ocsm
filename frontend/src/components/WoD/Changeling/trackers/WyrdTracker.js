@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckDot from '../CheckDot'
+import CheckDot from '../../CheckDot'
 import './WyrdTracker.css'
 
 export default class WyrdTracker extends React.Component
