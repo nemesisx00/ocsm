@@ -1,0 +1,55 @@
+.contractDetails
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.contractDetails hr
+{
+	border: 0 none;
+}
+
+.contractDetails > *
+{
+	text-align: left;
+}
+
+.contractDetails .row
+{
+	display: flex;
+	flex-direction: row;
+}
+.contractDetails .row.indent { margin-left: 15px; }
+
+.contractDetails .column
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.contractDetails > .row > *
+{
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+.contractDetails > .row .label
+{
+	margin: 0 5px 0 15px;
+	user-select: none;
+}
+
+.contractDetails .dots
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding-top: 5px;
+}
+
+.contractDetails .dots .checkDot
+{
+	flex-grow: 0;
+	flex-shrink: 0;
+	margin: 0 2px;
+}
