@@ -1,6 +1,7 @@
 import './ChangelingTheLost.css'
 import React from 'react'
 import Attributes from './Attributes'
+import ContractDetails from './complex/ContractDetails'
 import Details from './Details'
 import Skills from './Skills'
 import ClarityTracker from './trackers/ClarityTracker'
@@ -95,6 +96,25 @@ export default class ChangelingTheLost extends React.Component
 	render()
 	{
 		//TODO: Remove this console.log call when it is no longer necessary
+		let contract = {
+			label: 'Tongues of Birds and Words of Wolves',
+			dots: 1,
+			description: 'The changeling can communicate with the general type of animal represented in the Contract. This communication is partially empathic, but the changeling must either whisper to the animal in her own language or attempt to imitate whatever sounds the animal uses to express itself. Most animals make some sort of noise while responding, but they need not do so. Animals tied to the changeling by kith or this Contract instinctively feel a kinship with the changeling and readily communicate unless immediate circumstances, such as an obvious threat, intervene. Simpler, less intelligent animals communicate with less complexity. Mammals and birds are relatively easy to speak with. However, reptiles, invertebrates and most fish can provide only very simple information, such as whether or not any humans recently came near or the general location of fresh water.',
+			cost: '1 Glamour',
+			dicePool: 'Wyrd + Animal Ken',
+			action: 'Instant',
+			catch: 'The changeling gives the animal a new name.',
+			results: {
+				dramatic: 'The character angers or scares the animal he tries to approach and cannot use this clause for one full scene.',
+				failure: 'No communication occurs.',
+				success: 'The changeling can speak to all animals of the specified type for the next scene.',
+				exceptional: 'The animal feels affection and loyalty toward the character. The animal is actively helpful and volunteers information unasked if it considers that information important (so far as its intelligence allows).'
+			},
+			modifiers: [
+				{ modifier: '+1', situation: `The character imitates the animal's sounds and body language` },
+				{ modifier: '-1', situation: 'The animal is frightened or hurt.' }
+			]
+		}
 		console.log(this.state)
 		return (
 			<div className="sheet changelingTheLost">
@@ -102,6 +122,7 @@ export default class ChangelingTheLost extends React.Component
 					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
 					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
+					<ContractDetails contract={contract} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
