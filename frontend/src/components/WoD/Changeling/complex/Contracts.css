@@ -13,3 +13,8 @@
 	justify-content: left;
 	text-align: left;
 }
+
+.contracts .column > *
+{
+	cursor: pointer;
+}
