@@ -1,6 +1,7 @@
 import './ChangelingTheLost.css'
 import React from 'react'
 import Attributes from './Attributes'
+import Contracts from './complex/Contracts'
 import ContractDetails from './complex/ContractDetails'
 import Details from './Details'
 import Skills from './Skills'
@@ -18,20 +19,6 @@ export default class ChangelingTheLost extends React.Component
 	{
 		super(props)
 		this.state = {
-			base: {
-				size: 5
-			},
-			details: {
-				name: '',
-				player: '',
-				chronicle: '',
-				concept: '',
-				virtue: '',
-				vice: '',
-				seeming: '',
-				kith: '',
-				court: ''
-			},
 			attributes: {
 				composure: 1,
 				dexterity: 1,
@@ -42,6 +29,41 @@ export default class ChangelingTheLost extends React.Component
 				stamina: 1,
 				strength: 1,
 				wits: 1
+			},
+			base: {
+				size: 5
+			},
+			contracts: [
+				{
+					label: 'Tongues of Birds and Words of Wolves',
+					dots: 1,
+					description: 'The changeling can communicate with the general type of animal represented in the Contract. This communication is partially empathic, but the changeling must either whisper to the animal in her own language or attempt to imitate whatever sounds the animal uses to express itself. Most animals make some sort of noise while responding, but they need not do so. Animals tied to the changeling by kith or this Contract instinctively feel a kinship with the changeling and readily communicate unless immediate circumstances, such as an obvious threat, intervene. Simpler, less intelligent animals communicate with less complexity. Mammals and birds are relatively easy to speak with. However, reptiles, invertebrates and most fish can provide only very simple information, such as whether or not any humans recently came near or the general location of fresh water.',
+					cost: '1 Glamour',
+					dicePool: 'Wyrd + Animal Ken',
+					action: 'Instant',
+					catch: 'The changeling gives the animal a new name.',
+					results: {
+						dramatic: 'The character angers or scares the animal he tries to approach and cannot use this clause for one full scene.',
+						failure: 'No communication occurs.',
+						success: 'The changeling can speak to all animals of the specified type for the next scene.',
+						exceptional: 'The animal feels affection and loyalty toward the character. The animal is actively helpful and volunteers information unasked if it considers that information important (so far as its intelligence allows).'
+					},
+					modifiers: [
+						{ modifier: '+1', situation: `The character imitates the animal's sounds and body language` },
+						{ modifier: '-1', situation: 'The animal is frightened or hurt.' }
+					]
+				}
+			],
+			details: {
+				name: '',
+				player: '',
+				chronicle: '',
+				concept: '',
+				virtue: '',
+				vice: '',
+				seeming: '',
+				kith: '',
+				court: ''
 			},
 			skills: {
 				academics: 0,
@@ -78,6 +100,9 @@ export default class ChangelingTheLost extends React.Component
 				glamourSpent: 0,
 				willpowerSpent: 0,
 				wyrd: 1
+			},
+			transient: {
+				contract: null
 			}
 		}
 		
@@ -122,7 +147,7 @@ export default class ChangelingTheLost extends React.Component
 					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
 					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
-					<ContractDetails contract={contract} />
+					<Contracts contracts={this.state.contracts} clickHandler={(contract) => this.contractsClickHandler(contract)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
@@ -133,6 +158,8 @@ export default class ChangelingTheLost extends React.Component
 						<ClarityTracker clarity={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
 					</div>
 				</div>
+				{this.state.transient.contract !== null && <div className="fullscreenOverlay" onClick={() => this.overlayCancelHandler()}></div>}
+				{this.state.transient.contract !== null && <ContractDetails className="fullscreenOverlayItem" contract={this.state.transient.contract} />}
 			</div>
 		)
 	}
@@ -154,6 +181,16 @@ export default class ChangelingTheLost extends React.Component
 			trackers: {...this.state.trackers}
 		}
 		newState.trackers.clarity = value
+		this.setState(() => { return newState })
+	}
+	
+	contractsClickHandler(contract)
+	{
+		let newState = {
+			transient: {...this.state.transient}
+		}
+		newState.transient.contract = contract
+		
 		this.setState(() => { return newState })
 	}
 	
@@ -217,6 +254,16 @@ export default class ChangelingTheLost extends React.Component
 			trackers: {...this.state.trackers}
 		}
 		newState.trackers.damage = newValue
+		this.setState(() => { return newState })
+	}
+	
+	overlayCancelHandler()
+	{
+		let newState = {
+			transient: {...this.state.transient}
+		}
+		newState.transient.contract = null
+		
 		this.setState(() => { return newState })
 	}
 	

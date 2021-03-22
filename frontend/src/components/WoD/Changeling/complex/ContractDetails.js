@@ -14,7 +14,7 @@ export default class ContractDetails extends React.Component
 		let {mods, sits} = this.generateModifierLists()
 		
 		return (
-			<div className="contractDetails">
+			<div className={`contractDetails ${this.props.className}`}>
 				<div className="row">
 					{this.props.contract.label}
 					<FiveDots value={this.props.contract.dots} />
@@ -61,12 +61,12 @@ export default class ContractDetails extends React.Component
 			sits: []
 		}
 		
-		this.props.contract.modifiers.forEach(obj => {
+		this.props.contract.modifiers.forEach((obj, i) => {
 			out.mods.push(
-				(<div>{obj.modifier}</div>)
+				(<div key={`modifier-${i}`}>{obj.modifier}</div>)
 			)
 			out.sits.push(
-				(<div>{obj.situation}</div>)
+				(<div key={`situation-${i}`}>{obj.situation}</div>)
 			)
 		})
 		
