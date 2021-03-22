@@ -1,0 +1,15 @@
+.contracts
+{
+	display: flex;
+	flex-direction: row;
+}
+
+.contracts .column
+{
+	display: flex;
+	flex-direction: column;
+	
+	flex-grow: 1;
+	justify-content: left;
+	text-align: left;
+}
