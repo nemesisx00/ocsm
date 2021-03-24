@@ -24,8 +24,6 @@ export default class Tabs extends React.Component
 	{
 		super(props)
 		
-		this.children = props.children
-		
 		this.state = {
 			index: 0,
 			parentClassName: props.className
@@ -36,7 +34,7 @@ export default class Tabs extends React.Component
 	{
 		let tabs = []
 		let tabBodies = []
-		React.Children.forEach(this.children, (child, index) => {
+		React.Children.forEach(this.props.children, (child, index) => {
 			let tabClass = `${TabClassStub}${index}`
 			tabs.push((
 				<div
