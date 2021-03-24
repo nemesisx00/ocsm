@@ -1,10 +1,17 @@
-.contracts
+.contractsWrapper
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.contractsWrapper .contracts
 {
 	display: flex;
 	flex-direction: row;
+	padding-left: 15px;
 }
 
-.contracts .column
+.contractsWrapper .contracts .column
 {
 	display: flex;
 	flex-direction: column;
@@ -14,7 +21,8 @@
 	text-align: left;
 }
 
-.contracts .column > *
+.contractsWrapper .contracts .column > *
 {
 	cursor: pointer;
+	margin: 2px 0;
 }

@@ -1,6 +1,22 @@
 import './ContractDetails.css'
 import React from 'react'
 import FiveDots from '../../FiveDots'
+import Tabs from '../../../core/Tabs'
+
+const EmptyClause = {
+	label: '',
+	dots: 0,
+	description: '',
+	cost: '',
+	dicePool: '',
+	action: '',
+	catch: '',
+	resultDramatic: '',
+	resultFailure: '',
+	resultSuccess: '',
+	resultExceptional: '',
+	modifiers: []
+}
 
 export default class ContractDetails extends React.Component
 {
@@ -15,40 +31,70 @@ export default class ContractDetails extends React.Component
 	
 	render()
 	{
-		if(this.state.editMode)
-			return this.generateEditView()
-		else
-			return this.generateDisplayView()
-	}
-	
-	generateDisplayView()
-	{
-		let {mods, sits} = this.generateModifierLists()
+		let clauses = []
+		
+		if(this.props.contract !== null)
+		{
+			console.log({
+				before: this.props.contract.clauses
+			})
+			this.props.contract.clauses.forEach((clause, i) => {
+				clauses.push(
+					this.state.editMode
+						? this.generateEditView(clause, i)
+						: this.generateDisplayView(clause, i)
+				)
+			})
+		}
+		
+		if(clauses.length < this.props.contract.dots)
+		{
+			for(let i = 0; i < this.props.contract.dots - clauses.length; i++)
+			{
+				let newClause = Object.assign({}, EmptyClause)
+				clauses.push(
+					this.state.editMode
+						? this.generateEditView(newClause, i)
+						: this.generateDisplayView(newClause, i)
+				)
+			}
+		}
 		
 		return (
-			<div className={`contractDetails ${this.props.className}`}>
+			<Tabs className="fullscreenOverlayItem">
+				{clauses}
+			</Tabs>
+		)
+	}
+	
+	generateDisplayView(clause, key)
+	{
+		let {mods, sits} = this.generateModifierLists(clause)
+		
+		return (
+			<div className={`contractDetails ${this.props.className}`} key={key}>
 				<div className="row">
-					{this.props.contract.label}
-					<FiveDots value={this.props.contract.dots} valueChangedHandler={() => {}} />
+					{clause.label}
+					<FiveDots value={clause.dots} valueChangedHandler={() => {}} />
 					<button onClick={() => this.toggleEditMode()}>Edit</button>
 				</div>
 				<hr />
-				<div className="row">{this.props.contract.description}</div>
+				<div className="row">{clause.description}</div>
 				<hr />
-				<div className="row indent">Cost: {this.props.contract.cost}</div>
-				<div className="row indent">Dice Pool: {this.props.contract.dicePool}</div>
-				<div className="row indent">Action: {this.props.contract.action}</div>
-				<div className="row indent">Catch: {this.props.contract.catch}</div>
+				<div className="row indent">Cost: {clause.cost}</div>
+				<div className="row indent">Dice Pool: {clause.dicePool}</div>
+				<div className="row indent">Action: {clause.action}</div>
+				<div className="row indent">Catch: {clause.catch}</div>
 				<hr />
 				<div className="column">
 					<div className="row heading">Roll Results</div>
-					<div className="row indent">Dramatic Failure: {this.props.contract.resultDramatic}</div>
+					<div className="row indent">Dramatic Failure: {clause.resultDramatic}</div>
 					<hr />
-					<div className="row indent">Failure: {this.props.contract.resultFailure}</div>
+					<div className="row indent">Failure: {clause.resultFailure}</div>
 					<hr />
-					<div className="row indent">Success: {this.props.contract.resultSuccess}</div>
+					<div className="row indent">Success: {clause.resultSuccess}</div>
 					<hr />
-					<div className="row indent">Exceptional Success: {this.props.contract.resultExceptional}</div>
+					<div className="row indent">Exceptional Success: {clause.resultExceptional}</div>
 				</div>
 				<hr />
 				<div className="row">Suggested Modifiers</div>
@@ -67,59 +113,59 @@ export default class ContractDetails extends React.Component
 		)
 	}
 	
-	generateEditView()
+	generateEditView(clause, key)
 	{
-		let mods = this.generateModifierLists()
+		let mods = this.generateModifierLists(clause)
 		
 		return (
-			<div className={`contractDetails ${this.props.className}`}>
+			<div className={`contractDetails ${this.props.className}`} key={key}>
 				<div className="row">
-					<input type="text" value={this.props.contract.label} onChange={(e) => this.props.changeHandler(this.props.contract, 'label', e.target.value)} />
-					<FiveDots value={this.props.contract.dots} valueChangedHandler={(arg) => this.props.changeHandler(this.props.contract, 'dots', arg)} />
+					<input type="text" value={clause.label} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'label', e.target.value)} />
+					<FiveDots value={clause.dots} valueChangedHandler={(arg) => this.props.changeHandler(this.props.contract, clause, 'dots', arg)} />
 					<button onClick={() => this.toggleEditMode()}>Done</button>
 				</div>
 				<hr />
 				<div className="row">
-					<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'description', e.target.value)} value={this.props.contract.description} />
+					<textarea value={clause.description} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'description', e.target.value)} />
 				</div>
 				<hr />
 				<div className="row indent spacer">
 					Cost:
-					<input type="text" value={this.props.contract.cost} onChange={(e) => this.props.changeHandler(this.props.contract, 'cost', e.target.value)} />
+					<input type="text" value={clause.cost} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'cost', e.target.value)} />
 				</div>
 				<div className="row indent spacer">
 					Dice Pool:
-					<input type="text" value={this.props.contract.dicePool} onChange={(e) => this.props.changeHandler(this.props.contract, 'dicePool', e.target.value)} />
+					<input type="text" value={clause.dicePool} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'dicePool', e.target.value)} />
 				</div>
 				<div className="row indent spacer">
 					Action:
-					<input type="text" value={this.props.contract.action} onChange={(e) => this.props.changeHandler(this.props.contract, 'action', e.target.value)} />
+					<input type="text" value={clause.action} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'action', e.target.value)} />
 				</div>
 				<div className="column indent">
 					Catch:
-					<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'catch', e.target.value)} value={this.props.contract.catch} />
+					<textarea value={clause.catch} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'catch', e.target.value)} />
 				</div>
 				<hr />
 				<div className="column">
 					<div className="row heading">Roll Results</div>
 					<div className="column indent">
 						Dramatic Failure:
-						<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'resultDramatic', e.target.value)}  value={this.props.contract.resultDramatic} />
+						<textarea value={clause.resultDramatic} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'resultDramatic', e.target.value)} />
 					</div>
 					<hr />
 					<div className="column indent">
 						Failure:
-						<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'resultFailure', e.target.value)} value={this.props.contract.resultFailure} />
+						<textarea value={clause.resultFailure} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'resultFailure', e.target.value)} />
 					</div>
 					<hr />
 					<div className="column indent">
 						Success:
-						<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'resultSuccess', e.target.value)} value={this.props.contract.resultSuccess} />
+						<textarea value={clause.resultSuccess} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'resultSuccess', e.target.value)} />
 					</div>
 					<hr />
 					<div className="column indent">
 						Exceptional Success:
-						<textarea onChange={(e) => this.props.changeHandler(this.props.contract, 'resultExceptional', e.target.value)} value={this.props.contract.resultExceptional} />
+						<textarea value={clause.resultExceptional} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'resultExceptional', e.target.value)} />
 					</div>
 				</div>
 				<hr />
@@ -136,7 +182,7 @@ export default class ContractDetails extends React.Component
 		)
 	}
 	
-	generateModifierLists()
+	generateModifierLists(clause)
 	{
 		let out = null
 		let mode = this.state.editMode
@@ -144,12 +190,11 @@ export default class ContractDetails extends React.Component
 		if(mode)
 		{
 			out = []
-			
-			this.props.contract.modifiers.forEach((obj, i) => {
+			clause.modifiers.forEach((obj, i) => {
 				out.push(
 					(<div className="row" key={`modifierRow-${i}`}>
-						<input type="text" className="small spacer" value={obj.modifier} onChange={(e) => this.props.changeHandler(this.props.contract, 'modifier', e.target.value, i)} />
-						<textarea className="spacer" value={obj.situation} onChange={(e) => this.props.changeHandler(this.props.contract, 'situation', e.target.value, i)} />
+						<input type="text" className="small spacer" value={obj.modifier} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'modifier', e.target.value, i)} />
+						<textarea className="spacer" value={obj.situation} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'situation', e.target.value, i)} />
 					</div>)
 				)
 			})
@@ -161,7 +206,7 @@ export default class ContractDetails extends React.Component
 				sits: []
 			}
 			
-			this.props.contract.modifiers.forEach((obj, i) => {
+			clause.modifiers.forEach((obj, i) => {
 				out.mods.push(
 					(<div key={`modifier-${i}`}>{obj.modifier}</div>)
 				)

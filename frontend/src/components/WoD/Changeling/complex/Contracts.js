@@ -9,12 +9,16 @@ export default class ContractDetails extends React.Component
 		let {labels, dots} = this.generateContracts()
 		
 		return (
-			<div className="contracts">
-				<div className="column">
-					{labels}
-				</div>
-				<div className="column">
-					{dots}
+			<div className="contractsWrapper">
+				<div className="label">Contracts</div>
+				<div className="contracts">
+					<div className="column">
+						{labels}
+						<div onClick={() => this.props.newHandler()}>Add New Contract</div>
+					</div>
+					<div className="column">
+						{dots}
+					</div>
 				</div>
 			</div>
 		)
@@ -27,14 +31,15 @@ export default class ContractDetails extends React.Component
 			dots: []
 		}
 		
-		let handler = this.props.clickHandler
+		let clickHandler = this.props.clickHandler
+		let dotsHandler = this.props.dotsHandler
 		
 		this.props.contracts.forEach((contract, i) => {
 			out.labels.push(
-				(<div key={`label-${i}`} onClick={() => handler(contract)}>{contract.label}</div>)
+				(<div key={`label-${i}`} onClick={() => clickHandler(contract)}>{contract.label}</div>)
 			)
 			out.dots.push(
-				(<FiveDots key={`label-${i}`} value={contract.dots} valueChangedHandler={() => handler(contract)} />)
+				(<FiveDots key={`label-${i}`} value={contract.dots} valueChangedHandler={(value) => dotsHandler(contract, value)} />)
 			)
 		})
 		
