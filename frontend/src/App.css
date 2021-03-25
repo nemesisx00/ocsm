@@ -1,8 +1,15 @@
-input, textarea
+input, textarea, button
 {
 	border: 0 none;
 	color: #A9ABB0;
 	background-color: #272B32;
+}
+
+button
+{
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 10px;
 }
 
 .App
