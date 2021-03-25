@@ -1,5 +1,6 @@
 import './Tabs.css'
 import React from 'react'
+import {normalizeClassNames} from './Utilities'
 
 const TabClassStub = 'tab-'
 const TabStates = Object.freeze({
@@ -8,16 +9,6 @@ const TabStates = Object.freeze({
 	Selected: 'selected'
 })
 
-function normalizeClassNames(className, ...additions)
-{
-	let out = []
-	if(className && typeof className === 'string')
-		className.split(' ').forEach(word => out.push(word.trim()))
-	if(additions)
-		additions.forEach(word => { word.split(' ').forEach(w => out.push(w.trim())) })
-	return out.filter(val => val.length > 0).join(' ').trim()
-}
-
 export default class Tabs extends React.Component
 {
 	constructor(props)
@@ -25,15 +16,16 @@ export default class Tabs extends React.Component
 		super(props)
 		
 		this.state = {
-			index: 0,
-			parentClassName: props.className
+			index: 0
 		}
 	}
 	
 	render()
 	{
+		//TODO: Come up with a way to label the tabs
 		let tabs = []
 		let tabBodies = []
+		
 		React.Children.forEach(this.props.children, (child, index) => {
 			let tabClass = `${TabClassStub}${index}`
 			tabs.push((
@@ -49,7 +41,7 @@ export default class Tabs extends React.Component
 		})
 		
 		return (
-			<div className={`tabs ${this.state.parentClassName}`}>
+			<div className={normalizeClassNames('tabs', (!!this.props.className ? this.props.className : ''))}>
 				<div className="tabControls">
 					{tabs}
 				</div>
