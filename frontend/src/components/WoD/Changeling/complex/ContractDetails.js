@@ -2,6 +2,7 @@ import './ContractDetails.css'
 import React from 'react'
 import FiveDots from '../../FiveDots'
 import Tabs from '../../../core/Tabs'
+import {normalizeClassNames} from '../../../core/Utilities'
 
 const EmptyClause = {
 	label: '',
@@ -35,9 +36,6 @@ export default class ContractDetails extends React.Component
 		
 		if(this.props.contract !== null)
 		{
-			console.log({
-				before: this.props.contract.clauses
-			})
 			this.props.contract.clauses.forEach((clause, i) => {
 				clauses.push(
 					this.state.editMode
@@ -49,7 +47,8 @@ export default class ContractDetails extends React.Component
 		
 		if(clauses.length < this.props.contract.dots)
 		{
-			for(let i = 0; i < this.props.contract.dots - clauses.length; i++)
+			let max = this.props.contract.dots - clauses.length
+			for(let i = 0; i < max; i++)
 			{
 				let newClause = Object.assign({}, EmptyClause)
 				clauses.push(
@@ -72,7 +71,7 @@ export default class ContractDetails extends React.Component
 		let {mods, sits} = this.generateModifierLists(clause)
 		
 		return (
-			<div className={`contractDetails ${this.props.className}`} key={key}>
+			<div className={normalizeClassNames('contractDetails', this.props.className)} key={key}>
 				<div className="row">
 					{clause.label}
 					<FiveDots value={clause.dots} valueChangedHandler={() => {}} />
