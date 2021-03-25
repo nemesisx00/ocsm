@@ -4,5 +4,6 @@ use serde::Deserialize;
 #[serde(tag = "cmd", rename_all = "camelCase")]
 pub enum Cmd
 {
-	ExitApp {}
+	ExitApp {},
+	LoadData { target: String }
 }

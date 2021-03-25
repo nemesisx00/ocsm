@@ -30,7 +30,8 @@ export default class MainMenu extends React.Component
 			<div className="mainMenu">
 				<div className="menu file" onClick={(ev) => this.clickHandler_menu(ev)}>File</div>
 				<div className={`subMenu file ${this.state.subMenus.file}`} onMouseEnter={(ev) => this.genericMouseEnterHandler(ev)} onMouseLeave={(ev) => this.genericMouseLeaveHandler(ev)}>
-					<div className="menuItem" onClick={(ev) => this.clickHandler_file_exit(ev)}>Exit</div>
+					<div className="menuItem" onClick={() => this.clickHandler_file_open()}>Open Sheet</div>
+					<div className="menuItem" onClick={() => this.clickHandler_file_exit()}>Exit</div>
 				</div>
 			</div>
 		)
@@ -56,6 +57,18 @@ export default class MainMenu extends React.Component
 		})
 		
 		invoke({ cmd: 'exitApp' })
+	}
+	
+	clickHandler_file_open()
+	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
+		
+		this.setState(() => {
+			return { subMenus: { file: MenuStates.Hide } }
+		})
+		
+		invoke({ cmd: 'loadData', target: 'Documents' })
 	}
 	
 	genericMouseEnterHandler()
