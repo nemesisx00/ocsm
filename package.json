@@ -5,6 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "npm run tauri build",
+		"buildReact": "npm --prefix ./frontend/ run build",
+		"dev": "npm run tauri dev",
 		"exe": "src-tauri\\target\\release\\ocsm.exe",
 		"reactStart": "npm --prefix ./frontend/ start",
 		"tauri": "tauri"
