@@ -12,26 +12,12 @@ import WillpowerTracker from '../trackers/WillpowerTracker'
 import WyrdTracker from './trackers/WyrdTracker'
 import { WyrdGlamourIntervals } from './Enums'
 import { DamageState } from '../Enums'
+import CreateNewContract from './complex/CreateNewContract'
 
 const EmptyContract = {
 	label: '',
-	dots: 0,
-	clauses: [
-		{
-			label: '',
-			dots: 0,
-			description: '',
-			cost: '',
-			dicePool: '',
-			action: '',
-			catch: '',
-			resultDramatic: '',
-			resultFailure: '',
-			resultSuccess: '',
-			resultExceptional: '',
-			modifiers: []
-		}
-	]
+	dots: 1,
+	clauses: []
 }
 
 export default class ChangelingTheLost extends React.Component
@@ -56,7 +42,7 @@ export default class ChangelingTheLost extends React.Component
 			},
 			contracts: [
 				{
-					label: 'Fang and Talon (felines)',
+					label: 'Fang and Talon (Felines)',
 					dots: 1,
 					clauses: [
 						{
@@ -127,7 +113,8 @@ export default class ChangelingTheLost extends React.Component
 				wyrd: 1
 			},
 			transient: {
-				contract: null
+				contract: null,
+				createNewContract: false
 			}
 		}
 		
@@ -164,8 +151,12 @@ export default class ChangelingTheLost extends React.Component
 						<ClarityTracker clarity={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
 					</div>
 				</div>
-				{this.state.transient.contract !== null && <div className="fullscreenOverlay" onClick={() => this.overlayCancelHandler()}></div>}
-				{this.state.transient.contract !== null && <ContractDetails contract={this.state.transient.contract} changeHandler={(contract, clause, key, value, modKey) => this.contractDetailsChangeHandler(contract, clause, key, value, modKey)} />}
+				{(this.state.transient.contract !== null || this.state.transient.createNewContract === true)
+					&& <div className="fullscreenOverlay" onClick={() => this.overlayCancelHandler()} />}
+				{this.state.transient.createNewContract === true
+					&& <CreateNewContract className="fullscreenOverlayItem" createHandler={(label) => this.contractsCreateNewHandler(label)} />}
+				{this.state.transient.contract !== null && this.state.transient.createNewContract === false
+					&& <ContractDetails contract={this.state.transient.contract} changeHandler={(contract, clause, key, value, modKey) => this.contractDetailsChangeHandler(contract, clause, key, value, modKey)} />}
 			</div>
 		)
 	}
@@ -177,7 +168,10 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			attributes: {...this.state.attributes}
 		}
-		newState.attributes[attribute] = value
+		if(newState.attributes[attribute] === value)
+			newState.attributes[attribute] = value - 1
+		else
+			newState.attributes[attribute] = value
 		this.setState(() => { return newState })
 	}
 	
@@ -192,12 +186,16 @@ export default class ChangelingTheLost extends React.Component
 	
 	contractsClickHandler(contract)
 	{
-		let newState = {
-			transient: {...this.state.transient}
+		//A zero dot contract wouldn't have any clauses available so don't display the ContractDetails component
+		if(contract.dots > 0)
+		{
+			let newState = {
+				transient: {...this.state.transient}
+			}
+			newState.transient.contract = contract
+			
+			this.setState(() => { return newState })
 		}
-		newState.transient.contract = contract
-		
-		this.setState(() => { return newState })
 	}
 	
 	contractsDotsHandler(contract, value)
@@ -209,7 +207,12 @@ export default class ChangelingTheLost extends React.Component
 		}
 		
 		if(newState.contracts[index])
-			newState.contracts[index].dots = value
+		{
+			if(newState.contracts[index].dots === value)
+				newState.contracts[index].dots = value - 1
+			else
+				newState.contracts[index].dots = value
+		}
 		
 		this.setState(() => { return newState })
 	}
@@ -221,10 +224,25 @@ export default class ChangelingTheLost extends React.Component
 			let newState = {
 				transient: {...this.state.transient}
 			}
-			newState.transient.contract = Object.assign({}, EmptyContract)
+			newState.transient.createNewContract = true
 			
 			this.setState(() => { return newState })
 		}
+	}
+	
+	contractsCreateNewHandler(label)
+	{
+		let newState = {
+			contracts: [...this.state.contracts],
+			transient: {...this.state.transient}
+		}
+		
+		let newContract = Object.assign({}, EmptyContract)
+		newContract.label = label
+		newState.contracts.push(newContract)
+		newState.transient.createNewContract = false
+		
+		this.setState(() => { return newState })
 	}
 	
 	contractDetailsChangeHandler(contract, clause, key, value, modifierKey)
@@ -256,11 +274,6 @@ export default class ChangelingTheLost extends React.Component
 					}
 				}
 			}
-			
-			console.log({
-				d: new Date(),
-				c: newState.contracts[contractIndex].clauses
-			})
 			
 			this.setState(() => { return newState })
 		}
@@ -335,6 +348,7 @@ export default class ChangelingTheLost extends React.Component
 			transient: {...this.state.transient}
 		}
 		newState.transient.contract = null
+		newState.transient.createNewContract = false
 		
 		this.setState(() => { return newState })
 	}
@@ -344,7 +358,10 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			skills: {...this.state.skills}
 		}
-		newState.skills[skill] = value
+		if(newState.skills[skill] === value)
+			newState.skills[skill] = value - 1
+		else
+			newState.skills[skill] = value
 		this.setState(() => { return newState })
 	}
 	
