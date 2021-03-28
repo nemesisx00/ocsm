@@ -13,6 +13,7 @@ import WyrdTracker from './trackers/WyrdTracker'
 import { WyrdGlamourIntervals } from './Enums'
 import { DamageState } from '../Enums'
 import CreateNewContract from './complex/CreateNewContract'
+import { listen } from 'tauri/api/event'
 
 const EmptyContract = {
 	label: '',
@@ -40,31 +41,7 @@ export default class ChangelingTheLost extends React.Component
 			base: {
 				size: 5
 			},
-			contracts: [
-				{
-					label: 'Fang and Talon (Felines)',
-					dots: 1,
-					clauses: [
-						{
-							label: 'Tongues of Birds and Words of Wolves',
-							dots: 1,
-							description: 'The changeling can communicate with the general type of animal represented in the Contract. This communication is partially empathic, but the changeling must either whisper to the animal in her own language or attempt to imitate whatever sounds the animal uses to express itself. Most animals make some sort of noise while responding, but they need not do so. Animals tied to the changeling by kith or this Contract instinctively feel a kinship with the changeling and readily communicate unless immediate circumstances, such as an obvious threat, intervene. Simpler, less intelligent animals communicate with less complexity. Mammals and birds are relatively easy to speak with. However, reptiles, invertebrates and most fish can provide only very simple information, such as whether or not any humans recently came near or the general location of fresh water.',
-							cost: '1 Glamour',
-							dicePool: 'Wyrd + Animal Ken',
-							action: 'Instant',
-							catch: 'The changeling gives the animal a new name.',
-							resultDramatic: 'The character angers or scares the animal he tries to approach and cannot use this clause for one full scene.',
-							resultFailure: 'No communication occurs.',
-							resultSuccess: 'The changeling can speak to all animals of the specified type for the next scene.',
-							resultExceptional: 'The animal feels affection and loyalty toward the character. The animal is actively helpful and volunteers information unasked if it considers that information important (so far as its intelligence allows).',
-							modifiers: [
-								{ modifier: '+1', situation: `The character imitates the animal's sounds and body language` },
-								{ modifier: '-1', situation: 'The animal is frightened or hurt.' }
-							]
-						}
-					]
-				}
-			],
+			contracts: [],
 			details: {
 				name: '',
 				player: '',
@@ -128,6 +105,11 @@ export default class ChangelingTheLost extends React.Component
 			
 			Merits, Contracts, Flaws, and Pledges should have a sort of "pop up" or "expandable" view mode as they all have more information associated with them than would good to show on the main page all the time
 		*/
+	}
+	
+	componentDidMount()
+	{
+		listen('loadSheet', (obj) => this.loadSheetHandler(obj))
 	}
 	
 	render()
@@ -340,6 +322,19 @@ export default class ChangelingTheLost extends React.Component
 		}
 		newState.trackers.damage = newValue
 		this.setState(() => { return newState })
+	}
+	
+	loadSheetHandler(obj)
+	{
+		if(obj && obj.payload)
+		{
+			let newState = null
+			try { newState = JSON.parse(obj.payload) }
+			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
+			
+			if(newState !== null)
+				this.setState(() => { return newState })
+		}
 	}
 	
 	overlayCancelHandler()
