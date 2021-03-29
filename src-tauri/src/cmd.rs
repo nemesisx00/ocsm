@@ -5,5 +5,6 @@ use serde::Deserialize;
 pub enum Cmd
 {
 	ExitApp {},
-	LoadData { target: String }
+	LoadData { target: String },
+	NewSheet {}
 }

@@ -35,7 +35,8 @@ fn main()
 					match command
 					{
 						ExitApp { } => { _webview.terminate() }
-						LoadData { target } => doLoadData(target, &mut _webview.as_mut())
+						LoadData { target } => { doLoadData(target, &mut _webview.as_mut()) }
+						NewSheet {} => { emitNewSheet(&mut _webview.as_mut()) }
 					}
 					Ok(())
 				}
@@ -108,6 +109,19 @@ fn emitLoadedData(resp: Response, _webview: &mut tauri::WebviewMut)
 			//Multiple paths
 			//Probably not going to use this
 			//Just show an error to the user and re-open the select dialog
+		}
+	}
+}
+
+fn emitNewSheet(_webview: &mut tauri::WebviewMut)
+{
+	match emit(_webview, "newSheet", Some(""))
+	{
+		Err(e) => {
+			println!("Error emitting newSheet event to frontend: {:#?}", e.to_string());
+		}
+		Ok(res) => {
+			println!("Succeeded in emitting newSheet event to frontend!");
 		}
 	}
 }

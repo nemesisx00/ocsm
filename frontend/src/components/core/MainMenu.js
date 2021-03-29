@@ -30,17 +30,19 @@ export default class MainMenu extends React.Component
 			<div className="mainMenu">
 				<div className="menu file" onClick={(ev) => this.clickHandler_menu(ev)}>File</div>
 				<div className={`subMenu file ${this.state.subMenus.file}`} onMouseEnter={(ev) => this.genericMouseEnterHandler(ev)} onMouseLeave={(ev) => this.genericMouseLeaveHandler(ev)}>
-					<div className="menuItem" onClick={() => this.clickHandler_file_open()}>Open Sheet</div>
+					<div className="menuItem" onClick={() => this.clickHandler_file_new()}>New</div>
+					<div className="menuItem" onClick={() => this.clickHandler_file_open()}>Open</div>
 					<div className="menuItem" onClick={() => this.clickHandler_file_exit()}>Exit</div>
 				</div>
 			</div>
 		)
 	}
 	
+	// Event Handlers ----------------------------------------
+	
 	clickHandler_menu(ev)
 	{
-		if(subMenuCloseTimeout)
-			clearTimeout(subMenuCloseTimeout)
+		this.doClearSubmenuTimeout()
 		
 		let name = ev.target.classList ? ev.target.classList[1] : this.findMenuName(ev.target)
 		if(name)
@@ -49,44 +51,50 @@ export default class MainMenu extends React.Component
 	
 	clickHandler_file_exit()
 	{
-		if(subMenuCloseTimeout)
-			clearTimeout(subMenuCloseTimeout)
-		
-		this.setState(() => {
-			return { subMenus: { file: MenuStates.Hide } }
-		})
+		this.doClearSubmenuTimeout()
+		this.hideSubmenu('file')
 		
 		invoke({ cmd: 'exitApp' })
 	}
 	
+	clickHandler_file_new()
+	{
+		this.doClearSubmenuTimeout()
+		this.hideSubmenu('file')
+		
+		invoke({ cmd: 'newSheet' })
+	}
+	
 	clickHandler_file_open()
 	{
-		if(subMenuCloseTimeout)
-			clearTimeout(subMenuCloseTimeout)
-		
-		this.setState(() => {
-			return { subMenus: { file: MenuStates.Hide } }
-		})
+		this.doClearSubmenuTimeout()
+		this.hideSubmenu('file')
 		
 		invoke({ cmd: 'loadData', target: 'Documents' })
 	}
 	
 	genericMouseEnterHandler()
 	{
-		if(subMenuCloseTimeout)
-			clearTimeout(subMenuCloseTimeout)
+		this.doClearSubmenuTimeout()
 	}
 	
 	genericMouseLeaveHandler(ev)
 	{
-		if(subMenuCloseTimeout)
-			clearTimeout(subMenuCloseTimeout)
+		this.doClearSubmenuTimeout()
 		
 		subMenuCloseTimeout = setTimeout(() => {
 			let name = ev.target.classList ? ev.target.classList[1] : this.findMenuName(ev.target)
 			if(name)
-				this.switchSubmenuState(name.toLowerCase())
+				this.hideSubmenu(name.toLowerCase())
 		}, subMenuCloseTimeoutTime)
+	}
+	
+	// Helper Methods ----------------------------------------
+	
+	doClearSubmenuTimeout()
+	{
+		if(subMenuCloseTimeout)
+			clearTimeout(subMenuCloseTimeout)
 	}
 	
 	findMenuName(el)
@@ -98,10 +106,26 @@ export default class MainMenu extends React.Component
 		return name
 	}
 	
+	hideSubmenu(submenuName)
+	{
+		let newState = { subMenus: {...this.state.subMenus} }
+		newState.subMenus[submenuName.toLowerCase()] = MenuStates.Hide
+		
+		this.setState(() => { return newState })
+	}
+	
+	showSubmenu(submenuName)
+	{
+		let newState = { subMenus: {...this.state.subMenus} }
+		newState.subMenus[submenuName.toLowerCase()] = MenuStates.Show
+		
+		this.setState(() => { return newState })
+	}
+	
 	switchSubmenuState(menuName)
 	{
-		let newState = { subMenus: {} }
-		newState.subMenus[menuName] = this.state.subMenus[menuName] === MenuStates.Hide ? MenuStates.Show : MenuStates.Hide
+		let newState = { subMenus: {...this.state.subMenus} }
+		newState.subMenus[menuName.toLowerCase()] = this.state.subMenus[menuName.toLowerCase()] === MenuStates.Hide ? MenuStates.Show : MenuStates.Hide
 		this.setState(() => { return newState })
 	}
 }

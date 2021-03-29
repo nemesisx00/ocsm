@@ -3,6 +3,7 @@ import React from 'react'
 import Attributes from './Attributes'
 import Contracts from './complex/Contracts'
 import ContractDetails from './complex/ContractDetails'
+import CreateNewContract from './complex/CreateNewContract'
 import Details from './Details'
 import Skills from './Skills'
 import ClarityTracker from './trackers/ClarityTracker'
@@ -10,9 +11,8 @@ import GlamourTracker from './trackers/GlamourTracker'
 import HealthTracker from '../trackers/HealthTracker'
 import WillpowerTracker from '../trackers/WillpowerTracker'
 import WyrdTracker from './trackers/WyrdTracker'
-import { WyrdGlamourIntervals } from './Enums'
 import { DamageState } from '../Enums'
-import CreateNewContract from './complex/CreateNewContract'
+import { WyrdGlamourIntervals } from './Enums'
 import { listen } from 'tauri/api/event'
 
 const EmptyContract = {
@@ -21,79 +21,81 @@ const EmptyContract = {
 	clauses: []
 }
 
+const EmptySheet = {
+	attributes: {
+		composure: 1,
+		dexterity: 1,
+		intelligence: 1,
+		manipulation: 1,
+		presence: 1,
+		resolve: 1,
+		stamina: 1,
+		strength: 1,
+		wits: 1
+	},
+	base: {
+		size: 5
+	},
+	contracts: [],
+	details: {
+		name: '',
+		player: '',
+		chronicle: '',
+		concept: '',
+		virtue: '',
+		vice: '',
+		seeming: '',
+		kith: '',
+		court: ''
+	},
+	skills: {
+		academics: 0,
+		animalKen: 0,
+		athletics: 0,
+		brawl: 0,
+		computer: 0,
+		crafts: 0,
+		drive: 0,
+		empathy: 0,
+		expression: 0,
+		firearms: 0,
+		investigation: 0,
+		intimidation: 0,
+		larceny: 0,
+		medicine: 0,
+		occult: 0,
+		politics: 0,
+		science: 0,
+		socialize: 0,
+		stealth: 0,
+		streetwise: 0,
+		subterfuge: 0,
+		survival: 0,
+		weaponry: 0
+	},
+	trackers: {
+		clarity: 7,
+		damage: {
+			superficial: 0,
+			lethal: 0,
+			aggravated: 0
+		},
+		glamourSpent: 0,
+		willpowerSpent: 0,
+		wyrd: 1
+	},
+	transient: {
+		contract: null,
+		createNewContract: false
+	}
+}
+
 export default class ChangelingTheLost extends React.Component
 {
 	constructor(props)
 	{
 		super(props)
-		this.state = {
-			attributes: {
-				composure: 1,
-				dexterity: 1,
-				intelligence: 1,
-				manipulation: 1,
-				presence: 1,
-				resolve: 1,
-				stamina: 1,
-				strength: 1,
-				wits: 1
-			},
-			base: {
-				size: 5
-			},
-			contracts: [],
-			details: {
-				name: '',
-				player: '',
-				chronicle: '',
-				concept: '',
-				virtue: '',
-				vice: '',
-				seeming: '',
-				kith: '',
-				court: ''
-			},
-			skills: {
-				academics: 0,
-				animalKen: 0,
-				athletics: 0,
-				brawl: 0,
-				computer: 0,
-				crafts: 0,
-				drive: 0,
-				empathy: 0,
-				expression: 0,
-				firearms: 0,
-				investigation: 0,
-				intimidation: 0,
-				larceny: 0,
-				medicine: 0,
-				occult: 0,
-				politics: 0,
-				science: 0,
-				socialize: 0,
-				stealth: 0,
-				streetwise: 0,
-				subterfuge: 0,
-				survival: 0,
-				weaponry: 0
-			},
-			trackers: {
-				clarity: 7,
-				damage: {
-					superficial: 0,
-					lethal: 0,
-					aggravated: 0
-				},
-				glamourSpent: 0,
-				willpowerSpent: 0,
-				wyrd: 1
-			},
-			transient: {
-				contract: null,
-				createNewContract: false
-			}
-		}
+		this.state = Object.assign({}, EmptySheet)
 		
 		/*
 		Notes:
@@ -110,6 +112,7 @@ export default class ChangelingTheLost extends React.Component
 	componentDidMount()
 	{
 		listen('loadSheet', (obj) => this.loadSheetHandler(obj))
+		listen('newSheet', () => this.newSheetHandler())
 	}
 	
 	render()
@@ -335,6 +338,11 @@ export default class ChangelingTheLost extends React.Component
 			if(newState !== null)
 				this.setState(() => { return newState })
 		}
+	}
+	
+	newSheetHandler()
+	{
+		this.setState(() => Object.assign({}, EmptySheet))
 	}
 	
 	overlayCancelHandler()
