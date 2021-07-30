@@ -5,11 +5,10 @@
     "beforeDevCommand": "",
     "beforeBuildCommand": "npm run buildReact"
   },
-  "ctx": {},
   "tauri": {
-    "embeddedServer": {
-      "active": true
-    },
+	"allowlist": {
+		"all": true
+	},
     "bundle": {
       "active": true,
       "targets": "all",
@@ -31,28 +30,35 @@
         "depends": [],
         "useBootstrapper": false
       },
-      "osx": {
+      "macOS": {
+		"entitlements": null,
+		"exceptionDomain": "",
         "frameworks": [],
         "minimumSystemVersion": "",
+		"signingIdentity": null,
         "useBootstrapper": false
       },
-      "exceptionDomain": ""
+	  "windows": {
+		  "certificateThumbprint": null,
+		  "digestAlgorithm": "sha256",
+		  "timestampUrl": ""
+	  }
     },
-    "allowlist": {
-      "all": true
-    },
-    "window": {
-      "title": "Open Character Sheet Manager",
-      "width": 800,
-      "height": 600,
-      "resizable": true,
-      "fullscreen": false
-    },
+	"updater": {
+		"active": false,
+		"dialog": true
+	},
+    "windows": [
+		{
+	      "title": "Open Character Sheet Manager",
+	      "width": 800,
+	      "height": 600,
+	      "resizable": true,
+	      "fullscreen": false
+	    }
+	],
     "security": {
       "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'"
-    },
-    "inliner": {
-      "active": true
     }
   }
 }

@@ -13,12 +13,17 @@ import WillpowerTracker from '../trackers/WillpowerTracker'
 import WyrdTracker from './trackers/WyrdTracker'
 import { DamageState } from '../Enums'
 import { WyrdGlamourIntervals } from './Enums'
-import { listen } from 'tauri/api/event'
+import { listen } from '@tauri-apps/api/event'
 
 const EmptyContract = {
 	label: '',
 	dots: 1,
 	clauses: []
+}
+
+const EmptyModifier = {
+	modifier: '',
+	situation: ''
 }
 
 const EmptySheet = {
@@ -96,6 +101,7 @@ export default class ChangelingTheLost extends React.Component
 	{
 		super(props)
 		this.state = Object.assign({}, EmptySheet)
+		this.unlisteners = {}
 		
 		/*
 		Notes:
@@ -111,8 +117,8 @@ export default class ChangelingTheLost extends React.Component
 	
 	componentDidMount()
 	{
-		listen('loadSheet', (obj) => this.loadSheetHandler(obj))
-		listen('newSheet', () => this.newSheetHandler())
+		this.unlisteners.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
+		this.unlisteners.newSheet = listen('newSheet', () => this.newSheetHandler())
 	}
 	
 	render()
@@ -246,7 +252,18 @@ export default class ChangelingTheLost extends React.Component
 				if(newState.contracts[contractIndex].clauses[clauseIndex])
 				{
 					if(typeof(modifierKey) !== 'undefined' && modifierKey !== null)
-						newState.contracts[contractIndex].clauses[clauseIndex].modifiers[modifierKey][key] = value
+					{
+						let currentModifiers = newState.contracts[contractIndex].clauses[clauseIndex].modifiers
+						if(typeof(currentModifiers[modifierKey]) === 'undefined')
+						{
+							//Only add a new row if there are no existing modifiers or the last modifier is not completely empty
+							let lastModifierIndex = currentModifiers.length - 1
+							if(lastModifierIndex < 0 || currentModifiers[lastModifierIndex].modifier !== '' || currentModifiers[lastModifierIndex].situation !== '')
+								currentModifiers.push(Object.assign({}, EmptyModifier))
+						}
+						else
+							currentModifiers[modifierKey][key] = value
+					}
 					else
 						newState.contracts[contractIndex].clauses[clauseIndex][key] = value
 				}

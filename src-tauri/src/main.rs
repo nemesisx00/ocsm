@@ -1,127 +1,102 @@
-#![allow(non_snake_case,unused_variables)]
+#![allow(non_snake_case,non_upper_case_globals,unused_variables)]
 #![cfg_attr(
 	all(not(debug_assertions), target_os = "windows"),
 	windows_subsystem = "windows"
 )]
 
-mod cmd;
-
 use std::{
-	fs::{read_to_string},
-	path::{Path}
+	fs::{read_to_string}
 };
-
 use tauri::{
-	api::{
-		dialog::{
-			Response,
-			select
-		}
-	},
-	event::emit
+	api::dialog::{FileDialogBuilder},
+	command,
+	CustomMenuItem,
+	Menu,
+	Submenu,
+	Window
 };
 
 fn main()
 {
-	tauri::AppBuilder::new()
-		.invoke_handler(|_webview, arg| {
-			use cmd::Cmd::*;
-			match serde_json::from_str(arg)
-			{
-				Err(e) => {
-					Err(e.to_string())
+	tauri::Builder::default()
+		.menu(BuildMenu())
+		.on_menu_event(|event| {
+			match event.menu_item_id() {
+				"exit" => {
+					//Right now, closing the last window exits the application. This may not be true in the future.
+					event.window().close().unwrap();
 				}
-				Ok(command) => {
-					match command
-					{
-						ExitApp { } => { _webview.terminate() }
-						LoadData { target } => { doLoadData(target, &mut _webview.as_mut()) }
-						NewSheet {} => { emitNewSheet(&mut _webview.as_mut()) }
-					}
-					Ok(())
-				}
+				"load" => { LoadFromFile(event.window()); }
+				"new" => { NewSheet(event.window()); }
+				_ => {}
 			}
 		})
-		.build()
-		.run();
+		.invoke_handler(tauri::generate_handler![SaveSheet])
+		.run(tauri::generate_context!())
+		.expect("error while running tauri application");
 }
 
-fn doLoadData(target: String, _webview: &mut tauri::WebviewMut)
+#[command]
+fn SaveSheet()
 {
-	let filter = Some("json");
-	let p = Path::new(&target);
-	let defaultPath = Some(p);
+	//Accept json payload and save to file
+}
+
+fn BuildMenu() -> Menu
+{
+	let new = CustomMenuItem::new("new".to_string(), "New");
+	let load = CustomMenuItem::new("load".to_string(), "Load");
+	let exit = CustomMenuItem::new("exit".to_string(), "Exit");
+	let fileMenu = Submenu::new("File", Menu::new()
+											.add_item(new)
+											.add_item(load)
+											.add_item(exit));
 	
-	//Right now it seems like all directory/file selector dialogs error on the first attempt.
-	//See https://github.com/tauri-apps/tauri/issues/1054
-	match select(filter, defaultPath)
-	{
-		Err(e) => {
-			println!("Right now this always errors on the first attempt. See https://github.com/tauri-apps/tauri/issues/1054");
-			println!("Error opening select dialog: {:#?}", e.to_string());
-			
-			match select(filter, defaultPath)
-			{
-				Err(e) => {
-					println!("Error opening select dialog #2: {:#?}", e.to_string());
-				}
-				Ok(resp) => {
-					emitLoadedData(resp, _webview);
-				}
-			}
-		}
-		Ok(resp) => {
-			emitLoadedData(resp, _webview);
-		}
-	}
+	let menu = Menu::new()
+		.add_submenu(fileMenu);
+	
+	return menu;
 }
 
-fn emitLoadedData(resp: Response, _webview: &mut tauri::WebviewMut)
+fn LoadFromFile(window: &Window)
 {
-	match resp {
-		Response::Cancel => {
-			//Cancelled
-			//Close the select dialog (assuming that it doesn't happen automatically)
+	match FileDialogBuilder::default()
+		.add_filter("JSON", &["json"])
+		.pick_file()
+	{
+		None => {
+			println!("Either no file was selected or there was a problem with the file dialog.");
 		}
-		Response::Okay(path) => {
-			match read_to_string(&path)
-			{
+		Some(p) => {
+			match read_to_string(p) {
 				Err(e) => {
 					println!("Error loading file: {:#?}", e.to_string());
 				}
 				Ok(data) => {
 					//pass the data to the frontend
 					println!("Succeeded in loading file: {:#?}", data);
-					
-					match emit(_webview, "loadSheet", Some(data))
-					{
+					match window.emit("loadSheet", data) {
 						Err(e) => {
-							println!("Error emitting loadSheet event to frontend: {:#?}", e.to_string());
+							println!("Error emitting `loadSheet` event: {:#?}", e.to_string());
 						}
-						Ok(res) => {
-							println!("Succeeded in emitting loadSheet event to frontend!");
+						Ok(result) => {
+							println!("Succeeded in emitting `loadSheet` event: {:#?}", result);
 						}
 					}
 				}
 			}
 		}
-		Response::OkayMultiple(paths) => {
-			//Multiple paths
-			//Probably not going to use this
-			//Just show an error to the user and re-open the select dialog
-		}
 	}
 }
 
-fn emitNewSheet(_webview: &mut tauri::WebviewMut)
+fn NewSheet(window: &Window)
 {
-	match emit(_webview, "newSheet", Some(""))
-	{
+	match window.emit("newSheet", "{}") {
 		Err(e) => {
-			println!("Error emitting newSheet event to frontend: {:#?}", e.to_string());
+			println!("Error emitting `newSheet` event: {:#?}", e.to_string());
 		}
-		Ok(res) => {
-			println!("Succeeded in emitting newSheet event to frontend!");
+		Ok(result) => {
+			println!("Succeeded in emitting `newSheet` event: {:#?}", result);
 		}
 	}
 }

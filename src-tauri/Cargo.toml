@@ -2,7 +2,7 @@
 name = "ocsm"
 version = "0.1.0"
 description = "An application for managing table top roleplaying game character sheets."
-authors = ["Peter Lunneberg <plunn.dev@gmail.com>"]
+authors = [ "Peter Lunneberg <plunn.dev@gmail.com>" ]
 license = "MIT"
 repository = ""
 default-run = "ocsm"
@@ -10,16 +10,16 @@ edition = "2018"
 build = "src/build.rs"
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = [ "derive" ] }
-tauri = { version = "0.11", features = [ "all-api" ] }
+serde_json = "^1.0"
+serde = { version = "^1.0", features = [ "derive" ] }
+tauri = { version = "^1.0.0-beta.5", features = ["api-all", "menu", "wry"] }
 
 [target."cfg(windows)".build-dependencies]
-winres = "0.1"
+tauri-build = { version = "1.0.0-beta.3" }
 
 [features]
-embedded-server = [ "tauri/embedded-server" ]
-no-server = [ "tauri/no-server" ]
+custom-protocol = [ "tauri/custom-protocol" ]
+default = [ "custom-protocol" ]
 
 [[bin]]
 name = "ocsm"

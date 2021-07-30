@@ -1,7 +1,6 @@
 import './MainMenu.css'
 import React from 'react'
-import { devSafeInvoke } from './DevSafeTauriInvoke'
-const invoke = devSafeInvoke
+import { invoke } from '@tauri-apps/api'
 
 const menuNameRegex = /.*?\s(.*?)\s.*/gi
 const subMenuCloseTimeoutTime = 1500
