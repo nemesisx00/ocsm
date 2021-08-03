@@ -11,10 +11,20 @@ export default class HealthTracker extends React.Component
 		for(let i = 0; i < this.props.max; i++)
 		{
 			let damageType = DamageState.None
-			if(i < this.props.damage.aggravated + this.props.damage.lethal + this.props.damage.superficial)
-				damageType = DamageState.Superficial
-			if(i < this.props.damage.aggravated + this.props.damage.lethal)
-				damageType = DamageState.Lethal
+			
+			if(typeof(this.props.damage.lethal) !== 'undefined')
+			{
+				if(i < this.props.damage.aggravated + this.props.damage.lethal + this.props.damage.superficial)
+					damageType = DamageState.Superficial
+				if(i < this.props.damage.aggravated + this.props.damage.lethal)
+					damageType = DamageState.Lethal
+			}
+			else
+			{
+				if(i < this.props.damage.aggravated + this.props.damage.superficial)
+					damageType = DamageState.Superficial
+			}
+			
 			if(i < this.props.damage.aggravated)
 				damageType = DamageState.Aggravated
 			

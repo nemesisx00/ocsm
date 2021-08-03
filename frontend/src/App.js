@@ -1,6 +1,7 @@
 import './App.css'
 import React from 'react'
-import ChangelingTheLost from './components/wod/changeling/ChangelingTheLost'
+//import ChangelingTheLost from './components/wod/changeling/ChangelingTheLost'
+import VampireTheMasquerade from './components/wod/vampire/VampireTheMasquerade'
 
 export default class App extends React.Component
 {
@@ -8,8 +9,9 @@ export default class App extends React.Component
 	{
 		return (
 			<div className="App">
-				<ChangelingTheLost />
+				<VampireTheMasquerade />
 			</div>
 		)
+		//<ChangelingTheLost />
 	}
 }
