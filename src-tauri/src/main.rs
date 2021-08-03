@@ -23,7 +23,7 @@ fn main()
 		.on_menu_event(|event| {
 			match event.menu_item_id() {
 				"exit" => {
-					//Right now, closing the last window exits the application. This may not be true in the future.
+					//Closing the last window exits the application
 					event.window().close().unwrap();
 				}
 				"load" => { LoadFromFile(event.window()); }
@@ -44,16 +44,13 @@ fn SaveSheet()
 
 fn BuildMenu() -> Menu
 {
-	let new = CustomMenuItem::new("new".to_string(), "New");
-	let load = CustomMenuItem::new("load".to_string(), "Load");
-	let exit = CustomMenuItem::new("exit".to_string(), "Exit");
 	let fileMenu = Submenu::new("File", Menu::new()
-											.add_item(new)
-											.add_item(load)
-											.add_item(exit));
+					.add_item(CustomMenuItem::new("new".to_string(), "New"))
+					.add_item(CustomMenuItem::new("load".to_string(), "Load"))
+					.add_item(CustomMenuItem::new("exit".to_string(), "Exit")));
 	
 	let menu = Menu::new()
-		.add_submenu(fileMenu);
+				.add_submenu(fileMenu);
 	
 	return menu;
 }
@@ -69,19 +66,12 @@ fn LoadFromFile(window: &Window)
 		}
 		Some(p) => {
 			match read_to_string(p) {
-				Err(e) => {
-					println!("Error loading file: {:#?}", e.to_string());
-				}
+				Err(e) => { println!("Error loading file: {:#?}", e.to_string()); }
 				Ok(data) => {
-					//pass the data to the frontend
 					println!("Succeeded in loading file: {:#?}", data);
 					match window.emit("loadSheet", data) {
-						Err(e) => {
-							println!("Error emitting `loadSheet` event: {:#?}", e.to_string());
-						}
-						Ok(result) => {
-							println!("Succeeded in emitting `loadSheet` event: {:#?}", result);
-						}
+						Err(e) => { println!("Error emitting `loadSheet` event: {:#?}", e.to_string()); }
+						Ok(result) => { println!("Succeeded in emitting `loadSheet` event: {:#?}", result); }
 					}
 				}
 			}
@@ -92,11 +82,7 @@ fn LoadFromFile(window: &Window)
 fn NewSheet(window: &Window)
 {
 	match window.emit("newSheet", "{}") {
-		Err(e) => {
-			println!("Error emitting `newSheet` event: {:#?}", e.to_string());
-		}
-		Ok(result) => {
-			println!("Succeeded in emitting `newSheet` event: {:#?}", result);
-		}
+		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
+		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
 	}
 }
