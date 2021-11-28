@@ -1,17 +1,13 @@
 import './ChangelingTheLost.css'
 import React from 'react'
+import Checker from '../../core/Checker'
+import Tracker from '../Tracker'
 import Attributes from './Attributes'
 import Contracts from './complex/Contracts'
 import ContractDetails from './complex/ContractDetails'
 import CreateNewContract from './complex/CreateNewContract'
 import Details from './Details'
 import Skills from './Skills'
-import ClarityTracker from './trackers/ClarityTracker'
-import GlamourTracker from './trackers/GlamourTracker'
-import HealthTracker from '../trackers/HealthTracker'
-import WillpowerTracker from '../trackers/WillpowerTracker'
-import WyrdTracker from './trackers/WyrdTracker'
-import { DamageState } from '../Enums'
 import { WyrdGlamourIntervals } from './Enums'
 import { listen } from '@tauri-apps/api/event'
 
@@ -101,7 +97,11 @@ export default class ChangelingTheLost extends React.Component
 	{
 		super(props)
 		this.state = Object.assign({}, EmptySheet)
-		this.unlisteners = {}
+		
+		this.listenerHandles = {
+			clearSheet: null,
+			loadSheet: null
+		}
 		
 		/*
 		Notes:
@@ -117,8 +117,8 @@ export default class ChangelingTheLost extends React.Component
 	
 	componentDidMount()
 	{
-		this.unlisteners.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
-		this.unlisteners.newSheet = listen('newSheet', () => this.newSheetHandler())
+		this.listenerHandles.clearSheet = listen('clearSheet', () => this.clearSheetHandler())
+		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
 	}
 	
 	render()
@@ -135,11 +135,11 @@ export default class ChangelingTheLost extends React.Component
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<HealthTracker max={this.state.base.size + this.state.attributes.stamina} damage={this.state.trackers.damage} changeHandler={(damageType) => this.healthChangeHandler(damageType)} />
-						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
-						<GlamourTracker max={WyrdGlamourIntervals[this.state.trackers.wyrd]} spent={this.state.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
-						<WyrdTracker wyrd={this.state.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
-						<ClarityTracker clarity={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
+						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={this.state.base.size + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.lethal, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
+						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+						<Tracker keyWord="glamour" label="Glamour" type={Tracker.Types.Single} max={WyrdGlamourIntervals[this.state.trackers.wyrd]} spent={this.state.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
+						<Tracker keyWord="wyrd" label="Wyrd" type={Tracker.Types.Circle} max="10" value={this.state.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
+						<Tracker keyWord="clarity" label="Clarity" type={Tracker.Types.Circle} max="10" value={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
 					</div>
 				</div>
 				{(this.state.transient.contract !== null || this.state.transient.createNewContract === true)
@@ -159,10 +159,9 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			attributes: {...this.state.attributes}
 		}
-		if(newState.attributes[attribute] === value)
-			newState.attributes[attribute] = value - 1
-		else
-			newState.attributes[attribute] = value
+		newState.attributes[attribute] = value === newState.attributes[attribute] ? value - 1 : value
+		if(newState.attributes[attribute] < 1)
+			newState.attributes[attribute] = 1
 		this.setState(() => { return newState })
 	}
 	
@@ -171,8 +170,15 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			trackers: {...this.state.trackers}
 		}
-		newState.trackers.clarity = value
+		newState.trackers.clarity = value === newState.trackers.clarity ? value - 1 : value
+		if(newState.trackers.clarity < 1)
+			newState.trackers.clarity = 1
 		this.setState(() => { return newState })
+	}
+	
+	clearSheetHandler()
+	{
+		this.setState(() => Object.assign({}, EmptySheet))
 	}
 	
 	contractsClickHandler(contract)
@@ -198,12 +204,7 @@ export default class ChangelingTheLost extends React.Component
 		}
 		
 		if(newState.contracts[index])
-		{
-			if(newState.contracts[index].dots === value)
-				newState.contracts[index].dots = value - 1
-			else
-				newState.contracts[index].dots = value
-		}
+			newState.contracts[index].dots = value === newState.contracts[index].dots ? value - 1 : value
 		
 		this.setState(() => { return newState })
 	}
@@ -302,7 +303,7 @@ export default class ChangelingTheLost extends React.Component
 		this.setState(() => { return newState })
 	}
 	
-	healthChangeHandler(damageType)
+	healthChangeHandler(lineStatus)
 	{
 		let totalHealth = this.state.base.size + this.state.attributes.stamina
 		let possibleDamage = 0
@@ -312,9 +313,9 @@ export default class ChangelingTheLost extends React.Component
 			aggravated: this.state.trackers.damage.aggravated
 		}
 		
-		switch(damageType)
+		switch(lineStatus)
 		{
-			case DamageState.Superficial:
+			case Checker.LineStatus.Single:
 				possibleDamage = totalHealth - this.state.trackers.damage.aggravated
 				if(newValue.lethal < possibleDamage)
 				{
@@ -322,7 +323,7 @@ export default class ChangelingTheLost extends React.Component
 					newValue.lethal++
 				}
 				break
-			case DamageState.Lethal:
+			case Checker.LineStatus.Double:
 				possibleDamage = totalHealth
 				if(newValue.aggravated < possibleDamage)
 				{
@@ -330,7 +331,7 @@ export default class ChangelingTheLost extends React.Component
 					newValue.aggravated++
 				}
 				break
-			case DamageState.Aggravated:
+			case Checker.LineStatus.Triple:
 				newValue.aggravated--
 				break;
 			default:
@@ -357,11 +358,6 @@ export default class ChangelingTheLost extends React.Component
 		}
 	}
 	
-	newSheetHandler()
-	{
-		this.setState(() => Object.assign({}, EmptySheet))
-	}
-	
 	overlayCancelHandler()
 	{
 		let newState = {
@@ -378,10 +374,7 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			skills: {...this.state.skills}
 		}
-		if(newState.skills[skill] === value)
-			newState.skills[skill] = value - 1
-		else
-			newState.skills[skill] = value
+		newState.skills[skill] = value === newState.skills[skill] ? value - 1 : value
 		this.setState(() => { return newState })
 	}
 	
@@ -399,7 +392,11 @@ export default class ChangelingTheLost extends React.Component
 		let newState = {
 			trackers: {...this.state.trackers}
 		}
-		newState.trackers.wyrd = value
+		newState.trackers.wyrd = value === newState.trackers.wyrd ? value - 1 : value
+		if(newState.trackers.wyrd < 1)
+			newState.trackers.wyrd = 1
+		if(newState.trackers.glamourSpent >= WyrdGlamourIntervals[newState.trackers.wyrd])
+			newState.trackers.glamourSpent = WyrdGlamourIntervals[newState.trackers.wyrd]
 		this.setState(() => { return newState })
 	}
 }

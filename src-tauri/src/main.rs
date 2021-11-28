@@ -16,6 +16,11 @@ use tauri::{
 	Window
 };
 
+#[derive(Clone, serde::Serialize)]
+struct ContextPayload {
+	context: String
+}
+
 fn main()
 {
 	tauri::Builder::default()
@@ -26,8 +31,11 @@ fn main()
 					//Closing the last window exits the application
 					event.window().close().unwrap();
 				}
+				"clear" => { ClearSheet(event.window())}
 				"load" => { LoadFromFile(event.window()); }
-				"new" => { NewSheet(event.window()); }
+				"contextCtl" => { NewSheet(event.window(), "ChangelingTheLost".into()); }
+				"contextMta" => { NewSheet(event.window(), "MageTheAwakening".into()); }
+				"contextVtm" => { NewSheet(event.window(), "VampireTheMasquerade".into()); }
 				_ => {}
 			}
 		})
@@ -44,8 +52,14 @@ fn SaveSheet()
 
 fn BuildMenu() -> Menu
 {
+	let newMenu = Submenu::new("New", Menu::new()
+					.add_item(CustomMenuItem::new("contextCtl".to_string(), "Changeling: The Lost"))
+					.add_item(CustomMenuItem::new("contextMta".to_string(), "Mage: The Awakening"))
+					.add_item(CustomMenuItem::new("contextVtm".to_string(), "Vampire: The Masquerade")));
+	
 	let fileMenu = Submenu::new("File", Menu::new()
-					.add_item(CustomMenuItem::new("new".to_string(), "New"))
+					.add_submenu(newMenu)
+					.add_item(CustomMenuItem::new("clear".to_string(), "Clear Sheet"))
 					.add_item(CustomMenuItem::new("load".to_string(), "Load"))
 					.add_item(CustomMenuItem::new("exit".to_string(), "Exit")));
 	
@@ -53,6 +67,14 @@ fn BuildMenu() -> Menu
 				.add_submenu(fileMenu);
 	
 	return menu;
+}
+
+fn ClearSheet(window: &Window)
+{
+	match window.emit("clearSheet", "") {
+		Err(e) => { println!("Error clearing sheet: {:#?}", e.to_string()); }
+		Ok(result) => { println!("Succeeded in clearing sheet: {:#?}", result); }
+	}
 }
 
 fn LoadFromFile(window: &Window)
@@ -79,9 +101,9 @@ fn LoadFromFile(window: &Window)
 	}
 }
 
-fn NewSheet(window: &Window)
+fn NewSheet(window: &Window, context: String)
 {
-	match window.emit("newSheet", "{}") {
+	match window.emit("newSheet", ContextPayload { context: context }) {
 		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
 	}

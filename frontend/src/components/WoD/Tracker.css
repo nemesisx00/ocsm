@@ -1,10 +1,10 @@
-.willpowerTracker .label
+.tracker .label
 {
 	margin: 0 0 5px;
 	user-select: none;
 }
 
-.willpowerTracker .boxLine
+.tracker .checkerLine
 {
 	display: flex;
 	flex-direction: row;
@@ -12,7 +12,7 @@
 	justify-content: center;
 }
 
-.willpowerTracker .boxLine .checkbox
+.tracker .checkerLine .checker
 {
 	flex-grow: 0;
 	flex-shrink: 0;

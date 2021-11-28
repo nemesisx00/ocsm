@@ -1,7 +1,6 @@
 import './ContractDetails.css'
 import React from 'react'
 import FiveDots from '../../FiveDots'
-import Tabs from '../../../core/Tabs'
 import {normalizeClassNames} from '../../../core/Utilities'
 
 const EmptyClause = {
@@ -26,17 +25,27 @@ export default class ContractDetails extends React.Component
 		super(props)
 		
 		this.state = {
-			editMode: false
+			currentTab: 0,
+			editMode: false,
+			newModifier: false
 		}
 	}
 	
 	render()
 	{
+		let tabs = []
 		let clauses = []
 		
 		if(this.props.contract !== null)
 		{
 			this.props.contract.clauses.forEach((clause, i) => {
+				let tab = (
+					<div className={normalizeClassNames('clause tab', this.state.currentTab === i ? 'selected' : '')} onClick={() => this.changeTab(i)} key={i}>
+						{`${clause.label} (${clause.dots})`}
+					</div>
+				)
+				tabs.push(tab)
+				
 				clauses.push(
 					this.state.editMode
 						? this.generateEditView(clause, i)
@@ -50,6 +59,13 @@ export default class ContractDetails extends React.Component
 			let max = this.props.contract.dots - clauses.length
 			for(let i = 0; i < max; i++)
 			{
+				let tab = (
+					<div className={normalizeClassNames('clause tab', this.state.currentTab === i ? 'selected' : '')} onClick={() => this.changeTab(i)} key={i}>
+						New Clause
+					</div>
+				)
+				tabs.push(tab)
+				
 				let newClause = Object.assign({}, EmptyClause)
 				clauses.push(
 					this.state.editMode
@@ -60,9 +76,14 @@ export default class ContractDetails extends React.Component
 		}
 		
 		return (
-			<Tabs className="fullscreenOverlayItem">
-				{clauses}
-			</Tabs>
+			<div className={normalizeClassNames('contractDetails fullscreenOverlayItem', this.props.className)}>
+				<div className="tabs">
+					{tabs}
+				</div>
+				<div className="clauses">
+					{clauses}
+				</div>
+			</div>
 		)
 	}
 	
@@ -71,7 +92,7 @@ export default class ContractDetails extends React.Component
 		let {mods, sits} = this.generateModifierLists(clause)
 		
 		return (
-			<div className={normalizeClassNames('contractDetails', this.props.className)} key={key}>
+			<div className={normalizeClassNames('contractDetails', this.props.className, this.state.currentTab === key ? 'selected' : '')} key={key}>
 				<div className="row">
 					{clause.label}
 					<FiveDots value={clause.dots} valueChangedHandler={() => {}} />
@@ -168,7 +189,11 @@ export default class ContractDetails extends React.Component
 					</div>
 				</div>
 				<hr />
-				<div className="row">Suggested Modifiers</div>
+				<div className="row">
+					<div className="label">Suggested Modifiers</div>
+					{typeof(clause) !== 'undefined' && clause !== null && clause.label !== '' && clause.dots > 0 &&
+						<button onClick={() => this.props.changeHandler(this.props.contract, clause, 'modifier', '', clause.modifiers.length)}>Add New Modifier</button>}
+				</div>
 				<hr />
 				<div className="column indent modifiers">
 					<div className="row label">
@@ -205,12 +230,23 @@ export default class ContractDetails extends React.Component
 				sits: []
 			}
 			
+			let mod = null
+			let sit = null
 			clause.modifiers.forEach((obj, i) => {
+				//Make sure there's at least a space inside each to ensure the layout flows correctly.
+				mod = obj.modifier
+				if(mod === '')
+					mod = ' '
+				
+				sit = obj.situation
+				if(sit === '')
+					sit = ' '
+				
 				out.mods.push(
-					(<div key={`modifier-${i}`}>{obj.modifier}</div>)
+					(<div key={`modifier-${i}`}>{mod}</div>)
 				)
 				out.sits.push(
-					(<div key={`situation-${i}`}>{obj.situation}</div>)
+					(<div key={`situation-${i}`}>{sit}</div>)
 				)
 			})
 		}
@@ -218,9 +254,17 @@ export default class ContractDetails extends React.Component
 		return out
 	}
 	
+	changeTab(tabIndex)
+	{
+		let newState = {...this.state}
+		newState.currentTab = tabIndex
+		this.setState(() => { return newState })
+	}
+	
 	toggleEditMode()
 	{
-		let mode = this.state.editMode
-		this.setState(() => { return { editMode: !mode } })
+		let newState = {...this.state}
+		newState.editMode = !newState.editMode
+		this.setState(() => { return newState })
 	}
 }

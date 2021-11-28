@@ -12,6 +12,14 @@ button
 	border-radius: 10px;
 }
 
+.checker
+{
+	max-width: 50px;
+	max-height: 50px;
+	margin-left: 150px;
+	margin-top: 150px;
+}
+
 .App
 {
 	display: flex;

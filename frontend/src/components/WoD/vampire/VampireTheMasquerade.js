@@ -1,9 +1,8 @@
 import './VampireTheMasquerade.css'
 import React from 'react'
+import Checker from '../../core/Checker'
+import Tracker from '../Tracker'
 import Attributes from './Attributes'
-import HealthTracker from '../trackers/HealthTracker'
-import WillpowerTracker from '../trackers/WillpowerTracker'
-import { DamageState } from '../Enums'
 import { listen } from '@tauri-apps/api/event'
 
 const DefaultHealthValue = 3;
@@ -77,13 +76,16 @@ export default class VampireTheMasquerade extends React.Component
 	{
 		super(props)
 		this.state = Object.assign({}, EmptySheet)
-		this.unlisteners = {}
+		this.listenerHandles = {
+			clearSheet: null,
+			loadSheet: null
+		}
 	}
 	
 	componentDidMount()
 	{
-		this.unlisteners.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
-		this.unlisteners.newSheet = listen('newSheet', () => this.newSheetHandler())
+		this.listenerHandles.clearSheet = listen('clearSheet', () => this.clearSheetHandler())
+		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
 	}
 	
 	render()
@@ -97,8 +99,8 @@ export default class VampireTheMasquerade extends React.Component
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<HealthTracker max={DefaultHealthValue + this.state.attributes.stamina} damage={this.state.trackers.damage} changeHandler={(damageType) => this.healthChangeHandler(damageType)} />
-						<WillpowerTracker max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={DefaultHealthValue + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
+						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
 					</div>
 				</div>
 			</div>
@@ -119,30 +121,35 @@ export default class VampireTheMasquerade extends React.Component
 		this.setState(() => { return newState })
 	}
 	
-	healthChangeHandler(damageType)
+	clearSheetHandler()
 	{
-		let newValue = {
+		this.setState(() => Object.assign({}, EmptySheet))
+	}
+	
+	healthChangeHandler(lineStatus)
+	{
+		let newObject = {
 			superficial: this.state.trackers.damage.superficial,
 			aggravated: this.state.trackers.damage.aggravated
 		}
 		
-		switch(damageType)
+		switch(lineStatus)
 		{
-			case DamageState.Superficial:
-				newValue.superficial--
-				newValue.aggravated++
+			case Checker.LineStatus.Single:
+				newObject.superficial--
+				newObject.aggravated++
 				break
-			case DamageState.Aggravated:
-				newValue.aggravated--
-				break;
+			case Checker.LineStatus.Triple:
+				newObject.aggravated--
+				break
 			default:
-				newValue.superficial++
+				newObject.superficial++
 		}
 		
 		let newState = {
 			trackers: {...this.state.trackers}
 		}
-		newState.trackers.damage = newValue
+		newState.trackers.damage = newObject
 		this.setState(() => { return newState })
 	}
 	
@@ -157,11 +164,6 @@ export default class VampireTheMasquerade extends React.Component
 			if(newState !== null)
 				this.setState(() => { return newState })
 		}
-	}
-	
-	newSheetHandler()
-	{
-		this.setState(() => Object.assign({}, EmptySheet))
 	}
 	
 	willpowerChangeHandler(value)
