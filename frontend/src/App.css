@@ -12,6 +12,11 @@ button
 	border-radius: 10px;
 }
 
+hr
+{
+	border-color: #A9ABB0;
+}
+
 .checker
 {
 	max-width: 50px;

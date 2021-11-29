@@ -96,7 +96,7 @@ export default class VampireTheMasquerade extends React.Component
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
-					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Attributes attributes={this.state.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">

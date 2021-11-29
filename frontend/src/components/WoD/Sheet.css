@@ -21,12 +21,7 @@
 .sheet > .column > * { margin: 10px 0; }
 .sheet > .column > *:first-child { margin-top: 0; }
 .sheet > .column > *:last-child { margin-bottom: 0; }
-
-.sheet > .column hr
-{
-	margin: 0;
-	border-color: #A9ABB0;
-}
+.sheet > .column hr { margin: 0; }
 
 .sheet .trackers > *
 {

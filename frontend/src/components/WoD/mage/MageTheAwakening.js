@@ -6,8 +6,7 @@ import Checker from '../../core/Checker'
 import Tracker from '../Tracker'
 import Attributes from '../Attributes'
 import Skills from '../Skills'
-
-const DefaultHealthValue = 3;
+import Details from './Details'
 
 const EmptySheet = {
 	attributes: {
@@ -76,10 +75,13 @@ const EmptySheet = {
 			lethal: 0,
 			aggravated: 0
 		},
+		gnosis: 1,
 		manaSpent: 0,
 		willpowerSpent: 0
 	}
 }
+
+const DefaultHealthValue = 3
 
 export default class MageTheAwakening extends React.Component
 {
@@ -87,6 +89,7 @@ export default class MageTheAwakening extends React.Component
 	{
 		super(props)
 		this.state = Object.assign({}, EmptySheet)
+		
 		this.unlisteners = {
 			clearSheet: null,
 			loadSheet: null
@@ -106,15 +109,18 @@ export default class MageTheAwakening extends React.Component
 		return (
 			<div className="sheet mageTheAwakening">
 				<div className="column">
-					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
 					<hr />
-					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
+					<Attributes attributes={this.state.attributes} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<hr />
+					<Skills skills={this.state.skills} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
 						<Tracker keyWord="health" label="Health" className="healthTracker" type={Tracker.Types.Multi} max={DefaultHealthValue + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.lethal, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
 						<Tracker keyWord="willpower" label="Willpower" className="willpowerTracker" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
 						<Tracker keyWord="mana" label="Mana" className="manaTracker" type={Tracker.Types.Single} max="10" spent={this.state.trackers.manaSpent} changeHandler={(value) => this.manaChangeHandler(value)} />
+						<Tracker keyWord="gnosis" label="Gnosis" className="gnosisTracker" type={Tracker.Types.Circle} max="10" value={this.state.trackers.gnosis} changeHandler={(value) => this.gnosisChangeHandler(value)} />
 					</div>
 				</div>
 			</div>
@@ -137,6 +143,18 @@ export default class MageTheAwakening extends React.Component
 	clearSheetHandler()
 	{
 		this.setState(() => Object.assign({}, EmptySheet))
+	}
+	
+	detailsChangeHandler(obj)
+	{
+		let newState = {
+			details: {...this.state.details}
+		}
+		Object.keys(obj).forEach(key => {
+			if(Object.keys(newState.details).indexOf(key) > -1)
+				newState.details[key] = obj[key]
+		})
+		this.setState(() => { return newState })
 	}
 	
 	healthChangeHandler(lineStatus)
@@ -182,6 +200,17 @@ export default class MageTheAwakening extends React.Component
 			if(newState !== null)
 				this.setState(() => { return newState })
 		}
+	}
+	
+	gnosisChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.gnosis = value === this.state.trackers.gnosis ? value - 1 : value
+		if(newState.trackers.gnosis < 1)
+			newState.trackers.gnosis = 1
+		this.setState(() => { return newState })
 	}
 	
 	manaChangeHandler(value)

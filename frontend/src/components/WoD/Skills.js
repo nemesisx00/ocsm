@@ -20,14 +20,14 @@ export default class Skills extends React.Component
 						<div className="label">Science:</div>
 					</div>
 					<div className="column">
-						<Tracker keyWord="academics" className="dots academics" type={Tracker.Types.Circle} max="5" value={this.props.skills.academics} changeHandler={(arg) => this.props.changeHandler(arg, 'academics')} />
-						<Tracker keyWord="computer" className="dots computer" type={Tracker.Types.Circle} max="5" value={this.props.skills.computer} changeHandler={(arg) => this.props.changeHandler(arg, 'computer')} />
-						<Tracker keyWord="crafts" className="dots crafts" type={Tracker.Types.Circle} max="5" value={this.props.skills.crafts} changeHandler={(arg) => this.props.changeHandler(arg, 'crafts')} />
-						<Tracker keyWord="investigation" className="dots investigation" type={Tracker.Types.Circle} max="5" value={this.props.skills.investigation} changeHandler={(arg) => this.props.changeHandler(arg, 'investigation')} />
-						<Tracker keyWord="medicine" className="dots medicine" type={Tracker.Types.Circle} max="5" value={this.props.skills.medicine} changeHandler={(arg) => this.props.changeHandler(arg, 'medicine')} />
-						<Tracker keyWord="occult" className="dots occult" type={Tracker.Types.Circle} max="5" value={this.props.skills.occult} changeHandler={(arg) => this.props.changeHandler(arg, 'occult')} />
-						<Tracker keyWord="politics" className="dots politics" type={Tracker.Types.Circle} max="5" value={this.props.skills.politics} changeHandler={(arg) => this.props.changeHandler(arg, 'politics')} />
-						<Tracker keyWord="science" className="dots science" type={Tracker.Types.Circle} max="5" value={this.props.skills.science} changeHandler={(arg) => this.props.changeHandler(arg, 'science')} />
+						<Tracker keyWord="academics" className="spacer dots academics" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.academics} changeHandler={(arg) => this.props.changeHandler(arg, 'academics')} />
+						<Tracker keyWord="computer" className="spacer dots computer" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.computer} changeHandler={(arg) => this.props.changeHandler(arg, 'computer')} />
+						<Tracker keyWord="crafts" className="spacer dots crafts" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.crafts} changeHandler={(arg) => this.props.changeHandler(arg, 'crafts')} />
+						<Tracker keyWord="investigation" className="spacer dots investigation" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.investigation} changeHandler={(arg) => this.props.changeHandler(arg, 'investigation')} />
+						<Tracker keyWord="medicine" className="spacer dots medicine" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.medicine} changeHandler={(arg) => this.props.changeHandler(arg, 'medicine')} />
+						<Tracker keyWord="occult" className="spacer dots occult" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.occult} changeHandler={(arg) => this.props.changeHandler(arg, 'occult')} />
+						<Tracker keyWord="politics" className="spacer dots politics" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.politics} changeHandler={(arg) => this.props.changeHandler(arg, 'politics')} />
+						<Tracker keyWord="science" className="spacer dots science" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.science} changeHandler={(arg) => this.props.changeHandler(arg, 'science')} />
 					</div>
 				</div>
 				<div className="row">
@@ -42,14 +42,14 @@ export default class Skills extends React.Component
 						<div className="label">Weaponry:</div>
 					</div>
 					<div className="column">
-						<Tracker keyWord="athletics" className="dots athletics" type={Tracker.Types.Circle} max="5" value={this.props.skills.athletics} changeHandler={(arg) => this.props.changeHandler(arg, 'athletics')} />
-						<Tracker keyWord="brawl" className="dots brawl" type={Tracker.Types.Circle} max="5" value={this.props.skills.brawl} changeHandler={(arg) => this.props.changeHandler(arg, 'brawl')} />
-						<Tracker keyWord="drive" className="dots drive" type={Tracker.Types.Circle} max="5" value={this.props.skills.drive} changeHandler={(arg) => this.props.changeHandler(arg, 'drive')} />
-						<Tracker keyWord="firearms" className="dots firearms" type={Tracker.Types.Circle} max="5" value={this.props.skills.firearms} changeHandler={(arg) => this.props.changeHandler(arg, 'firearms')} />
-						<Tracker keyWord="larceny" className="dots larceny" type={Tracker.Types.Circle} max="5" value={this.props.skills.larceny} changeHandler={(arg) => this.props.changeHandler(arg, 'larceny')} />
-						<Tracker keyWord="stealth" className="dots stealth" type={Tracker.Types.Circle} max="5" value={this.props.skills.stealth} changeHandler={(arg) => this.props.changeHandler(arg, 'stealth')} />
-						<Tracker keyWord="survival" className="dots survival" type={Tracker.Types.Circle} max="5" value={this.props.skills.survival} changeHandler={(arg) => this.props.changeHandler(arg, 'survival')} />
-						<Tracker keyWord="weaponry" className="dots weaponry" type={Tracker.Types.Circle} max="5" value={this.props.skills.weaponry} changeHandler={(arg) => this.props.changeHandler(arg, 'weaponry')} />
+						<Tracker keyWord="athletics" className="spacer dots athletics" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.athletics} changeHandler={(arg) => this.props.changeHandler(arg, 'athletics')} />
+						<Tracker keyWord="brawl" className="spacer dots brawl" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.brawl} changeHandler={(arg) => this.props.changeHandler(arg, 'brawl')} />
+						<Tracker keyWord="drive" className="spacer dots drive" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.drive} changeHandler={(arg) => this.props.changeHandler(arg, 'drive')} />
+						<Tracker keyWord="firearms" className="spacer dots firearms" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.firearms} changeHandler={(arg) => this.props.changeHandler(arg, 'firearms')} />
+						<Tracker keyWord="larceny" className="spacer dots larceny" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.larceny} changeHandler={(arg) => this.props.changeHandler(arg, 'larceny')} />
+						<Tracker keyWord="stealth" className="spacer dots stealth" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.stealth} changeHandler={(arg) => this.props.changeHandler(arg, 'stealth')} />
+						<Tracker keyWord="survival" className="spacer dots survival" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.survival} changeHandler={(arg) => this.props.changeHandler(arg, 'survival')} />
+						<Tracker keyWord="weaponry" className="spacer dots weaponry" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.weaponry} changeHandler={(arg) => this.props.changeHandler(arg, 'weaponry')} />
 					</div>
 				</div>
 				<div className="row">
@@ -64,14 +64,14 @@ export default class Skills extends React.Component
 						<div className="label">Subterfuge:</div>
 					</div>
 					<div className="column">
-						<Tracker keyWord="animalKen" className="dots animalKen" type={Tracker.Types.Circle} max="5" value={this.props.skills.animalKen} changeHandler={(arg) => this.props.changeHandler(arg, 'animalKen')} />
-						<Tracker keyWord="empathy" className="dots empathy" type={Tracker.Types.Circle} max="5" value={this.props.skills.empathy} changeHandler={(arg) => this.props.changeHandler(arg, 'empathy')} />
-						<Tracker keyWord="expression" className="dots expression" type={Tracker.Types.Circle} max="5" value={this.props.skills.expression} changeHandler={(arg) => this.props.changeHandler(arg, 'expression')} />
-						<Tracker keyWord="intimidation" className="dots intimidation" type={Tracker.Types.Circle} max="5" value={this.props.skills.intimidation} changeHandler={(arg) => this.props.changeHandler(arg, 'intimidation')} />
-						<Tracker keyWord="persuasion" className="dots persuasion" type={Tracker.Types.Circle} max="5" value={this.props.skills.persuasion} changeHandler={(arg) => this.props.changeHandler(arg, 'persuasion')} />
-						<Tracker keyWord="socialize" className="dots socialize" type={Tracker.Types.Circle} max="5" value={this.props.skills.socialize} changeHandler={(arg) => this.props.changeHandler(arg, 'socialize')} />
-						<Tracker keyWord="streetwise" className="dots streetwise" type={Tracker.Types.Circle} max="5" value={this.props.skills.streetwise} changeHandler={(arg) => this.props.changeHandler(arg, 'streetwise')} />
-						<Tracker keyWord="subterfuge" className="dots subterfuge" type={Tracker.Types.Circle} max="5" value={this.props.skills.subterfuge} changeHandler={(arg) => this.props.changeHandler(arg, 'subterfuge')} />
+						<Tracker keyWord="animalKen" className="spacer dots animalKen" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.animalKen} changeHandler={(arg) => this.props.changeHandler(arg, 'animalKen')} />
+						<Tracker keyWord="empathy" className="spacer dots empathy" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.empathy} changeHandler={(arg) => this.props.changeHandler(arg, 'empathy')} />
+						<Tracker keyWord="expression" className="spacer dots expression" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.expression} changeHandler={(arg) => this.props.changeHandler(arg, 'expression')} />
+						<Tracker keyWord="intimidation" className="spacer dots intimidation" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.intimidation} changeHandler={(arg) => this.props.changeHandler(arg, 'intimidation')} />
+						<Tracker keyWord="persuasion" className="spacer dots persuasion" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.persuasion} changeHandler={(arg) => this.props.changeHandler(arg, 'persuasion')} />
+						<Tracker keyWord="socialize" className="spacer dots socialize" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.socialize} changeHandler={(arg) => this.props.changeHandler(arg, 'socialize')} />
+						<Tracker keyWord="streetwise" className="spacer dots streetwise" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.streetwise} changeHandler={(arg) => this.props.changeHandler(arg, 'streetwise')} />
+						<Tracker keyWord="subterfuge" className="spacer dots subterfuge" type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills.subterfuge} changeHandler={(arg) => this.props.changeHandler(arg, 'subterfuge')} />
 					</div>
 				</div>
 			</div>

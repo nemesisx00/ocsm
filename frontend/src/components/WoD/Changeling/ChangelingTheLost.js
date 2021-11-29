@@ -142,8 +142,8 @@ export default class ChangelingTheLost extends React.Component
 			<div className="sheet changelingTheLost">
 				<div className="column">
 					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
-					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
-					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
+					<Attributes attributes={this.state.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Skills skills={this.state.skills} max="5" changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 					<Contracts contracts={this.state.contracts} clickHandler={(contract) => this.contractsClickHandler(contract)} dotsHandler={(contract, value) => this.contractsDotsHandler(contract, value)} newHandler={() => this.contractsClickNewHandler()} />
 				</div>
 				<div className="column right">
