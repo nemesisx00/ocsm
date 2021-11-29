@@ -1,0 +1,36 @@
+.sheet
+{
+	display: flex;
+	flex-direction: row;
+}
+
+.sheet > .column
+{
+	flex-grow: 0;
+	justify-content: left;
+	
+	display: flex;
+	flex-direction: column;
+}
+.sheet > .column.right
+{
+	margin-left: 25px;
+	justify-content: right;
+}
+
+.sheet > .column > * { margin: 10px 0; }
+.sheet > .column > *:first-child { margin-top: 0; }
+.sheet > .column > *:last-child { margin-bottom: 0; }
+
+.sheet > .column hr
+{
+	margin: 0;
+	border-color: #A9ABB0;
+}
+
+.sheet .trackers > *
+{
+	margin: 5px 0;
+	min-width: 200px;
+}
+.sheet .trackers > *:first-child { margin-top: 0; }

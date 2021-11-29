@@ -1,6 +1,5 @@
 import './ContractDetails.css'
 import React from 'react'
-import FiveDots from '../../FiveDots'
 import {normalizeClassNames} from '../../../core/Utilities'
 
 const EmptyClause = {
@@ -90,12 +89,12 @@ export default class ContractDetails extends React.Component
 	generateDisplayView(clause, key)
 	{
 		let {mods, sits} = this.generateModifierLists(clause)
-		
+		//<DotsGroup value={clause.dots} valueChangedHandler={() => {}} />
 		return (
 			<div className={normalizeClassNames('contractDetails', this.props.className, this.state.currentTab === key ? 'selected' : '')} key={key}>
 				<div className="row">
 					{clause.label}
-					<FiveDots value={clause.dots} valueChangedHandler={() => {}} />
+					
 					<button onClick={() => this.toggleEditMode()}>Edit</button>
 				</div>
 				<hr />
@@ -136,12 +135,12 @@ export default class ContractDetails extends React.Component
 	generateEditView(clause, key)
 	{
 		let mods = this.generateModifierLists(clause)
-		
+		//<DotsGroup value={clause.dots} valueChangedHandler={(arg) => this.props.changeHandler(this.props.contract, clause, 'dots', arg)} />
 		return (
 			<div className={`contractDetails ${this.props.className}`} key={key}>
 				<div className="row">
 					<input type="text" value={clause.label} onChange={(e) => this.props.changeHandler(this.props.contract, clause, 'label', e.target.value)} />
-					<FiveDots value={clause.dots} valueChangedHandler={(arg) => this.props.changeHandler(this.props.contract, clause, 'dots', arg)} />
+					
 					<button onClick={() => this.toggleEditMode()}>Done</button>
 				</div>
 				<hr />

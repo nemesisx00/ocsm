@@ -1,6 +1,5 @@
 import './Contracts.css'
 import React from 'react'
-import FiveDots from '../../FiveDots'
 
 export default class ContractDetails extends React.Component
 {
@@ -38,9 +37,11 @@ export default class ContractDetails extends React.Component
 			out.labels.push(
 				(<div key={`label-${i}`} onClick={() => clickHandler(contract)}>{contract.label}</div>)
 			)
+			/*
 			out.dots.push(
-				(<FiveDots key={`label-${i}`} value={contract.dots} valueChangedHandler={(value) => dotsHandler(contract, value)} />)
+				(<DotsGroup key={`label-${i}`} value={contract.dots} valueChangedHandler={(value) => dotsHandler(contract, value)} />)
 			)
+			*/
 		})
 		
 		return out

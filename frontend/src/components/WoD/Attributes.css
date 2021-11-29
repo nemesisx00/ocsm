@@ -1,37 +1,29 @@
-.skills
+.attributes
 {
 	display: flex;
 	flex-direction: row;
 }
 
-.skills .mental,
-.skills .physical,
-.skills .social
-{
-	display: flex;
-	flex-direction: row;
-}
-
-.skills .column
+.attributes > .column
 {
 	display: flex;
 	flex-direction: column;
 }
 
-.skills .column > *
+.attributes > .column > *
 {
 	flex-grow: 1;
 	flex-shrink: 0;
 }
 
-.skills .column .label
+.attributes > .column .label
 {
 	text-align: left;
 	margin: 0 5px 0 15px;
 	user-select: none;
 }
 
-.skills .dots
+.attributes .dots
 {
 	display: flex;
 	flex-direction: row;
@@ -39,7 +31,7 @@
 	padding-top: 5px;
 }
 
-.skills .dots .checkDot
+.attributes .dots .checker
 {
 	flex-grow: 0;
 	flex-shrink: 0;

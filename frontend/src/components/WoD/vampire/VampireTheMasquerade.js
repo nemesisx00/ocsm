@@ -1,3 +1,4 @@
+import '../Sheet.css'
 import './VampireTheMasquerade.css'
 import React from 'react'
 import Checker from '../../core/Checker'

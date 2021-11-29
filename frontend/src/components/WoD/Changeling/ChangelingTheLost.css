@@ -1,33 +1,3 @@
-.sheet.changelingTheLost
-{
-	display: flex;
-	flex-direction: row;
-}
-
-.sheet.changelingTheLost > .column
-{
-	flex-grow: 1;
-	flex-basis: 50%;
-	justify-content: left;
-	
-	display: flex;
-	flex-direction: column;
-}
-.sheet.changelingTheLost > .column.right
-{
-	justify-content: right;
-}
-
-.sheet.changelingTheLost > .column > * { margin: 10px 0; }
-.sheet.changelingTheLost > .column > *:first-child { margin-top: 0; }
-.sheet.changelingTheLost > .column > *:last-child { margin-bottom: 0; }
-
-.sheet.changelingTheLost .trackers > *
-{
-	margin: 5px 0;
-}
-.sheet.changelingTheLost .trackers > *:first-child { margin-top: 0; }
-
 .sheet.changelingTheLost .fullscreenOverlay
 {
 	position: absolute;

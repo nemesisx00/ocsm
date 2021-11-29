@@ -1,15 +1,15 @@
+import '../Sheet.css'
 import './ChangelingTheLost.css'
+import { listen } from '@tauri-apps/api/event'
 import React from 'react'
 import Checker from '../../core/Checker'
 import Tracker from '../Tracker'
-import Attributes from './Attributes'
+import Attributes from '../Attributes'
 import Contracts from './complex/Contracts'
 import ContractDetails from './complex/ContractDetails'
 import CreateNewContract from './complex/CreateNewContract'
 import Details from './Details'
-import Skills from './Skills'
-import { WyrdGlamourIntervals } from './Enums'
-import { listen } from '@tauri-apps/api/event'
+import Skills from '../Skills'
 
 const EmptyContract = {
 	label: '',
@@ -90,6 +90,19 @@ const EmptySheet = {
 		createNewContract: false
 	}
 }
+
+const WyrdGlamourIntervals = Object.freeze({
+	1: 10,
+	2: 11,
+	3: 12,
+	4: 13,
+	5: 14,
+	6: 15,
+	7: 20,
+	8: 30,
+	9: 50,
+	10: 100
+})
 
 export default class ChangelingTheLost extends React.Component
 {

@@ -1,29 +1,30 @@
-.attributes
+.skills,
+.skills .row
 {
 	display: flex;
 	flex-direction: row;
 }
 
-.attributes > .column
+.skills .column
 {
 	display: flex;
 	flex-direction: column;
 }
 
-.attributes > .column > *
+.skills .column > *
 {
 	flex-grow: 1;
 	flex-shrink: 0;
 }
 
-.attributes > .column .label
+.skills .column .label
 {
 	text-align: left;
 	margin: 0 5px 0 15px;
 	user-select: none;
 }
 
-.attributes .dots
+.skills .dots
 {
 	display: flex;
 	flex-direction: row;
@@ -31,7 +32,7 @@
 	padding-top: 5px;
 }
 
-.attributes .dots .checkDot
+.skills .dots .checker
 {
 	flex-grow: 0;
 	flex-shrink: 0;

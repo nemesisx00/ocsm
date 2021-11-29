@@ -1,9 +1,11 @@
+import '../Sheet.css'
 import './MageTheAwakening.css'
 import { listen } from '@tauri-apps/api/event'
 import React from 'react'
 import Checker from '../../core/Checker'
 import Tracker from '../Tracker'
-import Attributes from './Attributes'
+import Attributes from '../Attributes'
+import Skills from '../Skills'
 
 const DefaultHealthValue = 3;
 
@@ -105,6 +107,8 @@ export default class MageTheAwakening extends React.Component
 			<div className="sheet mageTheAwakening">
 				<div className="column">
 					<Attributes attributes={this.state.attributes} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<hr />
+					<Skills skills={this.state.skills} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
@@ -186,6 +190,15 @@ export default class MageTheAwakening extends React.Component
 			trackers: {...this.state.trackers}
 		}
 		newState.trackers.manaSpent = value === this.state.trackers.manaSpent ? value - 1 : value
+		this.setState(() => { return newState })
+	}
+	
+	skillChangeHandler(value, skill)
+	{
+		let newState = {
+			skills: {...this.state.skills}
+		}
+		newState.skills[skill] = value === newState.skills[skill] ? value - 1 : value
 		this.setState(() => { return newState })
 	}
 	
