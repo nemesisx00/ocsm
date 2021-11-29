@@ -127,7 +127,7 @@ export default class MageTheAwakening extends React.Component
 		)
 	}
 	
-	//Child Component Event Handlers --------------------------------------------------
+	//Event Handlers --------------------------------------------------
 	
 	attributeChangeHandler(value, attribute)
 	{
