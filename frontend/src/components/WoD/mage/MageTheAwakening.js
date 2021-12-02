@@ -5,6 +5,7 @@ import React from 'react'
 import Checker from '../../core/Checker'
 import Tracker from '../Tracker'
 import Attributes from '../Attributes'
+import Merits from '../Merits'
 import Skills from '../Skills'
 import Details from './Details'
 
@@ -43,6 +44,9 @@ const EmptySheet = {
 		vice: '',
 		virtue: ''
 	},
+	merits: [
+		{ label: '', value: 0 }
+	],
 	skills: {
 		academics: 0,
 		animalKen: 0,
@@ -114,6 +118,8 @@ export default class MageTheAwakening extends React.Component
 					<Attributes attributes={this.state.attributes} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 					<hr />
 					<Skills skills={this.state.skills} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
+					<hr />
+					<Merits buttonLabel="New Merit" merits={this.state.merits} max="5" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
@@ -154,6 +160,17 @@ export default class MageTheAwakening extends React.Component
 			if(Object.keys(newState.details).indexOf(key) > -1)
 				newState.details[key] = obj[key]
 		})
+		this.setState(() => { return newState })
+	}
+	
+	gnosisChangeHandler(value)
+	{
+		let newState = {
+			trackers: {...this.state.trackers}
+		}
+		newState.trackers.gnosis = value === this.state.trackers.gnosis ? value - 1 : value
+		if(newState.trackers.gnosis < 1)
+			newState.trackers.gnosis = 1
 		this.setState(() => { return newState })
 	}
 	
@@ -202,23 +219,43 @@ export default class MageTheAwakening extends React.Component
 		}
 	}
 	
-	gnosisChangeHandler(value)
-	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
-		newState.trackers.gnosis = value === this.state.trackers.gnosis ? value - 1 : value
-		if(newState.trackers.gnosis < 1)
-			newState.trackers.gnosis = 1
-		this.setState(() => { return newState })
-	}
-	
 	manaChangeHandler(value)
 	{
 		let newState = {
 			trackers: {...this.state.trackers}
 		}
 		newState.trackers.manaSpent = value === this.state.trackers.manaSpent ? value - 1 : value
+		this.setState(() => { return newState })
+	}
+	
+	meritChangeHandler(index, key, value)
+	{
+		let newState = {
+			merits: [...this.state.merits]
+		}
+		
+		if(Merits.Keys.New === index)
+		{
+			newState.merits.push({
+				label:  Merits.Keys.Label === key ? value : '',
+				value: Merits.Keys.Value === key ? value : 0
+			})
+		}
+		else if(newState.merits.length > index)
+		{
+			switch(key)
+			{
+				case Merits.Keys.Label:
+					newState.merits[index].label = value
+					break
+				case Merits.Keys.Value:
+					newState.merits[index].value = value === newState.merits[index].value ? value - 1 : value
+					break
+				default:
+					break
+			}
+		}
+		
 		this.setState(() => { return newState })
 	}
 	

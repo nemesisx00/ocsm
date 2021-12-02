@@ -1,0 +1,9 @@
+.merit input
+{
+	flex-grow: 1;
+}
+
+.merit .tracker
+{
+	margin: 2px 0 2px 5px;
+}
