@@ -1,3 +1,11 @@
+.entryListLabel
+{
+	text-align: center;
+	font-size: 1.1em;
+	font-weight: bold;
+	user-select: none;
+}
+
 .entryList
 {
 	display: flex;
@@ -19,4 +27,5 @@
 	flex-shrink: 1;
 	margin: 7px auto 0;
 	padding: 5px 20px;
+	user-select: none;
 }

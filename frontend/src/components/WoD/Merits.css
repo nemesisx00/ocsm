@@ -1,3 +1,13 @@
+.entryList
+{
+	margin-top: 5px !important;
+}
+
+.merit
+{
+	justify-content: center;
+}
+
 .merit input
 {
 	flex-grow: 1;

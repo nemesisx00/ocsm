@@ -1,4 +1,25 @@
-.skills,
+.skillsWrapper
+{
+	display: flex;
+	flex-direction: column;
+	margin-top: 5px !important;
+}
+
+.skillsLabel
+{
+	text-align: center;
+	font-size: 1.1em;
+	font-weight: bold;
+	user-select: none;
+}
+
+.skills
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
 .skills .row
 {
 	display: flex;
@@ -20,7 +41,7 @@
 .skills .column .label
 {
 	text-align: left;
-	margin: 0 5px 0 15px;
+	margin: 0 3px 0 15px;
 	user-select: none;
 }
 
@@ -29,7 +50,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	padding-top: 5px;
+	padding-top: 6px;
 }
 
 .skills .dots .checker

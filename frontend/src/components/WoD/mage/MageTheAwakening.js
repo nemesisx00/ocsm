@@ -114,12 +114,11 @@ export default class MageTheAwakening extends React.Component
 			<div className="sheet mageTheAwakening">
 				<div className="column">
 					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
-					<hr />
 					<Attributes attributes={this.state.attributes} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 					<hr />
 					<Skills skills={this.state.skills} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 					<hr />
-					<Merits buttonLabel="New Merit" merits={this.state.merits} max="5" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
+					<Merits buttonLabel="New Merit" merits={this.state.merits} max="5" title="Merits" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">

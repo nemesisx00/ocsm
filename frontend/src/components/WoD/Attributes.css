@@ -1,7 +1,24 @@
+.attributesWrapper
+{
+	display: flex;
+	flex-direction: column;
+	margin-top: 5px !important;
+}
+
+.attributesLabel
+{
+	text-align: center;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin-bottom: 5px;
+	user-select: none;
+}
+
 .attributes
 {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 }
 
 .attributes > .column

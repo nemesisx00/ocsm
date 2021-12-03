@@ -11,6 +11,7 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
+.tracker .checkerLine:nth-child(n+1) { margin-top: 5px; }
 
 .tracker .checkerLine .checker
 {
@@ -19,5 +20,6 @@
 	margin: 0 2px;
 }
 
+.tracker.spacer .checkerLine:nth-child(n+1) { margin-top: 0; }
 .tracker.spacer .checkerLine .checker:nth-child(5n) { margin-right: 10px; }
 .tracker.spacer .checkerLine .checker:last-child { margin-right: 2px; }

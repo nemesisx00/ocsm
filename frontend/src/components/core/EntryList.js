@@ -9,6 +9,7 @@ export default class EntryList extends React.Component
 		
 		return (
 			<div className="entryList">
+				<div className="entryListLabel">{this.props.title}</div>
 				{entries}
 				<button className="newEntryButton" onClick={() => this.addNewEntry()}>{this.props.buttonLabel}</button>
 			</div>
