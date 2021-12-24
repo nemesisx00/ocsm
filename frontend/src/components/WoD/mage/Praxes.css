@@ -1,4 +1,4 @@
-.merit
+.praxis
 {
 	flex-grow: 0;
 	justify-content: space-evenly;
@@ -6,5 +6,5 @@
 	margin: 5px 0;
 }
 
-.merit input { flex-grow: 1; }
-.merit .dots { margin-left: 10px; }
+.praxis .arcanum { margin: 0 3px 0 5px; }
+.praxis .spell { flex-grow: 1; }

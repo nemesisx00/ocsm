@@ -88,9 +88,9 @@ fn ClearSheet(window: &Window)
 
 fn EmitSave(window: &Window)
 {
-	match window.emit("doSaveSheet", true) {
-		Err(e) => { println!("Error emitting `doSaveSheet` event: {:#?}", e.to_string()); }
-		Ok(result) => { println!("Succeeded in emitting `doSaveSheet` event: {:#?}", result); }
+	match window.emit("saveSheet", true) {
+		Err(e) => { println!("Error emitting `saveSheet` event: {:#?}", e.to_string()); }
+		Ok(result) => { println!("Succeeded in emitting `saveSheet` event: {:#?}", result); }
 	}
 }
 

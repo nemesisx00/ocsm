@@ -32,7 +32,7 @@ class Arcanum extends React.Component
 				<option value="">&nbsp;</option>
 				{this.generateOptions()}
 			</select>
-			<Tracker keyWord={this.props.label} className={normalizeClassNames(`dots long ${this.props.label}`)} type={Tracker.Types.Circle} max={this.props.max} value={this.props.value} changeHandler={(value) => this.props.changeHandler(this.props.index, ArcanaKeys.Value, value)} />
+			<Tracker keyWord={this.props.type} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${this.props.type}`)} type={Tracker.Types.Circle} max={this.props.max} value={this.props.value} changeHandler={(value) => this.props.changeHandler(this.props.index, ArcanaKeys.Value, value)} />
 		</div>)
 	}
 	

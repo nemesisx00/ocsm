@@ -9,9 +9,11 @@ import Attributes from '../Attributes'
 import Merits from '../Merits'
 import Skills from '../Skills'
 import { compareStrings } from '../../core/Utilities'
-import Details from './Details'
+import ActiveSpells from './ActiveSpells'
 import Arcana from './Arcana'
+import Details from './Details'
 import Rotes from './Rotes'
+import Praxes from './Praxes'
 
 const EmptySheet = {
 	attributes: {
@@ -25,6 +27,7 @@ const EmptySheet = {
 		strength: 1,
 		wits: 1
 	},
+	activeSpells: [],
 	arcana: [
 		{ type: '', value: 0 }
 	],
@@ -41,6 +44,9 @@ const EmptySheet = {
 	},
 	merits: [
 		{ label: '', value: 0 }
+	],
+	praxes: [
+		{ arcanum: '', level: 0, spell: '' }
 	],
 	rotes: [
 		{ arcanum: '', level: 0, spell: '', creator: '', skill: '' }
@@ -110,7 +116,7 @@ export default class MageTheAwakening extends React.Component
 		this.unlisteners = {
 			clearSheet: null,
 			loadSheet: null,
-			doSaveSheet: null
+			saveSheet: null
 		}
 	}
 	
@@ -118,37 +124,47 @@ export default class MageTheAwakening extends React.Component
 	{
 		this.unlisteners.clearSheet = listen('clearSheet', () => this.clearSheetHandler())
 		this.unlisteners.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
-		this.unlisteners.doSaveSheet = listen('doSaveSheet', () => this.doSaveSheetHandler())
+		this.unlisteners.saveSheet = listen('saveSheet', () => this.saveSheetHandler())
 	}
 	
 	render()
 	{
 		//TODO: Remove this console.log call when it is no longer necessary
 		console.log(this.state)
+		
+		this.updateActiveSpellsNumber()
+		
 		return (
 			<div className="sheet mageTheAwakening">
-				<div className="column spacedOut">
+				<div className="column">
 					<div className="row">
-						<div className="column spacedOut">
+						<div className="column">
 							<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
-							<Attributes attributes={this.state.attributes} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
-							<hr />
-							<Skills skills={this.state.skills} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 						</div>
-						<div className="column right trackers">
+						<div className="column arcana">
+							<Arcana buttonLabel="New Arcana" arcana={this.state.arcana} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} title="Arcana" changeHandler={(index, key, value) => this.arcanaChangeHandler(index, key, value)} />
+						</div>
+						<div className="column trackers">
 							<Tracker keyWord="health" label="Health" className="healthTracker" type={Tracker.Types.Multi} max={DefaultHealthValue + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.lethal, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
 							<Tracker keyWord="willpower" label="Willpower" className="willpowerTracker" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
 							<Tracker keyWord="mana" label="Mana" className="manaTracker" type={Tracker.Types.Single} max={ManaGnosisScale[this.state.trackers.gnosis]} spent={this.state.trackers.manaSpent} changeHandler={(value) => this.manaChangeHandler(value)} />
 							<Tracker keyWord="gnosis" label="Gnosis" className="gnosisTracker" type={Tracker.Types.Circle} max="10" value={this.state.trackers.gnosis} changeHandler={(value) => this.gnosisChangeHandler(value)} />
 							<Tracker keyWord="wisdom" label="Wisdom" className="wisdomTracker" type={Tracker.Types.Circle} max="10" value={this.state.trackers.wisdom} changeHandler={(value) => this.wisdomChangeHandler(value)} />
-							<hr />
-							<Arcana buttonLabel="New Arcana" arcana={this.state.arcana} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} title="Arcana" changeHandler={(index, key, value) => this.arcanaChangeHandler(index, key, value)} />
 						</div>
 					</div>
+					<hr />
+					<Attributes attributes={this.state.attributes} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<hr />
+					<Skills skills={this.state.skills} max={this.state.trackers.gnosis > 5 ? this.state.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 					<hr />
 					<Merits buttonLabel="New Merit" merits={this.state.merits} max="5" title="Merits" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
 					<hr />
 					<Rotes buttonLabel="New Rote" rotes={this.state.rotes} max="5" title="Rotes" changeHandler={(index, key, value) => this.roteChangeHandler(index, key, value)} />
+					<hr />
+					<div className="row">
+						<ActiveSpells title="Active Spells" activeSpells={this.state.activeSpells} changeHandler={(index, key, value) => this.activeSpellChangeHandler(index, key, value)} />
+						<Praxes buttonLabel="New Praxis" title="Praxes" praxes={this.state.praxes} max="5" changeHandler={(index, key, value) => this.praxesChangeHandler(index, key, value)} />
+					</div>
 				</div>
 			</div>
 		)
@@ -170,7 +186,41 @@ export default class MageTheAwakening extends React.Component
 		})
 	}
 	
+	updateActiveSpellsNumber()
+	{
+		if(this.state.activeSpells.length > this.state.trackers.gnosis)
+		{
+			let newActiveSpells = []
+			this.state.activeSpells.forEach((spell, i) => {
+				if(i < this.state.trackers.gnosis)
+					newActiveSpells.push(spell)
+			})
+			this.setState(() => { return { activeSpells: newActiveSpells } })
+		}
+		
+		if(this.state.activeSpells.length < this.state.trackers.gnosis)
+		{
+			let newActiveSpells = [...this.state.activeSpells]
+			for(let i = 0; i < this.state.trackers.gnosis - this.state.activeSpells.length; i++)
+			{
+				newActiveSpells.push('')
+			}
+			this.setState(() => { return { activeSpells: newActiveSpells } })
+		}
+	}
+	
 	//Event Handlers --------------------------------------------------
+	
+	activeSpellChangeHandler(index, key, value)
+	{
+		let newState = {
+			activeSpells: [...this.state.activeSpells]
+		}
+		
+		newState.activeSpells[index] = value
+		
+		this.setState(() => { return newState })
+	}
 	
 	arcanaChangeHandler(index, key, value)
 	{
@@ -244,6 +294,7 @@ export default class MageTheAwakening extends React.Component
 			newState.trackers.gnosis = 1
 		if(newState.trackers.manaSpent > ManaGnosisScale[newState.trackers.gnosis])
 			newState.trackers.manaSpent = ManaGnosisScale[newState.trackers.gnosis]
+		
 		this.setState(() => { return newState })
 	}
 	
@@ -348,6 +399,7 @@ export default class MageTheAwakening extends React.Component
 					newState.rotes[index].arcanum = value
 					break
 				case Rotes.Keys.Creator:
+					newState.rotes[index].creator = value
 					break
 				case Rotes.Keys.Level:
 					newState.rotes[index].level = value === newState.rotes[index].level ? value - 1 : value
@@ -357,6 +409,41 @@ export default class MageTheAwakening extends React.Component
 					break
 				case Rotes.Keys.Spell:
 					newState.rotes[index].spell = value
+					break
+				default:
+					break
+			}
+		}
+		
+		this.setState(() => { return newState })
+	}
+	
+	praxesChangeHandler(index, key, value)
+	{
+		let newState = {
+			praxes: [...this.state.praxes]
+		}
+		
+		if(Praxes.Keys.New === index)
+		{
+			newState.praxes.push({
+				arcanum:  Praxes.Keys.Arcanum === key ? value : '',
+				level: Praxes.Keys.Level === key ? value : 0,
+				spell: Praxes.Keys.Spell === key ? value : ''
+			})
+		}
+		else if(newState.praxes.length > index)
+		{
+			switch(key)
+			{
+				case Praxes.Keys.Arcanum:
+					newState.praxes[index].arcanum = value
+					break
+				case Praxes.Keys.Level:
+					newState.praxes[index].level = value === newState.praxes[index].level ? value - 1 : value
+					break
+				case Praxes.Keys.Spell:
+					newState.praxes[index].spell = value
 					break
 				default:
 					break
@@ -413,12 +500,13 @@ export default class MageTheAwakening extends React.Component
 			if(newState !== null)
 			{
 				this.setState(() => { return newState })
+				
 				this.sortRotes()
 			}
 		}
 	}
 	
-	doSaveSheetHandler()
+	saveSheetHandler()
 	{
 		console.log('saveSheet event caught!')
 		invoke('SaveSheet', { state: JSON.stringify(this.state) })

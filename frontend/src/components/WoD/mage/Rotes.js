@@ -15,36 +15,24 @@ const RoteKeys = Object.freeze({
 	Spell: 'spell'
 })
 
-class RoteColumnLabels extends React.Component
-{
-	render()
-	{
-		return (<div className="entry rote">
-			<div className="arcanum">Arcanum</div>
-			<div className="level">Level</div>
-			<div className="spell">Spell</div>
-			<div className="creator">Creator</div>
-			<div className="skill">Rote Skill</div>
-		</div>)
-	}
-}
-
 class Rote extends React.Component
 {
 	render()
 	{
 		return (<div className="entry rote">
+			<label for="spell">Spell:</label>
+			<input name="spell" type="text" className="spell" value={this.props.spell} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Spell, event.target.value)} />
 			<select name="arcanum" className="arcanum" value={this.props.arcanum} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Arcanum, event.target.value)}>
 				<option value="">&nbsp;</option>
 				{this.generateArcanaOptions()}
 			</select>
 			<Tracker keyWord={this.props.label} className="dots long level" type={Tracker.Types.Circle} max={this.props.max} value={this.props.level} changeHandler={(value) => this.props.changeHandler(this.props.index, RoteKeys.Level, value)} />
-			<input type="text" className="spell" value={this.props.spell} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Spell, event.target.value)} />
-			<input type="text" className="creator" value={this.props.creator} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Creator, event.target.value)} />
 			<select name="roteSkill" className="skill" value={this.props.skill} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Skill, event.target.value)}>
 				<option value="">&nbsp;</option>
 				{this.generateSkillOptions()}
 			</select>
+			<label for="creator">Creator:</label>
+			<input name="creator" type="text" className="creator" value={this.props.creator} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Creator, event.target.value)} />
 		</div>)
 	}
 	
@@ -79,9 +67,7 @@ class Rotes extends EntryList
 {
 	generateEntries()
 	{
-		let entries = [
-			<RoteColumnLabels key={`rote-labels-1`} />
-		]
+		let entries = []
 		
 		this.props.rotes.forEach((rote, i) => {
 			entries.push(<Rote key={`rote-${i}`} index={i} arcanum={rote.arcanum} creator={rote.creator} level={rote.level} skill={rote.skill} spell={rote.spell} max={this.props.max} changeHandler={(index, key, value) => this.props.changeHandler(index, key, value)} />)

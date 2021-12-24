@@ -1,20 +1,10 @@
-.entryList
-{
-	margin-top: 5px !important;
-}
-
 .arcanum
 {
 	flex-grow: 0;
-	justify-content: center;
+	justify-content: space-evenly;
+	height: 25px;
+	margin: 5px 0;
 }
 
-.arcanum input
-{
-	flex-grow: 1;
-}
-
-.arcanum .tracker
-{
-	margin: 2px 0 2px 5px;
-}
+.arcanum input { flex-grow: 1; }
+.arcanum .dots.extended .checkerLine { margin-top: 0; }

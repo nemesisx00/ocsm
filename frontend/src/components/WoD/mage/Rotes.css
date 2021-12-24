@@ -1,29 +1,10 @@
-.entryList
-{
-	margin-top: 5px !important;
-}
-
 .rote
 {
 	flex-grow: 0;
-	justify-content: center;
+	justify-content: space-evenly;
+	height: 25px;
+	margin: 5px 0;
 }
 
-.rote *
-{
-	flex-grow: 1;
-}
-
-.rote input { margin-right: 10px; }
-
-/* TODO: Dynamically position the label row elements over their respective inputs */
-.rote .arcanum { max-width: 105px; }
-.rote .level { max-width: 120px; }
-.rote .spell { max-width: 214px; margin-right: 10px; }
-.rote .creator { max-width: 214px; margin-right: 10px; }
-.rote .skill { max-width: 140px; }
-
-.rote .tracker
-{
-	padding-bottom: 4px;
-}
+.rote label { text-align: right; }
+.rote .arcanum { margin: 0; }
