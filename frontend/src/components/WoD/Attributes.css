@@ -18,25 +18,21 @@
 {
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: space-evenly;
 }
 
 .attributes > .column
 {
+	flex-grow: 0;
 	display: flex;
 	flex-direction: column;
 }
 
-.attributes > .column > *
+.attributes > .column .tracker .label
 {
 	flex-grow: 1;
-	flex-shrink: 0;
-}
-
-.attributes > .column .label
-{
 	text-align: left;
-	margin: 0 5px 0 15px;
+	margin: 0 10px 0 0;
 	user-select: none;
 }
 
@@ -45,8 +41,11 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	padding-top: 5px;
 }
+.attributes .dots.extended { padding-top: 5px; }
+
+.attributes .dots .checkerLine { margin-top: 6px; }
+.attributes .dots.extended .checkerLine { margin-top: 0; }
 
 .attributes .dots .checker
 {

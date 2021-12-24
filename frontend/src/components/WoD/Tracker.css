@@ -20,6 +20,12 @@
 	margin: 0 2px;
 }
 
-.tracker.spacer .checkerLine:nth-child(n+1) { margin-top: 0; }
-.tracker.spacer .checkerLine .checker:nth-child(5n) { margin-right: 10px; }
-.tracker.spacer .checkerLine .checker:last-child { margin-right: 2px; }
+.tracker.extended .checkerLine
+{
+	max-width: 80px;
+    flex-wrap: wrap;
+}
+
+.tracker.extended .checkerLine .checker:nth-child(n + 6) { margin-top: 2px; }
+
+.tracker.long .checkerLine .checker:nth-child(6) { margin-left: 10px; }

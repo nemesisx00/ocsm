@@ -3,19 +3,18 @@
 	margin-top: 5px !important;
 }
 
-.merit
+.arcanum
 {
 	flex-grow: 0;
 	justify-content: center;
 }
 
-.merit input
+.arcanum input
 {
 	flex-grow: 1;
-	max-width: 75%;
 }
 
-.merit .tracker
+.arcanum .tracker
 {
-	margin: -2px 0 2px 5px;
+	margin: 2px 0 2px 5px;
 }

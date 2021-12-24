@@ -4,24 +4,37 @@
 	flex-direction: row;
 }
 
-.sheet > .column
+.sheet .column
 {
-	flex-grow: 0;
-	justify-content: left;
+	flex-grow: 1;
+	justify-content: space-evenly;
 	
 	display: flex;
 	flex-direction: column;
+	justify-content: left;	
 }
-.sheet > .column.right
+
+.sheet .column.right
 {
 	margin-left: 25px;
 	justify-content: right;
 }
 
-.sheet > .column > * { margin: 10px 0; }
-.sheet > .column > *:first-child { margin-top: 0; }
-.sheet > .column > *:last-child { margin-bottom: 0; }
-.sheet > .column hr { margin: 0; }
+.sheet .column.spacedOut > * { margin: 10px 0; }
+.sheet .column.spacedOut > *:first-child { margin-top: 0; }
+.sheet .column.spacedOut > *:last-child { margin-bottom: 0; }
+
+.sheet .column hr { margin: 0; }
+
+.sheet .row
+{
+	flex-grow: 0;
+	justify-content: space-evenly;
+	
+	display: flex;
+	flex-direction: row;
+}
+.sheet .row.fill > * { flex-grow: 1; }
 
 .sheet .trackers > *
 {

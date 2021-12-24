@@ -5,7 +5,10 @@
 )]
 
 use std::{
-	fs::{read_to_string}
+	fs::{
+		read_to_string,
+		write
+	}
 };
 use tauri::{
 	api::dialog::{FileDialogBuilder},
@@ -15,8 +18,11 @@ use tauri::{
 	Submenu,
 	Window
 };
+use serde::{
+	Serialize
+};
 
-#[derive(Clone, serde::Serialize)]
+#[derive(Clone, Serialize)]
 struct ContextPayload {
 	context: String
 }
@@ -32,10 +38,11 @@ fn main()
 					event.window().close().unwrap();
 				}
 				"clear" => { ClearSheet(event.window())}
-				"load" => { LoadFromFile(event.window()); }
 				"contextCtl" => { NewSheet(event.window(), "ChangelingTheLost".into()); }
 				"contextMta" => { NewSheet(event.window(), "MageTheAwakening".into()); }
 				"contextVtm" => { NewSheet(event.window(), "VampireTheMasquerade".into()); }
+				"load" => { LoadFromFile(event.window()); }
+				"save" => { EmitSave(event.window()); }
 				_ => {}
 			}
 		})
@@ -45,9 +52,10 @@ fn main()
 }
 
 #[command]
-fn SaveSheet()
+fn SaveSheet(window: Window, state: String)
 {
-	//Accept json payload and save to file
+	println!("Received the SaveSheet event!");
+	SaveToFile(state);
 }
 
 fn BuildMenu() -> Menu
@@ -59,6 +67,7 @@ fn BuildMenu() -> Menu
 	
 	let fileMenu = Submenu::new("File", Menu::new()
 					.add_submenu(newMenu)
+					.add_item(CustomMenuItem::new("save".to_string(), "Save"))
 					.add_item(CustomMenuItem::new("clear".to_string(), "Clear Sheet"))
 					.add_item(CustomMenuItem::new("load".to_string(), "Load"))
 					.add_item(CustomMenuItem::new("exit".to_string(), "Exit")));
@@ -74,6 +83,14 @@ fn ClearSheet(window: &Window)
 	match window.emit("clearSheet", "") {
 		Err(e) => { println!("Error clearing sheet: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in clearing sheet: {:#?}", result); }
+	}
+}
+
+fn EmitSave(window: &Window)
+{
+	match window.emit("doSaveSheet", true) {
+		Err(e) => { println!("Error emitting `doSaveSheet` event: {:#?}", e.to_string()); }
+		Ok(result) => { println!("Succeeded in emitting `doSaveSheet` event: {:#?}", result); }
 	}
 }
 
@@ -106,5 +123,23 @@ fn NewSheet(window: &Window, context: String)
 	match window.emit("newSheet", ContextPayload { context: context }) {
 		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
+	}
+}
+
+fn SaveToFile(state: String)
+{
+	match FileDialogBuilder::default()
+		.add_filter("JSON", &["json"])
+		.save_file()
+	{
+		None => {
+			println!("Either no file was selected or there was a problem with the file dialog.");
+		}
+		Some(p) => {
+			match write(p, state) {
+				Err(e) => { println!("Error writing to file: {:#?}", e.to_string()); }
+				Ok(result) => { println!("Succeeded in writing to file: {:#?}", result); }
+			}
+		}
 	}
 }

@@ -2,6 +2,7 @@ import './Merits.css'
 import React from 'react'
 import EntryList from '../core/EntryList'
 import Tracker from './Tracker'
+import { normalizeClassNames } from '../core/Utilities'
 
 const MeritKeys = Object.freeze({
 	Label: 'label',
@@ -14,8 +15,8 @@ class Merit extends React.Component
 	render()
 	{
 		return (<div className="entry merit">
-			<input type="text" value={this.props.label} onChange={(e) => this.props.changeHandler(this.props.index, MeritKeys.Label, e.target.value)} />
-			<Tracker keyWord={this.props.label} className="dots merit" type={Tracker.Types.Circle} max={this.props.max} value={this.props.value} changeHandler={(value) => this.props.changeHandler(this.props.index, MeritKeys.Value, value)} />
+			<input type="text" value={this.props.label} onChange={(event) => this.props.changeHandler(this.props.index, MeritKeys.Label, event.target.value)} />
+			<Tracker keyWord={this.props.label} className={normalizeClassNames(`dots ${this.props.label}`)} type={Tracker.Types.Circle} max={this.props.max} value={this.props.value} changeHandler={(value) => this.props.changeHandler(this.props.index, MeritKeys.Value, value)} />
 		</div>)
 	}
 }

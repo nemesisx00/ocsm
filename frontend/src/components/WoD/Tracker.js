@@ -55,7 +55,7 @@ class Tracker extends React.Component
 		
 		return (
 			<div className={normalizeClassNames(`tracker ${this.props.className ? this.props.className : ''}`)}>
-				{this.props.label ? <p className="label">{this.props.label}</p> : ''}
+				{this.props.label ? <div className="label">{this.props.label}</div> : ''}
 				{output}
 			</div>
 		)
