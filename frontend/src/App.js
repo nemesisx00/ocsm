@@ -43,7 +43,8 @@ class App extends React.Component
 	
 	render()
 	{
-		console.log(this.state)
+		//TODO: Remove this console.log call when it is no longer necessary
+		console.log(this.state.sheetState)
 		let sheet = null
 		switch(this.state.context)
 		{
@@ -71,9 +72,26 @@ class App extends React.Component
 	{
 		if(event.payload.context)
 		{
-			this.setState(() => {
-				return { context: event.payload.context }
-			})
+			let newState = {
+				context: event.payload.context,
+				sheetState: null
+			}
+			
+			switch(newState.context)
+			{
+				case Contexts.WoD.CtL:
+					newState.sheetState = ChangelingTheLost.EmptySheet
+					break
+				case Contexts.WoD.MtA:
+					newState.sheetState = MageTheAwakening.EmptySheet
+					break
+				case Contexts.WoD.VtM:
+					newState.sheetState = VampireTheMasquerade.EmptySheet
+					break
+				default:
+			}
+			
+			this.setState(() => { return newState })
 		}
 	}
 	
@@ -100,13 +118,6 @@ class App extends React.Component
 	{
 		console.log('Invoking backend SaveSheet event!')
 		invoke('SaveSheet', { context: this.state.context, state: JSON.stringify(this.state.sheetState) })
-	}
-	
-	updateContext(newContext)
-	{
-		let newState = {...this.state}
-		newState.context = newContext
-		this.setState(() => { return newState })
 	}
 	
 	updateSheetStateHandler(sheetState)
