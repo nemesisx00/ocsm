@@ -20,7 +20,7 @@ class Rote extends React.Component
 	render()
 	{
 		return (<div className="entry rote">
-			<label for="spell">Spell:</label>
+			<label>Spell:</label>
 			<input name="spell" type="text" className="spell" value={this.props.spell} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Spell, event.target.value)} />
 			<select name="arcanum" className="arcanum" value={this.props.arcanum} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Arcanum, event.target.value)}>
 				<option value="">&nbsp;</option>
@@ -31,7 +31,7 @@ class Rote extends React.Component
 				<option value="">&nbsp;</option>
 				{this.generateSkillOptions()}
 			</select>
-			<label for="creator">Creator:</label>
+			<label>Creator:</label>
 			<input name="creator" type="text" className="creator" value={this.props.creator} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Creator, event.target.value)} />
 		</div>)
 	}
