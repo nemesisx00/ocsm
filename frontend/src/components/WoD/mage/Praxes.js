@@ -31,9 +31,9 @@ class Praxis extends React.Component
 		let out = []
 		Object.entries(Arcana.Types)
 			.sort((a, b) => compareStrings(a[1], b[1]))
-			.forEach(entry => {
+			.forEach((entry, i) => {
 				let [label, value] = entry
-				out.push((<option value={value}>{label}</option>))
+				out.push((<option key={`arcanum-${i}`} value={value}>{label}</option>))
 			})
 		
 		return out

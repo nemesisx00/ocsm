@@ -66,7 +66,7 @@ class Tracker extends React.Component
 		let checkers = []
 		for(let i = 0; i < this.props.max; i++)
 		{
-			checkers.push(<Checker type={Checker.Types.Circle} checked={this.props.value > i} clickHandler={() => this.props.changeHandler(i + 1)} />)
+			checkers.push(<Checker key={`${this.props.keyWord}-${i}`} type={Checker.Types.Circle} checked={this.props.value > i} clickHandler={() => this.props.changeHandler(i + 1)} />)
 		}
 		
 		return checkers

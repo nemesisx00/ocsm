@@ -1,5 +1,6 @@
 import './App.css'
 import { listen } from '@tauri-apps/api/event'
+import { invoke } from '@tauri-apps/api/tauri'
 import React from 'react'
 import ChangelingTheLost from './components/wod/changeling/ChangelingTheLost'
 import MageTheAwakening from './components/wod/mage/MageTheAwakening'
@@ -12,6 +13,8 @@ const Contexts = Object.freeze({
 		VtM: 'VampireTheMasquerade'
 	}
 })
+const DefaultContext = Contexts.WoD.MtA
+const DefaultSheetState = MageTheAwakening.EmptySheet
 
 class App extends React.Component
 {
@@ -20,36 +23,41 @@ class App extends React.Component
 		super(props)
 		
 		this.state = {
-			context: null
+			context: DefaultContext,
+			sheetState: DefaultSheetState
 		}
 		
 		this.listenerHandles = {
-			newSheet: null
+			newSheet: null,
+			loadSheet: null,
+			saveSheet: null
 		}
 	}
 	
 	componentDidMount()
 	{
 		this.listenerHandles.newSheet = listen('newSheet', (event) => this.newSheetHandler(event))
+		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
+		this.listenerHandles.saveSheet = listen('saveSheet', () => this.saveSheetHandler())
 	}
 	
 	render()
 	{
+		console.log(this.state)
 		let sheet = null
 		switch(this.state.context)
 		{
 			case Contexts.WoD.CtL:
-				sheet = (<ChangelingTheLost />)
+				sheet = (<ChangelingTheLost sheetState={this.state.sheetState} updateSheetState={(sheetState) => this.updateSheetStateHandler(sheetState)} />)
 				break
 			case Contexts.WoD.MtA:
-				sheet = (<MageTheAwakening />)
+				sheet = (<MageTheAwakening sheetState={this.state.sheetState} updateSheetState={(sheetState) => this.updateSheetStateHandler(sheetState)} />)
 				break
 			case Contexts.WoD.VtM:
-				sheet = (<VampireTheMasquerade />)
+				sheet = (<VampireTheMasquerade sheetState={this.state.sheetState} updateSheetState={(sheetState) => this.updateSheetStateHandler(sheetState)} />)
 				break
 			default:
-				sheet = (<h1>At some point there will probably be a default UI element here but for now just use the main menu to select a new sheet.</h1>)
-				sheet = (<MageTheAwakening />)
+				
 		}
 		
 		return (
@@ -67,6 +75,45 @@ class App extends React.Component
 				return { context: event.payload.context }
 			})
 		}
+	}
+	
+	loadSheetHandler(obj)
+	{
+		if(obj && obj.payload)
+		{
+			let payload = null
+			try { payload = JSON.parse(obj.payload) }
+			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
+			
+			if(payload !== null)
+			{
+				this.setState(() => { return {
+						context: payload.context,
+						sheetState: JSON.parse(payload.sheetState)
+					}
+				})
+			}
+		}
+	}
+	
+	saveSheetHandler()
+	{
+		console.log('Invoking backend SaveSheet event!')
+		invoke('SaveSheet', { context: this.state.context, state: JSON.stringify(this.state.sheetState) })
+	}
+	
+	updateContext(newContext)
+	{
+		let newState = {...this.state}
+		newState.context = newContext
+		this.setState(() => { return newState })
+	}
+	
+	updateSheetStateHandler(sheetState)
+	{
+		let newState = {...this.state}
+		newState.sheetState = sheetState
+		this.setState(() => { return newState })
 	}
 }
 

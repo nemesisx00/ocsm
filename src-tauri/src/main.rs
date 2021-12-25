@@ -6,8 +6,8 @@
 
 use std::{
 	fs::{
-		read_to_string,
-		write
+		OpenOptions,
+		read_to_string
 	}
 };
 use tauri::{
@@ -19,12 +19,29 @@ use tauri::{
 	Window
 };
 use serde::{
+	Deserialize,
 	Serialize
 };
 
 #[derive(Clone, Serialize)]
-struct ContextPayload {
+struct ContextPayload
+{
 	context: String
+}
+
+#[derive(Serialize, Deserialize)]
+struct SaveData
+{
+	context: String,
+	sheetState: String
+}
+
+#[non_exhaustive]
+struct SheetContexts;
+impl SheetContexts {
+	pub const ChangelingTheLost: &'static str = "ChangelingTheLost";
+	pub const MageTheAwakening: &'static str = "MageTheAwakening";
+	pub const VampireTheMasquerade: &'static str = "VampireTheMasquerade";
 }
 
 fn main()
@@ -38,24 +55,34 @@ fn main()
 					event.window().close().unwrap();
 				}
 				"clear" => { ClearSheet(event.window())}
-				"contextCtl" => { NewSheet(event.window(), "ChangelingTheLost".into()); }
-				"contextMta" => { NewSheet(event.window(), "MageTheAwakening".into()); }
-				"contextVtm" => { NewSheet(event.window(), "VampireTheMasquerade".into()); }
+				"contextCtl" => { NewSheet(event.window().to_owned(), SheetContexts::ChangelingTheLost.into()); }
+				"contextMta" => { NewSheet(event.window().to_owned(), SheetContexts::MageTheAwakening.into()); }
+				"contextVtm" => { NewSheet(event.window().to_owned(), SheetContexts::VampireTheMasquerade.into()); }
 				"load" => { LoadFromFile(event.window()); }
 				"save" => { EmitSave(event.window()); }
 				_ => {}
 			}
 		})
-		.invoke_handler(tauri::generate_handler![SaveSheet])
+		.invoke_handler(tauri::generate_handler![NewSheet, SaveSheet])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
 }
 
 #[command]
-fn SaveSheet(window: Window, state: String)
+fn NewSheet(window: Window, context: String)
+{
+	match window.emit("newSheet", ContextPayload { context: context }) {
+		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
+		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
+	}
+}
+
+#[command]
+fn SaveSheet(window: Window, context: String, state: String)
 {
 	println!("Received the SaveSheet event!");
-	SaveToFile(state);
+	let data = SaveData { context: context.to_owned(), sheetState: state.to_owned() };
+	SaveToFile(data);
 }
 
 fn BuildMenu() -> Menu
@@ -118,15 +145,7 @@ fn LoadFromFile(window: &Window)
 	}
 }
 
-fn NewSheet(window: &Window, context: String)
-{
-	match window.emit("newSheet", ContextPayload { context: context }) {
-		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
-		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
-	}
-}
-
-fn SaveToFile(state: String)
+fn SaveToFile(data: SaveData)
 {
 	match FileDialogBuilder::default()
 		.add_filter("JSON", &["json"])
@@ -135,8 +154,15 @@ fn SaveToFile(state: String)
 		None => {
 			println!("Either no file was selected or there was a problem with the file dialog.");
 		}
-		Some(p) => {
-			match write(p, state) {
+		Some(path) => {
+			let file = OpenOptions::new()
+						.create(true)
+						.write(true)
+						.truncate(true)
+						.open(path)
+						.unwrap();
+			
+			match serde_json::to_writer(&file, &data) {
 				Err(e) => { println!("Error writing to file: {:#?}", e.to_string()); }
 				Ok(result) => { println!("Succeeded in writing to file: {:#?}", result); }
 			}

@@ -24,7 +24,10 @@ export function equals(v1, v2)
 			ret = Object.entries(v1).reduce((prev, curr) => prev && equals(curr[1], v2[curr[0]]))
 	}
 	else if(typeof v2 !== 'object')
+	{
+		//eslint-disable-next-line
 		ret = v1 == v2
+	}
 	return ret
 }
 

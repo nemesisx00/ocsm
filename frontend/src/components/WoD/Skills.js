@@ -74,19 +74,19 @@ class Skills extends React.Component
 			Social: []
 		}
 		
-		Object.entries(MentalSkills).forEach(entry => {
+		Object.entries(MentalSkills).forEach((entry, i) => {
 			let [upper, lower] = entry
-			trackerLists.Mental.push((<Tracker keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
+			trackerLists.Mental.push((<Tracker key={`mental-${i}`} keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
 		})
 		
-		Object.entries(PhysicalSkills).forEach(entry => {
+		Object.entries(PhysicalSkills).forEach((entry, i) => {
 			let [upper, lower] = entry
-			trackerLists.Physical.push((<Tracker keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
+			trackerLists.Physical.push((<Tracker key={`physical-${i}`} keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
 		})
 		
-		Object.entries(SocialSkills).forEach(entry => {
+		Object.entries(SocialSkills).forEach((entry, i) => {
 			let [upper, lower] = entry
-			trackerLists.Social.push((<Tracker keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
+			trackerLists.Social.push((<Tracker key={`social-${i}`} keyWord={lower} className={normalizeClassNames(`${this.props.max > 5 ? 'extended' : ''} dots ${lower}`)} label={`${upper}:`} type={Tracker.Types.Circle} max={this.props.max} value={this.props.skills[lower]} changeHandler={(arg) => this.props.changeHandler(arg, lower)} />))
 		})
 		
 		return trackerLists

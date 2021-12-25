@@ -26,7 +26,7 @@ class Rote extends React.Component
 				<option value="">&nbsp;</option>
 				{this.generateArcanaOptions()}
 			</select>
-			<Tracker keyWord={this.props.label} className="dots long level" type={Tracker.Types.Circle} max={this.props.max} value={this.props.level} changeHandler={(value) => this.props.changeHandler(this.props.index, RoteKeys.Level, value)} />
+			<Tracker keyWord={this.props.arcanum} className="dots long level" type={Tracker.Types.Circle} max={this.props.max} value={this.props.level} changeHandler={(value) => this.props.changeHandler(this.props.index, RoteKeys.Level, value)} />
 			<select name="roteSkill" className="skill" value={this.props.skill} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Skill, event.target.value)}>
 				<option value="">&nbsp;</option>
 				{this.generateSkillOptions()}
@@ -41,9 +41,9 @@ class Rote extends React.Component
 		let out = []
 		Object.entries(Arcana.Types)
 			.sort((a, b) => compareStrings(a[1], b[1]))
-			.forEach(entry => {
+			.forEach((entry, i) => {
 				let [label, value] = entry
-				out.push((<option value={value}>{label}</option>))
+				out.push((<option key={`arcanum-${i}`} value={value}>{label}</option>))
 			})
 		
 		return out
@@ -54,9 +54,9 @@ class Rote extends React.Component
 		let out = []
 		Object.entries(Skills.All)
 			.sort((a, b) => compareStrings(a[1], b[1]))
-			.forEach(entry => {
+			.forEach((entry, i) => {
 				let [label, value] = entry
-				out.push((<option value={value}>{label}</option>))
+				out.push((<option key={`skill-${i}`} value={value}>{label}</option>))
 			})
 		
 		return out
