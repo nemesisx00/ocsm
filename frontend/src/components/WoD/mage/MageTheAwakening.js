@@ -14,7 +14,7 @@ import Details from './Details'
 import Rotes from './Rotes'
 import Praxes from './Praxes'
 
-const EmptySheet = {
+const EmptySheet = Object.freeze({
 	attributes: {
 		composure: 1,
 		dexterity: 1,
@@ -89,7 +89,7 @@ const EmptySheet = {
 		willpowerSpent: 0,
 		wisdom: 7
 	}
-}
+})
 
 const DefaultHealthValue = 3
 const ManaGnosisScale = Object.freeze({
@@ -123,9 +123,6 @@ class MageTheAwakening extends React.Component
 	
 	render()
 	{
-		//TODO: Remove this console.log call when it is no longer necessary
-		console.log(this.props.sheetState)
-		
 		return (
 			<div className="sheet mageTheAwakening">
 				<div className="column">

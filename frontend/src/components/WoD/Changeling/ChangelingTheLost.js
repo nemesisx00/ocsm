@@ -11,18 +11,18 @@ import CreateNewContract from './complex/CreateNewContract'
 import Details from './Details'
 import Skills from '../Skills'
 
-const EmptyContract = {
+const EmptyContract = Object.freeze({
 	label: '',
 	dots: 1,
 	clauses: []
-}
+})
 
-const EmptyModifier = {
+const EmptyModifier = Object.freeze({
 	modifier: '',
 	situation: ''
-}
+})
 
-const EmptySheet = {
+const EmptySheet = Object.freeze({
 	attributes: {
 		composure: 1,
 		dexterity: 1,
@@ -89,7 +89,7 @@ const EmptySheet = {
 		contract: null,
 		createNewContract: false
 	}
-}
+})
 
 const WyrdGlamourIntervals = Object.freeze({
 	1: 10,
@@ -104,16 +104,14 @@ const WyrdGlamourIntervals = Object.freeze({
 	10: 100
 })
 
-export default class ChangelingTheLost extends React.Component
+class ChangelingTheLost extends React.Component
 {
 	constructor(props)
 	{
 		super(props)
-		this.state = Object.assign({}, EmptySheet)
 		
 		this.listenerHandles = {
-			clearSheet: null,
-			loadSheet: null
+			clearSheet: null
 		}
 		
 		/*
@@ -131,67 +129,59 @@ export default class ChangelingTheLost extends React.Component
 	componentDidMount()
 	{
 		this.listenerHandles.clearSheet = listen('clearSheet', () => this.clearSheetHandler())
-		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
 	}
 	
 	render()
 	{
-		//TODO: Remove this console.log call when it is no longer necessary
-		console.log(this.state)
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
-					<Details details={this.state.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
-					<Attributes attributes={this.state.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
-					<Skills skills={this.state.skills} max="5" changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
-					<Contracts contracts={this.state.contracts} clickHandler={(contract) => this.contractsClickHandler(contract)} dotsHandler={(contract, value) => this.contractsDotsHandler(contract, value)} newHandler={() => this.contractsClickNewHandler()} />
+					<Details details={this.props.sheetState.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
+					<Attributes attributes={this.props.sheetState.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Skills skills={this.props.sheetState.skills} max="5" changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
+					<Contracts contracts={this.props.sheetState.contracts} clickHandler={(contract) => this.contractsClickHandler(contract)} dotsHandler={(contract, value) => this.contractsDotsHandler(contract, value)} newHandler={() => this.contractsClickNewHandler()} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={this.state.base.size + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.lethal, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
-						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
-						<Tracker keyWord="glamour" label="Glamour" type={Tracker.Types.Single} max={WyrdGlamourIntervals[this.state.trackers.wyrd]} spent={this.state.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
-						<Tracker keyWord="wyrd" label="Wyrd" type={Tracker.Types.Circle} max="10" value={this.state.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
-						<Tracker keyWord="clarity" label="Clarity" type={Tracker.Types.Circle} max="10" value={this.state.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
+						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={this.props.sheetState.base.size + this.props.sheetState.attributes.stamina} values={[this.props.sheetState.trackers.damage.superficial, this.props.sheetState.trackers.damage.lethal, this.props.sheetState.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
+						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.props.sheetState.attributes.composure + this.props.sheetState.attributes.resolve} spent={this.props.sheetState.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+						<Tracker keyWord="glamour" label="Glamour" type={Tracker.Types.Single} max={WyrdGlamourIntervals[this.props.sheetState.trackers.wyrd]} spent={this.props.sheetState.trackers.glamourSpent} changeHandler={(value) => this.glamourChangeHandler(value)} />
+						<Tracker keyWord="wyrd" label="Wyrd" type={Tracker.Types.Circle} max="10" value={this.props.sheetState.trackers.wyrd} changeHandler={(value) => this.wyrdChangeHandler(value)} />
+						<Tracker keyWord="clarity" label="Clarity" type={Tracker.Types.Circle} max="10" value={this.props.sheetState.trackers.clarity} changeHandler={(value) => this.clarityChangeHandler(value)} />
 					</div>
 				</div>
-				{(this.state.transient.contract !== null || this.state.transient.createNewContract === true)
+				{(this.props.sheetState.transient.contract !== null || this.props.sheetState.transient.createNewContract === true)
 					&& <div className="fullscreenOverlay" onClick={() => this.overlayCancelHandler()} />}
-				{this.state.transient.createNewContract === true
+				{this.props.sheetState.transient.createNewContract === true
 					&& <CreateNewContract className="fullscreenOverlayItem" createHandler={(label) => this.contractsCreateNewHandler(label)} />}
-				{this.state.transient.contract !== null && this.state.transient.createNewContract === false
-					&& <ContractDetails contract={this.state.transient.contract} changeHandler={(contract, clause, key, value, modKey) => this.contractDetailsChangeHandler(contract, clause, key, value, modKey)} />}
+				{this.props.sheetState.transient.contract !== null && this.props.sheetState.transient.createNewContract === false
+					&& <ContractDetails contract={this.props.sheetState.transient.contract} changeHandler={(contract, clause, key, value, modKey) => this.contractDetailsChangeHandler(contract, clause, key, value, modKey)} />}
 			</div>
 		)
 	}
 	
-	//Child Component Event Handlers --------------------------------------------------
+	// Event Handlers -------------------------------------------------
 	
 	attributeChangeHandler(value, attribute)
 	{
-		let newState = {
-			attributes: {...this.state.attributes}
-		}
+		let newState = {...this.props.sheetState}
+		
 		newState.attributes[attribute] = value === newState.attributes[attribute] ? value - 1 : value
 		if(newState.attributes[attribute] < 1)
 			newState.attributes[attribute] = 1
-		this.setState(() => { return newState })
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	clarityChangeHandler(value)
 	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
+		let newState = {...this.props.sheetState}
+		
 		newState.trackers.clarity = value === newState.trackers.clarity ? value - 1 : value
 		if(newState.trackers.clarity < 1)
 			newState.trackers.clarity = 1
-		this.setState(() => { return newState })
-	}
-	
-	clearSheetHandler()
-	{
-		this.setState(() => Object.assign({}, EmptySheet))
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	contractsClickHandler(contract)
@@ -199,67 +189,58 @@ export default class ChangelingTheLost extends React.Component
 		//A zero dot contract wouldn't have any clauses available so don't display the ContractDetails component
 		if(contract.dots > 0)
 		{
-			let newState = {
-				transient: {...this.state.transient}
-			}
+			let newState = {...this.props.sheetState}
+			
 			newState.transient.contract = contract
 			
-			this.setState(() => { return newState })
+			this.props.updateSheetState(newState)
 		}
 	}
 	
 	contractsDotsHandler(contract, value)
 	{
-		let index = this.state.contracts.findIndex((obj) => obj.label === contract.label && obj.dots === contract.dots)
+		let newState = {...this.props.sheetState}
 		
-		let newState = {
-			contracts: [...this.state.contracts]
-		}
+		let index = this.props.sheetState.contracts.findIndex((obj) => obj.label === contract.label && obj.dots === contract.dots)
 		
 		if(newState.contracts[index])
 			newState.contracts[index].dots = value === newState.contracts[index].dots ? value - 1 : value
 		
-		this.setState(() => { return newState })
+		this.props.updateSheetState(newState)
 	}
 	
 	contractsClickNewHandler()
 	{
-		if(this.state.transient.contract === null)
+		if(this.props.sheetState.transient.contract === null)
 		{
-			let newState = {
-				transient: {...this.state.transient}
-			}
+			let newState = {...this.props.sheetState}
+			
 			newState.transient.createNewContract = true
 			
-			this.setState(() => { return newState })
+			this.props.updateSheetState(newState)
 		}
 	}
 	
 	contractsCreateNewHandler(label)
 	{
-		let newState = {
-			contracts: [...this.state.contracts],
-			transient: {...this.state.transient}
-		}
+		let newState = {...this.props.sheetState}
 		
 		let newContract = Object.assign({}, EmptyContract)
 		newContract.label = label
 		newState.contracts.push(newContract)
 		newState.transient.createNewContract = false
 		
-		this.setState(() => { return newState })
+		this.props.updateSheetState(newState)
 	}
 	
 	contractDetailsChangeHandler(contract, clause, key, value, modifierKey)
 	{
-		let contractIndex = this.state.contracts.findIndex((obj) => obj.label === contract.label && obj.dots === contract.dots)
+		let contractIndex = this.props.sheetState.contracts.findIndex((obj) => obj.label === contract.label && obj.dots === contract.dots)
 		if(contractIndex > -1)
 		{
-			let clauseIndex = this.state.contracts[contractIndex].clauses.findIndex((obj) => obj.label === clause.label && obj.dots === clause.dots)
+			let clauseIndex = this.props.sheetState.contracts[contractIndex].clauses.findIndex((obj) => obj.label === clause.label && obj.dots === clause.dots)
 			
-			let newState = {
-				contracts: [...this.state.contracts]
-			}
+			let newState = {...this.props.sheetState}
 			
 			if(newState.contracts[contractIndex])
 			{
@@ -291,45 +272,47 @@ export default class ChangelingTheLost extends React.Component
 				}
 			}
 			
-			this.setState(() => { return newState })
+			this.props.updateSheetState(newState)
 		}
 	}
 	
 	detailsChangeHandler(obj)
 	{
-		let newState = {
-			details: {...this.state.details}
-		}
+		let newState = {...this.props.sheetState}
+		
 		Object.keys(obj).forEach(key => {
 			if(Object.keys(newState.details).indexOf(key) > -1)
 				newState.details[key] = obj[key]
 		})
-		this.setState(() => { return newState })
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	glamourChangeHandler(value)
 	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
-		newState.trackers.glamourSpent = value === this.state.trackers.glamourSpent ? value - 1 : value
-		this.setState(() => { return newState })
+		let newState = {...this.props.sheetState}
+		
+		newState.trackers.glamourSpent = value === this.props.sheetState.trackers.glamourSpent ? value - 1 : value
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	healthChangeHandler(lineStatus)
 	{
-		let totalHealth = this.state.base.size + this.state.attributes.stamina
+		let newState = {...this.props.sheetState}
+		
+		let totalHealth = this.props.sheetState.base.size + this.props.sheetState.attributes.stamina
 		let possibleDamage = 0
 		let newValue = {
-			superficial: this.state.trackers.damage.superficial,
-			lethal: this.state.trackers.damage.lethal,
-			aggravated: this.state.trackers.damage.aggravated
+			superficial: this.props.sheetState.trackers.damage.superficial,
+			lethal: this.props.sheetState.trackers.damage.lethal,
+			aggravated: this.props.sheetState.trackers.damage.aggravated
 		}
 		
 		switch(lineStatus)
 		{
 			case Checker.LineStatus.Single:
-				possibleDamage = totalHealth - this.state.trackers.damage.aggravated
+				possibleDamage = totalHealth - this.props.sheetState.trackers.damage.aggravated
 				if(newValue.lethal < possibleDamage)
 				{
 					newValue.superficial--
@@ -351,65 +334,61 @@ export default class ChangelingTheLost extends React.Component
 				newValue.superficial++
 		}
 		
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
 		newState.trackers.damage = newValue
-		this.setState(() => { return newState })
-	}
-	
-	loadSheetHandler(obj)
-	{
-		if(obj && obj.payload)
-		{
-			let newState = null
-			try { newState = JSON.parse(obj.payload) }
-			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
-			
-			if(newState !== null)
-				this.setState(() => { return newState })
-		}
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	overlayCancelHandler()
 	{
-		let newState = {
-			transient: {...this.state.transient}
-		}
+		let newState = {...this.props.sheetState}
+		
 		newState.transient.contract = null
 		newState.transient.createNewContract = false
 		
-		this.setState(() => { return newState })
+		this.props.updateSheetState(newState)
 	}
 	
 	skillChangeHandler(value, skill)
 	{
-		let newState = {
-			skills: {...this.state.skills}
-		}
+		let newState = {...this.props.sheetState}
+		
 		newState.skills[skill] = value === newState.skills[skill] ? value - 1 : value
-		this.setState(() => { return newState })
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	willpowerChangeHandler(value)
 	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
-		newState.trackers.willpowerSpent = value === this.state.trackers.willpowerSpent ? value - 1 : value
-		this.setState(() => { return newState })
+		let newState = {...this.props.sheetState}
+		
+		newState.trackers.willpowerSpent = value === this.props.sheetState.trackers.willpowerSpent ? value - 1 : value
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	wyrdChangeHandler(value)
 	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
+		let newState = {...this.props.sheetState}
+		
 		newState.trackers.wyrd = value === newState.trackers.wyrd ? value - 1 : value
 		if(newState.trackers.wyrd < 1)
 			newState.trackers.wyrd = 1
 		if(newState.trackers.glamourSpent >= WyrdGlamourIntervals[newState.trackers.wyrd])
 			newState.trackers.glamourSpent = WyrdGlamourIntervals[newState.trackers.wyrd]
-		this.setState(() => { return newState })
+		
+		this.props.updateSheetState(newState)
+	}
+	
+	// Backend Event Handlers -----------------------------------------
+	
+	clearSheetHandler()
+	{
+		let newState = Object.assign({}, EmptySheet)
+		this.props.updateSheetState(newState)
 	}
 }
+
+ChangelingTheLost.EmptySheet = EmptySheet
+
+export default ChangelingTheLost

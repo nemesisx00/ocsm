@@ -8,7 +8,7 @@ import { listen } from '@tauri-apps/api/event'
 
 const DefaultHealthValue = 3;
 
-const EmptySheet = {
+const EmptySheet = Object.freeze({
 	attributes: {
 		strength: 1,
 		dexterity: 1,
@@ -69,69 +69,62 @@ const EmptySheet = {
 		},
 		willpowerSpent: 0
 	}
-}
+})
 
-export default class VampireTheMasquerade extends React.Component
+class VampireTheMasquerade extends React.Component
 {
 	constructor(props)
 	{
 		super(props)
-		this.state = Object.assign({}, EmptySheet)
+		
 		this.listenerHandles = {
-			clearSheet: null,
-			loadSheet: null
+			clearSheet: null
 		}
 	}
 	
 	componentDidMount()
 	{
 		this.listenerHandles.clearSheet = listen('clearSheet', () => this.clearSheetHandler())
-		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
 	}
 	
 	render()
 	{
-		//TODO: Remove this console.log call when it is no longer necessary
-		console.log(this.state)
 		return (
 			<div className="sheet changelingTheLost">
 				<div className="column">
-					<Attributes attributes={this.state.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
+					<Attributes attributes={this.props.sheetState.attributes} max="5" changeHandler={(value, attribute) => this.attributeChangeHandler(value, attribute)} />
 				</div>
 				<div className="column right">
 					<div className="trackers">
-						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={DefaultHealthValue + this.state.attributes.stamina} values={[this.state.trackers.damage.superficial, this.state.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
-						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.state.attributes.composure + this.state.attributes.resolve} spent={this.state.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+						<Tracker keyWord="health" label="Health" type={Tracker.Types.Multi} max={DefaultHealthValue + this.props.sheetState.attributes.stamina} values={[this.props.sheetState.trackers.damage.superficial, this.props.sheetState.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
+						<Tracker keyWord="willpower" label="Willpower" type={Tracker.Types.Single} max={this.props.sheetState.attributes.composure + this.props.sheetState.attributes.resolve} spent={this.props.sheetState.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
 					</div>
 				</div>
 			</div>
 		)
 	}
 	
-	//Child Component Event Handlers --------------------------------------------------
+	// Event Handlers -------------------------------------------------
 	
 	attributeChangeHandler(value, attribute)
 	{
-		let newState = {
-			attributes: {...this.state.attributes}
-		}
+		let newState = {...this.props.sheetState}
+		
 		if(newState.attributes[attribute] === value)
 			newState.attributes[attribute] = value - 1
 		else
 			newState.attributes[attribute] = value
-		this.setState(() => { return newState })
-	}
-	
-	clearSheetHandler()
-	{
-		this.setState(() => Object.assign({}, EmptySheet))
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	healthChangeHandler(lineStatus)
 	{
+		let newState = {...this.props.sheetState}
+		
 		let newObject = {
-			superficial: this.state.trackers.damage.superficial,
-			aggravated: this.state.trackers.damage.aggravated
+			superficial: this.props.sheetState.trackers.damage.superficial,
+			aggravated: this.props.sheetState.trackers.damage.aggravated
 		}
 		
 		switch(lineStatus)
@@ -147,32 +140,28 @@ export default class VampireTheMasquerade extends React.Component
 				newObject.superficial++
 		}
 		
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
 		newState.trackers.damage = newObject
-		this.setState(() => { return newState })
-	}
-	
-	loadSheetHandler(obj)
-	{
-		if(obj && obj.payload)
-		{
-			let newState = null
-			try { newState = JSON.parse(obj.payload) }
-			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
-			
-			if(newState !== null)
-				this.setState(() => { return newState })
-		}
+		
+		this.props.updateSheetState(newState)
 	}
 	
 	willpowerChangeHandler(value)
 	{
-		let newState = {
-			trackers: {...this.state.trackers}
-		}
-		newState.trackers.willpowerSpent = value === this.state.trackers.willpowerSpent ? value - 1 : value
-		this.setState(() => { return newState })
+		let newState = {...this.props.sheetState}
+		
+		newState.trackers.willpowerSpent = value === this.props.sheetState.trackers.willpowerSpent ? value - 1 : value
+		
+		this.props.updateSheetState(newState)
+	}
+	
+	// Backend Event Handlers -----------------------------------------
+	
+	clearSheetHandler()
+	{
+		this.setState(() => Object.assign({}, EmptySheet))
 	}
 }
+
+VampireTheMasquerade.EmptySheet = EmptySheet
+
+export default VampireTheMasquerade
