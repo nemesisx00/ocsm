@@ -1,10 +1,10 @@
 [package]
 name = "ocsm"
-version = "0.1.0"
-description = "An application for managing table top roleplaying game character sheets."
+version = "0.5.0"
+description = "An open source application for managing table top roleplaying game character sheets."
 authors = [ "Peter Lunneberg <plunn.dev@gmail.com>" ]
 license = "MIT"
-repository = ""
+repository = "https://bitbucket.org/nemesisx00/ocsm"
 default-run = "ocsm"
 edition = "2018"
 build = "src/build.rs"
@@ -12,10 +12,10 @@ build = "src/build.rs"
 [dependencies]
 serde_json = "^1.0"
 serde = { version = "^1.0", features = [ "derive" ] }
-tauri = { version = "^1.0.0-beta.5", features = ["api-all", "menu", "wry"] }
+tauri = { version = "^1.0.0-beta.8", features =["api-all"]}
 
 [target."cfg(windows)".build-dependencies]
-tauri-build = { version = "1.0.0-beta.3" }
+tauri-build = { version = "^1.0.0-beta.4" }
 
 [features]
 custom-protocol = [ "tauri/custom-protocol" ]
@@ -24,3 +24,10 @@ default = [ "custom-protocol" ]
 [[bin]]
 name = "ocsm"
 path = "src/main.rs"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+incremental = false
+opt-level = "s"

@@ -16,7 +16,8 @@ use tauri::{
 	CustomMenuItem,
 	Menu,
 	Submenu,
-	Window
+	Window,
+	WindowMenuEvent
 };
 use serde::{
 	Deserialize,
@@ -29,7 +30,7 @@ struct ContextPayload
 	context: String
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize, Deserialize)]
 struct SaveData
 {
 	context: String,
@@ -49,17 +50,19 @@ fn main()
 	tauri::Builder::default()
 		.menu(BuildMenu())
 		.on_menu_event(|event| {
-			match event.menu_item_id() {
+			let e = Box::leak(Box::new(event)) as &'static WindowMenuEvent;
+			
+			match e.menu_item_id() {
 				"exit" => {
 					//Closing the last window exits the application
-					event.window().close().unwrap();
+					e.window().close().unwrap();
 				}
-				"clear" => { ClearSheet(event.window())}
-				"contextCtl" => { NewSheet(event.window().to_owned(), SheetContexts::ChangelingTheLost.into()); }
-				"contextMta" => { NewSheet(event.window().to_owned(), SheetContexts::MageTheAwakening.into()); }
-				"contextVtm" => { NewSheet(event.window().to_owned(), SheetContexts::VampireTheMasquerade.into()); }
-				"load" => { LoadFromFile(event.window()); }
-				"save" => { EmitSave(event.window()); }
+				"clear" => { ClearSheet(e.window())}
+				"contextCtl" => { NewSheet(e.window().to_owned(), SheetContexts::ChangelingTheLost.into()); }
+				"contextMta" => { NewSheet(e.window().to_owned(), SheetContexts::MageTheAwakening.into()); }
+				"contextVtm" => { NewSheet(e.window().to_owned(), SheetContexts::VampireTheMasquerade.into()); }
+				"load" => { LoadFromFile(e.window()); }
+				"save" => { EmitSave(e.window()); }
 				_ => {}
 			}
 		})
@@ -71,7 +74,8 @@ fn main()
 #[command]
 fn NewSheet(window: Window, context: String)
 {
-	match window.emit("newSheet", ContextPayload { context: context }) {
+	match window.emit("newSheet", ContextPayload { context: context })
+	{
 		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
 	}
@@ -81,8 +85,8 @@ fn NewSheet(window: Window, context: String)
 fn SaveSheet(window: Window, context: String, state: String)
 {
 	println!("Received the SaveSheet event!");
-	let data = SaveData { context: context.to_owned(), sheetState: state.to_owned() };
-	SaveToFile(data);
+	let data = Box::leak(Box::new(SaveData { context: context.to_owned(), sheetState: state.to_owned() })) as &'static SaveData;
+	SaveToFile(&data);
 }
 
 fn BuildMenu() -> Menu
@@ -107,7 +111,8 @@ fn BuildMenu() -> Menu
 
 fn ClearSheet(window: &Window)
 {
-	match window.emit("clearSheet", "") {
+	match window.emit("clearSheet", "")
+	{
 		Err(e) => { println!("Error clearing sheet: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in clearing sheet: {:#?}", result); }
 	}
@@ -115,57 +120,64 @@ fn ClearSheet(window: &Window)
 
 fn EmitSave(window: &Window)
 {
-	match window.emit("saveSheet", true) {
+	match window.emit("saveSheet", true)
+	{
 		Err(e) => { println!("Error emitting `saveSheet` event: {:#?}", e.to_string()); }
 		Ok(result) => { println!("Succeeded in emitting `saveSheet` event: {:#?}", result); }
 	}
 }
 
-fn LoadFromFile(window: &Window)
+fn LoadFromFile(window: &'static Window)
 {
-	match FileDialogBuilder::default()
+	FileDialogBuilder::default()
 		.add_filter("JSON", &["json"])
-		.pick_file()
-	{
-		None => {
-			println!("Either no file was selected or there was a problem with the file dialog.");
-		}
-		Some(p) => {
-			match read_to_string(p) {
-				Err(e) => { println!("Error loading file: {:#?}", e.to_string()); }
-				Ok(data) => {
-					println!("Succeeded in loading file: {:#?}", data);
-					match window.emit("loadSheet", data) {
-						Err(e) => { println!("Error emitting `loadSheet` event: {:#?}", e.to_string()); }
-						Ok(result) => { println!("Succeeded in emitting `loadSheet` event: {:#?}", result); }
+		.pick_file(move |p|
+		{
+			match p
+			{
+				None => {
+					println!("Either no file was selected or there was a problem with the file dialog.");
+				}
+				Some(p) => {
+					match read_to_string(p) {
+						Err(e) => { println!("Error loading file: {:#?}", e.to_string()); }
+						Ok(data) => {
+							println!("Succeeded in loading file: {:#?}", data);
+							match window.emit("loadSheet", data) {
+								Err(e) => { println!("Error emitting `loadSheet` event: {:#?}", e.to_string()); }
+								Ok(result) => { println!("Succeeded in emitting `loadSheet` event: {:#?}", result); }
+							}
+						}
 					}
 				}
 			}
-		}
-	}
+		});
 }
 
-fn SaveToFile(data: SaveData)
+fn SaveToFile(data: &'static SaveData)
 {
-	match FileDialogBuilder::default()
+	FileDialogBuilder::default()
 		.add_filter("JSON", &["json"])
-		.save_file()
-	{
-		None => {
-			println!("Either no file was selected or there was a problem with the file dialog.");
-		}
-		Some(path) => {
-			let file = OpenOptions::new()
-						.create(true)
-						.write(true)
-						.truncate(true)
-						.open(path)
-						.unwrap();
-			
-			match serde_json::to_writer(&file, &data) {
-				Err(e) => { println!("Error writing to file: {:#?}", e.to_string()); }
-				Ok(result) => { println!("Succeeded in writing to file: {:#?}", result); }
+		.save_file(move |p|
+		{
+			match p
+			{
+				None => {
+					println!("Either no file was selected or there was a problem with the file dialog.");
+				}
+				Some(path) => {
+					let file = OpenOptions::new()
+								.create(true)
+								.write(true)
+								.truncate(true)
+								.open(path)
+								.unwrap();
+					
+					match serde_json::to_writer(&file, &data) {
+						Err(e) => { println!("Error writing to file: {:#?}", e.to_string()); }
+						Ok(result) => { println!("Succeeded in writing to file: {:#?}", result); }
+					}
+				}
 			}
-		}
-	}
+		});
 }

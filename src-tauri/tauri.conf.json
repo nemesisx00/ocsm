@@ -3,7 +3,8 @@
     "distDir": "../frontend/build",
     "devPath": "http://localhost:3000",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "npm run buildReact"
+    "beforeBuildCommand": "npm run buildReact",
+	"withGlobalTauri": false
   },
   "tauri": {
 	"allowlist": {
@@ -12,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "org.bitbucket.nemesisx00.ocsm",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -22,9 +23,9 @@
       ],
       "resources": [],
       "externalBin": [],
-      "copyright": "",
-      "category": "DeveloperTool",
-      "shortDescription": "",
+      "copyright": "Copyright (c) Peter Lunneberg 2021",
+      "category": "Entertainment",
+      "shortDescription": "An open source application for managing table top roleplaying game character sheets.",
       "longDescription": "",
       "deb": {
         "depends": [],
@@ -51,14 +52,14 @@
     "windows": [
 		{
 	      "title": "Open Character Sheet Manager",
-	      "width": 900,
-	      "height": 600,
+	      "width": 1024,
+	      "height": 768,
 	      "resizable": true,
 	      "fullscreen": false
 	    }
 	],
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'"
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self'"
     }
   }
 }
