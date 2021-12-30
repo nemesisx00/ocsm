@@ -68,30 +68,29 @@ class App extends React.Component
 		)
 	}
 	
-	newSheetHandler(event)
+	getEmptySheet(context)
 	{
-		if(event.payload.context)
+		switch(context)
 		{
-			let newState = {
-				context: event.payload.context,
-				sheetState: null
-			}
-			
-			switch(newState.context)
-			{
-				case Contexts.WoD.CtL:
-					newState.sheetState = ChangelingTheLost.EmptySheet
-					break
-				case Contexts.WoD.MtA:
-					newState.sheetState = MageTheAwakening.EmptySheet
-					break
-				case Contexts.WoD.VtM:
-					newState.sheetState = VampireTheMasquerade.EmptySheet
-					break
-				default:
-			}
-			
-			this.setState(() => { return newState })
+			case Contexts.WoD.CtL:
+				return ChangelingTheLost.EmptySheet
+			case Contexts.WoD.MtA:
+				return MageTheAwakening.EmptySheet
+			case Contexts.WoD.VtM:
+				return VampireTheMasquerade.EmptySheet
+			default:
+				return {}
+		}
+	}
+	
+	getSheetSortMethod(context)
+	{
+		switch(context)
+		{
+			case Contexts.WoD.MtA:
+				return MageTheAwakening.SortState
+			default:
+				return state => state
 		}
 	}
 	
@@ -105,12 +104,28 @@ class App extends React.Component
 			
 			if(payload !== null)
 			{
+				let sheetState = JSON.parse(payload.sheetState)
+				let sorter = this.getSheetSortMethod(payload.context)
+				
 				this.setState(() => { return {
 						context: payload.context,
-						sheetState: JSON.parse(payload.sheetState)
+						sheetState: sorter(sheetState)
 					}
 				})
 			}
+		}
+	}
+	
+	newSheetHandler(event)
+	{
+		if(event.payload.context)
+		{
+			let newState = {
+				context: event.payload.context,
+				sheetState: this.getEmptySheet(event.payload.context)
+			}
+			
+			this.setState(() => { return newState })
 		}
 	}
 	

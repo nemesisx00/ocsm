@@ -1,5 +1,6 @@
 import './EntryList.css'
 import React from 'react'
+import { normalizeClassNames } from './Utilities'
 
 export default class EntryList extends React.Component
 {
@@ -8,7 +9,7 @@ export default class EntryList extends React.Component
 		let entries = this.generateEntries()
 		
 		return (
-			<div className="entryList">
+			<div className={normalizeClassNames("entryList", this.props.className)}>
 				<div className="entryListLabel">{this.props.title}</div>
 				{entries}
 				<button className="newEntryButton" onClick={() => this.addNewEntry()}>{this.props.buttonLabel}</button>

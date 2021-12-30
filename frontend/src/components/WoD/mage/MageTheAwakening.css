@@ -12,3 +12,8 @@
 	margin-left: 25px;
 	min-width: 170px;
 }
+
+.merits
+{
+	flex-grow: 0 !important;
+}

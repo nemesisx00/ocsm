@@ -7,12 +7,12 @@ import Tracker from '../Tracker'
 import Attributes from '../Attributes'
 import Merits from '../Merits'
 import Skills from '../Skills'
-import { compareStrings } from '../../core/Utilities'
 import ActiveSpells from './ActiveSpells'
 import Arcana from './Arcana'
 import Details from './Details'
 import Rotes from './Rotes'
 import Praxes from './Praxes'
+import Advantages from './Advantages'
 
 const EmptySheet = Object.freeze({
 	attributes: {
@@ -29,6 +29,14 @@ const EmptySheet = Object.freeze({
 	activeSpells: [
 		''
 	],
+	advantages: {
+		size: 5,
+		armor: 0,
+		beats: 0,
+		experience: 0,
+		arcaneBeats: 0,
+		arcaneExperience: 0
+	},
 	arcana: [
 		{ type: '', value: 0 }
 	],
@@ -91,7 +99,6 @@ const EmptySheet = Object.freeze({
 	}
 })
 
-const DefaultHealthValue = 3
 const ManaGnosisScale = Object.freeze({
 	1: 10,
 	2: 11,
@@ -104,6 +111,17 @@ const ManaGnosisScale = Object.freeze({
 	9: 50,
 	10: 100
 })
+
+const SortState = (state) => {
+	let sortedState = {...state}
+	
+	sortedState.arcana.sort(Arcana.SortArcana)
+	sortedState.merits.sort(Merits.SortMerits)
+	sortedState.rotes.sort(Rotes.SortRotes)
+	sortedState.praxes.sort(Praxes.SortPraxes)
+	
+	return sortedState
+}
 
 class MageTheAwakening extends React.Component
 {
@@ -130,13 +148,16 @@ class MageTheAwakening extends React.Component
 						<div className="column">
 							<Details details={this.props.sheetState.details} changeHandler={(obj) => this.detailsChangeHandler(obj)} />
 						</div>
+						<div className="column">
+							<Advantages advantages={this.props.sheetState.advantages} attributes={this.props.sheetState.attributes} skills={this.props.sheetState.skills} changeHandler={(key, value) => this.advantagesChangeHandler(key, value)} />
+						</div>
 						<div className="column arcana">
 							<Arcana buttonLabel="New Arcana" arcana={this.props.sheetState.arcana} max={this.props.sheetState.trackers.gnosis > 5 ? this.props.sheetState.trackers.gnosis : 5} title="Arcana" changeHandler={(index, key, value) => this.arcanaChangeHandler(index, key, value)} />
 						</div>
 						<div className="column trackers">
-							<Tracker keyWord="health" label="Health" className="healthTracker" type={Tracker.Types.Multi} max={DefaultHealthValue + this.props.sheetState.attributes.stamina} values={[this.props.sheetState.trackers.damage.superficial, this.props.sheetState.trackers.damage.lethal, this.props.sheetState.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
-							<Tracker keyWord="willpower" label="Willpower" className="willpowerTracker" type={Tracker.Types.Single} max={this.props.sheetState.attributes.composure + this.props.sheetState.attributes.resolve} spent={this.props.sheetState.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
-							<Tracker keyWord="mana" label="Mana" className="manaTracker" type={Tracker.Types.Single} max={ManaGnosisScale[this.props.sheetState.trackers.gnosis]} spent={this.props.sheetState.trackers.manaSpent} changeHandler={(value) => this.manaChangeHandler(value)} />
+							<Tracker keyWord="health" label="Health" className="healthTracker" type={Tracker.Types.Multi} max={this.props.sheetState.advantages.size + this.props.sheetState.attributes.stamina} values={[this.props.sheetState.trackers.damage.superficial, this.props.sheetState.trackers.damage.lethal, this.props.sheetState.trackers.damage.aggravated]} changeHandler={(lineStatus) => this.healthChangeHandler(lineStatus)} />
+							<Tracker keyWord="willpower" label="Willpower" className="willpowerTracker" type={Tracker.Types.Single} max={this.props.sheetState.attributes.composure + this.props.sheetState.attributes.resolve} value={this.props.sheetState.trackers.willpowerSpent} changeHandler={(value) => this.willpowerChangeHandler(value)} />
+							<Tracker keyWord="mana" label="Mana" className="manaTracker" type={Tracker.Types.Single} max={ManaGnosisScale[this.props.sheetState.trackers.gnosis]} value={this.props.sheetState.trackers.manaSpent} changeHandler={(value) => this.manaChangeHandler(value)} />
 							<Tracker keyWord="gnosis" label="Gnosis" className="gnosisTracker" type={Tracker.Types.Circle} max="10" value={this.props.sheetState.trackers.gnosis} changeHandler={(value) => this.gnosisChangeHandler(value)} />
 							<Tracker keyWord="wisdom" label="Wisdom" className="wisdomTracker" type={Tracker.Types.Circle} max="10" value={this.props.sheetState.trackers.wisdom} changeHandler={(value) => this.wisdomChangeHandler(value)} />
 						</div>
@@ -146,33 +167,20 @@ class MageTheAwakening extends React.Component
 					<hr />
 					<Skills skills={this.props.sheetState.skills} max={this.props.sheetState.trackers.gnosis > 5 ? this.props.sheetState.trackers.gnosis : 5} changeHandler={(value, skill) => this.skillChangeHandler(value, skill)} />
 					<hr />
-					<Merits buttonLabel="New Merit" merits={this.props.sheetState.merits} max="5" title="Merits" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
+					<Merits className="merits" buttonLabel="New Merit" merits={this.props.sheetState.merits} max="5" title="Merits" changeHandler={(index, key, value) => this.meritChangeHandler(index, key, value)} />
 					<hr />
-					<Rotes buttonLabel="New Rote" rotes={this.props.sheetState.rotes} max="5" title="Rotes" changeHandler={(index, key, value) => this.roteChangeHandler(index, key, value)} />
+					<div className="row">
+						<Rotes className="rotes" buttonLabel="New Rote" rotes={this.props.sheetState.rotes} max="5" title="Rotes" changeHandler={(index, key, value) => this.roteChangeHandler(index, key, value)} />
+						<Praxes className="praxes" buttonLabel="New Praxis" title="Praxes" praxes={this.props.sheetState.praxes} max="5" changeHandler={(index, key, value) => this.praxesChangeHandler(index, key, value)} />
+					</div>
 					<hr />
 					<div className="row">
 						<ActiveSpells title="Active Spells" activeSpells={this.props.sheetState.activeSpells} changeHandler={(index, value) => this.activeSpellChangeHandler(index, value)} />
-						<Praxes buttonLabel="New Praxis" title="Praxes" praxes={this.props.sheetState.praxes} max="5" changeHandler={(index, key, value) => this.praxesChangeHandler(index, key, value)} />
+						
 					</div>
 				</div>
 			</div>
 		)
-	}
-	
-	sortRotes()
-	{
-		this.props.sheetState.rotes.sort((a, b) => {
-			if(a.level < 1 && b.level > 0)
-				return 1
-			if(a.level > 0 && b.level < 1)
-				return -1
-			if(a.level > b.level)
-				return 1
-			if(a.level < b.level)
-				return -1
-			
-			return compareStrings(a.spell, b.spell)
-		})
 	}
 	
 	// Event Handlers -------------------------------------------------
@@ -181,6 +189,43 @@ class MageTheAwakening extends React.Component
 	{
 		let newState = {...this.props.sheetState}
 		newState.activeSpells[index] = value
+		this.props.updateSheetState(newState)
+	}
+	
+	advantagesChangeHandler(key, value)
+	{
+		let newState = {...this.props.sheetState}
+		
+		console.log({key, value})
+		console.log({totalHealth: this.props.sheetState.advantages.size + this.props.sheetState.attributes.stamina, size: this.props.sheetState.advantages.size, stamina: this.props.sheetState.attributes.stamina})
+		
+		
+		let num = Number.parseInt(value)
+		
+		switch(key)
+		{
+			case 'beats':
+				if(num === 5)
+				{
+					newState.advantages['experience'] += 1
+					newState.advantages[key] = 0
+				}
+				else
+					newState.advantages[key] = isNaN(num) ? value : num
+				break
+			case 'arcaneBeats':
+				if(num === 5)
+				{
+					newState.advantages['arcaneExperience'] += 1
+					newState.advantages[key] = 0
+				}
+				else
+					newState.advantages[key] = isNaN(num) ? value : num
+				break
+			default:
+				newState.advantages[key] = isNaN(num) ? value : num
+		}
+		
 		this.props.updateSheetState(newState)
 	}
 	
@@ -348,6 +393,7 @@ class MageTheAwakening extends React.Component
 					break
 			}
 		}
+		newState.merits.sort(Merits.SortMerits)
 		
 		this.props.updateSheetState(newState)
 	}
@@ -390,6 +436,8 @@ class MageTheAwakening extends React.Component
 			}
 		}
 		
+		newState.rotes.sort(Rotes.SortRotes)
+		
 		this.props.updateSheetState(newState)
 	}
 	
@@ -423,6 +471,7 @@ class MageTheAwakening extends React.Component
 			}
 		}
 		
+		newState.praxes.sort(Praxes.SortPraxes)
 		this.props.updateSheetState(newState)
 	}
 	
@@ -465,5 +514,6 @@ class MageTheAwakening extends React.Component
 }
 
 MageTheAwakening.EmptySheet = EmptySheet
+MageTheAwakening.SortState = SortState
 
 export default MageTheAwakening

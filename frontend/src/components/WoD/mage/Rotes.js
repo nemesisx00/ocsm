@@ -3,7 +3,7 @@ import React from 'react'
 import EntryList from '../../core/EntryList'
 import Tracker from '../Tracker'
 import Skills from '../Skills'
-import { compareStrings } from '../../core/Utilities'
+import { compareStrings, normalizeClassNames } from '../../core/Utilities'
 import Arcana from './Arcana'
 
 const RoteKeys = Object.freeze({
@@ -15,12 +15,25 @@ const RoteKeys = Object.freeze({
 	Spell: 'spell'
 })
 
+const SortRotes = (a, b) => {
+	let ret = compareStrings(a.arcanum, b.arcanum)
+	if(ret === 0)
+	{
+		ret = a.level - b.level
+		if(ret === 0)
+		{
+			ret = compareStrings(a.spell, b.spell)
+		}
+	}
+	
+	return ret
+}
+
 class Rote extends React.Component
 {
 	render()
 	{
 		return (<div className="entry rote">
-			<label>Spell:</label>
 			<input name="spell" type="text" className="spell" value={this.props.spell} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Spell, event.target.value)} />
 			<select name="arcanum" className="arcanum" value={this.props.arcanum} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Arcanum, event.target.value)}>
 				<option value="">&nbsp;</option>
@@ -31,7 +44,6 @@ class Rote extends React.Component
 				<option value="">&nbsp;</option>
 				{this.generateSkillOptions()}
 			</select>
-			<label>Creator:</label>
 			<input name="creator" type="text" className="creator" value={this.props.creator} onChange={(event) => this.props.changeHandler(this.props.index, RoteKeys.Creator, event.target.value)} />
 		</div>)
 	}
@@ -65,6 +77,23 @@ class Rote extends React.Component
 
 class Rotes extends EntryList
 {
+	render()
+	{
+		let entries = this.generateEntries()
+		
+		return (
+			<div className={normalizeClassNames("entryList", this.props.className)}>
+				<div className="entryListLabel">
+					<div>Spell</div>
+					<div>{this.props.title}</div>
+					<div>Creator</div>
+				</div>
+				{entries}
+				<button className="newEntryButton" onClick={() => this.addNewEntry()}>{this.props.buttonLabel}</button>
+			</div>
+		)
+	}
+	
 	generateEntries()
 	{
 		let entries = []
@@ -83,5 +112,6 @@ class Rotes extends EntryList
 }
 
 Rotes.Keys = RoteKeys
+Rotes.SortRotes = SortRotes
 
 export default Rotes

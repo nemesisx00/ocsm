@@ -23,6 +23,12 @@ const ArcanaTypes = Object.freeze({
 	Time: 'time'
 })
 
+const SortArcana = (a, b) => {
+	let ret = compareStrings(a.type, b.type)
+	
+	return ret
+}
+
 class Arcanum extends React.Component
 {
 	render()
@@ -69,5 +75,6 @@ class Arcana extends EntryList
 
 Arcana.Keys = ArcanaKeys
 Arcana.Types = ArcanaTypes
+Arcana.SortArcana = SortArcana
 
 export default Arcana

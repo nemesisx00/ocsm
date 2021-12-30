@@ -12,6 +12,20 @@ const PraxesKeys = Object.freeze({
 	Spell: 'spell'
 })
 
+const SortPraxes = (a, b) => {
+	let ret = compareStrings(a.arcanum, b.arcanum)
+	if(ret === 0)
+	{
+		ret = a.level - b.level
+		if(ret === 0)
+		{
+			ret = compareStrings(a.spell, b.spell)
+		}
+	}
+	
+	return ret
+}
+
 class Praxis extends React.Component
 {
 	render()
@@ -60,5 +74,6 @@ class Praxes extends EntryList
 }
 
 Praxes.Keys = PraxesKeys
+Praxes.SortPraxes = SortPraxes
 
 export default Praxes
