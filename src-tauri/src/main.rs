@@ -40,6 +40,7 @@ struct SaveData
 #[non_exhaustive]
 struct SheetContexts;
 impl SheetContexts {
+	pub const DnD5e: &'static str = "DnD5e";
 	pub const ChangelingTheLost: &'static str = "ChangelingTheLost";
 	pub const MageTheAwakening: &'static str = "MageTheAwakening";
 	pub const VampireTheMasquerade: &'static str = "VampireTheMasquerade";
@@ -49,23 +50,7 @@ fn main()
 {
 	tauri::Builder::default()
 		.menu(BuildMenu())
-		.on_menu_event(|event| {
-			let e = Box::leak(Box::new(event)) as &'static WindowMenuEvent;
-			
-			match e.menu_item_id() {
-				"exit" => {
-					//Closing the last window exits the application
-					e.window().close().unwrap();
-				}
-				"clear" => { ClearSheet(e.window())}
-				"contextCtl" => { NewSheet(e.window().to_owned(), SheetContexts::ChangelingTheLost.into()); }
-				"contextMta" => { NewSheet(e.window().to_owned(), SheetContexts::MageTheAwakening.into()); }
-				"contextVtm" => { NewSheet(e.window().to_owned(), SheetContexts::VampireTheMasquerade.into()); }
-				"load" => { LoadFromFile(e.window()); }
-				"save" => { EmitSave(e.window()); }
-				_ => {}
-			}
-		})
+		.on_menu_event(MainMenuEventHandler)
 		.invoke_handler(tauri::generate_handler![NewSheet, SaveSheet])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
@@ -91,25 +76,51 @@ fn SaveSheet(window: Window, context: String, state: String)
 
 fn BuildMenu() -> Menu
 {
-	let newMenu = Submenu::new("New", Menu::new()
+	let dndMenu = Submenu::new("Dungeons && Dragons", Menu::new()
+					.add_item(CustomMenuItem::new("contextDnd5e".to_string(), "5th Edition"))
+				);
+	
+	let wodMenu = Submenu::new("World of Darkness", Menu::new()
 					.add_item(CustomMenuItem::new("contextCtl".to_string(), "Changeling: The Lost"))
 					.add_item(CustomMenuItem::new("contextMta".to_string(), "Mage: The Awakening"))
-					.add_item(CustomMenuItem::new("contextVtm".to_string(), "Vampire: The Masquerade")));
+					.add_item(CustomMenuItem::new("contextVtm".to_string(), "Vampire: The Masquerade"))
+				);
+	
+	let newMenu = Submenu::new("New", Menu::new()
+					.add_submenu(dndMenu)
+					.add_submenu(wodMenu)
+				);
 	
 	let fileMenu = Submenu::new("File", Menu::new()
 					.add_submenu(newMenu)
 					.add_item(CustomMenuItem::new("save".to_string(), "Save"))
 					.add_item(CustomMenuItem::new("clear".to_string(), "Clear Sheet"))
 					.add_item(CustomMenuItem::new("load".to_string(), "Load"))
-					.add_item(CustomMenuItem::new("exit".to_string(), "Exit")));
+					.add_item(CustomMenuItem::new("exit".to_string(), "Exit"))
+				);
+	
+	let helpMenu = Submenu::new("Help", Menu::new()
+					.add_item(CustomMenuItem::new("about".to_string(), "About"))
+				);
 	
 	let menu = Menu::new()
-				.add_submenu(fileMenu);
+				.add_submenu(fileMenu)
+				.add_submenu(helpMenu);
 	
 	return menu;
 }
 
-fn ClearSheet(window: &Window)
+fn CloseWindow(window: &Window)
+{
+	window.close().unwrap();
+}
+
+fn DisplayAbout(parent: Window)
+{
+	
+}
+
+fn EmitClearSheet(window: Window)
 {
 	match window.emit("clearSheet", "")
 	{
@@ -118,7 +129,7 @@ fn ClearSheet(window: &Window)
 	}
 }
 
-fn EmitSave(window: &Window)
+fn EmitSave(window: Window)
 {
 	match window.emit("saveSheet", true)
 	{
@@ -152,6 +163,24 @@ fn LoadFromFile(window: &'static Window)
 				}
 			}
 		});
+}
+
+fn MainMenuEventHandler(event: WindowMenuEvent)
+{
+	let e = Box::leak(Box::new(event)) as &'static WindowMenuEvent;
+	
+	match e.menu_item_id() {
+		"about" => { DisplayAbout(e.window().to_owned()); }
+		"clear" => { EmitClearSheet(e.window().to_owned()); }
+		"contextDnd5e" => { NewSheet(e.window().to_owned(), SheetContexts::DnD5e.into()); }
+		"contextCtl" => { NewSheet(e.window().to_owned(), SheetContexts::ChangelingTheLost.into()); }
+		"contextMta" => { NewSheet(e.window().to_owned(), SheetContexts::MageTheAwakening.into()); }
+		"contextVtm" => { NewSheet(e.window().to_owned(), SheetContexts::VampireTheMasquerade.into()); }
+		"exit" => { CloseWindow(e.window()); } //Closing the last window exits the application
+		"load" => { LoadFromFile(e.window()); }
+		"save" => { EmitSave(e.window().to_owned()); }
+		_ => {}
+	}
 }
 
 fn SaveToFile(data: &'static SaveData)

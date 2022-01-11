@@ -5,16 +5,23 @@ import React from 'react'
 import ChangelingTheLost from './components/wod/changeling/ChangelingTheLost'
 import MageTheAwakening from './components/wod/mage/MageTheAwakening'
 import VampireTheMasquerade from './components/wod/vampire/VampireTheMasquerade'
+import DnD5e from './components/dnd/5e/DnD5e'
 
 const Contexts = Object.freeze({
+	DnD: {
+		FiveE: 'DnD5e'
+	},
 	WoD: {
 		CtL: 'ChangelingTheLost',
 		MtA: 'MageTheAwakening',
 		VtM: 'VampireTheMasquerade'
 	}
 })
-const DefaultContext = Contexts.WoD.MtA
-const DefaultSheetState = MageTheAwakening.EmptySheet
+
+//const DefaultContext = Contexts.WoD.MtA
+//const DefaultSheetState = MageTheAwakening.EmptySheet
+const DefaultContext = Contexts.DnD.FiveE
+const DefaultSheetState = DnD5e.EmptySheet
 
 class App extends React.Component
 {
@@ -48,6 +55,9 @@ class App extends React.Component
 		let sheet = null
 		switch(this.state.context)
 		{
+			case Contexts.DnD.FiveE:
+				sheet = (<DnD5e sheetState={this.state.sheetState} updateSheetState={(sheetState) => this.updateSheetStateHandler(sheetState)} />)
+				break
 			case Contexts.WoD.CtL:
 				sheet = (<ChangelingTheLost sheetState={this.state.sheetState} updateSheetState={(sheetState) => this.updateSheetStateHandler(sheetState)} />)
 				break
@@ -72,6 +82,8 @@ class App extends React.Component
 	{
 		switch(context)
 		{
+			case Contexts.DnD.FiveE:
+				return DnD5e.EmptySheet
 			case Contexts.WoD.CtL:
 				return ChangelingTheLost.EmptySheet
 			case Contexts.WoD.MtA:
