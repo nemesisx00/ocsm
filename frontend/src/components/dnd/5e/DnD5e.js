@@ -2,15 +2,16 @@ import './DnD5e.css'
 import { listen } from '@tauri-apps/api/event'
 import React from 'react'
 import AbilityScores from './AbilityScores'
+import Skills from './Skills'
 
 const EmptySheet = Object.freeze({
 	abilityScores: {
-		charisma: null,
-		constitution: null,
-		dexterity: null,
-		intelligence: null,
-		strength: null,
-		wisdom: null
+		charisma: '',
+		constitution: '',
+		dexterity: '',
+		intelligence: '',
+		strength: '',
+		wisdom: ''
 	},
 	basicInfo: {
 		name: {
@@ -24,24 +25,24 @@ const EmptySheet = Object.freeze({
 	features: [],
 	proficiences: [],
 	skills: {
-		acrobatics: { ability: 'dexterity', proficiency: false, expertise: false },
-		animalHandling: { ability: 'wisdom', proficiency: false, expertise: false },
-		arcana: { ability: 'intelligence', proficiency: false, expertise: false },
-		athletics: { ability: 'strength', proficiency: false, expertise: false },
-		deception: { ability: 'charisma', proficiency: false, expertise: false },
-		history: { ability: 'intelligence', proficiency: false, expertise: false },
-		insight: { ability: 'wisdom', proficiency: false, expertise: false },
-		intimidation: { ability: 'charisma', proficiency: false, expertise: false },
-		investigation: { ability: 'intelligence', proficiency: false, expertise: false },
-		medicine: { ability: 'wisdom', proficiency: false, expertise: false },
-		nature: { ability: 'intelligence', proficiency: false, expertise: false },
-		perception: { ability: 'wisdom', proficiency: false, expertise: false },
-		performance: { ability: 'charisma', proficiency: false, expertise: false },
-		persuasion: { ability: 'charisma', proficiency: false, expertise: false },
-		religion: { ability: 'intelligence', proficiency: false, expertise: false },
-		sleightOfHand: { ability: 'dexterity', proficiency: false, expertise: false },
-		stealth: { ability: 'dexterity', proficiency: false, expertise: false },
-		survival: { ability: 'wisdom', proficiency: false, expertise: false }
+		acrobatics: Skills.Proficiency.Not,
+		animalHandling: Skills.Proficiency.Not,
+		arcana: Skills.Proficiency.Not,
+		athletics: Skills.Proficiency.Not,
+		deception: Skills.Proficiency.Not,
+		history: Skills.Proficiency.Not,
+		insight: Skills.Proficiency.Not,
+		intimidation: Skills.Proficiency.Not,
+		investigation: Skills.Proficiency.Not,
+		medicine: Skills.Proficiency.Not,
+		nature: Skills.Proficiency.Not,
+		perception: Skills.Proficiency.Not,
+		performance: Skills.Proficiency.Not,
+		persuasion: Skills.Proficiency.Not,
+		religion: Skills.Proficiency.Not,
+		sleightOfHand: Skills.Proficiency.Not,
+		stealth: Skills.Proficiency.Not,
+		survival: Skills.Proficiency.Not
 	},
 	trackers: {
 		deathSaves: { success: 0, failure: 0 },
@@ -60,7 +61,14 @@ const ProficiencyBonusTable = Object.freeze({
 })
 
 const GetProficiencyBonusFromLevel = (level) => {
-	return ProficiencyBonusTable.findIndex(arr => arr.indexOf(level) > -1)
+	let pb = 2
+	
+	Object.keys(ProficiencyBonusTable).forEach(key => {
+		if(ProficiencyBonusTable[key].indexOf(level) > -1)
+			pb = Number.parseInt(key)
+	})
+	
+	return pb
 }
 
 const SortState = (state) => {
@@ -92,6 +100,7 @@ class DnD5e extends React.Component
 				<div className="column">
 					<h1>Dungeons &amp; Dragons<br />5th Edition</h1>
 					<AbilityScores abilityScores={this.props.sheetState.abilityScores} changeHandler={(ability, score) => this.abilityScoreChangeHandler(ability, score)} />
+					<Skills abilityScores={this.props.sheetState.abilityScores} proficiencyBonus={GetProficiencyBonusFromLevel(this.props.sheetState.classLevels.length)} skills={this.props.sheetState.skills} changeHandler={(skill) => this.skillChangeHandler(skill)} />
 				</div>
 			</div>
 		)
@@ -103,6 +112,29 @@ class DnD5e extends React.Component
 	{
 		let newState = {...this.props.sheetState}
 		newState.abilityScores[ability] = score
+		this.props.updateSheetState(newState)
+	}
+	
+	skillChangeHandler(skill)
+	{
+		let newState = {...this.props.sheetState}
+		switch(newState.skills[skill])
+		{
+			case Skills.Proficiency.Not:
+				newState.skills[skill] = Skills.Proficiency.Half
+				break
+			case Skills.Proficiency.Half:
+				newState.skills[skill] = Skills.Proficiency.Proficient
+				break
+			case Skills.Proficiency.Proficient:
+				newState.skills[skill] = Skills.Proficiency.Expert
+				break
+			case Skills.Proficiency.Expert:
+				newState.skills[skill] = Skills.Proficiency.Not
+				break
+			default:
+				break		
+		}
 		this.props.updateSheetState(newState)
 	}
 	

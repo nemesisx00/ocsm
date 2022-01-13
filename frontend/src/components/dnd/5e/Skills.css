@@ -1,0 +1,56 @@
+.skillsWrapper
+{
+	user-select: none;
+}
+
+.skillsWrapper .skills
+{
+	justify-content: center;
+}
+
+.skillsWrapper .skills > .column
+{
+	margin: 0 5px;
+	padding: 0 10px;
+	border: 1px solid #A9ABB0;
+	border-radius: 10px;
+	justify-content: flex-start;
+}
+.skillsWrapper .skills > .column:first-child { margin-left: 0; }
+.skillsWrapper .skills > .column:last-child { margin-right: 0; }
+
+.skillsWrapper .skills > .column > *:first-child { margin: 5px 0; }
+.skillsWrapper .skills > .column > *:last-child { margin-bottom: 10px; }
+
+.skillsWrapper .skills .skill
+{
+	justify-content: space-between;
+}
+
+.skillsWrapper .skills .skill .label
+{
+	flex-grow: 1;
+	text-align: left;
+	margin-right: 10px;
+}
+
+.skillsWrapper .skills .skill .proficiency
+{
+	cursor: pointer;
+	width: 12px;
+	height: 12px;
+	margin-top: 1px;
+	margin-right: 10px;
+}
+
+.skillsWrapper .skills .skill .proficiency svg { overflow: visible; }
+
+.skillsWrapper .skills .skill .proficiency svg path, .skills .skill .proficiency svg circle { fill: transparent; }
+.skillsWrapper .skills .skill .proficiency svg circle
+{
+	stroke: #A9ABB0;
+	stroke-width: 1px;
+}
+.skillsWrapper .skills .skill .proficiency.half svg path { fill: #A9ABB0; }
+.skillsWrapper .skills .skill .proficiency.proficient svg circle { fill: #A9ABB0; }
+.skillsWrapper .skills .skill .proficiency.expert svg circle { fill: #A33333; }

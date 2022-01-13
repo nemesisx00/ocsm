@@ -11,8 +11,8 @@ const Abilities = Object.freeze({
 	Charisma: 'charisma'
 })
 
-const DownPath = 'M0,0 L6,12 L12,0 Z'
-const UpPath = 'M0,12 L6,0 L12,12 Z'
+const DownPath = 'M0,2 L6,12 L12,2 Z'
+const UpPath = 'M0,10 L6,0 L12,10 Z'
 const ViewBox = '0 0 12 12'
 
 const ScoreMax = 30
@@ -22,9 +22,14 @@ const CalculateAbilityModifier = score => {
 	let num = NormalizeAbilityScore(score)
 	if(Number.isInteger(num))
 	{
-		let mod = Math.trunc(num / 2) - 5
-		return mod >= 0 ? `+${mod}` : mod
+		return Math.trunc(num / 2) - 5
 	}
+	return null
+}
+
+const FormatAbilityModifier = mod => {
+	if(Number.isInteger(mod))
+		return mod >= 0 ? `+${mod}` : mod
 	return 'N/A'
 }
 
@@ -38,7 +43,22 @@ const NormalizeAbilityScore = score => {
 			num = ScoreMin
 		return num
 	}
-	return score
+	
+	return score !== null ? score : ''
+}
+
+class Button extends React.Component
+{
+	render()
+	{
+		return (
+			<div className={normalizeClassNames('button', this.props.className)} onClick={(e) => this.props.onClick(e)}>
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox={this.props.viewBox}>
+					<path d={this.props.path} />
+				</svg>
+			</div>
+		)
+	}
 }
 
 class AbilityScore extends React.Component
@@ -48,20 +68,12 @@ class AbilityScore extends React.Component
 		return (
 			<div className={normalizeClassNames('abilityScore', this.props.className)}>
 				<div className="scoreLabel">{this.props.label}</div>
-				<div className="scoreModifier">{CalculateAbilityModifier(this.props.value)}</div>
+				<div className="scoreModifier">{FormatAbilityModifier(CalculateAbilityModifier(this.props.value))}</div>
 				<div className="scoreValue row">
 					<input type="text" value={this.props.value} onChange={(e) => this.props.changeHandler(NormalizeAbilityScore(e.target.value))} />
 					<div className="buttons column">
-						<div className="button up" onClick={(e) => this.props.changeHandler(NormalizeAbilityScore(this.props.value + 1))}>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox={ViewBox}>
-								<path d={UpPath} />
-							</svg>
-						</div>
-						<div className="button down" onClick={(e) => this.props.changeHandler(NormalizeAbilityScore(this.props.value - 1))}>
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox={ViewBox}>
-								<path d={DownPath} />
-							</svg>
-						</div>
+						<Button className="up" viewBox={ViewBox} path={UpPath} onClick={(e) => this.props.changeHandler(NormalizeAbilityScore(this.props.value + 1))} />
+						<Button className="down" viewBox={ViewBox} path={DownPath} onClick={(e) => this.props.changeHandler(NormalizeAbilityScore(this.props.value - 1))} />
 					</div>
 				</div>
 			</div>
@@ -87,5 +99,6 @@ class AbilityScores extends React.Component
 }
 
 AbilityScores.Abilities = Abilities
+AbilityScores.CalculateAbilityModifier = CalculateAbilityModifier
 
 export default AbilityScores
