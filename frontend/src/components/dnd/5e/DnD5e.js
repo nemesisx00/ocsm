@@ -52,6 +52,7 @@ const EmptySheet = Object.freeze({
 	}
 })
 
+const DefaultProficiencyBonus = 2
 const ProficiencyBonusTable = Object.freeze({
 	2: [1, 2, 3, 4],
 	3: [5, 6, 7, 8],
@@ -61,7 +62,7 @@ const ProficiencyBonusTable = Object.freeze({
 })
 
 const GetProficiencyBonusFromLevel = (level) => {
-	let pb = 2
+	let pb = DefaultProficiencyBonus
 	
 	Object.keys(ProficiencyBonusTable).forEach(key => {
 		if(ProficiencyBonusTable[key].indexOf(level) > -1)

@@ -21,9 +21,7 @@ const ScoreMin = 1
 const CalculateAbilityModifier = score => {
 	let num = NormalizeAbilityScore(score)
 	if(Number.isInteger(num))
-	{
 		return Math.trunc(num / 2) - 5
-	}
 	return null
 }
 
@@ -44,7 +42,7 @@ const NormalizeAbilityScore = score => {
 		return num
 	}
 	
-	return score !== null ? score : ''
+	return score === null || score === undefined ? '' : score
 }
 
 class Button extends React.Component
