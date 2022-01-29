@@ -4,6 +4,10 @@
 	windows_subsystem = "windows"
 )]
 
+mod rolls;
+
+pub use crate::rolls::DieRoller;
+
 use std::{
 	fs::{
 		OpenOptions,
@@ -51,7 +55,7 @@ fn main()
 	tauri::Builder::default()
 		.menu(BuildMenu())
 		.on_menu_event(MainMenuEventHandler)
-		.invoke_handler(tauri::generate_handler![NewSheet, SaveSheet])
+		.invoke_handler(tauri::generate_handler![NewSheet, RollDice, SaveSheet])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
 }
@@ -62,7 +66,22 @@ fn NewSheet(window: Window, context: String)
 	match window.emit("newSheet", ContextPayload { context: context })
 	{
 		Err(e) => { println!("Error emitting `newSheet` event: {:#?}", e.to_string()); }
+		
 		Ok(result) => { println!("Succeeded in emitting `newSheet` event: {:#?}", result); }
+	}
+}
+
+#[command]
+fn RollDice(window: Window, sides: u64, quantity: u64)
+{
+	let roller = DieRoller::default();
+	let roll = roller.rollMultiple(sides, quantity);
+	
+	match window.emit("rolledDice", serde_json::to_string(&roll).unwrap())
+	{
+		Err(e) => { println!("Error emitting `rolledDice` event: {:#?}", e.to_string()); }
+		
+		Ok(result) => { println!("Succeeded in emitting `rolledDice` event: {:#?}", result); }
 	}
 }
 
@@ -125,6 +144,7 @@ fn EmitClearSheet(window: Window)
 	match window.emit("clearSheet", "")
 	{
 		Err(e) => { println!("Error clearing sheet: {:#?}", e.to_string()); }
+		
 		Ok(result) => { println!("Succeeded in clearing sheet: {:#?}", result); }
 	}
 }
@@ -134,6 +154,7 @@ fn EmitSave(window: Window)
 	match window.emit("saveSheet", true)
 	{
 		Err(e) => { println!("Error emitting `saveSheet` event: {:#?}", e.to_string()); }
+		
 		Ok(result) => { println!("Succeeded in emitting `saveSheet` event: {:#?}", result); }
 	}
 }
@@ -149,6 +170,7 @@ fn LoadFromFile(window: &'static Window)
 				None => {
 					println!("Either no file was selected or there was a problem with the file dialog.");
 				}
+				
 				Some(p) => {
 					match read_to_string(p) {
 						Err(e) => { println!("Error loading file: {:#?}", e.to_string()); }
@@ -194,6 +216,7 @@ fn SaveToFile(data: &'static SaveData)
 				None => {
 					println!("Either no file was selected or there was a problem with the file dialog.");
 				}
+				
 				Some(path) => {
 					let file = OpenOptions::new()
 								.create(true)

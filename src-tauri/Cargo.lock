@@ -1757,6 +1757,7 @@ dependencies = [
 name = "ocsm"
 version = "0.5.0"
 dependencies = [
+ "rand 0.8.4",
  "serde",
  "serde_json",
  "tauri",

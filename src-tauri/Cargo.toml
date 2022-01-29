@@ -6,10 +6,11 @@ authors = [ "Peter Lunneberg <plunn.dev@gmail.com>" ]
 license = "MIT"
 repository = "https://bitbucket.org/nemesisx00/ocsm"
 default-run = "ocsm"
-edition = "2018"
+edition = "2021"
 build = "src/build.rs"
 
 [dependencies]
+rand = "^0.8.0"
 serde_json = "^1.0"
 serde = { version = "^1.0", features = [ "derive" ] }
 tauri = { version = "^1.0.0-beta.8", features =["api-all"]}

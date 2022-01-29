@@ -37,6 +37,7 @@ class App extends React.Component
 		this.listenerHandles = {
 			newSheet: null,
 			loadSheet: null,
+			rolledDice: null,
 			saveSheet: null
 		}
 	}
@@ -45,6 +46,7 @@ class App extends React.Component
 	{
 		this.listenerHandles.newSheet = listen('newSheet', (event) => this.newSheetHandler(event))
 		this.listenerHandles.loadSheet = listen('loadSheet', (obj) => this.loadSheetHandler(obj))
+		this.listenerHandles.rolledDice = listen('rolledDice', (obj) => this.rolledDiceHandler(obj))
 		this.listenerHandles.saveSheet = listen('saveSheet', () => this.saveSheetHandler())
 	}
 	
@@ -72,7 +74,7 @@ class App extends React.Component
 		}
 		
 		return (
-			<div className="App">
+			<div className="App" onClick={e => this.rollDiceHandler(6, 6)}>
 				{sheet}
 			</div>
 		)
@@ -108,24 +110,17 @@ class App extends React.Component
 	
 	loadSheetHandler(obj)
 	{
-		if(obj && obj.payload)
-		{
-			let payload = null
-			try { payload = JSON.parse(obj.payload) }
-			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
+		let self = this
+		this.parseBackendPayload(obj, (payload) => {
+			let sheetState = JSON.parse(payload.sheetState)
+			let sorter = self.getSheetSortMethod(payload.context)
 			
-			if(payload !== null)
-			{
-				let sheetState = JSON.parse(payload.sheetState)
-				let sorter = this.getSheetSortMethod(payload.context)
-				
-				this.setState(() => { return {
-						context: payload.context,
-						sheetState: sorter(sheetState)
-					}
-				})
-			}
-		}
+			self.setState(() => { return {
+					context: payload.context,
+					sheetState: sorter(sheetState)
+				}
+			})
+		})
 	}
 	
 	newSheetHandler(event)
@@ -139,6 +134,35 @@ class App extends React.Component
 			
 			this.setState(() => { return newState })
 		}
+	}
+	
+	parseBackendPayload(obj, callback)
+	{
+		if(obj && obj.payload)
+		{
+			let payload = null
+			try { payload = JSON.parse(obj.payload) }
+			catch(err) { console.log(`Failed to parse the loaded sheet: ${err}`) }
+			
+			if(payload !== null)
+			{
+				callback(payload)
+			}
+		}
+	}
+	
+	rollDiceHandler(sides, quantity)
+	{
+		console.log('Invoking backend RollDice event!')
+		invoke('RollDice', { sides, quantity })
+	}
+	
+	rolledDiceHandler(obj)
+	{
+		let self = this
+		this.parseBackendPayload(obj, payload => {
+			console.log(payload)
+		})
 	}
 	
 	saveSheetHandler()
