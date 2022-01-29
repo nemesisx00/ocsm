@@ -1,0 +1,30 @@
+.details
+{
+	cursor: default;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin-right: 15px;
+}
+
+.details > .row
+{
+	flex-grow: 0;
+	display: flex;
+	flex-direction: row;
+	margin: 5px 0;
+	height: 25px;
+}
+
+.details .row > label
+{
+	min-width: 120px;
+	text-align: left;
+	user-select: none;
+	vertical-align: middle;
+}
+
+.details .row > input
+{
+	flex-grow: 1;
+}

@@ -1,0 +1,28 @@
+.contractsWrapper
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.contractsWrapper .contracts
+{
+	display: flex;
+	flex-direction: row;
+	padding-left: 15px;
+}
+
+.contractsWrapper .contracts .column
+{
+	display: flex;
+	flex-direction: column;
+	
+	flex-grow: 1;
+	justify-content: left;
+	text-align: left;
+}
+
+.contractsWrapper .contracts .column > *
+{
+	cursor: pointer;
+	margin: 2px 0;
+}

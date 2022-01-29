@@ -1,0 +1,48 @@
+.sheet
+{
+	display: flex;
+	flex-direction: row;
+}
+
+.sheet .column
+{
+	flex-grow: 1;
+	justify-content: space-evenly;
+	
+	display: flex;
+	flex-direction: column;
+}
+
+.sheet .column.spacedOut > * { margin: 10px 0; }
+.sheet .column.spacedOut > *:first-child { margin-top: 0; }
+.sheet .column.spacedOut > *:last-child { margin-bottom: 0; }
+
+.sheet .column hr { margin: 10px 0; }
+
+.sheet .row
+{
+	flex-grow: 0;
+	justify-content: space-evenly;
+	
+	display: flex;
+	flex-direction: row;
+}
+.sheet .row.fill > * { flex-grow: 1; }
+
+.sheet .baseTraits
+{
+	min-width: 550px;
+}
+
+.sheet .trackers
+{
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+
+.sheet .trackers > *
+{
+	margin: 5px 0;
+	min-width: 200px;
+}
+.sheet .trackers > *:first-child { margin-top: 0; }

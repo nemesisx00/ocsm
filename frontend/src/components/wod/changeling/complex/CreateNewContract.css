@@ -1,0 +1,22 @@
+.createNewContract
+{
+	display: flex;
+	flex-direction: column;
+	width: 25%;
+	top: 25vh !important;
+	left: 25vw !important;
+}
+
+.createNewContract .row
+{
+	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	margin: 5px 0;
+}
+.createNewContract .row.center { justify-content: center; }
+
+.createNewContract .row *
+{
+	flex-grow: 1;
+}

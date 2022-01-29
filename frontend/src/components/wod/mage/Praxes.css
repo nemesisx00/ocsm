@@ -1,0 +1,10 @@
+.praxis
+{
+	flex-grow: 0;
+	justify-content: space-evenly;
+	height: 25px;
+	margin: 5px 0;
+}
+
+.praxis .arcanum { margin: 0 3px 0 5px; }
+.praxis .spell { flex-grow: 1; }

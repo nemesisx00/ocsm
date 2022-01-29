@@ -1,0 +1,29 @@
+.advantages
+{
+	cursor: default;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin-right: 15px;
+}
+
+.advantages .row
+{
+	flex-grow: 0;
+	display: flex;
+	flex-direction: row;
+	margin: 5px 0;
+	height: 25px;
+}
+
+.advantages .row label
+{
+	min-width: 120px;
+	text-align: left;
+	user-select: none;
+	vertical-align: middle;
+}
+
+.advantages .row input { flex-grow: 1; }
+
+.advantages .row.left { justify-content: left; }

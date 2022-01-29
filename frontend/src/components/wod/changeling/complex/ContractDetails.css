@@ -1,0 +1,84 @@
+.contractDetails
+{
+	display: flex;
+	flex-direction: column;
+	min-width: 75vw;
+	white-space: pre-wrap;
+}
+
+.contractDetails hr
+{
+	border: 0 none;
+}
+
+.contractDetails > *
+{
+	text-align: left;
+}
+
+.contractDetails .row
+{
+	display: flex;
+	flex-direction: row;
+}
+
+.contractDetails .column
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.contractDetails .spacer
+{
+	margin: 2px 0;
+}
+
+.contractDetails .indent
+{
+	margin-left: 15px;
+}
+
+.contractDetails .row > *
+{
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+.contractDetails .row.label > *.small
+{
+	width: 115px;
+}
+
+.contractDetails .row > *.small
+{
+	width: 100px;
+	margin-left: 0;
+	flex-grow: 0 !important;
+}
+
+.contractDetails .row input,
+.contractDetails .row textarea
+{
+	margin-left: 10px;
+}
+
+.contractDetails .row .label
+{
+	margin: 0 5px 0 15px;
+	user-select: none;
+}
+
+.contractDetails .dots
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding-top: 5px;
+}
+
+.contractDetails .dots .checkDot
+{
+	flex-grow: 0;
+	flex-shrink: 0;
+	margin: 0 2px;
+}

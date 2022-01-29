@@ -1,0 +1,19 @@
+.mageTheAwakening .column
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.column .arcana
+{
+	flex-grow: 0;
+	flex-shrink: 1;
+	margin-left: 25px;
+	min-width: 170px;
+}
+
+.merits
+{
+	flex-grow: 0 !important;
+}
