@@ -1,9 +1,0 @@
-.merit
-{
-	justify-content: space-evenly;
-	height: 25px;
-	margin: 5px 0;
-}
-
-.merit input { flex-grow: 1; }
-.merit .dots { margin-left: 10px; }
