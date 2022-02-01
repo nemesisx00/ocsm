@@ -27,7 +27,7 @@ const fillCommandList = (obj, commandList) => {
 
 let commands = [ `stylus --compress stylus/core --out src/` ]
 fillCommandList(tree, commands)
-console.log(commands)
+//console.log(commands)
 
 for(let command of commands)
 {
