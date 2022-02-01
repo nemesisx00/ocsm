@@ -1,0 +1,44 @@
+@require "../../global.styl"
+
+.skillsWrapper
+	flex(column)
+
+.skillsLabel
+	text-align center
+	font-size 1.1em
+	font-weight bold
+	user-select none
+
+.skills
+	flex(row)
+	justify-content space-evenly
+	
+	& .row
+		flex(row)
+	
+	& .column
+		flex(column)
+		flexNone()
+		
+		& .tracker .label
+			flexGrow()
+			text-align left
+			margin 0 10px 0 0
+			user-select none
+	
+	& .dots
+		flex(row)
+		justify-content center
+		
+		& .checker
+			flexNone()
+			margin 0 2px
+		
+		& .checkerLine
+			margin-top 6px
+		
+		&.extended
+			padding-top 5px
+			
+			& .checkerLine
+				margin-top 0

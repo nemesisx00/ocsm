@@ -1,9 +1,0 @@
-.activeSpell
-{
-	flex-grow: 0;
-	justify-content: space-evenly;
-	margin: 5px 0;
-	height: 25px;
-}
-
-.activeSpell * { flex-grow: 1; }

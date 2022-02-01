@@ -1,0 +1,23 @@
+@require "../../../global.styl"
+
+.rotes
+	& .entryListLabel
+		flex(row)
+		
+		& > *
+			flexGrow()
+			font-size 1em
+	
+	& .rote
+		flexNone()
+		justify-content space-evenly
+		height 25px
+		
+		& > *
+			margin 0 5px
+		
+		& label
+			text-align right
+		
+		& .arcanum
+			margin 0

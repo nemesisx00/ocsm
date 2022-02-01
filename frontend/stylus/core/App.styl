@@ -1,0 +1,31 @@
+@require "../global.styl"
+
+input, textarea, button, select, option
+	border 0 none
+	color foregroundColor
+	background-color backgroundColor
+
+button
+	cursor pointer
+	padding 5px
+	border-radius borderRadius
+
+hr
+	border-color foregroundColor
+
+.checker
+	max-width 50px
+	max-height 50px
+	margin-left 150px
+	margin-top 150px
+
+.App
+	flex(column)
+	text-align center
+
+.App .mainMenu
+	flexShrink()
+
+.App .sheet
+	flexGrow()
+	padding: 10px
