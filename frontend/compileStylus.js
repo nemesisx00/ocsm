@@ -3,14 +3,6 @@ const { exec } = require('child_process')
 
 const generateCommand = (path) => `stylus --compress stylus/components/${path} --out src/components/${path}`
 
-const tree = dree.scan('./stylus/components', {
-	normalize: true,
-	depth: 10,
-	descendants: true,
-	descendantsIgnoreDirectories: true,
-	extensions: [ 'styl' ]
-})
-
 const fillCommandList = (obj, commandList) => {
 	for(let child of obj.children)
 	{
@@ -25,13 +17,24 @@ const fillCommandList = (obj, commandList) => {
 	}
 }
 
+const tree = dree.scan('./stylus/components', {
+	normalize: true,
+	depth: 10,
+	extensions: [ 'styl' ]
+})
+
+/*
+To avoid an unnecessary empty global.css, I moved the src/ level stylesheets
+into stylus/core but need them to output in src/. Doing it manually here
+pre-empted what would probably have been a huge headache.
+*/
 let commands = [ `stylus --compress stylus/core --out src/` ]
 fillCommandList(tree, commands)
 //console.log(commands)
 
 for(let command of commands)
 {
-	exec(command, (err, stdout, stderr) => {
+	exec(command, (err, stdout) => {
 		if(err)
 			console.error(err)
 		else
