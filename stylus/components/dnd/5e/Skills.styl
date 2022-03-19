@@ -1,0 +1,58 @@
+.skillsWrapper
+	user-select none
+	
+	& .skills
+		justify-content center
+		
+		& > .column
+			margin 0 5px
+			padding 0 10px
+			border 1px solid foregroundColor
+			border-radius 10px
+			justify-content flex-start
+			
+			&:first-child
+				margin-left 0
+			
+			&:last-child
+				margin-right 0
+			
+			& > *:first-child
+				margin 5px 0
+			
+			& > *:last-child
+				margin-bottom 10px
+		
+		& .skill
+			justify-content space-between
+			
+			& .label
+				flexGrow()
+				text-align left
+				margin-right 10px
+			
+			& .proficiency
+				cursor pointer
+				width 12px
+				height 12px
+				margin-top 1px
+				margin-right 10px
+				
+				& svg
+					overflow visible
+					
+					& path, & circle
+						fill transparent
+					
+					& circle
+						stroke foregroundColor
+						stroke-width 1px
+				
+				&.half svg path
+					fill foregroundColor
+					
+				&.proficient svg circle
+					fill foregroundColor
+				
+				&.expert svg circle
+					fill #A33333

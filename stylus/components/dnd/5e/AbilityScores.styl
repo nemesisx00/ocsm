@@ -1,0 +1,59 @@
+.abilityScores
+	flex(row)
+	justify-content center
+	user-select none
+	
+	& .abilityScore
+		flex(column)
+		flexNone()
+		width 105px
+		margin 0 5px
+		text-align center
+		justify-content center
+	    border 1px solid foregroundColor
+	    border-radius 15px
+	    padding 5px 10px 10px 5px
+		
+		&:first-child
+			margin-left 0
+		
+		&:last-child
+			margin-right 0
+		
+		& .scoreLabel
+			flexNone()
+			font-size 1.2em
+		
+		& .scoreModifier
+			flexGrow()
+			font-size 2em
+		
+		& .scoreValue
+			flexNone()
+			justify-content right
+			
+			& input
+				width 50px
+				margin-left calc(25% - 1px)
+				font-size 1.2em
+				text-align center
+				border 1px solid foregroundColor
+				border-radius 10px
+			
+			& .buttons
+				width 12px
+				margin-left 5px
+				
+				& .button
+					position relative
+					width 12px
+					height 12px
+					cursor pointer
+					
+					& svg
+						absolute(0, 0)
+						
+						& path
+							fill backgroundColor
+							stroke foregroundColor
+							stroke-width 1px

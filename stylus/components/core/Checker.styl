@@ -1,0 +1,24 @@
+.checker
+	position relative
+	width 12px
+	height 12px
+	border 1px solid foregroundColor
+	cursor pointer
+	
+	&.circle
+		border 0 none
+		
+		&.checked svg circle
+			fill foregroundColor
+		
+		& svg circle
+			stroke foregroundColor
+			stroke-width 2px
+			fill transparent
+	
+	& svg
+		absolute(0, 0)
+		
+		& path
+			stroke foregroundColor
+			stroke-width 1px

@@ -1,0 +1,55 @@
+foregroundColor = #A9ABB0
+backgroundColor = #272B32
+bodyBackgroundColor = #171C27
+borderRadius = 10px
+
+absolute(x, y)
+	position absolute
+	top x
+	left y
+
+flex(dir)
+	display flex
+	flex-direction dir
+
+flexGrow()
+	flex-grow 1
+	flex-shrink 0
+
+flexNone()
+	flex-grow 0
+	flex-shrink 0
+
+flexShrink()
+	flex-grow 0
+	flex-shrink 1
+
+invisible()
+	opacity 0
+	visibility hidden
+
+@require "./core/App.styl"
+@require "./core/index.styl"
+@require "./components/core/Checker.styl"
+@require "./components/core/EntryList.styl"
+@require "./components/core/Tabs.styl"
+@require "./components/dnd/5e/AbilityScores.styl"
+@require "./components/dnd/5e/DnD5e.styl"
+@require "./components/dnd/5e/Skills.styl"
+@require "./components/wod/changeling/ChangelingTheLost.styl"
+@require "./components/wod/changeling/complex/ContractDetails.styl"
+@require "./components/wod/changeling/complex/Contracts.styl"
+@require "./components/wod/changeling/complex/CreateNewContract.styl"
+@require "./components/wod/mage/ActiveSpells.styl"
+@require "./components/wod/mage/Arcana.styl"
+@require "./components/wod/mage/MageTheAwakening.styl"
+@require "./components/wod/mage/Praxes.styl"
+@require "./components/wod/mage/Rotes.styl"
+@require "./components/wod/vampire/VampireTheMasquerade.styl"
+@require "./components/wod/Advantages.styl"
+@require "./components/wod/Attributes.styl"
+@require "./components/wod/Details.styl"
+@require "./components/wod/Merits.styl"
+@require "./components/wod/Sheet.styl"
+@require "./components/wod/Skills.styl"
+@require "./components/wod/Tracker.styl"

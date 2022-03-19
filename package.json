@@ -1,20 +1,13 @@
 {
-	"name": "ocsm",
-	"version": "0.5.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"build": "npm run tauri build",
-		"buildReact": "npm --prefix ./frontend/ run build",
-		"dev": "npm run tauri dev",
-		"exe": "src-tauri\\target\\release\\ocsm.exe",
-		"reactStart": "npm --prefix ./frontend/ start",
-		"tauri": "tauri"
-	},
 	"author": "Peter Lunneberg <plunn.dev@gmail.com>",
-	"license": "ISC",
-	"dependencies": {
-		"@tauri-apps/api": ">=1.0.0-beta.8",
-		"@tauri-apps/cli": ">=1.0.0-beta.10"
+	"license": "MIT",
+	"name": "ocsm-styles",
+	"version": "0.1.0",
+	"devDependencies": {
+		"dree": "^3.3.5",
+		"stylus": "^0.56.0"
+	},
+	"scripts": {
+		"stylus": "stylus --compress stylus --out static/app.css"
 	}
 }
