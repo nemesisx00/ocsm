@@ -10,10 +10,6 @@ use crate::{
 			Tracker,
 			TrackerState,
 		},
-		state::{
-			updateHealth,
-			updateWillpower,
-		},
 	},
 	core::components::check::{
 		CheckLine,
@@ -26,14 +22,10 @@ pub struct TrackProps
 {
 	label: String,
 	
-	tracker: Tracker,
-	
-	//TODO: Figure out how to allow a generic function handler as a property, rather than these two bools
-	#[props(optional)]
-	healthHandler: Option<bool>,
+	pub tracker: Tracker,
 	
 	#[props(optional)]
-	willpowerHandler: Option<bool>,
+	handler: Option<fn(&Scope<TrackProps>, usize)>,
 }
 
 impl PartialEq for TrackProps
@@ -44,35 +36,21 @@ impl PartialEq for TrackProps
 		
 		let trackerEq = self.tracker == other.tracker;
 		
-		let healthHandlerEq = match &self.healthHandler
+		let handlerEq = match &self.handler
 		{
-			Some(_h1) => match &other.healthHandler
+			Some(_h1) => match &other.handler
 			{
 				Some(_h2) => { true }
 				None => { false }
 			}
-			None => match &other.healthHandler
+			None => match &other.handler
 			{
 				Some(_h2) => { false }
 				None => { true }
 			}
 		};
 		
-		let willpowerHandlerEq = match &self.willpowerHandler
-		{
-			Some(_h1) => match &other.willpowerHandler
-			{
-				Some(_h2) => { true }
-				None => { false }
-			}
-			None => match &other.willpowerHandler
-			{
-				Some(_h2) => { false }
-				None => { true }
-			}
-		};
-		
-		return labelEq && trackerEq && healthHandlerEq && willpowerHandlerEq;
+		return labelEq && trackerEq && handlerEq;
 	}
 }
 
@@ -84,12 +62,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 		{
 			class: "tracker",
 			
-			div
-			{
-				class: "label",
-				
-				"{scope.props.label}"
-			},
+			div { class: "label", "{scope.props.label}" },
 			
 			div
 			{
@@ -101,7 +74,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 					{
 						key: "{i}",
 						lineState: getLineState(scope.props.tracker.values.get(i)),
-						onclick: move |e| clickHandler(e, &scope, i, scope.props.tracker.values.get(i))
+						onclick: move |e| clickHandler(e, &scope, i)
 					})
 				})
 			}
@@ -126,47 +99,13 @@ fn getLineState(ts: Option<&TrackerState>) -> CheckLineState
 	};
 }
 
-fn clickHandler(e: MouseEvent, scope: &Scope<TrackProps>, index: usize, currentState: Option<&TrackerState>)
+fn clickHandler(e: MouseEvent, scope: &Scope<TrackProps>, index: usize)
 {
 	e.cancel_bubble();
 	
-	match &scope.props.healthHandler
+	match &scope.props.handler
 	{
-		Some(isHandler) =>
-		{
-			if *isHandler
-			{
-				match currentState
-				{
-					Some(dt) =>
-					{
-						match dt
-						{
-							TrackerState::One => { updateHealth(&scope, TrackerState::Two, false, Some(index)); }
-							TrackerState::Two => { updateHealth(&scope, TrackerState::Three, false, Some(index)); }
-							TrackerState::Three => { updateHealth(&scope, TrackerState::Three, true, Some(index)); }
-						}
-					}
-					None => { updateHealth(&scope, TrackerState::One, false, None); }
-				}
-			}
-		}
-		None => {}
-	}
-	
-	match &scope.props.willpowerHandler
-	{
-		Some(isHandler) =>
-		{
-			if *isHandler
-			{
-				match currentState
-				{
-					Some(ts) => { updateWillpower(scope, *ts, Some(index)); }
-					None => { updateWillpower(scope, TrackerState::Two, None); }
-				}
-			}
-		}
+		Some(h) => { h(&scope, index); }
 		None => {}
 	}
 }
