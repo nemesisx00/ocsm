@@ -38,6 +38,13 @@ pub fn Details(scope: Scope) -> Element
 	let nameLabel = "Name:".to_string();
 	let name = details.name;
 	
+	// I'm leaving DetailsField::Player out of this component for now.
+	// I'm building this for players (read: myself) first and foremost
+	// so the Player field is a bit redundant. Maybe one day this will
+	// have grown to the point of being able to open multiple sheets
+	// so GMs/STs can keep track of their players' characters more easily.
+	// But it is not this day.
+	
 	return scope.render(rsx!
 	{
 		div
