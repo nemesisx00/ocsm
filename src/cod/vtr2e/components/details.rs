@@ -19,24 +19,16 @@ use crate::cod::{
 pub fn Details(scope: Scope) -> Element
 {
 	let detailsRef = use_atom_ref(&scope, KindredDetails);
-	let details = (*detailsRef.read()).clone();
+	let details = detailsRef.read();
 	
 	let bloodlineLabel = "Bloodline:".to_string();
-	let bloodline = details.bloodline;
 	let chronicleLabel = "Chronicle:".to_string();
-	let chronicle = details.chronicle;
 	let clanLabel = "Clan:".to_string();
-	let clan = details.clan;
 	let conceptLabel = "Concept:".to_string();
-	let concept = details.concept;
 	let covenantLabel = "Covenant:".to_string();
-	let covenant = details.covenant;
 	let dirgeLabel = "Dirge:".to_string();
-	let dirge = details.dirge;
 	let maskLabel = "Mask:".to_string();
-	let mask = details.mask;
 	let nameLabel = "Name:".to_string();
-	let name = details.name;
 	
 	// I'm leaving DetailsField::Player out of this component for now.
 	// I'm building this for players (read: myself) first and foremost
@@ -55,19 +47,19 @@ pub fn Details(scope: Scope) -> Element
 			{
 				class: "column",
 				
-				DetailInput { label: nameLabel, value: name, handler: detailHandler, handlerKey: DetailsField::Name, }
-				DetailInput { label: conceptLabel, value: concept, handler: detailHandler, handlerKey: DetailsField::Concept, }
-				DetailInput { label: maskLabel, value: mask, handler: detailHandler, handlerKey: DetailsField::Mask, }
-				DetailInput { label: dirgeLabel, value: dirge, handler: detailHandler, handlerKey: DetailsField::Dirge, }
+				DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
+				DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
+				DetailInput { label: maskLabel, value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
+				DetailInput { label: dirgeLabel, value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
 			}
 			
 			div
 			{
 				class: "column",
-				DetailInput { label: chronicleLabel, value: chronicle, handler: detailHandler, handlerKey: DetailsField::Chronicle, }
-				DetailInput { label: clanLabel, value: clan, handler: detailHandler, handlerKey: DetailsField::Clan, }
-				DetailInput { label: bloodlineLabel, value: bloodline, handler: detailHandler, handlerKey: DetailsField::Bloodline, }
-				DetailInput { label: covenantLabel, value: covenant, handler: detailHandler, handlerKey: DetailsField::Covenant, }
+				DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
+				DetailInput { label: clanLabel, value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
+				DetailInput { label: bloodlineLabel, value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
+				DetailInput { label: covenantLabel, value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
 			}
 		}
 	});
