@@ -13,7 +13,7 @@ use crate::{
 			DamageType,
 			Tracker
 		},
-		vampire::state::{
+		vtmv5::state::{
 			CurrentHealth,
 			VampireCharacter
 		}
@@ -35,11 +35,11 @@ impl<'a> PartialEq for TrackProps<'a>
 	}
 }
 
-pub fn Track<'a>(cx: Scope<'a, TrackProps<'a>>) -> Element
+pub fn Track<'a>(scope: Scope<'a, TrackProps<'a>>) -> Element
 {
-	let currentHealth = use_read(&cx, CurrentHealth);
+	let currentHealth = use_read(&scope, CurrentHealth);
 	
-	return cx.render(rsx!{
+	return scope.render(rsx!{
 		div
 		{
 			class: "tracker",
@@ -50,11 +50,11 @@ pub fn Track<'a>(cx: Scope<'a, TrackProps<'a>>) -> Element
 				
 				(0..currentHealth.max).map(|i|
 				{
-					rsx!(cx, CheckLine
+					rsx!(scope, CheckLine
 					{
 						key: "{i}",
 						lineState: getLineState(currentHealth.aggravated, currentHealth.getDamageTotal(), i),
-						onclick: move |e| clickHandler(e, &cx, getLineState(currentHealth.aggravated, currentHealth.getDamageTotal(), i))
+						onclick: move |e| clickHandler(e, &scope, getLineState(currentHealth.aggravated, currentHealth.getDamageTotal(), i))
 					})
 				})
 			}
@@ -62,11 +62,11 @@ pub fn Track<'a>(cx: Scope<'a, TrackProps<'a>>) -> Element
 	});
 }
 
-fn clickHandler(e: MouseEvent, cx: &Scope<TrackProps>, currentState: CheckLineState)
+fn clickHandler(e: MouseEvent, scope: &Scope<TrackProps>, currentState: CheckLineState)
 {
 	e.cancel_bubble();
-	let cHealth = use_read(&cx, CurrentHealth);
-	let setCurrentHealth = use_set(&cx, CurrentHealth);
+	let cHealth = use_read(&scope, CurrentHealth);
+	let setCurrentHealth = use_set(&scope, CurrentHealth);
 	
 	let mut newHealth = Tracker { max: cHealth.max, superficial: cHealth.superficial, aggravated: cHealth.aggravated };
 	
@@ -83,7 +83,7 @@ fn clickHandler(e: MouseEvent, cx: &Scope<TrackProps>, currentState: CheckLineSt
 	setCurrentHealth(*cHealth);
 	println!("newHealth: {}", cHealth.superficial);
 	
-	match &cx.props.onclick
+	match &scope.props.onclick
 	{
 		Some(handler) => handler.call(e),
 		None => {}

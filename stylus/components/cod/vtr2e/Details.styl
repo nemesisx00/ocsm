@@ -1,0 +1,17 @@
+.cod .details
+	flex(row)
+	flexGrow()
+	cursor default
+	justify-content space-evenly
+	
+	& > .column
+		flexShrink()
+	
+	& .row
+		& > label
+			min-width 75px
+			text-align left
+			vertical-align middle
+		
+		& > input
+			flexShrink()

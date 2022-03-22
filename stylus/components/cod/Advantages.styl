@@ -1,0 +1,23 @@
+.cod .advantages
+	flex(column)
+	flexGrow()
+	cursor default
+	justify-content space-evenly
+	
+	& .row
+		flex(row)
+		flexNone()
+		margin 5px 0
+		height 25px
+		
+		& label
+			min-width 120px
+			text-align left
+			user-select none
+			vertical-align middle
+		
+		& input
+			flex-grow 1
+		
+		&.left
+			justify-content left

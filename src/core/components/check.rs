@@ -50,15 +50,15 @@ impl<'a> PartialEq for CheckCircleProps<'a>
 }
 
 /// Generate clickable a circle with inline SVG.
-pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
+pub fn CheckCircle<'a>(scope: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 {
-	let checkedClass = match cx.props.checked
+	let checkedClass = match scope.props.checked
 	{
 		true => " checked",
 		false => ""
 	};
 	
-	return cx.render(rsx!
+	return scope.render(rsx!
 	{
 		div
 		{
@@ -66,7 +66,7 @@ pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 			prevent_default: "onclick",
 			onclick: move |e| {
 				e.cancel_bubble();
-				match &cx.props.onclick
+				match &scope.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
@@ -83,7 +83,7 @@ pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 	});
 }
 
-///Enumeration to designate how many line(s) should be drawn in a CheckLine.
+/// Enumeration to designate how many line(s) should be drawn in a CheckLine.
 #[derive(Clone, Copy, PartialEq)]
 pub enum CheckLineState
 {
@@ -114,11 +114,11 @@ impl<'a> PartialEq for CheckLineProps<'a>
 }
 
 /// Generate clickable a box with inline SVG.
-pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
+pub fn CheckLine<'a>(scope: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 {
-	let path = buildPath(cx.props.lineState);
+	let path = buildPath(scope.props.lineState);
 	
-	return cx.render(rsx!
+	return scope.render(rsx!
 	{
 		div
 		{
@@ -126,7 +126,7 @@ pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 			prevent_default: "onclick",
 			onclick: move |e| {
 				e.cancel_bubble();
-				match &cx.props.onclick
+				match &scope.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
@@ -143,7 +143,7 @@ pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 	});
 }
 
-///Construct an SVG Path as a String based on the given CheckLineState.
+/// Construct an SVG Path as a String based on the given CheckLineState.
 fn buildPath(lineState: CheckLineState) -> String
 {
 	return match lineState
@@ -152,17 +152,5 @@ fn buildPath(lineState: CheckLineState) -> String
 		CheckLineState::Single => format!("{} {}", SvgPathLineBack, SvgPathEnd),
 		CheckLineState::Double => format!("{} {} {}", SvgPathLineBack, SvgPathLineFwd, SvgPathEnd),
 		CheckLineState::Triple => format!("{} {} {} {}", SvgPathLineBack, SvgPathLineFwd, SvgPathLineVert, SvgPathEnd)
-	};
-}
-
-///
-pub fn getNextLineState(lineState: CheckLineState) -> CheckLineState
-{
-	return match lineState
-	{
-		CheckLineState::None => CheckLineState::Single,
-		CheckLineState::Single => CheckLineState::Double,
-		CheckLineState::Double => CheckLineState::Triple,
-		CheckLineState::Triple => CheckLineState::None
 	};
 }

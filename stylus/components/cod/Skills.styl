@@ -1,0 +1,35 @@
+.cod .skillsWrapper
+
+	& .skillsLabel
+		text-align center
+		font-size 1.1em
+		font-weight bold
+		user-select none
+
+	& .skills
+		justify-content space-evenly
+		
+		& .column
+			flexNone()
+			
+			& .tracker .label
+				flexGrow()
+				text-align left
+				margin 0 10px 0 0
+				user-select none
+		
+		& .dots
+			justify-content center
+			
+			& .checker
+				flexNone()
+				margin 0 2px
+			
+			& .checkerLine
+				margin-top 6px
+			
+			&.extended
+				padding-top 5px
+				
+				& .checkerLine
+					margin-top 0

@@ -1,0 +1,27 @@
+.cod .tracker
+	& .label
+		margin 0 0 5px
+		user-select none
+	
+	& .checkerLine
+		flex-wrap wrap
+		justify-content center
+		
+		&:nth-child(n+1)
+			margin-top 5px
+		
+		& .checker
+			flexNone()
+			margin 0 2px
+	
+	&.extended
+		.checkerLine
+			max-width 80px
+			flex-wrap wrap
+			
+			& .checker
+				&:nth-child(n + 6)
+					margin-top 2px
+		
+	&.long .checkerLine .checker:nth-child(6)
+		margin-left 10px
