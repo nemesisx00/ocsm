@@ -123,6 +123,8 @@ fn DetailInput<T>(scope: Scope<DetailInputProps<T>>) -> Element
 
 fn inputHandler<T>(e: FormEvent, scope: &Scope<DetailInputProps<T>>)
 {
+	e.cancel_bubble();
+	
 	match &scope.props.handler
 	{
 		Some(h) => { h(&scope, e.value.clone()); }
