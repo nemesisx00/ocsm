@@ -4,26 +4,26 @@ use dioxus::prelude::*;
 use crate::{
 	cod::{
 		advantages::{
-			Advantages,
-			AdvantageType,
+			BaseAdvantages,
+			BaseAdvantageType,
 		},
 		tracks::{
 			TrackerState,
 		},
 		traits::{
-			Attributes,
-			AttributeType,
-			Skills,
-			SkillType,
+			BaseAttributes,
+			BaseAttributeType,
+			BaseSkills,
+			BaseSkillType,
 		}
 	},
 };
 
-pub static CharacterAdvantages: AtomRef<Advantages> = |_| Advantages::default();
-pub static CharacterAttributes: AtomRef<Attributes> = |_| Attributes::default();
-pub static CharacterSkills: AtomRef<Skills> = |_| Skills::default();
+pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
+pub static CharacterAttributes: AtomRef<BaseAttributes> = |_| BaseAttributes::default();
+pub static CharacterSkills: AtomRef<BaseSkills> = |_| BaseSkills::default();
 
-pub fn updateCharacterAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, value: usize)
+pub fn updateBaseAdvantage<T>(scope: &Scope<T>, advantage: BaseAdvantageType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
@@ -33,11 +33,11 @@ pub fn updateCharacterAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, v
 	
 	match advantage
 	{
-		AdvantageType::Defense => { advantages.defense = value; }
-		AdvantageType::Health => { advantages.health.updateMax(value); }
-		AdvantageType::Initiative => { advantages.initiative = value; }
+		BaseAdvantageType::Defense => { advantages.defense = value; }
+		BaseAdvantageType::Health => { advantages.health.updateMax(value); }
+		BaseAdvantageType::Initiative => { advantages.initiative = value; }
 		
-		AdvantageType::Size =>
+		BaseAdvantageType::Size =>
 		{
 			let finalValue = match value < 1
 			{
@@ -54,12 +54,12 @@ pub fn updateCharacterAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, v
 			advantages.health.updateMax(healthMax);
 		}
 		
-		AdvantageType::Speed => { advantages.speed = value; }
-		AdvantageType::Willpower => { advantages.willpower.updateMax(value); }
+		BaseAdvantageType::Speed => { advantages.speed = value; }
+		BaseAdvantageType::Willpower => { advantages.willpower.updateMax(value); }
 	}
 }
 
-pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usize)
+pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: BaseAttributeType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
@@ -71,14 +71,14 @@ pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usi
 	
 	match attribute
 	{
-		AttributeType::Composure =>
+		BaseAttributeType::Composure =>
 		{
 			attributes.composure.value = value;
 			advantages.initiative = attributes.dexterity.value + value;
 			advantages.willpower.updateMax(attributes.resolve.value + value);
 		}
 		
-		AttributeType::Dexterity =>
+		BaseAttributeType::Dexterity =>
 		{
 			let defense = match value <= attributes.wits.value
 			{
@@ -92,13 +92,13 @@ pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usi
 			advantages.speed = advantages.size + attributes.strength.value + value;
 		}
 		
-		AttributeType::Resolve =>
+		BaseAttributeType::Resolve =>
 		{
 			attributes.resolve.value = value;
 			advantages.willpower.updateMax(attributes.composure.value + value);
 		}
 		
-		AttributeType::Stamina =>
+		BaseAttributeType::Stamina =>
 		{
 			let healthMax = advantages.size + value;
 			
@@ -106,13 +106,13 @@ pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usi
 			advantages.health.updateMax(healthMax);
 		}
 		
-		AttributeType::Strength =>
+		BaseAttributeType::Strength =>
 		{
 			attributes.strength.value = value;
 			advantages.speed = advantages.size + attributes.dexterity.value + value;
 		}
 		
-		AttributeType::Wits =>
+		BaseAttributeType::Wits =>
 		{
 			let defense = match value <= attributes.dexterity.value
 			{
@@ -127,7 +127,7 @@ pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usi
 	}
 }
 
-pub fn updateSkill<T>(scope: &Scope<T>, skill: SkillType, value: usize)
+pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: BaseSkillType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let attributesRef = use_atom_ref(scope, CharacterAttributes);
@@ -139,10 +139,10 @@ pub fn updateSkill<T>(scope: &Scope<T>, skill: SkillType, value: usize)
 	
 	match skill
 	{
-		SkillType::Academics => { skills.academics.value = value; }
-		SkillType::AnimalKen => { skills.animalKen.value = value; }
+		BaseSkillType::Academics => { skills.academics.value = value; }
+		BaseSkillType::AnimalKen => { skills.animalKen.value = value; }
 		
-		SkillType::Athletics =>
+		BaseSkillType::Athletics =>
 		{
 			let attributeDefense = match attributes.dexterity.value <= attributes.wits.value
 			{
@@ -154,31 +154,31 @@ pub fn updateSkill<T>(scope: &Scope<T>, skill: SkillType, value: usize)
 			advantages.defense = attributeDefense + value;
 		}
 		
-		SkillType::Brawl => { skills.brawl.value = value; }
-		SkillType::Computer => { skills.computer.value = value; }
-		SkillType::Crafts => { skills.crafts.value = value; }
-		SkillType::Drive => { skills.drive.value = value; }
-		SkillType::Empathy => { skills.empathy.value = value; }
-		SkillType::Expression => { skills.expression.value = value; }
-		SkillType::Firearms => { skills.firearms.value = value; }
-		SkillType::Investigation => { skills.investigation.value = value; }
-		SkillType::Intimidation => { skills.intimidation.value = value; }
-		SkillType::Larceny => { skills.larceny.value = value; }
-		SkillType::Medicine => { skills.medicine.value = value; }
-		SkillType::Occult => { skills.occult.value = value; }
-		SkillType::Persuasion => { skills.persuasion.value = value; }
-		SkillType::Politics => { skills.politics.value = value; }
-		SkillType::Science => { skills.science.value = value; }
-		SkillType::Socialize => { skills.socialize.value = value; }
-		SkillType::Stealth => { skills.stealth.value = value; }
-		SkillType::Streetwise => { skills.streetwise.value = value; }
-		SkillType::Subterfuge => { skills.subterfuge.value = value; }
-		SkillType::Survival => { skills.survival.value = value; }
-		SkillType::Weaponry => { skills.weaponry.value = value; }
+		BaseSkillType::Brawl => { skills.brawl.value = value; }
+		BaseSkillType::Computer => { skills.computer.value = value; }
+		BaseSkillType::Crafts => { skills.crafts.value = value; }
+		BaseSkillType::Drive => { skills.drive.value = value; }
+		BaseSkillType::Empathy => { skills.empathy.value = value; }
+		BaseSkillType::Expression => { skills.expression.value = value; }
+		BaseSkillType::Firearms => { skills.firearms.value = value; }
+		BaseSkillType::Investigation => { skills.investigation.value = value; }
+		BaseSkillType::Intimidation => { skills.intimidation.value = value; }
+		BaseSkillType::Larceny => { skills.larceny.value = value; }
+		BaseSkillType::Medicine => { skills.medicine.value = value; }
+		BaseSkillType::Occult => { skills.occult.value = value; }
+		BaseSkillType::Persuasion => { skills.persuasion.value = value; }
+		BaseSkillType::Politics => { skills.politics.value = value; }
+		BaseSkillType::Science => { skills.science.value = value; }
+		BaseSkillType::Socialize => { skills.socialize.value = value; }
+		BaseSkillType::Stealth => { skills.stealth.value = value; }
+		BaseSkillType::Streetwise => { skills.streetwise.value = value; }
+		BaseSkillType::Subterfuge => { skills.subterfuge.value = value; }
+		BaseSkillType::Survival => { skills.survival.value = value; }
+		BaseSkillType::Weaponry => { skills.weaponry.value = value; }
 	}
 }
 
-pub fn updateHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
+pub fn updateBaseHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();
@@ -197,7 +197,7 @@ pub fn updateHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool,
 	}
 }
 
-pub fn updateWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
+pub fn updateBaseWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();

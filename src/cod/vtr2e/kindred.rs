@@ -4,15 +4,15 @@ use dioxus::prelude::*;
 use serde::{Serialize, Deserialize};
 use crate::{
 	cod::{
-		advantages::Advantages,
+		advantages::BaseAdvantages,
 		state::{
 			CharacterAdvantages,
 			CharacterAttributes,
 			CharacterSkills,
 		},
 		traits::{
-			Attributes,
-			Skills,
+			BaseAttributes,
+			BaseSkills,
 		},
 		vtr2e::{
 			advantages::{
@@ -32,11 +32,11 @@ use crate::{
 #[derive(Clone, Default, Deserialize, Serialize)]
 pub struct Kindred
 {
-	pub advantages: Advantages,
-	pub attributes: Attributes,
+	pub advantages: BaseAdvantages,
+	pub attributes: BaseAttributes,
 	pub details: Details,
 	pub disciplines: Vec<usize>,
-	pub skills: Skills,
+	pub skills: BaseSkills,
 	pub templateAdvantages: TemplateAdvantages,
 }
 

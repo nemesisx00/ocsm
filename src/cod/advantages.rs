@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use crate::cod::tracks::Tracker;
 
 #[derive(Clone, Copy, Deserialize, PartialEq, Serialize)]
-pub enum AdvantageType
+pub enum BaseAdvantageType
 {
 	Defense,
 	Health,
@@ -15,7 +15,7 @@ pub enum AdvantageType
 }
 
 #[derive(Clone, Deserialize, Serialize)]
-pub struct Advantages
+pub struct BaseAdvantages
 {
 	pub defense: usize,
 	pub health: Tracker,
@@ -25,7 +25,7 @@ pub struct Advantages
 	pub willpower: Tracker,
 }
 
-impl Default for Advantages
+impl Default for BaseAdvantages
 {
 	fn default() -> Self
 	{

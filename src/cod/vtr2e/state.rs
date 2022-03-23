@@ -9,7 +9,7 @@ use crate::{
 		vtr2e::{
 			advantages::{
 				TemplateAdvantages,
-				TemplateAdvantagesType,
+				TemplateAdvantageType,
 				bloodPotencyVitaeMax,
 			},
 			details::{
@@ -23,21 +23,21 @@ use crate::{
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
 
-pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantagesType, value: usize)
+pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
 	let templateRef = use_atom_ref(&scope, KindredAdvantages);
 	let mut template = templateRef.write();
 	
 	match advantage
 	{
-		TemplateAdvantagesType::BloodPotency =>
+		TemplateAdvantageType::BloodPotency =>
 		{
 			template.bloodPotency = value;
 			template.vitae.updateMax(bloodPotencyVitaeMax(value));
 		}
 		
-		TemplateAdvantagesType::Humanity => { template.humanity = value; }
-		TemplateAdvantagesType::Vitae => { template.vitae.updateMax(value); }
+		TemplateAdvantageType::Humanity => { template.humanity = value; }
+		TemplateAdvantageType::Vitae => { template.vitae.updateMax(value); }
 	}
 }
 

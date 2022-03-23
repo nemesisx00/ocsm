@@ -18,12 +18,12 @@ use crate::{
 		},
 		state::{
 			CharacterAdvantages,
-			updateHealth,
-			updateWillpower,
+			updateBaseHealth,
+			updateBaseWillpower,
 		},
 		vtr2e::{
 			advantages::{
-				TemplateAdvantagesType,
+				TemplateAdvantageType,
 			},
 			state::{
 				KindredAdvantages,
@@ -64,7 +64,7 @@ pub fn Advantages(scope: Scope) -> Element
 
 fn bloodPotencyHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateTemplateAdvantage(scope, TemplateAdvantagesType::BloodPotency, clickedValue);
+	updateTemplateAdvantage(scope, TemplateAdvantageType::BloodPotency, clickedValue);
 }
 
 fn healthHandler(scope: &Scope<TrackProps>, index: usize)
@@ -76,18 +76,18 @@ fn healthHandler(scope: &Scope<TrackProps>, index: usize)
 		{
 			match ts
 			{
-				TrackerState::One => { updateHealth(&scope, TrackerState::Two, false, Some(index)); }
-				TrackerState::Two => { updateHealth(&scope, TrackerState::Three, false, Some(index)); }
-				TrackerState::Three => { updateHealth(&scope, TrackerState::Three, true, Some(index)); }
+				TrackerState::One => { updateBaseHealth(&scope, TrackerState::Two, false, Some(index)); }
+				TrackerState::Two => { updateBaseHealth(&scope, TrackerState::Three, false, Some(index)); }
+				TrackerState::Three => { updateBaseHealth(&scope, TrackerState::Three, true, Some(index)); }
 			}
 		}
-		None => { updateHealth(&scope, TrackerState::One, false, None); }
+		None => { updateBaseHealth(&scope, TrackerState::One, false, None); }
 	}
 }
 
 fn humanityHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateTemplateAdvantage(scope, TemplateAdvantagesType::Humanity, clickedValue);
+	updateTemplateAdvantage(scope, TemplateAdvantageType::Humanity, clickedValue);
 }
 
 fn vitaeHandler(scope: &Scope<TrackProps>, index: usize)
@@ -105,7 +105,7 @@ fn willpowerHandler(scope: &Scope<TrackProps>, index: usize)
 	let value = scope.props.tracker.clone().getValue(index);
 	match value
 	{
-		Some(ts) => { updateWillpower(scope, ts, Some(index)); }
-		None => { updateWillpower(scope, TrackerState::Two, None); }
+		Some(ts) => { updateBaseWillpower(scope, ts, Some(index)); }
+		None => { updateBaseWillpower(scope, TrackerState::Two, None); }
 	}
 }

@@ -6,11 +6,11 @@ use dioxus::events::{
 };
 use crate::cod::{
 	advantages::{
-		AdvantageType,
+		BaseAdvantageType,
 	},
 	state::{
 		CharacterAdvantages,
-		updateCharacterAdvantage,
+		updateBaseAdvantage,
 	},
 	vtr2e::{
 		details::{
@@ -71,7 +71,7 @@ pub fn Details(scope: Scope) -> Element
 					DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
 					DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
 					DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
-					DetailNumInput { label: sizeLabel, value: advantages.read().size, handler: advantageHandler, handlerKey: AdvantageType::Size, }
+					DetailNumInput { label: sizeLabel, value: advantages.read().size, handler: advantageHandler, handlerKey: BaseAdvantageType::Size, }
 				}
 				
 				div
@@ -107,7 +107,7 @@ fn detailHandler(scope: &Scope<DetailInputProps<DetailsField>>, value: String)
 	}
 }
 
-fn advantageHandler(scope: &Scope<DetailInputNumProps<AdvantageType>>, value: String)
+fn advantageHandler(scope: &Scope<DetailInputNumProps<BaseAdvantageType>>, value: String)
 {
 	let num = match usize::from_str_radix(&value, 10)
 	{
@@ -117,7 +117,7 @@ fn advantageHandler(scope: &Scope<DetailInputNumProps<AdvantageType>>, value: St
 	
 	match scope.props.handlerKey
 	{
-		Some(at) => { updateCharacterAdvantage(scope, at, num); }
+		Some(at) => { updateBaseAdvantage(scope, at, num); }
 		None => {}
 	}
 }

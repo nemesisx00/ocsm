@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use crate::cod::tracks::Tracker;
 
 #[derive(Clone, Copy, Deserialize, PartialEq, Serialize)]
-pub enum TemplateAdvantagesType
+pub enum TemplateAdvantageType
 {
 	BloodPotency,
 	Humanity,
