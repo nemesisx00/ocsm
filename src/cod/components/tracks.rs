@@ -56,6 +56,8 @@ impl PartialEq for TrackProps
 
 pub fn Track(scope: Scope<TrackProps>) -> Element
 {
+	let max = scope.props.tracker.clone().getMax();
+	
 	return scope.render(rsx!
 	{
 		div
@@ -68,12 +70,12 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 			{
 				class: "checkerLine row",
 				
-				(0..scope.props.tracker.max).map(|i|
+				(0..max).map(|i|
 				{
 					rsx!(scope, CheckLine
 					{
 						key: "{i}",
-						lineState: getLineState(scope.props.tracker.values.get(i)),
+						lineState: getLineState(scope.props.tracker.clone().getValue(i)),
 						onclick: move |e| clickHandler(e, &scope, i)
 					})
 				})
@@ -82,7 +84,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 	});
 }
 
-fn getLineState(ts: Option<&TrackerState>) -> CheckLineState
+fn getLineState(ts: Option<TrackerState>) -> CheckLineState
 {
 	return match ts
 	{

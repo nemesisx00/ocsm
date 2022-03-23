@@ -23,8 +23,8 @@ pub enum TrackerState
 #[derive(Clone, Default, Deserialize, PartialEq, Serialize)]
 pub struct Tracker
 {
-	pub max: usize,
-	pub values: Vec<TrackerState>
+	max: usize,
+	values: Vec<TrackerState>
 }
 
 impl Tracker
@@ -56,6 +56,28 @@ impl Tracker
 		}
 		
 		self.values.sort();
+	}
+	
+	pub fn getMax(self) -> usize
+	{
+		return self.max;
+	}
+	
+	pub fn getValue(self, index: usize) -> Option<TrackerState>
+	{
+		match self.values.get(index)
+		{
+			Some(ts) =>
+			{
+				match ts
+				{
+					TrackerState::One => { Some(TrackerState::One) }
+					TrackerState::Two => { Some(TrackerState::Two) }
+					TrackerState::Three => { Some(TrackerState::Three) }
+				}
+			}
+			None => { None }
+		}
 	}
 	
 	/// Remove one value of `state` TrackerState.

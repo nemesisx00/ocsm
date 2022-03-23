@@ -34,7 +34,7 @@ pub fn updateCharacterAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, v
 	match advantage
 	{
 		AdvantageType::Defense => { advantages.defense = value; }
-		AdvantageType::Health => { advantages.health.max = value; }
+		AdvantageType::Health => { advantages.health.updateMax(value); }
 		AdvantageType::Initiative => { advantages.initiative = value; }
 		
 		AdvantageType::Size =>
@@ -55,7 +55,7 @@ pub fn updateCharacterAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, v
 		}
 		
 		AdvantageType::Speed => { advantages.speed = value; }
-		AdvantageType::Willpower => { advantages.willpower.max = value; }
+		AdvantageType::Willpower => { advantages.willpower.updateMax(value); }
 	}
 }
 

@@ -37,7 +37,7 @@ pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantage
 		}
 		
 		TemplateAdvantagesType::Humanity => { template.humanity = value; }
-		TemplateAdvantagesType::Vitae => { template.vitae.max = value; }
+		TemplateAdvantagesType::Vitae => { template.vitae.updateMax(value); }
 	}
 }
 

@@ -69,7 +69,8 @@ fn bloodPotencyHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 
 fn healthHandler(scope: &Scope<TrackProps>, index: usize)
 {
-	match scope.props.tracker.values.get(index)
+	let value = scope.props.tracker.clone().getValue(index);
+	match value
 	{
 		Some(ts) =>
 		{
@@ -91,18 +92,20 @@ fn humanityHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 
 fn vitaeHandler(scope: &Scope<TrackProps>, index: usize)
 {
-	match scope.props.tracker.values.get(index)
+	let value = scope.props.tracker.clone().getValue(index);
+	match value
 	{
-		Some(ts) => { updateVitae(scope, *ts, Some(index)); }
+		Some(ts) => { updateVitae(scope, ts, Some(index)); }
 		None => { updateVitae(scope, TrackerState::Two, None); }
 	}
 }
 
 fn willpowerHandler(scope: &Scope<TrackProps>, index: usize)
 {
-	match scope.props.tracker.values.get(index)
+	let value = scope.props.tracker.clone().getValue(index);
+	match value
 	{
-		Some(ts) => { updateWillpower(scope, *ts, Some(index)); }
+		Some(ts) => { updateWillpower(scope, ts, Some(index)); }
 		None => { updateWillpower(scope, TrackerState::Two, None); }
 	}
 }
