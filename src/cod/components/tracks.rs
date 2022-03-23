@@ -17,12 +17,15 @@ use crate::{
 	},
 };
 
-const LineMax: usize = 10;
+const DefaultLineMax: usize = 10;
 
 #[derive(Props)]
 pub struct TrackProps
 {
 	label: String,
+	
+	#[props(optional)]
+	lineMax: Option<usize>,
 	
 	pub tracker: Tracker,
 	
@@ -35,6 +38,20 @@ impl PartialEq for TrackProps
 	fn eq(&self, other: &Self) -> bool
 	{
 		let labelEq = self.label == other.label;
+		
+		let lineMaxEq = match &self.lineMax
+		{
+			Some(lm1) => match &other.lineMax
+			{
+				Some(lm2) => { lm1 == lm2 }
+				None => { false }
+			}
+			None => match &other.lineMax
+			{
+				Some(_h2) => { false }
+				None => { true }
+			}
+		};
 		
 		let trackerEq = self.tracker == other.tracker;
 		
@@ -52,18 +69,24 @@ impl PartialEq for TrackProps
 			}
 		};
 		
-		return labelEq && trackerEq && handlerEq;
+		return labelEq && lineMaxEq && trackerEq && handlerEq;
 	}
 }
 
 pub fn Track(scope: Scope<TrackProps>) -> Element
 {
+	let lineMax = match scope.props.lineMax
+	{
+		Some(lm) => { lm }
+		None => { DefaultLineMax }
+	};
+	
 	let max = scope.props.tracker.clone().getMax();
 	
-	let lines = max / LineMax;
+	let lines = max / lineMax;
 	
-	let lastStart = lines * LineMax;
-	let lastEnd = lastStart + (max % LineMax);
+	let lastStart = lines * lineMax;
+	let lastEnd = lastStart + (max % lineMax);
 	
 	return scope.render(rsx!
 	{
@@ -75,8 +98,8 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 			
 			(0..lines).map(|l|
 			{
-				let start = l * LineMax;
-				let end = start + LineMax;
+				let start = l * lineMax;
+				let end = start + lineMax;
 				
 				rsx!(scope, div
 				{
