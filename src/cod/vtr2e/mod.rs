@@ -3,5 +3,5 @@
 pub mod advantages;
 pub mod components;
 pub mod details;
-pub mod kindred;
 pub mod state;
+pub mod template;
