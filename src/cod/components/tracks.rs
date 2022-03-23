@@ -17,6 +17,8 @@ use crate::{
 	},
 };
 
+const LineMax: usize = 10;
+
 #[derive(Props)]
 pub struct TrackProps
 {
@@ -58,6 +60,11 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 {
 	let max = scope.props.tracker.clone().getMax();
 	
+	let lines = max / LineMax;
+	
+	let lastStart = lines * LineMax;
+	let lastEnd = lastStart + (max % LineMax);
+	
 	return scope.render(rsx!
 	{
 		div
@@ -66,11 +73,32 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 			
 			div { class: "label", "{scope.props.label}" },
 			
-			div
+			(0..lines).map(|l|
+			{
+				let start = l * LineMax;
+				let end = start + LineMax;
+				
+				rsx!(scope, div
+				{
+					class: "checkerLine row",
+					
+					(start..end).map(|i|
+					{
+						rsx!(scope, CheckLine
+						{
+							key: "{i}",
+							lineState: getLineState(scope.props.tracker.clone().getValue(i)),
+							onclick: move |e| clickHandler(e, &scope, i)
+						})
+					})
+				})
+			})
+			
+			rsx!(scope, div
 			{
 				class: "checkerLine row",
 				
-				(0..max).map(|i|
+				(lastStart..lastEnd).map(|i|
 				{
 					rsx!(scope, CheckLine
 					{
@@ -79,7 +107,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 						onclick: move |e| clickHandler(e, &scope, i)
 					})
 				})
-			}
+			})
 		}
 	});
 }
