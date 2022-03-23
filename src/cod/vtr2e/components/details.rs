@@ -67,7 +67,7 @@ pub fn Details(scope: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: playerLabel, value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
+					DetailInput { label: playerLabel, value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Player, }
 					DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
 					DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
 					DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
