@@ -1,7 +1,9 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use serde::{Serialize, Deserialize};
+
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum TraitType
 {
 	Mental,
@@ -9,7 +11,7 @@ pub enum TraitType
 	Social,
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum AttributeType
 {
 	Composure,
@@ -23,7 +25,7 @@ pub enum AttributeType
 	Wits,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Attribute
 {
 	pub name: String,
@@ -38,7 +40,7 @@ impl Default for Attribute
 	}
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Attributes
 {
 	pub composure: Attribute,
@@ -71,7 +73,7 @@ impl Default for Attributes
 	}
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum SkillType
 {
 	Academics,
@@ -100,7 +102,7 @@ pub enum SkillType
 	Weaponry,
 }
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Skill
 {
 	pub name: String,
@@ -120,7 +122,7 @@ impl PartialEq for Skill
 	}
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Skills
 {
 	pub academics: Skill,

@@ -1,5 +1,7 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use serde::{Serialize, Deserialize};
+
 use std::fmt::
 {
 	Display,
@@ -8,7 +10,7 @@ use std::fmt::
 };
 
 /// The possible states for a Tracker's values.
-#[derive(Clone, Copy, Debug, Eq, PartialEq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, PartialOrd, Ord, Serialize)]
 pub enum TrackerState
 {
 	Three,
@@ -18,7 +20,7 @@ pub enum TrackerState
 
 /// A generic tracker for the various "Tracks" that are used
 /// throughout Chronicles of Darkness.
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, Deserialize, PartialEq, Serialize)]
 pub struct Tracker
 {
 	pub max: usize,
@@ -144,27 +146,6 @@ mod tests
 		t.add(TrackerState::One);
 		
 		assert_eq!(1, t.values.len());
-	}
-	
-	#[test]
-	fn testStepUp()
-	{
-		let max = 3;
-		let mut t = Tracker::new(max);
-		
-		t.add(TrackerState::One);
-		t.add(TrackerState::One);
-		t.add(TrackerState::One);
-		t.add(TrackerState::Three);
-		assert_eq!("\"3 1 1\"", format!("{}", t));
-		
-		t.add(TrackerState::Two);
-		assert_eq!("\"3 2 1\"", format!("{}", t));
-		
-		t.add(TrackerState::Three);
-		t.add(TrackerState::Three);
-		t.add(TrackerState::Three);
-		assert_eq!("\"3 3 3\"", format!("{}", t));
 	}
 	
 	#[test]

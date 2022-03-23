@@ -3,10 +3,6 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
-		tracks::{
-			Tracker,
-			TrackerState,
-		},
 		traits::{
 			Attributes,
 			AttributeType,
@@ -17,57 +13,23 @@ use crate::{
 };
 
 pub static CharacterAttributes: AtomRef<Attributes> = |_| Attributes::default();
-pub static CharacterHealth: AtomRef<Tracker> = |_| Tracker::new(6);
 pub static CharacterSkills: AtomRef<Skills> = |_| Skills::default();
-pub static CharacterWillpower: AtomRef<Tracker> = |_| Tracker::new(2);
 
 pub fn updateAttribute<T>(scope: &Scope<T>, attribute: AttributeType, value: usize)
 {
 	let attributes = use_atom_ref(&scope, CharacterAttributes);
-	let health = use_atom_ref(&scope, CharacterHealth);
-	let willpower = use_atom_ref(&scope, CharacterWillpower);
 	
 	match attribute
 	{
-		AttributeType::Composure =>
-		{
-			willpower.write().max = attributes.read().resolve.value + value;
-			attributes.write().composure.value = value;
-		},
+		AttributeType::Composure => { attributes.write().composure.value = value; },
 		AttributeType::Dexterity => { attributes.write().dexterity.value = value; },
 		AttributeType::Intelligence => { attributes.write().intelligence.value = value; },
 		AttributeType::Manipulation => { attributes.write().manipulation.value = value; },
 		AttributeType::Presence => { attributes.write().presence.value = value; },
-		AttributeType::Resolve =>
-		{
-			willpower.write().max = attributes.read().composure.value + value;
-			attributes.write().resolve.value = value;
-		},
-		AttributeType::Stamina =>
-		{
-			health.write().max = 5 + value;
-			attributes.write().stamina.value = value;
-		},
+		AttributeType::Resolve => { attributes.write().resolve.value = value; },
+		AttributeType::Stamina => { attributes.write().stamina.value = value; },
 		AttributeType::Strength => { attributes.write().strength.value = value; },
 		AttributeType::Wits => { attributes.write().wits.value = value; },
-	}
-}
-
-pub fn updateHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
-{
-	let health = use_atom_ref(&scope, CharacterHealth);
-	
-	if remove
-	{
-		health.write().remove(damageType);
-	}
-	else
-	{
-		match index
-		{
-			Some(i) => { health.write().update(damageType, i); }
-			None => { health.write().add(damageType); }
-		}
 	}
 }
 
@@ -101,23 +63,5 @@ pub fn updateSkill<T>(scope: &Scope<T>, skill: SkillType, value: usize)
 		SkillType::Subterfuge => { skills.write().subterfuge.value = value; }
 		SkillType::Survival => { skills.write().survival.value = value; }
 		SkillType::Weaponry => { skills.write().weaponry.value = value; }
-	}
-}
-
-pub fn updateWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
-{
-	let willpower = use_atom_ref(&scope, CharacterWillpower);
-	
-	match index
-	{
-		Some(_) =>
-		{
-			match damageType
-			{
-				TrackerState::Two => { willpower.write().remove(TrackerState::Two); }
-				_ => { willpower.write().add(TrackerState::Two); }
-			}
-		}
-		None => { willpower.write().add(TrackerState::Two); }
 	}
 }

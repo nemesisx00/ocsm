@@ -15,8 +15,19 @@ use crate::cod::{
 		SkillType,
 	},
 	state::{
+		CharacterAttributes,
+		CharacterSkills,
 		updateAttribute,
 		updateSkill,
+	},
+	vtr2e::{
+		kindred::{
+			AdvantageType,
+		},
+		state::{
+			KindredAdvantages,
+			updateNumericAdvantage,
+		}
 	}
 };
 
@@ -47,9 +58,9 @@ pub fn Attributes(scope: Scope<AttributesProps>) -> Element
 				{
 					class: "column",
 					
-					Dots { class: "{dotsClass}", label: scope.props.attributes.presence.name.clone(), max: 5, value: scope.props.attributes.presence.value, handler: attributeHandler, handlerKey: AttributeType::Presence }
-					Dots { class: "{dotsClass}", label: scope.props.attributes.manipulation.name.clone(), max: 5, value: scope.props.attributes.manipulation.value, handler: attributeHandler, handlerKey: AttributeType::Manipulation }
-					Dots { class: "{dotsClass}", label: scope.props.attributes.composure.name.clone(), max: 5, value: scope.props.attributes.composure.value, handler: attributeHandler, handlerKey: AttributeType::Composure }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.intelligence.name.clone(), max: 5, value: scope.props.attributes.intelligence.value, handler: attributeHandler, handlerKey: AttributeType::Intelligence }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.wits.name.clone(), max: 5, value: scope.props.attributes.wits.value, handler: attributeHandler, handlerKey: AttributeType::Wits }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.resolve.name.clone(), max: 5, value: scope.props.attributes.resolve.value, handler: attributeHandler, handlerKey: AttributeType::Resolve }
 				}
 				
 				div
@@ -65,9 +76,9 @@ pub fn Attributes(scope: Scope<AttributesProps>) -> Element
 				{
 					class: "column",
 					
-					Dots { class: "{dotsClass}", label: scope.props.attributes.intelligence.name.clone(), max: 5, value: scope.props.attributes.intelligence.value, handler: attributeHandler, handlerKey: AttributeType::Intelligence }
-					Dots { class: "{dotsClass}", label: scope.props.attributes.wits.name.clone(), max: 5, value: scope.props.attributes.wits.value, handler: attributeHandler, handlerKey: AttributeType::Wits }
-					Dots { class: "{dotsClass}", label: scope.props.attributes.resolve.name.clone(), max: 5, value: scope.props.attributes.resolve.value, handler: attributeHandler, handlerKey: AttributeType::Resolve }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.presence.name.clone(), max: 5, value: scope.props.attributes.presence.value, handler: attributeHandler, handlerKey: AttributeType::Presence }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.manipulation.name.clone(), max: 5, value: scope.props.attributes.manipulation.value, handler: attributeHandler, handlerKey: AttributeType::Manipulation }
+					Dots { class: "{dotsClass}", label: scope.props.attributes.composure.name.clone(), max: 5, value: scope.props.attributes.composure.value, handler: attributeHandler, handlerKey: AttributeType::Composure }
 				}
 			}
 		}
@@ -145,6 +156,18 @@ pub fn Skills(scope: Scope<SkillsProps>) -> Element
 
 fn attributeHandler(scope: &Scope<DotsProps<AttributeType>>, clickedValue: usize)
 {
+	let advantages = use_atom_ref(scope, KindredAdvantages);
+	let attributes = use_atom_ref(scope, CharacterAttributes);
+	let skills = use_atom_ref(scope, CharacterSkills);
+	
+	let size = advantages.read().size;
+	let athletics = skills.read().athletics.value;
+	let composure = attributes.read().composure.value;
+	let dexterity = attributes.read().dexterity.value;
+	let resolve = attributes.read().resolve.value;
+	let strength = attributes.read().strength.value;
+	let wits = attributes.read().wits.value;
+	
 	match &scope.props.handlerKey
 	{
 		Some(at) => {
@@ -154,6 +177,45 @@ fn attributeHandler(scope: &Scope<DotsProps<AttributeType>>, clickedValue: usize
 			if next > 5 { next = 5; }
 			if next < 1 { next = 1; }
 			
+			match at
+			{
+				AttributeType::Composure =>
+				{
+					updateNumericAdvantage(scope, AdvantageType::Initiative, dexterity + next);
+					updateNumericAdvantage(scope, AdvantageType::Willpower, resolve + next);
+				}
+				
+				AttributeType::Dexterity =>
+				{
+					let defense = match next <= wits
+					{
+						true => { next + athletics }
+						false => { wits + athletics }
+					};
+					
+					updateNumericAdvantage(scope, AdvantageType::Defense, defense);
+					updateNumericAdvantage(scope, AdvantageType::Initiative, composure + next);
+					updateNumericAdvantage(scope, AdvantageType::Speed, size + strength + next);
+				}
+				
+				AttributeType::Resolve => { updateNumericAdvantage(scope, AdvantageType::Willpower, composure + next); }
+				AttributeType::Stamina => { updateNumericAdvantage(scope, AdvantageType::Health, size + next); }
+				AttributeType::Strength => { updateNumericAdvantage(scope, AdvantageType::Speed, size + dexterity + next); }
+				
+				AttributeType::Wits =>
+				{
+					let defense = match next <= dexterity
+					{
+						true => { next + athletics }
+						false => { dexterity + athletics }
+					};
+					
+					updateNumericAdvantage(scope, AdvantageType::Defense, defense);
+				}
+				
+				_ => {}
+			}
+			
 			updateAttribute(scope, *at, next);
 		},
 		None => {}
@@ -162,6 +224,17 @@ fn attributeHandler(scope: &Scope<DotsProps<AttributeType>>, clickedValue: usize
 
 fn skillHandler(scope: &Scope<DotsProps<SkillType>>, clickedValue: usize)
 {
+	let attributes = use_atom_ref(scope, CharacterAttributes);
+	
+	let dexterity = attributes.read().dexterity.value;
+	let wits = attributes.read().wits.value;
+	
+	let attributeDefense = match dexterity <= wits
+	{
+		true => { dexterity }
+		false => { wits }
+	};
+	
 	match &scope.props.handlerKey
 	{
 		Some(st) => {
@@ -169,6 +242,12 @@ fn skillHandler(scope: &Scope<DotsProps<SkillType>>, clickedValue: usize)
 			
 			if clickedValue == scope.props.value { next -= 1; }
 			if next > 5 { next = 5; }
+			
+			match st
+			{
+				SkillType::Athletics => { updateNumericAdvantage(scope, AdvantageType::Defense, attributeDefense + next); }
+				_ => {}
+			}
 			
 			updateSkill(scope, *st, next);
 		},
