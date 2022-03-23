@@ -213,6 +213,10 @@ fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
 	let label = &scope.props.label;
 	let value = &scope.props.value;
 	
+	let four = generateSelectedValue(4, *value);
+	let five = generateSelectedValue(5, *value);
+	let six = generateSelectedValue(6, *value);
+	
 	return scope.render(rsx!
 	{
 		div
@@ -221,11 +225,13 @@ fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
 			
 			label { "{label}" }
 			
-			input
+			select
 			{
-				r#type: "text",
-				value: "{value}",
-				oninput:  move |e| inputNumHandler(e, &scope),
+				onchange: move |e| inputNumHandler(e, &scope),
+				
+				option { value: "4", selected: "{four}", "4" }
+				option { value: "5", selected: "{five}", "5" }
+				option { value: "6", selected: "{six}", "6" }
 			}
 		}
 	});
@@ -240,4 +246,13 @@ fn inputNumHandler<T>(e: FormEvent, scope: &Scope<DetailInputNumProps<T>>)
 		Some(h) => { h(scope, e.value.clone()); }
 		None => {}
 	}
+}
+
+fn generateSelectedValue(a: usize, b: usize) -> String
+{
+	return match a == b
+	{
+		true => { String::from("true") }
+		false => { String::from("false") }
+	};
 }
