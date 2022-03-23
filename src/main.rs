@@ -20,7 +20,7 @@ fn main()
 		{
 			w.with_title("Open Character Sheet Manager")
 				.with_resizable(true)
-				.with_inner_size(LogicalSize::new(990.0, 720.0))
+				.with_inner_size(LogicalSize::new(900.0, 800.0))
 		})
 	});
 }

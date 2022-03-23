@@ -89,10 +89,29 @@ impl Tracker
 		self.values.sort();
 	}
 	
+	pub fn updateMax(&mut self, max: usize)
+	{
+		self.max = max;
+		
+		if self.values.len() > max
+		{
+			for _ in 0..(self.values.len() - max)
+			{
+				self.values.pop().unwrap();
+			}
+		}
+	}
+	
 	fn replace(&mut self, index: usize, new: TrackerState)
 	{
 		self.values.remove(index);
 		self.values.push(new);
+	}
+	
+	#[allow(dead_code)]
+	fn value(self) -> usize
+	{
+		return self.values.len();
 	}
 }
 
@@ -160,5 +179,37 @@ mod tests
 		
 		t.remove(TrackerState::One);
 		assert_eq!(0, t.values.len());
+	}
+	
+	#[test]
+	fn testValue()
+	{
+		let max = 3;
+		let mut t = Tracker::new(max);
+		t.add(TrackerState::One);
+		t.add(TrackerState::Two);
+		
+		assert_eq!(2, t.values.len());
+		assert_eq!(t.values.len(), t.value());
+	}
+	
+	#[test]
+	fn testUpdateMax()
+	{
+		let max = 3;
+		let altMax = 2;
+		
+		assert_eq!(true, altMax < max);
+		
+		let mut t = Tracker::new(max);
+		t.add(TrackerState::One);
+		t.add(TrackerState::One);
+		t.add(TrackerState::One);
+		
+		assert_eq!(max, t.values.len());
+		t.updateMax(altMax);
+		assert_eq!(altMax, t.values.len());
+		t.updateMax(max);
+		assert_eq!(altMax, t.values.len());
 	}
 }

@@ -7,9 +7,10 @@ use crate::{
 			TrackerState,
 		},
 		vtr2e::{
-			kindred::{
-				Advantages,
-				AdvantageType,
+			advantages::{
+				TemplateAdvantages,
+				TemplateAdvantagesType,
+				bloodPotencyVitaeMax,
 			},
 			details::{
 				Details,
@@ -19,65 +20,50 @@ use crate::{
 	},
 };
 
-pub static KindredAdvantages: AtomRef<Advantages> = |_| Advantages::default();
+pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
 
-pub fn updateNumericAdvantage<T>(scope: &Scope<T>, advantage: AdvantageType, value: usize)
+pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantagesType, value: usize)
 {
-	let advantages = use_atom_ref(&scope, KindredAdvantages);
+	let templateRef = use_atom_ref(&scope, KindredAdvantages);
+	let mut template = templateRef.write();
 	
 	match advantage
 	{
-		AdvantageType::BloodPotency => { advantages.write().bloodPotency = value; }
-		AdvantageType::Defense => { advantages.write().defense = value; }
-		AdvantageType::Health => { advantages.write().health.max = value; }
-		AdvantageType::Humanity => { advantages.write().humanity = value; }
-		AdvantageType::Initiative => { advantages.write().initiative = value; }
-		AdvantageType::Size => { advantages.write().size = value; }
-		AdvantageType::Speed => { advantages.write().speed = value; }
-		AdvantageType::Willpower => { advantages.write().willpower.max = value; }
+		TemplateAdvantagesType::BloodPotency =>
+		{
+			template.bloodPotency = value;
+			template.vitae.updateMax(bloodPotencyVitaeMax(value));
+		}
+		
+		TemplateAdvantagesType::Humanity => { template.humanity = value; }
+		TemplateAdvantagesType::Vitae => { template.vitae.max = value; }
 	}
 }
 
 pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
 {
-	let details = use_atom_ref(&scope, KindredDetails);
+	let detailsRef = use_atom_ref(&scope, KindredDetails);
+	let mut details = detailsRef.write();
 	
 	match field
 	{
-		DetailsField::Bloodline => { details.write().bloodline = value; }
-		DetailsField::Chronicle => { details.write().chronicle = value; }
-		DetailsField::Clan => { details.write().clan = value; }
-		DetailsField::Concept => { details.write().concept = value; }
-		DetailsField::Covenant => { details.write().covenant = value; }
-		DetailsField::Dirge => { details.write().dirge = value; }
-		DetailsField::Mask => { details.write().mask = value; }
-		DetailsField::Name => { details.write().name = value; }
-		DetailsField::Player => { details.write().player = value; }
+		DetailsField::Bloodline => { details.bloodline = value; }
+		DetailsField::Chronicle => { details.chronicle = value; }
+		DetailsField::Clan => { details.clan = value; }
+		DetailsField::Concept => { details.concept = value; }
+		DetailsField::Covenant => { details.covenant = value; }
+		DetailsField::Dirge => { details.dirge = value; }
+		DetailsField::Mask => { details.mask = value; }
+		DetailsField::Name => { details.name = value; }
+		DetailsField::Player => { details.player = value; }
 	}
 }
 
-pub fn updateHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
+pub fn updateVitae<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
 {
-	let advantages = use_atom_ref(&scope, KindredAdvantages);
-	
-	if remove
-	{
-		advantages.write().health.remove(damageType);
-	}
-	else
-	{
-		match index
-		{
-			Some(i) => { advantages.write().health.update(damageType, i); }
-			None => { advantages.write().health.add(damageType); }
-		}
-	}
-}
-
-pub fn updateWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
-{
-	let advantages = use_atom_ref(&scope, KindredAdvantages);
+	let templateRef = use_atom_ref(&scope, KindredAdvantages);
+	let mut template = templateRef.write();
 	
 	match index
 	{
@@ -85,10 +71,10 @@ pub fn updateWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Opt
 		{
 			match damageType
 			{
-				TrackerState::Two => { advantages.write().willpower.remove(TrackerState::Two); }
-				_ => { advantages.write().willpower.add(TrackerState::Two); }
+				TrackerState::Two => { template.vitae.remove(TrackerState::Two); }
+				_ => { template.vitae.add(TrackerState::Two); }
 			}
 		}
-		None => { advantages.write().willpower.add(TrackerState::Two); }
+		None => { template.vitae.add(TrackerState::Two); }
 	}
 }

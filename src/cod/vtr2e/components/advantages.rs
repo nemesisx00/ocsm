@@ -16,15 +16,19 @@ use crate::{
 		tracks::{
 			TrackerState,
 		},
+		state::{
+			CharacterAdvantages,
+			updateHealth,
+			updateWillpower,
+		},
 		vtr2e::{
-			kindred::{
-				AdvantageType,
+			advantages::{
+				TemplateAdvantagesType,
 			},
 			state::{
 				KindredAdvantages,
-				updateNumericAdvantage,
-				updateHealth,
-				updateWillpower,
+				updateTemplateAdvantage,
+				updateVitae,
 			}
 		}
 	},
@@ -32,12 +36,11 @@ use crate::{
 
 pub fn Advantages(scope: Scope) -> Element
 {
-	let advantages = use_atom_ref(&scope, KindredAdvantages);
+	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
+	let templateRef = use_atom_ref(&scope, KindredAdvantages);
 	
-	let defense = advantages.read().defense;
-	let initiative = advantages.read().initiative;
-	let size = advantages.read().size;
-	let speed = advantages.read().speed;
+	let advantages = advantagesRef.read();
+	let template = templateRef.read();
 	
 	return scope.render(rsx!
 	{		
@@ -49,20 +52,11 @@ pub fn Advantages(scope: Scope) -> Element
 			{
 				class: "column",
 				
-				div { class: "row", div { "Defense:" } div { "{defense}" } }
-				div { class: "row", div { "Initiative:" } div { "{initiative}" } }
-				div { class: "row", div { "Size:" } div { "{size}" } }
-				div { class: "row", div { "Speed:" } div { "{speed}" } }
-			}
-			
-			div
-			{
-				class: "trackers column",
-				
-				Track { label: "Health".to_string(), tracker: advantages.read().health.clone(), handler: healthHandler }
-				Track { label: "Willpower".to_string(), tracker: advantages.read().willpower.clone(), handler: willpowerHandler }
-				Dots { label: "Humanity".to_string(), max: 10, value: advantages.read().humanity, handler: humanityHandler }
-				Dots { label: "Blood Potency".to_string(), max: 10, value: advantages.read().bloodPotency, handler: bloodPotencyHandler }
+				Track { label: "Health".to_string(), tracker: advantages.health.clone(), handler: healthHandler }
+				Track { label: "Willpower".to_string(), tracker: advantages.willpower.clone(), handler: willpowerHandler }
+				Dots { label: "Humanity".to_string(), max: 10, value: template.humanity, handler: humanityHandler }
+				Dots { label: "Blood Potency".to_string(), max: 10, value: template.bloodPotency, handler: bloodPotencyHandler }
+				Track { label: "Vitae".to_string(), tracker: template.vitae.clone(), handler: vitaeHandler }
 			}
 		}
 	});
@@ -70,7 +64,7 @@ pub fn Advantages(scope: Scope) -> Element
 
 fn bloodPotencyHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateNumericAdvantage(scope, AdvantageType::BloodPotency, clickedValue);
+	updateTemplateAdvantage(scope, TemplateAdvantagesType::BloodPotency, clickedValue);
 }
 
 fn healthHandler(scope: &Scope<TrackProps>, index: usize)
@@ -92,7 +86,16 @@ fn healthHandler(scope: &Scope<TrackProps>, index: usize)
 
 fn humanityHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateNumericAdvantage(scope, AdvantageType::Humanity, clickedValue);
+	updateTemplateAdvantage(scope, TemplateAdvantagesType::Humanity, clickedValue);
+}
+
+fn vitaeHandler(scope: &Scope<TrackProps>, index: usize)
+{
+	match scope.props.tracker.values.get(index)
+	{
+		Some(ts) => { updateVitae(scope, *ts, Some(index)); }
+		None => { updateVitae(scope, TrackerState::Two, None); }
+	}
 }
 
 fn willpowerHandler(scope: &Scope<TrackProps>, index: usize)

@@ -2,25 +2,20 @@
 	flexGrow()
 	cursor default
 	justify-content space-evenly
+	margin-right 40px
 	
-	& > .column
-		flexNone()
+	& .column
 		
-		& > .row
-			flexGrow()
-	
-	& > .row
-		flexNone()
-		margin 5px 0
-		height 25px
-		
-		& label
-			min-width 120px
-			text-align left
-			vertical-align middle
-		
-		& input
-			flex-grow 1
-		
-		&.left
-			justify-content left
+		& .row
+			flexNone()
+			margin 10px 0
+			
+			& label
+				text-align left
+				vertical-align middle
+			
+			& input
+				flex-grow 1
+			
+			&.left
+				justify-content left

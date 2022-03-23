@@ -1,17 +1,36 @@
-.cod .details
-	flex(row)
-	flexGrow()
-	cursor default
-	justify-content space-evenly
+.cod .detailsWrapper
+
+	& .detailsLabel
+		text-align center
+		font-size 1.1em
+		font-weight bold
 	
-	& > .column
-		flexShrink()
-	
-	& .row
-		& > label
-			min-width 75px
-			text-align left
-			vertical-align middle
+	& .details
+		flexGrow()
+		cursor default
+		justify-content space-evenly
 		
-		& > input
-			flexShrink()
+		& .column
+			flexNone()
+		
+		& .row
+			
+			& label
+				min-width 80px
+				text-align left
+				vertical-align middle
+			
+			& input
+				flexShrink()
+	
+	& .calculated
+		flexShrink()
+		cursor default
+		justify-content space-evenly
+		
+		& .row
+			flexNone()
+			justify-content space-between
+			
+			& label
+				margin-right 10px

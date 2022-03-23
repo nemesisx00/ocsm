@@ -5,14 +5,16 @@ use dioxus::events::MouseEvent;
 use crate::core::components::check::CheckCircle;
 
 #[derive(Props)]
-pub struct DotsProps<'a, T>
+pub struct DotsProps<T>
 {
-	label: String,
 	max: usize,
 	pub value: usize,
 	
 	#[props(optional)]
-	class: Option<&'a str>,
+	label: Option<String>,
+	
+	#[props(optional)]
+	class: Option<String>,
 	
 	#[props(optional)]
 	handler: Option<fn(&Scope<DotsProps<T>>, usize)>,
@@ -21,7 +23,7 @@ pub struct DotsProps<'a, T>
 	pub handlerKey: Option<T>,
 }
 
-impl<'a, T> PartialEq for DotsProps<'a, T>
+impl<T> PartialEq for DotsProps<T>
 {
 	fn eq(&self, other: &Self) -> bool
 	{
@@ -29,25 +31,39 @@ impl<'a, T> PartialEq for DotsProps<'a, T>
 		
 		let valueEq = self.value == other.value;
 		
+		let labelEq = match &self.label
+		{
+			Some(l1) => match &other.label
+			{
+				Some(l2) => { l1 == l2 }
+				None => { false }
+			}
+			None => match &other.label
+			{
+				Some(_l2) => { false }
+				None => { true }
+			}
+		};
+		
 		let classEq = match &self.class
 		{
 			Some(c1) => match &other.class
 			{
-				Some(c2) => c1 == c2,
-				None => false
+				Some(c2) => { c1 == c2 }
+				None => { false }
 			},
 			None => match &other.class
 			{
-				Some(_c2) => false,
-				None => true
+				Some(_c2) => { false }
+				None => { true }
 			}
 		};
 		
-		return maxEq && valueEq && classEq;
+		return maxEq && valueEq && labelEq && classEq;
 	}
 }
 
-pub fn Dots<'a, T>(scope: Scope<'a, DotsProps<T>>) -> Element<'a>
+pub fn Dots<T>(scope: Scope<DotsProps<T>>) -> Element
 {
 	let class = match &scope.props.class
 	{
@@ -55,12 +71,18 @@ pub fn Dots<'a, T>(scope: Scope<'a, DotsProps<T>>) -> Element<'a>
 		None => { String::from("tracker") }
 	};
 	
+	let label = match &scope.props.label
+	{
+		Some(l) => { l }
+		None => { "" }
+	};
+	
 	return scope.render(rsx!{
 		div
 		{
 			class: "{class}",
 			
-			div { class: "label", "{scope.props.label}" }
+			div { class: "label", "{label}" }
 			
 			div
 			{

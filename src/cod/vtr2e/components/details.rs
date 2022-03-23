@@ -5,6 +5,13 @@ use dioxus::events::{
 	FormEvent,
 };
 use crate::cod::{
+	advantages::{
+		AdvantageType,
+	},
+	state::{
+		CharacterAdvantages,
+		updateCharacterAdvantage,
+	},
 	vtr2e::{
 		details::{
 			DetailsField,
@@ -18,6 +25,7 @@ use crate::cod::{
 
 pub fn Details(scope: Scope) -> Element
 {
+	let advantages = use_atom_ref(&scope, CharacterAdvantages);
 	let detailsRef = use_atom_ref(&scope, KindredDetails);
 	let details = detailsRef.read();
 	
@@ -29,6 +37,12 @@ pub fn Details(scope: Scope) -> Element
 	let dirgeLabel = "Dirge:".to_string();
 	let maskLabel = "Mask:".to_string();
 	let nameLabel = "Name:".to_string();
+	let playerLabel = "Player:".to_string();
+	let sizeLabel = "Size:".to_string();
+	
+	let defense = advantages.read().defense;
+	let initiative = advantages.read().initiative;
+	let speed = advantages.read().speed;
 	
 	// I'm leaving DetailsField::Player out of this component for now.
 	// I'm building this for players (read: myself) first and foremost
@@ -41,25 +55,44 @@ pub fn Details(scope: Scope) -> Element
 	{
 		div
 		{
-			class: "details",
+			class: "detailsWrapper column",
+			
+			div { class: "detailsLabel", "Details" },
 			
 			div
 			{
-				class: "column",
+				class: "details row",
 				
-				DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
-				DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
-				DetailInput { label: maskLabel, value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
-				DetailInput { label: dirgeLabel, value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
+				div
+				{
+					class: "column",
+					
+					DetailInput { label: playerLabel, value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
+					DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
+					DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
+					DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
+					DetailNumInput { label: sizeLabel, value: advantages.read().size, handler: advantageHandler, handlerKey: AdvantageType::Size, }
+				}
+				
+				div
+				{
+					class: "column",
+					
+					DetailInput { label: maskLabel, value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
+					DetailInput { label: dirgeLabel, value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
+					DetailInput { label: clanLabel, value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
+					DetailInput { label: bloodlineLabel, value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
+					DetailInput { label: covenantLabel, value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
+				}
 			}
 			
 			div
 			{
-				class: "column",
-				DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
-				DetailInput { label: clanLabel, value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
-				DetailInput { label: bloodlineLabel, value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
-				DetailInput { label: covenantLabel, value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
+				class: "calculated row",
+				
+				div { class: "row", label { "Defense:" } div { "{defense}" } }
+				div { class: "row", label { "Initiative:" } div { "{initiative}" } }
+				div { class: "row", label { "Speed:" } div { "{speed}" } }
 			}
 		}
 	});
@@ -73,6 +106,23 @@ fn detailHandler(scope: &Scope<DetailInputProps<DetailsField>>, value: String)
 		None => {}
 	}
 }
+
+fn advantageHandler(scope: &Scope<DetailInputNumProps<AdvantageType>>, value: String)
+{
+	let num = match usize::from_str_radix(&value, 10)
+	{
+		Ok(i) => { i }
+		Err(_) => { scope.props.value }
+	};
+	
+	match scope.props.handlerKey
+	{
+		Some(at) => { updateCharacterAdvantage(scope, at, num); }
+		None => {}
+	}
+}
+
+// -----
 
 #[derive(Props)]
 struct DetailInputProps<T>
@@ -128,6 +178,66 @@ fn inputHandler<T>(e: FormEvent, scope: &Scope<DetailInputProps<T>>)
 	match &scope.props.handler
 	{
 		Some(h) => { h(&scope, e.value.clone()); }
+		None => {}
+	}
+}
+
+// -----
+
+#[derive(Props)]
+struct DetailInputNumProps<T>
+{
+	label: String,
+	value: usize,
+	
+	#[props(optional)]
+	handler: Option<fn(&Scope<DetailInputNumProps<T>>, String)>,
+	
+	#[props(optional)]
+	pub handlerKey: Option<T>,
+}
+
+impl<T> PartialEq for DetailInputNumProps<T>
+{
+	fn eq(&self, other: &Self) -> bool
+	{
+		let labelEq = self.label == other.label;
+		let valueEq = self.value == other.value;
+		
+		return labelEq && valueEq;
+	}
+}
+
+fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
+{
+	let label = &scope.props.label;
+	let value = &scope.props.value;
+	
+	return scope.render(rsx!
+	{
+		div
+		{
+			class: "row",
+			
+			label { "{label}" }
+			
+			input
+			{
+				r#type: "text",
+				value: "{value}",
+				oninput:  move |e| inputNumHandler(e, &scope),
+			}
+		}
+	});
+}
+
+fn inputNumHandler<T>(e: FormEvent, scope: &Scope<DetailInputNumProps<T>>)
+{
+	e.cancel_bubble();
+	
+	match &scope.props.handler
+	{
+		Some(h) => { h(scope, e.value.clone()); }
 		None => {}
 	}
 }
