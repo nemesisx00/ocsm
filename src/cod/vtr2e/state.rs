@@ -16,12 +16,17 @@ use crate::{
 				Details,
 				DetailsField,
 			},
+			disciplines::{
+				Disciplines,
+				DisciplineType,
+			},
 		},
 	},
 };
 
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
+pub static KindredDisciplines: AtomRef<Disciplines> = |_| Disciplines::default();
 
 pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
@@ -57,6 +62,26 @@ pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
 		DetailsField::Mask => { details.mask = value; }
 		DetailsField::Name => { details.name = value; }
 		DetailsField::Player => { details.player = value; }
+	}
+}
+
+pub fn updateDiscipline<T>(scope: &Scope<T>, discipline: &DisciplineType, value: usize)
+{
+	let disciplinesRef = use_atom_ref(&scope, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	match discipline
+	{
+		DisciplineType::Animalism => { disciplines.animalism.value = value; }
+		DisciplineType::Auspex => { disciplines.auspex.value = value; }
+		DisciplineType::Celerity => { disciplines.celerity.value = value; }
+		DisciplineType::Dominate => { disciplines.dominate.value = value; }
+		DisciplineType::Majesty => { disciplines.majesty.value = value; }
+		DisciplineType::Nightmare => { disciplines.nightmare.value = value; }
+		DisciplineType::Obfuscate => { disciplines.obfuscate.value = value; }
+		DisciplineType::Protean => { disciplines.protean.value = value; }
+		DisciplineType::Resilience => { disciplines.resilience.value = value; }
+		DisciplineType::Vigor => { disciplines.vigor.value = value; }
 	}
 }
 

@@ -21,6 +21,9 @@ use crate::{
 				details::{
 					Details,
 				},
+				disciplines::{
+					Disciplines,
+				},
 			},
 			template::{
 				Kindred,
@@ -56,6 +59,9 @@ pub fn Sheet(scope: Scope) -> Element
 			div { class: "row", Attributes { attributes: attributes.read().clone(), label: "Attributes".to_string() } }
 			hr { class: "row spacedOut" }
 			div { class: "row", Skills { label: "Skills".to_string(), skills: skills.read().clone() } }
+			hr { class: "row spacedOut" }
+			
+			Disciplines { }
 		}
 	});
 }

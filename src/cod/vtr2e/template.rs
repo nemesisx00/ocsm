@@ -21,9 +21,13 @@ use crate::{
 			details::{
 				Details,
 			},
+			disciplines::{
+				Disciplines
+			},
 			state::{
 				KindredAdvantages,
 				KindredDetails,
+				KindredDisciplines,
 			}
 		}
 	}
@@ -35,7 +39,7 @@ pub struct Kindred
 	pub advantages: BaseAdvantages,
 	pub attributes: BaseAttributes,
 	pub details: Details,
-	pub disciplines: Vec<usize>,
+	pub disciplines: Disciplines,
 	pub skills: BaseSkills,
 	pub templateAdvantages: TemplateAdvantages,
 }
@@ -48,12 +52,14 @@ impl Kindred
 		let advantages = use_atom_ref(scope, CharacterAdvantages);
 		let attributes = use_atom_ref(scope, CharacterAttributes);
 		let details = use_atom_ref(scope, KindredDetails);
+		let disciplines = use_atom_ref(scope, KindredDisciplines);
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
 		
 		self.advantages = advantages.read().clone();
 		self.attributes = attributes.read().clone();
 		self.details = details.read().clone();
+		self.disciplines = disciplines.read().clone();
 		self.skills = skills.read().clone();
 		self.templateAdvantages = templateAdvantages.read().clone();
 	}
@@ -64,12 +70,14 @@ impl Kindred
 		let advantages = use_atom_ref(scope, CharacterAdvantages);
 		let attributes = use_atom_ref(scope, CharacterAttributes);
 		let details = use_atom_ref(scope, KindredDetails);
+		let disciplines = use_atom_ref(scope, KindredDisciplines);
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
 		
 		(*advantages.write()) = self.advantages.clone();
 		(*attributes.write()) = self.attributes.clone();
 		(*details.write()) = self.details.clone();
+		(*disciplines.write()) = self.disciplines.clone();
 		(*skills.write()) = self.skills.clone();
 		(*templateAdvantages.write()) = self.templateAdvantages.clone();
 	}

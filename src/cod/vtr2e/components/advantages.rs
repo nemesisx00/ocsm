@@ -18,6 +18,7 @@ use crate::{
 		},
 		state::{
 			CharacterAdvantages,
+			CharacterAttributes,
 			updateBaseHealth,
 			updateBaseWillpower,
 		},
@@ -27,6 +28,7 @@ use crate::{
 			},
 			state::{
 				KindredAdvantages,
+				KindredDisciplines,
 				updateTemplateAdvantage,
 				updateVitae,
 			}
@@ -37,10 +39,21 @@ use crate::{
 pub fn Advantages(scope: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
+	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
 	let templateRef = use_atom_ref(&scope, KindredAdvantages);
+	let disciplinesRef = use_atom_ref(&scope, KindredDisciplines);
 	
-	let advantages = advantagesRef.read();
+	let mut advantages = advantagesRef.write();
+	let attributes = attributesRef.read();
 	let template = templateRef.read();
+	let disciplines = disciplinesRef.read();
+	
+	let size = advantages.size;
+	
+	if disciplines.vigor.value > 0
+	{
+		advantages.health.updateMax(size + attributes.stamina.value + disciplines.vigor.value);
+	}
 	
 	return scope.render(rsx!
 	{		

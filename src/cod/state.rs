@@ -59,7 +59,7 @@ pub fn updateBaseAdvantage<T>(scope: &Scope<T>, advantage: BaseAdvantageType, va
 	}
 }
 
-pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: BaseAttributeType, value: usize)
+pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: &BaseAttributeType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
@@ -91,6 +91,10 @@ pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: BaseAttributeType, va
 			advantages.initiative = attributes.composure.value + value;
 			advantages.speed = advantages.size + attributes.strength.value + value;
 		}
+		
+		BaseAttributeType::Intelligence => { attributes.intelligence.value = value; }
+		BaseAttributeType::Manipulation => { attributes.manipulation.value = value; }
+		BaseAttributeType::Presence => { attributes.presence.value = value; }
 		
 		BaseAttributeType::Resolve =>
 		{
@@ -127,7 +131,7 @@ pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: BaseAttributeType, va
 	}
 }
 
-pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: BaseSkillType, value: usize)
+pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: &BaseSkillType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let attributesRef = use_atom_ref(scope, CharacterAttributes);

@@ -154,7 +154,7 @@ fn attributeHandler(scope: &Scope<DotsProps<BaseAttributeType>>, clickedValue: u
 			if next > 5 { next = 5; }
 			if next < 1 { next = 1; }
 			
-			updateBaseAttribute(scope, *at, next);
+			updateBaseAttribute(scope, at, next);
 		},
 		None => {}
 	}
@@ -170,7 +170,7 @@ fn skillHandler(scope: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
 			if clickedValue == scope.props.value { next -= 1; }
 			if next > 5 { next = 5; }
 			
-			updateBaseSkill(scope, *st, next);
+			updateBaseSkill(scope, st, next);
 		},
 		None => {}
 	}
