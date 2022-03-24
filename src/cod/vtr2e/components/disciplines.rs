@@ -23,14 +23,14 @@ use crate::cod::{
 	}
 };
 
-pub fn Disciplines(scope: Scope) -> Element
+pub fn Disciplines(cx: Scope) -> Element
 {
-	let disciplinesRef = use_atom_ref(&scope, KindredDisciplines);
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let disciplines = disciplinesRef.read();
 	
 	let dotsClass = "entry row";
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -57,19 +57,19 @@ pub fn Disciplines(scope: Scope) -> Element
 	});
 }
 
-fn dotsHandler(scope: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
+fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 {
-	let finalValue = match clickedValue == scope.props.value
+	let finalValue = match clickedValue == cx.props.value
 	{
 		true => { clickedValue - 1 }
 		false => { clickedValue }
 	};
 	
-	match &scope.props.handlerKey
+	match &cx.props.handlerKey
 	{
 		Some(dt) =>
 		{
-			updateDiscipline(scope, dt, finalValue);
+			updateDiscipline(cx, dt, finalValue);
 		}
 		None => {}
 	}
@@ -77,12 +77,12 @@ fn dotsHandler(scope: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 
 // -----
 
-pub fn Devotions(scope: Scope) -> Element
+pub fn Devotions(cx: Scope) -> Element
 {
-	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
 	let devotions = devotionsRef.read();
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -94,7 +94,7 @@ pub fn Devotions(scope: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				devotions.iter().enumerate().map(|(i, dev)| rsx!(scope, div
+				devotions.iter().enumerate().map(|(i, dev)| rsx!(cx, div
 				{
 					class: "entry column",
 					
@@ -103,9 +103,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Name:" }
-						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Name) }
+						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Name) }
 						div { class: "label second", "Cost:" }
-						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Cost) }
+						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Cost) }
 					}
 					
 					div
@@ -113,9 +113,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Dice Pool:" }
-						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::DicePool) }
+						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::DicePool) }
 						div { class: "label second", "Action:" }
-						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Action) }
+						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Action) }
 					}
 					
 					div
@@ -123,9 +123,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Requirements:" }
-						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Disciplines) }
+						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines) }
 						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Reference) }
+						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Reference) }
 					}
 				}))
 				
@@ -138,9 +138,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Name:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Name) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Name) }
 						div { class: "label second", "Cost:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Cost) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Cost) }
 					}
 					
 					div
@@ -148,9 +148,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Dice Pool:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::DicePool) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::DicePool) }
 						div { class: "label second", "Action:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Action) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Action) }
 					}
 					
 					div
@@ -158,9 +158,9 @@ pub fn Devotions(scope: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Requirements:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Disciplines) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Disciplines) }
 						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Reference) }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Reference) }
 					}
 				}
 			}
@@ -168,9 +168,9 @@ pub fn Devotions(scope: Scope) -> Element
 	});
 }
 
-fn inputHandler(e: FormEvent, scope: &Scope, index: Option<usize>, prop: DevotionField)
+fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionField)
 {
-	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
 	let mut devotions = devotionsRef.write();
 	
 	match index

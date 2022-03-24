@@ -1,8 +1,12 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
+use dioxus::prelude::{
+	Scope,
+	use_atom_ref,
+};
 use serde::{Serialize, Deserialize};
 use crate::{
+	core::template::StatefulTemplate,
 	cod::{
 		advantages::BaseAdvantages,
 		state::{
@@ -50,19 +54,18 @@ pub struct Kindred
 	pub templateAdvantages: TemplateAdvantages,
 }
 
-impl Kindred
+impl StatefulTemplate for Kindred
 {
-	/// Refresh this character's data from the global state.
-	pub fn refresh<T>(&mut self, scope: &Scope<T>)
+	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
-		let advantages = use_atom_ref(scope, CharacterAdvantages);
-		let attributes = use_atom_ref(scope, CharacterAttributes);
-		let details = use_atom_ref(scope, KindredDetails);
-		let devotions = use_atom_ref(scope, KindredDevotions);
-		let disciplines = use_atom_ref(scope, KindredDisciplines);
-		let merits = use_atom_ref(scope, CharacterMerits);
-		let skills = use_atom_ref(scope, CharacterSkills);
-		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
+		let advantages = use_atom_ref(cx, CharacterAdvantages);
+		let attributes = use_atom_ref(cx, CharacterAttributes);
+		let details = use_atom_ref(cx, KindredDetails);
+		let devotions = use_atom_ref(cx, KindredDevotions);
+		let disciplines = use_atom_ref(cx, KindredDisciplines);
+		let merits = use_atom_ref(cx, CharacterMerits);
+		let skills = use_atom_ref(cx, CharacterSkills);
+		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
 		
 		devotions.write().sort();
 		merits.write().sort();
@@ -77,17 +80,16 @@ impl Kindred
 		self.templateAdvantages = templateAdvantages.read().clone();
 	}
 	
-	/// Reload this character's data into the global state.
-	pub fn reload<T>(&self, scope: &Scope<T>)
+	fn push<T>(&self, cx: &Scope<T>)
 	{
-		let advantages = use_atom_ref(scope, CharacterAdvantages);
-		let attributes = use_atom_ref(scope, CharacterAttributes);
-		let details = use_atom_ref(scope, KindredDetails);
-		let devotions = use_atom_ref(scope, KindredDevotions);
-		let disciplines = use_atom_ref(scope, KindredDisciplines);
-		let merits = use_atom_ref(scope, CharacterMerits);
-		let skills = use_atom_ref(scope, CharacterSkills);
-		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
+		let advantages = use_atom_ref(cx, CharacterAdvantages);
+		let attributes = use_atom_ref(cx, CharacterAttributes);
+		let details = use_atom_ref(cx, KindredDetails);
+		let devotions = use_atom_ref(cx, KindredDevotions);
+		let disciplines = use_atom_ref(cx, KindredDisciplines);
+		let merits = use_atom_ref(cx, CharacterMerits);
+		let skills = use_atom_ref(cx, CharacterSkills);
+		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
 		
 		devotions.write().sort();
 		merits.write().sort();

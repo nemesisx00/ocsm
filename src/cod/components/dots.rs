@@ -1,7 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use dioxus::events::MouseEvent;
 use crate::core::components::check::CheckCircle;
 
 #[derive(Props)]
@@ -63,21 +62,21 @@ impl<T> PartialEq for DotsProps<T>
 	}
 }
 
-pub fn Dots<T>(scope: Scope<DotsProps<T>>) -> Element
+pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 {
-	let class = match &scope.props.class
+	let class = match &cx.props.class
 	{
 		Some(cn) => { format!("tracker {}", cn) },
 		None => { String::from("tracker") }
 	};
 	
-	let label = match &scope.props.label
+	let label = match &cx.props.label
 	{
 		Some(l) => { l }
 		None => { "" }
 	};
 	
-	return scope.render(rsx!{
+	return cx.render(rsx!{
 		div
 		{
 			class: "{class}",
@@ -88,13 +87,13 @@ pub fn Dots<T>(scope: Scope<DotsProps<T>>) -> Element
 			{
 				class: "checkerLine row",
 				
-				(0..scope.props.max).map(|i|
+				(0..cx.props.max).map(|i|
 				{
-					rsx!(scope, CheckCircle
+					rsx!(cx, CheckCircle
 					{
 						key: "{i}",
-						checked: i < scope.props.value,
-						onclick: move |e| clickHandler(e, &scope, i + 1)
+						checked: i < cx.props.value,
+						onclick: move |_| clickHandler(&cx, i + 1)
 					})
 				})
 			}
@@ -102,13 +101,11 @@ pub fn Dots<T>(scope: Scope<DotsProps<T>>) -> Element
 	});
 }
 
-fn clickHandler<T>(e: MouseEvent, scope: &Scope<DotsProps<T>>, clickedValue: usize)
+fn clickHandler<T>(cx: &Scope<DotsProps<T>>, clickedValue: usize)
 {
-	e.cancel_bubble();
-	
-	match &scope.props.handler
+	match &cx.props.handler
 	{
-		Some(h) => { h(&scope, clickedValue); }
+		Some(h) => { h(&cx, clickedValue); }
 		None => {}
 	}
 }

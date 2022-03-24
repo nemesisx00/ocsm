@@ -27,10 +27,10 @@ pub static CharacterAttributes: AtomRef<BaseAttributes> = |_| BaseAttributes::de
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
 pub static CharacterSkills: AtomRef<BaseSkills> = |_| BaseSkills::default();
 
-pub fn updateBaseAdvantage<T>(scope: &Scope<T>, advantage: BaseAdvantageType, value: usize)
+pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
-	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	
 	let mut advantages = advantagesRef.write();
 	let attributes = attributesRef.read();
@@ -63,11 +63,11 @@ pub fn updateBaseAdvantage<T>(scope: &Scope<T>, advantage: BaseAdvantageType, va
 	}
 }
 
-pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: &BaseAttributeType, value: usize)
+pub fn updateBaseAttribute<T>(cx: &Scope<T>, attribute: &BaseAttributeType, value: usize)
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
-	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
-	let skillsRef = use_atom_ref(&scope, CharacterSkills);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
+	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	
 	let mut advantages = advantagesRef.write();
 	let mut attributes = attributesRef.write();
@@ -136,9 +136,9 @@ pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: &BaseAttributeType, v
 
 // For now, just updating directly since this is such a simple data structure
 /*
-pub fn updateBaseMerit<T>(scope: &Scope<T>, merit: &mut Merit, index: usize)
+pub fn updateBaseMerit<T>(cx: &Scope<T>, merit: &mut Merit, index: usize)
 {
-	let meritsRef = use_atom_ref(&scope, CharacterMerits);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let mut merits = meritsRef.write();
 	
 	match merits.get_mut(index)
@@ -149,11 +149,11 @@ pub fn updateBaseMerit<T>(scope: &Scope<T>, merit: &mut Merit, index: usize)
 }
 */
 
-pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: &BaseSkillType, value: usize)
+pub fn updateBaseSkill<T>(cx: &Scope<T>, skill: &BaseSkillType, value: usize)
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
-	let attributesRef = use_atom_ref(scope, CharacterAttributes);
-	let skillsRef = use_atom_ref(&scope, CharacterSkills);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(cx, CharacterAttributes);
+	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	
 	let mut advantages = advantagesRef.write();
 	let attributes = attributesRef.read();
@@ -200,9 +200,9 @@ pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: &BaseSkillType, value: usize)
 	}
 }
 
-pub fn updateBaseHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
+pub fn updateBaseHealth<T>(cx: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();
 	
 	if remove
@@ -219,9 +219,9 @@ pub fn updateBaseHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: b
 	}
 }
 
-pub fn updateBaseWillpower<T>(scope: &Scope<T>, index: usize)
+pub fn updateBaseWillpower<T>(cx: &Scope<T>, index: usize)
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();
 	
 	let len = advantages.willpower.values.len();

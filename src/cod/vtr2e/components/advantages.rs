@@ -36,12 +36,12 @@ use crate::{
 	},
 };
 
-pub fn Advantages(scope: Scope) -> Element
+pub fn Advantages(cx: Scope) -> Element
 {
-	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
-	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
-	let templateRef = use_atom_ref(&scope, KindredAdvantages);
-	let disciplinesRef = use_atom_ref(&scope, KindredDisciplines);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
+	let templateRef = use_atom_ref(&cx, KindredAdvantages);
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	
 	let mut advantages = advantagesRef.write();
 	let attributes = attributesRef.read();
@@ -60,7 +60,7 @@ pub fn Advantages(scope: Scope) -> Element
 		advantages.speed = size + attributes.strength.value + attributes.dexterity.value + disciplines.vigor.value;
 	}
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{		
 		div
 		{
@@ -80,40 +80,40 @@ pub fn Advantages(scope: Scope) -> Element
 	});
 }
 
-fn bloodPotencyHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
+fn bloodPotencyHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateTemplateAdvantage(scope, TemplateAdvantageType::BloodPotency, clickedValue);
+	updateTemplateAdvantage(cx, TemplateAdvantageType::BloodPotency, clickedValue);
 }
 
-fn healthHandler(scope: &Scope<TrackProps>, index: usize)
+fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 {
-	let value = scope.props.tracker.clone().getValue(index);
+	let value = cx.props.tracker.clone().getValue(index);
 	match value
 	{
 		Some(ts) =>
 		{
 			match ts
 			{
-				TrackerState::One => { updateBaseHealth(&scope, TrackerState::Two, false, Some(index)); }
-				TrackerState::Two => { updateBaseHealth(&scope, TrackerState::Three, false, Some(index)); }
-				TrackerState::Three => { updateBaseHealth(&scope, TrackerState::Three, true, Some(index)); }
+				TrackerState::One => { updateBaseHealth(&cx, TrackerState::Two, false, Some(index)); }
+				TrackerState::Two => { updateBaseHealth(&cx, TrackerState::Three, false, Some(index)); }
+				TrackerState::Three => { updateBaseHealth(&cx, TrackerState::Three, true, Some(index)); }
 			}
 		}
-		None => { updateBaseHealth(&scope, TrackerState::One, false, None); }
+		None => { updateBaseHealth(&cx, TrackerState::One, false, None); }
 	}
 }
 
-fn humanityHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
+fn humanityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateTemplateAdvantage(scope, TemplateAdvantageType::Humanity, clickedValue);
+	updateTemplateAdvantage(cx, TemplateAdvantageType::Humanity, clickedValue);
 }
 
-fn vitaeHandler(scope: &Scope<TrackProps>, index: usize)
+fn vitaeHandler(cx: &Scope<TrackProps>, index: usize)
 {
-	updateVitae(scope, index);
+	updateVitae(cx, index);
 }
 
-fn willpowerHandler(scope: &Scope<TrackProps>, index: usize)
+fn willpowerHandler(cx: &Scope<TrackProps>, index: usize)
 {
-	updateBaseWillpower(scope, index);
+	updateBaseWillpower(cx, index);
 }

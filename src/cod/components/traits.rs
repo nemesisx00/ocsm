@@ -20,13 +20,13 @@ use crate::cod::{
 	},
 };
 
-pub fn Attributes(scope: Scope) -> Element
+pub fn Attributes(cx: Scope) -> Element
 {
-	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
+	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let attributes = attributesRef.read();
 	let dotsClass = "dots row".to_string();
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -69,13 +69,13 @@ pub fn Attributes(scope: Scope) -> Element
 	});
 }
 
-pub fn Skills(scope: Scope) -> Element
+pub fn Skills(cx: Scope) -> Element
 {
-	let skillsRef = use_atom_ref(&scope, CharacterSkills);
+	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let skills = skillsRef.read();
 	let dotsClass = "dots row".to_string();
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -133,34 +133,34 @@ pub fn Skills(scope: Scope) -> Element
 	});
 }
 
-fn attributeHandler(scope: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usize)
+fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usize)
 {
-	match &scope.props.handlerKey
+	match &cx.props.handlerKey
 	{
 		Some(at) => {
 			let mut next = clickedValue;
 			
-			if clickedValue == scope.props.value { next -= 1; }
+			if clickedValue == cx.props.value { next -= 1; }
 			if next > 5 { next = 5; }
 			if next < 1 { next = 1; }
 			
-			updateBaseAttribute(scope, at, next);
+			updateBaseAttribute(cx, at, next);
 		},
 		None => {}
 	}
 }
 
-fn skillHandler(scope: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
+fn skillHandler(cx: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
 {
-	match &scope.props.handlerKey
+	match &cx.props.handlerKey
 	{
 		Some(st) => {
 			let mut next = clickedValue;
 			
-			if clickedValue == scope.props.value { next -= 1; }
+			if clickedValue == cx.props.value { next -= 1; }
 			if next > 5 { next = 5; }
 			
-			updateBaseSkill(scope, st, next);
+			updateBaseSkill(cx, st, next);
 		},
 		None => {}
 	}

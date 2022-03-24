@@ -15,12 +15,12 @@ use crate::cod::{
 	}
 };
 
-pub fn Merits(scope: Scope) -> Element
+pub fn Merits(cx: Scope) -> Element
 {
-	let meritsRef = use_atom_ref(&scope, CharacterMerits);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let merits = meritsRef.read();
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -32,12 +32,12 @@ pub fn Merits(scope: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				merits.iter().enumerate().map(|(i, merit)| rsx!(scope, div
+				merits.iter().enumerate().map(|(i, merit)| rsx!(cx, div
 				{
 					key: "{i}",
 					class: "entry row",
 					
-					input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &scope, Some(i)) }
+					input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &cx, Some(i)) }
 					Dots { max: 5, value: merit.value, handler: dotsHandler, handlerKey: i }
 				}))
 				
@@ -45,7 +45,7 @@ pub fn Merits(scope: Scope) -> Element
 				{
 					class: "entry row",
 					
-					input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None) }
+					input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None) }
 					Dots { max: 5, value: 0, handler: dotsHandler }
 				}
 			}
@@ -53,21 +53,21 @@ pub fn Merits(scope: Scope) -> Element
 	});
 }
 
-fn dotsHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
+fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	let meritsRef = use_atom_ref(&scope, CharacterMerits);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let mut merits = meritsRef.write();
 	
-	match &scope.props.handlerKey
+	match &cx.props.handlerKey
 	{
 		Some(index) => { merits[*index].value = clickedValue; }
 		None => { merits.push(Merit { value: clickedValue, ..Default::default() }); }
 	}
 }
 
-fn inputHandler(e: FormEvent, scope: &Scope, index: Option<usize>)
+fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
-	let meritsRef = use_atom_ref(&scope, CharacterMerits);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let mut merits = meritsRef.write();
 	
 	match index

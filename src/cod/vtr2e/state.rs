@@ -30,9 +30,9 @@ pub static KindredDetails: AtomRef<Details> = |_| Details::default();
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
 pub static KindredDisciplines: AtomRef<Disciplines> = |_| Disciplines::default();
 
-pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
+pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
-	let templateRef = use_atom_ref(&scope, KindredAdvantages);
+	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	let mut template = templateRef.write();
 	
 	match advantage
@@ -48,9 +48,9 @@ pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantage
 	}
 }
 
-pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
+pub fn updateDetail<T>(cx: &Scope<T>, field: DetailsField, value: String)
 {
-	let detailsRef = use_atom_ref(&scope, KindredDetails);
+	let detailsRef = use_atom_ref(&cx, KindredDetails);
 	let mut details = detailsRef.write();
 	
 	match field
@@ -68,9 +68,9 @@ pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
 }
 
 /*
-pub fn updateDevotion<T>(scope: &Scope<T>, devotion: &mut Devotion, index: usize)
+pub fn updateDevotion<T>(cx: &Scope<T>, devotion: &mut Devotion, index: usize)
 {
-	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
 	let mut devotions = devotionsRef.write();
 	
 	match devotions.get_mut(index)
@@ -81,9 +81,9 @@ pub fn updateDevotion<T>(scope: &Scope<T>, devotion: &mut Devotion, index: usize
 }
 */
 
-pub fn updateDiscipline<T>(scope: &Scope<T>, discipline: &DisciplineType, value: usize)
+pub fn updateDiscipline<T>(cx: &Scope<T>, discipline: &DisciplineType, value: usize)
 {
-	let disciplinesRef = use_atom_ref(&scope, KindredDisciplines);
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
 	
 	match discipline
@@ -101,9 +101,9 @@ pub fn updateDiscipline<T>(scope: &Scope<T>, discipline: &DisciplineType, value:
 	}
 }
 
-pub fn updateVitae<T>(scope: &Scope<T>, index: usize)
+pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 {
-	let templateRef = use_atom_ref(&scope, KindredAdvantages);
+	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	let mut template = templateRef.write();
 	
 	let len = template.vitae.values.len();

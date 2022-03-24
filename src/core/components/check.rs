@@ -50,28 +50,29 @@ impl<'a> PartialEq for CheckCircleProps<'a>
 }
 
 /// Generate clickable a circle with inline SVG.
-pub fn CheckCircle<'a>(scope: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
+pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 {
-	let checkedClass = match scope.props.checked
+	let checkedClass = match cx.props.checked
 	{
 		true => " checked",
 		false => ""
 	};
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
 			class: "checker circle{checkedClass}",
 			prevent_default: "onclick",
 			onclick: move |e| {
-				e.cancel_bubble();
-				match &scope.props.onclick
+				match &cx.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
 				}
 			},
+			oncontextmenu: move |e| e.cancel_bubble(),
+			prevent_default: "oncontextmenu",
 			
 			svg
 			{
@@ -114,24 +115,25 @@ impl<'a> PartialEq for CheckLineProps<'a>
 }
 
 /// Generate clickable a box with inline SVG.
-pub fn CheckLine<'a>(scope: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
+pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 {
-	let path = buildPath(scope.props.lineState);
+	let path = buildPath(cx.props.lineState);
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
 			class: "checker line",
 			prevent_default: "onclick",
 			onclick: move |e| {
-				e.cancel_bubble();
-				match &scope.props.onclick
+				match &cx.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
 				}
 			},
+			oncontextmenu: move |e| e.cancel_bubble(),
+			prevent_default: "oncontextmenu",
 			
 			svg
 			{

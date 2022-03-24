@@ -25,16 +25,13 @@ use crate::{
 					Devotions,
 				},
 			},
-			template::{
-				Kindred,
-			},
 		},
 	},
 };
 
-pub fn Sheet(scope: Scope) -> Element
+pub fn Sheet(cx: Scope) -> Element
 {
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{	
 		div
 		{

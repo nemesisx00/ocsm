@@ -1,9 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use dioxus::events::{
-	MouseEvent,
-};
 use crate::{
 	cod::{
 		tracks::{
@@ -54,34 +51,34 @@ impl PartialEq for TrackProps
 	}
 }
 
-pub fn Track(scope: Scope<TrackProps>) -> Element
+pub fn Track(cx: Scope<TrackProps>) -> Element
 {
-	let max = scope.props.tracker.clone().getMax();
+	let max = cx.props.tracker.clone().getMax();
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
 			class: "tracker",
 			
-			div { class: "label", "{scope.props.label}" }
+			div { class: "label", "{cx.props.label}" }
 			
 			div
 			{
 				class: "checkerLine row",
 				
-				scope.props.tracker.values.iter().enumerate().map(|(i, ts)| rsx!(scope, CheckLine
+				cx.props.tracker.values.iter().enumerate().map(|(i, ts)| rsx!(cx, CheckLine
 				{
 					key: "{i}",
 					lineState: getLineState(ts),
-					onclick: move |e| clickHandler(e, &scope, i)
+					onclick: move |_| clickHandler(&cx, i)
 				})),
 				
-				((scope.props.tracker.values.len())..max).map(|i| rsx!(scope, CheckLine
+				((cx.props.tracker.values.len())..max).map(|i| rsx!(cx, CheckLine
 				{
 					key: "{i}",
 					lineState: CheckLineState::None,
-					onclick: move |e| clickHandler(e, &scope, i)
+					onclick: move |_| clickHandler(&cx, i)
 				}))
 			}
 		}
@@ -98,13 +95,11 @@ fn getLineState(ts: &TrackerState) -> CheckLineState
 	};
 }
 
-fn clickHandler(e: MouseEvent, scope: &Scope<TrackProps>, index: usize)
+fn clickHandler(cx: &Scope<TrackProps>, index: usize)
 {
-	e.cancel_bubble();
-	
-	match &scope.props.handler
+	match &cx.props.handler
 	{
-		Some(h) => { h(&scope, index); }
+		Some(h) => { h(&cx, index); }
 		None => {}
 	}
 }

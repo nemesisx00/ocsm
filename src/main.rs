@@ -8,9 +8,7 @@ use dioxus::desktop::{
 	tao::dpi::LogicalSize,
 	launch_cfg
 };
-use crate::app::{
-	App,
-};
+use crate::app::App;
 
 fn main()
 {

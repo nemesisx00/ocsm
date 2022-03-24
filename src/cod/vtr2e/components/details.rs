@@ -23,10 +23,10 @@ use crate::cod::{
 	},
 };
 
-pub fn Details(scope: Scope) -> Element
+pub fn Details(cx: Scope) -> Element
 {
-	let advantages = use_atom_ref(&scope, CharacterAdvantages);
-	let detailsRef = use_atom_ref(&scope, KindredDetails);
+	let advantages = use_atom_ref(&cx, CharacterAdvantages);
+	let detailsRef = use_atom_ref(&cx, KindredDetails);
 	let details = detailsRef.read();
 	
 	let bloodlineLabel = "Bloodline:".to_string();
@@ -44,14 +44,7 @@ pub fn Details(scope: Scope) -> Element
 	let initiative = advantages.read().initiative;
 	let speed = advantages.read().speed;
 	
-	// I'm leaving DetailsField::Player out of this component for now.
-	// I'm building this for players (read: myself) first and foremost
-	// so the Player field is a bit redundant. Maybe one day this will
-	// have grown to the point of being able to open multiple sheets
-	// so GMs/STs can keep track of their players' characters more easily.
-	// But it is not this day.
-	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -98,26 +91,26 @@ pub fn Details(scope: Scope) -> Element
 	});
 }
 
-fn detailHandler(scope: &Scope<DetailInputProps<DetailsField>>, value: String)
+fn detailHandler(cx: &Scope<DetailInputProps<DetailsField>>, value: String)
 {
-	match scope.props.handlerKey
+	match cx.props.handlerKey
 	{
-		Some(df) => { updateDetail(scope, df, value); }
+		Some(df) => { updateDetail(cx, df, value); }
 		None => {}
 	}
 }
 
-fn advantageHandler(scope: &Scope<DetailInputNumProps<BaseAdvantageType>>, value: String)
+fn advantageHandler(cx: &Scope<DetailInputNumProps<BaseAdvantageType>>, value: String)
 {
 	let num = match usize::from_str_radix(&value, 10)
 	{
 		Ok(i) => { i }
-		Err(_) => { scope.props.value }
+		Err(_) => { cx.props.value }
 	};
 	
-	match scope.props.handlerKey
+	match cx.props.handlerKey
 	{
-		Some(at) => { updateBaseAdvantage(scope, at, num); }
+		Some(at) => { updateBaseAdvantage(cx, at, num); }
 		None => {}
 	}
 }
@@ -148,12 +141,12 @@ impl<T> PartialEq for DetailInputProps<T>
 	}
 }
 
-fn DetailInput<T>(scope: Scope<DetailInputProps<T>>) -> Element
+fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 {
-	let label = &scope.props.label;
-	let value = &scope.props.value;
+	let label = &cx.props.label;
+	let value = &cx.props.value;
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -165,19 +158,19 @@ fn DetailInput<T>(scope: Scope<DetailInputProps<T>>) -> Element
 			{
 				r#type: "text",
 				value: "{value}",
-				oninput:  move |e| inputHandler(e, &scope),
+				oninput:  move |e| inputHandler(e, &cx),
 			}
 		}
 	});
 }
 
-fn inputHandler<T>(e: FormEvent, scope: &Scope<DetailInputProps<T>>)
+fn inputHandler<T>(e: FormEvent, cx: &Scope<DetailInputProps<T>>)
 {
 	e.cancel_bubble();
 	
-	match &scope.props.handler
+	match &cx.props.handler
 	{
-		Some(h) => { h(&scope, e.value.clone()); }
+		Some(h) => { h(&cx, e.value.clone()); }
 		None => {}
 	}
 }
@@ -208,16 +201,16 @@ impl<T> PartialEq for DetailInputNumProps<T>
 	}
 }
 
-fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
+fn DetailNumInput<T>(cx: Scope<DetailInputNumProps<T>>) -> Element
 {
-	let label = &scope.props.label;
-	let value = &scope.props.value;
+	let label = &cx.props.label;
+	let value = &cx.props.value;
 	
 	let four = generateSelectedValue(4, *value);
 	let five = generateSelectedValue(5, *value);
 	let six = generateSelectedValue(6, *value);
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{
 		div
 		{
@@ -227,7 +220,7 @@ fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
 			
 			select
 			{
-				onchange: move |e| inputNumHandler(e, &scope),
+				onchange: move |e| inputNumHandler(e, &cx),
 				
 				option { value: "4", selected: "{four}", "4" }
 				option { value: "5", selected: "{five}", "5" }
@@ -237,13 +230,13 @@ fn DetailNumInput<T>(scope: Scope<DetailInputNumProps<T>>) -> Element
 	});
 }
 
-fn inputNumHandler<T>(e: FormEvent, scope: &Scope<DetailInputNumProps<T>>)
+fn inputNumHandler<T>(e: FormEvent, cx: &Scope<DetailInputNumProps<T>>)
 {
 	e.cancel_bubble();
 	
-	match &scope.props.handler
+	match &cx.props.handler
 	{
-		Some(h) => { h(scope, e.value.clone()); }
+		Some(h) => { h(cx, e.value.clone()); }
 		None => {}
 	}
 }

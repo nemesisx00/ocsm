@@ -10,11 +10,11 @@ use crate::wod::{
 	vtmv5::state::*
 };
 
-pub fn Sheet(scope: Scope) -> Element
+pub fn Sheet(cx: Scope) -> Element
 {
-	let currentHealth = use_read(&scope, CurrentHealth);
+	let currentHealth = use_read(&cx, CurrentHealth);
 	
-	return scope.render(rsx!
+	return cx.render(rsx!
 	{	
 		div
 		{
