@@ -1,11 +1,19 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use std::{
+	iter::Iterator
+};
 use serde::{
 	Deserialize,
 	Serialize,
 };
+use strum_macros::{
+	AsRefStr,
+	EnumCount,
+	EnumIter
+};
 
-#[derive(Clone, Copy, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
 	Animalism,
@@ -42,7 +50,7 @@ pub struct Disciplines
 	pub vigor: Discipline,
 }
 
-#[derive(Clone, Copy, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DevotionField
 {
 	Action,

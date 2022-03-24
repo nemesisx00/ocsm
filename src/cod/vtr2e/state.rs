@@ -18,8 +18,7 @@ use crate::{
 			},
 			disciplines::{
 				Devotion,
-				Disciplines,
-				DisciplineType,
+				Discipline,
 			},
 		},
 	},
@@ -28,7 +27,7 @@ use crate::{
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
-pub static KindredDisciplines: AtomRef<Disciplines> = |_| Disciplines::default();
+pub static KindredDisciplines: AtomRef<Vec<Discipline>> = |_| Vec::<Discipline>::new();
 
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
@@ -81,6 +80,7 @@ pub fn updateDevotion<T>(cx: &Scope<T>, devotion: &mut Devotion, index: usize)
 }
 */
 
+/*
 pub fn updateDiscipline<T>(cx: &Scope<T>, discipline: &DisciplineType, value: usize)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
@@ -100,6 +100,7 @@ pub fn updateDiscipline<T>(cx: &Scope<T>, discipline: &DisciplineType, value: us
 		DisciplineType::Vigor => { disciplines.vigor.value = value; }
 	}
 }
+*/
 
 pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 {

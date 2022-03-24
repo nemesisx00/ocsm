@@ -29,7 +29,7 @@ use crate::{
 			},
 			disciplines::{
 				Devotion,
-				Disciplines,
+				Discipline,
 			},
 			state::{
 				KindredAdvantages,
@@ -47,7 +47,7 @@ pub struct Kindred
 	pub advantages: BaseAdvantages,
 	pub attributes: BaseAttributes,
 	pub details: Details,
-	pub disciplines: Disciplines,
+	pub disciplines: Vec<Discipline>,
 	pub devotions: Vec<Devotion>,
 	pub merits: Vec<Merit>,
 	pub skills: BaseSkills,

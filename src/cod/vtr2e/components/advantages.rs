@@ -26,6 +26,9 @@ use crate::{
 			advantages::{
 				TemplateAdvantageType,
 			},
+			disciplines::{
+				DisciplineType,
+			},
 			state::{
 				KindredAdvantages,
 				KindredDisciplines,
@@ -40,24 +43,38 @@ pub fn Advantages(cx: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
-	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	
 	let mut advantages = advantagesRef.write();
 	let attributes = attributesRef.read();
-	let template = templateRef.read();
 	let disciplines = disciplinesRef.read();
+	let template = templateRef.read();
 	
 	let size = advantages.size;
 	
-	if disciplines.resilience.value > 0
+	match disciplines.iter().filter(|d| d.name.as_str() == DisciplineType::Resilience.as_ref()).next()
 	{
-		advantages.health.updateMax(size + attributes.stamina.value + disciplines.resilience.value);
+		Some(resilience) =>
+		{
+			if resilience.value > 0
+			{
+				advantages.health.updateMax(size + attributes.stamina.value + resilience.value);
+			}
+		}
+		None => {}
 	}
 	
-	if disciplines.vigor.value > 0
+	match disciplines.iter().filter(|d| d.name.as_str() == DisciplineType::Vigor.as_ref()).next()
 	{
-		advantages.speed = size + attributes.strength.value + attributes.dexterity.value + disciplines.vigor.value;
+		Some(vigor) =>
+		{
+			if vigor.value > 0
+			{
+				advantages.speed = size + attributes.strength.value + attributes.dexterity.value + vigor.value;
+			}
+		}
+		None => {}
 	}
 	
 	return cx.render(rsx!

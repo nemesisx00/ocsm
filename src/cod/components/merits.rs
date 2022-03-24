@@ -45,8 +45,7 @@ pub fn Merits(cx: Scope) -> Element
 				{
 					class: "entry row",
 					
-					input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None) }
-					Dots { max: 5, value: 0, handler: dotsHandler }
+					input { r#type: "text", value: "", placeholder: "Type new Merits here", onchange: move |e| inputHandler(e, &cx, None) }
 				}
 			}
 		}
@@ -61,7 +60,7 @@ fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 	match &cx.props.handlerKey
 	{
 		Some(index) => { merits[*index].value = clickedValue; }
-		None => { merits.push(Merit { value: clickedValue, ..Default::default() }); }
+		None => {}
 	}
 }
 

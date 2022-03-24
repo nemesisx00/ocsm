@@ -4,6 +4,7 @@ use dioxus::{
 	prelude::*,
 	events::FormEvent
 };
+use strum::IntoEnumIterator;
 use crate::cod::{
 	components::dots::{
 		Dots,
@@ -11,6 +12,7 @@ use crate::cod::{
 	},
 	vtr2e::{
 		disciplines::{
+			Discipline,
 			DisciplineType,
 			Devotion,
 			DevotionField,
@@ -18,7 +20,6 @@ use crate::cod::{
 		state::{
 			KindredDisciplines,
 			KindredDevotions,
-			updateDiscipline,
 		}
 	}
 };
@@ -29,6 +30,12 @@ pub fn Disciplines(cx: Scope) -> Element
 	let disciplines = disciplinesRef.read();
 	
 	let dotsClass = "entry row";
+	
+	let mut optionNames = Vec::<String>::new();
+	for dt in DisciplineType::iter()
+	{
+		optionNames.push(dt.as_ref().to_string());
+	}
 	
 	return cx.render(rsx!
 	{
@@ -42,37 +49,51 @@ pub fn Disciplines(cx: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				Dots { class: dotsClass.to_string(), label: "Animalism".to_string(), max: 5, value: disciplines.animalism.value, handler: dotsHandler, handlerKey: DisciplineType::Animalism }
-				Dots { class: dotsClass.to_string(), label: "Auspex".to_string(), max: 5, value: disciplines.auspex.value, handler: dotsHandler, handlerKey: DisciplineType::Auspex }
-				Dots { class: dotsClass.to_string(), label: "Celerity".to_string(), max: 5, value: disciplines.celerity.value, handler: dotsHandler, handlerKey: DisciplineType::Celerity }
-				Dots { class: dotsClass.to_string(), label: "Dominate".to_string(), max: 5, value: disciplines.dominate.value, handler: dotsHandler, handlerKey: DisciplineType::Dominate }
-				Dots { class: dotsClass.to_string(), label: "Majesty".to_string(), max: 5, value: disciplines.majesty.value, handler: dotsHandler, handlerKey: DisciplineType::Majesty }
-				Dots { class: dotsClass.to_string(), label: "Nightmare".to_string(), max: 5, value: disciplines.nightmare.value, handler: dotsHandler, handlerKey: DisciplineType::Nightmare }
-				Dots { class: dotsClass.to_string(), label: "Obfuscate".to_string(), max: 5, value: disciplines.obfuscate.value, handler: dotsHandler, handlerKey: DisciplineType::Obfuscate }
-				Dots { class: dotsClass.to_string(), label: "Protean".to_string(), max: 5, value: disciplines.protean.value, handler: dotsHandler, handlerKey: DisciplineType::Protean }
-				Dots { class: dotsClass.to_string(), label: "Resilience".to_string(), max: 5, value: disciplines.resilience.value, handler: dotsHandler, handlerKey: DisciplineType::Resilience }
-				Dots { class: dotsClass.to_string(), label: "Vigor".to_string(), max: 5, value: disciplines.vigor.value, handler: dotsHandler, handlerKey: DisciplineType::Vigor }
+				disciplines.iter().enumerate().map(|(i, d)| rsx!(cx, Dots { key: "{i}", class: dotsClass.to_string(), label: d.name.clone(), max: 5, value: d.value, handler: dotsHandler, handlerKey: i }))
+				
+				div
+				{
+					class: "entry row",
+					
+					select
+					{
+						onchange: move |e| selectHandler(e, &cx),
+						
+						option { value: "", selected: "true", "Choose a Discipline" }
+						
+						optionNames.iter().enumerate().map(|(i, name)| rsx!(cx, option
+						{
+							option { key: "{i}", value: "{name}", "{name}" }
+						}))
+					}
+				}
 			}
 		}
 	});
 }
 
-fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
+fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	let finalValue = match clickedValue == cx.props.value
-	{
-		true => { clickedValue - 1 }
-		false => { clickedValue }
-	};
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
 	
 	match &cx.props.handlerKey
 	{
-		Some(dt) =>
-		{
-			updateDiscipline(cx, dt, finalValue);
-		}
+		Some(index) => { disciplines[*index].value = clickedValue; }
 		None => {}
 	}
+}
+
+fn selectHandler(e: FormEvent, cx: &Scope)
+{
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	disciplines.push(Discipline
+	{
+		name: e.value.clone(),
+		..Default::default()
+	});
 }
 
 // -----
