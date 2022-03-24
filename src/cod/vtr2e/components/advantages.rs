@@ -50,9 +50,13 @@ pub fn Advantages(scope: Scope) -> Element
 	
 	let size = advantages.size;
 	
-	if disciplines.vigor.value > 0
+	if disciplines.resilience.value > 0
 	{
 		advantages.health.updateMax(size + attributes.stamina.value + disciplines.resilience.value);
+	}
+	
+	if disciplines.vigor.value > 0
+	{
 		advantages.speed = size + attributes.strength.value + attributes.dexterity.value + disciplines.vigor.value;
 	}
 	

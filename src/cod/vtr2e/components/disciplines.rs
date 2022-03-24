@@ -5,9 +5,6 @@ use dioxus::{
 	events::FormEvent
 };
 use crate::cod::{
-	traits::{
-		BaseActionType
-	},
 	components::dots::{
 		Dots,
 		DotsProps,
@@ -117,8 +114,8 @@ pub fn Devotions(scope: Scope) -> Element
 						
 						div { class: "label first", "Dice Pool:" }
 						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::DicePool) }
-						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Reference) }
+						div { class: "label second", "Action:" }
+						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Action) }
 					}
 					
 					div
@@ -127,6 +124,8 @@ pub fn Devotions(scope: Scope) -> Element
 						
 						div { class: "label first", "Requirements:" }
 						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Disciplines) }
+						div { class: "label second", "Reference:" }
+						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionField::Reference) }
 					}
 				}))
 				
@@ -148,10 +147,10 @@ pub fn Devotions(scope: Scope) -> Element
 					{
 						class: "row",
 						
-						div { class: "label first", "Action:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Action) }
-						div { class: "label second", "Dice Pool:" }
+						div { class: "label first", "Dice Pool:" }
 						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::DicePool) }
+						div { class: "label second", "Action:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionField::Action) }
 					}
 					
 					div

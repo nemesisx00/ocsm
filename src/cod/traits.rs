@@ -3,24 +3,6 @@
 use serde::{Serialize, Deserialize};
 
 #[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub enum BaseActionType
-{
-	Instant,
-	Reflexive,
-	Contested,
-	Extended,
-}
-
-#[allow(dead_code)]
-#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub enum BaseTraitType
-{
-	Mental,
-	Physical,
-	Social,
-}
-
-#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseAttributeType
 {
 	Composure,
