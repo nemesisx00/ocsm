@@ -89,11 +89,11 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
 	
-	disciplines.push(Discipline
+	match disciplines.iter().filter(|d| d.name == e.value.clone()).next()
 	{
-		name: e.value.clone(),
-		..Default::default()
-	});
+		Some(_) => {}
+		None => { disciplines.push(Discipline { name: e.value.clone(), ..Default::default() }); }
+	}
 }
 
 // -----
