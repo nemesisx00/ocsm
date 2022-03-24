@@ -64,6 +64,9 @@ impl Kindred
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
 		
+		devotions.write().sort();
+		merits.write().sort();
+		
 		self.advantages = advantages.read().clone();
 		self.attributes = attributes.read().clone();
 		self.details = details.read().clone();
@@ -85,6 +88,9 @@ impl Kindred
 		let merits = use_atom_ref(scope, CharacterMerits);
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
+		
+		devotions.write().sort();
+		merits.write().sort();
 		
 		(*advantages.write()) = self.advantages.clone();
 		(*attributes.write()) = self.attributes.clone();

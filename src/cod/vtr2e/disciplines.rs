@@ -5,7 +5,7 @@ use serde::{
 	Serialize,
 };
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
 	Animalism,
@@ -20,7 +20,7 @@ pub enum DisciplineType
 	Vigor,
 }
 
-#[derive(Clone, Default, Deserialize, PartialEq, Serialize, PartialOrd)]
+#[derive(Clone, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Discipline
 {
 	pub name: String,
@@ -42,7 +42,7 @@ pub struct Disciplines
 	pub vigor: Discipline,
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DevotionProperty
 {
 	Cost,
@@ -52,7 +52,7 @@ pub enum DevotionProperty
 	Reference,
 }
 
-#[derive(Clone, Default, Deserialize, PartialEq, Serialize, PartialOrd)]
+#[derive(Clone, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Devotion
 {
 	pub cost: String,
