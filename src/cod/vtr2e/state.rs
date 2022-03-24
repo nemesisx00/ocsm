@@ -67,6 +67,7 @@ pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
 	}
 }
 
+/*
 pub fn updateDevotion<T>(scope: &Scope<T>, devotion: &mut Devotion, index: usize)
 {
 	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
@@ -78,6 +79,7 @@ pub fn updateDevotion<T>(scope: &Scope<T>, devotion: &mut Devotion, index: usize
 		None => {}
 	}
 }
+*/
 
 pub fn updateDiscipline<T>(scope: &Scope<T>, discipline: &DisciplineType, value: usize)
 {
@@ -99,21 +101,29 @@ pub fn updateDiscipline<T>(scope: &Scope<T>, discipline: &DisciplineType, value:
 	}
 }
 
-pub fn updateVitae<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
+pub fn updateVitae<T>(scope: &Scope<T>, index: usize)
 {
 	let templateRef = use_atom_ref(&scope, KindredAdvantages);
 	let mut template = templateRef.write();
 	
-	match index
+	let len = template.vitae.values.len();
+	
+	if index >= len
 	{
-		Some(_) =>
+		for _ in len..index+1 { template.vitae.add(TrackerState::Two) }
+	}
+	else if index < len
+	{
+		for _ in index..len { template.vitae.remove(TrackerState::Two) }
+		
+		// If we're trying to "disable" more than one box, add one back in.
+		// People naturally click where they want the checks to stop
+		// not one above where they want them to stop.
+		// However, this makes clicking the top most checked box act weird
+		// thus... the if.
+		if len - index > 1
 		{
-			match damageType
-			{
-				TrackerState::Two => { template.vitae.remove(TrackerState::Two); }
-				_ => { template.vitae.add(TrackerState::Two); }
-			}
+			template.vitae.add(TrackerState::Two);
 		}
-		None => { template.vitae.add(TrackerState::Two); }
 	}
 }

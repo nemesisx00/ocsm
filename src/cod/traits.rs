@@ -2,8 +2,17 @@
 
 use serde::{Serialize, Deserialize};
 
+#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub enum BaseActionType
+{
+	Instant,
+	Reflexive,
+	Contested,
+	Extended,
+}
+
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseTraitType
 {
 	Mental,
@@ -11,7 +20,7 @@ pub enum BaseTraitType
 	Social,
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseAttributeType
 {
 	Composure,
@@ -73,7 +82,7 @@ impl Default for BaseAttributes
 	}
 }
 
-#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[derive(Clone, Copy, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseSkillType
 {
 	Academics,

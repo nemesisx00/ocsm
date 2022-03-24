@@ -219,21 +219,29 @@ pub fn updateBaseHealth<T>(scope: &Scope<T>, damageType: TrackerState, remove: b
 	}
 }
 
-pub fn updateBaseWillpower<T>(scope: &Scope<T>, damageType: TrackerState, index: Option<usize>)
+pub fn updateBaseWillpower<T>(scope: &Scope<T>, index: usize)
 {
 	let advantagesRef = use_atom_ref(&scope, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();
 	
-	match index
+	let len = advantages.willpower.values.len();
+	
+	if index >= len
 	{
-		Some(_) =>
+		for _ in len..index+1 { advantages.willpower.add(TrackerState::Two) }
+	}
+	else if index < len
+	{
+		for _ in index..len { advantages.willpower.remove(TrackerState::Two) }
+		
+		// If we're trying to "disable" more than one box, add one back in.
+		// People naturally click where they want the checks to stop
+		// not one above where they want them to stop.
+		// However, this makes clicking the top most checked box act weird
+		// thus... the if.
+		if len - index > 1
 		{
-			match damageType
-			{
-				TrackerState::Two => { advantages.willpower.remove(TrackerState::Two); }
-				_ => { advantages.willpower.add(TrackerState::Two); }
-			}
+			advantages.willpower.add(TrackerState::Two);
 		}
-		None => { advantages.willpower.add(TrackerState::Two); }
 	}
 }

@@ -2,7 +2,6 @@
 
 use dioxus::prelude::*;
 use dioxus::events::{
-	FocusEvent,
 	FormEvent
 };
 use crate::cod::{
@@ -33,19 +32,14 @@ pub fn Merits(scope: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				(0..merits.len()).map(|i|
+				merits.iter().enumerate().map(|(i, merit)| rsx!(scope, div
 				{
-					let merit = &merits[i];
+					key: "{i}",
+					class: "entry row",
 					
-					rsx!(scope, div
-					{
-						key: "{i}",
-						class: "entry row",
-						
-						input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &scope, Some(i)) }
-						Dots { max: 5, value: merit.value, handler: dotsHandler, handlerKey: i }
-					})
-				})
+					input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &scope, Some(i)) }
+					Dots { max: 5, value: merit.value, handler: dotsHandler, handlerKey: i }
+				}))
 				
 				div
 				{

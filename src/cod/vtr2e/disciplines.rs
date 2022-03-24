@@ -5,7 +5,7 @@ use serde::{
 	Serialize,
 };
 
-#[derive(Clone, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+#[derive(Clone, Copy, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
 	Animalism,
@@ -42,9 +42,10 @@ pub struct Disciplines
 	pub vigor: Discipline,
 }
 
-#[derive(Clone, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
-pub enum DevotionProperty
+#[derive(Clone, Copy, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum DevotionField
 {
+	Action,
 	Cost,
 	DicePool,
 	Disciplines,
@@ -55,6 +56,7 @@ pub enum DevotionProperty
 #[derive(Clone, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Devotion
 {
+	pub action: String,
 	pub cost: String,
 	pub dicePool: String,
 	pub disciplines: String,

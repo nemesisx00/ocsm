@@ -52,7 +52,8 @@ pub fn Advantages(scope: Scope) -> Element
 	
 	if disciplines.vigor.value > 0
 	{
-		advantages.health.updateMax(size + attributes.stamina.value + disciplines.vigor.value);
+		advantages.health.updateMax(size + attributes.stamina.value + disciplines.resilience.value);
+		advantages.speed = size + attributes.strength.value + attributes.dexterity.value + disciplines.vigor.value;
 	}
 	
 	return scope.render(rsx!
@@ -105,20 +106,10 @@ fn humanityHandler(scope: &Scope<DotsProps<usize>>, clickedValue: usize)
 
 fn vitaeHandler(scope: &Scope<TrackProps>, index: usize)
 {
-	let value = scope.props.tracker.clone().getValue(index);
-	match value
-	{
-		Some(ts) => { updateVitae(scope, ts, Some(index)); }
-		None => { updateVitae(scope, TrackerState::Two, None); }
-	}
+	updateVitae(scope, index);
 }
 
 fn willpowerHandler(scope: &Scope<TrackProps>, index: usize)
 {
-	let value = scope.props.tracker.clone().getValue(index);
-	match value
-	{
-		Some(ts) => { updateBaseWillpower(scope, ts, Some(index)); }
-		None => { updateBaseWillpower(scope, TrackerState::Two, None); }
-	}
+	updateBaseWillpower(scope, index);
 }

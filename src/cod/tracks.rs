@@ -24,7 +24,7 @@ pub enum TrackerState
 pub struct Tracker
 {
 	max: usize,
-	values: Vec<TrackerState>
+	pub values: Vec<TrackerState>
 }
 
 impl Tracker
@@ -128,12 +128,6 @@ impl Tracker
 	{
 		self.values.remove(index);
 		self.values.push(new);
-	}
-	
-	#[allow(dead_code)]
-	fn value(self) -> usize
-	{
-		return self.values.len();
 	}
 }
 
