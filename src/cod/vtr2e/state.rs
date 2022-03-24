@@ -17,6 +17,7 @@ use crate::{
 				DetailsField,
 			},
 			disciplines::{
+				Devotion,
 				Disciplines,
 				DisciplineType,
 			},
@@ -26,6 +27,7 @@ use crate::{
 
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
+pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
 pub static KindredDisciplines: AtomRef<Disciplines> = |_| Disciplines::default();
 
 pub fn updateTemplateAdvantage<T>(scope: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
@@ -62,6 +64,18 @@ pub fn updateDetail<T>(scope: &Scope<T>, field: DetailsField, value: String)
 		DetailsField::Mask => { details.mask = value; }
 		DetailsField::Name => { details.name = value; }
 		DetailsField::Player => { details.player = value; }
+	}
+}
+
+pub fn updateDevotion<T>(scope: &Scope<T>, devotion: &mut Devotion, index: usize)
+{
+	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let mut devotions = devotionsRef.write();
+	
+	match devotions.get_mut(index)
+	{
+		Some(d) => { *d = devotion.clone(); }
+		None => {}
 	}
 }
 

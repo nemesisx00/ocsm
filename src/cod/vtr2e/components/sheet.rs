@@ -4,14 +4,13 @@ use dioxus::prelude::*;
 use crate::{
 	cod::{
 		components::{
+			merits::{
+				Merits,
+			},
 			traits::{
 				Attributes,
 				Skills,
 			}
-		},
-		state::{
-			CharacterAttributes,
-			CharacterSkills,
 		},
 		vtr2e::{
 			components::{
@@ -23,6 +22,7 @@ use crate::{
 				},
 				disciplines::{
 					Disciplines,
+					Devotions,
 				},
 			},
 			template::{
@@ -34,9 +34,6 @@ use crate::{
 
 pub fn Sheet(scope: Scope) -> Element
 {
-	let attributes = use_atom_ref(&scope, CharacterAttributes);
-	let skills = use_atom_ref(&scope, CharacterSkills);
-	
 	return scope.render(rsx!
 	{	
 		div
@@ -56,12 +53,26 @@ pub fn Sheet(scope: Scope) -> Element
 			}
 			
 			hr { class: "row spacedOut" }
-			div { class: "row", Attributes { attributes: attributes.read().clone(), label: "Attributes".to_string() } }
-			hr { class: "row spacedOut" }
-			div { class: "row", Skills { label: "Skills".to_string(), skills: skills.read().clone() } }
+			
+			div { class: "row", Attributes {} }
+			
 			hr { class: "row spacedOut" }
 			
-			Disciplines { }
+			div { class: "row", Skills {} }
+			
+			hr { class: "row spacedOut" }
+			
+			div
+			{
+				class: "row",
+				
+				Disciplines { }
+				Merits { }
+			}
+			
+			hr { class: "row spacedOut" }
+			
+			div { class: "row", Devotions { } }
 		}
 	});
 }

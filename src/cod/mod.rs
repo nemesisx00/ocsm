@@ -2,6 +2,7 @@
 
 pub mod advantages;
 pub mod components;
+pub mod merits;
 pub mod vtr2e;
 pub mod tracks;
 pub mod traits;

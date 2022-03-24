@@ -9,26 +9,21 @@ use crate::cod::{
 		},
 	},
 	traits::{
-		BaseAttributes,
 		BaseAttributeType,
-		BaseSkills,
 		BaseSkillType,
 	},
 	state::{
+		CharacterAttributes,
+		CharacterSkills,
 		updateBaseAttribute,
 		updateBaseSkill,
 	},
 };
 
-#[derive(PartialEq, Props)]
-pub struct AttributesProps
+pub fn Attributes(scope: Scope) -> Element
 {
-	attributes: BaseAttributes,
-	label: String,
-}
-
-pub fn Attributes(scope: Scope<AttributesProps>) -> Element
-{
+	let attributesRef = use_atom_ref(&scope, CharacterAttributes);
+	let attributes = attributesRef.read();
 	let dotsClass = "dots row".to_string();
 	
 	return scope.render(rsx!
@@ -37,7 +32,7 @@ pub fn Attributes(scope: Scope<AttributesProps>) -> Element
 		{
 			class: "attributesWrapper column",
 			
-			div { class: "attributesLabel", "{scope.props.label}" },
+			div { class: "attributesLabel", "Attributes" },
 			
 			div
 			{
@@ -47,42 +42,37 @@ pub fn Attributes(scope: Scope<AttributesProps>) -> Element
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.intelligence.name.clone(), max: 5, value: scope.props.attributes.intelligence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Intelligence }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.wits.name.clone(), max: 5, value: scope.props.attributes.wits.value, handler: attributeHandler, handlerKey: BaseAttributeType::Wits }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.resolve.name.clone(), max: 5, value: scope.props.attributes.resolve.value, handler: attributeHandler, handlerKey: BaseAttributeType::Resolve }
+					Dots { class: dotsClass.clone(), label: attributes.intelligence.name.clone(), max: 5, value: attributes.intelligence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Intelligence }
+					Dots { class: dotsClass.clone(), label: attributes.wits.name.clone(), max: 5, value: attributes.wits.value, handler: attributeHandler, handlerKey: BaseAttributeType::Wits }
+					Dots { class: dotsClass.clone(), label: attributes.resolve.name.clone(), max: 5, value: attributes.resolve.value, handler: attributeHandler, handlerKey: BaseAttributeType::Resolve }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.strength.name.clone(), max: 5, value: scope.props.attributes.strength.value, handler: attributeHandler, handlerKey: BaseAttributeType::Strength }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.dexterity.name.clone(), max: 5, value: scope.props.attributes.dexterity.value, handler: attributeHandler, handlerKey: BaseAttributeType::Dexterity }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.stamina.name.clone(), max: 5, value: scope.props.attributes.stamina.value, handler: attributeHandler, handlerKey: BaseAttributeType::Stamina }
+					Dots { class: dotsClass.clone(), label: attributes.strength.name.clone(), max: 5, value: attributes.strength.value, handler: attributeHandler, handlerKey: BaseAttributeType::Strength }
+					Dots { class: dotsClass.clone(), label: attributes.dexterity.name.clone(), max: 5, value: attributes.dexterity.value, handler: attributeHandler, handlerKey: BaseAttributeType::Dexterity }
+					Dots { class: dotsClass.clone(), label: attributes.stamina.name.clone(), max: 5, value: attributes.stamina.value, handler: attributeHandler, handlerKey: BaseAttributeType::Stamina }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.presence.name.clone(), max: 5, value: scope.props.attributes.presence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Presence }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.manipulation.name.clone(), max: 5, value: scope.props.attributes.manipulation.value, handler: attributeHandler, handlerKey: BaseAttributeType::Manipulation }
-					Dots { class: dotsClass.clone(), label: scope.props.attributes.composure.name.clone(), max: 5, value: scope.props.attributes.composure.value, handler: attributeHandler, handlerKey: BaseAttributeType::Composure }
+					Dots { class: dotsClass.clone(), label: attributes.presence.name.clone(), max: 5, value: attributes.presence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Presence }
+					Dots { class: dotsClass.clone(), label: attributes.manipulation.name.clone(), max: 5, value: attributes.manipulation.value, handler: attributeHandler, handlerKey: BaseAttributeType::Manipulation }
+					Dots { class: dotsClass.clone(), label: attributes.composure.name.clone(), max: 5, value: attributes.composure.value, handler: attributeHandler, handlerKey: BaseAttributeType::Composure }
 				}
 			}
 		}
 	});
 }
 
-#[derive(PartialEq, Props)]
-pub struct SkillsProps
+pub fn Skills(scope: Scope) -> Element
 {
-	label: String,
-	skills: BaseSkills,
-}
-
-pub fn Skills(scope: Scope<SkillsProps>) -> Element
-{
+	let skillsRef = use_atom_ref(&scope, CharacterSkills);
+	let skills = skillsRef.read();
 	let dotsClass = "dots row".to_string();
 	
 	return scope.render(rsx!
@@ -91,7 +81,7 @@ pub fn Skills(scope: Scope<SkillsProps>) -> Element
 		{
 			class: "skillsWrapper cod column",
 			
-			div { class: "skillsLabel", "{scope.props.label}" },
+			div { class: "skillsLabel", "Skills" },
 			
 			div
 			{
@@ -101,42 +91,42 @@ pub fn Skills(scope: Scope<SkillsProps>) -> Element
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.skills.academics.name.clone(), max: 5, value: scope.props.skills.academics.value, handler: skillHandler, handlerKey: BaseSkillType::Academics }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.computer.name.clone(), max: 5, value: scope.props.skills.computer.value, handler: skillHandler, handlerKey: BaseSkillType::Computer }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.crafts.name.clone(), max: 5, value: scope.props.skills.crafts.value, handler: skillHandler, handlerKey: BaseSkillType::Crafts }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.investigation.name.clone(), max: 5, value: scope.props.skills.investigation.value, handler: skillHandler, handlerKey: BaseSkillType::Investigation }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.medicine.name.clone(), max: 5, value: scope.props.skills.medicine.value, handler: skillHandler, handlerKey: BaseSkillType::Medicine }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.occult.name.clone(), max: 5, value: scope.props.skills.occult.value, handler: skillHandler, handlerKey: BaseSkillType::Occult }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.politics.name.clone(), max: 5, value: scope.props.skills.politics.value, handler: skillHandler, handlerKey: BaseSkillType::Politics }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.science.name.clone(), max: 5, value: scope.props.skills.science.value, handler: skillHandler, handlerKey: BaseSkillType::Science }
+					Dots { class: dotsClass.clone(), label: skills.academics.name.clone(), max: 5, value: skills.academics.value, handler: skillHandler, handlerKey: BaseSkillType::Academics }
+					Dots { class: dotsClass.clone(), label: skills.computer.name.clone(), max: 5, value: skills.computer.value, handler: skillHandler, handlerKey: BaseSkillType::Computer }
+					Dots { class: dotsClass.clone(), label: skills.crafts.name.clone(), max: 5, value: skills.crafts.value, handler: skillHandler, handlerKey: BaseSkillType::Crafts }
+					Dots { class: dotsClass.clone(), label: skills.investigation.name.clone(), max: 5, value: skills.investigation.value, handler: skillHandler, handlerKey: BaseSkillType::Investigation }
+					Dots { class: dotsClass.clone(), label: skills.medicine.name.clone(), max: 5, value: skills.medicine.value, handler: skillHandler, handlerKey: BaseSkillType::Medicine }
+					Dots { class: dotsClass.clone(), label: skills.occult.name.clone(), max: 5, value: skills.occult.value, handler: skillHandler, handlerKey: BaseSkillType::Occult }
+					Dots { class: dotsClass.clone(), label: skills.politics.name.clone(), max: 5, value: skills.politics.value, handler: skillHandler, handlerKey: BaseSkillType::Politics }
+					Dots { class: dotsClass.clone(), label: skills.science.name.clone(), max: 5, value: skills.science.value, handler: skillHandler, handlerKey: BaseSkillType::Science }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.skills.athletics.name.clone(), max: 5, value: scope.props.skills.athletics.value, handler: skillHandler, handlerKey: BaseSkillType::Athletics }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.brawl.name.clone(), max: 5, value: scope.props.skills.brawl.value, handler: skillHandler, handlerKey: BaseSkillType::Brawl }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.drive.name.clone(), max: 5, value: scope.props.skills.drive.value, handler: skillHandler, handlerKey: BaseSkillType::Drive }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.firearms.name.clone(), max: 5, value: scope.props.skills.firearms.value, handler: skillHandler, handlerKey: BaseSkillType::Firearms }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.larceny.name.clone(), max: 5, value: scope.props.skills.larceny.value, handler: skillHandler, handlerKey: BaseSkillType::Larceny }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.stealth.name.clone(), max: 5, value: scope.props.skills.stealth.value, handler: skillHandler, handlerKey: BaseSkillType::Stealth }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.survival.name.clone(), max: 5, value: scope.props.skills.survival.value, handler: skillHandler, handlerKey: BaseSkillType::Survival }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.weaponry.name.clone(), max: 5, value: scope.props.skills.weaponry.value, handler: skillHandler, handlerKey: BaseSkillType::Weaponry }
+					Dots { class: dotsClass.clone(), label: skills.athletics.name.clone(), max: 5, value: skills.athletics.value, handler: skillHandler, handlerKey: BaseSkillType::Athletics }
+					Dots { class: dotsClass.clone(), label: skills.brawl.name.clone(), max: 5, value: skills.brawl.value, handler: skillHandler, handlerKey: BaseSkillType::Brawl }
+					Dots { class: dotsClass.clone(), label: skills.drive.name.clone(), max: 5, value: skills.drive.value, handler: skillHandler, handlerKey: BaseSkillType::Drive }
+					Dots { class: dotsClass.clone(), label: skills.firearms.name.clone(), max: 5, value: skills.firearms.value, handler: skillHandler, handlerKey: BaseSkillType::Firearms }
+					Dots { class: dotsClass.clone(), label: skills.larceny.name.clone(), max: 5, value: skills.larceny.value, handler: skillHandler, handlerKey: BaseSkillType::Larceny }
+					Dots { class: dotsClass.clone(), label: skills.stealth.name.clone(), max: 5, value: skills.stealth.value, handler: skillHandler, handlerKey: BaseSkillType::Stealth }
+					Dots { class: dotsClass.clone(), label: skills.survival.name.clone(), max: 5, value: skills.survival.value, handler: skillHandler, handlerKey: BaseSkillType::Survival }
+					Dots { class: dotsClass.clone(), label: skills.weaponry.name.clone(), max: 5, value: skills.weaponry.value, handler: skillHandler, handlerKey: BaseSkillType::Weaponry }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: scope.props.skills.animalKen.name.clone(), max: 5, value: scope.props.skills.animalKen.value, handler: skillHandler, handlerKey: BaseSkillType::AnimalKen }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.empathy.name.clone(), max: 5, value: scope.props.skills.empathy.value, handler: skillHandler, handlerKey: BaseSkillType::Empathy }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.expression.name.clone(), max: 5, value: scope.props.skills.expression.value, handler: skillHandler, handlerKey: BaseSkillType::Expression }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.intimidation.name.clone(), max: 5, value: scope.props.skills.intimidation.value, handler: skillHandler, handlerKey: BaseSkillType::Intimidation }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.persuasion.name.clone(), max: 5, value: scope.props.skills.persuasion.value, handler: skillHandler, handlerKey: BaseSkillType::Persuasion }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.socialize.name.clone(), max: 5, value: scope.props.skills.socialize.value, handler: skillHandler, handlerKey: BaseSkillType::Socialize }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.streetwise.name.clone(), max: 5, value: scope.props.skills.streetwise.value, handler: skillHandler, handlerKey: BaseSkillType::Streetwise }
-					Dots { class: dotsClass.clone(), label: scope.props.skills.subterfuge.name.clone(), max: 5, value: scope.props.skills.subterfuge.value, handler: skillHandler, handlerKey: BaseSkillType::Subterfuge }
+					Dots { class: dotsClass.clone(), label: skills.animalKen.name.clone(), max: 5, value: skills.animalKen.value, handler: skillHandler, handlerKey: BaseSkillType::AnimalKen }
+					Dots { class: dotsClass.clone(), label: skills.empathy.name.clone(), max: 5, value: skills.empathy.value, handler: skillHandler, handlerKey: BaseSkillType::Empathy }
+					Dots { class: dotsClass.clone(), label: skills.expression.name.clone(), max: 5, value: skills.expression.value, handler: skillHandler, handlerKey: BaseSkillType::Expression }
+					Dots { class: dotsClass.clone(), label: skills.intimidation.name.clone(), max: 5, value: skills.intimidation.value, handler: skillHandler, handlerKey: BaseSkillType::Intimidation }
+					Dots { class: dotsClass.clone(), label: skills.persuasion.name.clone(), max: 5, value: skills.persuasion.value, handler: skillHandler, handlerKey: BaseSkillType::Persuasion }
+					Dots { class: dotsClass.clone(), label: skills.socialize.name.clone(), max: 5, value: skills.socialize.value, handler: skillHandler, handlerKey: BaseSkillType::Socialize }
+					Dots { class: dotsClass.clone(), label: skills.streetwise.name.clone(), max: 5, value: skills.streetwise.value, handler: skillHandler, handlerKey: BaseSkillType::Streetwise }
+					Dots { class: dotsClass.clone(), label: skills.subterfuge.name.clone(), max: 5, value: skills.subterfuge.value, handler: skillHandler, handlerKey: BaseSkillType::Subterfuge }
 				}
 			}
 		}

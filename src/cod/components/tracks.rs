@@ -117,7 +117,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 				})
 			})
 			
-			rsx!(scope, div
+			div
 			{
 				class: "checkerLine row",
 				
@@ -130,7 +130,7 @@ pub fn Track(scope: Scope<TrackProps>) -> Element
 						onclick: move |e| clickHandler(e, &scope, i)
 					})
 				})
-			})
+			}
 		}
 	});
 }

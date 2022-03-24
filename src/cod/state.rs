@@ -7,6 +7,9 @@ use crate::{
 			BaseAdvantages,
 			BaseAdvantageType,
 		},
+		merits::{
+			Merit,
+		},
 		tracks::{
 			TrackerState,
 		},
@@ -21,6 +24,7 @@ use crate::{
 
 pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
 pub static CharacterAttributes: AtomRef<BaseAttributes> = |_| BaseAttributes::default();
+pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
 pub static CharacterSkills: AtomRef<BaseSkills> = |_| BaseSkills::default();
 
 pub fn updateBaseAdvantage<T>(scope: &Scope<T>, advantage: BaseAdvantageType, value: usize)
@@ -127,9 +131,23 @@ pub fn updateBaseAttribute<T>(scope: &Scope<T>, attribute: &BaseAttributeType, v
 			attributes.wits.value = value;
 			advantages.defense = defense;
 		}
-		_ => {}
 	}
 }
+
+// For now, just updating directly since this is such a simple data structure
+/*
+pub fn updateBaseMerit<T>(scope: &Scope<T>, merit: &mut Merit, index: usize)
+{
+	let meritsRef = use_atom_ref(&scope, CharacterMerits);
+	let mut merits = meritsRef.write();
+	
+	match merits.get_mut(index)
+	{
+		Some(m) => { *m = merit.clone(); }
+		None => {}
+	}
+}
+*/
 
 pub fn updateBaseSkill<T>(scope: &Scope<T>, skill: &BaseSkillType, value: usize)
 {

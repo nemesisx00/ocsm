@@ -8,8 +8,10 @@ use crate::{
 		state::{
 			CharacterAdvantages,
 			CharacterAttributes,
+			CharacterMerits,
 			CharacterSkills,
 		},
+		merits::Merit,
 		traits::{
 			BaseAttributes,
 			BaseSkills,
@@ -22,11 +24,13 @@ use crate::{
 				Details,
 			},
 			disciplines::{
-				Disciplines
+				Devotion,
+				Disciplines,
 			},
 			state::{
 				KindredAdvantages,
 				KindredDetails,
+				KindredDevotions,
 				KindredDisciplines,
 			}
 		}
@@ -40,6 +44,8 @@ pub struct Kindred
 	pub attributes: BaseAttributes,
 	pub details: Details,
 	pub disciplines: Disciplines,
+	pub devotions: Vec<Devotion>,
+	pub merits: Vec<Merit>,
 	pub skills: BaseSkills,
 	pub templateAdvantages: TemplateAdvantages,
 }
@@ -52,14 +58,18 @@ impl Kindred
 		let advantages = use_atom_ref(scope, CharacterAdvantages);
 		let attributes = use_atom_ref(scope, CharacterAttributes);
 		let details = use_atom_ref(scope, KindredDetails);
+		let devotions = use_atom_ref(scope, KindredDevotions);
 		let disciplines = use_atom_ref(scope, KindredDisciplines);
+		let merits = use_atom_ref(scope, CharacterMerits);
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
 		
 		self.advantages = advantages.read().clone();
 		self.attributes = attributes.read().clone();
 		self.details = details.read().clone();
+		self.devotions = devotions.read().clone();
 		self.disciplines = disciplines.read().clone();
+		self.merits = merits.read().clone();
 		self.skills = skills.read().clone();
 		self.templateAdvantages = templateAdvantages.read().clone();
 	}
@@ -70,14 +80,18 @@ impl Kindred
 		let advantages = use_atom_ref(scope, CharacterAdvantages);
 		let attributes = use_atom_ref(scope, CharacterAttributes);
 		let details = use_atom_ref(scope, KindredDetails);
+		let devotions = use_atom_ref(scope, KindredDevotions);
 		let disciplines = use_atom_ref(scope, KindredDisciplines);
+		let merits = use_atom_ref(scope, CharacterMerits);
 		let skills = use_atom_ref(scope, CharacterSkills);
 		let templateAdvantages = use_atom_ref(scope, KindredAdvantages);
 		
 		(*advantages.write()) = self.advantages.clone();
 		(*attributes.write()) = self.attributes.clone();
 		(*details.write()) = self.details.clone();
+		(*devotions.write()) = self.devotions.clone();
 		(*disciplines.write()) = self.disciplines.clone();
+		(*merits.write()) = self.merits.clone();
 		(*skills.write()) = self.skills.clone();
 		(*templateAdvantages.write()) = self.templateAdvantages.clone();
 	}

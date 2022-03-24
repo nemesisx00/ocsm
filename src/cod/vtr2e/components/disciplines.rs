@@ -1,12 +1,10 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
-use dioxus::events::{
-	MouseEvent,
-	FormEvent
+use dioxus::{
+	prelude::*,
+	events::FormEvent
 };
 use crate::cod::{
-	lists::KeyedEntry,
 	components::dots::{
 		Dots,
 		DotsProps,
@@ -14,9 +12,12 @@ use crate::cod::{
 	vtr2e::{
 		disciplines::{
 			DisciplineType,
+			Devotion,
+			DevotionProperty,
 		},
 		state::{
 			KindredDisciplines,
+			KindredDevotions,
 			updateDiscipline,
 		}
 	}
@@ -71,5 +72,132 @@ fn dotsHandler(scope: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 			updateDiscipline(scope, dt, finalValue);
 		}
 		None => {}
+	}
+}
+
+// -----
+
+pub fn Devotions(scope: Scope) -> Element
+{
+	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let devotions = devotionsRef.read();
+	
+	return scope.render(rsx!
+	{
+		div
+		{
+			class: "devotions entryListWrapper column",
+			
+			div { class: "entryListLabel", "Devotions" }
+			
+			div
+			{
+				class: "entryList column",
+				
+				(0..devotions.len()).map(|i|
+				{
+					let dev = &devotions[i];
+					
+					rsx!(scope, div
+					{
+						key: "{i}",
+						class: "entry column",
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Name:" }
+							input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionProperty::Name) }
+							div { class: "label second", "Cost:" }
+							input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionProperty::Cost) }
+						}
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Dice Pool:" }
+							input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionProperty::DicePool) }
+							div { class: "label second", "Reference:" }
+							input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionProperty::Reference) }
+						}
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Requirements:" }
+							input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &scope, Some(i), DevotionProperty::Disciplines) }
+						}
+					})
+				})
+				
+				div
+				{
+					class: "entry column",
+					
+					div
+					{
+						class: "row",
+						
+						div { class: "label first", "Name:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionProperty::Name) }
+						div { class: "label second", "Cost:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionProperty::Cost) }
+					}
+					
+					div
+					{
+						class: "row",
+						
+						div { class: "label first", "Dice Pool:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionProperty::DicePool) }
+						div { class: "label second", "Reference:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionProperty::Reference) }
+					}
+					
+					div
+					{
+						class: "row",
+						
+						div { class: "label first", "Requirements:" }
+						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &scope, None, DevotionProperty::Disciplines) }
+					}
+				}
+			}
+		}
+	});
+}
+
+fn inputHandler(e: FormEvent, scope: &Scope, index: Option<usize>, prop: DevotionProperty)
+{
+	let devotionsRef = use_atom_ref(&scope, KindredDevotions);
+	let mut devotions = devotionsRef.write();
+	
+	match index
+	{
+		Some(i) =>
+		{
+			match prop
+			{
+				DevotionProperty::Cost => { devotions[i].cost = e.value.clone(); }
+				DevotionProperty::DicePool => { devotions[i].dicePool = e.value.clone(); }
+				DevotionProperty::Disciplines => { devotions[i].disciplines = e.value.clone(); }
+				DevotionProperty::Name => { devotions[i].name = e.value.clone(); }
+				DevotionProperty::Reference => { devotions[i].reference = e.value.clone(); }
+			}
+		}
+		None =>
+		{
+			match prop
+			{
+				DevotionProperty::Cost => { devotions.push(Devotion { cost: e.value.clone(), ..Default::default() }); }
+				DevotionProperty::DicePool => { devotions.push(Devotion { dicePool: e.value.clone(), ..Default::default() }); }
+				DevotionProperty::Disciplines => { devotions.push(Devotion { disciplines: e.value.clone(), ..Default::default() }); }
+				DevotionProperty::Name => { devotions.push(Devotion { name: e.value.clone(), ..Default::default() }); }
+				DevotionProperty::Reference => { devotions.push(Devotion { reference: e.value.clone(), ..Default::default() }); }
+			}
+		}
 	}
 }

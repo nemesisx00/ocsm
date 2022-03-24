@@ -16,6 +16,10 @@ flexGrow()
 	flex-grow 1
 	flex-shrink 0
 
+flexGrowX(x)
+	flex-grow x
+	flex-shrink 0
+
 flexNone()
 	flex-grow 0
 	flex-shrink 0
@@ -62,10 +66,23 @@ hr
 .app
 	text-align center
 
+.fileSelector
+	absolute(0, 0)
+	background-color backgroundColor
+	height 100vh
+	width 100vw
+	z-index 100
+	
+	&.hidden
+		invisible()
+
 @require "./components/core/Check.styl"
 @require "./components/cod/Advantages.styl"
 @require "./components/cod/Attributes.styl"
+@require "./components/cod/EntryList.styl"
+@require "./components/cod/Merits.styl"
 @require "./components/cod/Sheet.styl"
 @require "./components/cod/Skills.styl"
 @require "./components/cod/Tracks.styl"
 @require "./components/cod/vtr2e/Details.styl"
+@require "./components/cod/vtr2e/Disciplines.styl"
