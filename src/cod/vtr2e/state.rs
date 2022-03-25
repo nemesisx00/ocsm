@@ -3,9 +3,7 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
-		tracks::{
-			TrackerState,
-		},
+		tracks::TrackerState,
 		vtr2e::{
 			advantages::{
 				TemplateAdvantages,
@@ -65,42 +63,6 @@ pub fn updateDetail<T>(cx: &Scope<T>, field: DetailsField, value: String)
 		DetailsField::Player => { details.player = value; }
 	}
 }
-
-/*
-pub fn updateDevotion<T>(cx: &Scope<T>, devotion: &mut Devotion, index: usize)
-{
-	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
-	let mut devotions = devotionsRef.write();
-	
-	match devotions.get_mut(index)
-	{
-		Some(d) => { *d = devotion.clone(); }
-		None => {}
-	}
-}
-*/
-
-/*
-pub fn updateDiscipline<T>(cx: &Scope<T>, discipline: &DisciplineType, value: usize)
-{
-	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
-	let mut disciplines = disciplinesRef.write();
-	
-	match discipline
-	{
-		DisciplineType::Animalism => { disciplines.animalism.value = value; }
-		DisciplineType::Auspex => { disciplines.auspex.value = value; }
-		DisciplineType::Celerity => { disciplines.celerity.value = value; }
-		DisciplineType::Dominate => { disciplines.dominate.value = value; }
-		DisciplineType::Majesty => { disciplines.majesty.value = value; }
-		DisciplineType::Nightmare => { disciplines.nightmare.value = value; }
-		DisciplineType::Obfuscate => { disciplines.obfuscate.value = value; }
-		DisciplineType::Protean => { disciplines.protean.value = value; }
-		DisciplineType::Resilience => { disciplines.resilience.value = value; }
-		DisciplineType::Vigor => { disciplines.vigor.value = value; }
-	}
-}
-*/
 
 pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 {

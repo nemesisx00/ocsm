@@ -1,21 +1,15 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use dioxus::events::{
-	FormEvent,
-};
+use dioxus::events::FormEvent;
 use crate::cod::{
-	advantages::{
-		BaseAdvantageType,
-	},
+	advantages::BaseAdvantageType,
 	state::{
 		CharacterAdvantages,
 		updateBaseAdvantage,
 	},
 	vtr2e::{
-		details::{
-			DetailsField,
-		},
+		details::DetailsField,
 		state::{
 			KindredDetails,
 			updateDetail,
@@ -28,17 +22,6 @@ pub fn Details(cx: Scope) -> Element
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
 	let detailsRef = use_atom_ref(&cx, KindredDetails);
 	let details = detailsRef.read();
-	
-	let bloodlineLabel = "Bloodline:".to_string();
-	let chronicleLabel = "Chronicle:".to_string();
-	let clanLabel = "Clan:".to_string();
-	let conceptLabel = "Concept:".to_string();
-	let covenantLabel = "Covenant:".to_string();
-	let dirgeLabel = "Dirge:".to_string();
-	let maskLabel = "Mask:".to_string();
-	let nameLabel = "Name:".to_string();
-	let playerLabel = "Player:".to_string();
-	let sizeLabel = "Size:".to_string();
 	
 	let defense = advantages.read().defense;
 	let initiative = advantages.read().initiative;
@@ -60,22 +43,22 @@ pub fn Details(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: playerLabel, value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Player, }
-					DetailInput { label: chronicleLabel, value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
-					DetailInput { label: nameLabel, value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
-					DetailInput { label: conceptLabel, value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
-					DetailNumInput { label: sizeLabel, value: advantages.read().size, handler: advantageHandler, handlerKey: BaseAdvantageType::Size, }
+					DetailInput { label: "Player:".to_string(), value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Player, }
+					DetailInput { label: "Chronicle:".to_string(), value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
+					DetailInput { label: "Name:".to_string(), value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
+					DetailInput { label: "Concept:".to_string(), value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
+					DetailNumInput { label: "Size:".to_string(), value: advantages.read().size, handler: advantageHandler, handlerKey: BaseAdvantageType::Size, }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					DetailInput { label: maskLabel, value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
-					DetailInput { label: dirgeLabel, value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
-					DetailInput { label: clanLabel, value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
-					DetailInput { label: bloodlineLabel, value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
-					DetailInput { label: covenantLabel, value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
+					DetailInput { label: "Mask:".to_string(), value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
+					DetailInput { label: "Dirge:".to_string(), value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
+					DetailInput { label: "Clan:".to_string(), value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
+					DetailInput { label: "Bloodline:".to_string(), value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
+					DetailInput { label: "Covenant:".to_string(), value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
 				}
 			}
 			

@@ -1,8 +1,10 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
-use dioxus::events::{
-	FormEvent,
+use dioxus::{
+	prelude::*,
+	events::{
+		FormEvent,
+	},
 };
 use crate::{
 	cod::{

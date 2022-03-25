@@ -4,9 +4,7 @@ use dioxus::prelude::*;
 use crate::{
 	cod::{
 		components::{
-			merits::{
-				Merits,
-			},
+			merits::Merits,
 			traits::{
 				Attributes,
 				Skills,
@@ -14,12 +12,8 @@ use crate::{
 		},
 		vtr2e::{
 			components::{
-				advantages::{
-					Advantages,
-				},
-				details::{
-					Details,
-				},
+				advantages::Advantages,
+				details::Details,
 				disciplines::{
 					Disciplines,
 					Devotions,
@@ -40,36 +34,15 @@ pub fn Sheet(cx: Scope) -> Element
 			h1 { "Vampire: The Requiem" }
 			h2 { "Second Edition" }
 			hr { class: "row spacedOut" }
-			
-			div
-			{
-				class: "row",
-				
-				Details { }
-				Advantages { }
-			}
-			
+			div { class: "row", Details {} Advantages {} }
 			hr { class: "row spacedOut" }
-			
 			div { class: "row", Attributes {} }
-			
 			hr { class: "row spacedOut" }
-			
 			div { class: "row", Skills {} }
-			
 			hr { class: "row spacedOut" }
-			
-			div
-			{
-				class: "row",
-				
-				Disciplines { }
-				Merits { }
-			}
-			
+			div { class: "row", Disciplines {} Merits {} }
 			hr { class: "row spacedOut" }
-			
-			div { class: "row", Devotions { } }
+			div { class: "row", Devotions {} }
 		}
 	});
 }

@@ -30,24 +30,9 @@ impl PartialEq for TrackProps
 	fn eq(&self, other: &Self) -> bool
 	{
 		let labelEq = self.label == other.label;
-		
 		let trackerEq = self.tracker == other.tracker;
 		
-		let handlerEq = match &self.handler
-		{
-			Some(_h1) => match &other.handler
-			{
-				Some(_h2) => { true }
-				None => { false }
-			}
-			None => match &other.handler
-			{
-				Some(_h2) => { false }
-				None => { true }
-			}
-		};
-		
-		return labelEq && trackerEq && handlerEq;
+		return labelEq && trackerEq;
 	}
 }
 

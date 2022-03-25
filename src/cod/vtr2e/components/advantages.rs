@@ -13,9 +13,7 @@ use crate::{
 				TrackProps,
 			},
 		},
-		tracks::{
-			TrackerState,
-		},
+		tracks::TrackerState,
 		state::{
 			CharacterAdvantages,
 			CharacterAttributes,
@@ -23,12 +21,8 @@ use crate::{
 			updateBaseWillpower,
 		},
 		vtr2e::{
-			advantages::{
-				TemplateAdvantageType,
-			},
-			disciplines::{
-				DisciplineType,
-			},
+			advantages::TemplateAdvantageType,
+			disciplines::DisciplineType,
 			state::{
 				KindredAdvantages,
 				KindredDisciplines,

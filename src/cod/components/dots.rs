@@ -27,36 +27,9 @@ impl<T> PartialEq for DotsProps<T>
 	fn eq(&self, other: &Self) -> bool
 	{
 		let maxEq = self.max == other.max;
-		
 		let valueEq = self.value == other.value;
-		
-		let labelEq = match &self.label
-		{
-			Some(l1) => match &other.label
-			{
-				Some(l2) => { l1 == l2 }
-				None => { false }
-			}
-			None => match &other.label
-			{
-				Some(_l2) => { false }
-				None => { true }
-			}
-		};
-		
-		let classEq = match &self.class
-		{
-			Some(c1) => match &other.class
-			{
-				Some(c2) => { c1 == c2 }
-				None => { false }
-			},
-			None => match &other.class
-			{
-				Some(_c2) => { false }
-				None => { true }
-			}
-		};
+		let labelEq = self.label == other.label;
+		let classEq = self.class == other.class;
 		
 		return maxEq && valueEq && labelEq && classEq;
 	}
@@ -66,8 +39,8 @@ pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 {
 	let class = match &cx.props.class
 	{
-		Some(cn) => { format!("tracker {}", cn) },
-		None => { String::from("tracker") }
+		Some(cn) => { format!("tracker {}", cn) }
+		None => { "tracker".to_string() }
 	};
 	
 	let label = match &cx.props.label

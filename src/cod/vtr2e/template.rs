@@ -4,7 +4,10 @@ use dioxus::prelude::{
 	Scope,
 	use_atom_ref,
 };
-use serde::{Serialize, Deserialize};
+use serde::{
+	Serialize,
+	Deserialize,
+};
 use crate::{
 	core::template::StatefulTemplate,
 	cod::{
@@ -21,12 +24,8 @@ use crate::{
 			BaseSkills,
 		},
 		vtr2e::{
-			advantages::{
-				TemplateAdvantages,
-			},
-			details::{
-				Details,
-			},
+			advantages::TemplateAdvantages,
+			details::Details,
 			disciplines::{
 				Devotion,
 				Discipline,

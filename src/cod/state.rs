@@ -213,7 +213,7 @@ pub fn updateBaseHealth<T>(cx: &Scope<T>, damageType: TrackerState, remove: bool
 	{
 		match index
 		{
-			Some(i) => { advantages.health.update(damageType, i); }
+			Some(i) => { advantages.health.update(damageType, i, false); }
 			None => { advantages.health.add(damageType); }
 		}
 	}
