@@ -1,20 +1,29 @@
 .checker
+	point()
 	position relative
 	width 12px
 	height 12px
 	border 1px solid foregroundColor
-	cursor pointer
+	
+	&:hover
+		border-color menuHoverColor
 	
 	&.circle
 		border 0 none
 		
 		&.checked svg circle
 			fill foregroundColor
+			
+			&:hover
+				fill menuHoverColor
 		
 		& svg circle
 			stroke foregroundColor
 			stroke-width 2px
 			fill transparent
+			
+			&:hover
+				stroke menuHoverColor
 	
 	& svg
 		absolute(0, 0)
@@ -22,3 +31,6 @@
 		& path
 			stroke foregroundColor
 			stroke-width 1px
+	
+	&:hover svg path
+		stroke menuHoverColor

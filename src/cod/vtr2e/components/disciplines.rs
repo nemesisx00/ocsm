@@ -24,12 +24,15 @@ use crate::cod::{
 	}
 };
 
+const DefaultLastIndex: usize = 1000;
+
 pub fn Disciplines(cx: Scope) -> Element
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let disciplines = disciplinesRef.read();
 	
-	let dotsClass = "entry row";
+	let lastIndex = use_state(&cx, || DefaultLastIndex);
+	let showRemove = lastIndex.get() < &disciplines.len();
 	
 	let mut optionNames = Vec::<String>::new();
 	for dt in DisciplineType::iter()
@@ -49,7 +52,14 @@ pub fn Disciplines(cx: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				disciplines.iter().enumerate().map(|(i, d)| rsx!(cx, Dots { key: "{i}", class: dotsClass.to_string(), label: d.name.clone(), max: 5, value: d.value, handler: dotsHandler, handlerKey: i }))
+				disciplines.iter().enumerate().map(|(i, d)| rsx!(cx, div
+				{
+					class: "entry row",
+					oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); },
+					prevent_default: "oncontextmenu",
+					
+					Dots { class: "row".to_string(), key: "{i}", label: d.name.clone(), max: 5, value: d.value, handler: dotsHandler, handlerKey: i }
+				}))
 				
 				div
 				{
@@ -58,16 +68,38 @@ pub fn Disciplines(cx: Scope) -> Element
 					select
 					{
 						onchange: move |e| selectHandler(e, &cx),
+						oncontextmenu: move |e| { e.cancel_bubble(); },
+						prevent_default: "oncontextmenu",
 						
-						option { value: "", selected: "true", "Choose a Discipline" }
-						
-						optionNames.iter().enumerate().map(|(i, name)| rsx!(cx, option
-						{
-							option { key: "{i}", value: "{name}", "{name}" }
-						}))
+						option { value: "", selected: "true", "Add a Discipline" }
+						optionNames.iter().enumerate().map(|(i, name)| rsx!(cx, option { option { key: "{i}", value: "{name}", "{name}" } }))
 					}
 				}
 			}
+			
+			showRemove.then(|| rsx!
+			{
+				div { class: "removePopUpOverlay column" }
+				
+				div
+				{
+					class: "removePopUpWrapper column",
+					
+					div
+					{
+						class: "removePopUp column",
+						
+						div { class: "row", "Are you sure you want to remove this Discipline?" }
+						div
+						{
+							class: "row",
+							
+							button { onclick: move |e| { e.cancel_bubble(); removeDisciplineClickHandler(&cx, *(lastIndex.get())); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Cancel" }
+						}
+					}
+				}
+			})
 		}
 	});
 }
@@ -81,6 +113,17 @@ fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 	{
 		Some(index) => { disciplines[*index].value = clickedValue; }
 		None => {}
+	}
+}
+
+fn removeDisciplineClickHandler(cx: &Scope, index: usize)
+{
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	if index < disciplines.len()
+	{
+		disciplines.remove(index);
 	}
 }
 

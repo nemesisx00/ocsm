@@ -53,7 +53,7 @@ pub fn Merits(cx: Scope) -> Element
 				div
 				{
 					class: "entry row",
-					input { r#type: "text", value: "", placeholder: "Type new Merits here", onchange: move |e| inputHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter new a Merit", onchange: move |e| inputHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{

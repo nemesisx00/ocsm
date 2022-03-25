@@ -4,9 +4,16 @@
 		
 		& .entry
 			
+			&:hover
+				point()
+				color menuHoverColor
+			
 			& input
 				flexGrowX(0.3)
 				text-align right
+				
+				&:hover
+					color menuHoverColor
 			
 			& .tracker .label
 				margin 0
