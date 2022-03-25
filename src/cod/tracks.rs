@@ -1,16 +1,18 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use serde::{Serialize, Deserialize};
-
-use std::fmt::
-{
-	Display,
-	Formatter,
-	Result,
+use serde::{
+	Serialize,
+	Deserialize,
+};
+use std::iter::Iterator;
+use strum_macros::{
+	AsRefStr,
+	EnumCount,
+	EnumIter
 };
 
 /// The possible states for a Tracker's values.
-#[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, PartialOrd, Ord, Serialize)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum TrackerState
 {
 	Three,
@@ -47,12 +49,7 @@ impl Tracker
 	{
 		if self.values.len() < self.max
 		{
-			match state
-			{
-				TrackerState::Three => self.values.push(TrackerState::Three),
-				TrackerState::Two => self.values.push(TrackerState::Two),
-				TrackerState::One => self.values.push(TrackerState::One),
-			}
+			self.values.push(state);
 		}
 		
 		self.values.sort();
@@ -65,34 +62,25 @@ impl Tracker
 	
 	pub fn getValue(self, index: usize) -> Option<TrackerState>
 	{
-		match self.values.get(index)
+		return match self.values.get(index)
 		{
-			Some(ts) =>
-			{
-				match ts
-				{
-					TrackerState::One => { Some(TrackerState::One) }
-					TrackerState::Two => { Some(TrackerState::Two) }
-					TrackerState::Three => { Some(TrackerState::Three) }
-				}
-			}
+			Some(ts) => { Some(*ts) }
 			None => { None }
-		}
+		};
 	}
 	
-	/// Remove one value of `state` TrackerState.
 	pub fn remove(&mut self, state: TrackerState)
 	{
 		match self.values.iter().position(|ts| *ts == state)
 		{
-			Some(index) => { self.values.remove(index); },
+			Some(index) => { self.values.remove(index); }
 			None => {}
 		}
 		
 		self.values.sort();
 	}
 	
-	pub fn update(&mut self, state: TrackerState, index: usize)
+	pub fn update(&mut self, state: TrackerState, index: usize, downgrade: bool)
 	{
 		match self.values.get(index)
 		{
@@ -100,12 +88,40 @@ impl Tracker
 			{
 				match ts
 				{
-					TrackerState::One => { self.replace(index, TrackerState::Two); }
-					TrackerState::Two => { self.replace(index, TrackerState::Three); }
-					TrackerState::Three => { self.remove(TrackerState::Three); }
+					TrackerState::One =>
+					{
+						match downgrade
+						{
+							true => { self.remove(TrackerState::One); }
+							false => { self.replace(index, TrackerState::Two); }
+						}
+					}
+					TrackerState::Two =>
+					{
+						match downgrade
+						{
+							true => { self.replace(index, TrackerState::One); }
+							false => { self.replace(index, TrackerState::Three); }
+						}
+					}
+					TrackerState::Three =>
+					{
+						match downgrade
+						{
+							true => { self.replace(index, TrackerState::Two); }
+							false => { self.remove(TrackerState::Three); }
+						}
+					}
 				}
 			}
-			None => { self.add(state); }
+			None =>
+			{
+				match downgrade
+				{
+					true => { self.remove(state); }
+					false => { self.add(state); }
+				}
+			}
 		}
 		
 		self.values.sort();
@@ -119,7 +135,7 @@ impl Tracker
 		{
 			for _ in 0..(self.values.len() - max)
 			{
-				self.values.pop().unwrap();
+				self.values.pop();
 			}
 		}
 	}
@@ -128,43 +144,6 @@ impl Tracker
 	{
 		self.values.remove(index);
 		self.values.push(new);
-	}
-}
-
-impl Display for Tracker
-{
-	fn fmt(&self, f: &mut Formatter<'_>) -> Result
-	{
-		let mut output = String::new();
-		for val in self.values.iter()
-		{
-			if output.len() > 0
-			{
-				output += " ";
-			}
-			let s = match val
-			{
-				TrackerState::Three => "3",
-				TrackerState::Two => "2",
-				TrackerState::One => "1",
-			};
-			output += s;
-		}
-		
-		let nonVals = self.max - self.values.len();
-		if nonVals > 0
-		{
-			for _ in 0..nonVals
-			{
-				if output.len() > 0
-				{
-					output += " ";
-				}
-				output += "-"
-			}
-		}
-		
-		return write!(f, "{:?}", output);
 	}
 }
 
@@ -198,15 +177,26 @@ mod tests
 	}
 	
 	#[test]
-	fn testValue()
+	fn testUpdate()
 	{
 		let max = 3;
 		let mut t = Tracker::new(max);
-		t.add(TrackerState::One);
-		t.add(TrackerState::Two);
 		
-		assert_eq!(2, t.values.len());
-		assert_eq!(t.values.len(), t.value());
+		t.update(TrackerState::One, 2, false);
+		assert_eq!(TrackerState::One, t.clone().getValue(0).unwrap());
+		t.update(TrackerState::Two, 0, false);
+		assert_eq!(TrackerState::Two, t.clone().getValue(0).unwrap());
+		t.update(TrackerState::Two, 0, true);
+		assert_eq!(TrackerState::One, t.clone().getValue(0).unwrap());
+		t.update(TrackerState::One, 0, true);
+		assert_eq!(0, t.values.clone().len());
+		t.update(TrackerState::Three, 2, false);
+		assert_eq!(TrackerState::Three, t.clone().getValue(0).unwrap());
+		t.update(TrackerState::Three, 0, true);
+		assert_eq!(TrackerState::Two, t.clone().getValue(0).unwrap());
+		t.update(TrackerState::Two, 0, false);
+		t.update(TrackerState::Three, 0, false);
+		assert_eq!(0, t.values.clone().len());
 	}
 	
 	#[test]
