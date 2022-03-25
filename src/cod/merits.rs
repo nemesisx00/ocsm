@@ -5,7 +5,7 @@ use serde::{
 	Serialize,
 };
 
-#[derive(Clone, Default, Deserialize, PartialEq, Eq, Serialize, PartialOrd, Ord)]
+#[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize, PartialOrd, Ord)]
 pub struct Merit
 {
 	pub name: String,

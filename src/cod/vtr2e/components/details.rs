@@ -159,6 +159,8 @@ fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 				r#type: "text",
 				value: "{value}",
 				oninput:  move |e| inputHandler(e, &cx),
+				oncontextmenu: move |e| e.cancel_bubble(),
+				prevent_default: "oncontextmenu",
 			}
 		}
 	});
@@ -221,6 +223,8 @@ fn DetailNumInput<T>(cx: Scope<DetailInputNumProps<T>>) -> Element
 			select
 			{
 				onchange: move |e| inputNumHandler(e, &cx),
+				oncontextmenu: move |e| e.cancel_bubble(),
+				prevent_default: "oncontextmenu",
 				
 				option { value: "4", selected: "{four}", "4" }
 				option { value: "5", selected: "{five}", "5" }
