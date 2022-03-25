@@ -146,6 +146,9 @@ pub fn Devotions(cx: Scope) -> Element
 	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
 	let devotions = devotionsRef.read();
 	
+	let lastIndex = use_state(&cx, || DefaultLastIndex);
+	let showRemove = lastIndex.get() < &devotions.len();
+	
 	return cx.render(rsx!
 	{
 		div
@@ -161,15 +164,17 @@ pub fn Devotions(cx: Scope) -> Element
 				devotions.iter().enumerate().map(|(i, dev)| rsx!(cx, div
 				{
 					class: "entry column",
+					oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); },
+					prevent_default: "oncontextmenu",
 					
 					div
 					{
 						class: "row",
 						
 						div { class: "label first", "Name:" }
-						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Name) }
+						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Name),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Cost:" }
-						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Cost) }
+						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Cost),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 					}
 					
 					div
@@ -177,9 +182,9 @@ pub fn Devotions(cx: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Dice Pool:" }
-						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::DicePool) }
+						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::DicePool),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Action:" }
-						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Action) }
+						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Action),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 					}
 					
 					div
@@ -187,47 +192,42 @@ pub fn Devotions(cx: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Requirements:" }
-						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines) }
+						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Reference) }
+						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Reference),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 					}
 				}))
 				
 				div
 				{
-					class: "entry column",
-					
-					div
-					{
-						class: "row",
-						
-						div { class: "label first", "Name:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Name) }
-						div { class: "label second", "Cost:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Cost) }
-					}
-					
-					div
-					{
-						class: "row",
-						
-						div { class: "label first", "Dice Pool:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::DicePool) }
-						div { class: "label second", "Action:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Action) }
-					}
-					
-					div
-					{
-						class: "row",
-						
-						div { class: "label first", "Requirements:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Disciplines) }
-						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Reference) }
-					}
+					class: "new entry row",
+					input { r#type: "text", value: "", placeholder: "Enter a new Devotion Name", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 			}
+			
+			showRemove.then(|| rsx!
+			{
+				div { class: "removePopUpOverlay column" }
+				
+				div
+				{
+					class: "removePopUpWrapper column",
+					
+					div
+					{
+						class: "removePopUp column",
+						
+						div { class: "row", "Are you sure you want to remove this Devotion?" }
+						div
+						{
+							class: "row",
+							
+							button { onclick: move |e| { e.cancel_bubble(); removeDevotionClickHandler(&cx, *(lastIndex.get())); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Cancel" }
+						}
+					}
+				}
+			})
 		}
 	});
 }
@@ -263,5 +263,16 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionFi
 				DevotionField::Reference => { devotions.push(Devotion { reference: e.value.clone(), ..Default::default() }); }
 			}
 		}
+	}
+}
+
+fn removeDevotionClickHandler(cx: &Scope, index: usize)
+{
+	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
+	let mut devotions = devotionsRef.write();
+	
+	if index < devotions.len()
+	{
+		devotions.remove(index);
 	}
 }
