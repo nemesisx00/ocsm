@@ -18,16 +18,13 @@ use crate::{
 		},
 	},
 };
-
-const DefaultLastIndex: usize = 1000;
-
 pub fn Merits(cx: Scope) -> Element
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let merits = meritsRef.read();
 	
-	let lastIndex = use_state(&cx, || DefaultLastIndex);
-	let showRemove = lastIndex.get() < &merits.len();
+	let showRemove = use_state(&cx, || false);
+	let lastIndex = use_state(&cx, || 0);
 	
 	return cx.render(rsx!
 	{
@@ -48,7 +45,7 @@ pub fn Merits(cx: Scope) -> Element
 					oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); },
 					prevent_default: "oncontextmenu",
 					
-					input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "{merit.name}", onchange: move |e| inputHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 					Dots { max: 5, value: merit.value, handler: dotsHandler, handlerKey: i }
 				}))
 				
@@ -74,8 +71,8 @@ pub fn Merits(cx: Scope) -> Element
 							{
 								class: "row",
 								
-								button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Cancel" }
+								button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
 							}
 						}
 					}
