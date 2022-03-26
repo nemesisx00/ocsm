@@ -40,13 +40,21 @@ pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new()
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct BaseCharacter
 {
+	#[serde(default)]
 	pub advantages: BaseAdvantages,
+	#[serde(default)]
 	pub aspirations: Vec<String>,
+	#[serde(default)]
 	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
+	#[serde(default)]
 	pub beats: Tracker,
+	#[serde(default)]
 	pub experience: usize,
+	#[serde(default)]
 	pub merits: Vec<Merit>,
+	#[serde(default)]
 	pub skills: HashMap<BaseSkillType, BaseSkill>,
+	#[serde(default)]
 	pub specialties: Vec<String>,
 }
 
