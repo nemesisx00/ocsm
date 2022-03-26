@@ -27,6 +27,7 @@ pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::de
 pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, BaseAttribute>> = |_| BaseAttribute::newAllAttributes();
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
 pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, BaseSkill>> = |_| BaseSkill::newAllSkills();
+pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
 {

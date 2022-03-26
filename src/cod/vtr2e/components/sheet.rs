@@ -8,6 +8,7 @@ use crate::{
 			traits::{
 				Attributes,
 				Skills,
+				SkillSpecialties,
 			}
 		},
 		vtr2e::{
@@ -40,7 +41,7 @@ pub fn Sheet(cx: Scope) -> Element
 			hr { class: "row spacedOut" }
 			div { class: "row", Skills {} }
 			hr { class: "row spacedOut" }
-			div { class: "row", Disciplines {} Merits {} }
+			div { class: "row", Disciplines {} SkillSpecialties {} Merits {} }
 			hr { class: "row spacedOut" }
 			div { class: "row", Devotions {} }
 		}

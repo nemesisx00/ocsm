@@ -164,7 +164,6 @@ pub struct BaseSkill
 {
 	pub name: String,
 	pub value: usize,
-	pub specialties: Vec<String>
 }
 
 impl BaseSkill

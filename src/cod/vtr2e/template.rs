@@ -18,6 +18,7 @@ use crate::{
 			CharacterAttributes,
 			CharacterMerits,
 			CharacterSkills,
+			CharacterSpecialties,
 		},
 		merits::Merit,
 		traits::{
@@ -47,13 +48,18 @@ use crate::{
 pub struct Kindred
 {
 	pub advantages: BaseAdvantages,
+	pub aspirations: Vec<String>,
 	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
+	pub beats: usize,
 	pub details: Details,
 	pub disciplines: Vec<Discipline>,
 	pub devotions: Vec<Devotion>,
+	pub experience: usize,
 	pub merits: Vec<Merit>,
 	pub skills: HashMap<BaseSkillType, BaseSkill>,
+	pub specialties: Vec<String>,
 	pub templateAdvantages: TemplateAdvantages,
+	pub touchstones: Vec<String>,
 }
 
 impl StatefulTemplate for Kindred
@@ -67,6 +73,7 @@ impl StatefulTemplate for Kindred
 		let disciplines = use_atom_ref(cx, KindredDisciplines);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
+		let specialties = use_atom_ref(cx, CharacterSpecialties);
 		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
 		
 		self.advantages = advantages.read().clone();
@@ -76,6 +83,7 @@ impl StatefulTemplate for Kindred
 		self.disciplines = disciplines.read().clone();
 		self.merits = merits.read().clone();
 		self.skills = skills.read().clone();
+		self.specialties = specialties.read().clone();
 		self.templateAdvantages = templateAdvantages.read().clone();
 	}
 	
@@ -88,6 +96,7 @@ impl StatefulTemplate for Kindred
 		let disciplines = use_atom_ref(cx, KindredDisciplines);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
+		let specialties = use_atom_ref(cx, CharacterSpecialties);
 		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
 		
 		(*advantages.write()) = self.advantages.clone();
@@ -97,6 +106,7 @@ impl StatefulTemplate for Kindred
 		(*disciplines.write()) = self.disciplines.clone();
 		(*merits.write()) = self.merits.clone();
 		(*skills.write()) = self.skills.clone();
+		(*specialties.write()) = self.specialties.clone();
 		(*templateAdvantages.write()) = self.templateAdvantages.clone();
 	}
 }
