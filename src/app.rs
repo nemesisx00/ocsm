@@ -73,8 +73,15 @@ fn newSheetHandler<T>(cx: &Scope<T>)
 
 fn openSheetHandler<T>(cx: &Scope<T>)
 {
-	let sheet: Kindred = loadFromFile::<Kindred>(&"./test/Sheet.json".to_string()).unwrap();
-	sheet.push(&cx);
+	match loadFromFile::<Kindred>(&"./test/Sheet.json".to_string())
+	{
+		Ok(data) =>
+		{
+			let sheet: Kindred = data;
+			sheet.push(&cx);
+		}
+		Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
+	}
 }
 
 fn saveSheetHandler<T>(cx: &Scope<T>)
