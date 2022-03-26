@@ -52,13 +52,19 @@ impl StatefulTemplate for BaseCharacter
 	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
 		let advantages = use_atom_ref(cx, CharacterAdvantages);
+		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);
+		let beats = use_read(cx, CharacterBeats);
+		let experience = use_read(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
 		let specialties = use_atom_ref(cx, CharacterSpecialties);
 		
 		self.advantages = advantages.read().clone();
+		self.aspirations = aspirations.read().clone();
 		self.attributes = attributes.read().clone();
+		self.beats = *beats;
+		self.experience = *experience;
 		self.merits = merits.read().clone();
 		self.skills = skills.read().clone();
 		self.specialties = specialties.read().clone();
@@ -67,13 +73,19 @@ impl StatefulTemplate for BaseCharacter
 	fn push<T>(&self, cx: &Scope<T>)
 	{
 		let advantages = use_atom_ref(cx, CharacterAdvantages);
+		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);
+		let beats = use_set(cx, CharacterBeats);
+		let experience = use_set(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
 		let specialties = use_atom_ref(cx, CharacterSpecialties);
 		
 		(*advantages.write()) = self.advantages.clone();
+		(*aspirations.write()) = self.aspirations.clone();
 		(*attributes.write()) = self.attributes.clone();
+		beats(self.beats);
+		experience(self.experience);
 		(*merits.write()) = self.merits.clone();
 		(*skills.write()) = self.skills.clone();
 		(*specialties.write()) = self.specialties.clone();
