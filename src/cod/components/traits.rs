@@ -24,7 +24,10 @@ pub fn Attributes(cx: Scope) -> Element
 {
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let attributes = attributesRef.read();
-	let dotsClass = "dots row".to_string();
+	
+	let mentalAttributeTypes = BaseAttributeType::mental();
+	let physicalAttributeTypes = BaseAttributeType::physical();
+	let socialAttributeTypes = BaseAttributeType::social();
 	
 	return cx.render(rsx!
 	{
@@ -42,27 +45,30 @@ pub fn Attributes(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: attributes.intelligence.name.clone(), max: 5, value: attributes.intelligence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Intelligence }
-					Dots { class: dotsClass.clone(), label: attributes.wits.name.clone(), max: 5, value: attributes.wits.value, handler: attributeHandler, handlerKey: BaseAttributeType::Wits }
-					Dots { class: dotsClass.clone(), label: attributes.resolve.name.clone(), max: 5, value: attributes.resolve.value, handler: attributeHandler, handlerKey: BaseAttributeType::Resolve }
+					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
+						let attr = attributes.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attr[at].name.clone(), max: 5, value: attr[at].value, handler: attributeHandler, handlerKey: *at });
+					})
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: attributes.strength.name.clone(), max: 5, value: attributes.strength.value, handler: attributeHandler, handlerKey: BaseAttributeType::Strength }
-					Dots { class: dotsClass.clone(), label: attributes.dexterity.name.clone(), max: 5, value: attributes.dexterity.value, handler: attributeHandler, handlerKey: BaseAttributeType::Dexterity }
-					Dots { class: dotsClass.clone(), label: attributes.stamina.name.clone(), max: 5, value: attributes.stamina.value, handler: attributeHandler, handlerKey: BaseAttributeType::Stamina }
+					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
+						let attr = attributes.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attr[at].name.clone(), max: 5, value: attr[at].value, handler: attributeHandler, handlerKey: *at });
+					})
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: attributes.presence.name.clone(), max: 5, value: attributes.presence.value, handler: attributeHandler, handlerKey: BaseAttributeType::Presence }
-					Dots { class: dotsClass.clone(), label: attributes.manipulation.name.clone(), max: 5, value: attributes.manipulation.value, handler: attributeHandler, handlerKey: BaseAttributeType::Manipulation }
-					Dots { class: dotsClass.clone(), label: attributes.composure.name.clone(), max: 5, value: attributes.composure.value, handler: attributeHandler, handlerKey: BaseAttributeType::Composure }
+					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
+						let attr = attributes.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attr[at].name.clone(), max: 5, value: attr[at].value, handler: attributeHandler, handlerKey: *at });
+					})
 				}
 			}
 		}
@@ -73,7 +79,10 @@ pub fn Skills(cx: Scope) -> Element
 {
 	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let skills = skillsRef.read();
-	let dotsClass = "dots row".to_string();
+	
+	let mentalSkillTypes = BaseSkillType::mental();
+	let physicalSkillTypes = BaseSkillType::physical();
+	let socialSkillTypes = BaseSkillType::social();
 	
 	return cx.render(rsx!
 	{
@@ -91,42 +100,30 @@ pub fn Skills(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: skills.academics.name.clone(), max: 5, value: skills.academics.value, handler: skillHandler, handlerKey: BaseSkillType::Academics }
-					Dots { class: dotsClass.clone(), label: skills.computer.name.clone(), max: 5, value: skills.computer.value, handler: skillHandler, handlerKey: BaseSkillType::Computer }
-					Dots { class: dotsClass.clone(), label: skills.crafts.name.clone(), max: 5, value: skills.crafts.value, handler: skillHandler, handlerKey: BaseSkillType::Crafts }
-					Dots { class: dotsClass.clone(), label: skills.investigation.name.clone(), max: 5, value: skills.investigation.value, handler: skillHandler, handlerKey: BaseSkillType::Investigation }
-					Dots { class: dotsClass.clone(), label: skills.medicine.name.clone(), max: 5, value: skills.medicine.value, handler: skillHandler, handlerKey: BaseSkillType::Medicine }
-					Dots { class: dotsClass.clone(), label: skills.occult.name.clone(), max: 5, value: skills.occult.value, handler: skillHandler, handlerKey: BaseSkillType::Occult }
-					Dots { class: dotsClass.clone(), label: skills.politics.name.clone(), max: 5, value: skills.politics.value, handler: skillHandler, handlerKey: BaseSkillType::Politics }
-					Dots { class: dotsClass.clone(), label: skills.science.name.clone(), max: 5, value: skills.science.value, handler: skillHandler, handlerKey: BaseSkillType::Science }
+					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
+						let ski = skills.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: ski[st].name.clone(), max: 5, value: ski[st].value, handler: skillHandler, handlerKey: *st });
+					})
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: skills.athletics.name.clone(), max: 5, value: skills.athletics.value, handler: skillHandler, handlerKey: BaseSkillType::Athletics }
-					Dots { class: dotsClass.clone(), label: skills.brawl.name.clone(), max: 5, value: skills.brawl.value, handler: skillHandler, handlerKey: BaseSkillType::Brawl }
-					Dots { class: dotsClass.clone(), label: skills.drive.name.clone(), max: 5, value: skills.drive.value, handler: skillHandler, handlerKey: BaseSkillType::Drive }
-					Dots { class: dotsClass.clone(), label: skills.firearms.name.clone(), max: 5, value: skills.firearms.value, handler: skillHandler, handlerKey: BaseSkillType::Firearms }
-					Dots { class: dotsClass.clone(), label: skills.larceny.name.clone(), max: 5, value: skills.larceny.value, handler: skillHandler, handlerKey: BaseSkillType::Larceny }
-					Dots { class: dotsClass.clone(), label: skills.stealth.name.clone(), max: 5, value: skills.stealth.value, handler: skillHandler, handlerKey: BaseSkillType::Stealth }
-					Dots { class: dotsClass.clone(), label: skills.survival.name.clone(), max: 5, value: skills.survival.value, handler: skillHandler, handlerKey: BaseSkillType::Survival }
-					Dots { class: dotsClass.clone(), label: skills.weaponry.name.clone(), max: 5, value: skills.weaponry.value, handler: skillHandler, handlerKey: BaseSkillType::Weaponry }
+					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
+						let ski = skills.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: ski[st].name.clone(), max: 5, value: ski[st].value, handler: skillHandler, handlerKey: *st });
+					})
 				}
 				
 				div
 				{
 					class: "column",
 					
-					Dots { class: dotsClass.clone(), label: skills.animalKen.name.clone(), max: 5, value: skills.animalKen.value, handler: skillHandler, handlerKey: BaseSkillType::AnimalKen }
-					Dots { class: dotsClass.clone(), label: skills.empathy.name.clone(), max: 5, value: skills.empathy.value, handler: skillHandler, handlerKey: BaseSkillType::Empathy }
-					Dots { class: dotsClass.clone(), label: skills.expression.name.clone(), max: 5, value: skills.expression.value, handler: skillHandler, handlerKey: BaseSkillType::Expression }
-					Dots { class: dotsClass.clone(), label: skills.intimidation.name.clone(), max: 5, value: skills.intimidation.value, handler: skillHandler, handlerKey: BaseSkillType::Intimidation }
-					Dots { class: dotsClass.clone(), label: skills.persuasion.name.clone(), max: 5, value: skills.persuasion.value, handler: skillHandler, handlerKey: BaseSkillType::Persuasion }
-					Dots { class: dotsClass.clone(), label: skills.socialize.name.clone(), max: 5, value: skills.socialize.value, handler: skillHandler, handlerKey: BaseSkillType::Socialize }
-					Dots { class: dotsClass.clone(), label: skills.streetwise.name.clone(), max: 5, value: skills.streetwise.value, handler: skillHandler, handlerKey: BaseSkillType::Streetwise }
-					Dots { class: dotsClass.clone(), label: skills.subterfuge.name.clone(), max: 5, value: skills.subterfuge.value, handler: skillHandler, handlerKey: BaseSkillType::Subterfuge }
+					socialSkillTypes.iter().enumerate().map(|(i, st)| {
+						let ski = skills.clone();
+						return rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: ski[st].name.clone(), max: 5, value: ski[st].value, handler: skillHandler, handlerKey: *st });
+					})
 				}
 			}
 		}
@@ -137,14 +134,14 @@ fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usiz
 {
 	match &cx.props.handlerKey
 	{
-		Some(at) => {
+		Some(attributeType) => {
 			let mut next = clickedValue;
 			
 			if clickedValue == cx.props.value { next -= 1; }
 			if next > 5 { next = 5; }
 			if next < 1 { next = 1; }
 			
-			updateBaseAttribute(cx, at, next);
+			updateBaseAttribute(cx, attributeType, next);
 		},
 		None => {}
 	}
@@ -154,13 +151,13 @@ fn skillHandler(cx: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
 {
 	match &cx.props.handlerKey
 	{
-		Some(st) => {
+		Some(skillType) => {
 			let mut next = clickedValue;
 			
 			if clickedValue == cx.props.value { next -= 1; }
 			if next > 5 { next = 5; }
 			
-			updateBaseSkill(cx, st, next);
+			updateBaseSkill(cx, skillType, next);
 		},
 		None => {}
 	}

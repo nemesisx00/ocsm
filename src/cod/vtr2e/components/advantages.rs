@@ -13,6 +13,7 @@ use crate::{
 				TrackProps,
 			},
 		},
+		traits::BaseAttributeType,
 		tracks::TrackerState,
 		state::{
 			CharacterAdvantages,
@@ -53,7 +54,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if resilience.value > 0
 			{
-				advantages.health.updateMax(size + attributes.stamina.value + resilience.value);
+				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value + resilience.value);
 			}
 		}
 		None => {}
@@ -65,7 +66,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if vigor.value > 0
 			{
-				advantages.speed = size + attributes.strength.value + attributes.dexterity.value + vigor.value;
+				advantages.speed = size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value + vigor.value;
 			}
 		}
 		None => {}

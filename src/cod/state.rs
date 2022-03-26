@@ -1,6 +1,7 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
+use std::collections::HashMap;
 use crate::{
 	cod::{
 		advantages::{
@@ -14,18 +15,18 @@ use crate::{
 			TrackerState,
 		},
 		traits::{
-			BaseAttributes,
+			BaseAttribute,
 			BaseAttributeType,
-			BaseSkills,
+			BaseSkill,
 			BaseSkillType,
 		}
 	},
 };
 
 pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
-pub static CharacterAttributes: AtomRef<BaseAttributes> = |_| BaseAttributes::default();
+pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, BaseAttribute>> = |_| BaseAttribute::newAllAttributes();
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
-pub static CharacterSkills: AtomRef<BaseSkills> = |_| BaseSkills::default();
+pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, BaseSkill>> = |_| BaseSkill::newAllSkills();
 
 pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
 {
@@ -52,7 +53,7 @@ pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value
 					false => { value }
 				}
 			};
-			let healthMax = attributes.stamina.value + finalValue;
+			let healthMax = attributes[&BaseAttributeType::Stamina].value + finalValue;
 			
 			advantages.size = finalValue;
 			advantages.health.updateMax(healthMax);
@@ -63,7 +64,7 @@ pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value
 	}
 }
 
-pub fn updateBaseAttribute<T>(cx: &Scope<T>, attribute: &BaseAttributeType, value: usize)
+pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
@@ -73,83 +74,55 @@ pub fn updateBaseAttribute<T>(cx: &Scope<T>, attribute: &BaseAttributeType, valu
 	let mut attributes = attributesRef.write();
 	let skills = skillsRef.read();
 	
-	match attribute
+	attributes.get_mut(attributeType).unwrap().value = value;
+	
+	match attributeType
 	{
 		BaseAttributeType::Composure =>
 		{
-			attributes.composure.value = value;
-			advantages.initiative = attributes.dexterity.value + value;
-			advantages.willpower.updateMax(attributes.resolve.value + value);
+			advantages.initiative = attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Composure].value;
+			advantages.willpower.updateMax(attributes[&BaseAttributeType::Resolve].value + attributes[&BaseAttributeType::Composure].value);
 		}
 		
 		BaseAttributeType::Dexterity =>
 		{
-			let defense = match value <= attributes.wits.value
+			let defense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
 			{
-				true => { value }
-				false => { attributes.wits.value }
-			} + skills.athletics.value;
+				true => { attributes[&BaseAttributeType::Dexterity].value }
+				false => { attributes[&BaseAttributeType::Wits].value }
+			} + skills[&BaseSkillType::Athletics].value;
 			
-			attributes.dexterity.value = value;
 			advantages.defense = defense;
-			advantages.initiative = attributes.composure.value + value;
-			advantages.speed = advantages.size + attributes.strength.value + value;
+			advantages.initiative = attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Composure].value;
+			advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value;
 		}
 		
-		BaseAttributeType::Intelligence => { attributes.intelligence.value = value; }
-		BaseAttributeType::Manipulation => { attributes.manipulation.value = value; }
-		BaseAttributeType::Presence => { attributes.presence.value = value; }
-		
-		BaseAttributeType::Resolve =>
-		{
-			attributes.resolve.value = value;
-			advantages.willpower.updateMax(attributes.composure.value + value);
-		}
+		BaseAttributeType::Resolve => { advantages.willpower.updateMax(attributes[&BaseAttributeType::Composure].value + attributes[&BaseAttributeType::Resolve].value); }
 		
 		BaseAttributeType::Stamina =>
 		{
-			let healthMax = advantages.size + value;
-			
-			attributes.stamina.value = value;
-			advantages.health.updateMax(healthMax);
+			let size = advantages.size;
+			advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value);
 		}
 		
-		BaseAttributeType::Strength =>
-		{
-			attributes.strength.value = value;
-			advantages.speed = advantages.size + attributes.dexterity.value + value;
-		}
+		BaseAttributeType::Strength => { advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value; }
 		
 		BaseAttributeType::Wits =>
 		{
-			let defense = match value <= attributes.dexterity.value
+			let defense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
 			{
-				true => { value }
-				false => { attributes.dexterity.value }
-			} + skills.athletics.value;
+				true => { attributes[&BaseAttributeType::Dexterity].value }
+				false => { attributes[&BaseAttributeType::Wits].value }
+			} + skills[&BaseSkillType::Athletics].value;
 			
-			attributes.wits.value = value;
 			advantages.defense = defense;
 		}
+		
+		_ => {}
 	}
 }
 
-// For now, just updating directly since this is such a simple data structure
-/*
-pub fn updateBaseMerit<T>(cx: &Scope<T>, merit: &mut Merit, index: usize)
-{
-	let meritsRef = use_atom_ref(&cx, CharacterMerits);
-	let mut merits = meritsRef.write();
-	
-	match merits.get_mut(index)
-	{
-		Some(m) => { *m = merit.clone(); }
-		None => {}
-	}
-}
-*/
-
-pub fn updateBaseSkill<T>(cx: &Scope<T>, skill: &BaseSkillType, value: usize)
+pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &BaseSkillType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(cx, CharacterAttributes);
@@ -159,44 +132,23 @@ pub fn updateBaseSkill<T>(cx: &Scope<T>, skill: &BaseSkillType, value: usize)
 	let attributes = attributesRef.read();
 	let mut skills = skillsRef.write();
 	
-	match skill
+	skills.get_mut(skillType).unwrap().value = value;
+	
+	// Handle 
+	match skillType
 	{
-		BaseSkillType::Academics => { skills.academics.value = value; }
-		BaseSkillType::AnimalKen => { skills.animalKen.value = value; }
-		
 		BaseSkillType::Athletics =>
 		{
-			let attributeDefense = match attributes.dexterity.value <= attributes.wits.value
+			let attributeDefense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
 			{
-				true => { attributes.dexterity.value }
-				false => { attributes.wits.value }
+				true => { attributes[&BaseAttributeType::Dexterity].value }
+				false => { attributes[&BaseAttributeType::Wits].value }
 			};
 			
-			skills.athletics.value = value;
-			advantages.defense = attributeDefense + value;
+			advantages.defense = attributeDefense + skills[&BaseSkillType::Athletics].value;
 		}
 		
-		BaseSkillType::Brawl => { skills.brawl.value = value; }
-		BaseSkillType::Computer => { skills.computer.value = value; }
-		BaseSkillType::Crafts => { skills.crafts.value = value; }
-		BaseSkillType::Drive => { skills.drive.value = value; }
-		BaseSkillType::Empathy => { skills.empathy.value = value; }
-		BaseSkillType::Expression => { skills.expression.value = value; }
-		BaseSkillType::Firearms => { skills.firearms.value = value; }
-		BaseSkillType::Investigation => { skills.investigation.value = value; }
-		BaseSkillType::Intimidation => { skills.intimidation.value = value; }
-		BaseSkillType::Larceny => { skills.larceny.value = value; }
-		BaseSkillType::Medicine => { skills.medicine.value = value; }
-		BaseSkillType::Occult => { skills.occult.value = value; }
-		BaseSkillType::Persuasion => { skills.persuasion.value = value; }
-		BaseSkillType::Politics => { skills.politics.value = value; }
-		BaseSkillType::Science => { skills.science.value = value; }
-		BaseSkillType::Socialize => { skills.socialize.value = value; }
-		BaseSkillType::Stealth => { skills.stealth.value = value; }
-		BaseSkillType::Streetwise => { skills.streetwise.value = value; }
-		BaseSkillType::Subterfuge => { skills.subterfuge.value = value; }
-		BaseSkillType::Survival => { skills.survival.value = value; }
-		BaseSkillType::Weaponry => { skills.weaponry.value = value; }
+		_ => {}
 	}
 }
 

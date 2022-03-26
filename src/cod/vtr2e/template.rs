@@ -1,5 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use std::collections::HashMap;
 use dioxus::prelude::{
 	Scope,
 	use_atom_ref,
@@ -20,8 +21,10 @@ use crate::{
 		},
 		merits::Merit,
 		traits::{
-			BaseAttributes,
-			BaseSkills,
+			BaseAttribute,
+			BaseAttributeType,
+			BaseSkill,
+			BaseSkillType,
 		},
 		vtr2e::{
 			advantages::TemplateAdvantages,
@@ -44,12 +47,12 @@ use crate::{
 pub struct Kindred
 {
 	pub advantages: BaseAdvantages,
-	pub attributes: BaseAttributes,
+	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
 	pub details: Details,
 	pub disciplines: Vec<Discipline>,
 	pub devotions: Vec<Devotion>,
 	pub merits: Vec<Merit>,
-	pub skills: BaseSkills,
+	pub skills: HashMap<BaseSkillType, BaseSkill>,
 	pub templateAdvantages: TemplateAdvantages,
 }
 
@@ -65,9 +68,6 @@ impl StatefulTemplate for Kindred
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
 		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
-		
-		devotions.write().sort();
-		merits.write().sort();
 		
 		self.advantages = advantages.read().clone();
 		self.attributes = attributes.read().clone();
@@ -89,9 +89,6 @@ impl StatefulTemplate for Kindred
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
 		let templateAdvantages = use_atom_ref(cx, KindredAdvantages);
-		
-		devotions.write().sort();
-		merits.write().sort();
 		
 		(*advantages.write()) = self.advantages.clone();
 		(*attributes.write()) = self.attributes.clone();
