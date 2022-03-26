@@ -55,8 +55,8 @@ pub enum DevotionField
 	Cost,
 	DicePool,
 	Disciplines,
+	Duration,
 	Name,
-	Reference,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
@@ -66,6 +66,6 @@ pub struct Devotion
 	pub cost: String,
 	pub dicePool: String,
 	pub disciplines: String,
+	pub duration: String,
 	pub name: String,
-	pub reference: String,
 }

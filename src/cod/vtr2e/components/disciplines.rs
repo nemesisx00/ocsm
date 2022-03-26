@@ -155,7 +155,7 @@ pub fn Devotions(cx: Scope) -> Element
 		{
 			class: "devotions entryListWrapper column",
 			
-			div { class: "entryListLabel", "Devotions" }
+			div { class: "entryListLabel", "Devotions & Powers" }
 			
 			div
 			{
@@ -193,15 +193,15 @@ pub fn Devotions(cx: Scope) -> Element
 						
 						div { class: "label first", "Requirements:" }
 						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
-						div { class: "label second", "Reference:" }
-						input { r#type: "text", value: "{dev.reference}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Reference),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						div { class: "label second", "Duration:" }
+						input { r#type: "text", value: "{dev.duration}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Duration),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
 					}
 				}))
 				
 				div
 				{
 					class: "new entry row",
-					input { r#type: "text", value: "", placeholder: "Enter a new Devotion Name", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter a new Name", onchange: move |e| inputHandler(e, &cx, None, DevotionField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 			}
 			
@@ -247,8 +247,8 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionFi
 				DevotionField::Cost => { devotions[i].cost = e.value.clone(); }
 				DevotionField::DicePool => { devotions[i].dicePool = e.value.clone(); }
 				DevotionField::Disciplines => { devotions[i].disciplines = e.value.clone(); }
+				DevotionField::Duration => { devotions[i].duration = e.value.clone(); }
 				DevotionField::Name => { devotions[i].name = e.value.clone(); }
-				DevotionField::Reference => { devotions[i].reference = e.value.clone(); }
 			}
 		}
 		None =>
@@ -259,8 +259,8 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionFi
 				DevotionField::Cost => { devotions.push(Devotion { cost: e.value.clone(), ..Default::default() }); }
 				DevotionField::DicePool => { devotions.push(Devotion { dicePool: e.value.clone(), ..Default::default() }); }
 				DevotionField::Disciplines => { devotions.push(Devotion { disciplines: e.value.clone(), ..Default::default() }); }
+				DevotionField::Duration => { devotions.push(Devotion { duration: e.value.clone(), ..Default::default() }); }
 				DevotionField::Name => { devotions.push(Devotion { name: e.value.clone(), ..Default::default() }); }
-				DevotionField::Reference => { devotions.push(Devotion { reference: e.value.clone(), ..Default::default() }); }
 			}
 		}
 	}
