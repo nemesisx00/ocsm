@@ -20,7 +20,7 @@ pub enum TemplateAdvantageType
 	Vitae,
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TemplateAdvantages
 {
 	pub bloodPotency: usize,

@@ -23,7 +23,7 @@ pub enum BaseAdvantageType
 	Willpower,
 }
 
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct BaseAdvantages
 {
 	pub defense: usize,

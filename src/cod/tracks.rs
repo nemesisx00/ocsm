@@ -22,7 +22,7 @@ pub enum TrackerState
 
 /// A generic tracker for the various "Tracks" that are used
 /// throughout Chronicles of Darkness.
-#[derive(Clone, Default, Deserialize, PartialEq, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, PartialEq, Serialize)]
 pub struct Tracker
 {
 	max: usize,
