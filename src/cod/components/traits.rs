@@ -233,14 +233,6 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 	});
 }
 
-#[derive(Clone, Eq, PartialEq, PartialOrd, Ord)]
-struct SpecialtyData
-{
-	pub skillType: BaseSkillType,
-	pub index: usize,
-	pub value: String,
-}
-
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
