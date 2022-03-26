@@ -26,6 +26,7 @@ pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantag
 pub static KindredDetails: AtomRef<Details> = |_| Details::default();
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
 pub static KindredDisciplines: AtomRef<Vec<Discipline>> = |_| Vec::<Discipline>::new();
+pub static KindredTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
