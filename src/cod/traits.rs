@@ -58,27 +58,6 @@ impl BaseAttribute
 		}
 		return attributes.clone();
 	}
-	
-	pub fn newMentalAttributes() -> HashMap<BaseAttributeType, Self>
-	{
-		let mut attributes = HashMap::<BaseAttributeType, Self>::new();
-		BaseAttributeType::mental().iter().for_each(|bat| { attributes.insert(*bat, Self::new(*bat)); });
-		return attributes.clone();
-	}
-	
-	pub fn newPhysicalAttributes() -> HashMap<BaseAttributeType, Self>
-	{
-		let mut attributes = HashMap::<BaseAttributeType, Self>::new();
-		BaseAttributeType::physical().iter().for_each(|bat| { attributes.insert(*bat, Self::new(*bat)); });
-		return attributes.clone();
-	}
-	
-	pub fn newSocialAttributes() -> HashMap<BaseAttributeType, Self>
-	{
-		let mut attributes = HashMap::<BaseAttributeType, Self>::new();
-		BaseAttributeType::social().iter().for_each(|bat| { attributes.insert(*bat, Self::new(*bat)); });
-		return attributes.clone();
-	}
 }
 
 //Ordering according to how they're typically ordered on the sheet to make generating the UI easier
@@ -181,27 +160,6 @@ impl BaseSkill
 	{
 		let mut skills = HashMap::<BaseSkillType, Self>::new();
 		for s in BaseSkillType::iter() { skills.insert(s, Self::new(s)); }
-		return skills.clone();
-	}
-	
-	pub fn newMentalSkills() -> HashMap<BaseSkillType, Self>
-	{
-		let mut skills = HashMap::<BaseSkillType, Self>::new();
-		BaseSkillType::mental().iter().for_each(|bst| { skills.insert(*bst, Self::new(*bst)); });
-		return skills.clone();
-	}
-	
-	pub fn newPhysicalSkills() -> HashMap<BaseSkillType, Self>
-	{
-		let mut skills = HashMap::<BaseSkillType, Self>::new();
-		BaseSkillType::physical().iter().for_each(|bst| { skills.insert(*bst, Self::new(*bst)); });
-		return skills.clone();
-	}
-	
-	pub fn newSocialSkills() -> HashMap<BaseSkillType, Self>
-	{
-		let mut skills = HashMap::<BaseSkillType, Self>::new();
-		BaseSkillType::social().iter().for_each(|bst| { skills.insert(*bst, Self::new(*bst)); });
 		return skills.clone();
 	}
 }
