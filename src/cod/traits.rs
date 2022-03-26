@@ -26,7 +26,9 @@ pub enum BaseTraitType
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct BaseAttribute
 {
+	#[serde(default)]
 	pub name: String,
+	#[serde(default)]
 	pub value: usize,
 }
 
@@ -105,43 +107,12 @@ impl BaseAttributeType
 	}
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
-pub struct BaseAttributes
-{
-	pub composure: BaseAttribute,
-	pub dexterity: BaseAttribute,
-	pub intelligence: BaseAttribute,
-	pub manipulation: BaseAttribute,
-	pub presence: BaseAttribute,
-	pub resolve: BaseAttribute,
-	pub stamina: BaseAttribute,
-	pub strength: BaseAttribute,
-	pub wits: BaseAttribute,
-}
-
-impl Default for BaseAttributes
-{
-	fn default() -> Self
-	{
-		return Self
-		{
-			composure: BaseAttribute { name: "Composure".to_string(), ..Default::default() },
-			dexterity: BaseAttribute { name: "Dexterity".to_string(), ..Default::default() },
-			intelligence: BaseAttribute { name: "Intelligence".to_string(), ..Default::default() },
-			manipulation: BaseAttribute { name: "Manipulation".to_string(), ..Default::default() },
-			presence: BaseAttribute { name: "Presence".to_string(), ..Default::default() },
-			resolve: BaseAttribute { name: "Resolve".to_string(), ..Default::default() },
-			stamina: BaseAttribute { name: "Stamina".to_string(), ..Default::default() },
-			strength: BaseAttribute { name: "Strength".to_string(), ..Default::default() },
-			wits: BaseAttribute { name: "Wits".to_string(), ..Default::default() }
-		};
-	}
-}
-
 #[derive(Clone, Debug, Default, Eq, Deserialize, PartialEq, PartialOrd, Serialize, Ord)]
 pub struct BaseSkill
 {
+	#[serde(default)]
 	pub name: String,
+	#[serde(default)]
 	pub value: usize,
 }
 

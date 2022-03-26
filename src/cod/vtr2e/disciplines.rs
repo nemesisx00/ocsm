@@ -11,6 +11,15 @@ use strum_macros::{
 	EnumIter
 };
 
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct Discipline
+{
+	#[serde(default)]
+	pub name: String,
+	#[serde(default)]
+	pub value: usize,
+}
+
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
@@ -27,25 +36,20 @@ pub enum DisciplineType
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Discipline
+pub struct Devotion
 {
+	#[serde(default)]
+	pub action: String,
+	#[serde(default)]
+	pub cost: String,
+	#[serde(default)]
+	pub dicePool: String,
+	#[serde(default)]
+	pub disciplines: String,
+	#[serde(default)]
+	pub duration: String,
+	#[serde(default)]
 	pub name: String,
-	pub value: usize,
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
-pub struct Disciplines
-{
-	pub animalism: Discipline,
-	pub auspex: Discipline,
-	pub celerity: Discipline,
-	pub dominate: Discipline,
-	pub majesty: Discipline,
-	pub nightmare: Discipline,
-	pub obfuscate: Discipline,
-	pub protean: Discipline,
-	pub resilience: Discipline,
-	pub vigor: Discipline,
 }
 
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
@@ -57,15 +61,4 @@ pub enum DevotionField
 	Disciplines,
 	Duration,
 	Name,
-}
-
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Devotion
-{
-	pub action: String,
-	pub cost: String,
-	pub dicePool: String,
-	pub disciplines: String,
-	pub duration: String,
-	pub name: String,
 }

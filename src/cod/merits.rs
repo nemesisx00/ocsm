@@ -8,6 +8,8 @@ use serde::{
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize, PartialOrd, Ord)]
 pub struct Merit
 {
+	#[serde(default)]
 	pub name: String,
+	#[serde(default)]
 	pub value: usize,
 }

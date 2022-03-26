@@ -33,11 +33,17 @@ use crate::{
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Kindred
 {
+	#[serde(default)]
 	pub baseCharacter: BaseCharacter,
+	#[serde(default)]
 	pub details: Details,
+	#[serde(default)]
 	pub disciplines: Vec<Discipline>,
+	#[serde(default)]
 	pub devotions: Vec<Devotion>,
+	#[serde(default)]
 	pub advantages: TemplateAdvantages,
+	#[serde(default)]
 	pub touchstones: Vec<String>,
 }
 

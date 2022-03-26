@@ -23,8 +23,11 @@ pub enum TemplateAdvantageType
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TemplateAdvantages
 {
+	#[serde(default)]
 	pub bloodPotency: usize,
+	#[serde(default)]
 	pub humanity: usize,
+	#[serde(default)]
 	pub vitae: Tracker,
 }
 

@@ -26,11 +26,17 @@ pub enum BaseAdvantageType
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct BaseAdvantages
 {
+	#[serde(default)]
 	pub defense: usize,
+	#[serde(default)]
 	pub health: Tracker,
+	#[serde(default)]
 	pub initiative: usize,
+	#[serde(default)]
 	pub size: usize,
+	#[serde(default)]
 	pub speed: usize,
+	#[serde(default)]
 	pub willpower: Tracker,
 }
 

@@ -25,7 +25,9 @@ pub enum TrackerState
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Serialize)]
 pub struct Tracker
 {
+	#[serde(default)]
 	max: usize,
+	#[serde(default)]
 	pub values: Vec<TrackerState>
 }
 

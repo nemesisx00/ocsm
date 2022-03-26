@@ -29,13 +29,22 @@ pub enum DetailsField
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Details
 {
+	#[serde(default)]
 	pub bloodline: String,
+	#[serde(default)]
 	pub chronicle: String,
+	#[serde(default)]
 	pub clan: String,
+	#[serde(default)]
 	pub concept: String,
+	#[serde(default)]
 	pub covenant: String,
+	#[serde(default)]
 	pub dirge: String,
+	#[serde(default)]
 	pub mask: String,
+	#[serde(default)]
 	pub name: String,
+	#[serde(default)]
 	pub player: String,
 }
