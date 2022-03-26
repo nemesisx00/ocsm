@@ -187,43 +187,48 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 			
 			div { class: "skillSpecialtiesLabel", "Specialties" },
 			
-			specialties.iter().enumerate().map(|(i, specialty)| {
-				rsx!(cx, div
-				{
-					class: "row",
-					key: "{i}",
-					input { r#type: "text", value: "{specialty}", onchange: move |e| skillSpecialtyHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble();  lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
-				})
-			})
-			
 			div
 			{
-				class: "row",
-				input { r#type: "text", value: "", placeholder: "Enter new a Specialty", onchange: move |e| skillSpecialtyHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
-			}
+				class: "column",
 				
-			showRemove.then(|| rsx!{
-				div { class: "removePopUpOverlay column" }
+				specialties.iter().enumerate().map(|(i, specialty)| {
+					rsx!(cx, div
+					{
+						class: "row",
+						key: "{i}",
+						input { r#type: "text", value: "{specialty}", onchange: move |e| skillSpecialtyHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble();  lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
+					})
+				})
 				
 				div
 				{
-					class: "removePopUpWrapper column",
+					class: "row",
+					input { r#type: "text", value: "", placeholder: "Enter new a Specialty", onchange: move |e| skillSpecialtyHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+				}
+					
+				showRemove.then(|| rsx!{
+					div { class: "removePopUpOverlay column" }
 					
 					div
 					{
-						class: "removePopUp column",
+						class: "removePopUpWrapper column",
 						
-						div { class: "row", "Are you sure you want to remove this Specialty?" }
 						div
 						{
-							class: "row",
+							class: "removePopUp column",
 							
-							button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+							div { class: "row", "Are you sure you want to remove this Specialty?" }
+							div
+							{
+								class: "row",
+								
+								button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+							}
 						}
 					}
-				}
-			})
+				})
+			}
 		}
 	});
 }
