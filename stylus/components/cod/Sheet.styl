@@ -2,12 +2,15 @@
 	margin-left 5%
 	margin-right 5%
 	
-	& > h1, & > h2
+	& > h1, & > h2, & > h3, & > h4, & > h5, & > h6
 		margin 0
 	
 	& hr
-		width: 90vw
+		width 90vw
 		margin 10px auto
+		
+		&.thin
+			margin 5px auto
 	
 	& .removePopUpOverlay
 		fixed(0, 0)
@@ -71,6 +74,15 @@
 		
 		&.fill > *
 			flexGrow()
+		
+		&.spacedOut > *
+			margin 0 5px
+			
+		&.spacedOut > *:first-child
+			margin-left 0
+			
+		&.spacedOut > *:last-child
+			margin-right 0
 	
 	& > div.row
 		max-width: 90%;

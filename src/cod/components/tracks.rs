@@ -22,6 +22,9 @@ pub struct TrackProps
 	pub tracker: Tracker,
 	
 	#[props(optional)]
+	class: Option<String>,
+	
+	#[props(optional)]
 	handler: Option<fn(&Scope<TrackProps>, usize)>,
 }
 
@@ -40,11 +43,17 @@ pub fn Track(cx: Scope<TrackProps>) -> Element
 {
 	let max = cx.props.tracker.clone().getMax();
 	
+	let class = match &cx.props.class
+	{
+		Some(cn) => { format!("tracker {}", cn) }
+		None => { "tracker".to_string() }
+	};
+	
 	return cx.render(rsx!
 	{
 		div
 		{
-			class: "tracker",
+			class: "{class}",
 			
 			div { class: "label", "{cx.props.label}" }
 			

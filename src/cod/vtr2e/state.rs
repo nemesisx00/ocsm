@@ -3,6 +3,7 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
+		state::updateTrackerState_SingleState,
 		tracks::TrackerState,
 		vtr2e::{
 			advantages::{
@@ -70,24 +71,5 @@ pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	let mut template = templateRef.write();
 	
-	let len = template.vitae.values.len();
-	
-	if index >= len
-	{
-		for _ in len..index+1 { template.vitae.add(TrackerState::Two) }
-	}
-	else if index < len
-	{
-		for _ in index..len { template.vitae.remove(TrackerState::Two) }
-		
-		// If we're trying to "disable" more than one box, add one back in.
-		// People naturally click where they want the checks to stop
-		// not one above where they want them to stop.
-		// However, this makes clicking the top most checked box act weird
-		// thus... the if.
-		if len - index > 1
-		{
-			template.vitae.add(TrackerState::Two);
-		}
-	}
+	updateTrackerState_SingleState(&mut template.vitae, index, TrackerState::Two, false);
 }

@@ -4,3 +4,4 @@ pub mod advantages;
 pub mod details;
 pub mod disciplines;
 pub mod sheet;
+pub mod touchstones;

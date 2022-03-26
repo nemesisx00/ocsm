@@ -14,7 +14,10 @@ use crate::{
 			BaseAdvantageType,
 		},
 		merits::Merit,
-		tracks::TrackerState,
+		tracks::{
+			Tracker,
+			TrackerState,
+		},
 		traits::{
 			BaseAttribute,
 			BaseAttributeType,
@@ -27,7 +30,7 @@ use crate::{
 pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
 pub static CharacterAspirations: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, BaseAttribute>> = |_| BaseAttribute::newAllAttributes();
-pub static CharacterBeats: Atom<usize> = |_| 0;
+pub static CharacterBeats: AtomRef<Tracker> = |_| Tracker::new(5);
 pub static CharacterExperience: Atom<usize> = |_| 0;
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
 pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, BaseSkill>> = |_| BaseSkill::newAllSkills();
@@ -40,7 +43,7 @@ pub struct BaseCharacter
 	pub advantages: BaseAdvantages,
 	pub aspirations: Vec<String>,
 	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
-	pub beats: usize,
+	pub beats: Tracker,
 	pub experience: usize,
 	pub merits: Vec<Merit>,
 	pub skills: HashMap<BaseSkillType, BaseSkill>,
@@ -54,7 +57,7 @@ impl StatefulTemplate for BaseCharacter
 		let advantages = use_atom_ref(cx, CharacterAdvantages);
 		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);
-		let beats = use_read(cx, CharacterBeats);
+		let beats = use_atom_ref(cx, CharacterBeats);
 		let experience = use_read(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
@@ -63,7 +66,7 @@ impl StatefulTemplate for BaseCharacter
 		self.advantages = advantages.read().clone();
 		self.aspirations = aspirations.read().clone();
 		self.attributes = attributes.read().clone();
-		self.beats = *beats;
+		self.beats = beats.read().clone();
 		self.experience = *experience;
 		self.merits = merits.read().clone();
 		self.skills = skills.read().clone();
@@ -75,7 +78,7 @@ impl StatefulTemplate for BaseCharacter
 		let advantages = use_atom_ref(cx, CharacterAdvantages);
 		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);
-		let beats = use_set(cx, CharacterBeats);
+		let beats = use_atom_ref(cx, CharacterBeats);
 		let experience = use_set(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
@@ -84,7 +87,7 @@ impl StatefulTemplate for BaseCharacter
 		(*advantages.write()) = self.advantages.clone();
 		(*aspirations.write()) = self.aspirations.clone();
 		(*attributes.write()) = self.attributes.clone();
-		beats(self.beats);
+		(*beats.write()) = self.beats.clone();
 		experience(self.experience);
 		(*merits.write()) = self.merits.clone();
 		(*skills.write()) = self.skills.clone();
@@ -186,6 +189,14 @@ pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, 
 	}
 }
 
+pub fn updateBaseBeats<T>(cx: &Scope<T>, index: usize, overrideValues: bool)
+{
+	let beatsRef = use_atom_ref(&cx, CharacterBeats);
+	let mut beats = beatsRef.write();
+	
+	updateTrackerState_SingleState(&mut beats, index, TrackerState::Two, overrideValues);
+}
+
 pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &BaseSkillType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
@@ -240,24 +251,38 @@ pub fn updateBaseWillpower<T>(cx: &Scope<T>, index: usize)
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let mut advantages = advantagesRef.write();
 	
-	let len = advantages.willpower.values.len();
+	updateTrackerState_SingleState(&mut advantages.willpower, index, TrackerState::Two, false);
+}
+
+/// 
+pub fn updateTrackerState_SingleState(tracker: &mut Tracker, index: usize, state: TrackerState, overrideValues: bool)
+{
+	let len = tracker.values.len();
 	
-	if index >= len
+	if overrideValues
 	{
-		for _ in len..index+1 { advantages.willpower.add(TrackerState::Two) }
+		tracker.values.truncate(0);
+		(0..index).for_each(|_| tracker.add(state));
 	}
-	else if index < len
+	else
 	{
-		for _ in index..len { advantages.willpower.remove(TrackerState::Two) }
-		
-		// If we're trying to "disable" more than one box, add one back in.
-		// People naturally click where they want the checks to stop
-		// not one above where they want them to stop.
-		// However, this makes clicking the top most checked box act weird
-		// thus... the if.
-		if len - index > 1
+		if index >= len
 		{
-			advantages.willpower.add(TrackerState::Two);
+			(len..index+1).for_each(|_| tracker.add(state));
+		}
+		else if index < len
+		{
+			(index..len).for_each(|_| tracker.remove(state));
+			
+			// If we're trying to "disable" more than one box, add one back in.
+			// People naturally click where they want the checks to stop
+			// not one above where they want them to stop.
+			// However, this makes clicking the top most checked box act weird
+			// thus... the if.
+			if len - index > 1
+			{
+				tracker.add(state);
+			}
 		}
 	}
 }

@@ -4,6 +4,8 @@ use dioxus::prelude::*;
 use crate::{
 	cod::{
 		components::{
+			aspirations::Aspirations,
+			experience::Experience,
 			merits::Merits,
 			traits::{
 				Attributes,
@@ -19,6 +21,7 @@ use crate::{
 					Disciplines,
 					Devotions,
 				},
+				touchstones::Touchstones,
 			},
 		},
 	},
@@ -33,16 +36,18 @@ pub fn Sheet(cx: Scope) -> Element
 			class: "sheet cod column",
 			
 			h1 { "Vampire: The Requiem" }
-			h2 { "Second Edition" }
-			hr { class: "row spacedOut" }
+			h3 { "Second Edition" }
+			hr { class: "row" }
 			div { class: "row", Details {} Advantages {} }
-			hr { class: "row spacedOut" }
+			hr { class: "row" }
+			div { class: "row spacedOut", Aspirations {} Touchstones {} Experience {} }
+			hr { class: "row" }
 			div { class: "row", Attributes {} }
-			hr { class: "row spacedOut" }
+			hr { class: "row" }
 			div { class: "row", Skills {} }
-			hr { class: "row spacedOut" }
+			hr { class: "row" }
 			div { class: "row", Disciplines {} SkillSpecialties {} Merits {} }
-			hr { class: "row spacedOut" }
+			hr { class: "row" }
 			div { class: "row", Devotions {} }
 		}
 	});

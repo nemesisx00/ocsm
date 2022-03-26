@@ -72,6 +72,9 @@ button
 
 hr
 	border-color foregroundColor
+	
+	&.noBorder
+		border 0 none
 
 .column
 	flex(column)
@@ -83,14 +86,19 @@ hr
 	text-align center
 
 @require "./components/core/Check.styl"
-@require "./components/core/Menu.styl"
 @require "./components/core/Sheet.styl"
+@require "./components/core/Menu.styl"
+
+@require "./components/cod/Sheet.styl"
 @require "./components/cod/Advantages.styl"
+@require "./components/cod/Aspirations.styl"
 @require "./components/cod/Attributes.styl"
+@require "./components/cod/Experience.styl"
 @require "./components/cod/EntryList.styl"
 @require "./components/cod/Merits.styl"
-@require "./components/cod/Sheet.styl"
 @require "./components/cod/Skills.styl"
 @require "./components/cod/Tracks.styl"
+
 @require "./components/cod/vtr2e/Details.styl"
 @require "./components/cod/vtr2e/Disciplines.styl"
+@require "./components/cod/vtr2e/Touchstones.styl"
