@@ -1,13 +1,6 @@
 #![allow(non_snake_case)]
 
-use std::{
-	io::{
-		Write,
-		stdout,
-		stderr
-	},
-	process::Command
-};
+use std::process::Command;
 
 /// Generate the unified and compressed app.css for the OCSM application
 /// using the Stylus CSS Preprocessor.
@@ -22,11 +15,11 @@ fn main()
 		firstArg = "-c";
 	}
 	
-	let output = Command::new(program)
+	Command::new(program)
 		.args(&[firstArg, "npm run-script stylus"])
 		.output()
 		.expect("Failed to execute Stylus script");
 	
+	//Just always re-run this script
 	println!("cargo:rerun-if-changed=static/app.css");
-	println!("cargo:rerun-if-changed=stylus/**/*");
 }
