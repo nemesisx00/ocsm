@@ -4,14 +4,14 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 
 ## Table of Contents
 
-[Getting Started](https://github.com/nemesisx00/ocsm#getting-started)
+- [Getting Started](https://github.com/nemesisx00/ocsm#getting-started)
 	- [Requirements](https://github.com/nemesisx00/ocsm#requirements)
 	- [Compiling, Running, and Testing](https://github.com/nemesisx00/ocsm#compiling-running-and-testing)
-[What is OCSM?](https://github.com/nemesisx00/ocsm#what-is-ocsm)
-[What OCSM is Not](https://github.com/nemesisx00/ocsm#what-ocsm-is-not)
-[Why a character sheet manager?](https://github.com/nemesisx00/ocsm#why-a-character-sheet-manager)
-[Okay, but... ...why?](https://github.com/nemesisx00/ocsm#okay-but-why)
-[Coding Style](https://github.com/nemesisx00/ocsm#coding-style)
+- [What is OCSM?](https://github.com/nemesisx00/ocsm#what-is-ocsm)
+- [What OCSM is Not](https://github.com/nemesisx00/ocsm#what-ocsm-is-not)
+- [Why a character sheet manager?](https://github.com/nemesisx00/ocsm#why-a-character-sheet-manager)
+- [Okay, but... ...why?](https://github.com/nemesisx00/ocsm#okay-but-why)
+- [Coding Style](https://github.com/nemesisx00/ocsm#coding-style)
 
 ## Supported and Planned Game Systems
 
