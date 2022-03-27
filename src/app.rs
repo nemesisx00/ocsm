@@ -5,6 +5,10 @@ use dioxus::{
 	desktop::use_window,
 	prelude::*,
 };
+use serde::{
+	de::DeserializeOwned,
+	Serialize,
+};
 use strum::IntoEnumIterator;
 use strum_macros::{
 	AsRefStr,
@@ -112,9 +116,11 @@ pub fn App(cx: Scope) -> Element
 					label: "File".to_string(),
 					
 					Menu { child: true, label: "New".to_string(), sheets.iter().map(|(_, l)| rsx!(cx, MenuItem { label: l.clone(), handler: newSheetHandler })) }
-					MenuItem { label: "Open".to_string(), handler: openSheetHandler }
+					show[&GameSystem::CodChangeling2e].then(|| rsx! { MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Changeling> } })
+					show[&GameSystem::CodVampire2e].then(|| rsx! { MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Vampire> } })
 					Menu {  child: true, label: "Recent Characters".to_string(), MenuItem { label: "Character 1".to_string() }, MenuItem { label: "Character 2".to_string() } }
-					MenuItem { label: "Save".to_string(), handler: saveSheetHandler }
+					show[&GameSystem::CodChangeling2e].then(|| rsx! { MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Changeling> } })
+					show[&GameSystem::CodVampire2e].then(|| rsx! { MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Vampire> } })
 					MenuItem { label: "Exit".to_string(), handler: exitHandler }
 				}
 			}
@@ -157,24 +163,22 @@ fn pushSheet<T: Default + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 	sheet.push(cx);
 }
 
-fn openSheetHandler<T>(cx: &Scope<T>)
+fn openSheetHandler<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
-	match loadFromFile::<Changeling>(&"./test/Sheet.json".to_string())
+	match loadFromFile::<T>(&"./test/Sheet.json".to_string())
 	{
 		Ok(data) =>
 		{
-			let mut sheet: Changeling = data;
-			//let mut sheet: Vampire = data;
+			let mut sheet: T = data;
 			sheet.push(&cx);
 		}
 		Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
 	}
 }
 
-fn saveSheetHandler<T>(cx: &Scope<T>)
+fn saveSheetHandler<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
-	let mut sheet = Changeling::default();
-	//let mut sheet = Vampire::default();
+	let mut sheet = T::default();
 	sheet.pull(&cx);
 	
 	match saveToFile(&"./test/Sheet.json".to_string(), &sheet)
