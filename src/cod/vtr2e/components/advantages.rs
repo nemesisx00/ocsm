@@ -13,11 +13,15 @@ use crate::{
 				TrackProps,
 			},
 		},
-		traits::BaseAttributeType,
+		traits::{
+			BaseAttributeType,
+			BaseSkillType,
+		},
 		tracks::TrackerState,
 		state::{
 			CharacterAdvantages,
 			CharacterAttributes,
+			CharacterSkills,
 			updateBaseHealth,
 			updateBaseWillpower,
 		},
@@ -39,14 +43,33 @@ pub fn Advantages(cx: Scope) -> Element
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let templateRef = use_atom_ref(&cx, KindredAdvantages);
 	
 	let mut advantages = advantagesRef.write();
 	let attributes = attributesRef.read();
 	let disciplines = disciplinesRef.read();
+	let skills = skillsRef.read();
 	let template = templateRef.read();
 	
 	let size = advantages.size;
+	
+	match disciplines.get(&DisciplineType::Celerity)
+	{
+		Some(celerity) =>
+		{
+			if celerity > &0
+			{
+				let attrDef = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
+				{
+					true => { attributes[&BaseAttributeType::Dexterity].value }
+					false => { attributes[&BaseAttributeType::Wits].value }
+				};
+				advantages.defense = attrDef + skills[&BaseSkillType::Athletics].value + celerity;
+			}
+		}
+		None => {}
+	}
 	
 	match disciplines.get(&DisciplineType::Resilience)
 	{
