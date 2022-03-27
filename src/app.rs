@@ -1,8 +1,11 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use std::collections::BTreeMap;
-use dioxus::prelude::*;
-use dioxus::desktop::use_window;
+use dioxus::{
+	desktop::use_window,
+	prelude::*,
+};
+use strum::IntoEnumIterator;
 use strum_macros::{
 	AsRefStr,
 	EnumCount,
@@ -20,45 +23,60 @@ use crate::{
 		io::{
 			loadFromFile,
 			saveToFile,
-		}
+		},
 	},
 	cod::{
+		ctl2e::{
+			components::sheet::ChangelingSheet,
+			template::Changeling,
+		},
 		vtr2e::{
-			components::sheet::Sheet,
+			components::sheet::VampireSheet,
 			template::Vampire,
 		},
 	},
 };
 
 pub static MainMenuState: Atom<bool> = |_| true;
+pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodChangeling2e;
 
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Ord)]
-pub enum GameSystems
+pub enum GameSystem
 {
-	//CodBeast,
+		//CodBeast,
 	CodChangeling2e,
-	//CodDemon,
-	//CodGeist,
-	//CodHunter,
-	CodMage2e,
-	//CodMummy,
-	//CodPromethean,
+		//CodDemon,
+		//CodGeist,
+		//CodHunter,
+	//CodMage2e,
+		//CodMummy,
+		//CodPromethean,
 	CodVampire2e,
-	//CodWerewolf,
-	Dnd5e,
-	WodVampireV5,
+		//CodWerewolf,
+	//Dnd5e,
+	//WodVampireV5,
 }
 
-impl GameSystems
+impl GameSystem
 {
 	pub fn asMap() -> BTreeMap<Self, String>
 	{
 		let mut map = BTreeMap::new();
-		map.insert(GameSystems::CodChangeling2e, "Changeling: The Lost 2e".to_string());
-		map.insert(GameSystems::CodMage2e, "Mage: The Awakening 2e".to_string());
-		map.insert(GameSystems::CodVampire2e, "Vampire: The Requiem 2e".to_string());
-		map.insert(GameSystems::Dnd5e, "Dungeons & Dragons 5E".to_string());
-		map.insert(GameSystems::WodVampireV5, "Vampire: The Masquerade V5".to_string());
+		map.insert(GameSystem::CodChangeling2e, "Changeling: The Lost 2e".to_string());
+		//map.insert(GameSystem::CodMage2e, "Mage: The Awakening 2e".to_string());
+		map.insert(GameSystem::CodVampire2e, "Vampire: The Requiem 2e".to_string());
+		//map.insert(GameSystem::Dnd5e, "Dungeons & Dragons 5E".to_string());
+		//map.insert(GameSystem::WodVampireV5, "Vampire: The Masquerade V5".to_string());
+		return map;
+	}
+	
+	pub fn showMap() -> BTreeMap<Self, bool>
+	{
+		let mut map = BTreeMap::new();
+		for gs in GameSystem::iter()
+		{
+			map.insert(gs, false);
+		}
 		return map;
 	}
 }
@@ -66,7 +84,15 @@ impl GameSystems
 pub fn App(cx: Scope) -> Element
 {
 	let setMenuState = use_set(&cx, MainMenuState);
-	let sheets = GameSystems::asMap();
+	let currentGameSystem = use_read(&cx, CurrentGameSystem);
+	
+	let sheets = GameSystem::asMap();
+	let mut show = GameSystem::showMap();
+	match show.get_mut(currentGameSystem)
+	{
+		Some(showGs) => { *showGs = true; }
+		None => {}
+	}
 	
 	return cx.render(rsx!
 	{
@@ -93,7 +119,8 @@ pub fn App(cx: Scope) -> Element
 				}
 			}
 			
-			Sheet { }
+			show[&GameSystem::CodChangeling2e].then(|| rsx! { ChangelingSheet {} })
+			show[&GameSystem::CodVampire2e].then(|| rsx! { VampireSheet {} })
 		}
 	});
 }
@@ -106,14 +133,17 @@ fn exitHandler<T>(cx: &Scope<T>)
 
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
-	match GameSystems::asMap().iter().filter(|(_, label)| *label == &cx.props.label.to_string()).next()
+	let setCurrentGameSystem = use_set(&cx, CurrentGameSystem);
+	
+	match GameSystem::asMap().iter().filter(|(_, label)| *label == &cx.props.label.to_string()).next()
 	{
 		Some((gs, _)) =>
 		{
+			setCurrentGameSystem(*gs);
 			match gs
 			{
-				//GameSystems::CodChangeling2e => { let mut sheet = Changeling::default(); sheet.push(cx); }
-				GameSystems::CodVampire2e => { let mut sheet = Vampire::default(); sheet.push(cx); }
+				GameSystem::CodChangeling2e => { pushSheet::<Changeling>(cx); }
+				GameSystem::CodVampire2e => { pushSheet::<Vampire>(cx); }
 				_ => {}
 			}
 		}
@@ -121,13 +151,20 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 	}
 }
 
+fn pushSheet<T: Default + StatefulTemplate>(cx: &Scope<MenuItemProps>)
+{
+	let mut sheet = T::default();
+	sheet.push(cx);
+}
+
 fn openSheetHandler<T>(cx: &Scope<T>)
 {
-	match loadFromFile::<Vampire>(&"./test/Sheet.json".to_string())
+	match loadFromFile::<Changeling>(&"./test/Sheet.json".to_string())
 	{
 		Ok(data) =>
 		{
-			let mut sheet: Vampire = data;
+			let mut sheet: Changeling = data;
+			//let mut sheet: Vampire = data;
 			sheet.push(&cx);
 		}
 		Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
@@ -136,7 +173,8 @@ fn openSheetHandler<T>(cx: &Scope<T>)
 
 fn saveSheetHandler<T>(cx: &Scope<T>)
 {
-	let mut sheet = Vampire::default();
+	let mut sheet = Changeling::default();
+	//let mut sheet = Vampire::default();
 	sheet.pull(&cx);
 	
 	match saveToFile(&"./test/Sheet.json".to_string(), &sheet)

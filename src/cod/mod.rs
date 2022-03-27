@@ -4,7 +4,9 @@ pub mod advantages;
 pub mod character;
 pub mod components;
 pub mod merits;
-pub mod vtr2e;
 pub mod tracks;
 pub mod traits;
 pub mod state;
+
+pub mod ctl2e;
+pub mod vtr2e;

@@ -29,7 +29,7 @@ use crate::{
 	},
 };
 
-pub fn Sheet(cx: Scope) -> Element
+pub fn VampireSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, KindredAdvantages);
 	let bloodPotency = advantages.read().bloodPotency;
