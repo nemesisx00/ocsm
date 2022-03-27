@@ -4,6 +4,8 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 
 ## Table of Contents
 
+- [Supported & Planned Game Systems](https://github.com/nemesisx00/ocsm#supported-and-planned-game-systems)
+- [Inside OCSM](https://github.com/nemesisx00/ocsm#inside-ocsm)
 - [Getting Started](https://github.com/nemesisx00/ocsm#getting-started)
 	- [Requirements](https://github.com/nemesisx00/ocsm#requirements)
 	- [Compiling, Running, and Testing](https://github.com/nemesisx00/ocsm#compiling-running-and-testing)
@@ -13,7 +15,7 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 - [Okay, but... ...why?](https://github.com/nemesisx00/ocsm#okay-but-why)
 - [Coding Style](https://github.com/nemesisx00/ocsm#coding-style)
 
-## Supported and Planned Game Systems
+## Supported & Planned Game Systems
 
 - Chronicles of Darkness
 	- [x] Changeling: The Lost - Second Edition
