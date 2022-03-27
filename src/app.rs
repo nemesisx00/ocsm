@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use dioxus::desktop::use_window;
 use strum_macros::{
@@ -31,7 +31,6 @@ use crate::{
 };
 
 pub static MainMenuState: Atom<bool> = |_| true;
-pub static Sheets: AtomRef<HashMap<GameSystems, String>> = |_| HashMap::<GameSystems, String>::new();
 
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum GameSystems
@@ -50,29 +49,24 @@ pub enum GameSystems
 	WodVampireV5,
 }
 
-fn loadSheets(cx: &Scope)
+impl GameSystems
 {
-	let sheetsRef = use_atom_ref(cx, Sheets);
-	let mut sheets = sheetsRef.write();
-	
-	if sheets.len() == 0
+	pub fn asMap() -> BTreeMap<Self, String>
 	{
-		sheets.insert(GameSystems::CodChangeling2e, "Changeling: The Lost 2e".to_string());
-		sheets.insert(GameSystems::CodMage2e, "Mage: The Awakening 2e".to_string());
-		sheets.insert(GameSystems::CodVampire2e, "Vampire: The Requiem 2e".to_string());
-		sheets.insert(GameSystems::Dnd5e, "Dungeons & Dragons 5E".to_string());
-		sheets.insert(GameSystems::WodVampireV5, "Vampire: The Masquerade V5".to_string());
+		let mut map = BTreeMap::new();
+		map.insert(GameSystems::CodChangeling2e, "Changeling: The Lost 2e".to_string());
+		map.insert(GameSystems::CodMage2e, "Mage: The Awakening 2e".to_string());
+		map.insert(GameSystems::CodVampire2e, "Vampire: The Requiem 2e".to_string());
+		map.insert(GameSystems::Dnd5e, "Dungeons & Dragons 5E".to_string());
+		map.insert(GameSystems::WodVampireV5, "Vampire: The Masquerade V5".to_string());
+		return map;
 	}
 }
 
 pub fn App(cx: Scope) -> Element
 {
-	loadSheets(&cx);
-	
-	let sheetsRef = use_atom_ref(&cx, Sheets);
-	let sheets = sheetsRef.read();
-	
 	let setMenuState = use_set(&cx, MainMenuState);
+	let sheets = GameSystems::asMap();
 	
 	return cx.render(rsx!
 	{
@@ -112,17 +106,14 @@ fn exitHandler<T>(cx: &Scope<T>)
 
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
-	let sheetsRef = use_atom_ref(cx, Sheets);
-	let sheets = sheetsRef.read();
-	
-	match sheets.iter().filter(|(_, label)| *label == &cx.props.label.to_string()).next()
+	match GameSystems::asMap().iter().filter(|(_, label)| *label == &cx.props.label.to_string()).next()
 	{
-		Some((st, _)) =>
+		Some((gs, _)) =>
 		{
-			match st
+			match gs
 			{
+				//GameSystems::CodChangeling2e => { let mut sheet = Changeling::default(); sheet.push(cx); }
 				GameSystems::CodVampire2e => { let mut sheet = Vampire::default(); sheet.push(cx); }
-				
 				_ => {}
 			}
 		}
