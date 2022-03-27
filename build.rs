@@ -1,4 +1,3 @@
-#!/usr/bin/env run-cargo-script
 #![allow(non_snake_case)]
 
 use std::{
@@ -23,19 +22,11 @@ fn main()
 		firstArg = "-c";
 	}
 	
-	let stylusOutput = Command::new(program)
+	let output = Command::new(program)
 		.args(&[firstArg, "npm run-script stylus"])
 		.output()
 		.expect("Failed to execute Stylus script");
 	
-	stdout().write_all(&stylusOutput.stdout).unwrap();
-	stderr().write_all(&stylusOutput.stderr).unwrap();
-	
-	let cargoOutput = Command::new(program)
-		.args(&[firstArg, "cargo build"])
-		.output()
-		.expect("Failed to execute Stylus CSS Preprocessor");
-	
-	stdout().write_all(&cargoOutput.stdout).unwrap();
-	stderr().write_all(&cargoOutput.stderr).unwrap();
+	println!("cargo:rerun-if-changed=static/app.css");
+	println!("cargo:rerun-if-changed=stylus/**/*");
 }
