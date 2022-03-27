@@ -51,7 +51,7 @@ There are a few utilities that are not strictly required but can make your life 
 
 #### Compiling, Running, and Testing
 
-Now that you've got all the tools you'll need, you'll need to get the source code. The easiest way is to use git to clone the main branch. There are way too many implementations of git, both GUI and CLI, out there to list here but I'm sure you can find one that works for you.
+Now that you've got all the tools you'll need, the next step is to acquire the source code. The easiest way is to use git to clone this repository directly. If you're not sure how to do that, GitHub has provided very detailed instructions here: [Cloning a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
 Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigate to the project directory. Run `npm install` to download and install [Stylus](https://stylus-lang.com/).
 
