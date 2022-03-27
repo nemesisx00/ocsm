@@ -4,30 +4,10 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 
 ## Supported and Planned Game Systems
 
-<!--
-- AGE
-	- [ ] Fantasy AGE
-	- [ ] Modern AGE
--->
 - Chronicles of Darkness
-<!--
-	- [ ] Beast: The Primordial
--->
-	- [x] Changeling: The Lost - Second Edition (10%)
-<!--
-	- [ ] Demon: The Descent
-	- [ ] Geist: The Sin-Eaters
-	- [ ] Hunter: The Vigil
--->
+	- [x] Changeling: The Lost - Second Edition
 	- [ ] Mage: The Awakening - Second Edition
-<!--
-	- [ ] Mummy: The Curse
-	- [ ] Promethean: The Created
--->
 	- [x] Vampire: The Requiem - Second Edition
-<!--
-	- [ ] Werewolf: The Forsaken
--->
 - Dungeons & Dragons
 	- [ ] 5th Edition
 - World of Darkness
