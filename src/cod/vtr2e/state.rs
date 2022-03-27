@@ -12,10 +12,7 @@ use crate::{
 				TemplateAdvantageType,
 				bloodPotencyVitaeMax,
 			},
-			details::{
-				Details,
-				DetailsField,
-			},
+			details::DetailType,
 			disciplines::{
 				Devotion,
 				DisciplineType,
@@ -25,7 +22,7 @@ use crate::{
 };
 
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
-pub static KindredDetails: AtomRef<Details> = |_| Details::default();
+pub static KindredDetails: AtomRef<HashMap<DetailType, String>> = |_| DetailType::asMap();
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
 pub static KindredDisciplines: AtomRef<HashMap<DisciplineType, usize>> = |_| HashMap::<DisciplineType, usize>::new();
 pub static KindredTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
@@ -48,22 +45,15 @@ pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageTyp
 	}
 }
 
-pub fn updateDetail<T>(cx: &Scope<T>, field: DetailsField, value: String)
+pub fn updateDetail<T>(cx: &Scope<T>, detailType: DetailType, value: String)
 {
 	let detailsRef = use_atom_ref(&cx, KindredDetails);
 	let mut details = detailsRef.write();
 	
-	match field
+	match details.get_mut(&detailType)
 	{
-		DetailsField::Bloodline => { details.bloodline = value; }
-		DetailsField::Chronicle => { details.chronicle = value; }
-		DetailsField::Clan => { details.clan = value; }
-		DetailsField::Concept => { details.concept = value; }
-		DetailsField::Covenant => { details.covenant = value; }
-		DetailsField::Dirge => { details.dirge = value; }
-		DetailsField::Mask => { details.mask = value; }
-		DetailsField::Name => { details.name = value; }
-		DetailsField::Player => { details.player = value; }
+		Some(detail) => { *detail = value; }
+		None => {}
 	}
 }
 

@@ -25,7 +25,7 @@ use crate::{
 	cod::{
 		vtr2e::{
 			components::sheet::Sheet,
-			template::Kindred,
+			template::Vampire,
 		},
 	},
 };
@@ -121,7 +121,7 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 		{
 			match st
 			{
-				GameSystems::CodVampire2e => { let mut sheet = Kindred::default(); sheet.push(cx); }
+				GameSystems::CodVampire2e => { let mut sheet = Vampire::default(); sheet.push(cx); }
 				
 				_ => {}
 			}
@@ -132,11 +132,11 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 
 fn openSheetHandler<T>(cx: &Scope<T>)
 {
-	match loadFromFile::<Kindred>(&"./test/Sheet.json".to_string())
+	match loadFromFile::<Vampire>(&"./test/Sheet.json".to_string())
 	{
 		Ok(data) =>
 		{
-			let mut sheet: Kindred = data;
+			let mut sheet: Vampire = data;
 			sheet.push(&cx);
 		}
 		Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
@@ -145,7 +145,7 @@ fn openSheetHandler<T>(cx: &Scope<T>)
 
 fn saveSheetHandler<T>(cx: &Scope<T>)
 {
-	let mut sheet = Kindred::default();
+	let mut sheet = Vampire::default();
 	sheet.pull(&cx);
 	
 	match saveToFile(&"./test/Sheet.json".to_string(), &sheet)

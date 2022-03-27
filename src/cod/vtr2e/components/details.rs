@@ -9,7 +9,7 @@ use crate::cod::{
 		updateBaseAdvantage,
 	},
 	vtr2e::{
-		details::DetailsField,
+		details::DetailType,
 		state::{
 			KindredDetails,
 			updateDetail,
@@ -43,10 +43,10 @@ pub fn Details(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: "Player:".to_string(), value: (&details.player).clone(), handler: detailHandler, handlerKey: DetailsField::Player, }
-					DetailInput { label: "Chronicle:".to_string(), value: (&details.chronicle).clone(), handler: detailHandler, handlerKey: DetailsField::Chronicle, }
-					DetailInput { label: "Name:".to_string(), value: (&details.name).clone(), handler: detailHandler, handlerKey: DetailsField::Name, }
-					DetailInput { label: "Concept:".to_string(), value: (&details.concept).clone(), handler: detailHandler, handlerKey: DetailsField::Concept, }
+					DetailInput { label: "Player:".to_string(), value: (&details[&DetailType::Player]).clone(), handler: detailHandler, handlerKey: DetailType::Player, }
+					DetailInput { label: "Chronicle:".to_string(), value: (&details[&DetailType::Chronicle]).clone(), handler: detailHandler, handlerKey: DetailType::Chronicle, }
+					DetailInput { label: "Name:".to_string(), value: (&details[&DetailType::Name]).clone(), handler: detailHandler, handlerKey: DetailType::Name, }
+					DetailInput { label: "Concept:".to_string(), value: (&details[&DetailType::Concept]).clone(), handler: detailHandler, handlerKey: DetailType::Concept, }
 					DetailNumInput { label: "Size:".to_string(), value: advantages.read().size, handler: advantageHandler, handlerKey: BaseAdvantageType::Size, }
 				}
 				
@@ -54,11 +54,11 @@ pub fn Details(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: "Mask:".to_string(), value: (&details.mask).clone(), handler: detailHandler, handlerKey: DetailsField::Mask, }
-					DetailInput { label: "Dirge:".to_string(), value: (&details.dirge).clone(), handler: detailHandler, handlerKey: DetailsField::Dirge, }
-					DetailInput { label: "Clan:".to_string(), value: (&details.clan).clone(), handler: detailHandler, handlerKey: DetailsField::Clan, }
-					DetailInput { label: "Bloodline:".to_string(), value: (&details.bloodline).clone(), handler: detailHandler, handlerKey: DetailsField::Bloodline, }
-					DetailInput { label: "Covenant:".to_string(), value: (&details.covenant).clone(), handler: detailHandler, handlerKey: DetailsField::Covenant, }
+					DetailInput { label: "Mask:".to_string(), value: (&details[&DetailType::Mask]).clone(), handler: detailHandler, handlerKey: DetailType::Mask, }
+					DetailInput { label: "Dirge:".to_string(), value: (&details[&DetailType::Dirge]).clone(), handler: detailHandler, handlerKey: DetailType::Dirge, }
+					DetailInput { label: "Clan:".to_string(), value: (&details[&DetailType::Clan]).clone(), handler: detailHandler, handlerKey: DetailType::Clan, }
+					DetailInput { label: "Bloodline:".to_string(), value: (&details[&DetailType::Bloodline]).clone(), handler: detailHandler, handlerKey: DetailType::Bloodline, }
+					DetailInput { label: "Covenant:".to_string(), value: (&details[&DetailType::Covenant]).clone(), handler: detailHandler, handlerKey: DetailType::Covenant, }
 				}
 			}
 			
@@ -74,7 +74,7 @@ pub fn Details(cx: Scope) -> Element
 	});
 }
 
-fn detailHandler(cx: &Scope<DetailInputProps<DetailsField>>, value: String)
+fn detailHandler(cx: &Scope<DetailInputProps<DetailType>>, value: String)
 {
 	match cx.props.handlerKey
 	{

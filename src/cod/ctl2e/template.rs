@@ -9,38 +9,22 @@ use serde::{
 	Serialize,
 	Deserialize,
 };
-use strum::IntoEnumIterator;
 use crate::{
 	core::template::StatefulTemplate,
 	cod::{
 		character::BaseCharacter,
-		vtr2e::{
-			advantages::TemplateAdvantages,
-			details::DetailType,
-			disciplines::{
-				Devotion,
-				DisciplineType,
-			},
-			state::{
-				KindredAdvantages,
-				KindredDetails,
-				KindredDevotions,
-				KindredDisciplines,
-				KindredTouchstones,
-			}
-		}
 	}
 };
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-pub struct Vampire
+pub struct Changeling
 {
 	#[serde(default)]
 	pub advantages: TemplateAdvantages,
 	#[serde(default)]
 	pub baseCharacter: BaseCharacter,
 	#[serde(default)]
-	pub details: HashMap<DetailType, String>,
+	pub details: Details,
 	#[serde(default)]
 	pub disciplines: HashMap<DisciplineType, usize>,
 	#[serde(default)]
@@ -49,7 +33,7 @@ pub struct Vampire
 	pub touchstones: Vec<String>,
 }
 
-impl StatefulTemplate for Vampire
+impl StatefulTemplate for Kindred
 {
 	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
@@ -91,34 +75,6 @@ impl StatefulTemplate for Vampire
 	
 	fn validate(&mut self)
 	{
-		for dt in DetailType::iter()
-		{
-			match self.details.get(&dt)
-			{
-				Some(_) => {}
-				None => { self.details.insert(dt, "".to_string()); }
-			}
-		}
-	}
-}
-
-#[cfg(test)]
-mod tests
-{
-	use super::*;
-	
-	#[test]
-	fn test_Vampire_validate()
-	{
-		let expected = DetailType::asMap();
-		
-		let mut vampire = Vampire::default();
-		vampire.details = HashMap::new();
-		
-		vampire.details.iter().for_each(|(dt, value)| assert_ne!(expected[dt], *value));
-		
-		vampire.validate();
-		
-		vampire.details.iter().for_each(|(dt, value)| assert_eq!(expected[dt], *value));
+		//
 	}
 }
