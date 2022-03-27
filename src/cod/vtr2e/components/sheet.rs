@@ -39,7 +39,7 @@ pub fn VampireSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod column",
+			class: "sheet cod vtr2e column",
 			
 			h1 { "Vampire: The Requiem" }
 			h3 { "Second Edition" }

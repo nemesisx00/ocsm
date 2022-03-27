@@ -31,7 +31,7 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod column",
+			class: "sheet cod ctl2e column",
 			
 			h1 { "Changeling: The Lost" }
 			h3 { "Second Edition" }
