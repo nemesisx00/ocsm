@@ -18,9 +18,7 @@ use crate::{
 			Tracker,
 		},
 		traits::{
-			BaseAttribute,
 			BaseAttributeType,
-			BaseSkill,
 			BaseSkillType,
 		},
 		state::{
@@ -44,7 +42,7 @@ pub struct BaseCharacter
 	#[serde(default)]
 	pub aspirations: Vec<String>,
 	#[serde(default)]
-	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
+	pub attributes: HashMap<BaseAttributeType, usize>,
 	#[serde(default)]
 	pub beats: Tracker,
 	#[serde(default)]
@@ -52,7 +50,7 @@ pub struct BaseCharacter
 	#[serde(default)]
 	pub merits: Vec<Merit>,
 	#[serde(default)]
-	pub skills: HashMap<BaseSkillType, BaseSkill>,
+	pub skills: HashMap<BaseSkillType, usize>,
 	#[serde(default)]
 	pub specialties: Vec<String>,
 }
@@ -65,11 +63,11 @@ impl Default for BaseCharacter
 		{
 			advantages: BaseAdvantages::default(),
 			aspirations: Vec::<String>::new(),
-			attributes: BaseAttribute::newAllAttributes(),
+			attributes: BaseAttributeType::asMap(),
 			beats: Tracker::new(5),
 			experience: 0,
 			merits: Vec::<Merit>::new(),
-			skills: BaseSkill::newAllSkills(),
+			skills: BaseSkillType::asMap(),
 			specialties: Vec::<String>::new(),
 		}
 	}
@@ -130,7 +128,7 @@ impl StatefulTemplate for BaseCharacter
 			match self.attributes.get(&bat)
 			{
 				Some(_) => {}
-				None => { self.attributes.insert(bat, BaseAttribute::new(bat)); }
+				None => { self.attributes.insert(bat, 1); }
 			}
 		}
 		
@@ -139,7 +137,7 @@ impl StatefulTemplate for BaseCharacter
 			match self.skills.get(&bst)
 			{
 				Some(_) => {}
-				None => { self.skills.insert(bst, BaseSkill::new(bst)); }
+				None => { self.skills.insert(bst, 0); }
 			}
 		}
 	}
@@ -153,19 +151,19 @@ mod tests
 	#[test]
 	fn test_BaseCharacter_validate()
 	{
-		let attributes = BaseAttribute::newAllAttributes();
-		let skills = BaseSkill::newAllSkills();
+		let attributes = BaseAttributeType::asMap();
+		let skills = BaseSkillType::asMap();
 		
 		let mut character = BaseCharacter::default();
 		character.attributes = HashMap::new();
 		character.skills = HashMap::new();
 		
-		assert_ne!(attributes, character.attributes);
-		assert_ne!(skills, character.skills);
+		character.attributes.iter().for_each(|(at, value)| assert_ne!(attributes[at], *value));
+		character.skills.iter().for_each(|(st, value)| assert_ne!(skills[st], *value));
 		
 		character.validate();
 		
-		assert_eq!(attributes, character.attributes);
-		assert_eq!(skills, character.skills);
+		character.attributes.iter().for_each(|(at, value)| assert_eq!(attributes[at], *value));
+		character.skills.iter().for_each(|(st, value)| assert_eq!(skills[st], *value));
 	}
 }

@@ -1,12 +1,12 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use serde::{
-	Serialize,
-	Deserialize,
-};
 use std::{
 	collections::HashMap,
 	iter::Iterator
+};
+use serde::{
+	Serialize,
+	Deserialize,
 };
 use strum::IntoEnumIterator;
 use strum_macros::{
@@ -21,45 +21,6 @@ pub enum BaseTraitType
 	Mental,
 	Physical,
 	Social,
-}
-
-#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
-pub struct BaseAttribute
-{
-	#[serde(default)]
-	pub name: String,
-	#[serde(default)]
-	pub value: usize,
-}
-
-impl Default for BaseAttribute
-{
-	fn default() -> Self
-	{
-		return BaseAttribute { name: "".to_string(), value: 1 };
-	}
-}
-
-impl BaseAttribute
-{
-	pub fn new(baseAttributeType: BaseAttributeType) -> Self
-	{
-		return Self
-		{
-			name: baseAttributeType.as_ref().to_string(),
-			..Default::default()
-		};
-	}
-	
-	pub fn newAllAttributes() -> HashMap<BaseAttributeType, Self>
-	{
-		let mut attributes = HashMap::<BaseAttributeType, Self>::new();
-		for bat in BaseAttributeType::iter()
-		{
-			attributes.insert(bat, Self::new(bat));
-		}
-		return attributes.clone();
-	}
 }
 
 //Ordering according to how they're typically ordered on the sheet to make generating the UI easier
@@ -79,6 +40,16 @@ pub enum BaseAttributeType
 
 impl BaseAttributeType
 {
+	pub fn asMap() -> HashMap<Self, usize>
+	{
+		let mut map = HashMap::<Self, usize>::new();
+		for bat in Self::iter()
+		{
+			map.insert(bat, 1);
+		}
+		return map;
+	}
+	
 	pub fn mental() -> Vec<Self>
 	{
 		return vec![
@@ -104,34 +75,6 @@ impl BaseAttributeType
 			Self::Manipulation,
 			Self::Composure,
 		];
-	}
-}
-
-#[derive(Clone, Debug, Default, Eq, Deserialize, PartialEq, PartialOrd, Serialize, Ord)]
-pub struct BaseSkill
-{
-	#[serde(default)]
-	pub name: String,
-	#[serde(default)]
-	pub value: usize,
-}
-
-impl BaseSkill
-{
-	pub fn new(baseSkillType: BaseSkillType) -> Self
-	{
-		return Self
-		{
-			name: BaseSkillType::getSkillName(baseSkillType),
-			..Default::default()
-		};
-	}
-	
-	pub fn newAllSkills() -> HashMap<BaseSkillType, Self>
-	{
-		let mut skills = HashMap::<BaseSkillType, Self>::new();
-		for s in BaseSkillType::iter() { skills.insert(s, Self::new(s)); }
-		return skills.clone();
 	}
 }
 
@@ -166,6 +109,16 @@ pub enum BaseSkillType
 
 impl BaseSkillType
 {
+	pub fn asMap() -> HashMap<Self, usize>
+	{
+		let mut map = HashMap::<Self, usize>::new();
+		for bst in Self::iter()
+		{
+			map.insert(bst, 0);
+		}
+		return map;
+	}
+	
 	pub fn mental() -> Vec<BaseSkillType>
 	{
 		return vec![
@@ -224,29 +177,20 @@ mod tests
 	use super::*;
 	
 	#[test]
-	fn test_BaseAttribute_new()
-	{
-		let expected = BaseAttribute { name: "Stamina".to_string(), ..Default::default() };
-		let result = BaseAttribute::new(BaseAttributeType::Stamina);
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseAttribute_newAllAttributes()
+	fn test_BaseAttributeType_asMap()
 	{
 		let mut expected = HashMap::new();
-		expected.insert(BaseAttributeType::Intelligence, BaseAttribute::new(BaseAttributeType::Intelligence));
-		expected.insert(BaseAttributeType::Wits, BaseAttribute::new(BaseAttributeType::Wits));
-		expected.insert(BaseAttributeType::Resolve, BaseAttribute::new(BaseAttributeType::Resolve));
-		expected.insert(BaseAttributeType::Strength, BaseAttribute::new(BaseAttributeType::Strength));
-		expected.insert(BaseAttributeType::Dexterity, BaseAttribute::new(BaseAttributeType::Dexterity));
-		expected.insert(BaseAttributeType::Stamina, BaseAttribute::new(BaseAttributeType::Stamina));
-		expected.insert(BaseAttributeType::Composure, BaseAttribute::new(BaseAttributeType::Composure));
-		expected.insert(BaseAttributeType::Manipulation, BaseAttribute::new(BaseAttributeType::Manipulation));
-		expected.insert(BaseAttributeType::Presence, BaseAttribute::new(BaseAttributeType::Presence));
+		expected.insert(BaseAttributeType::Intelligence, 1);
+		expected.insert(BaseAttributeType::Wits, 1);
+		expected.insert(BaseAttributeType::Resolve, 1);
+		expected.insert(BaseAttributeType::Strength, 1);
+		expected.insert(BaseAttributeType::Dexterity, 1);
+		expected.insert(BaseAttributeType::Stamina, 1);
+		expected.insert(BaseAttributeType::Composure, 1);
+		expected.insert(BaseAttributeType::Manipulation, 1);
+		expected.insert(BaseAttributeType::Presence, 1);
 		
-		let result = BaseAttribute::newAllAttributes();
+		let result = BaseAttributeType::asMap();
 		
 		assert_eq!(expected, result);
 	}
@@ -267,44 +211,35 @@ mod tests
 	}
 	
 	#[test]
-	fn test_BaseSkill_new()
-	{
-		let expected = BaseSkill { name: "Academics".to_string(), ..Default::default() };
-		let result = BaseSkill::new(BaseSkillType::Academics);
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseSkill_newAllSkills()
+	fn test_BaseSkillType_asMap()
 	{
 		let mut expected = HashMap::new();
-		expected.insert(BaseSkillType::Academics, BaseSkill::new(BaseSkillType::Academics));
-		expected.insert(BaseSkillType::AnimalKen, BaseSkill::new(BaseSkillType::AnimalKen));
-		expected.insert(BaseSkillType::Athletics, BaseSkill::new(BaseSkillType::Athletics));
-		expected.insert(BaseSkillType::Brawl, BaseSkill::new(BaseSkillType::Brawl));
-		expected.insert(BaseSkillType::Computer, BaseSkill::new(BaseSkillType::Computer));
-		expected.insert(BaseSkillType::Crafts, BaseSkill::new(BaseSkillType::Crafts));
-		expected.insert(BaseSkillType::Drive, BaseSkill::new(BaseSkillType::Drive));
-		expected.insert(BaseSkillType::Empathy, BaseSkill::new(BaseSkillType::Empathy));
-		expected.insert(BaseSkillType::Expression, BaseSkill::new(BaseSkillType::Expression));
-		expected.insert(BaseSkillType::Firearms, BaseSkill::new(BaseSkillType::Firearms));
-		expected.insert(BaseSkillType::Investigation, BaseSkill::new(BaseSkillType::Investigation));
-		expected.insert(BaseSkillType::Intimidation, BaseSkill::new(BaseSkillType::Intimidation));
-		expected.insert(BaseSkillType::Larceny, BaseSkill::new(BaseSkillType::Larceny));
-		expected.insert(BaseSkillType::Medicine, BaseSkill::new(BaseSkillType::Medicine));
-		expected.insert(BaseSkillType::Occult, BaseSkill::new(BaseSkillType::Occult));
-		expected.insert(BaseSkillType::Persuasion, BaseSkill::new(BaseSkillType::Persuasion));
-		expected.insert(BaseSkillType::Politics, BaseSkill::new(BaseSkillType::Politics));
-		expected.insert(BaseSkillType::Science, BaseSkill::new(BaseSkillType::Science));
-		expected.insert(BaseSkillType::Socialize, BaseSkill::new(BaseSkillType::Socialize));
-		expected.insert(BaseSkillType::Stealth, BaseSkill::new(BaseSkillType::Stealth));
-		expected.insert(BaseSkillType::Streetwise, BaseSkill::new(BaseSkillType::Streetwise));
-		expected.insert(BaseSkillType::Subterfuge, BaseSkill::new(BaseSkillType::Subterfuge));
-		expected.insert(BaseSkillType::Survival, BaseSkill::new(BaseSkillType::Survival));
-		expected.insert(BaseSkillType::Weaponry, BaseSkill::new(BaseSkillType::Weaponry));
+		expected.insert(BaseSkillType::Academics, 0);
+		expected.insert(BaseSkillType::AnimalKen, 0);
+		expected.insert(BaseSkillType::Athletics, 0);
+		expected.insert(BaseSkillType::Brawl, 0);
+		expected.insert(BaseSkillType::Computer, 0);
+		expected.insert(BaseSkillType::Crafts, 0);
+		expected.insert(BaseSkillType::Drive, 0);
+		expected.insert(BaseSkillType::Empathy, 0);
+		expected.insert(BaseSkillType::Expression, 0);
+		expected.insert(BaseSkillType::Firearms, 0);
+		expected.insert(BaseSkillType::Investigation, 0);
+		expected.insert(BaseSkillType::Intimidation, 0);
+		expected.insert(BaseSkillType::Larceny, 0);
+		expected.insert(BaseSkillType::Medicine, 0);
+		expected.insert(BaseSkillType::Occult, 0);
+		expected.insert(BaseSkillType::Persuasion, 0);
+		expected.insert(BaseSkillType::Politics, 0);
+		expected.insert(BaseSkillType::Science, 0);
+		expected.insert(BaseSkillType::Socialize, 0);
+		expected.insert(BaseSkillType::Stealth, 0);
+		expected.insert(BaseSkillType::Streetwise, 0);
+		expected.insert(BaseSkillType::Subterfuge, 0);
+		expected.insert(BaseSkillType::Survival, 0);
+		expected.insert(BaseSkillType::Weaponry, 0);
 		
-		let result = BaseSkill::newAllSkills();
+		let result = BaseSkillType::asMap();
 		
 		assert_eq!(expected, result);
 	}

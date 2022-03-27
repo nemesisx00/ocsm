@@ -60,12 +60,12 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if celerity > &0
 			{
-				let attrDef = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
+				let attrDef = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
 				{
-					true => { attributes[&BaseAttributeType::Dexterity].value }
-					false => { attributes[&BaseAttributeType::Wits].value }
+					true => { attributes[&BaseAttributeType::Dexterity] }
+					false => { attributes[&BaseAttributeType::Wits] }
 				};
-				advantages.defense = attrDef + skills[&BaseSkillType::Athletics].value + celerity;
+				advantages.defense = attrDef + skills[&BaseSkillType::Athletics] + celerity;
 			}
 		}
 		None => {}
@@ -77,7 +77,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if resilience > &0
 			{
-				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value + resilience);
+				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina] + resilience);
 			}
 		}
 		None => {}
@@ -89,7 +89,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if vigor > &0
 			{
-				advantages.speed = size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value + vigor;
+				advantages.speed = size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength] + vigor;
 			}
 		}
 		None => {}

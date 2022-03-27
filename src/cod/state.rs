@@ -14,9 +14,7 @@ use crate::{
 			TrackerState,
 		},
 		traits::{
-			BaseAttribute,
 			BaseAttributeType,
-			BaseSkill,
 			BaseSkillType,
 		}
 	},
@@ -24,11 +22,11 @@ use crate::{
 
 pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
 pub static CharacterAspirations: AtomRef<Vec<String>> = |_| Vec::<String>::new();
-pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, BaseAttribute>> = |_| BaseAttribute::newAllAttributes();
+pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, usize>> = |_| BaseAttributeType::asMap();
 pub static CharacterBeats: AtomRef<Tracker> = |_| Tracker::new(5);
 pub static CharacterExperience: Atom<usize> = |_| 0;
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
-pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, BaseSkill>> = |_| BaseSkill::newAllSkills();
+pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, usize>> = |_| BaseSkillType::asMap();
 pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
@@ -56,7 +54,7 @@ pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value
 					false => { value }
 				}
 			};
-			let healthMax = attributes[&BaseAttributeType::Stamina].value + finalValue;
+			let healthMax = attributes[&BaseAttributeType::Stamina] + finalValue;
 			
 			advantages.size = finalValue;
 			advantages.health.updateMax(healthMax);
@@ -77,46 +75,50 @@ pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, 
 	let mut attributes = attributesRef.write();
 	let skills = skillsRef.read();
 	
-	attributes.get_mut(attributeType).unwrap().value = value;
+	match attributes.get_mut(attributeType)
+	{
+		Some(attr) => { *attr = value; }
+		None => {}
+	}
 	
 	match attributeType
 	{
 		BaseAttributeType::Composure =>
 		{
-			advantages.initiative = attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Composure].value;
-			advantages.willpower.updateMax(attributes[&BaseAttributeType::Resolve].value + attributes[&BaseAttributeType::Composure].value);
+			advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure];
+			advantages.willpower.updateMax(attributes[&BaseAttributeType::Resolve] + attributes[&BaseAttributeType::Composure]);
 		}
 		
 		BaseAttributeType::Dexterity =>
 		{
-			let defense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
+			let defense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity].value }
-				false => { attributes[&BaseAttributeType::Wits].value }
-			} + skills[&BaseSkillType::Athletics].value;
+				true => { attributes[&BaseAttributeType::Dexterity] }
+				false => { attributes[&BaseAttributeType::Wits] }
+			} + skills[&BaseSkillType::Athletics];
 			
 			advantages.defense = defense;
-			advantages.initiative = attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Composure].value;
-			advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value;
+			advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure];
+			advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength];
 		}
 		
-		BaseAttributeType::Resolve => { advantages.willpower.updateMax(attributes[&BaseAttributeType::Composure].value + attributes[&BaseAttributeType::Resolve].value); }
+		BaseAttributeType::Resolve => { advantages.willpower.updateMax(attributes[&BaseAttributeType::Composure] + attributes[&BaseAttributeType::Resolve]); }
 		
 		BaseAttributeType::Stamina =>
 		{
 			let size = advantages.size;
-			advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value);
+			advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina]);
 		}
 		
-		BaseAttributeType::Strength => { advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value; }
+		BaseAttributeType::Strength => { advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength]; }
 		
 		BaseAttributeType::Wits =>
 		{
-			let defense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
+			let defense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity].value }
-				false => { attributes[&BaseAttributeType::Wits].value }
-			} + skills[&BaseSkillType::Athletics].value;
+				true => { attributes[&BaseAttributeType::Dexterity] }
+				false => { attributes[&BaseAttributeType::Wits]}
+			} + skills[&BaseSkillType::Athletics];
 			
 			advantages.defense = defense;
 		}
@@ -143,20 +145,24 @@ pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &BaseSkillType, value: usize
 	let attributes = attributesRef.read();
 	let mut skills = skillsRef.write();
 	
-	skills.get_mut(skillType).unwrap().value = value;
+	match skills.get_mut(skillType)
+	{
+		Some(ski) => { *ski = value; }
+		None => {}
+	}
 	
 	// Handle 
 	match skillType
 	{
 		BaseSkillType::Athletics =>
 		{
-			let attributeDefense = match attributes[&BaseAttributeType::Dexterity].value <= attributes[&BaseAttributeType::Wits].value
+			let attributeDefense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity].value }
-				false => { attributes[&BaseAttributeType::Wits].value }
+				true => { attributes[&BaseAttributeType::Dexterity] }
+				false => { attributes[&BaseAttributeType::Wits] }
 			};
 			
-			advantages.defense = attributeDefense + skills[&BaseSkillType::Athletics].value;
+			advantages.defense = attributeDefense + skills[&BaseSkillType::Athletics];
 		}
 		
 		_ => {}

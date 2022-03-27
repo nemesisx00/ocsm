@@ -52,11 +52,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					
 					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						return match attr.get(at)
-						{
-							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -66,11 +62,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					
 					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						return match attr.get(at)
-						{
-							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -80,11 +72,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					
 					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						return match attr.get(at)
-						{
-							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 			}
@@ -139,11 +127,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						return match ski.get(st)
-						{
-							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -153,11 +137,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						return match ski.get(st)
-						{
-							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -167,11 +147,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						return match ski.get(st)
-						{
-							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
-							None => { None }
-						};
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}
