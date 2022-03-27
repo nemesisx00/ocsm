@@ -43,11 +43,7 @@ Now you're ready to compile! Well, almost. Start by opening your preferred comma
 
 Ok, now you're *really* ready to compile! The first step is running [Stylus](https://stylus-lang.com/) to generate the CSS:
 ```
-//If you installed Cargo Script
-cargo script stylus
-
-//Otherwise
-stylus --compress ./stylus --out ./static/app.css
+npm run-script stylus
 ```
 
 Now all that's left is to compile the [Rust](https://www.rust-lang.org/) code:
@@ -75,7 +71,7 @@ cargo test
 
 I will note that, while the compile and run scripts are convenient, they lose the very useful coloration that [Rust](https://www.rust-lang.org/)'s compiler utilizes in its output. So, if you're trying to work through compiler errors, I recommend chaining the stylus script with `cargo run` instead, like this:
 ```
-cargo script stylus && cargo run
+npm run-script stylus && cargo run
 ```
 
 That's it!

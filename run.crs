@@ -24,7 +24,7 @@ fn main()
 	}
 	
 	let stylusOutput = Command::new(program)
-		.args(&[firstArg, "cargo script stylus"])
+		.args(&[firstArg, "npm run-script stylus"])
 		.output()
 		.expect("Failed to execute Stylus script");
 	
