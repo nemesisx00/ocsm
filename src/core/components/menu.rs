@@ -22,16 +22,20 @@ pub fn MainMenu<'a>(cx: Scope, children: Element<'a>) -> Element<'a>
 #[derive(Props)]
 pub struct MenuProps<'a>
 {
-	label: &'a str,
+	label: String,
     children: Element<'a>,
 	
 	#[props(optional)]
-	class: Option<&'a str>,
+	class: Option<String>,
+	
+	#[props(optional)]
+	child: Option<bool>,
 }
 
 pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 {
 	let state = use_state(&cx, || false);
+	let submenu = use_state(&cx, || false);
 	
 	//Check if the App is telling us to close all menus
 	let appMenuState = use_read(&cx, MainMenuState);
@@ -52,18 +56,29 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 		None => {}
 	}
 	
+	match &cx.props.child
+	{
+		Some(isChild) =>
+		{
+			submenu.set(*isChild);
+			class += " childMenu";
+		}
+		None => { submenu.set(false); }
+	}
+	
 	return cx.render(rsx!
 	{
 		div
 		{
 			class: "menu column{class}",
+			onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
+			oncontextmenu: move |e| e.cancel_bubble(),
+			//onmouseover: move |_| { if *submenu.get() { state.set(true); } }, //TODO: Figure out how to give this a bit of a delay/buffer for a second or two
+			prevent_default: "oncontextmenu",
 			
 			div
 			{
 				class: "label",
-				onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
-				oncontextmenu: move |e| e.cancel_bubble(),
-				prevent_default: "oncontextmenu",
 				"{cx.props.label}"
 			}
 			
@@ -71,8 +86,10 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 				div
 				{
 					class: "subMenu column",
-					onclick: move |_| { state.set(!state.get()); },
+					//Right now this means we only support one level of depth for child menus. Will need more complexity if it becomes necessary to support more than one level.
+					onclick: move |_| { setAppMenuState(false); },
 					oncontextmenu: move |e| e.cancel_bubble(),
+					//onmouseout: move |_| { if *submenu.get() { state.set(false); } }, //TODO: Figure out how to give this a bit of a delay/buffer for a second or two
 					prevent_default: "oncontextmenu",
 					
 					&cx.props.children
@@ -85,7 +102,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 #[derive(Props)]
 pub struct MenuItemProps<'a>
 {
-	label: &'a str,
+	pub label: String,
 	
 	#[props(optional)]
 	handler: Option<fn(&Scope<'a, MenuItemProps<'a>>)>,
