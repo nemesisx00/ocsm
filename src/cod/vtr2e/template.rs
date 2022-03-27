@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use dioxus::prelude::{
 	Scope,
 	use_atom_ref,
@@ -40,9 +40,9 @@ pub struct Vampire
 	#[serde(default)]
 	pub baseCharacter: BaseCharacter,
 	#[serde(default)]
-	pub details: HashMap<DetailType, String>,
+	pub details: BTreeMap<DetailType, String>,
 	#[serde(default)]
-	pub disciplines: HashMap<DisciplineType, usize>,
+	pub disciplines: BTreeMap<DisciplineType, usize>,
 	#[serde(default)]
 	pub devotions: Vec<Devotion>,
 	#[serde(default)]
@@ -113,7 +113,7 @@ mod tests
 		let expected = DetailType::asMap();
 		
 		let mut vampire = Vampire::default();
-		vampire.details = HashMap::new();
+		vampire.details = BTreeMap::new();
 		
 		vampire.details.iter().for_each(|(dt, value)| assert_ne!(expected[dt], *value));
 		

@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use serde::{
 	Serialize,
@@ -42,7 +42,7 @@ pub struct BaseCharacter
 	#[serde(default)]
 	pub aspirations: Vec<String>,
 	#[serde(default)]
-	pub attributes: HashMap<BaseAttributeType, usize>,
+	pub attributes: BTreeMap<BaseAttributeType, usize>,
 	#[serde(default)]
 	pub beats: Tracker,
 	#[serde(default)]
@@ -50,7 +50,7 @@ pub struct BaseCharacter
 	#[serde(default)]
 	pub merits: Vec<Merit>,
 	#[serde(default)]
-	pub skills: HashMap<BaseSkillType, usize>,
+	pub skills: BTreeMap<BaseSkillType, usize>,
 	#[serde(default)]
 	pub specialties: Vec<String>,
 }
@@ -155,8 +155,8 @@ mod tests
 		let skills = BaseSkillType::asMap();
 		
 		let mut character = BaseCharacter::default();
-		character.attributes = HashMap::new();
-		character.skills = HashMap::new();
+		character.attributes = BTreeMap::new();
+		character.skills = BTreeMap::new();
 		
 		character.attributes.iter().for_each(|(at, value)| assert_ne!(attributes[at], *value));
 		character.skills.iter().for_each(|(st, value)| assert_ne!(skills[st], *value));

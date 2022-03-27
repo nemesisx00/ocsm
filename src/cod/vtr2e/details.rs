@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use serde::{
 	Serialize,
 	Deserialize,
@@ -30,9 +30,9 @@ pub enum DetailType
 
 impl DetailType
 {
-	pub fn asMap() -> HashMap<Self, String>
+	pub fn asMap() -> BTreeMap<Self, String>
 	{
-		let mut map = HashMap::<Self, String>::new();
+		let mut map = BTreeMap::<Self, String>::new();
 		for dt in Self::iter()
 		{
 			map.insert(dt, "".to_string());
@@ -49,7 +49,7 @@ mod tests
 	#[test]
 	fn test_DetailType_asMap()
 	{
-		let mut expected = HashMap::new();
+		let mut expected = BTreeMap::new();
 		expected.insert(DetailType::Bloodline, "".to_string());
 		expected.insert(DetailType::Chronicle, "".to_string());
 		expected.insert(DetailType::Clan, "".to_string());

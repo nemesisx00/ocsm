@@ -1,7 +1,7 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use std::{
-	collections::HashMap,
+	collections::BTreeMap,
 	iter::Iterator
 };
 use serde::{
@@ -40,9 +40,9 @@ pub enum BaseAttributeType
 
 impl BaseAttributeType
 {
-	pub fn asMap() -> HashMap<Self, usize>
+	pub fn asMap() -> BTreeMap<Self, usize>
 	{
-		let mut map = HashMap::<Self, usize>::new();
+		let mut map = BTreeMap::<Self, usize>::new();
 		for bat in Self::iter()
 		{
 			map.insert(bat, 1);
@@ -109,9 +109,9 @@ pub enum BaseSkillType
 
 impl BaseSkillType
 {
-	pub fn asMap() -> HashMap<Self, usize>
+	pub fn asMap() -> BTreeMap<Self, usize>
 	{
-		let mut map = HashMap::<Self, usize>::new();
+		let mut map = BTreeMap::<Self, usize>::new();
 		for bst in Self::iter()
 		{
 			map.insert(bst, 0);
@@ -179,7 +179,7 @@ mod tests
 	#[test]
 	fn test_BaseAttributeType_asMap()
 	{
-		let mut expected = HashMap::new();
+		let mut expected = BTreeMap::new();
 		expected.insert(BaseAttributeType::Intelligence, 1);
 		expected.insert(BaseAttributeType::Wits, 1);
 		expected.insert(BaseAttributeType::Resolve, 1);
@@ -198,7 +198,7 @@ mod tests
 	#[test]
 	fn test_BaseSkillType_getSkillName()
 	{
-		let pairs = HashMap::from([
+		let pairs = BTreeMap::from([
 			("Socialize".to_string(), BaseSkillType::Socialize),
 			("Animal Ken".to_string(), BaseSkillType::AnimalKen),
 		]);
@@ -213,7 +213,7 @@ mod tests
 	#[test]
 	fn test_BaseSkillType_asMap()
 	{
-		let mut expected = HashMap::new();
+		let mut expected = BTreeMap::new();
 		expected.insert(BaseSkillType::Academics, 0);
 		expected.insert(BaseSkillType::AnimalKen, 0);
 		expected.insert(BaseSkillType::Athletics, 0);

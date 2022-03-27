@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use crate::{
 	cod::{
@@ -22,9 +22,9 @@ use crate::{
 };
 
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
-pub static KindredDetails: AtomRef<HashMap<DetailType, String>> = |_| DetailType::asMap();
+pub static KindredDetails: AtomRef<BTreeMap<DetailType, String>> = |_| DetailType::asMap();
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
-pub static KindredDisciplines: AtomRef<HashMap<DisciplineType, usize>> = |_| HashMap::<DisciplineType, usize>::new();
+pub static KindredDisciplines: AtomRef<BTreeMap<DisciplineType, usize>> = |_| BTreeMap::<DisciplineType, usize>::new();
 pub static KindredTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)

@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use crate::{
 	cod::{
@@ -22,11 +22,11 @@ use crate::{
 
 pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
 pub static CharacterAspirations: AtomRef<Vec<String>> = |_| Vec::<String>::new();
-pub static CharacterAttributes: AtomRef<HashMap<BaseAttributeType, usize>> = |_| BaseAttributeType::asMap();
+pub static CharacterAttributes: AtomRef<BTreeMap<BaseAttributeType, usize>> = |_| BaseAttributeType::asMap();
 pub static CharacterBeats: AtomRef<Tracker> = |_| Tracker::new(5);
 pub static CharacterExperience: Atom<usize> = |_| 0;
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
-pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, usize>> = |_| BaseSkillType::asMap();
+pub static CharacterSkills: AtomRef<BTreeMap<BaseSkillType, usize>> = |_| BaseSkillType::asMap();
 pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
