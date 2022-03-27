@@ -1,13 +1,8 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
-use serde::{
-	Serialize,
-	Deserialize,
-};
 use std::collections::HashMap;
+use dioxus::prelude::*;
 use crate::{
-	core::template::StatefulTemplate,
 	cod::{
 		advantages::{
 			BaseAdvantages,
@@ -35,73 +30,6 @@ pub static CharacterExperience: Atom<usize> = |_| 0;
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
 pub static CharacterSkills: AtomRef<HashMap<BaseSkillType, BaseSkill>> = |_| BaseSkill::newAllSkills();
 pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
-
-
-#[derive(Clone, Debug, Default, Deserialize, Serialize)]
-pub struct BaseCharacter
-{
-	#[serde(default)]
-	pub advantages: BaseAdvantages,
-	#[serde(default)]
-	pub aspirations: Vec<String>,
-	#[serde(default)]
-	pub attributes: HashMap<BaseAttributeType, BaseAttribute>,
-	#[serde(default)]
-	pub beats: Tracker,
-	#[serde(default)]
-	pub experience: usize,
-	#[serde(default)]
-	pub merits: Vec<Merit>,
-	#[serde(default)]
-	pub skills: HashMap<BaseSkillType, BaseSkill>,
-	#[serde(default)]
-	pub specialties: Vec<String>,
-}
-
-impl StatefulTemplate for BaseCharacter
-{
-	fn pull<T>(&mut self, cx: &Scope<T>)
-	{
-		let advantages = use_atom_ref(cx, CharacterAdvantages);
-		let aspirations = use_atom_ref(cx, CharacterAspirations);
-		let attributes = use_atom_ref(cx, CharacterAttributes);
-		let beats = use_atom_ref(cx, CharacterBeats);
-		let experience = use_read(cx, CharacterExperience);
-		let merits = use_atom_ref(cx, CharacterMerits);
-		let skills = use_atom_ref(cx, CharacterSkills);
-		let specialties = use_atom_ref(cx, CharacterSpecialties);
-		
-		self.advantages = advantages.read().clone();
-		self.aspirations = aspirations.read().clone();
-		self.attributes = attributes.read().clone();
-		self.beats = beats.read().clone();
-		self.experience = *experience;
-		self.merits = merits.read().clone();
-		self.skills = skills.read().clone();
-		self.specialties = specialties.read().clone();
-	}
-	
-	fn push<T>(&self, cx: &Scope<T>)
-	{
-		let advantages = use_atom_ref(cx, CharacterAdvantages);
-		let aspirations = use_atom_ref(cx, CharacterAspirations);
-		let attributes = use_atom_ref(cx, CharacterAttributes);
-		let beats = use_atom_ref(cx, CharacterBeats);
-		let experience = use_set(cx, CharacterExperience);
-		let merits = use_atom_ref(cx, CharacterMerits);
-		let skills = use_atom_ref(cx, CharacterSkills);
-		let specialties = use_atom_ref(cx, CharacterSpecialties);
-		
-		(*advantages.write()) = self.advantages.clone();
-		(*aspirations.write()) = self.aspirations.clone();
-		(*attributes.write()) = self.attributes.clone();
-		(*beats.write()) = self.beats.clone();
-		experience(self.experience);
-		(*merits.write()) = self.merits.clone();
-		(*skills.write()) = self.skills.clone();
-		(*specialties.write()) = self.specialties.clone();
-	}
-}
 
 pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
 {

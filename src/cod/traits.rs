@@ -42,7 +42,7 @@ impl Default for BaseAttribute
 
 impl BaseAttribute
 {
-	fn new(baseAttributeType: BaseAttributeType) -> Self
+	pub fn new(baseAttributeType: BaseAttributeType) -> Self
 	{
 		return Self
 		{
@@ -252,45 +252,6 @@ mod tests
 	}
 	
 	#[test]
-	fn test_BaseAttribute_newMentalAttributes()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseAttributeType::Intelligence, BaseAttribute::new(BaseAttributeType::Intelligence));
-		expected.insert(BaseAttributeType::Wits, BaseAttribute::new(BaseAttributeType::Wits));
-		expected.insert(BaseAttributeType::Resolve, BaseAttribute::new(BaseAttributeType::Resolve));
-		
-		let result = BaseAttribute::newMentalAttributes();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseAttribute_newPhysicalAttributes()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseAttributeType::Strength, BaseAttribute::new(BaseAttributeType::Strength));
-		expected.insert(BaseAttributeType::Dexterity, BaseAttribute::new(BaseAttributeType::Dexterity));
-		expected.insert(BaseAttributeType::Stamina, BaseAttribute::new(BaseAttributeType::Stamina));
-		
-		let result = BaseAttribute::newPhysicalAttributes();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseAttribute_newSocialAttributes()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseAttributeType::Composure, BaseAttribute::new(BaseAttributeType::Composure));
-		expected.insert(BaseAttributeType::Manipulation, BaseAttribute::new(BaseAttributeType::Manipulation));
-		expected.insert(BaseAttributeType::Presence, BaseAttribute::new(BaseAttributeType::Presence));
-		
-		let result = BaseAttribute::newSocialAttributes();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
 	fn test_BaseSkillType_getSkillName()
 	{
 		let pairs = HashMap::from([
@@ -344,60 +305,6 @@ mod tests
 		expected.insert(BaseSkillType::Weaponry, BaseSkill::new(BaseSkillType::Weaponry));
 		
 		let result = BaseSkill::newAllSkills();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseSkill_newMentalSkills()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseSkillType::Academics, BaseSkill { name: "Academics".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Computer, BaseSkill { name: "Computer".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Crafts, BaseSkill { name: "Crafts".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Investigation, BaseSkill { name: "Investigation".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Medicine, BaseSkill { name: "Medicine".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Occult, BaseSkill { name: "Occult".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Politics, BaseSkill { name: "Politics".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Science, BaseSkill { name: "Science".to_string(), ..Default::default() });
-		
-		let result = BaseSkill::newMentalSkills();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseSkill_newPhysicalSkills()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseSkillType::Athletics, BaseSkill { name: "Athletics".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Brawl, BaseSkill { name: "Brawl".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Drive, BaseSkill { name: "Drive".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Firearms, BaseSkill { name: "Firearms".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Larceny, BaseSkill { name: "Larceny".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Stealth, BaseSkill { name: "Stealth".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Survival, BaseSkill { name: "Survival".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Weaponry, BaseSkill { name: "Weaponry".to_string(), ..Default::default() });
-		
-		let result = BaseSkill::newPhysicalSkills();
-		
-		assert_eq!(expected, result);
-	}
-	
-	#[test]
-	fn test_BaseSkill_newSocialSkills()
-	{
-		let mut expected = HashMap::new();
-		expected.insert(BaseSkillType::AnimalKen, BaseSkill { name: "Animal Ken".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Empathy, BaseSkill { name: "Empathy".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Expression, BaseSkill { name: "Expression".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Intimidation, BaseSkill { name: "Intimidation".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Persuasion, BaseSkill { name: "Persuasion".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Socialize, BaseSkill { name: "Socialize".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Streetwise, BaseSkill { name: "Streetwise".to_string(), ..Default::default() });
-		expected.insert(BaseSkillType::Subterfuge, BaseSkill { name: "Subterfuge".to_string(), ..Default::default() });
-		
-		let result = BaseSkill::newSocialSkills();
 		
 		assert_eq!(expected, result);
 	}

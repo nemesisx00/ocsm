@@ -35,7 +35,12 @@ impl Default for TemplateAdvantages
 {
 	fn default() -> Self
 	{
-		Self { bloodPotency: 1, humanity: 7, vitae: Tracker::new(10), }
+		Self
+		{
+			bloodPotency: 1,
+			humanity: 7,
+			vitae: Tracker::new(10),
+		}
 	}
 }
 

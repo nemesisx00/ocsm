@@ -68,6 +68,7 @@ fn exitHandler<T>(cx: &Scope<T>)
 fn newSheetHandler<T>(cx: &Scope<T>)
 {
 	let sheet = Kindred::default();
+	sheet.validate();
 	sheet.push(cx);
 }
 
@@ -78,6 +79,7 @@ fn openSheetHandler<T>(cx: &Scope<T>)
 		Ok(data) =>
 		{
 			let sheet: Kindred = data;
+			sheet.validate();
 			sheet.push(&cx);
 		}
 		Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
@@ -88,6 +90,7 @@ fn saveSheetHandler<T>(cx: &Scope<T>)
 {
 	let mut sheet = Kindred::default();
 	sheet.pull(&cx);
+	sheet.validate();
 	match saveToFile(&"./test/Sheet.json".to_string(), &sheet)
 	{
 		Ok(json) => { println!("Saved to json file! {}", json); }

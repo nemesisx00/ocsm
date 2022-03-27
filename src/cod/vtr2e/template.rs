@@ -11,7 +11,7 @@ use serde::{
 use crate::{
 	core::template::StatefulTemplate,
 	cod::{
-		state::BaseCharacter,
+		character::BaseCharacter,
 		vtr2e::{
 			advantages::TemplateAdvantages,
 			details::Details,
@@ -34,6 +34,8 @@ use crate::{
 pub struct Kindred
 {
 	#[serde(default)]
+	pub advantages: TemplateAdvantages,
+	#[serde(default)]
 	pub baseCharacter: BaseCharacter,
 	#[serde(default)]
 	pub details: Details,
@@ -41,8 +43,6 @@ pub struct Kindred
 	pub disciplines: Vec<Discipline>,
 	#[serde(default)]
 	pub devotions: Vec<Devotion>,
-	#[serde(default)]
-	pub advantages: TemplateAdvantages,
 	#[serde(default)]
 	pub touchstones: Vec<String>,
 }
@@ -81,5 +81,10 @@ impl StatefulTemplate for Kindred
 		(*devotions.write()) = self.devotions.clone();
 		(*disciplines.write()) = self.disciplines.clone();
 		(*touchstones.write()) = self.touchstones.clone();
+	}
+	
+	fn validate(&mut self)
+	{
+		self.baseCharacter.validate();
 	}
 }
