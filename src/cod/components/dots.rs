@@ -6,11 +6,8 @@ use crate::core::components::check::CheckCircle;
 #[derive(Props)]
 pub struct DotsProps<T>
 {
-	max: usize,
+	pub max: usize,
 	pub value: usize,
-	
-	#[props(optional)]
-	dioxusKey: Option<usize>,
 	
 	#[props(optional)]
 	label: Option<String>,
@@ -31,11 +28,10 @@ impl<T> PartialEq for DotsProps<T>
 	{
 		let maxEq = self.max == other.max;
 		let valueEq = self.value == other.value;
-		let dioxusKeyEq = self.dioxusKey == other.dioxusKey;
 		let labelEq = self.label == other.label;
 		let classEq = self.class == other.class;
 		
-		return maxEq && valueEq && dioxusKeyEq && labelEq && classEq;
+		return maxEq && valueEq && labelEq && classEq;
 	}
 }
 
@@ -53,16 +49,9 @@ pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 		None => { "" }
 	};
 	
-	let dioxusKey = match &cx.props.dioxusKey
-	{
-		Some(dk) => { *dk }
-		None => { 10000 }
-	};
-	
 	return cx.render(rsx!{
 		div
 		{
-			key: "{dioxusKey}",
 			class: "{class}",
 			
 			div { class: "label", "{label}" }

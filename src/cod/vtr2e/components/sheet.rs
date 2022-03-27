@@ -14,6 +14,7 @@ use crate::{
 			}
 		},
 		vtr2e::{
+			advantages::bloodPotencyAttributeMax,
 			components::{
 				advantages::Advantages,
 				details::Details,
@@ -23,12 +24,17 @@ use crate::{
 				},
 				touchstones::Touchstones,
 			},
+			state::KindredAdvantages,
 		},
 	},
 };
 
 pub fn Sheet(cx: Scope) -> Element
 {
+	let advantages = use_atom_ref(&cx, KindredAdvantages);
+	let bloodPotency = advantages.read().bloodPotency;
+	let traitMax = bloodPotencyAttributeMax(bloodPotency);
+	
 	return cx.render(rsx!
 	{	
 		div
@@ -42,9 +48,9 @@ pub fn Sheet(cx: Scope) -> Element
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} Touchstones {} Experience {} }
 			hr { class: "row" }
-			div { class: "row", Attributes {} }
+			div { class: "row", Attributes { traitMax: traitMax } }
 			hr { class: "row" }
-			div { class: "row", Skills {} }
+			div { class: "row", Skills { traitMax: traitMax } }
 			hr { class: "row" }
 			div { class: "row", Disciplines {} SkillSpecialties {} Merits {} }
 			hr { class: "row" }

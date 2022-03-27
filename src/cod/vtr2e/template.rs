@@ -1,5 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use std::collections::HashMap;
 use dioxus::prelude::{
 	Scope,
 	use_atom_ref,
@@ -17,7 +18,7 @@ use crate::{
 			details::Details,
 			disciplines::{
 				Devotion,
-				Discipline,
+				DisciplineType,
 			},
 			state::{
 				KindredAdvantages,
@@ -40,7 +41,7 @@ pub struct Kindred
 	#[serde(default)]
 	pub details: Details,
 	#[serde(default)]
-	pub disciplines: Vec<Discipline>,
+	pub disciplines: HashMap<DisciplineType, usize>,
 	#[serde(default)]
 	pub devotions: Vec<Devotion>,
 	#[serde(default)]
@@ -64,11 +65,15 @@ impl StatefulTemplate for Kindred
 		self.devotions = devotions.read().clone();
 		self.disciplines = disciplines.read().clone();
 		self.touchstones = touchstones.read().clone();
+		
+		self.validate();
 	}
 	
-	fn push<T>(&self, cx: &Scope<T>)
+	fn push<T>(&mut self, cx: &Scope<T>)
 	{
 		self.baseCharacter.push(cx);
+		
+		self.validate();
 		
 		let advantages = use_atom_ref(cx, KindredAdvantages);
 		let details = use_atom_ref(cx, KindredDetails);
@@ -85,6 +90,6 @@ impl StatefulTemplate for Kindred
 	
 	fn validate(&mut self)
 	{
-		self.baseCharacter.validate();
+		//
 	}
 }

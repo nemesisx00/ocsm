@@ -24,7 +24,8 @@ use crate::cod::{
 	},
 };
 
-pub fn Attributes(cx: Scope) -> Element
+#[inline_props]
+pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 {
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let attributes = attributesRef.read();
@@ -53,7 +54,7 @@ pub fn Attributes(cx: Scope) -> Element
 						let attr = attributes.clone();
 						return match attr.get(at)
 						{
-							Some(attribute) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attribute.name.clone(), max: 5, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
+							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
 							None => { None }
 						};
 					})
@@ -67,7 +68,7 @@ pub fn Attributes(cx: Scope) -> Element
 						let attr = attributes.clone();
 						return match attr.get(at)
 						{
-							Some(attribute) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attribute.name.clone(), max: 5, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
+							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
 							None => { None }
 						};
 					})
@@ -81,7 +82,7 @@ pub fn Attributes(cx: Scope) -> Element
 						let attr = attributes.clone();
 						return match attr.get(at)
 						{
-							Some(attribute) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: attribute.name.clone(), max: 5, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
+							Some(attribute) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: attribute.name.clone(), max: *traitMax, value: attribute.value, handler: attributeHandler, handlerKey: *at }) }
 							None => { None }
 						};
 					})
@@ -99,7 +100,7 @@ fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usiz
 			let mut next = clickedValue;
 			
 			if clickedValue == cx.props.value { next -= 1; }
-			if next > 5 { next = 5; }
+			if next > cx.props.max { next = cx.props.max; }
 			if next < 1 { next = 1; }
 			
 			updateBaseAttribute(cx, attributeType, next);
@@ -110,7 +111,8 @@ fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usiz
 
 // -----
 
-pub fn Skills(cx: Scope) -> Element
+#[inline_props]
+pub fn Skills(cx: Scope, traitMax: usize) -> Element
 {
 	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let skills = skillsRef.read();
@@ -139,7 +141,7 @@ pub fn Skills(cx: Scope) -> Element
 						let ski = skills.clone();
 						return match ski.get(st)
 						{
-							Some(skill) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: skill.name.clone(), max: 5, value: skill.value, handler: skillHandler, handlerKey: *st }) }
+							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
 							None => { None }
 						};
 					})
@@ -153,7 +155,7 @@ pub fn Skills(cx: Scope) -> Element
 						let ski = skills.clone();
 						return match ski.get(st)
 						{
-							Some(skill) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: skill.name.clone(), max: 5, value: skill.value, handler: skillHandler, handlerKey: *st }) }
+							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
 							None => { None }
 						};
 					})
@@ -167,7 +169,7 @@ pub fn Skills(cx: Scope) -> Element
 						let ski = skills.clone();
 						return match ski.get(st)
 						{
-							Some(skill) => { rsx!(cx, Dots { dioxusKey: i, class: "dots row".to_string(), label: skill.name.clone(), max: 5, value: skill.value, handler: skillHandler, handlerKey: *st }) }
+							Some(skill) => { rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: skill.name.clone(), max: *traitMax, value: skill.value, handler: skillHandler, handlerKey: *st }) }
 							None => { None }
 						};
 					})
@@ -185,7 +187,7 @@ fn skillHandler(cx: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
 			let mut next = clickedValue;
 			
 			if clickedValue == cx.props.value { next -= 1; }
-			if next > 5 { next = 5; }
+			if next > cx.props.max { next = cx.props.max; }
 			
 			updateBaseSkill(cx, skillType, next);
 		},

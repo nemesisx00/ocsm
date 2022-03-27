@@ -1,26 +1,19 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
+use std::collections::HashMap;
 use serde::{
 	Deserialize,
 	Serialize,
 };
 use std::iter::Iterator;
+use strum::IntoEnumIterator;
 use strum_macros::{
 	AsRefStr,
 	EnumCount,
 	EnumIter
 };
 
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Discipline
-{
-	#[serde(default)]
-	pub name: String,
-	#[serde(default)]
-	pub value: usize,
-}
-
-#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
 	Animalism,
@@ -33,6 +26,19 @@ pub enum DisciplineType
 	Protean,
 	Resilience,
 	Vigor,
+}
+
+impl DisciplineType
+{
+	pub fn asMap() -> HashMap<String, DisciplineType>
+	{
+		let mut map = HashMap::<String, DisciplineType>::new();
+		for dt in DisciplineType::iter()
+		{
+			map.insert(dt.as_ref().to_string(), dt);
+		}
+		return map;
+	}
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]

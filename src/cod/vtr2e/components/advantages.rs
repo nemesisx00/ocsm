@@ -48,25 +48,25 @@ pub fn Advantages(cx: Scope) -> Element
 	
 	let size = advantages.size;
 	
-	match disciplines.iter().filter(|d| d.name.as_str() == DisciplineType::Resilience.as_ref()).next()
+	match disciplines.get(&DisciplineType::Resilience)
 	{
 		Some(resilience) =>
 		{
-			if resilience.value > 0
+			if resilience > &0
 			{
-				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value + resilience.value);
+				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina].value + resilience);
 			}
 		}
 		None => {}
 	}
 	
-	match disciplines.iter().filter(|d| d.name.as_str() == DisciplineType::Vigor.as_ref()).next()
+	match disciplines.get(&DisciplineType::Vigor)
 	{
 		Some(vigor) =>
 		{
-			if vigor.value > 0
+			if vigor > &0
 			{
-				advantages.speed = size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value + vigor.value;
+				advantages.speed = size + attributes[&BaseAttributeType::Dexterity].value + attributes[&BaseAttributeType::Strength].value + vigor;
 			}
 		}
 		None => {}

@@ -12,10 +12,9 @@ use crate::cod::{
 	},
 	vtr2e::{
 		disciplines::{
-			Discipline,
-			DisciplineType,
 			Devotion,
 			DevotionField,
+			DisciplineType,
 		},
 		state::{
 			KindredDisciplines,
@@ -24,15 +23,13 @@ use crate::cod::{
 	}
 };
 
-const DefaultLastIndex: usize = 1000;
-
 pub fn Disciplines(cx: Scope) -> Element
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let disciplines = disciplinesRef.read();
 	
-	let lastIndex = use_state(&cx, || DefaultLastIndex);
-	let showRemove = lastIndex.get() < &disciplines.len();
+	let showRemove = use_state(&cx, || false);
+	let lastType = use_state(&cx, || 0);
 	
 	let mut optionNames = Vec::<String>::new();
 	for dt in DisciplineType::iter()
@@ -52,14 +49,18 @@ pub fn Disciplines(cx: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				disciplines.iter().enumerate().map(|(i, d)| rsx!(cx, div
+				disciplines.iter().enumerate().map(|(i, (dt, value))|
 				{
-					class: "entry row",
-					oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); },
-					prevent_default: "oncontextmenu",
-					
-					Dots { class: "row".to_string(), key: "{i}", label: d.name.clone(), max: 5, value: d.value, handler: dotsHandler, handlerKey: i }
-				}))
+					let name = dt.as_ref().to_string();
+					rsx!(cx, div
+					{
+						class: "entry row",
+						oncontextmenu: move |e| { e.cancel_bubble(); lastType.set(i); showRemove.set(true); },
+						prevent_default: "oncontextmenu",
+						
+						Dots { class: "row".to_string(), key: "{i}", label: name.clone(), max: 5, value: *value, handler: dotsHandler, handlerKey: *dt }
+					})
+				})
 				
 				div
 				{
@@ -94,8 +95,8 @@ pub fn Disciplines(cx: Scope) -> Element
 						{
 							class: "row",
 							
-							button { onclick: move |e| { e.cancel_bubble(); removeDisciplineClickHandler(&cx, *(lastIndex.get())); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Remove" }
-							button { onclick: move |e| { e.cancel_bubble(); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Cancel" }
+							button { onclick: move |e| { e.cancel_bubble(); removeDisciplineClickHandler(&cx, *(lastType.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
 						}
 					}
 				}
@@ -104,14 +105,21 @@ pub fn Disciplines(cx: Scope) -> Element
 	});
 }
 
-fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
 	
 	match &cx.props.handlerKey
 	{
-		Some(index) => { disciplines[*index].value = clickedValue; }
+		Some(disciplineType) =>
+		{
+			match disciplines.get_mut(disciplineType)
+			{
+				Some(discipline) => { *discipline = clickedValue; }
+				None => {}
+			}
+		}
 		None => {}
 	}
 }
@@ -121,9 +129,10 @@ fn removeDisciplineClickHandler(cx: &Scope, index: usize)
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
 	
-	if index < disciplines.len()
+	match disciplines.clone().iter().enumerate().filter(|(i, _)| *i == index).next()
 	{
-		disciplines.remove(index);
+		Some((_, (dt, _))) => { disciplines.remove(dt); }
+		None => {}
 	}
 }
 
@@ -132,10 +141,19 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
 	
-	match disciplines.iter().filter(|d| d.name == e.value.clone()).next()
+	let disciplineType = e.value.to_string();
+	
+	match DisciplineType::asMap().iter().filter(|(name, _)| *name == &disciplineType).next()
 	{
-		Some(_) => {}
-		None => { disciplines.push(Discipline { name: e.value.clone(), ..Default::default() }); }
+		Some((_, dt)) =>
+		{
+			match disciplines.get(dt)
+			{
+				Some(_) => {}
+				None => { disciplines.insert(*dt, 0); }
+			}
+		}
+		None => {}
 	}
 }
 
@@ -146,8 +164,8 @@ pub fn Devotions(cx: Scope) -> Element
 	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
 	let devotions = devotionsRef.read();
 	
-	let lastIndex = use_state(&cx, || DefaultLastIndex);
-	let showRemove = lastIndex.get() < &devotions.len();
+	let showRemove = use_state(&cx, || false);
+	let lastIndex = use_state(&cx, || 0);
 	
 	return cx.render(rsx!
 	{
@@ -172,9 +190,9 @@ pub fn Devotions(cx: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Name:" }
-						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Name),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.name}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Name),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Cost:" }
-						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Cost),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.cost}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Cost),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 					}
 					
 					div
@@ -182,9 +200,9 @@ pub fn Devotions(cx: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Dice Pool:" }
-						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::DicePool),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.dicePool}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::DicePool),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Action:" }
-						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Action),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.action}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Action),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 					}
 					
 					div
@@ -192,9 +210,9 @@ pub fn Devotions(cx: Scope) -> Element
 						class: "row",
 						
 						div { class: "label first", "Requirements:" }
-						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.disciplines}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Disciplines),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 						div { class: "label second", "Duration:" }
-						input { r#type: "text", value: "{dev.duration}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Duration),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); }, prevent_default: "oncontextmenu" }
+						input { r#type: "text", value: "{dev.duration}", onchange: move |e| inputHandler(e, &cx, Some(i), DevotionField::Duration),  oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
 					}
 				}))
 				
@@ -222,8 +240,8 @@ pub fn Devotions(cx: Scope) -> Element
 						{
 							class: "row",
 							
-							button { onclick: move |e| { e.cancel_bubble(); removeDevotionClickHandler(&cx, *(lastIndex.get())); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Remove" }
-							button { onclick: move |e| { e.cancel_bubble(); lastIndex.set(DefaultLastIndex); }, prevent_default: "onclick", "Cancel" }
+							button { onclick: move |e| { e.cancel_bubble(); removeDevotionClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
 						}
 					}
 				}
