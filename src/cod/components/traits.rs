@@ -127,7 +127,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -137,7 +137,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -147,7 +147,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: st.as_ref().to_string(), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}
