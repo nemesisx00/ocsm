@@ -23,11 +23,19 @@ fn main()
 		firstArg = "-c";
 	}
 	
-	let output = Command::new(program)
-		.args(&[firstArg, "stylus --compress ./stylus --out ./static/app.css"])
+	let stylusOutput = Command::new(program)
+		.args(&[firstArg, "cargo script stylus"])
+		.output()
+		.expect("Failed to execute Stylus script");
+	
+	stdout().write_all(&stylusOutput.stdout).unwrap();
+	stderr().write_all(&stylusOutput.stderr).unwrap();
+	
+	let cargoOutput = Command::new(program)
+		.args(&[firstArg, "cargo run"])
 		.output()
 		.expect("Failed to execute Stylus CSS Preprocessor");
 	
-	stdout().write_all(&output.stdout).unwrap();
-	stderr().write_all(&output.stderr).unwrap();
+	stdout().write_all(&cargoOutput.stdout).unwrap();
+	stderr().write_all(&cargoOutput.stderr).unwrap();
 }
