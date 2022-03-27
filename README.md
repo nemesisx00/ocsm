@@ -103,13 +103,13 @@ It also can facilitate sharing characters, either between players or to keep you
 
 This application is not intended to be a replacement for game system source books. It's a **Character Sheet** manager, not a game system manager. You will need to enter all the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields.
 
-## Why a character sheet manager?
+## Why a Character Sheet Manager?
 
 In my experience, finding a high quality digital character sheet, regardless of format, for any game system is very difficult. Especially if you're looking for a free option. If you are lucky enough to find one for your chosen game system, most of the time they end up being PDFs which, while they can be of exceedingly high visual quality, suffer from the fact that interactive PDFs are clunky at the best of times. Not to mention that PDF is one of the least portable document formats in existence...
 
 Since online communication tools like Discord, among many others, provide access to a much wider range of available games and players, I am very interested in digital resources for supporting this style of playing TTRPGs. I am also a huge proponent of free, open source software. So I thought, why not bring those two things together to make something that people can actually *use*?
 
-## Okay, but... ...why?
+## Okay, But... ...Why?
 
 First, and foremost, this was a learning opportunity for me. I wanted a project that would push me to explore [Rust](https://www.rust-lang.org/) in greater detail. I am fascinated by the language: its focus on error prevention via strict adherence to deterministic syntax and type safety, built-in code tests, eschewing inheritance altogether, and, perhaps most importantly, its incredibly helpful compiler error messages!
 
