@@ -2,6 +2,17 @@
 
 Open Character Sheet Manager (OCSM) is an open source cross-platform desktop application for conveniently managing TableTop RolePlaying Game (TTRPG) character sheets for a wide variety of game systems.
 
+## Table of Contents
+
+[Getting Started](https://github.com/nemesisx00/ocsm#getting-started)
+	- [Requirements](https://github.com/nemesisx00/ocsm#requirements)
+	- [Compiling, Running, and Testing](https://github.com/nemesisx00/ocsm#compiling-running-and-testing)
+[What is OCSM?](https://github.com/nemesisx00/ocsm#what-is-ocsm)
+[What OCSM is Not](https://github.com/nemesisx00/ocsm#what-ocsm-is-not)
+[Why a character sheet manager?](https://github.com/nemesisx00/ocsm#why-a-character-sheet-manager)
+[Okay, but... ...why?](https://github.com/nemesisx00/ocsm#okay-but-why)
+[Coding Style](https://github.com/nemesisx00/ocsm#coding-style)
+
 ## Supported and Planned Game Systems
 
 - Chronicles of Darkness
@@ -21,7 +32,7 @@ OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). The [Diox
 
 OCSM isn't ready for release as an installable application just yet but you are more than welcome to try it out while I continue to work towards reaching version 1.0.0! Currently, the best way to do that is to compile it yourself. This process is relatively simple but it does require some tools to be installed beforehand.
 
-### Requirements
+#### Requirements
 
 - [Rust](https://www.rust-lang.org/)
 - [Node.js](https://nodejs.org)
@@ -35,7 +46,7 @@ There are a few utilities that are not strictly required but can make your life 
 - [cargo-edit](https://github.com/killercup/cargo-edit)
 - [cargo-script](https://github.com/DanielKeep/cargo-script)
 
-### Compiling and Running
+#### Compiling, Running, and Testing
 
 Now that you've got all the tools you'll need, you'll need to get the source code. The easiest way is to use git to clone the main branch. There are way too many implementations of git, both GUI and CLI, out there to list here but I'm sure you can find one that works for you.
 
@@ -100,7 +111,7 @@ In searching for GUI libraries, I happened upon [Tauri](https://tauri.studio) an
 
 Another search lead me to discovering [Dioxus](https://dioxuslabs.com/) which provided most of the same functionality I was already getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://www.rust-lang.org/) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
 
-## Code Style
+## Coding Style
 
 For people familiar with [Rust](https://www.rust-lang.org/), a brief glance at the source code will reveal that I'm not sticking very close to the idiomatic [Rust](https://www.rust-lang.org/) coding style. While it is primarily about maintaining readability, coding style is also one of the few ways in which software developers can express themselves directly in their work. So I take issue with languages that try to proscribe any specific coding style, such as adding default compiler warnings when you don't use snake_case...
 
