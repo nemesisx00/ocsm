@@ -56,11 +56,11 @@ OCSM isn't ready for release as an installable application just yet but you are 
 - [Rust](https://www.rust-lang.org/)
 - [Node.js](https://nodejs.org)
 
-You may be surprised to see [Node.js](https://nodejs.org) in the list, considering this is primarily a [Rust](https://www.rust-lang.org/) application. But managing CSS files can be a very verbose ordeal and a CSS Preprocessor like [Stylus](https://stylus-lang.com/) makes it so much easier. NPM is used to manage the installation of [Stylus](https://stylus-lang.com/).
+You may be surprised to see [Node.js](https://nodejs.org) in the list, considering this is primarily a [Rust](https://www.rust-lang.org/) application. But managing CSS files can be a very verbose ordeal and a CSS Preprocessor like [Stylus](https://stylus-lang.com/) makes it so much easier. [NPM](https://www.npmjs.com) is used to manage the installation of [Stylus](https://stylus-lang.com/).
 
 #### Helpful Utilities
 
-There are a few utilities that are not strictly required but can make your life a lot easier and I recommend checking them out:
+There are a few utilities which are not strictly required but can make your life a lot easier and I recommend checking them out:
 
 - [cargo-edit](https://github.com/killercup/cargo-edit)
 - [cargo-script](https://github.com/DanielKeep/cargo-script)
@@ -74,12 +74,12 @@ Now you're ready to compile! Well, almost. Start by opening your preferred comma
 npm install
 ```
 
-Ok, now you're *really* ready to compile! [Stylus](https://stylus-lang.com/) is run automatically so go ahead and build the project:
+Ok, now you're *really* ready to compile! [Stylus](https://stylus-lang.com/) is scripted to run automatically so go ahead and build the project with this command:
 ```
 cargo build
 ```
 
-You can also build and automatically run the application in one step:
+You can also build and run the application in one step:
 ```
 cargo run
 ```
@@ -97,7 +97,7 @@ First, and foremost, this was a learning opportunity for me. I wanted a project 
 
 In searching for GUI libraries, I happened upon [Tauri](https://tauri.studio) and my interest in writing a WebView2 desktop application was piqued. While that original version of the project, using [React](https://reactjs.org) to build the frontend, was absolutely functional, I was disappointed with the fact that more than 80% of the project was written in JavaScript rather than [Rust](https://www.rust-lang.org/), my primary focus.
 
-Another search lead me to discovering [Dioxus](https://dioxuslabs.com/) which provided most of the same functionality I was already getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://www.rust-lang.org/) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
+More searching lead me to discover [Dioxus](https://dioxuslabs.com/) which provides most of the same functionality I was getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://www.rust-lang.org/) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
 
 ## Coding Style
 
