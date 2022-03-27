@@ -53,7 +53,10 @@ There are a few utilities that are not strictly required but can make your life 
 
 Now that you've got all the tools you'll need, the next step is to acquire the source code. The easiest way is to use git to clone this repository directly. If you're not sure how to do that, GitHub has provided very detailed instructions here: [Cloning a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigate to the project directory. Run `npm install` to download and install [Stylus](https://stylus-lang.com/).
+Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigate to the project directory. Download and install [Stylus](https://stylus-lang.com/) by running:
+```
+npm install
+```
 
 Ok, now you're *really* ready to compile! The first step is running [Stylus](https://stylus-lang.com/) to generate the CSS:
 ```
