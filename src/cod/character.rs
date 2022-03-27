@@ -96,10 +96,14 @@ impl StatefulTemplate for BaseCharacter
 		self.merits = merits.read().clone();
 		self.skills = skills.read().clone();
 		self.specialties = specialties.read().clone();
+		
+		self.validate();
 	}
 	
-	fn push<T>(&self, cx: &Scope<T>)
+	fn push<T>(&mut self, cx: &Scope<T>)
 	{
+		self.validate();
+		
 		let advantages = use_atom_ref(cx, CharacterAdvantages);
 		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);

@@ -8,7 +8,7 @@ pub trait StatefulTemplate
 	fn pull<T>(&mut self, cx: &Scope<T>);
 	
 	/// Push this template up into the global state.
-	fn push<T>(&self, cx: &Scope<T>);
+	fn push<T>(&mut self, cx: &Scope<T>);
 	
 	/// Detect and resolve any internal data errors.
 	fn validate(&mut self);
