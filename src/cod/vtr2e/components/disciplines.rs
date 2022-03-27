@@ -143,9 +143,9 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 	
 	let disciplineType = e.value.to_string();
 	
-	match DisciplineType::asMap().iter().filter(|(name, _)| *name == &disciplineType).next()
+	match DisciplineType::asMap().iter().filter(|(_, name)| *name == &disciplineType).next()
 	{
-		Some((_, dt)) =>
+		Some((dt, _)) =>
 		{
 			match disciplines.get(dt)
 			{

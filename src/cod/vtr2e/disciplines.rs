@@ -1,6 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use serde::{
 	Deserialize,
 	Serialize,
@@ -30,12 +30,12 @@ pub enum DisciplineType
 
 impl DisciplineType
 {
-	pub fn asMap() -> HashMap<String, DisciplineType>
+	pub fn asMap() -> BTreeMap<DisciplineType, String>
 	{
-		let mut map = HashMap::<String, DisciplineType>::new();
+		let mut map = BTreeMap::<DisciplineType, String>::new();
 		for dt in DisciplineType::iter()
 		{
-			map.insert(dt.as_ref().to_string(), dt);
+			map.insert(dt, dt.as_ref().to_string());
 		}
 		return map;
 	}
