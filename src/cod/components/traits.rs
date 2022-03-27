@@ -49,7 +49,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Mental" }
 					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
@@ -59,7 +59,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Physical" }
 					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
@@ -69,7 +69,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Social" }
 					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
@@ -124,7 +124,8 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Mental" }
+					div { class: "row unskilled", "(-3 unskilled)" }
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
@@ -134,7 +135,8 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Physical" }
+					div { class: "row unskilled", "(-1 unskilled)" }
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
@@ -144,7 +146,8 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 				div
 				{
 					class: "column",
-					
+					div { class: "row traitCategory", "Social" }
+					div { class: "row unskilled", "(-1 unskilled)" }
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
 						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
