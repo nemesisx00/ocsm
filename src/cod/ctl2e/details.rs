@@ -13,7 +13,17 @@ use strum_macros::{
 	EnumIter
 };
 
-#[allow(dead_code)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+pub enum Seeming
+{
+	Beast,
+	Darkling,
+	Elemental,
+	Fairest,
+	Ogre,
+	Wizened,
+}
+
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum DetailType
 {
