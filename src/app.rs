@@ -99,15 +99,6 @@ pub fn App(cx: Scope) -> Element
 		None => {}
 	}
 	
-	//TODO: Look into if this is possible
-	/*
-	type Template = match currentGameSystem
-	{
-		GameSystem::CodChangeling2e => { println!("Should be Changling"); return Changeling; }
-		GameSystem::CodVampire2e => { println!("Should be Vampire"); return Vampire; }
-	};
-	*/
-	
 	return cx.render(rsx!
 	{
 		style { [include_str!("../static/app.css")] }
@@ -126,13 +117,16 @@ pub fn App(cx: Scope) -> Element
 					label: "File".to_string(),
 					
 					Menu { child: true, label: "New".to_string(), sheets.iter().map(|(_, l)| rsx!(cx, MenuItem { label: l.clone(), handler: newSheetHandler })) }
-					show[&GameSystem::CodChangeling2e].then(|| rsx! { MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Changeling> } })
-					show[&GameSystem::CodVampire2e].then(|| rsx! { MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Vampire> } })
-					//MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Template> }
-					Menu {  child: true, label: "Recent Characters".to_string(), MenuItem { label: "Character 1".to_string() }, MenuItem { label: "Character 2".to_string() } }
-					show[&GameSystem::CodChangeling2e].then(|| rsx! { MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Changeling> } })
-					show[&GameSystem::CodVampire2e].then(|| rsx! { MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Vampire> } })
-					//MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Template> }
+					show[&GameSystem::CodChangeling2e].then(|| rsx!
+					{
+						MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Changeling> }
+						MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Changeling> }
+					})
+					show[&GameSystem::CodVampire2e].then(|| rsx!
+					{
+						MenuItem { label: "Open".to_string(), handler: openSheetHandler::<Vampire> }
+						MenuItem { label: "Save".to_string(), handler: saveSheetHandler::<Vampire> }
+					})
 					MenuItem { label: "Exit".to_string(), handler: exitHandler }
 				}
 			}
