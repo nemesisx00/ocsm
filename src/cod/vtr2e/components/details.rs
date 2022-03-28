@@ -38,8 +38,6 @@ pub fn Details(cx: Scope) -> Element
 		clans.push(c.as_ref().to_string());
 	}
 	
-	//let size: String = format!("{}", advantages.read().size);
-	
 	return cx.render(rsx!
 	{
 		div
