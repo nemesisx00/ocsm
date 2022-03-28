@@ -14,18 +14,24 @@ use crate::{
 			}
 		},
 		ctl2e::{
+			advantages::wyrdTraitMax,
 			components::{
+				advantages::Advantages,
 				details::Details,
 			},
+			state::{
+				ChangelingAdvantages,
+				updateTemplateAdvantage,
+			}
 		},
 	},
 };
 
 pub fn ChangelingSheet(cx: Scope) -> Element
 {
-	//let advantages = use_atom_ref(&cx, ChangelingAdvantages);
+	let advantages = use_atom_ref(&cx, ChangelingAdvantages);
 	//let wyrd = advantages.read().wyrd;
-	let traitMax = 5;//bloodPotencyAttributeMax(bloodPotency);
+	let traitMax = wyrdTraitMax(advantages.read().wyrd);
 	
 	return cx.render(rsx!
 	{	
@@ -36,7 +42,7 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 			h1 { "Changeling: The Lost" }
 			h3 { "Second Edition" }
 			hr { class: "row" }
-			div { class: "row", Details {} /*Advantages {}*/ }
+			div { class: "row", Details {} Advantages {} }
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} /*Touchstones {}*/ Experience {} }
 			hr { class: "row" }

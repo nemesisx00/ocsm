@@ -7,16 +7,20 @@ use crate::{
 		state::updateTrackerState_SingleState,
 		tracks::TrackerState,
 		ctl2e::{
+			advantages::{
+				TemplateAdvantages,
+				TemplateAdvantageType,
+				wyrdGlamourMax,
+			},
 			details::DetailType,
 		},
 	},
 };
 
-//pub static ChangelingAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
+pub static ChangelingAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
 pub static ChangelingDetails: AtomRef<BTreeMap<DetailType, String>> = |_| DetailType::asMap();
 //pub static ChangelingTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
-/*
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
 	let templateRef = use_atom_ref(&cx, ChangelingAdvantages);
@@ -24,17 +28,16 @@ pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageTyp
 	
 	match advantage
 	{
-		TemplateAdvantageType::BloodPotency =>
+		TemplateAdvantageType::Wyrd =>
 		{
-			template.bloodPotency = value;
-			template.vitae.updateMax(bloodPotencyVitaeMax(value));
+			template.wyrd = value;
+			template.glamour.updateMax(wyrdGlamourMax(value));
 		}
 		
-		TemplateAdvantageType::Humanity => { template.humanity = value; }
-		TemplateAdvantageType::Vitae => { template.vitae.updateMax(value); }
+		TemplateAdvantageType::Clarity => { template.clarity = value; }
+		TemplateAdvantageType::Glamour => { template.glamour.updateMax(value); }
 	}
 }
-*/
 
 pub fn updateDetail<T>(cx: &Scope<T>, detailType: DetailType, value: String)
 {
@@ -48,12 +51,10 @@ pub fn updateDetail<T>(cx: &Scope<T>, detailType: DetailType, value: String)
 	}
 }
 
-/*
-pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
+pub fn updateGlamour<T>(cx: &Scope<T>, index: usize)
 {
 	let templateRef = use_atom_ref(&cx, ChangelingAdvantages);
 	let mut template = templateRef.write();
 	
-	updateTrackerState_SingleState(&mut template.vitae, index, TrackerState::Two, false);
+	updateTrackerState_SingleState(&mut template.glamour, index, TrackerState::Two, false);
 }
-*/
