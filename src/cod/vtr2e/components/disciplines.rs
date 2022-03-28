@@ -5,22 +5,28 @@ use dioxus::{
 	events::FormEvent
 };
 use strum::IntoEnumIterator;
-use crate::cod::{
-	components::dots::{
-		Dots,
-		DotsProps,
-	},
-	vtr2e::{
-		disciplines::{
-			Devotion,
-			DevotionField,
-			DisciplineType,
+use crate::{
+	cod::{
+		components::dots::{
+			Dots,
+			DotsProps,
 		},
-		state::{
-			KindredDisciplines,
-			KindredDevotions,
-		}
-	}
+		vtr2e::{
+			disciplines::{
+				Devotion,
+				DevotionField,
+				DisciplineType,
+			},
+			state::{
+				KindredDisciplines,
+				KindredDevotions,
+			}
+		},
+	},
+	core::util::{
+		RemovePopUpXOffset,
+		RemovePopUpYOffset,
+	},
 };
 
 pub fn Disciplines(cx: Scope) -> Element
@@ -28,8 +34,13 @@ pub fn Disciplines(cx: Scope) -> Element
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let disciplines = disciplinesRef.read();
 	
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
+	let lastIndex = use_state(&cx, || 0);
 	let showRemove = use_state(&cx, || false);
-	let lastType = use_state(&cx, || 0);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
 	
 	let mut optionNames = Vec::<String>::new();
 	for dt in DisciplineType::iter()
@@ -55,7 +66,14 @@ pub fn Disciplines(cx: Scope) -> Element
 					rsx!(cx, div
 					{
 						class: "entry row",
-						oncontextmenu: move |e| { e.cancel_bubble(); lastType.set(i); showRemove.set(true); },
+						oncontextmenu: move |e|
+						{
+							e.cancel_bubble();
+							clickedX.set(e.data.client_x);
+							clickedY.set(e.data.client_y);
+							lastIndex.set(i);
+							showRemove.set(true);
+						},
 						prevent_default: "oncontextmenu",
 						
 						Dots { class: "row".to_string(), key: "{i}", label: name.clone(), max: 5, value: *value, handler: dotsHandler, handlerKey: *dt }
@@ -80,11 +98,12 @@ pub fn Disciplines(cx: Scope) -> Element
 			
 			showRemove.then(|| rsx!
 			{
-				div { class: "removePopUpOverlay column" }
-				
 				div
 				{
 					class: "removePopUpWrapper column",
+					style: "left: {posX}px; top: {posY}px;",
+					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
+					prevent_default: "onclick",
 					
 					div
 					{
@@ -95,7 +114,7 @@ pub fn Disciplines(cx: Scope) -> Element
 						{
 							class: "row",
 							
-							button { onclick: move |e| { e.cancel_bubble(); removeDisciplineClickHandler(&cx, *(lastType.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); removeDisciplineClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
 						}
 					}

@@ -4,15 +4,26 @@ use dioxus::{
 	events::FormEvent,
 	prelude::*,
 };
-use crate::cod::state::CharacterAspirations;
+use crate::{
+	cod::state::CharacterAspirations,
+	core::util::{
+		RemovePopUpXOffset,
+		RemovePopUpYOffset,
+	},
+};
 
 pub fn Aspirations(cx: Scope) -> Element
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let aspirations = aspirationsRef.read();
 	
-	let showRemove = use_state(&cx, || false);
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
 	let lastIndex = use_state(&cx, || 0);
+	let showRemove = use_state(&cx, || false);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
 	
 	return cx.render(rsx!
 	{
@@ -31,7 +42,31 @@ pub fn Aspirations(cx: Scope) -> Element
 					{
 						class: "row",
 						key: "{i}",
-						input { r#type: "text", value: "{aspiration}", onchange: move |e| aspirationHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble(); lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
+						oncontextmenu: move |e|
+						{
+							e.cancel_bubble();
+							clickedX.set(e.data.client_x);
+							clickedY.set(e.data.client_y);
+							lastIndex.set(i);
+							showRemove.set(true);
+						},
+						prevent_default: "oncontextmenu",
+						
+						input
+						{
+							r#type: "text",
+							value: "{aspiration}",
+							onchange: move |e| aspirationHandler(e, &cx, Some(i)),
+							oncontextmenu: move |e|
+							{
+								e.cancel_bubble();
+								clickedX.set(e.data.client_x);
+								clickedY.set(e.data.client_y);
+								lastIndex.set(i);
+								showRemove.set(true);
+							},
+							prevent_default: "oncontextmenu"
+						}
 					})
 				})
 				
@@ -42,11 +77,12 @@ pub fn Aspirations(cx: Scope) -> Element
 				}
 				
 				showRemove.then(|| rsx!{
-					div { class: "removePopUpOverlay column" }
-					
 					div
 					{
 						class: "removePopUpWrapper column",
+						style: "left: {posX}px; top: {posY}px;",
+						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
+						prevent_default: "onclick",
 						
 						div
 						{

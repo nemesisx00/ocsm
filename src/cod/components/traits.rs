@@ -4,23 +4,29 @@ use dioxus::{
 	events::FormEvent,
 	prelude::*,
 };
-use crate::cod::{
-	components::{
-		dots::{
-			Dots,
-			DotsProps,
+use crate::{
+	cod::{
+		components::{
+			dots::{
+				Dots,
+				DotsProps,
+			},
+		},
+		traits::{
+			BaseAttributeType,
+			BaseSkillType,
+		},
+		state::{
+			CharacterAttributes,
+			CharacterSkills,
+			CharacterSpecialties,
+			updateBaseAttribute,
+			updateBaseSkill,
 		},
 	},
-	traits::{
-		BaseAttributeType,
-		BaseSkillType,
-	},
-	state::{
-		CharacterAttributes,
-		CharacterSkills,
-		CharacterSpecialties,
-		updateBaseAttribute,
-		updateBaseSkill,
+	core::util::{
+		RemovePopUpXOffset,
+		RemovePopUpYOffset,
 	},
 };
 
@@ -181,8 +187,13 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let specialties = specialtiesRef.read();
 	
-	let showRemove = use_state(&cx, || false);
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
 	let lastIndex = use_state(&cx, || 0);
+	let showRemove = use_state(&cx, || false);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
 	
 	return cx.render(rsx!
 	{
@@ -201,7 +212,31 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 					{
 						class: "row",
 						key: "{i}",
-						input { r#type: "text", value: "{specialty}", onchange: move |e| skillSpecialtyHandler(e, &cx, Some(i)), oncontextmenu: move |e| { e.cancel_bubble();  lastIndex.set(i); showRemove.set(true); }, prevent_default: "oncontextmenu" }
+						oncontextmenu: move |e|
+						{
+							e.cancel_bubble();
+							clickedX.set(e.data.client_x);
+							clickedY.set(e.data.client_y);
+							lastIndex.set(i);
+							showRemove.set(true);
+						},
+						prevent_default: "oncontextmenu",
+						
+						input
+						{
+							r#type: "text",
+							value: "{specialty}",
+							onchange: move |e| skillSpecialtyHandler(e, &cx, Some(i)),
+							oncontextmenu: move |e|
+							{
+								e.cancel_bubble();
+								clickedX.set(e.data.client_x);
+								clickedY.set(e.data.client_y);
+								lastIndex.set(i);
+								showRemove.set(true);
+							},
+							prevent_default: "oncontextmenu"
+						}
 					})
 				})
 				
@@ -212,11 +247,12 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 				}
 					
 				showRemove.then(|| rsx!{
-					div { class: "removePopUpOverlay column" }
-					
 					div
 					{
 						class: "removePopUpWrapper column",
+						style: "left: {posX}px; top: {posY}px;",
+						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
+						prevent_default: "onclick",
 						
 						div
 						{

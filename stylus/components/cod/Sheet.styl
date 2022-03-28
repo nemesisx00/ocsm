@@ -12,20 +12,9 @@
 		&.thin
 			margin 5px auto
 	
-	& .removePopUpOverlay
-		fixed(0, 0)
-		background-color backgroundColor
-		height 100vh
-		justify-content center !important
-		opacity 0.75
-		width 100vw
-		z-index 10000
-	
 	& .removePopUpWrapper
-		fixed(0, 0)
-		height 100vh
+		position fixed
 		justify-content center !important
-		width 100vw
 		z-index 10000
 	
 		& .removePopUp
@@ -33,9 +22,9 @@
 			background-color bodyBackgroundColor
 			border 1px solid menuBorderColor
 			border-radius borderRadius
-			margin 0 auto
+			height 100px
 			justify-content center !important
-			padding 50px
+			padding 0 15px
 			
 			& .row
 				margin 10px 0
