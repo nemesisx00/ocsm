@@ -4,6 +4,8 @@ use std::collections::BTreeMap;
 use dioxus::prelude::{
 	Scope,
 	use_atom_ref,
+	use_read,
+	use_set,
 };
 use serde::{
 	Serialize,
@@ -15,9 +17,19 @@ use crate::{
 	cod::{
 		character::BaseCharacter,
 		ctl2e::{
+			advantages::TemplateAdvantages,
 			details::DetailType,
+			regalia::{
+				Contract,
+				Regalia,
+			},
 			state::{
+				ChangelingAdvantages,
+				ChangelingContracts,
 				ChangelingDetails,
+				ChangelingFavoredRegalia,
+				ChangelingFrailties,
+				ChangelingTouchstones,
 			},
 		},
 	},
@@ -26,18 +38,20 @@ use crate::{
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Changeling
 {
-	/*
 	#[serde(default)]
 	pub advantages: TemplateAdvantages,
-	*/
 	#[serde(default)]
 	pub baseCharacter: BaseCharacter,
 	#[serde(default)]
+	pub contracts: Vec<Contract>,
+	#[serde(default)]
 	pub details: BTreeMap<DetailType, String>,
-	/*
+	#[serde(default)]
+	pub favoredRegalia: Option<Regalia>,
+	#[serde(default)]
+	pub frailties: Vec<String>,
 	#[serde(default)]
 	pub touchstones: Vec<String>,
-	*/
 }
 
 impl StatefulTemplate for Changeling
@@ -46,13 +60,19 @@ impl StatefulTemplate for Changeling
 	{
 		self.baseCharacter.pull(cx);
 		
-		//let advantages = use_atom_ref(cx, ChangelingAdvantages);
+		let advantages = use_atom_ref(cx, ChangelingAdvantages);
+		let contracts = use_atom_ref(cx, ChangelingContracts);
 		let details = use_atom_ref(cx, ChangelingDetails);
-		//let touchstones = use_atom_ref(cx, ChangelingTouchstones);
+		let favoredRegalia = use_read(cx, ChangelingFavoredRegalia);
+		let frailties = use_atom_ref(cx, ChangelingFrailties);
+		let touchstones = use_atom_ref(cx, ChangelingTouchstones);
 		
-		//self.advantages = advantages.read().clone();
+		self.advantages = advantages.read().clone();
+		self.contracts = contracts.read().clone();
 		self.details = details.read().clone();
-		//self.touchstones = touchstones.read().clone();
+		self.favoredRegalia = favoredRegalia.clone();
+		self.frailties = frailties.read().clone();
+		self.touchstones = touchstones.read().clone();
 		
 		self.validate();
 	}
@@ -63,13 +83,19 @@ impl StatefulTemplate for Changeling
 		
 		self.validate();
 		
-		//let advantages = use_atom_ref(cx, ChangelingAdvantages);
+		let advantages = use_atom_ref(cx, ChangelingAdvantages);
+		let contracts = use_atom_ref(cx, ChangelingContracts);
 		let details = use_atom_ref(cx, ChangelingDetails);
-		//let touchstones = use_atom_ref(cx, ChangelingTouchstones);
+		let favoredRegalia = use_set(cx, ChangelingFavoredRegalia);
+		let frailties = use_atom_ref(cx, ChangelingFrailties);
+		let touchstones = use_atom_ref(cx, ChangelingTouchstones);
 		
-		//(*advantages.write()) = self.advantages.clone();
+		(*advantages.write()) = self.advantages.clone();
+		(*contracts.write()) = self.contracts.clone();
 		(*details.write()) = self.details.clone();
-		//(*touchstones.write()) = self.touchstones.clone();
+		favoredRegalia(self.favoredRegalia.clone());
+		(*frailties.write()) = self.frailties.clone();
+		(*touchstones.write()) = self.touchstones.clone();
 	}
 	
 	fn validate(&mut self)

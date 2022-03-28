@@ -13,6 +13,8 @@ use strum_macros::{
 	EnumIter
 };
 
+pub const BeastBonus: usize = 3;
+
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum Seeming
 {

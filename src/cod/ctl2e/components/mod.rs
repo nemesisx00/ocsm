@@ -2,4 +2,6 @@
 
 pub mod advantages;
 pub mod details;
+pub mod regalia;
 pub mod sheet;
+pub mod touchstones;

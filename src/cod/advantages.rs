@@ -12,6 +12,8 @@ use strum_macros::{
 };
 use crate::cod::tracks::Tracker;
 
+pub const BaseSpeed: usize = 5;
+
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseAdvantageType
 {

@@ -13,13 +13,20 @@ use crate::{
 				wyrdGlamourMax,
 			},
 			details::DetailType,
+			regalia::{
+				Contract,
+				Regalia,
+			},
 		},
 	},
 };
 
 pub static ChangelingAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
+pub static ChangelingContracts: AtomRef<Vec<Contract>> = |_| Vec::<Contract>::new();
 pub static ChangelingDetails: AtomRef<BTreeMap<DetailType, String>> = |_| DetailType::asMap();
-//pub static ChangelingTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
+pub static ChangelingFavoredRegalia: Atom<Option<Regalia>> = |_| None;
+pub static ChangelingFrailties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
+pub static ChangelingTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {

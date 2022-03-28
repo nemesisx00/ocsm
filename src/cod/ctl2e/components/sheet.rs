@@ -16,12 +16,19 @@ use crate::{
 		ctl2e::{
 			advantages::wyrdTraitMax,
 			components::{
-				advantages::Advantages,
+				advantages::{
+					Advantages,
+					Frailties,
+				},
 				details::Details,
+				regalia::{
+					Contracts,
+					FavoredRegalia,
+				},
+				touchstones::Touchstones,
 			},
 			state::{
 				ChangelingAdvantages,
-				updateTemplateAdvantage,
 			}
 		},
 	},
@@ -30,7 +37,6 @@ use crate::{
 pub fn ChangelingSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, ChangelingAdvantages);
-	//let wyrd = advantages.read().wyrd;
 	let traitMax = wyrdTraitMax(advantages.read().wyrd);
 	
 	return cx.render(rsx!
@@ -44,13 +50,15 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 			hr { class: "row" }
 			div { class: "row", Details {} Advantages {} }
 			hr { class: "row" }
-			div { class: "row spacedOut", Aspirations {} /*Touchstones {}*/ Experience {} }
+			div { class: "row spacedOut", Aspirations {} div { class: "column", Touchstones {} FavoredRegalia {} } Experience {} }
 			hr { class: "row" }
 			div { class: "row", Attributes { traitMax: traitMax } }
 			hr { class: "row" }
 			div { class: "row", Skills { traitMax: traitMax } }
 			hr { class: "row" }
-			div { class: "row", /*Disciplines {}*/ SkillSpecialties {} Merits {} }
+			div { class: "row", Frailties {} SkillSpecialties {} Merits {} }
+			hr { class: "row" }
+			div { class: "row", Contracts {} }
 		}
 	});
 }

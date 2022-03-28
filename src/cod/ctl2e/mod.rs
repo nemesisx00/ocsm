@@ -3,5 +3,6 @@
 pub mod advantages;
 pub mod components;
 pub mod details;
+pub mod regalia;
 pub mod state;
 pub mod template;
