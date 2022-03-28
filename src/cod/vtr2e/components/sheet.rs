@@ -14,7 +14,7 @@ use crate::{
 			}
 		},
 		vtr2e::{
-			advantages::bloodPotencyAttributeMax,
+			advantages::bloodPotencyTraitMax,
 			components::{
 				advantages::Advantages,
 				details::Details,
@@ -33,7 +33,7 @@ pub fn VampireSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, KindredAdvantages);
 	let bloodPotency = advantages.read().bloodPotency;
-	let traitMax = bloodPotencyAttributeMax(bloodPotency);
+	let traitMax = bloodPotencyTraitMax(bloodPotency);
 	
 	return cx.render(rsx!
 	{	

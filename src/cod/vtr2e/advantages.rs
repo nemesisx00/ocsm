@@ -44,8 +44,7 @@ impl Default for TemplateAdvantages
 	}
 }
 
-#[allow(dead_code)]
-pub fn bloodPotencyAttributeMax(bloodPotency: usize) -> usize
+pub fn bloodPotencyTraitMax(bloodPotency: usize) -> usize
 {
 	return match bloodPotency
 	{
