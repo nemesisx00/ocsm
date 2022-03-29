@@ -10,17 +10,26 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 
 ## Table of Contents
 
-- [Supported & Planned Game Systems](https://github.com/nemesisx00/ocsm#supported--planned-game-systems)
 - [What is OCSM?](https://github.com/nemesisx00/ocsm#what-is-ocsm)
 - [What OCSM is Not](https://github.com/nemesisx00/ocsm#what-ocsm-is-not)
+- [Supported & Planned Game Systems](https://github.com/nemesisx00/ocsm#supported--planned-game-systems)
 - [Why a Character Sheet Manager?](https://github.com/nemesisx00/ocsm#why-a-character-sheet-manager)
 - [Inside OCSM](https://github.com/nemesisx00/ocsm#inside-ocsm)
 - [Getting Started](https://github.com/nemesisx00/ocsm#getting-started)
 	- [Requirements](https://github.com/nemesisx00/ocsm#requirements)
-	- [Helpful Utilities](https://github.com/nemesisx00/ocsm#helpful-utilities)
 	- [Compiling, Running, and Testing](https://github.com/nemesisx00/ocsm#compiling-running-and-testing)
 - [What Inspired Me to Create OCSM?](https://github.com/nemesisx00/ocsm#what-inspired-me-to-create-ocsm)
 - [Coding Style](https://github.com/nemesisx00/ocsm#coding-style)
+
+## What is OCSM?
+
+OCSM is an application intended to facilitate players' ability to enjoy playing their game of choice by taking (most) of the hassle out of managing their character information. Rather than dealing with bulky PDFs or difficult-to-organize plain text files, you can enter all of the most important information into meticulously organized and clearly labeled sections on a Sheet specifically designed for your favorite game system. OCSM will handle updating as many of the calculated traits as it can so you can focus on developing the character of your dreams.
+
+It also can facilitate sharing characters, either between players or to keep your GM up to date. The character sheet files generated when you save your character are incredibly small, especially when compared to PDF alternatives. They are also essentially plain text documents so they are less likely to be blocked by spam filters or other security mechanisms.
+
+## What OCSM is Not
+
+This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter all the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields.
 
 ## Supported & Planned Game Systems
 
@@ -33,16 +42,6 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 - World of Darkness
 	- [ ] Vampire: The Masquerade V5
 
-## What is OCSM?
-
-OCSM is an application intended to facilitate players' ability to enjoy playing their game of choice by taking (most) of the hassle out of managing their character information. Rather than dealing with bulky PDFs or difficult-to-organize plain text files, you can enter all of the most important information into meticulously organized and clearly labeled sections on a Sheet specifically designed for your favorite game system. OCSM will handle updating as many of the calculated traits as it can so you can focus on developing the character of your dreams.
-
-It also can facilitate sharing characters, either between players or to keep your GM up to date. The character sheet files generated when you save your character are incredibly small, especially when compared to PDF alternatives. They are also essentially plain text documents so they are less likely to be blocked by spam filters or other security mechanisms.
-
-## What OCSM is Not
-
-This application is not intended to be a replacement for game system source books. It's a **Character Sheet** manager, not a game system manager. You will need to enter all the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields.
-
 ## Why a Character Sheet Manager?
 
 In my experience, finding a high quality digital character sheet, regardless of format, for any game system is very difficult. Especially if you're looking for a free option. If you are lucky enough to find one for your chosen game system, most of the time they end up being PDFs which, while they can be of exceedingly high visual quality, suffer from the fact that interactive PDFs are clunky at the best of times. Not to mention that PDF is one of the least portable document formats in existence...
@@ -51,7 +50,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). [Dioxus](https://dioxuslabs.com/) is a GUI library used to create a desktop WebView2 window driven by WASM, leveraging [Rust](https://www.rust-lang.org/)'s benefits on the frontend. Rounding things out, the CSS is generated with the [Stylus](https://stylus-lang.com/) CSS preprocessor.
+OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). [Dioxus](https://dioxuslabs.com/) is a GUI library used to create a desktop WebView2 window, leveraging [Rust](https://www.rust-lang.org/)'s benefits on the frontend. Rounding things out, the CSS is generated with the [Stylus](https://stylus-lang.com/) CSS preprocessor.
 
 ## Getting Started
 
@@ -63,13 +62,6 @@ OCSM isn't ready for release as an installable application just yet but you are 
 - [Node.js](https://nodejs.org)
 
 You may be surprised to see [Node.js](https://nodejs.org) in the list, considering this is primarily a [Rust](https://www.rust-lang.org/) application. But managing CSS files can be a very verbose ordeal and a CSS Preprocessor like [Stylus](https://stylus-lang.com/) makes it so much easier. [NPM](https://www.npmjs.com) is used to manage the installation of [Stylus](https://stylus-lang.com/).
-
-#### Helpful Utilities
-
-There are a few utilities which are not strictly required but can make your life a lot easier and I recommend checking them out:
-
-- [cargo-edit](https://github.com/killercup/cargo-edit)
-- [cargo-script](https://github.com/DanielKeep/cargo-script)
 
 #### Compiling, Running, and Testing
 
@@ -95,7 +87,7 @@ Finally, you can run all the tests in the project:
 cargo test
 ```
 
-That's it!
+That's it! You may run into errors and you will definitely run into missing features. Unfortuantely, that is inevitable at this stage of development.
 
 ## What Inspired Me to Create OCSM?
 
