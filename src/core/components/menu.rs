@@ -34,19 +34,22 @@ pub struct MenuProps<'a>
 
 pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 {
+	let mainMenuState = use_read(&cx, MainMenuState);
+	let setMainMenuState = use_set(&cx, MainMenuState);
+	
+	//Per instance state
 	let state = use_state(&cx, || false);
 	let submenu = use_state(&cx, || false);
 	
 	//Check if the App is telling us to close all menus
-	let appMenuState = use_read(&cx, MainMenuState);
-	let setAppMenuState = use_set(&cx, MainMenuState);
-	match appMenuState
+	if !mainMenuState
 	{
-		false => {
-			state.set(false);
-			setAppMenuState(true);
-		}
-		true => {}
+		state.set(false);
+	}
+	
+	if !state.get()
+	{
+		setMainMenuState(true);
 	}
 	
 	let mut class = "".to_string();
@@ -87,7 +90,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 				{
 					class: "subMenu column",
 					//Right now this means we only support one level of depth for child menus. Will need more complexity if it becomes necessary to support more than one level.
-					onclick: move |_| { setAppMenuState(false); },
+					onclick: move |_| { setMainMenuState(false); },
 					oncontextmenu: move |e| e.cancel_bubble(),
 					//onmouseout: move |_| { if *submenu.get() { state.set(false); } }, //TODO: Figure out how to give this a bit of a delay/buffer for a second or two
 					prevent_default: "oncontextmenu",
