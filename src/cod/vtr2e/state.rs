@@ -64,3 +64,19 @@ pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 	
 	updateTrackerState_SingleState(&mut template.vitae, index, TrackerState::Two, false);
 }
+
+/// Reset every stateful value in the application, regardless of game system.
+pub fn resetGlobalStateVtr2e<T>(cx: &Scope<T>)
+{
+	let kindredAdvantages = use_atom_ref(cx, KindredAdvantages);
+	let kindredDetails = use_atom_ref(cx, KindredDetails);
+	let kindredDevotions = use_atom_ref(cx, KindredDevotions);
+	let kindredDisciplines = use_atom_ref(cx, KindredDisciplines);
+	let kindredTouchstones = use_atom_ref(cx, KindredTouchstones);
+	
+	(*kindredAdvantages.write()) = TemplateAdvantages::default();
+	(*kindredDetails.write()) = DetailType::asMap();
+	(*kindredDevotions.write()) = Vec::<Devotion>::new();
+	(*kindredDisciplines.write()) = BTreeMap::<DisciplineType, usize>::new();
+	(*kindredTouchstones.write()) = Vec::<String>::new();
+}

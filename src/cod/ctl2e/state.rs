@@ -65,3 +65,20 @@ pub fn updateGlamour<T>(cx: &Scope<T>, index: usize)
 	
 	updateTrackerState_SingleState(&mut template.glamour, index, TrackerState::Two, false);
 }
+
+pub fn resetGlobalStateCtl2e<T>(cx: &Scope<T>)
+{
+	let changelingAdvantages = use_atom_ref(cx, ChangelingAdvantages);
+	let changelingContracts = use_atom_ref(cx, ChangelingContracts);
+	let changelingDetails = use_atom_ref(cx, ChangelingDetails);
+	let changelingFavoredRegalia = use_set(cx, ChangelingFavoredRegalia);
+	let changelingFrailties = use_atom_ref(cx, ChangelingFrailties);
+	let changelingTouchstones = use_atom_ref(cx, ChangelingTouchstones);
+	
+	(*changelingAdvantages.write()) = TemplateAdvantages::default();
+	(*changelingContracts.write()) = Vec::<Contract>::new();
+	(*changelingDetails.write()) = DetailType::asMap();
+	changelingFavoredRegalia(None);
+	(*changelingFrailties.write()) = Vec::<String>::new();
+	(*changelingTouchstones.write()) = Vec::<String>::new();
+}

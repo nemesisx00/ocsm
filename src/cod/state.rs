@@ -228,3 +228,24 @@ pub fn updateTrackerState_SingleState(tracker: &mut Tracker, index: usize, state
 		}
 	}
 }
+
+pub fn resetGlobalStateCod<T>(cx: &Scope<T>)
+{
+	let characterAdvantages = use_atom_ref(cx, CharacterAdvantages);
+	let characterAspirations = use_atom_ref(cx, CharacterAspirations);
+	let characterAttributes = use_atom_ref(cx, CharacterAttributes);
+	let characterBeats = use_atom_ref(cx, CharacterBeats);
+	let characterExperience = use_set(cx, CharacterExperience);
+	let characterMerits = use_atom_ref(cx, CharacterMerits);
+	let characterSkills = use_atom_ref(cx, CharacterSkills);
+	let characterSpecialties = use_atom_ref(cx, CharacterSpecialties);
+	
+	(*characterAdvantages.write()) = BaseAdvantages::default();
+	(*characterAspirations.write()) = Vec::<String>::new();
+	(*characterAttributes.write()) = BaseAttributeType::asMap();
+	(*characterBeats.write()) = Tracker::new(5);
+	characterExperience(0);
+	(*characterMerits.write()) = Vec::<Merit>::new();
+	(*characterSkills.write()) = BaseSkillType::asMap();
+	(*characterSpecialties.write()) = Vec::<String>::new();
+}
