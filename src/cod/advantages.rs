@@ -14,19 +14,24 @@ use crate::cod::tracks::Tracker;
 
 pub const BaseSpeed: usize = 5;
 
+/// The Advantages of a Chronicles of Darkness character.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub enum BaseAdvantageType
+pub enum CoreAdvantageType
 {
 	Defense,
 	Health,
 	Initiative,
+	//Integrity(String),
 	Size,
 	Speed,
+	//Vice(String),
+	//Virtue(String),
 	Willpower,
 }
 
+/// Data structure defining the Advantages of a Chronicles of Darkness character.
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct BaseAdvantages
+pub struct CoreAdvantages
 {
 	#[serde(default)]
 	pub defense: usize,
@@ -42,7 +47,7 @@ pub struct BaseAdvantages
 	pub willpower: Tracker,
 }
 
-impl Default for BaseAdvantages
+impl Default for CoreAdvantages
 {
 	fn default() -> Self
 	{

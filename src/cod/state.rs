@@ -5,8 +5,8 @@ use dioxus::prelude::*;
 use crate::{
 	cod::{
 		advantages::{
-			BaseAdvantages,
-			BaseAdvantageType,
+			CoreAdvantages,
+			CoreAdvantageType,
 		},
 		merits::Merit,
 		tracks::{
@@ -14,22 +14,33 @@ use crate::{
 			TrackerState,
 		},
 		traits::{
-			BaseAttributeType,
-			BaseSkillType,
+			CoreAttributeType,
+			CoreSkillType,
 		}
 	},
 };
 
-pub static CharacterAdvantages: AtomRef<BaseAdvantages> = |_| BaseAdvantages::default();
+/// A Chronicles of Darkness character's Advantages common across all games, such as Health, Willpower, and Size.
+pub static CharacterAdvantages: AtomRef<CoreAdvantages> = |_| CoreAdvantages::default();
+/// A Chronicles of Darkness character's list of Aspirations.
 pub static CharacterAspirations: AtomRef<Vec<String>> = |_| Vec::<String>::new();
-pub static CharacterAttributes: AtomRef<BTreeMap<BaseAttributeType, usize>> = |_| BaseAttributeType::asMap();
+/// A Chronicles of Darkness character's Attributes, such as Strength and Presence.
+pub static CharacterAttributes: AtomRef<BTreeMap<CoreAttributeType, usize>> = |_| CoreAttributeType::asMap();
+/// A Chronicles of Darkness character's Beats Track.
 pub static CharacterBeats: AtomRef<Tracker> = |_| Tracker::new(5);
+/// A Chronicles of Darkness character's current Experience.
 pub static CharacterExperience: Atom<usize> = |_| 0;
+/// A Chronicles of Darkness character's list of Merits.
 pub static CharacterMerits: AtomRef<Vec<Merit>> = |_| Vec::<Merit>::new();
-pub static CharacterSkills: AtomRef<BTreeMap<BaseSkillType, usize>> = |_| BaseSkillType::asMap();
+/// A Chronicles of Darkness character's list of Skills, such as Athletics and Investigation.
+pub static CharacterSkills: AtomRef<BTreeMap<CoreSkillType, usize>> = |_| CoreSkillType::asMap();
+/// A Chronicles of Darkness character's list of Skill Specialties.
 pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
-pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value: usize)
+/// Update the designated Advantage's value.
+/// 
+/// Automaticaly updates any affected Traits.
+pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: CoreAdvantageType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
@@ -39,11 +50,11 @@ pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value
 	
 	match advantage
 	{
-		BaseAdvantageType::Defense => { advantages.defense = value; }
-		BaseAdvantageType::Health => { advantages.health.updateMax(value); }
-		BaseAdvantageType::Initiative => { advantages.initiative = value; }
+		CoreAdvantageType::Defense => { advantages.defense = value; }
+		CoreAdvantageType::Health => { advantages.health.updateMax(value); }
+		CoreAdvantageType::Initiative => { advantages.initiative = value; }
 		
-		BaseAdvantageType::Size =>
+		CoreAdvantageType::Size =>
 		{
 			let finalValue = match value < 1
 			{
@@ -54,18 +65,21 @@ pub fn updateBaseAdvantage<T>(cx: &Scope<T>, advantage: BaseAdvantageType, value
 					false => { value }
 				}
 			};
-			let healthMax = attributes[&BaseAttributeType::Stamina] + finalValue;
+			let healthMax = attributes[&CoreAttributeType::Stamina] + finalValue;
 			
 			advantages.size = finalValue;
 			advantages.health.updateMax(healthMax);
 		}
 		
-		BaseAdvantageType::Speed => { advantages.speed = value; }
-		BaseAdvantageType::Willpower => { advantages.willpower.updateMax(value); }
+		CoreAdvantageType::Speed => { advantages.speed = value; }
+		CoreAdvantageType::Willpower => { advantages.willpower.updateMax(value); }
 	}
 }
 
-pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, value: usize)
+/// Update the designated Attribute's value.
+/// 
+/// Automaticaly updates any affected Traits.
+pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &CoreAttributeType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
@@ -83,42 +97,42 @@ pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, 
 	
 	match attributeType
 	{
-		BaseAttributeType::Composure =>
+		CoreAttributeType::Composure =>
 		{
-			advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure];
-			advantages.willpower.updateMax(attributes[&BaseAttributeType::Resolve] + attributes[&BaseAttributeType::Composure]);
+			advantages.initiative = attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Composure];
+			advantages.willpower.updateMax(attributes[&CoreAttributeType::Resolve] + attributes[&CoreAttributeType::Composure]);
 		}
 		
-		BaseAttributeType::Dexterity =>
+		CoreAttributeType::Dexterity =>
 		{
-			let defense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
+			let defense = match attributes[&CoreAttributeType::Dexterity] <= attributes[&CoreAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity] }
-				false => { attributes[&BaseAttributeType::Wits] }
-			} + skills[&BaseSkillType::Athletics];
+				true => { attributes[&CoreAttributeType::Dexterity] }
+				false => { attributes[&CoreAttributeType::Wits] }
+			} + skills[&CoreSkillType::Athletics];
 			
 			advantages.defense = defense;
-			advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure];
-			advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength];
+			advantages.initiative = attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Composure];
+			advantages.speed = advantages.size + attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Strength];
 		}
 		
-		BaseAttributeType::Resolve => { advantages.willpower.updateMax(attributes[&BaseAttributeType::Composure] + attributes[&BaseAttributeType::Resolve]); }
+		CoreAttributeType::Resolve => { advantages.willpower.updateMax(attributes[&CoreAttributeType::Composure] + attributes[&CoreAttributeType::Resolve]); }
 		
-		BaseAttributeType::Stamina =>
+		CoreAttributeType::Stamina =>
 		{
 			let size = advantages.size;
-			advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina]);
+			advantages.health.updateMax(size + attributes[&CoreAttributeType::Stamina]);
 		}
 		
-		BaseAttributeType::Strength => { advantages.speed = advantages.size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength]; }
+		CoreAttributeType::Strength => { advantages.speed = advantages.size + attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Strength]; }
 		
-		BaseAttributeType::Wits =>
+		CoreAttributeType::Wits =>
 		{
-			let defense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
+			let defense = match attributes[&CoreAttributeType::Dexterity] <= attributes[&CoreAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity] }
-				false => { attributes[&BaseAttributeType::Wits]}
-			} + skills[&BaseSkillType::Athletics];
+				true => { attributes[&CoreAttributeType::Dexterity] }
+				false => { attributes[&CoreAttributeType::Wits]}
+			} + skills[&CoreSkillType::Athletics];
 			
 			advantages.defense = defense;
 		}
@@ -127,6 +141,9 @@ pub fn updateBaseAttribute<T>(cx: &Scope<T>, attributeType: &BaseAttributeType, 
 	}
 }
 
+/// Update the value of the Beats Track.
+/// 
+/// When the Track is filled, automatically clears the Beats Track and adds one Experience.
 pub fn updateBaseBeats<T>(cx: &Scope<T>, index: usize, overrideValues: bool)
 {
 	let beatsRef = use_atom_ref(&cx, CharacterBeats);
@@ -135,7 +152,10 @@ pub fn updateBaseBeats<T>(cx: &Scope<T>, index: usize, overrideValues: bool)
 	updateTrackerState_SingleState(&mut beats, index, TrackerState::Two, overrideValues);
 }
 
-pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &BaseSkillType, value: usize)
+/// Update the designated Skill's value.
+/// 
+/// Automaticaly updates any affected Traits.
+pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &CoreSkillType, value: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let attributesRef = use_atom_ref(cx, CharacterAttributes);
@@ -154,21 +174,24 @@ pub fn updateBaseSkill<T>(cx: &Scope<T>, skillType: &BaseSkillType, value: usize
 	// Handle 
 	match skillType
 	{
-		BaseSkillType::Athletics =>
+		CoreSkillType::Athletics =>
 		{
-			let attributeDefense = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
+			let attributeDefense = match attributes[&CoreAttributeType::Dexterity] <= attributes[&CoreAttributeType::Wits]
 			{
-				true => { attributes[&BaseAttributeType::Dexterity] }
-				false => { attributes[&BaseAttributeType::Wits] }
+				true => { attributes[&CoreAttributeType::Dexterity] }
+				false => { attributes[&CoreAttributeType::Wits] }
 			};
 			
-			advantages.defense = attributeDefense + skills[&BaseSkillType::Athletics];
+			advantages.defense = attributeDefense + skills[&CoreSkillType::Athletics];
 		}
 		
 		_ => {}
 	}
 }
 
+/// Update the value of the Health Track.
+/// 
+/// Handles adding, upgrading, and removing damage.
 pub fn updateBaseHealth<T>(cx: &Scope<T>, damageType: TrackerState, remove: bool, index: Option<usize>)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
@@ -188,6 +211,7 @@ pub fn updateBaseHealth<T>(cx: &Scope<T>, damageType: TrackerState, remove: bool
 	}
 }
 
+/// Update the value of the Willpower Track.
 pub fn updateBaseWillpower<T>(cx: &Scope<T>, index: usize)
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
@@ -196,7 +220,11 @@ pub fn updateBaseWillpower<T>(cx: &Scope<T>, index: usize)
 	updateTrackerState_SingleState(&mut advantages.willpower, index, TrackerState::Two, false);
 }
 
+/// Update the value of a single-state Track, such as Willpower.
 /// 
+/// This Track only requires a single state, as opposed to the default of three.
+/// Clicking on a box should fill the Track up to that point, empty
+/// the Track down to that point, or empty the clicked box.
 pub fn updateTrackerState_SingleState(tracker: &mut Tracker, index: usize, state: TrackerState, overrideValues: bool)
 {
 	let len = tracker.values.len();
@@ -229,6 +257,7 @@ pub fn updateTrackerState_SingleState(tracker: &mut Tracker, index: usize, state
 	}
 }
 
+/// Reset all `cod::state` global state values.
 pub fn resetGlobalStateCod<T>(cx: &Scope<T>)
 {
 	let characterAdvantages = use_atom_ref(cx, CharacterAdvantages);
@@ -240,12 +269,12 @@ pub fn resetGlobalStateCod<T>(cx: &Scope<T>)
 	let characterSkills = use_atom_ref(cx, CharacterSkills);
 	let characterSpecialties = use_atom_ref(cx, CharacterSpecialties);
 	
-	(*characterAdvantages.write()) = BaseAdvantages::default();
+	(*characterAdvantages.write()) = CoreAdvantages::default();
 	(*characterAspirations.write()) = Vec::<String>::new();
-	(*characterAttributes.write()) = BaseAttributeType::asMap();
+	(*characterAttributes.write()) = CoreAttributeType::asMap();
 	(*characterBeats.write()) = Tracker::new(5);
 	characterExperience(0);
 	(*characterMerits.write()) = Vec::<Merit>::new();
-	(*characterSkills.write()) = BaseSkillType::asMap();
+	(*characterSkills.write()) = CoreSkillType::asMap();
 	(*characterSpecialties.write()) = Vec::<String>::new();
 }

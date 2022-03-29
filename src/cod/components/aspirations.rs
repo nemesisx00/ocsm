@@ -12,6 +12,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Chronicles of Darkness character's list of Aspirations.
 pub fn Aspirations(cx: Scope) -> Element
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
@@ -104,6 +105,7 @@ pub fn Aspirations(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking an Aspiration row.
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
@@ -115,6 +117,7 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when an Aspiration input's value changes.
 fn aspirationHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);

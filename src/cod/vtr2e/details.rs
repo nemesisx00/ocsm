@@ -13,6 +13,7 @@ use strum_macros::{
 	EnumIter
 };
 
+/// The possible Clans of a Vampire: The Requiem 2e Kindred.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum Clan
 {
@@ -23,6 +24,7 @@ pub enum Clan
 	Ventrue,
 }
 
+/// The possible Detail fields of a Vampire: The Requiem 2e Kindred.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum DetailType
 {
@@ -39,6 +41,7 @@ pub enum DetailType
 
 impl DetailType
 {
+	/// Generates a collection mapping each `DetailType` to a default value.
 	pub fn asMap() -> BTreeMap<Self, String>
 	{
 		let mut map = BTreeMap::<Self, String>::new();

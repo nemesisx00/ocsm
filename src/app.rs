@@ -52,9 +52,14 @@ use crate::{
 	WindowTitle,
 };
 
+/// Control switch used to signal all Menu components to hide their submenus.
+/// 
+/// Default value is `true`. Set to `false` to close all Menus.
 pub static MainMenuState: Atom<bool> = |_| true;
+/// The active `GameSystem` determining which character sheet is rendered.
 pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodChangeling2e;
 
+/// Game systems for which character sheets have been implemented.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Ord)]
 pub enum GameSystem
 {
@@ -74,6 +79,7 @@ pub enum GameSystem
 
 impl GameSystem
 {
+	/// Generate a collection mapping GameSystem to their full human-readable titles.
 	pub fn asMap() -> BTreeMap<Self, String>
 	{
 		let mut map = BTreeMap::new();
@@ -85,6 +91,10 @@ impl GameSystem
 		return map;
 	}
 	
+	/// Generate a collection mapping GameSystem to a boolean value.
+	/// 
+	/// Used in tandem with `CurrentGameSystem` to determine whether or not to display
+	/// UI elements in the `App` component.
 	pub fn showMap() -> BTreeMap<Self, bool>
 	{
 		let mut map = BTreeMap::new();
@@ -96,6 +106,7 @@ impl GameSystem
 	}
 }
 
+/// The application's top-level UI component.
 pub fn App(cx: Scope) -> Element
 {
 	let setMenuState = use_set(&cx, MainMenuState);
@@ -144,12 +155,18 @@ pub fn App(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the Exit `MenuItem` in the File `Menu`.
+/// 
+/// Closes the main `Window`.
 fn exitHandler<T>(cx: &Scope<T>)
 {
 	let window = use_window(&cx);
 	window.close();
 }
 
+/// Event handler triggered by clicking one of the `MenuItem`s in the Game Systems `Menu`.
+/// 
+/// Updates the value of `CurrentGameSystem`, the `Window` title, and calls `newSheetHandler`.
 fn gameSystemHandler(cx: &Scope<MenuItemProps>)
 {
 	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
@@ -169,6 +186,10 @@ fn gameSystemHandler(cx: &Scope<MenuItemProps>)
 	}
 }
 
+/// Event handler triggered by clicking the Open `MenuItem` in the File `Menu`.
+/// 
+/// Presents the user with am open `FileDialog` to choose which file to open. Updates
+/// the value of `CurrentFilePath` and attempts to load the file as a character sheet.
 fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
@@ -186,6 +207,11 @@ fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 	}
 }
 
+/// Event handler triggered by clicking the Save `MenuItem` in the File `Menu`.
+/// 
+/// Presents the user with a save `FileDialog` to choose the file to which to
+/// write. Updates the value of `CurrentFilePath` and attempts to write the
+/// character sheet to file.
 fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
@@ -203,28 +229,20 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 	}
 }
 
+/// Event handler triggered by clicking the New `MenuItem` in the File `Menu`.
+/// 
+/// Resets the global state, which results in a "new" sheet.
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
-	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
+	resetGlobalState(cx);
 	setMenuState(false);
-	match currentGameSystem
-	{
-		GameSystem::CodChangeling2e => pushSheet::<Changeling>(cx),
-		GameSystem::CodVampire2e => pushSheet::<Vampire>(cx),
-	}
 }
 
 // -----
 
-fn pushSheet<T: Default + StatefulTemplate>(cx: &Scope<MenuItemProps>)
-{
-	resetGlobalState(cx);
-	let mut sheet = T::default();
-	sheet.push(cx);
-}
-
+/// Deserialize a character sheet from a file and push it into the global state.
 fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
@@ -243,6 +261,7 @@ fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<Menu
 	}
 }
 
+/// Pull the current character sheet from the global state and serialize it into a file.
 fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);

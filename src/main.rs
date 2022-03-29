@@ -16,8 +16,10 @@ use dioxus::desktop::{
 };
 use crate::app::App;
 
+/// The base application title applied to the `Window`
 pub const WindowTitle: &str = "Open Character Sheet Manager";
 
+/// The entry point for the application
 fn main()
 {
     launch_cfg(App, |cfg|
@@ -35,6 +37,9 @@ fn main()
 }
 
 #[allow(dead_code)]
+/// Generates the main menu.
+/// 
+/// Applied to the `Window` in `main`.
 fn generateMainMenu() -> MenuBar
 {
 	let mut fileMenu = MenuBar::new();
@@ -44,11 +49,12 @@ fn generateMainMenu() -> MenuBar
 	fileMenu.add_item(MenuItemAttributes::new("Exit"));
 	
 	let mut gameSystems = MenuBar::new();
-	gameSystems.add_item(MenuItemAttributes::new("Changeling: The Lost - Second Edition"));
-	gameSystems.add_item(MenuItemAttributes::new("Mage: The Awakening - Second Edition"));
-	gameSystems.add_item(MenuItemAttributes::new("Vampire: The Requiem - Second Edition"));
+	gameSystems.add_item(MenuItemAttributes::new("Chronicles of Darkness Core"));
+	gameSystems.add_item(MenuItemAttributes::new("Changeling: The Lost 2e"));
+	gameSystems.add_item(MenuItemAttributes::new("Mage: The Awakening 2e"));
+	gameSystems.add_item(MenuItemAttributes::new("Vampire: The Requiem 2e"));
 	gameSystems.add_item(MenuItemAttributes::new("Dungeons & Dragons 5th Edition"));
-	gameSystems.add_item(MenuItemAttributes::new("Vampire: The Masquerade 5th edition"));
+	gameSystems.add_item(MenuItemAttributes::new("Vampire: The Masquerade V5"));
 	
 	let mut mainMenu = MenuBar::new();
 	mainMenu.add_submenu("File", true, fileMenu);

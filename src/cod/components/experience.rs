@@ -17,6 +17,7 @@ use crate::cod::{
 	},
 };
 
+/// The UI Component handling a Chronicles of Darkness character's Experience.
 pub fn Experience(cx: Scope) -> Element
 {
 	let beats = use_atom_ref(&cx, CharacterBeats);
@@ -47,6 +48,7 @@ pub fn Experience(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when the Beats `Dots` is clicked.
 fn beatsHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	let experience = use_read(cx, CharacterExperience);
@@ -60,6 +62,7 @@ fn beatsHandler(cx: &Scope<TrackProps>, index: usize)
 	}
 }
 
+/// Event handler triggered when the Experience input's value changes.
 fn experienceHandler(e: FormEvent, cx: &Scope)
 {
 	let experience = use_read(cx, CharacterExperience);

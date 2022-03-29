@@ -29,6 +29,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Vampire: The Requiem 2e Kindred's Disciplines.
 pub fn Disciplines(cx: Scope) -> Element
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
@@ -124,6 +125,7 @@ pub fn Disciplines(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a Discipline value changes.
 fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
@@ -143,6 +145,8 @@ fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
 	}
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a
+/// Discipline row.
 fn removeDisciplineClickHandler(cx: &Scope, index: usize)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
@@ -155,6 +159,7 @@ fn removeDisciplineClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when the New Discipline select input's value changes.
 fn selectHandler(e: FormEvent, cx: &Scope)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
@@ -178,6 +183,8 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 
 // -----
 
+/// The UI Component handling a Vampire: The Requiem 2e Kindred's Devotions and
+/// Discipline Powers.
 pub fn Devotions(cx: Scope) -> Element
 {
 	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
@@ -269,6 +276,7 @@ pub fn Devotions(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a `Devotion` input's value changes.
 fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionField)
 {
 	let devotionsRef = use_atom_ref(&cx, KindredDevotions);
@@ -303,6 +311,8 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: DevotionFi
 	}
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a
+/// Devotion row.
 fn removeDevotionClickHandler(cx: &Scope, index: usize)
 {
 	let devotionsRef = use_atom_ref(&cx, KindredDevotions);

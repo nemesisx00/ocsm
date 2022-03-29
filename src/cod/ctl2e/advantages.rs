@@ -12,6 +12,7 @@ use strum_macros::{
 };
 use crate::cod::tracks::Tracker;
 
+/// The Advantages specific to a Changeling: The Lost 2e Changeling.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum TemplateAdvantageType
 {
@@ -20,6 +21,7 @@ pub enum TemplateAdvantageType
 	Glamour,
 }
 
+/// Data structure defining the Advantages of a Changeling: The Lost 2e Changeling.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TemplateAdvantages
 {
@@ -44,6 +46,7 @@ impl Default for TemplateAdvantages
 	}
 }
 
+/// Get the maximum allowable value for Traits based on Wyrd.
 pub fn wyrdTraitMax(wyrd: usize) -> usize
 {
 	return match wyrd
@@ -63,6 +66,7 @@ pub fn wyrdTraitMax(wyrd: usize) -> usize
 	};
 }
 
+/// Get the maximum Glamour capacity based on Wyrd.
 pub fn wyrdGlamourMax(wyrd: usize) -> usize
 {
 	return match wyrd
@@ -83,6 +87,7 @@ pub fn wyrdGlamourMax(wyrd: usize) -> usize
 }
 
 #[allow(dead_code)]
+/// Get the maximum Glamour per turn based on Wyrd.
 pub fn wyrdGlamourPerTurn(wyrd: usize) -> usize
 {
 	return match wyrd

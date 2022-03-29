@@ -4,24 +4,28 @@ use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use dioxus::events::FormEvent;
 use strum::IntoEnumIterator;
-use crate::cod::{
-	advantages::BaseAdvantageType,
-	state::{
-		CharacterAdvantages,
-		updateBaseAdvantage,
-	},
-	vtr2e::{
-		details::{
-			Clan,
-			DetailType,
-		},
+use crate::{
+	cod::{
+		advantages::CoreAdvantageType,
 		state::{
-			KindredDetails,
-			updateDetail,
+			CharacterAdvantages,
+			updateBaseAdvantage,
+		},
+		vtr2e::{
+			details::{
+				Clan,
+				DetailType,
+			},
+			state::{
+				KindredDetails,
+				updateDetail,
+			},
 		},
 	},
+	core::util::generateSelectedValue,
 };
 
+/// The UI Component handling a Vampire: The Requiem 2e Kindred's Details.
 pub fn Details(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
@@ -58,7 +62,7 @@ pub fn Details(cx: Scope) -> Element
 					DetailInput { label: "Chronicle:".to_string(), value: (&details[&DetailType::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Chronicle, }
 					DetailInput { label: "Name:".to_string(), value: (&details[&DetailType::Name]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Name, }
 					DetailInput { label: "Concept:".to_string(), value: (&details[&DetailType::Concept]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Concept, }
-					DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: BaseAdvantageType::Size, }
+					DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantageType::Size, }
 				}
 				
 				div
@@ -85,6 +89,7 @@ pub fn Details(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a `DetailInput`'s value changes.
 fn detailHandler(cx: &Scope<DetailInputProps<DetailType>>, value: String)
 {
 	match cx.props.handlerKey
@@ -94,7 +99,8 @@ fn detailHandler(cx: &Scope<DetailInputProps<DetailType>>, value: String)
 	}
 }
 
-fn advantageHandler(cx: &Scope<DetailInputProps<BaseAdvantageType>>, value: String)
+/// Event handler triggered when the Size input's value changes.
+fn advantageHandler(cx: &Scope<DetailInputProps<CoreAdvantageType>>, value: String)
 {
 	match usize::from_str_radix(&value, 10)
 	{
@@ -112,6 +118,7 @@ fn advantageHandler(cx: &Scope<DetailInputProps<BaseAdvantageType>>, value: Stri
 
 // -----
 
+/// The properties struct for `DetailInput`
 #[derive(Props)]
 struct DetailInputProps<T>
 {
@@ -143,6 +150,7 @@ impl<T> PartialEq for DetailInputProps<T>
 	}
 }
 
+// The UI Component defining the layout and functionality of a single Detail input.
 fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 {
 	let label = &cx.props.label;
@@ -215,6 +223,7 @@ fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 	});
 }
 
+/// Event handler triggered when the `DetailInput`'s input value changes.
 fn inputHandler<T>(e: FormEvent, cx: &Scope<DetailInputProps<T>>)
 {
 	e.cancel_bubble();
@@ -224,13 +233,4 @@ fn inputHandler<T>(e: FormEvent, cx: &Scope<DetailInputProps<T>>)
 		Some(h) => { h(&cx, e.value.clone()); }
 		None => {}
 	}
-}
-
-fn generateSelectedValue<T: PartialEq>(a: T, b: T) -> String
-{
-	return match a == b
-	{
-		true => { String::from("true") }
-		false => { String::from("false") }
-	};
 }

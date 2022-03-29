@@ -2,6 +2,8 @@
 
 use dioxus::prelude::Scope;
 
+/// Trait defining methods for interacting with the application's
+/// global state.
 pub trait StatefulTemplate
 {
 	/// Pull the global state down into this template.

@@ -12,6 +12,7 @@ use strum_macros::{
 };
 use crate::cod::tracks::Tracker;
 
+/// The Advantages specific to a Vampire: The Requiem 2e Kindred.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum TemplateAdvantageType
 {
@@ -20,6 +21,7 @@ pub enum TemplateAdvantageType
 	Vitae,
 }
 
+/// Data structure defining the Advantages specific to a Vampire: The Requiem 2e Kindred.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct TemplateAdvantages
 {
@@ -44,6 +46,7 @@ impl Default for TemplateAdvantages
 	}
 }
 
+/// Get the maximum allowed Trait value based on Blood Potency.
 pub fn bloodPotencyTraitMax(bloodPotency: usize) -> usize
 {
 	return match bloodPotency
@@ -63,6 +66,7 @@ pub fn bloodPotencyTraitMax(bloodPotency: usize) -> usize
 	};
 }
 
+/// Get the maximum Vitae capacity based on Blood Potency.
 pub fn bloodPotencyVitaeMax(bloodPotency: usize) -> usize
 {
 	return match bloodPotency
@@ -83,6 +87,7 @@ pub fn bloodPotencyVitaeMax(bloodPotency: usize) -> usize
 }
 
 #[allow(dead_code)]
+/// Get the maximum allowed Vitae per turn based on Blood Potency.
 pub fn bloodPotencyVitaePerTurn(bloodPotency: usize) -> usize
 {
 	return match bloodPotency

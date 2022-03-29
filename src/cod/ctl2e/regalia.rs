@@ -14,6 +14,7 @@ use strum_macros::{
 };
 use crate::cod::ctl2e::details::Seeming;
 
+/// The Regalia available to a Changeling: The Lost 2e Changeling.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum Regalia
 {
@@ -27,6 +28,7 @@ pub enum Regalia
 
 impl Regalia
 {
+	/// Generate a collection mapping each `Regalia` to its human-readable label.
 	pub fn asMap() -> BTreeMap<Regalia, String>
 	{
 		let mut map = BTreeMap::<Regalia, String>::new();
@@ -37,6 +39,7 @@ impl Regalia
 		return map;
 	}
 	
+	/// Get the default Favored Regalia for the designated `Seeming`.
 	pub fn getBySeeming(seeming: Seeming) -> Self
 	{
 		return match seeming
@@ -51,6 +54,7 @@ impl Regalia
 	}
 }
 
+/// Data structure defining a single Changeling: The Lost 2e Contract.
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Contract
 {
@@ -68,6 +72,7 @@ pub struct Contract
 	pub name: String,
 }
 
+/// The fields of a Changeling: The Lost 2e Contract.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum ContractField
 {

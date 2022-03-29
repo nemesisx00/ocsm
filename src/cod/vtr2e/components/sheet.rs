@@ -29,6 +29,7 @@ use crate::{
 	},
 };
 
+/// The UI Component defining the layout of a Vampire: The Requiem 2e Kindred's character sheet.
 pub fn VampireSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, KindredAdvantages);

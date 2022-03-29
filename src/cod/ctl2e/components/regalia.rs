@@ -30,6 +30,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Changeling: The Lost 2e Changeling's Favored Regalia.
 pub fn FavoredRegalia(cx: Scope) -> Element
 {
 	let detailsRef = use_atom_ref(&cx, ChangelingDetails);
@@ -159,6 +160,7 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when the "Add a Favored Regalia" select input's value changes.
 fn selectHandler(e: FormEvent, cx: &Scope)
 {
 	let favoredRegalia = use_read(&cx, ChangelingFavoredRegalia);
@@ -182,6 +184,7 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 
 // -----
 
+/// The UI Component handling a Changeling: The Lost 2e Changeling's list of Contracts.
 pub fn Contracts(cx: Scope) -> Element
 {
 	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
@@ -379,6 +382,7 @@ pub fn Contracts(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a `Contract` input's value changes.
 fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: ContractField)
 {
 	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
@@ -413,6 +417,8 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>, prop: ContractFi
 	}
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a
+/// Contract row.
 fn removeContractClickHandler(cx: &Scope, index: usize)
 {
 	let contractsRef = use_atom_ref(&cx, ChangelingContracts);

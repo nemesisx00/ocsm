@@ -23,6 +23,7 @@ use crate::{
 	}
 };
 
+/// The UI Component handling a Chronicles of Darkness character's list of Merits.
 pub fn Merits(cx: Scope) -> Element
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
@@ -114,6 +115,7 @@ pub fn Merits(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a Merit row.
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
@@ -125,6 +127,7 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when a `Merit`'s `Dots` is clicked.
 fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
@@ -137,6 +140,7 @@ fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 	}
 }
 
+/// Event handler triggered when the `Merit` label input's value changes.
 fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);

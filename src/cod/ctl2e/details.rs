@@ -13,8 +13,10 @@ use strum_macros::{
 	EnumIter
 };
 
+/// The value of the bonus to initiative and speed provided by the Beast Seeming Blessing.
 pub const BeastBonus: usize = 3;
 
+/// The possible Seemings of a Changeling: The Lost 2e Changeling.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum Seeming
 {
@@ -26,6 +28,7 @@ pub enum Seeming
 	Wizened,
 }
 
+/// The Detail fields of a Changeling: The Lost 2e Changeling.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum DetailType
 {
@@ -42,6 +45,7 @@ pub enum DetailType
 
 impl DetailType
 {
+	/// Generate a collection mapping each `DetailField` to a default value.
 	pub fn asMap() -> BTreeMap<Self, String>
 	{
 		let mut map = BTreeMap::<Self, String>::new();

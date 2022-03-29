@@ -12,6 +12,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Changeling: The Lost 2e Changeling's list of Touchstones.
 pub fn Touchstones(cx: Scope) -> Element
 {
 	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
@@ -104,6 +105,8 @@ pub fn Touchstones(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Touchstone row.
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
@@ -115,6 +118,7 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when a Touchstone's value changes.
 fn touchstoneHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
 	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);

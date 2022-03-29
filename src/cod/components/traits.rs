@@ -13,8 +13,8 @@ use crate::{
 			},
 		},
 		traits::{
-			BaseAttributeType,
-			BaseSkillType,
+			CoreAttributeType,
+			CoreSkillType,
 		},
 		state::{
 			CharacterAttributes,
@@ -30,15 +30,22 @@ use crate::{
 	},
 };
 
-#[inline_props]
-pub fn Attributes(cx: Scope, traitMax: usize) -> Element
+/// The properties struct for `Attributes` and `Skills`.
+#[derive(PartialEq, Props)]
+pub struct TraitProps
+{
+	traitMax: usize,
+}
+
+/// The UI Component handling a Chronicles of Darkness character's Attribute values.
+pub fn Attributes(cx: Scope<TraitProps>) -> Element
 {
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let attributes = attributesRef.read();
 	
-	let mentalAttributeTypes = BaseAttributeType::mental();
-	let physicalAttributeTypes = BaseAttributeType::physical();
-	let socialAttributeTypes = BaseAttributeType::social();
+	let mentalAttributeTypes = CoreAttributeType::mental();
+	let physicalAttributeTypes = CoreAttributeType::physical();
+	let socialAttributeTypes = CoreAttributeType::social();
 	
 	return cx.render(rsx!
 	{
@@ -58,7 +65,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					div { class: "row traitCategory", "Mental" }
 					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -68,7 +75,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					div { class: "row traitCategory", "Physical" }
 					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -78,7 +85,7 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 					div { class: "row traitCategory", "Social" }
 					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: *traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 			}
@@ -86,7 +93,8 @@ pub fn Attributes(cx: Scope, traitMax: usize) -> Element
 	});
 }
 
-fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usize)
+/// Event handler triggered when a dot in an Attribute is clicked.
+fn attributeHandler(cx: &Scope<DotsProps<CoreAttributeType>>, clickedValue: usize)
 {
 	match &cx.props.handlerKey
 	{
@@ -105,15 +113,15 @@ fn attributeHandler(cx: &Scope<DotsProps<BaseAttributeType>>, clickedValue: usiz
 
 // -----
 
-#[inline_props]
-pub fn Skills(cx: Scope, traitMax: usize) -> Element
+/// The UI Component handling a Chronicles of Darkness character's Skill values.
+pub fn Skills(cx: Scope<TraitProps>) -> Element
 {
 	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let skills = skillsRef.read();
 	
-	let mentalSkillTypes = BaseSkillType::mental();
-	let physicalSkillTypes = BaseSkillType::physical();
-	let socialSkillTypes = BaseSkillType::social();
+	let mentalSkillTypes = CoreSkillType::mental();
+	let physicalSkillTypes = CoreSkillType::physical();
+	let socialSkillTypes = CoreSkillType::social();
 	
 	return cx.render(rsx!
 	{
@@ -134,7 +142,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					div { class: "row unskilled", "(-3 unskilled)" }
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -145,7 +153,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -156,7 +164,7 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: BaseSkillType::getSkillName(*st), max: *traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}
@@ -164,7 +172,8 @@ pub fn Skills(cx: Scope, traitMax: usize) -> Element
 	});
 }
 
-fn skillHandler(cx: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
+/// Event handler triggered when a dot in a Skill is clicked.
+fn skillHandler(cx: &Scope<DotsProps<CoreSkillType>>, clickedValue: usize)
 {
 	match &cx.props.handlerKey
 	{
@@ -182,6 +191,7 @@ fn skillHandler(cx: &Scope<DotsProps<BaseSkillType>>, clickedValue: usize)
 
 // -----
 
+/// The UI Component handling a Chronicles of Darkness character's list of Skill Specialties.
 pub fn SkillSpecialties(cx: Scope) -> Element
 {
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
@@ -274,6 +284,7 @@ pub fn SkillSpecialties(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a Skill Specialty row.
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
@@ -285,6 +296,7 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when a Skill Specialty input's value changes.
 fn skillSpecialtyHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);

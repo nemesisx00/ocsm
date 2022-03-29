@@ -11,7 +11,7 @@ use strum_macros::{
 	EnumIter
 };
 
-/// The possible states for a Tracker's values.
+/// The possible states of a value within a `Tracker`.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum TrackerState
 {
@@ -20,8 +20,8 @@ pub enum TrackerState
 	One
 }
 
-/// A generic tracker for the various "Tracks" that are used
-/// throughout Chronicles of Darkness.
+/// Data structure representing the current state of a single Track
+/// (i.e. Health Track) within a Chronicles of Darkness character sheet.
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Serialize)]
 pub struct Tracker
 {
@@ -33,6 +33,7 @@ pub struct Tracker
 
 impl Tracker
 {
+	/// Create a new `Tracker` with a max of `max`.
 	pub fn new(max: usize) -> Tracker
 	{
 		return Tracker
@@ -42,11 +43,9 @@ impl Tracker
 		};
 	}
 	
-	/// Add a new TrackerState to the Tracker.
-	/// 
-	/// Does not exceed the Tracker's `max` capacity.
-	/// 
-	/// The values are sorted every time a new value is added.
+	/// Add a new TrackerState to the `Tracker`.
+	/// - Will not exceed the `max` capacity.
+	/// - The values are sorted every time a new value is added.
 	pub fn add(&mut self, state: TrackerState)
 	{
 		if self.values.len() < self.max
@@ -57,11 +56,13 @@ impl Tracker
 		self.values.sort();
 	}
 	
+	/// Get the allowed maximum value.
 	pub fn getMax(self) -> usize
 	{
 		return self.max;
 	}
 	
+	/// Get the state of the designated value.
 	pub fn getValue(self, index: usize) -> Option<TrackerState>
 	{
 		return match self.values.get(index)
@@ -71,6 +72,7 @@ impl Tracker
 		};
 	}
 	
+	/// Remove one instance of the designated state from the `Tracker`'s values.
 	pub fn remove(&mut self, state: TrackerState)
 	{
 		match self.values.iter().position(|ts| *ts == state)
@@ -82,6 +84,14 @@ impl Tracker
 		self.values.sort();
 	}
 	
+	/// Update the state of the designated value.
+	/// 
+	/// States can be upgraded or downgraded. In either case, the state will
+	/// "wrap around" when moving beyond the corresponding limit.
+	/// 
+	/// Follows the standard rules for a Chronicles of Darkness Health Track,
+	/// progressing from Superficial (`TrackerState::One`) to Lethal
+	/// (`TrackerState::Two`) to Aggravated (`TrackerState::Three`).
 	pub fn update(&mut self, state: TrackerState, index: usize, downgrade: bool)
 	{
 		match self.values.get(index)
@@ -125,10 +135,11 @@ impl Tracker
 				}
 			}
 		}
-		
-		self.values.sort();
 	}
 	
+	/// Update the allowed maximum value.
+	/// 
+	/// When the maximum is reduced, any excess values are removed.
 	pub fn updateMax(&mut self, max: usize)
 	{
 		self.max = max;
@@ -142,10 +153,11 @@ impl Tracker
 		}
 	}
 	
+	/// Replace the designated value with the designated state.
 	fn replace(&mut self, index: usize, new: TrackerState)
 	{
 		self.values.remove(index);
-		self.values.push(new);
+		self.add(new);
 	}
 }
 

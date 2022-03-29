@@ -13,6 +13,7 @@ use strum_macros::{
 	EnumIter
 };
 
+/// The Disciplines of a Vampire: The Requiem 2e Kindred.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DisciplineType
 {
@@ -30,6 +31,7 @@ pub enum DisciplineType
 
 impl DisciplineType
 {
+	/// Generates a collection mapping each `DisciplineType` to its corresponding name.
 	pub fn asMap() -> BTreeMap<DisciplineType, String>
 	{
 		let mut map = BTreeMap::<DisciplineType, String>::new();
@@ -41,6 +43,7 @@ impl DisciplineType
 	}
 }
 
+/// Data structure defining a single Vampire: The Requiem 2e Kindred Devotion or Discipline Power.
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Devotion
 {
@@ -58,6 +61,7 @@ pub struct Devotion
 	pub name: String,
 }
 
+/// The possible fields of a `Devotion`.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum DevotionField
 {

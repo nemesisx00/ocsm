@@ -37,7 +37,7 @@ use crate::{
 			},
 		},
 		traits::{
-			BaseAttributeType,
+			CoreAttributeType,
 		},
 		tracks::TrackerState,
 		state::{
@@ -49,6 +49,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Changeling: The Lost 2e Changeling's Core and Changeling Advantages.
 pub fn Advantages(cx: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
@@ -63,13 +64,13 @@ pub fn Advantages(cx: Scope) -> Element
 	
 	if details[&DetailType::Seeming] == Seeming::Beast.as_ref().to_string()
 	{
-		advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure] + BeastBonus;
-		advantages.speed = BaseSpeed + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength] + BeastBonus;
+		advantages.initiative = attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Composure] + BeastBonus;
+		advantages.speed = BaseSpeed + attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Strength] + BeastBonus;
 	}
 	else
 	{
-		advantages.initiative = attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Composure];
-		advantages.speed = BaseSpeed + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength];
+		advantages.initiative = attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Composure];
+		advantages.speed = BaseSpeed + attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Strength];
 	}
 	
 	return cx.render(rsx!
@@ -92,11 +93,13 @@ pub fn Advantages(cx: Scope) -> Element
 	});
 }
 
-fn wyrdHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+/// Event handler triggered when a dot in the Clarity Track is clicked.
+fn clarityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
-	updateTemplateAdvantage(cx, TemplateAdvantageType::Wyrd, clickedValue);
+	updateTemplateAdvantage(cx, TemplateAdvantageType::Clarity, clickedValue);
 }
 
+/// Event handler triggered when a box in the Health Track is clicked.
 fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	let value = cx.props.tracker.clone().getValue(index);
@@ -115,23 +118,27 @@ fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 	}
 }
 
-fn clarityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
-{
-	updateTemplateAdvantage(cx, TemplateAdvantageType::Clarity, clickedValue);
-}
-
+/// Event handler triggered when a box in the Glamour Track is clicked.
 fn glamourHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateGlamour(cx, index);
 }
 
+/// Event handler triggered when a box in the Willpower Track is clicked.
 fn willpowerHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateBaseWillpower(cx, index);
 }
 
+/// Event handler triggered when a dot in the Wyrd Track is clicked.
+fn wyrdHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+{
+	updateTemplateAdvantage(cx, TemplateAdvantageType::Wyrd, clickedValue);
+}
+
 // -----
 
+/// The UI Component handling a Changeling: The Lost 2e Changeling's list of Frailties.
 pub fn Frailties(cx: Scope) -> Element
 {
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);
@@ -222,6 +229,7 @@ pub fn Frailties(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered by clicking the "Remove" button after right-clicking a Frailty row.
 fn removeClickHandler(cx: &Scope, index: usize)
 {
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);
@@ -233,6 +241,8 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+/// Event handler triggered when a Frailty input's value changes
+/// or when the "Add a New Frailty" input's value changes.
 fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);

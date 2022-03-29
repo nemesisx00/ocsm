@@ -3,8 +3,17 @@
 use dioxus::prelude::*;
 use crate::app::MainMenuState;
 
-#[inline_props]
-pub fn MainMenu<'a>(cx: Scope, children: Element<'a>) -> Element<'a>
+/// The properties struct for the `MainMenu` component.
+#[derive(Props)]
+pub struct MainMenuProps<'a>
+{
+    children: Element<'a>
+}
+
+/// The UI component defining the main menu.
+/// 
+/// There should only ever be one of these at a time.
+pub fn MainMenu<'a>(cx: Scope<'a, MainMenuProps<'a>>) -> Element<'a>
 {
 	return cx.render(rsx!
 	{
@@ -14,11 +23,12 @@ pub fn MainMenu<'a>(cx: Scope, children: Element<'a>) -> Element<'a>
 			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
-			children
+			&cx.props.children
 		}
 	});
 }
 
+/// The properties struct for the `Menu` component.
 #[derive(Props)]
 pub struct MenuProps<'a>
 {
@@ -32,6 +42,9 @@ pub struct MenuProps<'a>
 	child: Option<bool>,
 }
 
+/// UI component defining a single menu within the main menu.
+/// 
+/// Can contain `Menu`s and `MenuItem`s as children.
 pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 {
 	let mainMenuState = use_read(&cx, MainMenuState);
@@ -102,6 +115,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 	});
 }
 
+/// The properties struct for `MenuItem`.
 #[derive(Props)]
 pub struct MenuItemProps<'a>
 {
@@ -111,6 +125,7 @@ pub struct MenuItemProps<'a>
 	handler: Option<fn(&Scope<'a, MenuItemProps<'a>>)>,
 }
 
+/// UI component defining a single item within a `Menu`.
 pub fn MenuItem<'a>(cx: Scope<'a, MenuItemProps<'a>>) -> Element<'a>
 {
 	return cx.render(rsx!

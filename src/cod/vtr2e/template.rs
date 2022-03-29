@@ -13,7 +13,7 @@ use strum::IntoEnumIterator;
 use crate::{
 	core::template::StatefulTemplate,
 	cod::{
-		character::BaseCharacter,
+		character::CoreCharacter,
 		vtr2e::{
 			advantages::TemplateAdvantages,
 			details::DetailType,
@@ -32,13 +32,14 @@ use crate::{
 	}
 };
 
+/// Data structure defining a Vampire: The Requiem 2e Kindred.
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Vampire
 {
 	#[serde(default)]
 	pub advantages: TemplateAdvantages,
 	#[serde(default)]
-	pub baseCharacter: BaseCharacter,
+	pub coreCharacter: CoreCharacter,
 	#[serde(default)]
 	pub details: BTreeMap<DetailType, String>,
 	#[serde(default)]
@@ -53,7 +54,7 @@ impl StatefulTemplate for Vampire
 {
 	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
-		self.baseCharacter.pull(cx);
+		self.coreCharacter.pull(cx);
 		
 		let advantages = use_atom_ref(cx, KindredAdvantages);
 		let details = use_atom_ref(cx, KindredDetails);
@@ -72,7 +73,7 @@ impl StatefulTemplate for Vampire
 	
 	fn push<T>(&mut self, cx: &Scope<T>)
 	{
-		self.baseCharacter.push(cx);
+		self.coreCharacter.push(cx);
 		
 		self.validate();
 		

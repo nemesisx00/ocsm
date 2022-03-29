@@ -14,6 +14,7 @@ use crate::{
 	},
 };
 
+/// The properties struct for `Track`.
 #[derive(Props)]
 pub struct TrackProps
 {
@@ -39,6 +40,7 @@ impl PartialEq for TrackProps
 	}
 }
 
+/// The UI Component handling a single Chronicles of Darkness character sheet Track.
 pub fn Track(cx: Scope<TrackProps>) -> Element
 {
 	let max = cx.props.tracker.clone().getMax();
@@ -79,6 +81,7 @@ pub fn Track(cx: Scope<TrackProps>) -> Element
 	});
 }
 
+/// Get the matching line state for the designated tracker state.
 fn getLineState(ts: &TrackerState) -> CheckLineState
 {
 	return match ts
@@ -89,6 +92,7 @@ fn getLineState(ts: &TrackerState) -> CheckLineState
 	};
 }
 
+/// Event handler triggered when a box in the `Track` is clicked.
 fn clickHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	match &cx.props.handler

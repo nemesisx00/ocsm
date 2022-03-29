@@ -21,12 +21,20 @@ use crate::{
 	},
 };
 
+/// A Vampire: The Requiem 2e Kindred's Advantages.
 pub static KindredAdvantages: AtomRef<TemplateAdvantages> = |_| TemplateAdvantages::default();
+/// A Vampire: The Requiem 2e Kindred's details, such as Clan.
 pub static KindredDetails: AtomRef<BTreeMap<DetailType, String>> = |_| DetailType::asMap();
+/// A Vampire: The Requiem 2e Kindred's list of Devotions and Discipline Powers.
 pub static KindredDevotions: AtomRef<Vec<Devotion>> = |_| Vec::<Devotion>::new();
+/// A Vampire: The Requiem 2e Kindred's list of Disciplines.
 pub static KindredDisciplines: AtomRef<BTreeMap<DisciplineType, usize>> = |_| BTreeMap::<DisciplineType, usize>::new();
+/// A Vampire: The Requiem 2e Kindred's list of Touchstones.
 pub static KindredTouchstones: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
+/// Update the designated Kindred Advantage.
+/// 
+/// Automaticaly updates any affected Traits.
 pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageType, value: usize)
 {
 	let templateRef = use_atom_ref(&cx, KindredAdvantages);
@@ -45,6 +53,7 @@ pub fn updateTemplateAdvantage<T>(cx: &Scope<T>, advantage: TemplateAdvantageTyp
 	}
 }
 
+/// Update the designated Kindred Detail.
 pub fn updateDetail<T>(cx: &Scope<T>, detailType: DetailType, value: String)
 {
 	let detailsRef = use_atom_ref(&cx, KindredDetails);
@@ -57,6 +66,7 @@ pub fn updateDetail<T>(cx: &Scope<T>, detailType: DetailType, value: String)
 	}
 }
 
+/// Update the value of the Vitae Track.
 pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 {
 	let templateRef = use_atom_ref(&cx, KindredAdvantages);
@@ -65,7 +75,7 @@ pub fn updateVitae<T>(cx: &Scope<T>, index: usize)
 	updateTrackerState_SingleState(&mut template.vitae, index, TrackerState::Two, false);
 }
 
-/// Reset every stateful value in the application, regardless of game system.
+/// Reset all `cod::vtr2e::state` global state values.
 pub fn resetGlobalStateVtr2e<T>(cx: &Scope<T>)
 {
 	let kindredAdvantages = use_atom_ref(cx, KindredAdvantages);

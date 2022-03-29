@@ -15,6 +15,7 @@ use strum_macros::{
 	EnumIter
 };
 
+/// The possible types of a Chronicles of Darkness Trait.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub enum BaseTraitType
 {
@@ -23,10 +24,11 @@ pub enum BaseTraitType
 	Social,
 }
 
-//Ordering according to how they're typically ordered on the sheet to make generating the UI easier
+/// The Attributes of a Chronicles of Darkness character.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
-pub enum BaseAttributeType
+pub enum CoreAttributeType
 {
+	//Ordering according to how they're typically ordered on the sheet to make generating the UI easier
 	Intelligence,
 	Wits,
 	Resolve,
@@ -38,18 +40,22 @@ pub enum BaseAttributeType
 	Composure,
 }
 
-impl BaseAttributeType
+impl CoreAttributeType
 {
+	/// Generates a collection mapping `CoreAttributeType` to a default `usize`.
+	/// 
+	/// Used to represent a Chronicles of Darkness character's current Attribute values.
 	pub fn asMap() -> BTreeMap<Self, usize>
 	{
 		let mut map = BTreeMap::<Self, usize>::new();
-		for bat in Self::iter()
+		for cat in Self::iter()
 		{
-			map.insert(bat, 1);
+			map.insert(cat, 1);
 		}
 		return map;
 	}
 	
+	/// Generates the subset of Attributes defined as Mental Traits.
 	pub fn mental() -> Vec<Self>
 	{
 		return vec![
@@ -59,6 +65,7 @@ impl BaseAttributeType
 		];
 	}
 	
+	/// Generates the subset of Attributes defined as Physical Traits.
 	pub fn physical() -> Vec<Self>
 	{
 		return vec![
@@ -68,6 +75,7 @@ impl BaseAttributeType
 		];
 	}
 	
+	/// Generates the subset of Attributes defined as Social Traits.
 	pub fn social() -> Vec<Self>
 	{
 		return vec![
@@ -78,8 +86,9 @@ impl BaseAttributeType
 	}
 }
 
+/// The Skills of a Chronicles of Darkness character.
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
-pub enum BaseSkillType
+pub enum CoreSkillType
 {
 	Academics,
 	AnimalKen,
@@ -107,66 +116,73 @@ pub enum BaseSkillType
 	Weaponry,
 }
 
-impl BaseSkillType
+impl CoreSkillType
 {
+	/// Generates a collection mapping `CoreSkillType` to a default `usize`.
+	/// 
+	/// Used to represent a Chronicles of Darkness character's current Skill values.
 	pub fn asMap() -> BTreeMap<Self, usize>
 	{
 		let mut map = BTreeMap::<Self, usize>::new();
-		for bst in Self::iter()
+		for cst in Self::iter()
 		{
-			map.insert(bst, 0);
+			map.insert(cst, 0);
 		}
 		return map;
 	}
 	
-	pub fn mental() -> Vec<BaseSkillType>
+	/// Generates the subset of Skills defined as Mental Traits.
+	pub fn mental() -> Vec<CoreSkillType>
 	{
 		return vec![
-			BaseSkillType::Academics,
-			BaseSkillType::Computer,
-			BaseSkillType::Crafts,
-			BaseSkillType::Investigation,
-			BaseSkillType::Medicine,
-			BaseSkillType::Occult,
-			BaseSkillType::Politics,
-			BaseSkillType::Science,
+			CoreSkillType::Academics,
+			CoreSkillType::Computer,
+			CoreSkillType::Crafts,
+			CoreSkillType::Investigation,
+			CoreSkillType::Medicine,
+			CoreSkillType::Occult,
+			CoreSkillType::Politics,
+			CoreSkillType::Science,
 		];
 	}
 	
-	pub fn physical() -> Vec<BaseSkillType>
+	/// Generates the subset of Skills defined as Physical Traits.
+	pub fn physical() -> Vec<CoreSkillType>
 	{
 		return vec![
-			BaseSkillType::Athletics,
-			BaseSkillType::Brawl,
-			BaseSkillType::Drive,
-			BaseSkillType::Firearms,
-			BaseSkillType::Larceny,
-			BaseSkillType::Stealth,
-			BaseSkillType::Survival,
-			BaseSkillType::Weaponry,
+			CoreSkillType::Athletics,
+			CoreSkillType::Brawl,
+			CoreSkillType::Drive,
+			CoreSkillType::Firearms,
+			CoreSkillType::Larceny,
+			CoreSkillType::Stealth,
+			CoreSkillType::Survival,
+			CoreSkillType::Weaponry,
 		];
 	}
 	
-	pub fn social() -> Vec<BaseSkillType>
+	/// Generates the subset of Skills defined as Social Traits.
+	pub fn social() -> Vec<CoreSkillType>
 	{
 		return vec![
-			BaseSkillType::AnimalKen,
-			BaseSkillType::Empathy,
-			BaseSkillType::Expression,
-			BaseSkillType::Intimidation,
-			BaseSkillType::Persuasion,
-			BaseSkillType::Socialize,
-			BaseSkillType::Streetwise,
-			BaseSkillType::Subterfuge,
+			CoreSkillType::AnimalKen,
+			CoreSkillType::Empathy,
+			CoreSkillType::Expression,
+			CoreSkillType::Intimidation,
+			CoreSkillType::Persuasion,
+			CoreSkillType::Socialize,
+			CoreSkillType::Streetwise,
+			CoreSkillType::Subterfuge,
 		];
 	}
 	
-	pub fn getSkillName(baseSkillType: Self) -> String
+	/// Generates a human-readable name for the given `CoreSkillType`.
+	pub fn getSkillName(coreSkillType: Self) -> String
 	{
-		return match baseSkillType
+		return match coreSkillType
 		{
-			BaseSkillType::AnimalKen => { "Animal Ken".to_string() }
-			_ => { baseSkillType.as_ref().to_string() }
+			CoreSkillType::AnimalKen => { "Animal Ken".to_string() }
+			_ => { coreSkillType.as_ref().to_string() }
 		};
 	}
 }
@@ -177,69 +193,69 @@ mod tests
 	use super::*;
 	
 	#[test]
-	fn test_BaseAttributeType_asMap()
+	fn test_CoreAttributeType_asMap()
 	{
 		let mut expected = BTreeMap::new();
-		expected.insert(BaseAttributeType::Intelligence, 1);
-		expected.insert(BaseAttributeType::Wits, 1);
-		expected.insert(BaseAttributeType::Resolve, 1);
-		expected.insert(BaseAttributeType::Strength, 1);
-		expected.insert(BaseAttributeType::Dexterity, 1);
-		expected.insert(BaseAttributeType::Stamina, 1);
-		expected.insert(BaseAttributeType::Composure, 1);
-		expected.insert(BaseAttributeType::Manipulation, 1);
-		expected.insert(BaseAttributeType::Presence, 1);
+		expected.insert(CoreAttributeType::Intelligence, 1);
+		expected.insert(CoreAttributeType::Wits, 1);
+		expected.insert(CoreAttributeType::Resolve, 1);
+		expected.insert(CoreAttributeType::Strength, 1);
+		expected.insert(CoreAttributeType::Dexterity, 1);
+		expected.insert(CoreAttributeType::Stamina, 1);
+		expected.insert(CoreAttributeType::Composure, 1);
+		expected.insert(CoreAttributeType::Manipulation, 1);
+		expected.insert(CoreAttributeType::Presence, 1);
 		
-		let result = BaseAttributeType::asMap();
+		let result = CoreAttributeType::asMap();
 		
 		assert_eq!(expected, result);
 	}
 	
 	#[test]
-	fn test_BaseSkillType_getSkillName()
+	fn test_CoreSkillType_getSkillName()
 	{
 		let pairs = BTreeMap::from([
-			("Socialize".to_string(), BaseSkillType::Socialize),
-			("Animal Ken".to_string(), BaseSkillType::AnimalKen),
+			("Socialize".to_string(), CoreSkillType::Socialize),
+			("Animal Ken".to_string(), CoreSkillType::AnimalKen),
 		]);
 		
 		pairs.iter().for_each(|(s, t)|
 		{
-			let result = BaseSkillType::getSkillName(*t);
+			let result = CoreSkillType::getSkillName(*t);
 			assert_eq!(*s, result);
 		});
 	}
 	
 	#[test]
-	fn test_BaseSkillType_asMap()
+	fn test_CoreSkillType_asMap()
 	{
 		let mut expected = BTreeMap::new();
-		expected.insert(BaseSkillType::Academics, 0);
-		expected.insert(BaseSkillType::AnimalKen, 0);
-		expected.insert(BaseSkillType::Athletics, 0);
-		expected.insert(BaseSkillType::Brawl, 0);
-		expected.insert(BaseSkillType::Computer, 0);
-		expected.insert(BaseSkillType::Crafts, 0);
-		expected.insert(BaseSkillType::Drive, 0);
-		expected.insert(BaseSkillType::Empathy, 0);
-		expected.insert(BaseSkillType::Expression, 0);
-		expected.insert(BaseSkillType::Firearms, 0);
-		expected.insert(BaseSkillType::Investigation, 0);
-		expected.insert(BaseSkillType::Intimidation, 0);
-		expected.insert(BaseSkillType::Larceny, 0);
-		expected.insert(BaseSkillType::Medicine, 0);
-		expected.insert(BaseSkillType::Occult, 0);
-		expected.insert(BaseSkillType::Persuasion, 0);
-		expected.insert(BaseSkillType::Politics, 0);
-		expected.insert(BaseSkillType::Science, 0);
-		expected.insert(BaseSkillType::Socialize, 0);
-		expected.insert(BaseSkillType::Stealth, 0);
-		expected.insert(BaseSkillType::Streetwise, 0);
-		expected.insert(BaseSkillType::Subterfuge, 0);
-		expected.insert(BaseSkillType::Survival, 0);
-		expected.insert(BaseSkillType::Weaponry, 0);
+		expected.insert(CoreSkillType::Academics, 0);
+		expected.insert(CoreSkillType::AnimalKen, 0);
+		expected.insert(CoreSkillType::Athletics, 0);
+		expected.insert(CoreSkillType::Brawl, 0);
+		expected.insert(CoreSkillType::Computer, 0);
+		expected.insert(CoreSkillType::Crafts, 0);
+		expected.insert(CoreSkillType::Drive, 0);
+		expected.insert(CoreSkillType::Empathy, 0);
+		expected.insert(CoreSkillType::Expression, 0);
+		expected.insert(CoreSkillType::Firearms, 0);
+		expected.insert(CoreSkillType::Investigation, 0);
+		expected.insert(CoreSkillType::Intimidation, 0);
+		expected.insert(CoreSkillType::Larceny, 0);
+		expected.insert(CoreSkillType::Medicine, 0);
+		expected.insert(CoreSkillType::Occult, 0);
+		expected.insert(CoreSkillType::Persuasion, 0);
+		expected.insert(CoreSkillType::Politics, 0);
+		expected.insert(CoreSkillType::Science, 0);
+		expected.insert(CoreSkillType::Socialize, 0);
+		expected.insert(CoreSkillType::Stealth, 0);
+		expected.insert(CoreSkillType::Streetwise, 0);
+		expected.insert(CoreSkillType::Subterfuge, 0);
+		expected.insert(CoreSkillType::Survival, 0);
+		expected.insert(CoreSkillType::Weaponry, 0);
 		
-		let result = BaseSkillType::asMap();
+		let result = CoreSkillType::asMap();
 		
 		assert_eq!(expected, result);
 	}

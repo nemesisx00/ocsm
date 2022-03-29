@@ -11,15 +11,15 @@ use crate::{
 	core::template::StatefulTemplate,
 	cod::{
 		advantages::{
-			BaseAdvantages,
+			CoreAdvantages,
 		},
 		merits::Merit,
 		tracks::{
 			Tracker,
 		},
 		traits::{
-			BaseAttributeType,
-			BaseSkillType,
+			CoreAttributeType,
+			CoreSkillType,
 		},
 		state::{
 			CharacterAdvantages,
@@ -34,15 +34,16 @@ use crate::{
 	},
 };
 
+/// Data structure defining a Chronicles of Darkness core character.
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct BaseCharacter
+pub struct CoreCharacter
 {
 	#[serde(default)]
-	pub advantages: BaseAdvantages,
+	pub advantages: CoreAdvantages,
 	#[serde(default)]
 	pub aspirations: Vec<String>,
 	#[serde(default)]
-	pub attributes: BTreeMap<BaseAttributeType, usize>,
+	pub attributes: BTreeMap<CoreAttributeType, usize>,
 	#[serde(default)]
 	pub beats: Tracker,
 	#[serde(default)]
@@ -50,30 +51,30 @@ pub struct BaseCharacter
 	#[serde(default)]
 	pub merits: Vec<Merit>,
 	#[serde(default)]
-	pub skills: BTreeMap<BaseSkillType, usize>,
+	pub skills: BTreeMap<CoreSkillType, usize>,
 	#[serde(default)]
 	pub specialties: Vec<String>,
 }
 
-impl Default for BaseCharacter
+impl Default for CoreCharacter
 {
 	fn default() -> Self
 	{
 		Self
 		{
-			advantages: BaseAdvantages::default(),
+			advantages: CoreAdvantages::default(),
 			aspirations: Vec::<String>::new(),
-			attributes: BaseAttributeType::asMap(),
+			attributes: CoreAttributeType::asMap(),
 			beats: Tracker::new(5),
 			experience: 0,
 			merits: Vec::<Merit>::new(),
-			skills: BaseSkillType::asMap(),
+			skills: CoreSkillType::asMap(),
 			specialties: Vec::<String>::new(),
 		}
 	}
 }
 
-impl StatefulTemplate for BaseCharacter
+impl StatefulTemplate for CoreCharacter
 {
 	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
@@ -123,21 +124,21 @@ impl StatefulTemplate for BaseCharacter
 	
 	fn validate(&mut self)
 	{
-		for bat in BaseAttributeType::iter()
+		for cat in CoreAttributeType::iter()
 		{
-			match self.attributes.get(&bat)
+			match self.attributes.get(&cat)
 			{
 				Some(_) => {}
-				None => { self.attributes.insert(bat, 1); }
+				None => { self.attributes.insert(cat, 1); }
 			}
 		}
 		
-		for bst in BaseSkillType::iter()
+		for cst in CoreSkillType::iter()
 		{
-			match self.skills.get(&bst)
+			match self.skills.get(&cst)
 			{
 				Some(_) => {}
-				None => { self.skills.insert(bst, 0); }
+				None => { self.skills.insert(cst, 0); }
 			}
 		}
 	}
@@ -149,12 +150,12 @@ mod tests
 	use super::*;
 	
 	#[test]
-	fn test_BaseCharacter_validate()
+	fn test_CoreCharacter_validate()
 	{
-		let attributes = BaseAttributeType::asMap();
-		let skills = BaseSkillType::asMap();
+		let attributes = CoreAttributeType::asMap();
+		let skills = CoreSkillType::asMap();
 		
-		let mut character = BaseCharacter::default();
+		let mut character = CoreCharacter::default();
 		character.attributes = BTreeMap::new();
 		character.skills = BTreeMap::new();
 		

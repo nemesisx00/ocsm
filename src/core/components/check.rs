@@ -8,7 +8,7 @@ const SvgPathLineFwd: &str = "M12,0 L0,12";
 const SvgPathLineVert: &str = "M6,0 L6,12";
 const SvgPathEnd: &str = "Z";
 
-///
+/// The properties struct for `CheckCircle`.
 #[derive(Props)]
 pub struct CheckCircleProps<'a>
 {
@@ -49,7 +49,7 @@ impl<'a> PartialEq for CheckCircleProps<'a>
 	}
 }
 
-/// Generate clickable a circle with inline SVG.
+/// Generate a clickable circle rendered by inline SVG.
 pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 {
 	let checkedClass = match cx.props.checked
@@ -84,7 +84,7 @@ pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 	});
 }
 
-/// Enumeration to designate how many line(s) should be drawn in a CheckLine.
+/// The possible states of a `CheckLine`.
 #[derive(Clone, Copy, PartialEq)]
 pub enum CheckLineState
 {
@@ -94,7 +94,7 @@ pub enum CheckLineState
 	Triple
 }
 
-///
+///The properties struct for `CheckLine`.
 #[derive(Props)]
 pub struct CheckLineProps<'a>
 {
@@ -114,7 +114,7 @@ impl<'a> PartialEq for CheckLineProps<'a>
 	}
 }
 
-/// Generate clickable a box with inline SVG.
+/// Generate a clickable box rendered by inline SVG.
 pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 {
 	let path = buildPath(cx.props.lineState);
@@ -145,7 +145,7 @@ pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 	});
 }
 
-/// Construct an SVG Path as a String based on the given CheckLineState.
+/// Construct an SVG Path based on the given `CheckLineState`.
 fn buildPath(lineState: CheckLineState) -> String
 {
 	return match lineState

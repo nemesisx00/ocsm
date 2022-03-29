@@ -11,6 +11,11 @@ use serde::{
 	Serialize,
 };
 
+/// Present the user with a native `FileDialog` and get the path to a file.
+/// 
+/// - `save` determines whether an Open dialog (`false`) or a Save dialog
+/// (`true`) is presented.
+/// - `currentPath` can be used to set the starting location of the `FileDialog`.
 pub fn getFilePath(save: bool, currentPath: Option<String>) -> Option<String>
 {
 	let initialLocation = match currentPath
@@ -41,7 +46,8 @@ pub fn getFilePath(save: bool, currentPath: Option<String>) -> Option<String>
 	};
 }
 
-fn getUserDocumentsDir() -> String
+/// Retrieve the path to the platform-specific user documents folder.
+pub fn getUserDocumentsDir() -> String
 {
 	return match UserDirs::new()
 	{
@@ -50,6 +56,7 @@ fn getUserDocumentsDir() -> String
 	};
 }
 
+/// Read and deserialize the contents of a file.
 pub fn loadFromFile<T: DeserializeOwned>(path: &Path) -> Result<T, String>
 {
 	return match File::open(&path)
@@ -63,6 +70,7 @@ pub fn loadFromFile<T: DeserializeOwned>(path: &Path) -> Result<T, String>
 	};
 }
 
+/// Serialize and write the `data` to a file.
 pub fn saveToFile<T: Serialize>(path: &Path, data: &T) -> Result<String, String>
 {
 	return match File::create(path)

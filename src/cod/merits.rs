@@ -5,6 +5,7 @@ use serde::{
 	Serialize,
 };
 
+/// Data structure defining a Chronicles of Darkness Merit.
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Eq, Serialize, PartialOrd, Ord)]
 pub struct Merit
 {

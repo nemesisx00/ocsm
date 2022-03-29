@@ -15,7 +15,7 @@ use strum::IntoEnumIterator;
 use crate::{
 	core::template::StatefulTemplate,
 	cod::{
-		character::BaseCharacter,
+		character::CoreCharacter,
 		ctl2e::{
 			advantages::TemplateAdvantages,
 			details::DetailType,
@@ -35,13 +35,15 @@ use crate::{
 	},
 };
 
+
+/// Data structure defining a Changeling: The Lost 2e Changeling.
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Changeling
 {
 	#[serde(default)]
 	pub advantages: TemplateAdvantages,
 	#[serde(default)]
-	pub baseCharacter: BaseCharacter,
+	pub coreCharacter: CoreCharacter,
 	#[serde(default)]
 	pub contracts: Vec<Contract>,
 	#[serde(default)]
@@ -58,7 +60,7 @@ impl StatefulTemplate for Changeling
 {
 	fn pull<T>(&mut self, cx: &Scope<T>)
 	{
-		self.baseCharacter.pull(cx);
+		self.coreCharacter.pull(cx);
 		
 		let advantages = use_atom_ref(cx, ChangelingAdvantages);
 		let contracts = use_atom_ref(cx, ChangelingContracts);
@@ -79,7 +81,7 @@ impl StatefulTemplate for Changeling
 	
 	fn push<T>(&mut self, cx: &Scope<T>)
 	{
-		self.baseCharacter.push(cx);
+		self.coreCharacter.push(cx);
 		
 		self.validate();
 		

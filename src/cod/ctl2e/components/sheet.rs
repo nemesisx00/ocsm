@@ -34,6 +34,7 @@ use crate::{
 	},
 };
 
+/// The UI Component defining the layout of a Changeling: The Lost 2e Changeling's character sheet.
 pub fn ChangelingSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, ChangelingAdvantages);

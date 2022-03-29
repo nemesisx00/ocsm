@@ -3,6 +3,7 @@
 use dioxus::prelude::*;
 use crate::core::components::check::CheckCircle;
 
+/// The properties struct for `Dots`.
 #[derive(Props)]
 pub struct DotsProps<T>
 {
@@ -35,6 +36,8 @@ impl<T> PartialEq for DotsProps<T>
 	}
 }
 
+/// The UI Component handling a single set of dots used to represent and manipulate
+/// the numeric value of several different Chronicles of Darkness Traits.
 pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 {
 	let class = match &cx.props.class
@@ -74,6 +77,7 @@ pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 	});
 }
 
+/// Event handler triggered when a dot in `Dots` is clicked.
 fn clickHandler<T>(cx: &Scope<DotsProps<T>>, clickedValue: usize)
 {
 	match &cx.props.handler

@@ -14,8 +14,8 @@ use crate::{
 			},
 		},
 		traits::{
-			BaseAttributeType,
-			BaseSkillType,
+			CoreAttributeType,
+			CoreSkillType,
 		},
 		tracks::TrackerState,
 		state::{
@@ -38,6 +38,7 @@ use crate::{
 	},
 };
 
+/// The UI Component handling a Vampire: The Requiem 2e Kindred's Core and Kindred Advantages.
 pub fn Advantages(cx: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
@@ -60,12 +61,12 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if celerity > &0
 			{
-				let attrDef = match attributes[&BaseAttributeType::Dexterity] <= attributes[&BaseAttributeType::Wits]
+				let attrDef = match attributes[&CoreAttributeType::Dexterity] <= attributes[&CoreAttributeType::Wits]
 				{
-					true => { attributes[&BaseAttributeType::Dexterity] }
-					false => { attributes[&BaseAttributeType::Wits] }
+					true => { attributes[&CoreAttributeType::Dexterity] }
+					false => { attributes[&CoreAttributeType::Wits] }
 				};
-				advantages.defense = attrDef + skills[&BaseSkillType::Athletics] + celerity;
+				advantages.defense = attrDef + skills[&CoreSkillType::Athletics] + celerity;
 			}
 		}
 		None => {}
@@ -77,7 +78,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if resilience > &0
 			{
-				advantages.health.updateMax(size + attributes[&BaseAttributeType::Stamina] + resilience);
+				advantages.health.updateMax(size + attributes[&CoreAttributeType::Stamina] + resilience);
 			}
 		}
 		None => {}
@@ -89,7 +90,7 @@ pub fn Advantages(cx: Scope) -> Element
 		{
 			if vigor > &0
 			{
-				advantages.speed = size + attributes[&BaseAttributeType::Dexterity] + attributes[&BaseAttributeType::Strength] + vigor;
+				advantages.speed = size + attributes[&CoreAttributeType::Dexterity] + attributes[&CoreAttributeType::Strength] + vigor;
 			}
 		}
 		None => {}
@@ -115,11 +116,13 @@ pub fn Advantages(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a dot in the Blood Potency Track is clicked.
 fn bloodPotencyHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
 	updateTemplateAdvantage(cx, TemplateAdvantageType::BloodPotency, clickedValue);
 }
 
+/// Event handler triggered when a box in the Health Track is clicked.
 fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	let value = cx.props.tracker.clone().getValue(index);
@@ -138,16 +141,19 @@ fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 	}
 }
 
+/// Event handler triggered when a dot in the Humanity Track is clicked.
 fn humanityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
 	updateTemplateAdvantage(cx, TemplateAdvantageType::Humanity, clickedValue);
 }
 
+/// Event handler triggered when a box in the Vitae Track is clicked.
 fn vitaeHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateVitae(cx, index);
 }
 
+/// Event handler triggered when a box in the Willpower Track is clicked.
 fn willpowerHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateBaseWillpower(cx, index);
