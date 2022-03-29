@@ -1,11 +1,13 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::collections::BTreeMap;
+use std::{
+	collections::BTreeMap,
+	path::Path,
+};
 use dioxus::{
 	desktop::use_window,
 	prelude::*,
 };
-use native_dialog::FileDialog;
 use serde::{
 	de::DeserializeOwned,
 	Serialize,
@@ -28,6 +30,7 @@ use crate::{
 		},
 		template::StatefulTemplate,
 		io::{
+			getFilePath,
 			loadFromFile,
 			saveToFile,
 		},
@@ -102,7 +105,7 @@ pub fn App(cx: Scope) -> Element
 	let mut show = GameSystem::showMap();
 	match show.get_mut(currentGameSystem)
 	{
-		Some(showGs) => { *showGs = true; }
+		Some(showGs) => *showGs = true,
 		None => {}
 	}
 	
@@ -157,99 +160,59 @@ fn gameSystemHandler(cx: &Scope<MenuItemProps>)
 	{
 		Some((gs, l)) =>
 		{
+			setMenuState(false);
 			window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
 			setCurrentGameSystem(*gs);
 			newSheetHandler(cx);
-		}
-		None => { setMenuState(false); }
+		},
+		None => setMenuState(false)
 	}
 }
 
 fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 {
+	let currentFilePath = use_read(&cx, CurrentFilePath);
 	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let setCurrentFilePath = use_set(&cx, CurrentFilePath);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
 	setMenuState(false);
-	
-	match FileDialog::new()
-		.set_location("~/Documents")
-		.add_filter("JSON", &["json"])
-		.add_filter("All Files", &["*"])
-		.show_open_single_file()
-	{
-		Ok(pbo) =>
-		{
-			match pbo
-			{
-				Some(pb) =>
-				{
-					match pb.into_os_string().into_string()
-					{
-						Ok(path) => { setCurrentFilePath(path); }
-						Err(e) => { println!("{:?}", e); }
-					}
-				}
-				None => {}
-			}
-		}
-		Err(e) => { println!("{:?}", e); }
-	}
+	setCurrentFilePath(getFilePath(false, currentFilePath.clone()));
 	
 	match currentGameSystem
 	{
-		GameSystem::CodChangeling2e => { loadSheet::<Changeling>(cx); }
-		GameSystem::CodVampire2e => { loadSheet::<Vampire>(cx); }
+		GameSystem::CodChangeling2e => loadSheet::<Changeling>(cx),
+		GameSystem::CodVampire2e => loadSheet::<Vampire>(cx),
 	}
 }
 
 fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 {
+	let currentFilePath = use_read(&cx, CurrentFilePath);
 	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let setCurrentFilePath = use_set(&cx, CurrentFilePath);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
 	setMenuState(false);
-	
-	match FileDialog::new()
-		.set_location("~/Documents")
-		.add_filter("JSON", &["json"])
-		.add_filter("All Files", &["*"])
-		.show_save_single_file()
-	{
-		Ok(pbo) =>
-		{
-			match pbo
-			{
-				Some(pb) =>
-				{
-					match pb.into_os_string().into_string()
-					{
-						Ok(path) => { setCurrentFilePath(path); }
-						Err(e) => { println!("{:?}", e); }
-					}
-				}
-				None => {}
-			}
-		}
-		Err(e) => { println!("{:?}", e); }
-	}
+	setCurrentFilePath(getFilePath(true, currentFilePath.clone()));
 	
 	match currentGameSystem
 	{
-		GameSystem::CodChangeling2e => { saveSheet::<Changeling>(cx); }
-		GameSystem::CodVampire2e => { saveSheet::<Vampire>(cx); }
+		GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
+		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
 	}
 }
 
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
 	let currentGameSystem = use_read(&cx, CurrentGameSystem);
+	let setMenuState = use_set(&cx, MainMenuState);
+	
+	setMenuState(false);
 	match currentGameSystem
 	{
-		GameSystem::CodChangeling2e => { pushSheet::<Changeling>(cx); }
-		GameSystem::CodVampire2e => { pushSheet::<Vampire>(cx); }
+		GameSystem::CodChangeling2e => pushSheet::<Changeling>(cx),
+		GameSystem::CodVampire2e => pushSheet::<Vampire>(cx),
 	}
 }
 
@@ -265,17 +228,17 @@ fn pushSheet<T: Default + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
-	if currentFilePath.clone() != "".to_string()
+	if let Some(pathStr) = currentFilePath
 	{
-		match loadFromFile::<T>(&currentFilePath.clone())
+		match loadFromFile::<T>(&Path::new(pathStr))
 		{
 			Ok(data) =>
 			{
 				resetGlobalState(cx);
 				let mut sheet: T = data;
 				sheet.push(&cx);
-			}
-			Err(e) => { println!("Failed to loadFromFile: {:?}", e.to_string()); }
+			},
+			Err(e) => println!("Failed to loadFromFile: {:?}", e.to_string())
 		}
 	}
 }
@@ -283,15 +246,15 @@ fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<Menu
 fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
-	if currentFilePath.clone() != "".to_string()
+	if let Some(pathStr) = currentFilePath
 	{
 		let mut sheet = T::default();
 		sheet.pull(&cx);
 		
-		match saveToFile(&currentFilePath.clone(), &sheet)
+		match saveToFile(&Path::new(pathStr), &sheet)
 		{
-			Ok(json) => { println!("Saved to json file! {}", json); }
-			Err(e) => { println!("Error saving to file: {}", e); }
+			Ok(json) => println!("Saved to json file! {}", json),
+			Err(e) => println!("Error saving to file: {}", e)
 		}
 	}
 }

@@ -2,7 +2,6 @@
 
 use dioxus::prelude::*;
 use crate::{
-	app::MainMenuState,
 	cod::{
 		state::resetGlobalStateCod,
 		ctl2e::state::resetGlobalStateCtl2e,
@@ -10,7 +9,7 @@ use crate::{
 	}
 };
 
-pub static CurrentFilePath: Atom<String> = |_| "".to_string();
+pub static CurrentFilePath: Atom<Option<String>> = |_| None;
 
 // -----
 
@@ -27,12 +26,7 @@ loaded game system.
 /// Reset every stateful value in the application, regardless of game system.
 pub fn resetGlobalState<T>(cx: &Scope<T>)
 {
-	let setMenuState = use_set(cx, MainMenuState);
-	
 	resetGlobalStateCod(cx);
 	resetGlobalStateCtl2e(cx);
 	resetGlobalStateVtr2e(cx);
-	
-	//Force an update after this. Seems to get bogged down and not want to close the menu every time
-	setMenuState(false);
 }
