@@ -1,10 +1,8 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::{
+	events::FormEvent,
 	prelude::*,
-	events::{
-		FormEvent,
-	},
 };
 use crate::{
 	cod::{
@@ -12,10 +10,7 @@ use crate::{
 			Dots,
 			DotsProps,
 		},
-		merits::Merit,
-		state::{
-			CharacterMerits,
-		},
+		state::CharacterMerits,
 	},
 	core::util::{
 		RemovePopUpXOffset,
@@ -49,7 +44,7 @@ pub fn Merits(cx: Scope) -> Element
 			{
 				class: "entryList column",
 				
-				merits.iter().enumerate().map(|(i, merit)| rsx!(cx, div
+				merits.iter().enumerate().map(|(i, (name, value))| rsx!(cx, div
 				{
 					key: "{i}",
 					class: "entry row",
@@ -66,7 +61,7 @@ pub fn Merits(cx: Scope) -> Element
 					input
 					{
 						r#type: "text",
-						value: "{merit.name}",
+						value: "{name}",
 						onchange: move |e| inputHandler(e, &cx, Some(i)),
 						oncontextmenu: move |e|
 						{
@@ -78,7 +73,7 @@ pub fn Merits(cx: Scope) -> Element
 						},
 						prevent_default: "oncontextmenu"
 					}
-					Dots { max: 5, value: merit.value, handler: dotsHandler, handlerKey: i }
+					Dots { max: 5, value: *value, handler: dotsHandler, handlerKey: i }
 				}))
 				
 				div
@@ -127,19 +122,23 @@ fn removeClickHandler(cx: &Scope, index: usize)
 	}
 }
 
+#[allow(irrefutable_let_patterns)]
 /// Event handler triggered when a `Merit`'s `Dots` is clicked.
 fn dotsHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let mut merits = meritsRef.write();
 	
-	match &cx.props.handlerKey
+	if let Some(index) = &cx.props.handlerKey
 	{
-		Some(index) => { merits[*index].value = clickedValue; }
-		None => {}
+		if let (_, ref mut value) = merits[*index]
+		{
+			*value = clickedValue;
+		}
 	}
 }
 
+#[allow(irrefutable_let_patterns)]
 /// Event handler triggered when the `Merit` label input's value changes.
 fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 {
@@ -148,7 +147,13 @@ fn inputHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
 	
 	match index
 	{
-		Some(i) => { merits[i].name = e.value.clone(); }
-		None => { merits.push(Merit { name: e.value.clone(), ..Default::default() }); }
+		Some(i) =>
+		{
+			if let (ref mut name, _) = merits[i]
+			{
+				*name = e.value.clone();
+			}
+		},
+		None => merits.push((e.value.clone(), 0))
 	}
 }

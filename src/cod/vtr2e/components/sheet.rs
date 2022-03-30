@@ -13,8 +13,11 @@ use crate::{
 				SkillSpecialties,
 			}
 		},
+		state::{
+			CharacterAdvantages,
+			getTraitMax,
+		},
 		vtr2e::{
-			advantages::bloodPotencyTraitMax,
 			components::{
 				advantages::Advantages,
 				details::Details,
@@ -24,7 +27,6 @@ use crate::{
 				},
 				touchstones::Touchstones,
 			},
-			state::KindredAdvantages,
 		},
 	},
 };
@@ -32,9 +34,8 @@ use crate::{
 /// The UI Component defining the layout of a Vampire: The Requiem 2e Kindred's character sheet.
 pub fn VampireSheet(cx: Scope) -> Element
 {
-	let advantages = use_atom_ref(&cx, KindredAdvantages);
-	let bloodPotency = advantages.read().bloodPotency;
-	let traitMax = bloodPotencyTraitMax(bloodPotency);
+	let advantages = use_atom_ref(&cx, CharacterAdvantages);
+	let traitMax = getTraitMax(advantages.read().power.unwrap());
 	
 	return cx.render(rsx!
 	{	

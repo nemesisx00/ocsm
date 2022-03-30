@@ -28,7 +28,6 @@ use crate::{
 				MenuItemProps,
 			},
 		},
-		template::StatefulTemplate,
 		io::{
 			getFilePath,
 			loadFromFile,
@@ -36,17 +35,18 @@ use crate::{
 		},
 		state::{
 			CurrentFilePath,
+			StatefulTemplate,
 			resetGlobalState,
 		},
 	},
 	cod::{
 		ctl2e::{
 			components::sheet::ChangelingSheet,
-			template::Changeling,
+			structs::Changeling,
 		},
 		vtr2e::{
 			components::sheet::VampireSheet,
-			template::Vampire,
+			structs::Vampire,
 		},
 	},
 	WindowTitle,

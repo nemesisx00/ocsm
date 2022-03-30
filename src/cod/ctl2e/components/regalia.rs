@@ -1,28 +1,30 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::{
-	prelude::*,
-	events::FormEvent
+	events::FormEvent,
+	prelude::*
 };
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
 		ctl2e::{
-			details::{
-				DetailType,
+			enums::{
+				ContractField,
+				Regalia,
 				Seeming,
 			},
-			regalia::{
-				Regalia,
+			structs::{
 				Contract,
-				ContractField,
 			},
 			state::{
 				ChangelingContracts,
-				ChangelingDetails,
 				ChangelingFavoredRegalia,
 			},
 		},
+		enums::{
+			CoreDetail,
+		},
+		state::CharacterDetails,
 	},
 	core::util::{
 		RemovePopUpXOffset,
@@ -33,7 +35,7 @@ use crate::{
 /// The UI Component handling a Changeling: The Lost 2e Changeling's Favored Regalia.
 pub fn FavoredRegalia(cx: Scope) -> Element
 {
-	let detailsRef = use_atom_ref(&cx, ChangelingDetails);
+	let detailsRef = use_atom_ref(&cx, CharacterDetails);
 	let details = detailsRef.read();
 	let favoredRegalia = use_read(&cx, ChangelingFavoredRegalia);
 	let setFavoredRegalia = use_set(&cx, ChangelingFavoredRegalia);
@@ -48,7 +50,7 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 	let mut seemingRegalia = "".to_string();
 	for s in Seeming::iter()
 	{
-		if s.as_ref().to_string() == details[&DetailType::Seeming]
+		if s.as_ref().to_string() == details[&CoreDetail::TypePrimary]
 		{
 			seemingRegalia = Regalia::getBySeeming(s).as_ref().to_string();
 		}

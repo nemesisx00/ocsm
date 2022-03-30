@@ -6,22 +6,22 @@ use dioxus::{
 };
 use crate::{
 	cod::{
+		enums::{
+			CoreAttribute,
+			CoreSkill,
+		},
 		components::{
 			dots::{
 				Dots,
 				DotsProps,
 			},
 		},
-		traits::{
-			CoreAttributeType,
-			CoreSkillType,
-		},
 		state::{
 			CharacterAttributes,
 			CharacterSkills,
 			CharacterSpecialties,
-			updateBaseAttribute,
-			updateBaseSkill,
+			updateCoreAttribute,
+			updateCoreSkill,
 		},
 	},
 	core::util::{
@@ -43,9 +43,9 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 	let attributesRef = use_atom_ref(&cx, CharacterAttributes);
 	let attributes = attributesRef.read();
 	
-	let mentalAttributeTypes = CoreAttributeType::mental();
-	let physicalAttributeTypes = CoreAttributeType::physical();
-	let socialAttributeTypes = CoreAttributeType::social();
+	let mentalAttributeTypes = CoreAttribute::mental();
+	let physicalAttributeTypes = CoreAttribute::physical();
+	let socialAttributeTypes = CoreAttribute::social();
 	
 	return cx.render(rsx!
 	{
@@ -94,7 +94,7 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 }
 
 /// Event handler triggered when a dot in an Attribute is clicked.
-fn attributeHandler(cx: &Scope<DotsProps<CoreAttributeType>>, clickedValue: usize)
+fn attributeHandler(cx: &Scope<DotsProps<CoreAttribute>>, clickedValue: usize)
 {
 	match &cx.props.handlerKey
 	{
@@ -105,7 +105,7 @@ fn attributeHandler(cx: &Scope<DotsProps<CoreAttributeType>>, clickedValue: usiz
 			if next > cx.props.max { next = cx.props.max; }
 			if next < 1 { next = 1; }
 			
-			updateBaseAttribute(cx, attributeType, next);
+			updateCoreAttribute(cx, attributeType, next);
 		},
 		None => {}
 	}
@@ -119,9 +119,9 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 	let skillsRef = use_atom_ref(&cx, CharacterSkills);
 	let skills = skillsRef.read();
 	
-	let mentalSkillTypes = CoreSkillType::mental();
-	let physicalSkillTypes = CoreSkillType::physical();
-	let socialSkillTypes = CoreSkillType::social();
+	let mentalSkillTypes = CoreSkill::mental();
+	let physicalSkillTypes = CoreSkill::physical();
+	let socialSkillTypes = CoreSkill::social();
 	
 	return cx.render(rsx!
 	{
@@ -142,7 +142,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-3 unskilled)" }
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -153,7 +153,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -164,7 +164,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkillType::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}
@@ -173,7 +173,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 }
 
 /// Event handler triggered when a dot in a Skill is clicked.
-fn skillHandler(cx: &Scope<DotsProps<CoreSkillType>>, clickedValue: usize)
+fn skillHandler(cx: &Scope<DotsProps<CoreSkill>>, clickedValue: usize)
 {
 	match &cx.props.handlerKey
 	{
@@ -183,7 +183,7 @@ fn skillHandler(cx: &Scope<DotsProps<CoreSkillType>>, clickedValue: usize)
 			if clickedValue == cx.props.value { next -= 1; }
 			if next > cx.props.max { next = cx.props.max; }
 			
-			updateBaseSkill(cx, skillType, next);
+			updateCoreSkill(cx, skillType, next);
 		},
 		None => {}
 	}

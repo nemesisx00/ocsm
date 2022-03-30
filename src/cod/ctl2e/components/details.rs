@@ -1,26 +1,24 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use std::collections::BTreeMap;
-use dioxus::prelude::*;
-use dioxus::events::FormEvent;
+use dioxus::{
+	events::FormEvent,
+	prelude::*
+};
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
-		advantages::CoreAdvantageType,
+		enums::{
+			CoreAdvantage,
+			CoreDetail,
+		},
 		state::{
 			CharacterAdvantages,
-			updateBaseAdvantage,
+			CharacterDetails,
+			updateCoreAdvantage,
+			updateCoreDetail,
 		},
-		ctl2e::{
-			details::{
-				Seeming,
-				DetailType,
-			},
-			state::{
-				ChangelingDetails,
-				updateDetail,
-			},
-		},
+		ctl2e::enums::Seeming,
 	},
 	core::util::generateSelectedValue,
 };
@@ -29,7 +27,7 @@ use crate::{
 pub fn Details(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
-	let detailsRef = use_atom_ref(&cx, ChangelingDetails);
+	let detailsRef = use_atom_ref(&cx, CharacterDetails);
 	let details = detailsRef.read();
 	
 	let defense = advantages.read().defense;
@@ -58,22 +56,22 @@ pub fn Details(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: "Player:".to_string(), value: (&details[&DetailType::Player]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Player, }
-					DetailInput { label: "Chronicle:".to_string(), value: (&details[&DetailType::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Chronicle, }
-					DetailInput { label: "Name:".to_string(), value: (&details[&DetailType::Name]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Name, }
-					DetailInput { label: "Concept:".to_string(), value: (&details[&DetailType::Concept]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Concept, }
-					DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantageType::Size, }
+					DetailInput { label: "Player:".to_string(), value: (&details[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
+					DetailInput { label: "Chronicle:".to_string(), value: (&details[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
+					DetailInput { label: "Name:".to_string(), value: (&details[&CoreDetail::Name]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Name, }
+					DetailInput { label: "Concept:".to_string(), value: (&details[&CoreDetail::Concept]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Concept, }
+					DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantage::Size, }
 				}
 				
 				div
 				{
 					class: "column",
 					
-					DetailInput { label: "Needle:".to_string(), value: (&details[&DetailType::Needle]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Needle, }
-					DetailInput { label: "Thread:".to_string(), value: (&details[&DetailType::Thread]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Thread, }
-					DetailInput { label: "Seeming:".to_string(), value: (&details[&DetailType::Seeming]).clone(), select: true, selectNoneLabel: "Choose a Seeming".to_string(), selectOptions: seemings.clone(), handler: detailHandler, handlerKey: DetailType::Seeming, }
-					DetailInput { label: "Kith:".to_string(), value: (&details[&DetailType::Kith]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Kith, }
-					DetailInput { label: "Court:".to_string(), value: (&details[&DetailType::Court]).clone(), select: false, handler: detailHandler, handlerKey: DetailType::Court, }
+					DetailInput { label: "Needle:".to_string(), value: (&details[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
+					DetailInput { label: "Thread:".to_string(), value: (&details[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
+					DetailInput { label: "Seeming:".to_string(), value: (&details[&CoreDetail::TypePrimary]).clone(), select: true, selectNoneLabel: "Choose a Seeming".to_string(), selectOptions: seemings.clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
+					DetailInput { label: "Kith:".to_string(), value: (&details[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
+					DetailInput { label: "Court:".to_string(), value: (&details[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
 				}
 			}
 			
@@ -90,17 +88,17 @@ pub fn Details(cx: Scope) -> Element
 }
 
 /// Event handler triggered when a `DetailInput`'s value changes.
-fn detailHandler(cx: &Scope<DetailInputProps<DetailType>>, value: String)
+fn detailHandler(cx: &Scope<DetailInputProps<CoreDetail>>, value: String)
 {
 	match cx.props.handlerKey
 	{
-		Some(df) => { updateDetail(cx, df, value); }
+		Some(df) => { updateCoreDetail(cx, df, value); }
 		None => {}
 	}
 }
 
 /// Event handler triggered when the Size input's value changes.
-fn advantageHandler(cx: &Scope<DetailInputProps<CoreAdvantageType>>, value: String)
+fn advantageHandler(cx: &Scope<DetailInputProps<CoreAdvantage>>, value: String)
 {
 	match usize::from_str_radix(&value, 10)
 	{
@@ -108,7 +106,7 @@ fn advantageHandler(cx: &Scope<DetailInputProps<CoreAdvantageType>>, value: Stri
 		{
 			match cx.props.handlerKey
 			{
-				Some(at) => { updateBaseAdvantage(cx, at, num); }
+				Some(at) => { updateCoreAdvantage(cx, at, num); }
 				None => {}
 			}
 		}

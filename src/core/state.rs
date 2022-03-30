@@ -1,6 +1,10 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
+use dioxus::prelude::{
+	Atom,
+	Scope,
+	use_set
+};
 use crate::{
 	cod::{
 		state::resetGlobalStateCod,
@@ -26,4 +30,19 @@ pub fn resetGlobalState<T>(cx: &Scope<T>)
 	resetGlobalStateCod(cx);
 	resetGlobalStateCtl2e(cx);
 	resetGlobalStateVtr2e(cx);
+}
+
+// -----
+
+/// Trait defining methods for interacting with the application's global state.
+pub trait StatefulTemplate
+{
+	/// Pull the global state down into this template.
+	fn pull<T>(&mut self, cx: &Scope<T>);
+	
+	/// Push this template up into the global state.
+	fn push<T>(&mut self, cx: &Scope<T>);
+	
+	/// Detect and resolve any internal data errors.
+	fn validate(&mut self);
 }

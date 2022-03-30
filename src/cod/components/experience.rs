@@ -13,7 +13,7 @@ use crate::cod::{
 	state::{
 		CharacterBeats,
 		CharacterExperience,
-		updateBaseBeats,
+		updateCoreBeats,
 	},
 };
 
@@ -57,8 +57,8 @@ fn beatsHandler(cx: &Scope<TrackProps>, index: usize)
 	
 	match index + 1 > 4
 	{
-		true => { setExperience(previousExperience + 1); updateBaseBeats(cx, 0, true); }
-		false => { updateBaseBeats(cx, index, false); }
+		true => { setExperience(previousExperience + 1); updateCoreBeats(cx, 0, true); }
+		false => { updateCoreBeats(cx, index, false); }
 	}
 }
 

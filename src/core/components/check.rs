@@ -1,7 +1,9 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
-use dioxus::events::MouseEvent;
+use dioxus::{
+	events::MouseEvent,
+	prelude::*
+};
 
 const SvgPathLineBack: &str = "M0,0 L12,12";
 const SvgPathLineFwd: &str = "M12,0 L0,12";

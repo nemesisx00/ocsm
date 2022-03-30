@@ -12,7 +12,6 @@ use strum_macros::{
 	EnumCount,
 	EnumIter
 };
-use crate::cod::ctl2e::details::Seeming;
 
 /// The Regalia available to a Changeling: The Lost 2e Changeling.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
@@ -54,24 +53,6 @@ impl Regalia
 	}
 }
 
-/// Data structure defining a single Changeling: The Lost 2e Contract.
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Contract
-{
-	#[serde(default)]
-	pub action: String,
-	#[serde(default)]
-	pub cost: String,
-	#[serde(default)]
-	pub dicePool: String,
-	#[serde(default)]
-	pub regalia: String,
-	#[serde(default)]
-	pub duration: String,
-	#[serde(default)]
-	pub name: String,
-}
-
 /// The fields of a Changeling: The Lost 2e Contract.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum ContractField
@@ -82,4 +63,16 @@ pub enum ContractField
 	Regalia,
 	Duration,
 	Name,
+}
+
+/// The possible Seemings of a Changeling: The Lost 2e Changeling.
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+pub enum Seeming
+{
+	Beast,
+	Darkling,
+	Elemental,
+	Fairest,
+	Ogre,
+	Wizened,
 }

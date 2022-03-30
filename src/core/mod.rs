@@ -2,6 +2,5 @@
 
 pub mod components;
 pub mod io;
-pub mod template;
 pub mod state;
 pub mod util;

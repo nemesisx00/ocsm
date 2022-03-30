@@ -12,11 +12,11 @@ use crate::{
 			DotsProps,
 		},
 		vtr2e::{
-			disciplines::{
-				Devotion,
+			enums::{
 				DevotionField,
-				DisciplineType,
+				Discipline,
 			},
+			structs::Devotion,
 			state::{
 				KindredDisciplines,
 				KindredDevotions,
@@ -44,7 +44,7 @@ pub fn Disciplines(cx: Scope) -> Element
 	let posY = *clickedY.get() - RemovePopUpYOffset;
 	
 	let mut optionNames = Vec::<String>::new();
-	for dt in DisciplineType::iter()
+	for dt in Discipline::iter()
 	{
 		optionNames.push(dt.as_ref().to_string());
 	}
@@ -126,7 +126,7 @@ pub fn Disciplines(cx: Scope) -> Element
 }
 
 /// Event handler triggered when a Discipline value changes.
-fn dotsHandler(cx: &Scope<DotsProps<DisciplineType>>, clickedValue: usize)
+fn dotsHandler(cx: &Scope<DotsProps<Discipline>>, clickedValue: usize)
 {
 	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let mut disciplines = disciplinesRef.write();
@@ -167,7 +167,7 @@ fn selectHandler(e: FormEvent, cx: &Scope)
 	
 	let disciplineType = e.value.to_string();
 	
-	match DisciplineType::asMap().iter().filter(|(_, name)| *name == &disciplineType).next()
+	match Discipline::asMap().iter().filter(|(_, name)| *name == &disciplineType).next()
 	{
 		Some((dt, _)) =>
 		{

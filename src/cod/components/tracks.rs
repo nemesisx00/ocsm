@@ -3,10 +3,8 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
-		tracks::{
-			Tracker,
-			TrackerState,
-		},
+		enums::TrackerState,
+		structs::Tracker,
 	},
 	core::components::check::{
 		CheckLine,
