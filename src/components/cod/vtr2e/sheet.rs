@@ -1,16 +1,19 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
+use strum::IntoEnumIterator;
 use crate::{
 	cod::{
 		state::{
 			CharacterAdvantages,
 			getTraitMax,
 		},
+		vtr2e::enums::Clan,
 	},
 	components::{
 		cod::{
 			aspirations::Aspirations,
+			details::Details,
 			experience::Experience,
 			merits::Merits,
 			traits::{
@@ -20,7 +23,6 @@ use crate::{
 			},
 			vtr2e::{
 				advantages::Advantages,
-				details::Details,
 				disciplines::{
 					Disciplines,
 					Devotions,
@@ -37,6 +39,12 @@ pub fn VampireSheet(cx: Scope) -> Element
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
 	let traitMax = getTraitMax(advantages.read().power.unwrap());
 	
+	let mut clans = Vec::<String>::new();
+	for c in Clan::iter()
+	{
+		clans.push(c.as_ref().to_string());
+	}
+	
 	return cx.render(rsx!
 	{	
 		div
@@ -46,7 +54,20 @@ pub fn VampireSheet(cx: Scope) -> Element
 			h1 { "Vampire: The Requiem" }
 			h3 { "Second Edition" }
 			hr { class: "row" }
-			div { class: "row", Details {} Advantages {} }
+			div
+			{
+				class: "row",
+				Details
+				{
+					virtue: "Mask".to_string(),
+					vice: "Dirge".to_string(),
+					typePrimary: "Clan".to_string(),
+					typePrimaryOptions: clans.clone(),
+					typeSecondary: "Bloodline".to_string(),
+					faction: "Covenant".to_string()
+				}
+				Advantages {}
+			}
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} Touchstones {} Experience {} }
 			hr { class: "row" }

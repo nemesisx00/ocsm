@@ -1,10 +1,14 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
+use strum::IntoEnumIterator;
 use crate::{
-	cod::state::{
-		CharacterAdvantages,
-		getTraitMax,
+	cod::{
+		ctl2e::enums::Seeming,
+		state::{
+			CharacterAdvantages,
+			getTraitMax,
+		},
 	},
 	components::{
 		cod::{
@@ -13,7 +17,6 @@ use crate::{
 					Advantages,
 					Frailties,
 				},
-				details::Details,
 				regalia::{
 					Contracts,
 					FavoredRegalia,
@@ -21,6 +24,7 @@ use crate::{
 				touchstones::Touchstones,
 			},
 			aspirations::Aspirations,
+			details::Details,
 			experience::Experience,
 			merits::Merits,
 			traits::{
@@ -38,6 +42,12 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
 	let traitMax = getTraitMax(advantages.read().power.unwrap());
 	
+	let mut seemings = Vec::<String>::new();
+	for s in Seeming::iter()
+	{
+		seemings.push(s.as_ref().to_string());
+	}
+	
 	return cx.render(rsx!
 	{	
 		div
@@ -47,7 +57,20 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 			h1 { "Changeling: The Lost" }
 			h3 { "Second Edition" }
 			hr { class: "row" }
-			div { class: "row", Details {} Advantages {} }
+			div
+			{
+				class: "row",
+				Details
+				{
+					virtue: "Needle".to_string(),
+					vice: "Thread".to_string(),
+					typePrimary: "Seeming".to_string(),
+					typePrimaryOptions: seemings.clone(),
+					typeSecondary: "Kith".to_string(),
+					faction: "Court".to_string()
+				}
+				Advantages {}
+			}
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} div { class: "column", Touchstones {} FavoredRegalia {} } Experience {} }
 			hr { class: "row" }

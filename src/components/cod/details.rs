@@ -3,7 +3,6 @@
 use std::collections::BTreeMap;
 use dioxus::prelude::*;
 use dioxus::events::FormEvent;
-use strum::IntoEnumIterator;
 use crate::{
 	cod::{
 		enums::{
@@ -16,13 +15,24 @@ use crate::{
 			updateCoreAdvantage,
 			updateCoreDetail,
 		},
-		vtr2e::enums::Clan,
 	},
 	core::util::generateSelectedValue,
 };
 
+/// The properties struct for `Details`.
+#[derive(PartialEq, Props)]
+pub struct DetailsProps
+{
+	virtue: String,
+	vice: String,
+	typePrimary: String,
+	typePrimaryOptions: Vec<String>,
+	typeSecondary: String,
+	faction: String,
+}
+
 /// The UI Component handling a Vampire: The Requiem 2e Kindred's Details.
-pub fn Details(cx: Scope) -> Element
+pub fn Details(cx: Scope<DetailsProps>) -> Element
 {
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
 	let detailsRef = use_atom_ref(&cx, CharacterDetails);
@@ -31,12 +41,6 @@ pub fn Details(cx: Scope) -> Element
 	let defense = advantages.read().defense;
 	let initiative = advantages.read().initiative;
 	let speed = advantages.read().speed;
-	
-	let mut clans = Vec::<String>::new();
-	for c in Clan::iter()
-	{
-		clans.push(c.as_ref().to_string());
-	}
 	
 	return cx.render(rsx!
 	{
@@ -65,11 +69,11 @@ pub fn Details(cx: Scope) -> Element
 				{
 					class: "column",
 					
-					DetailInput { label: "Mask:".to_string(), value: (&details[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
-					DetailInput { label: "Dirge:".to_string(), value: (&details[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
-					DetailInput { label: "Clan:".to_string(), value: (&details[&CoreDetail::TypePrimary]).clone(), select: true, selectNoneLabel: "Choose a Clan".to_string(), selectOptions: clans.clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
-					DetailInput { label: "Bloodline:".to_string(), value: (&details[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
-					DetailInput { label: "Covenant:".to_string(), value: (&details[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
+					DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
+					DetailInput { label: format!("{}:", &cx.props.vice.clone()), value: (&details[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
+					DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: (&details[&CoreDetail::TypePrimary]).clone(), select: true, selectNoneLabel: format!("{} {}", "Choose a".to_string(), &cx.props.typePrimary.clone()), selectOptions: cx.props.typePrimaryOptions.clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
+					DetailInput { label: format!("{}:", &cx.props.typeSecondary.clone()), value: (&details[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
+					DetailInput { label: format!("{}:", &cx.props.faction.clone()), value: (&details[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
 				}
 			}
 			
