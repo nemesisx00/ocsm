@@ -5,7 +5,6 @@ pub mod details;
 pub mod dots;
 pub mod experience;
 pub mod list;
-pub mod merits;
 pub mod sheet;
 pub mod tracks;
 pub mod traits;

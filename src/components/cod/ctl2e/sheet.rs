@@ -26,6 +26,7 @@ use crate::{
 			CharacterAttributes,
 			CharacterConditions,
 			CharacterDetails,
+			CharacterMerits,
 			CharacterSpecialties,
 			getTraitMax,
 		},
@@ -44,8 +45,21 @@ use crate::{
 			},
 			details::Details,
 			experience::Experience,
-			list::SimpleEntryList,
-			merits::Merits,
+			list::{
+				DotEntryList,
+				SimpleEntryList,
+			},
+			sheet::{
+				aspirationRemoveClickHandler,
+				aspirationUpdateHandler,
+				conditionRemoveClickHandler,
+				conditionUpdateHandler,
+				meritDotHandler,
+				meritRemoveClickHandler,
+				meritUpdateHandler,
+				skillSpecialtyRemoveClickHandler,
+				skillSpecialtyUpdateHandler,
+			},
 			traits::{
 				Attributes,
 				Skills,
@@ -61,6 +75,7 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
 	let traitMax = match advantagesRef.read().power
@@ -81,6 +96,8 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
 	let mut frailties = vec![];
 	frailtiesRef.read().iter().for_each(|f| frailties.push(f.clone()));
+	let mut merits = vec![];
+	meritsRef.read().iter().for_each(|m| merits.push(m.clone()));
 	let mut specialties = vec![];
 	specialtiesRef.read().iter().for_each(|s| specialties.push(s.clone()));
 	let mut touchstones = vec![];
@@ -195,7 +212,15 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 					}
 				}
 				
-				Merits {}
+				DotEntryList
+				{
+					class: "merits".to_string(),
+					data: merits.clone(),
+					label: "Merits".to_string(),
+					entryDotHandler: meritDotHandler,
+					entryRemoveHandler: meritRemoveClickHandler,
+					entryUpdateHandler: meritUpdateHandler,
+				}
 			}
 			
 			hr { class: "row" }
@@ -227,58 +252,6 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 
 /// Event handler triggered by clicking the "Remove" button after
 /// right-clicking a Aspiration row.
-fn aspirationRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
-{
-	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
-	let mut aspirations = aspirationsRef.write();
-	
-	if index < aspirations.len()
-	{
-		aspirations.remove(index);
-	}
-}
-
-/// Event handler triggered when a Aspiration's value changes.
-fn aspirationUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
-{
-	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
-	let mut aspirations = aspirationsRef.write();
-	
-	match index
-	{
-		Some(i) => { aspirations[i] = e.value.to_string(); }
-		None => { aspirations.push(e.value.to_string()); }
-	}
-}
-
-/// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Condition row.
-fn conditionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
-{
-	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
-	let mut conditions = conditionsRef.write();
-	
-	if index < conditions.len()
-	{
-		conditions.remove(index);
-	}
-}
-
-/// Event handler triggered when a Condition's value changes.
-fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
-{
-	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
-	let mut conditions = conditionsRef.write();
-	
-	match index
-	{
-		Some(i) => { conditions[i] = e.value.to_string(); }
-		None => { conditions.push(e.value.to_string()); }
-	}
-}
-
-/// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Aspiration row.
 fn frailtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 {
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);
@@ -300,32 +273,6 @@ fn frailtyUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 	{
 		Some(i) => { frailties[i] = e.value.to_string(); }
 		None => { frailties.push(e.value.to_string()); }
-	}
-}
-
-/// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Skill Specialty row.
-fn skillSpecialtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
-{
-	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
-	let mut skillSpecialties = skillSpecialtiesRef.write();
-	
-	if index < skillSpecialties.len()
-	{
-		skillSpecialties.remove(index);
-	}
-}
-
-/// Event handler triggered when a Skill Specialty's value changes.
-fn skillSpecialtyUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
-{
-	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
-	let mut skillSpecialties = skillSpecialtiesRef.write();
-	
-	match index
-	{
-		Some(i) => { skillSpecialties[i] = e.value.to_string(); }
-		None => { skillSpecialties.push(e.value.to_string()); }
 	}
 }
 

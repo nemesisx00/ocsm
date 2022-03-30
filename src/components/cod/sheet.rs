@@ -9,6 +9,7 @@ use crate::{
 		state::{
 			CharacterAspirations,
 			CharacterConditions,
+			CharacterMerits,
 			CharacterSpecialties,
 		},
 	},
@@ -16,9 +17,12 @@ use crate::{
 		cod::{
 			advantages::Advantages,
 			details::Details,
+			dots::DotsProps,
 			experience::Experience,
-			list::SimpleEntryList,
-			merits::Merits,
+			list::{
+				DotEntryList,
+				SimpleEntryList,
+			},
 			traits::{
 				Attributes,
 				Skills,
@@ -32,12 +36,15 @@ pub fn MortalSheet(cx: Scope) -> Element
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	
 	let mut aspirations = vec![];
 	aspirationsRef.read().iter().for_each(|a| aspirations.push(a.clone()));
 	let mut conditions = vec![];
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
+	let mut merits = vec![];
+	meritsRef.read().iter().for_each(|m| merits.push(m.clone()));
 	let mut specialties = vec![];
 	specialtiesRef.read().iter().for_each(|s| specialties.push(s.clone()));
 	
@@ -48,7 +55,6 @@ pub fn MortalSheet(cx: Scope) -> Element
 			class: "sheet cod core column",
 			
 			h1 { "Chronicles of Darkness" }
-			//h3 { }
 			hr { class: "row" }
 			
 			div
@@ -113,7 +119,15 @@ pub fn MortalSheet(cx: Scope) -> Element
 					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
 				}
 				
-				Merits {}
+				DotEntryList
+				{
+					class: "merits".to_string(),
+					data: merits.clone(),
+					label: "Merits".to_string(),
+					entryDotHandler: meritDotHandler,
+					entryRemoveHandler: meritRemoveClickHandler,
+					entryUpdateHandler: meritUpdateHandler,
+				}
 			}
 		}
 	});
@@ -121,7 +135,7 @@ pub fn MortalSheet(cx: Scope) -> Element
 
 /// Event handler triggered by clicking the "Remove" button after
 /// right-clicking a Aspiration row.
-fn aspirationRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+pub fn aspirationRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let mut aspirations = aspirationsRef.write();
@@ -133,7 +147,7 @@ fn aspirationRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 }
 
 /// Event handler triggered when a Aspiration's value changes.
-fn aspirationUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+pub fn aspirationUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 {
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let mut aspirations = aspirationsRef.write();
@@ -147,7 +161,7 @@ fn aspirationUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 
 /// Event handler triggered by clicking the "Remove" button after
 /// right-clicking a Condition row.
-fn conditionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+pub fn conditionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 {
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
 	let mut conditions = conditionsRef.write();
@@ -159,7 +173,7 @@ fn conditionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 }
 
 /// Event handler triggered when a Condition's value changes.
-fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+pub fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 {
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
 	let mut conditions = conditionsRef.write();
@@ -171,9 +185,54 @@ fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 	}
 }
 
+#[allow(irrefutable_let_patterns)]
+/// Event handler triggered when a `Merit`'s `Dots` is clicked.
+pub fn meritDotHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+{
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
+	let mut merits = meritsRef.write();
+	
+	if let Some(index) = &cx.props.handlerKey
+	{
+		if let (_, ref mut value) = merits[*index]
+		{
+			*value = clickedValue;
+		}
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after right-clicking a Merit row.
+pub fn meritRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
+	let mut merits = meritsRef.write();
+	
+	if index < merits.len()
+	{
+		merits.remove(index);
+	}
+}
+
+#[allow(irrefutable_let_patterns)]
+/// Event handler triggered when the `Merit` label input's value changes.
+pub fn meritUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let meritsRef = use_atom_ref(&cx, CharacterMerits);
+	let mut merits = meritsRef.write();
+	
+	match index
+	{
+		Some(i) => if let (ref mut name, _) = merits[i]
+		{
+			*name = e.value.clone();
+		},
+		None => merits.push((e.value.clone(), 0))
+	}
+}
+
 /// Event handler triggered by clicking the "Remove" button after
 /// right-clicking a Skill Specialty row.
-fn skillSpecialtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+pub fn skillSpecialtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 {
 	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let mut skillSpecialties = skillSpecialtiesRef.write();
@@ -185,7 +244,7 @@ fn skillSpecialtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 }
 
 /// Event handler triggered when a Skill Specialty's value changes.
-fn skillSpecialtyUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+pub fn skillSpecialtyUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 {
 	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let mut skillSpecialties = skillSpecialtiesRef.write();
