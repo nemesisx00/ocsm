@@ -14,6 +14,7 @@ use crate::{
 			updateCoreResource,
 			updateCoreWillpower
 		},
+		structs::Tracker,
 	},
 	components::{
 		cod::{
@@ -81,9 +82,28 @@ pub fn Advantages(cx: Scope<AdvantagesProps>) -> Element
 	
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let advantages = advantagesRef.read();
-	// This feels like a hack to get around the move in the showPower/showResource .then()'s
-	// but it works for now.
-	let otherAdvantages = advantagesRef.read();
+	
+	let powerLabel = match &cx.props.power
+	{
+		Some(p) => p.to_string(),
+		None => "".to_string()
+	};
+	let resourceLabel = match &cx.props.resource
+	{
+		Some(t) => t.clone(),
+		None => "".to_string()
+	};
+	
+	let power = match advantages.power
+	{
+		Some(p) => p,
+		None => 0
+	};
+	let resource = match &advantages.resource
+	{
+		Some(t) => t.clone(),
+		None => Tracker::new(5)
+	};
 	
 	let showPower = match cx.props.power
 	{
@@ -91,7 +111,7 @@ pub fn Advantages(cx: Scope<AdvantagesProps>) -> Element
 		None => false,
 	};
 	
-	let showResource = match cx.props.resource
+	let showResource = match &cx.props.resource
 	{
 		Some(_) => true,
 		None => false,
@@ -109,23 +129,17 @@ pub fn Advantages(cx: Scope<AdvantagesProps>) -> Element
 				
 				Track { label: "Health".to_string(), tracker: advantages.health.clone(), handler: healthHandler }
 				Track { label: "Willpower".to_string(), tracker: advantages.willpower.clone(), handler: willpowerHandler }
-				Dots { label: cx.props.integrity.clone(), max: 10, value: advantages.integrity, handler: clarityHandler }
+				Dots { label: cx.props.integrity.clone(), max: 10, value: advantages.integrity, handler: integrityHandler }
 				
 				showPower.then(|| rsx!(
-					Dots { label: cx.props.power.as_ref().unwrap().clone(), max: 10, value: advantages.power.as_ref().unwrap().clone(), handler: wyrdHandler }
+					Dots { label: powerLabel.clone(), max: 10, value: power.clone(), handler: powerHandler }
 				))
 				showResource.then(|| rsx!(
-					Track { label: cx.props.resource.as_ref().unwrap().clone(), tracker: otherAdvantages.resource.as_ref().unwrap().clone(), handler: glamourHandler }
+					Track { label: resourceLabel.clone(), tracker: resource.clone(), handler: resourceHandler }
 				))
 			}
 		}
 	});
-}
-
-/// Event handler triggered when a dot in the Clarity Track is clicked.
-fn clarityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
-{
-	updateCoreAdvantage(cx, CoreAdvantage::Integrity, clickedValue);
 }
 
 /// Event handler triggered when a box in the Health Track is clicked.
@@ -147,8 +161,20 @@ fn healthHandler(cx: &Scope<TrackProps>, index: usize)
 	}
 }
 
+/// Event handler triggered when a dot in the Clarity Track is clicked.
+fn integrityHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+{
+	updateCoreAdvantage(cx, CoreAdvantage::Integrity, clickedValue);
+}
+
+/// Event handler triggered when a dot in the Wyrd Track is clicked.
+fn powerHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+{
+	updateCoreAdvantage(cx, CoreAdvantage::Power, clickedValue);
+}
+
 /// Event handler triggered when a box in the Glamour Track is clicked.
-fn glamourHandler(cx: &Scope<TrackProps>, index: usize)
+fn resourceHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateCoreResource(cx, index);
 }
@@ -157,10 +183,4 @@ fn glamourHandler(cx: &Scope<TrackProps>, index: usize)
 fn willpowerHandler(cx: &Scope<TrackProps>, index: usize)
 {
 	updateCoreWillpower(cx, index);
-}
-
-/// Event handler triggered when a dot in the Wyrd Track is clicked.
-fn wyrdHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
-{
-	updateCoreAdvantage(cx, CoreAdvantage::Power, clickedValue);
 }

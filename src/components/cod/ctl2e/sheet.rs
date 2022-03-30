@@ -56,9 +56,13 @@ use crate::{
 /// The UI Component defining the layout of a Changeling: The Lost 2e Changeling's character sheet.
 pub fn ChangelingSheet(cx: Scope) -> Element
 {
-	let advantages = use_atom_ref(&cx, CharacterAdvantages);
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
-	let traitMax = getTraitMax(advantages.read().power.unwrap());
+	let traitMax = match advantagesRef.read().power
+	{
+		Some(p) => getTraitMax(p),
+		None => 5
+	};
 	
 	let mut seemings = Vec::<String>::new();
 	for s in Seeming::iter()

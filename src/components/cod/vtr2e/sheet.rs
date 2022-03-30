@@ -60,7 +60,11 @@ pub fn VampireSheet(cx: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
-	let traitMax = getTraitMax(advantagesRef.read().power.unwrap());
+	let traitMax = match advantagesRef.read().power
+	{
+		Some(p) => getTraitMax(p),
+		None => 5
+	};
 	
 	let mut clans = Vec::<String>::new();
 	for c in Clan::iter()
