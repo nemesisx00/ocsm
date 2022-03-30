@@ -4,7 +4,6 @@
 		text-align center
 		font-size 1.1em
 		font-weight bold
-		user-select none
 
 	& .entryList
 
@@ -16,4 +15,27 @@
 			flexShrink()
 			margin 7px auto 0
 			padding 5px 20px
-			user-select none
+
+.sheet.cod .simpleEntryListWrapper
+	justify-content flex-start
+	
+	& .simpleEntryListLabel
+		text-align center
+		font-size 1.1em
+		font-weight bold
+		
+	& .simpleEntryList.column
+		flexNone()
+		justify-content space-evenly
+		
+		& .row
+			margin-bottom 5px
+			
+			& input
+				flexGrow()
+			
+		& .row:first-child
+			margin-top 5px
+			
+		& .row:last-child
+			margin-bottom 0

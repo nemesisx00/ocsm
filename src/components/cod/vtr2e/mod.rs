@@ -2,4 +2,3 @@
 
 pub mod disciplines;
 pub mod sheet;
-pub mod touchstones;

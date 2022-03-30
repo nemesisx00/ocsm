@@ -5,19 +5,36 @@ use dioxus::{
 	prelude::*,
 };
 use crate::{
-	cod::vtr2e::state::KindredTouchstones,
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
 	},
 };
 
-/// The UI Component handling a Vampire: The Requiem 2e Kindred's list of Touchstones.
-pub fn Touchstones(cx: Scope) -> Element
+/// The properties struct for `SimpleEntryList`.
+/// 
+/// `label` needs to be singular for when it's displayed in the remove pop up.
+/// It will be pluralized for the component label.
+#[derive(Props)]
+pub struct SimpleEntryListProps
 {
-	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
-	let touchstones = touchstonesRef.read();
-	
+	data: Vec<String>,
+	label: String,
+	entryUpdateHandler: fn(FormEvent, &Scope<SimpleEntryListProps>, Option<usize>),
+	entryRemoveHandler: fn(&Scope<SimpleEntryListProps>, usize),
+}
+
+impl PartialEq for SimpleEntryListProps
+{
+	fn eq(&self, other: &Self) -> bool
+	{
+		return self.data == other.data && self.label == other.label;
+	}
+}
+
+/// A generic UI Component for an editable list of text inputs.
+pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
+{
 	let clickedX = use_state(&cx, || 0);
 	let clickedY = use_state(&cx, || 0);
 	let lastIndex = use_state(&cx, || 0);
@@ -30,15 +47,15 @@ pub fn Touchstones(cx: Scope) -> Element
 	{
 		div
 		{
-			class: "touchstonesWrapper cod column",
+			class: "simpleEntryListWrapper cod column",
 			
-			div { class: "touchstonesLabel", "Touchstones" },
+			div { class: "simpleEntryListLabel", "{cx.props.label}s" },
 			
 			div
 			{
-				class: "touchstones column",
+				class: "simpleEntryList column",
 				
-				touchstones.iter().enumerate().map(|(i, touchstone)| {
+				cx.props.data.iter().enumerate().map(|(i, entry)| {
 					rsx!(cx, div
 					{
 						class: "row",
@@ -56,8 +73,8 @@ pub fn Touchstones(cx: Scope) -> Element
 						input
 						{
 							r#type: "text",
-							value: "{touchstone}",
-							onchange: move |e| touchstoneHandler(e, &cx, Some(i)),
+							value: "{entry}",
+							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
 							oncontextmenu: move |e|
 							{
 								e.cancel_bubble();
@@ -74,7 +91,7 @@ pub fn Touchstones(cx: Scope) -> Element
 				div
 				{
 					class: "row",
-					input { r#type: "text", value: "", placeholder: "Enter new a Touchstone", onchange: move |e| touchstoneHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter new a {cx.props.label}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
@@ -89,12 +106,12 @@ pub fn Touchstones(cx: Scope) -> Element
 						{
 							class: "removePopUp column",
 							
-							div { class: "row", "Are you sure you want to remove this Touchstone?" }
+							div { class: "row", "Are you sure you want to remove this {cx.props.label}?" }
 							div
 							{
 								class: "row",
 								
-								button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+								button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
 							}
 						}
@@ -103,30 +120,4 @@ pub fn Touchstones(cx: Scope) -> Element
 			}
 		}
 	});
-}
-
-/// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Touchstone row.
-fn removeClickHandler(cx: &Scope, index: usize)
-{
-	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
-	let mut touchstones = touchstonesRef.write();
-	
-	if index < touchstones.len()
-	{
-		touchstones.remove(index);
-	}
-}
-
-/// Event handler triggered when a Touchstone's value changes.
-fn touchstoneHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
-{
-	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
-	let mut touchstones = touchstonesRef.write();
-	
-	match index
-	{
-		Some(i) => { touchstones[i] = e.value.to_string(); }
-		None => { touchstones.push(e.value.to_string()); }
-	}
 }

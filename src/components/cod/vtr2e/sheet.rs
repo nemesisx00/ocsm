@@ -1,6 +1,9 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
+use dioxus::{
+	events::FormEvent,
+	prelude::*
+};
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
@@ -22,6 +25,7 @@ use crate::{
 			state::{
 				BP0VitaeMax,
 				KindredDisciplines,
+				KindredTouchstones,
 			},
 		},
 	},
@@ -34,6 +38,7 @@ use crate::{
 			aspirations::Aspirations,
 			details::Details,
 			experience::Experience,
+			list::SimpleEntryList,
 			merits::Merits,
 			traits::{
 				Attributes,
@@ -45,7 +50,6 @@ use crate::{
 					Disciplines,
 					Devotions,
 				},
-				touchstones::Touchstones,
 			},
 		},
 	},
@@ -54,14 +58,18 @@ use crate::{
 /// The UI Component defining the layout of a Vampire: The Requiem 2e Kindred's character sheet.
 pub fn VampireSheet(cx: Scope) -> Element
 {
-	let advantages = use_atom_ref(&cx, CharacterAdvantages);
-	let traitMax = getTraitMax(advantages.read().power.unwrap());
+	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
+	let traitMax = getTraitMax(advantagesRef.read().power.unwrap());
 	
 	let mut clans = Vec::<String>::new();
 	for c in Clan::iter()
 	{
 		clans.push(c.as_ref().to_string());
 	}
+	
+	let mut touchstones = vec![];
+	touchstonesRef.read().iter().for_each(|t| touchstones.push(t.clone()));
 	
 	return cx.render(rsx!
 	{	
@@ -93,7 +101,19 @@ pub fn VampireSheet(cx: Scope) -> Element
 				}
 			}
 			hr { class: "row" }
-			div { class: "row spacedOut", Aspirations {} Touchstones {} Experience {} }
+			div
+			{
+				class: "row spacedOut",
+				Aspirations {}
+				SimpleEntryList
+				{
+					data: touchstones.clone(),
+					label: "Touchstone".to_string(),
+					entryUpdateHandler: touchstoneUpdateHandler,
+					entryRemoveHandler: touchstoneRemoveClickHandler,
+				}
+				Experience {}
+			}
 			hr { class: "row" }
 			div { class: "row", Attributes { traitMax: traitMax } }
 			hr { class: "row" }
@@ -154,5 +174,31 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 		{
 			advantages.speed = size + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength] + vigor;
 		}
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Touchstone row.
+fn touchstoneRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
+	let mut touchstones = touchstonesRef.write();
+	
+	if index < touchstones.len()
+	{
+		touchstones.remove(index);
+	}
+}
+
+/// Event handler triggered when a Touchstone's value changes.
+fn touchstoneUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
+	let mut touchstones = touchstonesRef.write();
+	
+	match index
+	{
+		Some(i) => { touchstones[i] = e.value.to_string(); }
+		None => { touchstones.push(e.value.to_string()); }
 	}
 }

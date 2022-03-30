@@ -1,12 +1,18 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::prelude::*;
+use dioxus::{
+	events::FormEvent,
+	prelude::*
+};
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
 		ctl2e::{
 			enums::Seeming,
-			state::BeastBonus,
+			state::{
+				BeastBonus,
+				ChangelingTouchstones,
+			},
 		},
 		enums::{
 			CoreAttribute,
@@ -28,7 +34,6 @@ use crate::{
 					Contracts,
 					FavoredRegalia,
 				},
-				touchstones::Touchstones,
 			},
 			advantages::{
 				Advantages,
@@ -37,6 +42,7 @@ use crate::{
 			aspirations::Aspirations,
 			details::Details,
 			experience::Experience,
+			list::SimpleEntryList,
 			merits::Merits,
 			traits::{
 				Attributes,
@@ -51,6 +57,7 @@ use crate::{
 pub fn ChangelingSheet(cx: Scope) -> Element
 {
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
+	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
 	let traitMax = getTraitMax(advantages.read().power.unwrap());
 	
 	let mut seemings = Vec::<String>::new();
@@ -58,6 +65,9 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	{
 		seemings.push(s.as_ref().to_string());
 	}
+	
+	let mut touchstones = vec![];
+	touchstonesRef.read().iter().for_each(|t| touchstones.push(t.clone()));
 	
 	return cx.render(rsx!
 	{	
@@ -89,7 +99,24 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 				}
 			}
 			hr { class: "row" }
-			div { class: "row spacedOut", Aspirations {} div { class: "column", Touchstones {} FavoredRegalia {} } Experience {} }
+			div
+			{
+				class: "row spacedOut",
+				Aspirations {}
+				div
+				{
+					class: "column",
+					SimpleEntryList
+					{
+						data: touchstones.clone(),
+						label: "Touchstone".to_string(),
+						entryUpdateHandler: touchstoneUpdateHandler,
+						entryRemoveHandler: touchstoneRemoveClickHandler,
+					}
+					FavoredRegalia {}
+				}
+				Experience {}
+			}
 			hr { class: "row" }
 			div { class: "row", Attributes { traitMax: traitMax } }
 			hr { class: "row" }
@@ -120,5 +147,32 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 	{
 		advantages.initiative = attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Composure];
 		advantages.speed = BaseSpeed + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength];
+	}
+}
+
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Touchstone row.
+fn touchstoneRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
+	let mut touchstones = touchstonesRef.write();
+	
+	if index < touchstones.len()
+	{
+		touchstones.remove(index);
+	}
+}
+
+/// Event handler triggered when a Touchstone's value changes.
+fn touchstoneUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let touchstonesRef = use_atom_ref(&cx, ChangelingTouchstones);
+	let mut touchstones = touchstonesRef.write();
+	
+	match index
+	{
+		Some(i) => { touchstones[i] = e.value.to_string(); }
+		None => { touchstones.push(e.value.to_string()); }
 	}
 }
