@@ -29,7 +29,7 @@ fn main()
 			//.with_disable_context_menu(true)
 			.with_window(|w|
 			{
-				w.with_title(WindowTitle)
+				w.with_title(format!("{} - {}", WindowTitle, "Chronicles of Darkness"))
 					//.with_menu(generateMainMenu())
 					.with_resizable(true)
 					.with_inner_size(LogicalSize::new(900.0, 800.0))
