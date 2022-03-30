@@ -3,16 +3,6 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
-		components::{
-			dots::{
-				Dots,
-				DotsProps,
-			},
-			tracks::{
-				Track,
-				TrackProps,
-			},
-		},
 		enums::{
 			CoreAdvantage,
 			CoreAttribute,
@@ -31,6 +21,18 @@ use crate::{
 		vtr2e::{
 			enums::Discipline,
 			state::KindredDisciplines,
+		},
+	},
+	components::{
+		cod::{
+			dots::{
+				Dots,
+				DotsProps,
+			},
+			tracks::{
+				Track,
+				TrackProps,
+			},
 		},
 	},
 };

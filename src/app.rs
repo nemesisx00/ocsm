@@ -19,8 +19,12 @@ use strum_macros::{
 	EnumIter,
 };
 use crate::{
-	core::{
-		components::{
+	components::{
+		cod::{
+			ctl2e::sheet::ChangelingSheet,
+			vtr2e::sheet::VampireSheet,
+		},
+		core::{
 			menu::{
 				MainMenu,
 				Menu,
@@ -28,6 +32,8 @@ use crate::{
 				MenuItemProps,
 			},
 		},
+	},
+	core::{
 		io::{
 			getFilePath,
 			loadFromFile,
@@ -40,14 +46,8 @@ use crate::{
 		},
 	},
 	cod::{
-		ctl2e::{
-			components::sheet::ChangelingSheet,
-			structs::Changeling,
-		},
-		vtr2e::{
-			components::sheet::VampireSheet,
-			structs::Vampire,
-		},
+		ctl2e::structs::Changeling,
+		vtr2e::structs::Vampire,
 	},
 	WindowTitle,
 };

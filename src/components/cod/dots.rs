@@ -1,7 +1,7 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use crate::core::components::check::CheckCircle;
+use crate::components::core::check::CheckCircle;
 
 /// The properties struct for `Dots`.
 #[derive(Props)]

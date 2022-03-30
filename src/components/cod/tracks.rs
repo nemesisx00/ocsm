@@ -6,7 +6,7 @@ use crate::{
 		enums::TrackerState,
 		structs::Tracker,
 	},
-	core::components::check::{
+	components::core::check::{
 		CheckLine,
 		CheckLineState,
 	},

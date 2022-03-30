@@ -5,21 +5,7 @@ use dioxus::{
 	prelude::*
 };
 use crate::{
-	core::util::{
-		RemovePopUpXOffset,
-		RemovePopUpYOffset,
-	},
 	cod::{
-		components::{
-			dots::{
-				Dots,
-				DotsProps,
-			},
-			tracks::{
-				Track,
-				TrackProps,
-			},
-		},
 		ctl2e::{
 			enums::Seeming,
 			state::{
@@ -43,6 +29,22 @@ use crate::{
 			updateCoreResource,
 			updateCoreWillpower
 		}
+	},
+	core::util::{
+		RemovePopUpXOffset,
+		RemovePopUpYOffset,
+	},
+	components::{
+		cod::{
+			dots::{
+				Dots,
+				DotsProps,
+			},
+			tracks::{
+				Track,
+				TrackProps,
+			},
+		},
 	},
 };
 

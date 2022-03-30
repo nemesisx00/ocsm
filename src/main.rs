@@ -1,8 +1,9 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 pub(crate) mod app;
-pub(crate) mod core;
 pub(crate) mod cod;
+pub(crate) mod core;
+pub(crate) mod components;
 
 use dioxus::desktop::{
 	tao::{

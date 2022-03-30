@@ -7,10 +7,6 @@ use dioxus::{
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
-		components::dots::{
-			Dots,
-			DotsProps,
-		},
 		vtr2e::{
 			enums::{
 				DevotionField,
@@ -26,6 +22,10 @@ use crate::{
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
+	},
+	components::cod::dots::{
+		Dots,
+		DotsProps,
 	},
 };
 

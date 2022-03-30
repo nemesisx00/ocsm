@@ -5,17 +5,15 @@ use dioxus::{
 	prelude::*,
 };
 use crate::{
-	cod::{
-		components::dots::{
-			Dots,
-			DotsProps,
-		},
-		state::CharacterMerits,
-	},
+	cod::state::CharacterMerits,
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
-	}
+	},
+	components::cod::dots::{
+		Dots,
+		DotsProps,
+	},
 };
 
 /// The UI Component handling a Chronicles of Darkness character's list of Merits.

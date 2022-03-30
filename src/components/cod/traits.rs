@@ -10,12 +10,6 @@ use crate::{
 			CoreAttribute,
 			CoreSkill,
 		},
-		components::{
-			dots::{
-				Dots,
-				DotsProps,
-			},
-		},
 		state::{
 			CharacterAttributes,
 			CharacterSkills,
@@ -27,6 +21,10 @@ use crate::{
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
+	},
+	components::cod::dots::{
+		Dots,
+		DotsProps,
 	},
 };
 

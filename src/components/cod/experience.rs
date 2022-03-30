@@ -5,15 +5,17 @@ use dioxus::{
 	events::FormEvent,
 	prelude::*,
 };
-use crate::cod::{
-	components::tracks::{
+use crate::{
+	cod::{
+		state::{
+			CharacterBeats,
+			CharacterExperience,
+			updateCoreBeats,
+		},
+	},
+	components::cod::tracks::{
 		Track,
 		TrackProps,
-	},
-	state::{
-		CharacterBeats,
-		CharacterExperience,
-		updateCoreBeats,
 	},
 };
 
