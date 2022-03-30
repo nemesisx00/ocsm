@@ -32,7 +32,8 @@ use crate::{
 #[derive(PartialEq, Props)]
 pub struct TraitProps
 {
-	traitMax: usize,
+	#[props(optional)]
+	traitMax: Option<usize>,
 }
 
 /// The UI Component handling a Chronicles of Darkness character's Attribute values.
@@ -44,6 +45,12 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 	let mentalAttributeTypes = CoreAttribute::mental();
 	let physicalAttributeTypes = CoreAttribute::physical();
 	let socialAttributeTypes = CoreAttribute::social();
+	
+	let traitMax = match cx.props.traitMax
+	{
+		Some(tm) => tm,
+		None => 5
+	};
 	
 	return cx.render(rsx!
 	{
@@ -63,7 +70,7 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 					div { class: "row traitCategory", "Mental" }
 					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -73,7 +80,7 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 					div { class: "row traitCategory", "Physical" }
 					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
@@ -83,7 +90,7 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 					div { class: "row traitCategory", "Social" }
 					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: cx.props.traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 			}
@@ -121,6 +128,12 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 	let physicalSkillTypes = CoreSkill::physical();
 	let socialSkillTypes = CoreSkill::social();
 	
+	let traitMax = match cx.props.traitMax
+	{
+		Some(tm) => tm,
+		None => 5
+	};
+	
 	return cx.render(rsx!
 	{
 		div
@@ -140,7 +153,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-3 unskilled)" }
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -151,7 +164,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
@@ -162,7 +175,7 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 					div { class: "row unskilled", "(-1 unskilled)" }
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: cx.props.traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}

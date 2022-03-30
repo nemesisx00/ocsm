@@ -35,6 +35,8 @@ pub static CharacterAspirations: AtomRef<Vec<String>> = |_| Vec::<String>::new()
 pub static CharacterAttributes: AtomRef<BTreeMap<CoreAttribute, usize>> = |_| CoreAttribute::asMap();
 /// A Chronicles of Darkness character's Beats Track.
 pub static CharacterBeats: AtomRef<Tracker> = |_| Tracker::new(5);
+/// A Chronicles of Darkness character's list of Conditions.
+pub static CharacterConditions: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 /// A Chronicles of Darkness character's core Details.
 pub static CharacterDetails: AtomRef<BTreeMap<CoreDetail, String>> = |_| CoreDetail::asMap();
 /// A Chronicles of Darkness character's current Experience.

@@ -1,7 +1,7 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use crate::app::MainMenuState;
+use crate::core::state::MainMenuState;
 
 /// The properties struct for the `MainMenu` component.
 #[derive(Props)]

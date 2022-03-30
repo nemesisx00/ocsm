@@ -16,7 +16,11 @@ use crate::{
 			updateCoreDetail,
 		},
 	},
-	core::util::generateSelectedValue,
+	core::{
+		enums::GameSystem,
+		state::CurrentGameSystem,
+		util::generateSelectedValue,
+	},
 };
 
 /// The properties struct for `Details`.
@@ -26,14 +30,17 @@ pub struct DetailsProps
 	virtue: String,
 	vice: String,
 	typePrimary: String,
-	typePrimaryOptions: Vec<String>,
 	typeSecondary: String,
 	faction: String,
+	
+	#[props(optional)]
+	typePrimaryOptions: Option<Vec<String>>,
 }
 
 /// The UI Component handling a Vampire: The Requiem 2e Kindred's Details.
 pub fn Details(cx: Scope<DetailsProps>) -> Element
 {
+	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let advantages = use_atom_ref(&cx, CharacterAdvantages);
 	let detailsRef = use_atom_ref(&cx, CharacterDetails);
 	let details = detailsRef.read();
@@ -41,6 +48,21 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 	let defense = advantages.read().defense;
 	let initiative = advantages.read().initiative;
 	let speed = advantages.read().speed;
+	
+	let showPrimaryText = cx.props.typePrimaryOptions == None;
+	let showPrimarySelect = cx.props.typePrimaryOptions != None;
+	let typePrimaryValue1 = details[&CoreDetail::TypePrimary].clone();
+	let typePrimaryValue2 = details[&CoreDetail::TypePrimary].clone();
+	
+	let details1 = details.clone();
+	let details2 = details.clone();
+	
+	let isMortal = match currentGameSystem
+	{
+		GameSystem::CodMortal => true,
+		_ => false,
+	};
+	let notIsMortal = !isMortal;
 	
 	return cx.render(rsx!
 	{
@@ -54,27 +76,60 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 			{
 				class: "details row",
 				
-				div
-				{
-					class: "column",
+				isMortal.then(|| rsx!(
+					div
+					{
+						class: "column",
+						
+						DetailInput { label: "Player:".to_string(), value: (&details1[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
+						DetailInput { label: "Chronicle:".to_string(), value: (&details1[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
+						DetailInput { label: "Name:".to_string(), value: (&details1[&CoreDetail::Name]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Name, }
+						DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: (&details1[&CoreDetail::TypePrimary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
+						DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantage::Size, }
+					}
 					
-					DetailInput { label: "Player:".to_string(), value: (&details[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
-					DetailInput { label: "Chronicle:".to_string(), value: (&details[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
-					DetailInput { label: "Name:".to_string(), value: (&details[&CoreDetail::Name]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Name, }
-					DetailInput { label: "Concept:".to_string(), value: (&details[&CoreDetail::Concept]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Concept, }
-					DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantage::Size, }
-				}
+					div
+					{
+						class: "column",
+						
+						DetailInput { label: "Concept:".to_string(), value: (&details1[&CoreDetail::Concept]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Concept, }
+						DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details1[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
+						DetailInput { label: format!("{}:", &cx.props.vice.clone()), value: (&details1[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
+						DetailInput { label: format!("{}:", &cx.props.typeSecondary.clone()), value: (&details1[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
+						DetailInput { label: format!("{}:", &cx.props.faction.clone()), value: (&details1[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
+					}
+				))
 				
-				div
-				{
-					class: "column",
+				notIsMortal.then(|| rsx!(
+					div
+					{
+						class: "column",
+						
+						DetailInput { label: "Player:".to_string(), value: (&details2[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
+						DetailInput { label: "Chronicle:".to_string(), value: (&details2[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
+						DetailInput { label: "Name:".to_string(), value: (&details2[&CoreDetail::Name]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Name, }
+						DetailInput { label: "Concept:".to_string(), value: (&details2[&CoreDetail::Concept]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Concept, }
+						DetailInput { label: "Size:".to_string(), value: format!("{}", advantages.read().size), select: true, selectOptions: vec!["4".to_string(), "5".to_string(), "6".to_string()], handler: advantageHandler, handlerKey: CoreAdvantage::Size, }
+					}
 					
-					DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
-					DetailInput { label: format!("{}:", &cx.props.vice.clone()), value: (&details[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
-					DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: (&details[&CoreDetail::TypePrimary]).clone(), select: true, selectNoneLabel: format!("{} {}", "Choose a".to_string(), &cx.props.typePrimary.clone()), selectOptions: cx.props.typePrimaryOptions.clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
-					DetailInput { label: format!("{}:", &cx.props.typeSecondary.clone()), value: (&details[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
-					DetailInput { label: format!("{}:", &cx.props.faction.clone()), value: (&details[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
-				}
+					div
+					{
+						class: "column",
+						
+						DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details2[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
+						DetailInput { label: format!("{}:", &cx.props.vice.clone()), value: (&details2[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
+						
+						showPrimaryText.then(|| rsx!(
+							DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: typePrimaryValue1.clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
+						))
+						showPrimarySelect.then(|| rsx!(
+							DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: typePrimaryValue2.clone(), select: true, selectNoneLabel: format!("{} {}", "Choose a".to_string(), &cx.props.typePrimary.clone()), selectOptions: cx.props.typePrimaryOptions.as_ref().unwrap().clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
+						))
+						
+						DetailInput { label: format!("{}:", &cx.props.typeSecondary.clone()), value: (&details2[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
+						DetailInput { label: format!("{}:", &cx.props.faction.clone()), value: (&details2[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
+					}
+				))
 			}
 			
 			div

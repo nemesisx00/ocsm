@@ -11,13 +11,22 @@ use crate::{
 		ctl2e::state::resetGlobalStateCtl2e,
 		vtr2e::state::resetGlobalStateVtr2e,
 	},
-	core::io::getUserDocumentsDir
+	core::{
+		enums::GameSystem,
+		io::getUserDocumentsDir,
+	},
 };
 
+/// Control switch used to signal all Menu components to hide their submenus.
+/// 
+/// Default value is `true`. Set to `false` to close all Menus.
+pub static MainMenuState: Atom<bool> = |_| true;
 /// The most recently selected file path.
 /// 
 /// Updated by loading or saving a character sheet.
 pub static CurrentFilePath: Atom<Option<String>> = |_| None;
+/// The active `GameSystem` determining which character sheet is rendered.
+pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodMortal;
 
 // -----
 

@@ -1,9 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use std::{
-	collections::BTreeMap,
-	path::Path,
-};
+use std::path::Path;
 use dioxus::{
 	desktop::use_window,
 	prelude::*,
@@ -12,15 +9,15 @@ use serde::{
 	de::DeserializeOwned,
 	Serialize,
 };
-use strum::IntoEnumIterator;
-use strum_macros::{
-	AsRefStr,
-	EnumCount,
-	EnumIter,
-};
 use crate::{
+	cod::{
+		structs::CoreCharacter,
+		ctl2e::structs::Changeling,
+		vtr2e::structs::Vampire,
+	},
 	components::{
 		cod::{
+			sheet::MortalSheet,
 			ctl2e::sheet::ChangelingSheet,
 			vtr2e::sheet::VampireSheet,
 		},
@@ -34,77 +31,22 @@ use crate::{
 		},
 	},
 	core::{
+		enums::GameSystem,
 		io::{
 			getFilePath,
 			loadFromFile,
 			saveToFile,
 		},
 		state::{
+			MainMenuState,
+			CurrentGameSystem,
 			CurrentFilePath,
 			StatefulTemplate,
 			resetGlobalState,
 		},
 	},
-	cod::{
-		ctl2e::structs::Changeling,
-		vtr2e::structs::Vampire,
-	},
 	WindowTitle,
 };
-
-/// Control switch used to signal all Menu components to hide their submenus.
-/// 
-/// Default value is `true`. Set to `false` to close all Menus.
-pub static MainMenuState: Atom<bool> = |_| true;
-/// The active `GameSystem` determining which character sheet is rendered.
-pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodChangeling2e;
-
-/// Game systems for which character sheets have been implemented.
-#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Ord)]
-pub enum GameSystem
-{
-		//CodBeast,
-	CodChangeling2e,
-		//CodDemon,
-		//CodGeist,
-		//CodHunter,
-	//CodMage2e,
-		//CodMummy,
-		//CodPromethean,
-	CodVampire2e,
-		//CodWerewolf,
-	//Dnd5e,
-	//WodVampireV5,
-}
-
-impl GameSystem
-{
-	/// Generate a collection mapping GameSystem to their full human-readable titles.
-	pub fn asMap() -> BTreeMap<Self, String>
-	{
-		let mut map = BTreeMap::new();
-		map.insert(GameSystem::CodChangeling2e, "Changeling: The Lost 2e".to_string());
-		//map.insert(GameSystem::CodMage2e, "Mage: The Awakening 2e".to_string());
-		map.insert(GameSystem::CodVampire2e, "Vampire: The Requiem 2e".to_string());
-		//map.insert(GameSystem::Dnd5e, "Dungeons & Dragons 5E".to_string());
-		//map.insert(GameSystem::WodVampireV5, "Vampire: The Masquerade V5".to_string());
-		return map;
-	}
-	
-	/// Generate a collection mapping GameSystem to a boolean value.
-	/// 
-	/// Used in tandem with `CurrentGameSystem` to determine whether or not to display
-	/// UI elements in the `App` component.
-	pub fn showMap() -> BTreeMap<Self, bool>
-	{
-		let mut map = BTreeMap::new();
-		for gs in GameSystem::iter()
-		{
-			map.insert(gs, false);
-		}
-		return map;
-	}
-}
 
 /// The application's top-level UI component.
 pub fn App(cx: Scope) -> Element
@@ -149,6 +91,7 @@ pub fn App(cx: Scope) -> Element
 				}
 			}
 			
+			show[&GameSystem::CodMortal].then(|| rsx! { MortalSheet {} })
 			show[&GameSystem::CodChangeling2e].then(|| rsx! { ChangelingSheet {} })
 			show[&GameSystem::CodVampire2e].then(|| rsx! { VampireSheet {} })
 		}
@@ -202,6 +145,7 @@ fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 	
 	match currentGameSystem
 	{
+		GameSystem::CodMortal => loadSheet::<CoreCharacter>(cx),
 		GameSystem::CodChangeling2e => loadSheet::<Changeling>(cx),
 		GameSystem::CodVampire2e => loadSheet::<Vampire>(cx),
 	}
@@ -224,6 +168,7 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 	
 	match currentGameSystem
 	{
+		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
 		GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
 		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
 	}
@@ -234,9 +179,17 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 /// Resets the global state, which results in a "new" sheet.
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
+	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
 	resetGlobalState(cx);
+	
+	if currentGameSystem == &GameSystem::CodMortal
+	{
+		let mut mortal = CoreCharacter::mortal();
+		mortal.push(cx);
+	}
+	
 	setMenuState(false);
 }
 

@@ -25,6 +25,7 @@ use crate::{
 			CharacterAspirations,
 			CharacterAttributes,
 			CharacterBeats,
+			CharacterConditions,
 			CharacterDetails,
 			CharacterExperience,
 			CharacterMerits,
@@ -72,11 +73,24 @@ pub struct CoreAdvantages
 	pub willpower: Tracker,
 }
 
+impl CoreAdvantages
+{
+	pub fn mortal() -> Self
+	{
+		return Self
+		{
+			power: None,
+			resource: None,
+			..Default::default()
+		};
+	}
+}
+
 impl Default for CoreAdvantages
 {
 	fn default() -> Self
 	{
-		Self
+		return Self
 		{
 			defense: 1,
 			health: Tracker::new(6),
@@ -87,9 +101,11 @@ impl Default for CoreAdvantages
 			size: 5,
 			speed: 7,
 			willpower: Tracker::new(2),
-		}
+		};
 	}
 }
+
+// --------------------------------------------------
 
 /// Data structure defining a Chronicles of Darkness core character.
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, PartialOrd, Serialize, Ord)]
@@ -111,6 +127,9 @@ pub struct CoreCharacter
 	pub beats: Tracker,
 	
 	#[serde(default)]
+	pub conditions: Vec<String>,
+	
+	#[serde(default)]
 	pub experience: usize,
 	
 	#[serde(default)]
@@ -121,6 +140,18 @@ pub struct CoreCharacter
 	
 	#[serde(default)]
 	pub specialties: Vec<String>,
+}
+
+impl CoreCharacter
+{
+	pub fn mortal() -> Self
+	{
+		return Self
+		{
+			advantages: CoreAdvantages::mortal(),
+			..Default::default()
+		};
+	}
 }
 
 impl Default for CoreCharacter
@@ -134,6 +165,7 @@ impl Default for CoreCharacter
 			attributes: CoreAttribute::asMap(),
 			details: CoreDetail::asMap(),
 			beats: Tracker::new(5),
+			conditions: Vec::<String>::new(),
 			experience: 0,
 			merits: Vec::<(String, usize)>::new(),
 			skills: CoreSkill::asMap(),
@@ -151,6 +183,7 @@ impl StatefulTemplate for CoreCharacter
 		let attributes = use_atom_ref(cx, CharacterAttributes);
 		let details = use_atom_ref(cx, CharacterDetails);
 		let beats = use_atom_ref(cx, CharacterBeats);
+		let conditions = use_atom_ref(cx, CharacterConditions);
 		let experience = use_read(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
 		let skills = use_atom_ref(cx, CharacterSkills);
@@ -160,6 +193,7 @@ impl StatefulTemplate for CoreCharacter
 		self.aspirations = aspirations.read().clone();
 		self.attributes = attributes.read().clone();
 		self.beats = beats.read().clone();
+		self.conditions = conditions.read().clone();
 		self.details = details.read().clone();
 		self.experience = *experience;
 		self.merits = merits.read().clone();
@@ -177,6 +211,7 @@ impl StatefulTemplate for CoreCharacter
 		let aspirations = use_atom_ref(cx, CharacterAspirations);
 		let attributes = use_atom_ref(cx, CharacterAttributes);
 		let beats = use_atom_ref(cx, CharacterBeats);
+		let conditions = use_atom_ref(cx, CharacterConditions);
 		let details = use_atom_ref(cx, CharacterDetails);
 		let experience = use_set(cx, CharacterExperience);
 		let merits = use_atom_ref(cx, CharacterMerits);
@@ -187,6 +222,7 @@ impl StatefulTemplate for CoreCharacter
 		(*aspirations.write()) = self.aspirations.clone();
 		(*attributes.write()) = self.attributes.clone();
 		(*beats.write()) = self.beats.clone();
+		(*conditions.write()) = self.conditions.clone();
 		(*details.write()) = self.details.clone();
 		experience(self.experience);
 		(*merits.write()) = self.merits.clone();
@@ -212,6 +248,8 @@ impl StatefulTemplate for CoreCharacter
 		}
 	}
 }
+
+// --------------------------------------------------
 
 /// Data structure representing the current state of a single Track
 /// (i.e. Health Track) within a Chronicles of Darkness character sheet.
@@ -354,6 +392,8 @@ impl Tracker
 		self.add(new);
 	}
 }
+
+// --------------------------------------------------
 
 #[cfg(test)]
 mod tests
