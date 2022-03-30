@@ -4,14 +4,33 @@ use dioxus::prelude::*;
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
+		enums::{
+			CoreAttribute,
+			CoreSkill,
+		},
 		state::{
 			CharacterAdvantages,
+			CharacterAttributes,
+			CharacterSkills,
 			getTraitMax,
 		},
-		vtr2e::enums::Clan,
+		vtr2e::{
+			enums::{
+				Clan,
+				Discipline,
+			},
+			state::{
+				BP0VitaeMax,
+				KindredDisciplines,
+			},
+		},
 	},
 	components::{
 		cod::{
+			advantages::{
+				Advantages,
+				AdvantagesProps,
+			},
 			aspirations::Aspirations,
 			details::Details,
 			experience::Experience,
@@ -22,7 +41,6 @@ use crate::{
 				SkillSpecialties,
 			},
 			vtr2e::{
-				advantages::Advantages,
 				disciplines::{
 					Disciplines,
 					Devotions,
@@ -66,7 +84,13 @@ pub fn VampireSheet(cx: Scope) -> Element
 					typeSecondary: "Bloodline".to_string(),
 					faction: "Covenant".to_string()
 				}
-				Advantages {}
+				Advantages
+				{
+					integrity: "Humanity".to_string(),
+					power: "Blood Potency".to_string(),
+					resource: "Vitae".to_string(),
+					handleTemplateBonuses: templateBonusesHandler
+				}
 			}
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} Touchstones {} Experience {} }
@@ -80,4 +104,55 @@ pub fn VampireSheet(cx: Scope) -> Element
 			div { class: "row", Devotions {} }
 		}
 	});
+}
+
+fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
+{
+	let advantagesRef = use_atom_ref(cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(cx, CharacterAttributes);
+	let disciplinesRef = use_atom_ref(cx, KindredDisciplines);
+	let skillsRef = use_atom_ref(cx, CharacterSkills);
+	let mut advantages = advantagesRef.write();
+	let attributes = attributesRef.read();
+	let disciplines = disciplinesRef.read();
+	let skills = skillsRef.read();
+	
+	let size = advantages.size;
+	
+	if advantages.power == Some(0)
+	{
+		if let Some(ref mut resource) = advantages.resource
+		{
+			resource.updateMax(BP0VitaeMax);
+		}
+	}
+	
+	if let Some(celerity) = disciplines.get(&Discipline::Celerity)
+	{
+		if celerity > &0
+		{
+			let attrDef = match attributes[&CoreAttribute::Dexterity] <= attributes[&CoreAttribute::Wits]
+			{
+				true => attributes[&CoreAttribute::Dexterity],
+				false => attributes[&CoreAttribute::Wits]
+			};
+			advantages.defense = attrDef + skills[&CoreSkill::Athletics] + celerity;
+		}
+	}
+	
+	if let Some(resilience) = disciplines.get(&Discipline::Resilience)
+	{
+		if resilience > &0
+		{
+			advantages.health.updateMax(size + attributes[&CoreAttribute::Stamina] + resilience);
+		}
+	}
+	
+	if let Some(vigor) = disciplines.get(&Discipline::Vigor)
+	{
+		if vigor > &0
+		{
+			advantages.speed = size + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength] + vigor;
+		}
+	}
 }

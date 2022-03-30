@@ -11,7 +11,10 @@ use crate::{
 	},
 };
 
+/// The maximum Vitae capacity of a Vampire: The Requiem 2e Kindred at Blood Potency 0
 pub const BP0VitaeMax: usize = 5;
+#[allow(dead_code)]
+/// The maximum Vitae per turn of a Vampire: The Requiem 2e Kindred at Blood Potency 0
 pub const BP0VitaePerTurn: usize = 1;
 
 /// A Vampire: The Requiem 2e Kindred's list of Devotions and Discipline Powers.

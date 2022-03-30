@@ -4,24 +4,35 @@ use dioxus::prelude::*;
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
-		ctl2e::enums::Seeming,
+		ctl2e::{
+			enums::Seeming,
+			state::BeastBonus,
+		},
+		enums::{
+			CoreAttribute,
+			CoreDetail,
+		},
 		state::{
+			BaseSpeed,
 			CharacterAdvantages,
+			CharacterAttributes,
+			CharacterDetails,
 			getTraitMax,
 		},
 	},
 	components::{
 		cod::{
 			ctl2e::{
-				advantages::{
-					Advantages,
-					Frailties,
-				},
+				frailties::Frailties,
 				regalia::{
 					Contracts,
 					FavoredRegalia,
 				},
 				touchstones::Touchstones,
+			},
+			advantages::{
+				Advantages,
+				AdvantagesProps,
 			},
 			aspirations::Aspirations,
 			details::Details,
@@ -69,7 +80,13 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 					typeSecondary: "Kith".to_string(),
 					faction: "Court".to_string()
 				}
-				Advantages {}
+				Advantages
+				{
+					integrity: "Clarity".to_string(),
+					power: "Wyrd".to_string(),
+					resource: "Glamour".to_string(),
+					handleTemplateBonuses: templateBonusesHandler
+				}
 			}
 			hr { class: "row" }
 			div { class: "row spacedOut", Aspirations {} div { class: "column", Touchstones {} FavoredRegalia {} } Experience {} }
@@ -83,4 +100,25 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 			div { class: "row", Contracts {} }
 		}
 	});
+}
+
+fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
+{
+	let advantagesRef = use_atom_ref(cx, CharacterAdvantages);
+	let attributesRef = use_atom_ref(cx, CharacterAttributes);
+	let detailsRef = use_atom_ref(cx, CharacterDetails);
+	let mut advantages = advantagesRef.write();
+	let attributes = attributesRef.read();
+	let details = detailsRef.read();
+	
+	if details[&CoreDetail::TypePrimary] == Seeming::Beast.as_ref().to_string()
+	{
+		advantages.initiative = attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Composure] + BeastBonus;
+		advantages.speed = BaseSpeed + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength] + BeastBonus;
+	}
+	else
+	{
+		advantages.initiative = attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Composure];
+		advantages.speed = BaseSpeed + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength];
+	}
 }
