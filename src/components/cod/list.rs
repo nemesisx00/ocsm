@@ -8,6 +8,7 @@ use crate::{
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
+		singularize,
 	},
 };
 
@@ -22,13 +23,16 @@ pub struct SimpleEntryListProps
 	label: String,
 	entryUpdateHandler: fn(FormEvent, &Scope<SimpleEntryListProps>, Option<usize>),
 	entryRemoveHandler: fn(&Scope<SimpleEntryListProps>, usize),
+	
+	#[props(optional)]
+	class: Option<String>,
 }
 
 impl PartialEq for SimpleEntryListProps
 {
 	fn eq(&self, other: &Self) -> bool
 	{
-		return self.data == other.data && self.label == other.label;
+		return self.data == other.data && self.label == other.label && self.class == other.class;
 	}
 }
 
@@ -42,14 +46,21 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 	
 	let posX = *clickedX.get() - RemovePopUpXOffset;
 	let posY = *clickedY.get() - RemovePopUpYOffset;
+	let singularLabel = singularize(cx.props.label.clone());
+	
+	let className = match &cx.props.class
+	{
+		Some(c) => c.clone(),
+		None => "".to_string()
+	};
 	
 	return cx.render(rsx!
 	{
 		div
 		{
-			class: "simpleEntryListWrapper cod column",
+			class: "simpleEntryListWrapper column {className}",
 			
-			div { class: "simpleEntryListLabel", "{cx.props.label}s" },
+			div { class: "simpleEntryListLabel", "{cx.props.label}" },
 			
 			div
 			{
@@ -91,7 +102,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 				div
 				{
 					class: "row",
-					input { r#type: "text", value: "", placeholder: "Enter new a {cx.props.label}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter new a {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
@@ -106,7 +117,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 						{
 							class: "removePopUp column",
 							
-							div { class: "row", "Are you sure you want to remove this {cx.props.label}?" }
+							div { class: "row", "Are you sure you want to remove this {singularLabel}?" }
 							div
 							{
 								class: "row",

@@ -301,6 +301,7 @@ pub fn resetGlobalStateCod<T>(cx: &Scope<T>)
 	let characterAspirations = use_atom_ref(cx, CharacterAspirations);
 	let characterAttributes = use_atom_ref(cx, CharacterAttributes);
 	let characterBeats = use_atom_ref(cx, CharacterBeats);
+	let characterConditions = use_atom_ref(cx, CharacterConditions);
 	let characterDetails = use_atom_ref(cx, CharacterDetails);
 	let characterExperience = use_set(cx, CharacterExperience);
 	let characterMerits = use_atom_ref(cx, CharacterMerits);
@@ -311,6 +312,7 @@ pub fn resetGlobalStateCod<T>(cx: &Scope<T>)
 	(*characterAspirations.write()) = Vec::<String>::new();
 	(*characterAttributes.write()) = CoreAttribute::asMap();
 	(*characterBeats.write()) = Tracker::new(5);
+	(*characterConditions.write()) = Vec::<String>::new();
 	(*characterDetails.write()) = CoreDetail::asMap();
 	characterExperience(0);
 	(*characterMerits.write()) = Vec::<(String, usize)>::new();

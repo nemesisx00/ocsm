@@ -24,3 +24,22 @@ pub fn generateSelectedValue<T: PartialEq>(a: T, b: T) -> String
 		false => { String::from("false") }
 	};
 }
+
+/// Take a plural word and return its singular form.
+/// 
+/// This is only really going to work for English as the logic is very simple.
+/// If it ends in "ies", replace those three letters with "y". Otherwise,
+/// remove the final letter.
+pub fn singularize(s: String) -> String
+{
+	let start = &s[..s.len()-3];
+	let lastThree = &s[s.len()-3..];
+	
+	let ending = match lastThree
+	{
+		"ies" => "y",
+		_ => &lastThree[..2]
+	};
+	
+	return format!("{}{}", start, ending);
+}

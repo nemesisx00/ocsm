@@ -1,9 +1,6 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-use dioxus::{
-	events::FormEvent,
-	prelude::*,
-};
+use dioxus::prelude::*;
 use crate::{
 	cod::{
 		enums::{
@@ -13,14 +10,9 @@ use crate::{
 		state::{
 			CharacterAttributes,
 			CharacterSkills,
-			CharacterSpecialties,
 			updateCoreAttribute,
 			updateCoreSkill,
 		},
-	},
-	core::util::{
-		RemovePopUpXOffset,
-		RemovePopUpYOffset,
 	},
 	components::cod::dots::{
 		Dots,
@@ -197,125 +189,5 @@ fn skillHandler(cx: &Scope<DotsProps<CoreSkill>>, clickedValue: usize)
 			updateCoreSkill(cx, skillType, next);
 		},
 		None => {}
-	}
-}
-
-// -----
-
-/// The UI Component handling a Chronicles of Darkness character's list of Skill Specialties.
-pub fn SkillSpecialties(cx: Scope) -> Element
-{
-	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
-	let specialties = specialtiesRef.read();
-	
-	let clickedX = use_state(&cx, || 0);
-	let clickedY = use_state(&cx, || 0);
-	let lastIndex = use_state(&cx, || 0);
-	let showRemove = use_state(&cx, || false);
-	
-	let posX = *clickedX.get() - RemovePopUpXOffset;
-	let posY = *clickedY.get() - RemovePopUpYOffset;
-	
-	return cx.render(rsx!
-	{
-		div
-		{
-			class: "skillSpecialtiesWrapper cod column",
-			
-			div { class: "skillSpecialtiesLabel", "Specialties" },
-			
-			div
-			{
-				class: "column",
-				
-				specialties.iter().enumerate().map(|(i, specialty)| {
-					rsx!(cx, div
-					{
-						class: "row",
-						key: "{i}",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
-						prevent_default: "oncontextmenu",
-						
-						input
-						{
-							r#type: "text",
-							value: "{specialty}",
-							onchange: move |e| skillSpecialtyHandler(e, &cx, Some(i)),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
-							prevent_default: "oncontextmenu"
-						}
-					})
-				})
-				
-				div
-				{
-					class: "row",
-					input { r#type: "text", value: "", placeholder: "Enter new a Specialty", onchange: move |e| skillSpecialtyHandler(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
-				}
-					
-				showRemove.then(|| rsx!{
-					div
-					{
-						class: "removePopUpWrapper column",
-						style: "left: {posX}px; top: {posY}px;",
-						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-						prevent_default: "onclick",
-						
-						div
-						{
-							class: "removePopUp column",
-							
-							div { class: "row", "Are you sure you want to remove this Specialty?" }
-							div
-							{
-								class: "row",
-								
-								button { onclick: move |e| { e.cancel_bubble(); removeClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
-							}
-						}
-					}
-				})
-			}
-		}
-	});
-}
-
-/// Event handler triggered by clicking the "Remove" button after right-clicking a Skill Specialty row.
-fn removeClickHandler(cx: &Scope, index: usize)
-{
-	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
-	let mut specialties = specialtiesRef.write();
-	
-	if index < specialties.len()
-	{
-		specialties.remove(index);
-	}
-}
-
-/// Event handler triggered when a Skill Specialty input's value changes.
-fn skillSpecialtyHandler(e: FormEvent, cx: &Scope, index: Option<usize>)
-{
-	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
-	let mut specialties = specialtiesRef.write();
-	
-	match index
-	{
-		Some(i) => { specialties[i] = e.value.to_string(); }
-		None => { specialties.push(e.value.to_string()); }
 	}
 }

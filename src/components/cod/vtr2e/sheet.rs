@@ -13,8 +13,11 @@ use crate::{
 		},
 		state::{
 			CharacterAdvantages,
+			CharacterAspirations,
 			CharacterAttributes,
+			CharacterConditions,
 			CharacterSkills,
+			CharacterSpecialties,
 			getTraitMax,
 		},
 		vtr2e::{
@@ -35,7 +38,6 @@ use crate::{
 				Advantages,
 				AdvantagesProps,
 			},
-			aspirations::Aspirations,
 			details::Details,
 			experience::Experience,
 			list::SimpleEntryList,
@@ -43,7 +45,6 @@ use crate::{
 			traits::{
 				Attributes,
 				Skills,
-				SkillSpecialties,
 			},
 			vtr2e::{
 				disciplines::{
@@ -59,6 +60,9 @@ use crate::{
 pub fn VampireSheet(cx: Scope) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
+	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
+	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
 	let traitMax = match advantagesRef.read().power
 	{
@@ -72,6 +76,12 @@ pub fn VampireSheet(cx: Scope) -> Element
 		clans.push(c.as_ref().to_string());
 	}
 	
+	let mut aspirations = vec![];
+	aspirationsRef.read().iter().for_each(|a| aspirations.push(a.clone()));
+	let mut conditions = vec![];
+	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
+	let mut specialties = vec![];
+	specialtiesRef.read().iter().for_each(|s| specialties.push(s.clone()));
 	let mut touchstones = vec![];
 	touchstonesRef.read().iter().for_each(|t| touchstones.push(t.clone()));
 	
@@ -84,9 +94,11 @@ pub fn VampireSheet(cx: Scope) -> Element
 			h1 { "Vampire: The Requiem" }
 			h3 { "Second Edition" }
 			hr { class: "row" }
+			
 			div
 			{
 				class: "row",
+				
 				Details
 				{
 					virtue: "Mask".to_string(),
@@ -96,6 +108,7 @@ pub fn VampireSheet(cx: Scope) -> Element
 					typeSecondary: "Bloodline".to_string(),
 					faction: "Covenant".to_string()
 				}
+				
 				Advantages
 				{
 					integrity: "Humanity".to_string(),
@@ -104,18 +117,31 @@ pub fn VampireSheet(cx: Scope) -> Element
 					handleTemplateBonuses: templateBonusesHandler
 				}
 			}
+			
 			hr { class: "row" }
+			
 			div
 			{
 				class: "row spacedOut",
-				Aspirations {}
+				
 				SimpleEntryList
 				{
+					class: "aspirations".to_string(),
+					data: aspirations.clone(),
+					label: "Aspirations".to_string(),
+					entryUpdateHandler: aspirationUpdateHandler,
+					entryRemoveHandler: aspirationRemoveClickHandler,
+				}
+				
+				SimpleEntryList
+				{
+					class: "touchstones".to_string(),
 					data: touchstones.clone(),
-					label: "Touchstone".to_string(),
+					label: "Touchstones".to_string(),
 					entryUpdateHandler: touchstoneUpdateHandler,
 					entryRemoveHandler: touchstoneRemoveClickHandler,
 				}
+				
 				Experience {}
 			}
 			hr { class: "row" }
@@ -123,7 +149,39 @@ pub fn VampireSheet(cx: Scope) -> Element
 			hr { class: "row" }
 			div { class: "row", Skills { traitMax: traitMax } }
 			hr { class: "row" }
-			div { class: "row", Disciplines {} SkillSpecialties {} Merits {} }
+			
+			div
+			{
+				class: "row",
+				
+				Disciplines {}
+				
+				div
+				{
+					class: "column",
+					
+					SimpleEntryList
+					{
+						class: "specialties".to_string(),
+						data: specialties.clone(),
+						label: "Specialties".to_string(),
+						entryUpdateHandler: skillSpecialtyUpdateHandler,
+						entryRemoveHandler: skillSpecialtyRemoveClickHandler,
+					}
+					
+					SimpleEntryList
+					{
+						class: "conditions".to_string(),
+						data: conditions.clone(),
+						label: "Conditions".to_string(),
+						entryUpdateHandler: conditionUpdateHandler,
+						entryRemoveHandler: conditionRemoveClickHandler,
+					}
+				}
+				
+				Merits {}
+			}
+			
 			hr { class: "row" }
 			div { class: "row", Devotions {} }
 		}
@@ -178,6 +236,84 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 		{
 			advantages.speed = size + attributes[&CoreAttribute::Dexterity] + attributes[&CoreAttribute::Strength] + vigor;
 		}
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Aspiration row.
+fn aspirationRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
+	let mut aspirations = aspirationsRef.write();
+	
+	if index < aspirations.len()
+	{
+		aspirations.remove(index);
+	}
+}
+
+/// Event handler triggered when a Aspiration's value changes.
+fn aspirationUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
+	let mut aspirations = aspirationsRef.write();
+	
+	match index
+	{
+		Some(i) => { aspirations[i] = e.value.to_string(); }
+		None => { aspirations.push(e.value.to_string()); }
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Condition row.
+fn conditionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let mut conditions = conditionsRef.write();
+	
+	if index < conditions.len()
+	{
+		conditions.remove(index);
+	}
+}
+
+/// Event handler triggered when a Condition's value changes.
+fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let mut conditions = conditionsRef.write();
+	
+	match index
+	{
+		Some(i) => { conditions[i] = e.value.to_string(); }
+		None => { conditions.push(e.value.to_string()); }
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Skill Specialty row.
+fn skillSpecialtyRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
+	let mut skillSpecialties = skillSpecialtiesRef.write();
+	
+	if index < skillSpecialties.len()
+	{
+		skillSpecialties.remove(index);
+	}
+}
+
+/// Event handler triggered when a Skill Specialty's value changes.
+fn skillSpecialtyUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let skillSpecialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
+	let mut skillSpecialties = skillSpecialtiesRef.write();
+	
+	match index
+	{
+		Some(i) => { skillSpecialties[i] = e.value.to_string(); }
+		None => { skillSpecialties.push(e.value.to_string()); }
 	}
 }
 
