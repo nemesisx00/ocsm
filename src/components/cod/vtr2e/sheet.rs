@@ -43,6 +43,7 @@ use crate::{
 				AdvantagesProps,
 			},
 			details::Details,
+			dots::DotsProps,
 			experience::Experience,
 			list::{
 				ActiveAbilities,
@@ -64,7 +65,6 @@ use crate::{
 				Attributes,
 				Skills,
 			},
-			vtr2e::disciplines::Disciplines,
 		},
 	},
 };
@@ -75,6 +75,7 @@ pub fn VampireSheet(cx: Scope) -> Element
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let powersRef = use_atom_ref(&cx, KindredPowers);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
@@ -95,6 +96,13 @@ pub fn VampireSheet(cx: Scope) -> Element
 	aspirationsRef.read().iter().for_each(|a| aspirations.push(a.clone()));
 	let mut conditions = vec![];
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
+	let mut disciplines = vec![];
+	disciplinesRef.read().iter().for_each(|(d, v)| disciplines.push((d.as_ref().to_string(), *v)));
+	let mut disciplineSelectOptions = vec![];
+	for d in Discipline::iter()
+	{
+		disciplineSelectOptions.push(d.as_ref().to_string());
+	}
 	let mut merits = vec![];
 	meritsRef.read().iter().for_each(|m| merits.push(m.clone()));
 	let mut powers = vec![];
@@ -173,7 +181,16 @@ pub fn VampireSheet(cx: Scope) -> Element
 			{
 				class: "row",
 				
-				Disciplines {}
+				DotEntryList
+				{
+					class: "disciplines".to_string(),
+					data: disciplines.clone(),
+					label: "Disciplines".to_string(),
+					selectOptions: disciplineSelectOptions.clone(),
+					entryDotHandler: disciplineDotHandler,
+					entryRemoveHandler: disciplineRemoveClickHandler,
+					entryUpdateHandler: disciplinesUpdateHandler,
+				}
 				
 				div
 				{
@@ -228,6 +245,47 @@ pub fn VampireSheet(cx: Scope) -> Element
 	});
 }
 
+/// Event handler triggered when a Discipline value changes.
+fn disciplineDotHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
+{
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	if let Some(i) = &cx.props.handlerKey
+	{
+		let (_, ref mut value) = disciplines[*i];
+		*value = clickedValue;
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after right-clicking a
+/// Discipline row.
+fn disciplineRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	if let Some((i, (_, _))) = disciplines.clone().iter().enumerate().filter(|(i, (_, _))| *i == index).next()
+	{
+		disciplines.remove(i);
+	}
+}
+
+/// Event handler triggered when the New Discipline select input's value changes.
+fn disciplinesUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, _index: Option<usize>)
+{
+	let disciplinesRef = use_atom_ref(&cx, KindredDisciplines);
+	let mut disciplines = disciplinesRef.write();
+	
+	if let Some((d, _)) = Discipline::asMap().iter().filter(|(_, name)| *name == &e.value.to_string()).next()
+	{
+		if let None = disciplines.iter().filter(|(discipline, _)| discipline == d).next()
+		{
+			disciplines.push((*d, 0));
+		}
+	}
+}
+
 fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 {
 	let advantagesRef = use_atom_ref(cx, CharacterAdvantages);
@@ -249,7 +307,7 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 		}
 	}
 	
-	if let Some(celerity) = disciplines.get(&Discipline::Celerity)
+	if let Some((_, celerity)) = disciplines.iter().filter(|(d, _)| d == &Discipline::Celerity).next()
 	{
 		if celerity > &0
 		{
@@ -262,7 +320,7 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 		}
 	}
 	
-	if let Some(resilience) = disciplines.get(&Discipline::Resilience)
+	if let Some((_, resilience)) = disciplines.iter().filter(|(d, _)| d == &Discipline::Resilience).next()
 	{
 		if resilience > &0
 		{
@@ -270,7 +328,7 @@ fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)
 		}
 	}
 	
-	if let Some(vigor) = disciplines.get(&Discipline::Vigor)
+	if let Some((_, vigor)) = disciplines.iter().filter(|(d, _)| d == &Discipline::Vigor).next()
 	{
 		if vigor > &0
 		{

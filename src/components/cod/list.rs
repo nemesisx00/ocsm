@@ -160,6 +160,9 @@ pub struct DotEntryListProps
 	
 	#[props(optional)]
 	class: Option<String>,
+	
+	#[props(optional)]
+	selectOptions: Option<Vec<String>>,
 }
 
 impl PartialEq for DotEntryListProps
@@ -183,12 +186,22 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 	let posX = *clickedX.get() - RemovePopUpXOffset;
 	let posY = *clickedY.get() - RemovePopUpYOffset;
 	let singularLabel = singularize(cx.props.label.clone());
+	let singularLabel2 = singularize(cx.props.label.clone());
+	let singularLabel3 = singularize(cx.props.label.clone());
 	
 	let className = match &cx.props.class
 	{
 		Some(c) => c.clone(),
 		None => "".to_string()
 	};
+	
+	let mut options = Vec::<String>::new();
+	if let Some(selectOptions) = &cx.props.selectOptions
+	{
+		selectOptions.iter().for_each(|s| options.push(s.clone()));
+	}
+	
+	let isSelect: bool = options.len() > 0;
 	
 	return cx.render(rsx!
 	{
@@ -216,28 +229,53 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 					},
 					prevent_default: "oncontextmenu",
 					
-					input
-					{
-						r#type: "text",
-						value: "{name}",
-						onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
-						oncontextmenu: move |e|
+					isSelect.then(|| rsx!(cx, 
+						Dots { class: "row".to_string(), label: name.clone(), max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
+					)),
+					
+					(!isSelect).then(|| rsx!(cx, 
+						input
 						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
-						prevent_default: "oncontextmenu"
-					}
-					Dots { max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
+							r#type: "text",
+							value: "{name}",
+							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
+							oncontextmenu: move |e|
+							{
+								e.cancel_bubble();
+								clickedX.set(e.data.client_x);
+								clickedY.set(e.data.client_y);
+								lastIndex.set(i);
+								showRemove.set(true);
+							},
+							prevent_default: "oncontextmenu"
+						}
+						Dots { max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
+					))
 				}))
 				
 				div
 				{
 					class: "entry row",
-					input { r#type: "text", value: "", placeholder: "Enter new a {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					
+					isSelect.then(|| rsx!(cx, select
+					{
+						onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None),
+						oncontextmenu: move |e| e.cancel_bubble(),
+						prevent_default: "oncontextmenu",
+						
+						option { value: "", selected: "true", "Add a {singularLabel}" }
+						options.iter().enumerate().map(|(i, name)| rsx!(cx, option { key: "{i}", value: "{name}", "{name}" }))
+					})),
+					
+					(!isSelect).then(|| rsx!(cx, input
+					{
+						r#type: "text",
+						value: "",
+						placeholder: "Enter new a {singularLabel2}",
+						onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None),
+						oncontextmenu: move |e| e.cancel_bubble(),
+						prevent_default: "oncontextmenu"
+					}))
 				}
 				
 				showRemove.then(|| rsx!{
@@ -252,7 +290,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 						{
 							class: "removePopUp column",
 							
-							div { class: "row", "Are you sure you want to remove this {singularLabel}?" }
+							div { class: "row", "Are you sure you want to remove this {singularLabel3}?" }
 							div
 							{
 								class: "row",

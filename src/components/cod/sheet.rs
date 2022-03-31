@@ -185,7 +185,6 @@ pub fn conditionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usiz
 	}
 }
 
-#[allow(irrefutable_let_patterns)]
 /// Event handler triggered when a `Merit`'s `Dots` is clicked.
 pub fn meritDotHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 {
@@ -194,10 +193,8 @@ pub fn meritDotHandler(cx: &Scope<DotsProps<usize>>, clickedValue: usize)
 	
 	if let Some(index) = &cx.props.handlerKey
 	{
-		if let (_, ref mut value) = merits[*index]
-		{
-			*value = clickedValue;
-		}
+		let (_, ref mut value) = merits[*index];
+		*value = clickedValue;
 	}
 }
 
@@ -213,7 +210,6 @@ pub fn meritRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 	}
 }
 
-#[allow(irrefutable_let_patterns)]
 /// Event handler triggered when the `Merit` label input's value changes.
 pub fn meritUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 {
@@ -222,8 +218,9 @@ pub fn meritUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 	
 	match index
 	{
-		Some(i) => if let (ref mut name, _) = merits[i]
+		Some(i) =>
 		{
+			let (ref mut name, _) = merits[i];
 			*name = e.value.clone();
 		},
 		None => merits.push((e.value.clone(), 0))

@@ -8,7 +8,6 @@ use serde::{
 	Deserialize,
 	Serialize,
 };
-use std::collections::BTreeMap;
 use crate::{
 	cod::{
 		structs::{
@@ -35,7 +34,7 @@ pub struct Vampire
 	pub coreCharacter: CoreCharacter,
 	
 	#[serde(default)]
-	pub disciplines: BTreeMap<Discipline, usize>,
+	pub disciplines: Vec<(Discipline, usize)>,
 	
 	#[serde(default)]
 	pub powers: Vec<ActiveAbility>,
