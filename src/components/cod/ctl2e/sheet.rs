@@ -11,11 +11,13 @@ use crate::{
 			enums::Seeming,
 			state::{
 				BeastBonus,
+				ChangelingContracts,
 				ChangelingFrailties,
 				ChangelingTouchstones,
 			},
 		},
 		enums::{
+			ActiveAbilityField,
 			CoreAttribute,
 			CoreDetail,
 		},
@@ -30,15 +32,11 @@ use crate::{
 			CharacterSpecialties,
 			getTraitMax,
 		},
+		structs::ActiveAbility,
 	},
 	components::{
 		cod::{
-			ctl2e::{
-				regalia::{
-					Contracts,
-					FavoredRegalia,
-				},
-			},
+			ctl2e::regalia::FavoredRegalia,
 			advantages::{
 				Advantages,
 				AdvantagesProps,
@@ -46,6 +44,7 @@ use crate::{
 			details::Details,
 			experience::Experience,
 			list::{
+				ActiveAbilities,
 				DotEntryList,
 				SimpleEntryList,
 			},
@@ -74,6 +73,7 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
 	let frailtiesRef = use_atom_ref(&cx, ChangelingFrailties);
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
@@ -94,6 +94,8 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	aspirationsRef.read().iter().for_each(|a| aspirations.push(a.clone()));
 	let mut conditions = vec![];
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
+	let mut contracts = vec![];
+	contractsRef.read().iter().for_each(|c| contracts.push(c.clone()));
 	let mut frailties = vec![];
 	frailtiesRef.read().iter().for_each(|f| frailties.push(f.clone()));
 	let mut merits = vec![];
@@ -224,9 +226,74 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 			}
 			
 			hr { class: "row" }
-			div { class: "row", Contracts {} }
+			
+			div
+			{
+				class: "row",
+				
+				ActiveAbilities
+				{
+					class: "contracts".to_string(),
+					data: contracts.clone(),
+					label: "Contracts".to_string(),
+					entryRemoveHandler: contractsRemoveClickHandler,
+					entryUpdateHandler: contractsUpdateHandler,
+				}
+			}
 		}
 	});
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Contract row.
+fn contractsRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
+	let mut contracts = contractsRef.write();
+	
+	if index < contracts.len()
+	{
+		contracts.remove(index);
+	}
+}
+
+/// Event handler triggered when a Contract's value changes.
+fn contractsUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>, field: ActiveAbilityField)
+{
+	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
+	let mut contracts = contractsRef.write();
+	
+	match index
+	{
+		Some(i) =>
+		{
+			match field
+			{
+				ActiveAbilityField::Action => { contracts[i].action = e.value.clone(); }
+				ActiveAbilityField::Cost => { contracts[i].cost = e.value.clone(); }
+				ActiveAbilityField::Description => { contracts[i].description = e.value.clone(); }
+				ActiveAbilityField::DicePool => { contracts[i].dicePool = e.value.clone(); }
+				ActiveAbilityField::Duration => { contracts[i].duration = e.value.clone(); }
+				ActiveAbilityField::Effects => { contracts[i].effects = e.value.clone(); }
+				ActiveAbilityField::Name => { contracts[i].name = e.value.clone(); }
+				ActiveAbilityField::Requirements => { contracts[i].requirements = e.value.clone(); }
+			}
+		}
+		None =>
+		{
+			match field
+			{
+				ActiveAbilityField::Action => { contracts.push(ActiveAbility { action: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Cost => { contracts.push(ActiveAbility { cost: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Description => { contracts.push(ActiveAbility { description: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::DicePool => { contracts.push(ActiveAbility { dicePool: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Duration => { contracts.push(ActiveAbility { duration: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Effects => { contracts.push(ActiveAbility { effects: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Name => { contracts.push(ActiveAbility { name: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Requirements => { contracts.push(ActiveAbility { requirements: e.value.clone(), ..Default::default() }); }
+			}
+		}
+	}
 }
 
 fn templateBonusesHandler(cx: &Scope<AdvantagesProps>)

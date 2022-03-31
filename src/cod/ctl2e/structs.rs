@@ -21,7 +21,10 @@ use crate::{
 				ChangelingTouchstones,
 			},
 		},
-		structs::CoreCharacter,
+		structs::{
+			ActiveAbility,
+			CoreCharacter,
+		},
 	},
 	core::state::StatefulTemplate,
 };
@@ -34,7 +37,7 @@ pub struct Changeling
 	pub coreCharacter: CoreCharacter,
 	
 	#[serde(default)]
-	pub contracts: Vec<Contract>,
+	pub contracts: Vec<ActiveAbility>,
 	
 	#[serde(default)]
 	pub favoredRegalia: Option<Regalia>,
@@ -86,29 +89,4 @@ impl StatefulTemplate for Changeling
 	{
 		
 	}
-}
-
-// --------------------------------------------------
-
-/// Data structure defining a single Changeling: The Lost 2e Contract.
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Contract
-{
-	#[serde(default)]
-	pub action: String,
-	
-	#[serde(default)]
-	pub cost: String,
-	
-	#[serde(default)]
-	pub dicePool: String,
-	
-	#[serde(default)]
-	pub regalia: String,
-	
-	#[serde(default)]
-	pub duration: String,
-	
-	#[serde(default)]
-	pub name: String,
 }

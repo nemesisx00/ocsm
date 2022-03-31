@@ -8,6 +8,7 @@ use strum::IntoEnumIterator;
 use crate::{
 	cod::{
 		enums::{
+			ActiveAbilityField,
 			CoreAttribute,
 			CoreSkill,
 		},
@@ -21,6 +22,7 @@ use crate::{
 			CharacterSpecialties,
 			getTraitMax,
 		},
+		structs::ActiveAbility,
 		vtr2e::{
 			enums::{
 				Clan,
@@ -29,6 +31,7 @@ use crate::{
 			state::{
 				BP0VitaeMax,
 				KindredDisciplines,
+				KindredPowers,
 				KindredTouchstones,
 			},
 		},
@@ -42,6 +45,7 @@ use crate::{
 			details::Details,
 			experience::Experience,
 			list::{
+				ActiveAbilities,
 				DotEntryList,
 				SimpleEntryList,
 			},
@@ -60,12 +64,7 @@ use crate::{
 				Attributes,
 				Skills,
 			},
-			vtr2e::{
-				disciplines::{
-					Disciplines,
-					Devotions,
-				},
-			},
+			vtr2e::disciplines::Disciplines,
 		},
 	},
 };
@@ -77,6 +76,7 @@ pub fn VampireSheet(cx: Scope) -> Element
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
+	let powersRef = use_atom_ref(&cx, KindredPowers);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
 	let touchstonesRef = use_atom_ref(&cx, KindredTouchstones);
 	let traitMax = match advantagesRef.read().power
@@ -97,6 +97,8 @@ pub fn VampireSheet(cx: Scope) -> Element
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
 	let mut merits = vec![];
 	meritsRef.read().iter().for_each(|m| merits.push(m.clone()));
+	let mut powers = vec![];
+	powersRef.read().iter().for_each(|p| powers.push(p.clone()));
 	let mut specialties = vec![];
 	specialtiesRef.read().iter().for_each(|s| specialties.push(s.clone()));
 	let mut touchstones = vec![];
@@ -208,7 +210,20 @@ pub fn VampireSheet(cx: Scope) -> Element
 			}
 			
 			hr { class: "row" }
-			div { class: "row", Devotions {} }
+			
+			div
+			{
+				class: "row",
+				
+				ActiveAbilities
+				{
+					class: "powers".to_string(),
+					data: powers.clone(),
+					label: "Powers".to_string(),
+					entryRemoveHandler: powersRemoveClickHandler,
+					entryUpdateHandler: powersUpdateHandler,
+				}
+			}
 		}
 	});
 }
@@ -287,5 +302,57 @@ fn touchstoneUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 	{
 		Some(i) => { touchstones[i] = e.value.to_string(); }
 		None => { touchstones.push(e.value.to_string()); }
+	}
+}
+
+/// Event handler triggered when a `Devotion` input's value changes.
+fn powersUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>, prop: ActiveAbilityField)
+{
+	let powersRef = use_atom_ref(&cx, KindredPowers);
+	let mut powers = powersRef.write();
+	
+	match index
+	{
+		Some(i) =>
+		{
+			match prop
+			{
+				ActiveAbilityField::Action => { powers[i].action = e.value.clone(); }
+				ActiveAbilityField::Cost => { powers[i].cost = e.value.clone(); }
+				ActiveAbilityField::Description => { powers[i].description = e.value.clone(); }
+				ActiveAbilityField::DicePool => { powers[i].dicePool = e.value.clone(); }
+				ActiveAbilityField::Duration => { powers[i].duration = e.value.clone(); }
+				ActiveAbilityField::Effects => { powers[i].effects = e.value.clone(); }
+				ActiveAbilityField::Name => { powers[i].name = e.value.clone(); }
+				ActiveAbilityField::Requirements => { powers[i].requirements = e.value.clone(); }
+			}
+		}
+		None =>
+		{
+			match prop
+			{
+				ActiveAbilityField::Action => { powers.push(ActiveAbility { action: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Cost => { powers.push(ActiveAbility { cost: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Description => { powers.push(ActiveAbility { description: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::DicePool => { powers.push(ActiveAbility { dicePool: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Duration => { powers.push(ActiveAbility { duration: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Effects => { powers.push(ActiveAbility { effects: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Name => { powers.push(ActiveAbility { name: e.value.clone(), ..Default::default() }); }
+				ActiveAbilityField::Requirements => { powers.push(ActiveAbility { requirements: e.value.clone(), ..Default::default() }); }
+			}
+		}
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after right-clicking a
+/// Devotion row.
+fn powersRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let powersRef = use_atom_ref(&cx, KindredPowers);
+	let mut powers = powersRef.write();
+	
+	if index < powers.len()
+	{
+		powers.remove(index);
 	}
 }

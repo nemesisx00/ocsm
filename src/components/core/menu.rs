@@ -53,7 +53,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 	//Per instance state
 	let state = use_state(&cx, || false);
 	
-	//Close all the menus, not just the one that was last clicked.
+	//Will close all the menus, not just the one that was last clicked.
 	if !mainMenuState
 	{
 		state.set(false);
@@ -83,7 +83,6 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 				div
 				{
 					class: "subMenu column",
-					//Right now this means we only support one level of depth for child menus. Will need more complexity if it becomes necessary to support more than one level.
 					onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
 					oncontextmenu: move |e| e.cancel_bubble(),
 					prevent_default: "oncontextmenu",

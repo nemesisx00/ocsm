@@ -26,18 +26,6 @@ pub enum Clan
 	Ventrue,
 }
 
-/// The possible fields of a `Devotion`.
-#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
-pub enum DevotionField
-{
-	Action,
-	Cost,
-	DicePool,
-	Disciplines,
-	Duration,
-	Name,
-}
-
 /// The Disciplines of a Vampire: The Requiem 2e Kindred.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum Discipline

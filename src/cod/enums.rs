@@ -15,8 +15,22 @@ use strum_macros::{
 	EnumIter
 };
 
+/// The fields of a Chronicles of Darkness character's Active Ability.
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, PartialOrd, Serialize, Ord)]
+pub enum ActiveAbilityField
+{
+	Action,
+	Cost,
+	Description,
+	DicePool,
+	Duration,
+	Effects,
+	Name,
+	Requirements,
+}
+
 /// The Advantages of a Chronicles of Darkness character.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum CoreAdvantage
 {
 	Defense,
@@ -31,7 +45,7 @@ pub enum CoreAdvantage
 }
 
 /// The Attributes of a Chronicles of Darkness character.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum CoreAttribute
 {
 	//Ordering according to how they're typically ordered on the sheet to make generating the UI easier
@@ -93,7 +107,7 @@ impl CoreAttribute
 }
 
 /// The Details of a Chronicles of Darkness character.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum CoreDetail
 {
 	Chronicle,
@@ -121,7 +135,7 @@ impl CoreDetail
 }
 
 /// The Skills of a Chronicles of Darkness character.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum CoreSkill
 {
 	Academics,
@@ -222,7 +236,7 @@ impl CoreSkill
 }
 
 /// The categories of Chronicles of Darkness Traits.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum CoreTrait
 {
 	Mental,
@@ -231,7 +245,7 @@ pub enum CoreTrait
 }
 
 /// The possible states of a value within a `Tracker`.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum TrackerState
 {
 	Three,

@@ -11,12 +11,15 @@ use serde::{
 use std::collections::BTreeMap;
 use crate::{
 	cod::{
-		structs::CoreCharacter,
+		structs::{
+			ActiveAbility,
+			CoreCharacter,
+		},
 		vtr2e::{
 			enums::Discipline,
 			state::{
-				KindredDevotions,
 				KindredDisciplines,
+				KindredPowers,
 				KindredTouchstones,
 			},
 		},
@@ -35,7 +38,7 @@ pub struct Vampire
 	pub disciplines: BTreeMap<Discipline, usize>,
 	
 	#[serde(default)]
-	pub devotions: Vec<Devotion>,
+	pub powers: Vec<ActiveAbility>,
 	
 	#[serde(default)]
 	pub touchstones: Vec<String>,
@@ -47,11 +50,11 @@ impl StatefulTemplate for Vampire
 	{
 		self.coreCharacter.pull(cx);
 		
-		let devotions = use_atom_ref(cx, KindredDevotions);
+		let powers = use_atom_ref(cx, KindredPowers);
 		let disciplines = use_atom_ref(cx, KindredDisciplines);
 		let touchstones = use_atom_ref(cx, KindredTouchstones);
 		
-		self.devotions = devotions.read().clone();
+		self.powers = powers.read().clone();
 		self.disciplines = disciplines.read().clone();
 		self.touchstones = touchstones.read().clone();
 		
@@ -64,39 +67,14 @@ impl StatefulTemplate for Vampire
 		
 		self.validate();
 		
-		let devotions = use_atom_ref(cx, KindredDevotions);
+		let powers = use_atom_ref(cx, KindredPowers);
 		let disciplines = use_atom_ref(cx, KindredDisciplines);
 		let touchstones = use_atom_ref(cx, KindredTouchstones);
 		
-		(*devotions.write()) = self.devotions.clone();
+		(*powers.write()) = self.powers.clone();
 		(*disciplines.write()) = self.disciplines.clone();
 		(*touchstones.write()) = self.touchstones.clone();
 	}
 	
 	fn validate(&mut self) { }
-}
-
-// --------------------------------------------------
-
-/// Data structure defining a single Vampire: The Requiem 2e Kindred Devotion or Discipline Power.
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Devotion
-{
-	#[serde(default)]
-	pub action: String,
-	
-	#[serde(default)]
-	pub cost: String,
-	
-	#[serde(default)]
-	pub dicePool: String,
-	
-	#[serde(default)]
-	pub disciplines: String,
-	
-	#[serde(default)]
-	pub duration: String,
-	
-	#[serde(default)]
-	pub name: String,
 }

@@ -5,6 +5,10 @@ use dioxus::{
 	prelude::*,
 };
 use crate::{
+	cod::{
+		enums::ActiveAbilityField,
+		structs::ActiveAbility,
+	},
 	components::cod::dots::{
 		Dots,
 		DotsProps,
@@ -36,9 +40,9 @@ impl PartialEq for SimpleEntryListProps
 {
 	fn eq(&self, other: &Self) -> bool
 	{
-		return self.data == other.data
-			&& self.label == other.label
-			&& self.class == other.class;
+		return self.class == other.class
+			&& self.data == other.data
+			&& self.label == other.label;
 	}
 }
 
@@ -162,9 +166,9 @@ impl PartialEq for DotEntryListProps
 {
 	fn eq(&self, other: &Self) -> bool
 	{
-		return self.data == other.data
-			&& self.label == other.label
-			&& self.class == other.class;
+		return self.class == other.class
+			&& self.data == other.data
+			&& self.label == other.label;
 	}
 }
 
@@ -260,6 +264,272 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 					}
 				})
 			}
+		}
+	});
+}
+
+// --------------------------------------------------
+
+/// The properties struct for `ActiveAbilities`.
+#[derive(Props)]
+pub struct ActiveAbilitiesProps
+{
+	data: Vec<ActiveAbility>,
+	label: String,
+	entryRemoveHandler: fn(&Scope<ActiveAbilitiesProps>, usize),
+	entryUpdateHandler: fn(FormEvent, &Scope<ActiveAbilitiesProps>, Option<usize>, ActiveAbilityField),
+	
+	#[props(optional)]
+	class: Option<String>,
+}
+
+impl PartialEq for ActiveAbilitiesProps
+{
+	fn eq(&self, other: &Self) -> bool
+	{
+		return self.class == other.class
+			&& self.data == other.data
+			&& self.label == other.label;
+	}
+}
+
+/// The UI Component handling a Chronicles of Darkness character's list of Active Abilities.
+pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
+{
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
+	let lastIndex = use_state(&cx, || 0);
+	let showRemove = use_state(&cx, || false);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
+	let singularLabel = singularize(cx.props.label.clone());
+	
+	return cx.render(rsx!
+	{
+		div
+		{
+			class: "entryListWrapper abilities column",
+			
+			div { class: "entryListLabel", "{cx.props.label}" }
+			
+			div
+			{
+				class: "entryList column",
+				
+				cx.props.data.iter().enumerate().map(|(i, ability)| rsx!(cx,
+					(i > 0).then(|| rsx!(cx, hr { class: "row" }))
+					div
+					{
+						class: "entry column",
+						oncontextmenu: move |e|
+						{
+							e.cancel_bubble();
+							clickedX.set(e.data.client_x);
+							clickedY.set(e.data.client_y);
+							lastIndex.set(i);
+							showRemove.set(true);
+						},
+						prevent_default: "oncontextmenu",
+						
+						div
+						{
+							class: "row",
+							oncontextmenu: move |e|
+							{
+								e.cancel_bubble();
+								clickedX.set(e.data.client_x);
+								clickedY.set(e.data.client_y);
+								lastIndex.set(i);
+								showRemove.set(true);
+							},
+							prevent_default: "oncontextmenu",
+							
+							div { class: "label first", "Name:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.name}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Name),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Cost:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.cost}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Cost),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "column",
+							div { class: "label", "Description:" }
+							textarea
+							{
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu",
+								
+								"{ability.description}"
+							}
+						}
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Dice Pool:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.dicePool}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::DicePool),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Action:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.action}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Action),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Requirements:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.requirements}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Requirements),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Duration:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.duration}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Duration),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "column",
+							div { class: "label", "Effects:" }
+							textarea
+							{
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu",
+								
+								"{ability.effects}"
+							}
+						}
+					}
+				))
+				
+				div
+				{
+					class: "new entry row",
+					input { r#type: "text", value: "", placeholder: "Enter a new {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+				}
+			}
+			
+			showRemove.then(|| rsx!
+			{
+				div
+				{
+					class: "removePopUpWrapper column",
+					style: "left: {posX}px; top: {posY}px;",
+					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
+					prevent_default: "onclick",
+					
+					div
+					{
+						class: "removePopUp column",
+						
+						div { class: "row", "Are you sure you want to remove this {singularLabel}?" }
+						div
+						{
+							class: "row",
+							
+							button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+						}
+					}
+				}
+			})
 		}
 	});
 }

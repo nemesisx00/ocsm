@@ -36,6 +36,39 @@ use crate::{
 	core::state::StatefulTemplate,
 };
 
+/// Data structure defining a single Active Ability.
+/// 
+/// This is a generic data structure which should cover most, if not all, active
+/// abilities of the various Chronicles of Darkness archetypes. Abilities like
+/// Changeling Contracts, Kindred Disciplines, and Mage Spells.
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct ActiveAbility
+{
+	#[serde(default)]
+	pub action: String,
+	
+	#[serde(default)]
+	pub cost: String,
+	
+	#[serde(default)]
+	pub description: String,
+	
+	#[serde(default)]
+	pub dicePool: String,
+	
+	#[serde(default)]
+	pub duration: String,
+	
+	#[serde(default)]
+	pub effects: String,
+	
+	#[serde(default)]
+	pub name: String,
+	
+	#[serde(default)]
+	pub requirements: String,
+}
+
 /// Data structure defining the Advantages of a Chronicles of Darkness character.
 /// 
 /// While the specific names may vary, every Chronicles of Darkness
