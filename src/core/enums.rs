@@ -18,7 +18,7 @@ pub enum GameSystem
 		//CodDemon,
 		//CodGeist,
 		//CodHunter,
-	//CodMage2e,
+	CodMage2e,
 		//CodMummy,
 		//CodPromethean,
 	CodVampire2e,
@@ -35,7 +35,7 @@ impl GameSystem
 		let mut map = BTreeMap::new();
 		map.insert(GameSystem::CodMortal, "Chronicles of Darkness".to_string());
 		map.insert(GameSystem::CodChangeling2e, "Changeling: The Lost 2e".to_string());
-		//map.insert(GameSystem::CodMage2e, "Mage: The Awakening 2e".to_string());
+		map.insert(GameSystem::CodMage2e, "Mage: The Awakening 2e".to_string());
 		map.insert(GameSystem::CodVampire2e, "Vampire: The Requiem 2e".to_string());
 		//map.insert(GameSystem::Dnd5e, "Dungeons & Dragons 5E".to_string());
 		//map.insert(GameSystem::WodVampireV5, "Vampire: The Masquerade V5".to_string());

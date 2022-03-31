@@ -28,18 +28,56 @@ pub fn generateSelectedValue<T: PartialEq>(a: T, b: T) -> String
 /// Take a plural word and return its singular form.
 /// 
 /// This is only really going to work for English as the logic is very simple.
-/// If it ends in "ies", replace those three letters with "y". Otherwise,
+/// If it ends in "ies," replace those three letters with "y". If it ends with
+/// "s" or "es," remove them. Otherwise, leave it alone.
 /// remove the final letter.
 pub fn singularize(s: String) -> String
 {
 	let start = &s[..s.len()-3];
 	let lastThree = &s[s.len()-3..];
 	
-	let ending = match lastThree
+	let ending;
+	if lastThree == "ies"
 	{
-		"ies" => "y",
-		_ => &lastThree[..2]
-	};
+		ending = "y";
+	}
+	else if lastThree == "xes"
+	{
+		ending = &lastThree[..1];
+	}
+	else if &lastThree[2..] == "s"
+	{
+		ending = &lastThree[..2];
+	}
+	else
+	{
+		ending = lastThree;
+	}
 	
 	return format!("{}{}", start, ending);
+}
+
+// --------------------------------------------------
+
+#[cfg(test)]
+mod tests
+{
+	use super::*;
+	use std::collections::HashMap;
+	
+	#[test]
+	fn fn_singularize()
+	{
+		let mut data = HashMap::<String, String>::new();
+		data.insert("Hexes".to_string(), "Hex".to_string());
+		data.insert("Aspirations".to_string(), "Aspiration".to_string());
+		data.insert("Arcana".to_string(), "Arcana".to_string());
+		data.insert("Disciplines".to_string(), "Discipline".to_string());
+		
+		data.iter().for_each(|(val, expected)|
+		{
+			let result = singularize(val.clone());
+			assert_eq!(expected.clone(), result);
+		});
+	}
 }

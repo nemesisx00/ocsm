@@ -9,6 +9,7 @@ use crate::{
 	cod::{
 		state::resetGlobalStateCod,
 		ctl2e::state::resetGlobalStateCtl2e,
+		mta2e::state::resetGlobalStateMta2e,
 		vtr2e::state::resetGlobalStateVtr2e,
 	},
 	core::{
@@ -38,6 +39,7 @@ pub fn resetGlobalState<T>(cx: &Scope<T>)
 	
 	resetGlobalStateCod(cx);
 	resetGlobalStateCtl2e(cx);
+	resetGlobalStateMta2e(cx);
 	resetGlobalStateVtr2e(cx);
 }
 

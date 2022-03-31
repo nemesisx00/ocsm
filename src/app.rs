@@ -13,12 +13,14 @@ use crate::{
 	cod::{
 		structs::CoreCharacter,
 		ctl2e::structs::Changeling,
+		mta2e::structs::Mage,
 		vtr2e::structs::Vampire,
 	},
 	components::{
 		cod::{
 			sheet::MortalSheet,
 			ctl2e::sheet::ChangelingSheet,
+			mta2e::sheet::MageSheet,
 			vtr2e::sheet::VampireSheet,
 		},
 		core::{
@@ -93,6 +95,7 @@ pub fn App(cx: Scope) -> Element
 			
 			show[&GameSystem::CodMortal].then(|| rsx! { MortalSheet {} })
 			show[&GameSystem::CodChangeling2e].then(|| rsx! { ChangelingSheet {} })
+			show[&GameSystem::CodMage2e].then(|| rsx! { MageSheet {} })
 			show[&GameSystem::CodVampire2e].then(|| rsx! { VampireSheet {} })
 		}
 	});
@@ -143,6 +146,7 @@ fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 	{
 		GameSystem::CodMortal => loadSheet::<CoreCharacter>(cx),
 		GameSystem::CodChangeling2e => loadSheet::<Changeling>(cx),
+		GameSystem::CodMage2e => loadSheet::<Mage>(cx),
 		GameSystem::CodVampire2e => loadSheet::<Vampire>(cx),
 	}
 }
@@ -166,6 +170,7 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 	{
 		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
 		GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
+		GameSystem::CodMage2e => saveSheet::<Mage>(cx),
 		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
 	}
 }
