@@ -76,6 +76,8 @@ impl StatefulTemplate for Vampire
 	fn validate(&mut self) { }
 }
 
+// --------------------------------------------------
+
 /// Data structure defining a single Vampire: The Requiem 2e Kindred Devotion or Discipline Power.
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Devotion

@@ -88,6 +88,8 @@ impl StatefulTemplate for Changeling
 	}
 }
 
+// --------------------------------------------------
+
 /// Data structure defining a single Changeling: The Lost 2e Contract.
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Contract

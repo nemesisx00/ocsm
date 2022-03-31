@@ -46,6 +46,9 @@ use crate::{
 pub struct CoreAdvantages
 {
 	#[serde(default)]
+	pub armor: usize,
+	
+	#[serde(default)]
 	pub defense: usize,
 	
 	#[serde(default)]
@@ -92,6 +95,7 @@ impl Default for CoreAdvantages
 	{
 		return Self
 		{
+			armor: 0,
 			defense: 1,
 			health: Tracker::new(6),
 			initiative: 2,

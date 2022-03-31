@@ -45,6 +45,7 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 	let detailsRef = use_atom_ref(&cx, CharacterDetails);
 	let details = detailsRef.read();
 	
+	let armor = advantages.read().armor;
 	let defense = advantages.read().defense;
 	let initiative = advantages.read().initiative;
 	let speed = advantages.read().speed;
@@ -136,6 +137,7 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 			{
 				class: "calculated row",
 				
+				div { class: "row", label { "Armor:" } div { "{armor}" } }
 				div { class: "row", label { "Defense:" } div { "{defense}" } }
 				div { class: "row", label { "Initiative:" } div { "{initiative}" } }
 				div { class: "row", label { "Speed:" } div { "{speed}" } }
@@ -171,7 +173,7 @@ fn advantageHandler(cx: &Scope<DetailInputProps<CoreAdvantage>>, value: String)
 	};
 }
 
-// -----
+// --------------------------------------------------
 
 /// The properties struct for `DetailInput`
 #[derive(Props)]

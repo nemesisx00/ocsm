@@ -48,6 +48,8 @@ pub static CharacterSkills: AtomRef<BTreeMap<CoreSkill, usize>> = |_| CoreSkill:
 /// A Chronicles of Darkness character's list of Skill Specialties.
 pub static CharacterSpecialties: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 
+// --------------------------------------------------
+
 /// Update the designated Advantage's value.
 /// 
 /// Automaticaly updates any affected Traits.

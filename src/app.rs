@@ -116,16 +116,12 @@ fn gameSystemHandler(cx: &Scope<MenuItemProps>)
 	let setMenuState = use_set(&cx, MainMenuState);
 	let window = use_window(cx);
 	
-	match GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
+	if let Some((gs, l)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
 	{
-		Some((gs, l)) =>
-		{
-			setMenuState(false);
-			window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
-			setCurrentGameSystem(*gs);
-			newSheetHandler(cx);
-		},
-		None => setMenuState(false)
+		window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
+		setCurrentGameSystem(*gs);
+		newSheetHandler(cx);
+		setMenuState(false);
 	}
 }
 

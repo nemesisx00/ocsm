@@ -28,7 +28,7 @@ pub static CurrentFilePath: Atom<Option<String>> = |_| None;
 /// The active `GameSystem` determining which character sheet is rendered.
 pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodMortal;
 
-// -----
+// --------------------------------------------------
 
 /// Reset every stateful value in the application, regardless of game system.
 pub fn resetGlobalState<T>(cx: &Scope<T>)
@@ -41,7 +41,7 @@ pub fn resetGlobalState<T>(cx: &Scope<T>)
 	resetGlobalStateVtr2e(cx);
 }
 
-// -----
+// --------------------------------------------------
 
 /// Trait defining methods for interacting with the application's global state.
 pub trait StatefulTemplate
