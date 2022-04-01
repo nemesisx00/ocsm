@@ -47,11 +47,11 @@ This application is not intended to be a replacement for official game system so
 
 In my experience, finding a high quality digital character sheet, regardless of format, for any game system is very difficult. Especially if you're looking for a free option. If you are lucky enough to find one for your chosen game system, most of the time they end up being PDFs which, while they can be of exceedingly high visual quality, suffer from the fact that interactive PDFs are clunky at the best of times. Not to mention that PDF is one of the least portable document formats in existence...
 
-Since online communication tools like Discord, among many others, provide access to a much wider range of available games and players, I am very interested in digital resources for supporting this style of playing TTRPGs. I am also a huge proponent of free, open source software. So I thought, why not bring those two things together to make something that people can actually *use*?
+Since online communication tools like Discord, among many others, provide access to a much wider range of available games and players, I am very interested in digital resources for supporting this style of playing TTRPGs. I am also a huge proponent of free, open source software. So if I'm going to build something for myself, I also want to build it such that everyone else can use it too.
 
 ## Inside OCSM
 
-OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). [Dioxus](https://dioxuslabs.com/) is a GUI library used to create a desktop WebView2 window, leveraging [Rust](https://www.rust-lang.org/)'s benefits on the frontend. Rounding things out, the CSS is generated with the [Stylus](https://stylus-lang.com/) CSS preprocessor.
+OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). [Dioxus](https://dioxuslabs.com/) is a GUI library used to create the desktop WebView2 window and construct the whole UI in [Rust](https://www.rust-lang.org/), leveraging its benefits on the frontend. Rounding things out, the CSS is generated via the [Stylus](https://stylus-lang.com/) CSS preprocessor.
 
 ## Getting Started
 
