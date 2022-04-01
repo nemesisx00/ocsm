@@ -109,15 +109,15 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod ctl2e column",
+			class: "sheet cod ctl2e column justEven",
 			
 			h1 { "Changeling: The Lost" }
 			h3 { "Second Edition" }
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven",
 				
 				Details
 				{
@@ -138,11 +138,11 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 				}
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row spacedOut",
+				class: "row justEven spacedOut",
 				
 				SimpleEntryList
 				{
@@ -155,54 +155,7 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 				
 				div
 				{
-					class: "column",
-					
-					SimpleEntryList
-					{
-						class: "touchstones".to_string(),
-						data: touchstones.clone(),
-						label: "Touchstones".to_string(),
-						entryUpdateHandler: touchstoneUpdateHandler,
-						entryRemoveHandler: touchstoneRemoveClickHandler,
-					}
-					
-					FavoredRegalia {}
-				}
-				
-				Experience {}
-			}
-			
-			hr { class: "row" }
-			div { class: "row", Attributes { traitMax: traitMax } }
-			hr { class: "row" }
-			div { class: "row", Skills { traitMax: traitMax } }
-			hr { class: "row" }
-			
-			div
-			{
-				class: "row",
-				
-				SimpleEntryList
-				{
-					class: "frailties".to_string(),
-					data: frailties.clone(),
-					label: "Frailties".to_string(),
-					entryUpdateHandler: frailtyUpdateHandler,
-					entryRemoveHandler: frailtyRemoveClickHandler,
-				}
-				
-				div
-				{
-					class: "column",
-					
-					SimpleEntryList
-					{
-						class: "specialties".to_string(),
-						data: specialties.clone(),
-						label: "Specialties".to_string(),
-						entryUpdateHandler: skillSpecialtyUpdateHandler,
-						entryRemoveHandler: skillSpecialtyRemoveClickHandler,
-					}
+					class: "column justStart",
 					
 					SimpleEntryList
 					{
@@ -212,6 +165,44 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 						entryUpdateHandler: conditionUpdateHandler,
 						entryRemoveHandler: conditionRemoveClickHandler,
 					}
+					
+					SimpleEntryList
+					{
+						class: "touchstones".to_string(),
+						data: touchstones.clone(),
+						label: "Touchstones".to_string(),
+						entryUpdateHandler: touchstoneUpdateHandler,
+						entryRemoveHandler: touchstoneRemoveClickHandler,
+					}
+				}
+				
+				Experience {}
+			}
+			
+			hr { class: "row justEven" }
+			div { class: "row justEven", Attributes { traitMax: traitMax } }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Skills { traitMax: traitMax } }
+			hr { class: "row justEven" }
+			
+			div
+			{
+				class: "row justEven",
+				
+				div
+				{
+					class: "column justStart",
+				
+					SimpleEntryList
+					{
+						class: "frailties".to_string(),
+						data: frailties.clone(),
+						label: "Frailties".to_string(),
+						entryUpdateHandler: frailtyUpdateHandler,
+						entryRemoveHandler: frailtyRemoveClickHandler,
+					}
+					
+					FavoredRegalia {}
 				}
 				
 				DotEntryList
@@ -223,13 +214,22 @@ pub fn ChangelingSheet(cx: Scope) -> Element
 					entryRemoveHandler: meritRemoveClickHandler,
 					entryUpdateHandler: meritUpdateHandler,
 				}
+					
+				SimpleEntryList
+				{
+					class: "specialties".to_string(),
+					data: specialties.clone(),
+					label: "Specialties".to_string(),
+					entryUpdateHandler: skillSpecialtyUpdateHandler,
+					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
+				}
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justBetween",
 				
 				ActiveAbilities
 				{

@@ -121,11 +121,11 @@ pub fn Advantages(cx: Scope<AdvantagesProps>) -> Element
 	{		
 		div
 		{
-			class: "advantages row",
+			class: "advantages row justEven",
 			
 			div
 			{
-				class: "column",
+				class: "column justEven",
 				
 				Track { label: "Health".to_string(), tracker: advantages.health.clone(), handler: healthHandler }
 				Track { label: "Willpower".to_string(), tracker: advantages.willpower.clone(), handler: willpowerHandler }

@@ -80,20 +80,20 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 	{
 		div
 		{
-			class: "regalia entryListWrapper column",
+			class: "regalia simpleEntryListWrapper column justEven",
 			
-			div { class: "entryListLabel", "Favored Regalia" }
+			div { class: "simpleEntryListLabel", "Favored Regalia" }
 			
 			div
 			{
-				class: "entryList row",
+				class: "simpleEntryList row justEven",
 				div { class: "regalia", oncontextmenu: move |e| { e.cancel_bubble(); }, prevent_default: "oncontextmenu", "{seemingRegalia}" }
 				
 				showRegalia.then(|| rsx!
 				{
 					div
 					{
-						class: "regalia entry row",
+						class: "regalia entry row justEven",
 						oncontextmenu: move |e|
 						{
 							e.cancel_bubble();
@@ -110,7 +110,7 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 				{
 					div
 					{
-						class: "regalia entry row",
+						class: "regalia entry row justEven",
 						
 						select
 						{
@@ -129,19 +129,19 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 			{
 				div
 				{
-					class: "removePopUpWrapper column",
+					class: "removePopUpWrapper column justEven",
 					style: "left: {posX}px; top: {posY}px;",
 					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
 					prevent_default: "onclick",
 					
 					div
 					{
-						class: "removePopUp column",
+						class: "removePopUp column justEven",
 						
-						div { class: "row", "Are you sure you want to remove this Favored Regalia?" }
+						div { class: "row justEven", "Are you sure you want to remove this Favored Regalia?" }
 						div
 						{
-							class: "row",
+							class: "row justEven",
 							
 							button { onclick: move |e| { e.cancel_bubble(); setFavoredRegalia(None); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }

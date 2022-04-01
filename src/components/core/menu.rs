@@ -19,7 +19,7 @@ pub fn MainMenu<'a>(cx: Scope<'a, MainMenuProps<'a>>) -> Element<'a>
 	{
 		div
 		{
-			class: "mainMenu row",
+			class: "mainMenu row justEven",
 			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
@@ -68,7 +68,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 	{
 		div
 		{
-			class: "menu column{class}",
+			class: "menu column justStart{class}",
 			onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
 			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
@@ -82,7 +82,7 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 			state.then(|| rsx!{
 				div
 				{
-					class: "subMenu column",
+					class: "subMenu column justEven",
 					onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
 					oncontextmenu: move |e| e.cancel_bubble(),
 					prevent_default: "oncontextmenu",

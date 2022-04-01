@@ -48,41 +48,41 @@ pub fn Attributes(cx: Scope<TraitProps>) -> Element
 	{
 		div
 		{
-			class: "attributesWrapper column",
+			class: "attributesWrapper column justEven",
 			
 			div { class: "attributesLabel", "Attributes" },
 			
 			div
 			{
-				class: "attributes row",
+				class: "attributes row justEven",
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Mental" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Mental" }
 					mentalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Physical" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Physical" }
 					physicalAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Social" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Social" }
 					socialAttributeTypes.iter().enumerate().map(|(i, at)| {
 						let attr = attributes.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: at.as_ref().to_string(), max: traitMax, value: attr[at], handler: attributeHandler, handlerKey: *at })
 					})
 				}
 			}
@@ -130,44 +130,44 @@ pub fn Skills(cx: Scope<TraitProps>) -> Element
 	{
 		div
 		{
-			class: "skillsWrapper cod column",
+			class: "skillsWrapper cod column justEven",
 			
 			div { class: "skillsLabel", "Skills" },
 			
 			div
 			{
-				class: "skills row",
+				class: "skills row justEven",
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Mental" }
-					div { class: "row unskilled", "(-3 unskilled)" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Mental" }
+					div { class: "row justEven unskilled", "(-3 unskilled)" }
 					mentalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Physical" }
-					div { class: "row unskilled", "(-1 unskilled)" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Physical" }
+					div { class: "row justEven unskilled", "(-1 unskilled)" }
 					physicalSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 				
 				div
 				{
-					class: "column",
-					div { class: "row traitCategory", "Social" }
-					div { class: "row unskilled", "(-1 unskilled)" }
+					class: "column justStart",
+					div { class: "row justEven traitCategory", "Social" }
+					div { class: "row justEven unskilled", "(-1 unskilled)" }
 					socialSkillTypes.iter().enumerate().map(|(i, st)| {
 						let ski = skills.clone();
-						rsx!(cx, Dots { key: "{i}", class: "dots row".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
+						rsx!(cx, Dots { key: "{i}", class: "dots row justEven".to_string(), label: CoreSkill::getSkillName(*st), max: traitMax, value: ski[st], handler: skillHandler, handlerKey: *st })
 					})
 				}
 			}

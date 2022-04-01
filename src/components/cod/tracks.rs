@@ -59,7 +59,7 @@ pub fn Track(cx: Scope<TrackProps>) -> Element
 			
 			div
 			{
-				class: "checkerLine row",
+				class: "checkerLine row justEven",
 				
 				cx.props.tracker.values.iter().enumerate().map(|(i, ts)| rsx!(cx, CheckLine
 				{

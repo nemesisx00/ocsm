@@ -68,18 +68,18 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 	{
 		div
 		{
-			class: "simpleEntryListWrapper column {className}",
+			class: "simpleEntryListWrapper column justEven {className}",
 			
 			div { class: "simpleEntryListLabel", "{cx.props.label}" },
 			
 			div
 			{
-				class: "simpleEntryList column",
+				class: "simpleEntryList column justEven",
 				
 				cx.props.data.iter().enumerate().map(|(i, entry)| {
 					rsx!(cx, div
 					{
-						class: "row",
+						class: "row justEven",
 						key: "{i}",
 						oncontextmenu: move |e|
 						{
@@ -111,26 +111,26 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 				
 				div
 				{
-					class: "row",
+					class: "row justEven",
 					input { r#type: "text", value: "", placeholder: "Enter new a {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
 					div
 					{
-						class: "removePopUpWrapper column",
+						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
 						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
 						prevent_default: "onclick",
 						
 						div
 						{
-							class: "removePopUp column",
+							class: "removePopUp column justEven",
 							
-							div { class: "row", "Are you sure you want to remove this {singularLabel}?" }
+							div { class: "row justEven", "Are you sure you want to remove this {singularLabel}?" }
 							div
 							{
-								class: "row",
+								class: "row justEven",
 								
 								button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
@@ -207,18 +207,18 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 	{
 		div
 		{
-			class: "entryListWrapper dots column {className}",
+			class: "simpleEntryListWrapper dots column justEven {className}",
 			
-			div { class: "entryListLabel", "{cx.props.label}" }
+			div { class: "simpleEntryListLabel", "{cx.props.label}" }
 			
 			div
 			{
-				class: "entryList column",
+				class: "simpleEntryList column justEven",
 				
 				cx.props.data.iter().enumerate().map(|(i, (name, value))| rsx!(cx, div
 				{
 					key: "{i}",
-					class: "entry row",
+					class: "entry row justEven",
 					oncontextmenu: move |e|
 					{
 						e.cancel_bubble();
@@ -230,7 +230,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 					prevent_default: "oncontextmenu",
 					
 					isSelect.then(|| rsx!(cx, 
-						Dots { class: "row".to_string(), label: name.clone(), max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
+						Dots { class: "row justEven".to_string(), label: name.clone(), max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
 					)),
 					
 					(!isSelect).then(|| rsx!(cx, 
@@ -255,7 +255,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 				
 				div
 				{
-					class: "entry row",
+					class: "entry row justEven",
 					
 					isSelect.then(|| rsx!(cx, select
 					{
@@ -281,19 +281,19 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 				showRemove.then(|| rsx!{
 					div
 					{
-						class: "removePopUpWrapper column",
+						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
 						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
 						prevent_default: "onclick",
 						
 						div
 						{
-							class: "removePopUp column",
+							class: "removePopUp column justEven",
 							
-							div { class: "row", "Are you sure you want to remove this {singularLabel3}?" }
+							div { class: "row justEven", "Are you sure you want to remove this {singularLabel3}?" }
 							div
 							{
-								class: "row",
+								class: "row justEven",
 								
 								button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
@@ -347,19 +347,19 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 	{
 		div
 		{
-			class: "entryListWrapper abilities column",
+			class: "simpleEntryListWrapper abilities column justEven",
 			
-			div { class: "entryListLabel", "{cx.props.label}" }
+			div { class: "simpleEntryListLabel", "{cx.props.label}" }
 			
 			div
 			{
-				class: "entryList column",
+				class: "simpleEntryList column justEven",
 				
 				cx.props.data.iter().enumerate().map(|(i, ability)| rsx!(cx,
-					(i > 0).then(|| rsx!(cx, hr { class: "row" }))
+					(i > 0).then(|| rsx!(cx, hr { class: "row justEven thin" }))
 					div
 					{
-						class: "entry column",
+						class: "entry column justStart",
 						oncontextmenu: move |e|
 						{
 							e.cancel_bubble();
@@ -372,7 +372,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 						
 						div
 						{
-							class: "row",
+							class: "row justEven",
 							oncontextmenu: move |e|
 							{
 								e.cancel_bubble();
@@ -419,27 +419,6 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 						
 						div
 						{
-							class: "column",
-							div { class: "label", "Description:" }
-							textarea
-							{
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
-								prevent_default: "oncontextmenu",
-								
-								"{ability.description}"
-							}
-						}
-						
-						div
-						{
 							class: "row",
 							
 							div { class: "label first", "Dice Pool:" }
@@ -478,7 +457,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 						
 						div
 						{
-							class: "row",
+							class: "row justEven",
 							
 							div { class: "label first", "Requirements:" }
 							input
@@ -516,7 +495,28 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 						
 						div
 						{
-							class: "column",
+							class: "column justEven",
+							div { class: "label", "Description:" }
+							textarea
+							{
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu",
+								
+								"{ability.description}"
+							}
+						}
+						
+						div
+						{
+							class: "column justEven",
 							div { class: "label", "Effects:" }
 							textarea
 							{
@@ -539,7 +539,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 				
 				div
 				{
-					class: "new entry row",
+					class: "new entry row justEven",
 					input { r#type: "text", value: "", placeholder: "Enter a new {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 			}
@@ -548,19 +548,19 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 			{
 				div
 				{
-					class: "removePopUpWrapper column",
+					class: "removePopUpWrapper column justEven",
 					style: "left: {posX}px; top: {posY}px;",
 					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
 					prevent_default: "onclick",
 					
 					div
 					{
-						class: "removePopUp column",
+						class: "removePopUp column justEven",
 						
-						div { class: "row", "Are you sure you want to remove this {singularLabel}?" }
+						div { class: "row justEven", "Are you sure you want to remove this {singularLabel}?" }
 						div
 						{
-							class: "row",
+							class: "row justEven",
 							
 							button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
 							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }

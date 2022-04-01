@@ -1,4 +1,4 @@
-.cod .skillsWrapper
+.sheet.cod .skillsWrapper
 
 	& .skillsLabel
 		text-align center
@@ -6,7 +6,6 @@
 		font-weight bold
 
 	& .skills
-		justify-content space-evenly
 		
 		& .column
 			flexNone()
@@ -20,6 +19,9 @@
 			text-align center
 			font-size 0.8em
 			font-weight bold
+			
+			& .row
+				flexGrow()
 			
 		& .unskilled
 			color menuBorderColor
@@ -42,21 +44,3 @@
 				
 				& .checkerLine
 					margin-top 0
-
-.cod .skillSpecialtiesWrapper
-	
-	& .skillSpecialtiesLabel
-		text-align center
-		font-size 1.1em
-		font-weight bold
-	
-	& .skillSpecialties
-		justify-content space-evenly
-		
-		& .column
-			flexNone()
-			
-			& .tracker .label
-				flexGrow()
-				text-align left
-				margin 0 10px 0 0

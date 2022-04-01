@@ -102,15 +102,15 @@ pub fn MageSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod mta2e column",
+			class: "sheet cod mta2e column justEven",
 			
 			h1 { "Mage: The Awakening" }
 			h3 { "Second Edition" }
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven",
 				
 				Details
 				{
@@ -131,11 +131,11 @@ pub fn MageSheet(cx: Scope) -> Element
 				}
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row spacedOut",
+				class: "row justEven spacedOut",
 				
 				SimpleEntryList
 				{
@@ -148,7 +148,16 @@ pub fn MageSheet(cx: Scope) -> Element
 				
 				div
 				{
-					class: "column",
+					class: "column justStart",
+					
+					SimpleEntryList
+					{
+						class: "conditions".to_string(),
+						data: conditions.clone(),
+						label: "Conditions".to_string(),
+						entryUpdateHandler: conditionUpdateHandler,
+						entryRemoveHandler: conditionRemoveClickHandler,
+					}
 					
 					SimpleEntryList
 					{
@@ -163,15 +172,15 @@ pub fn MageSheet(cx: Scope) -> Element
 				Experience {}
 			}
 			
-			hr { class: "row" }
-			div { class: "row", Attributes { traitMax: traitMax } }
-			hr { class: "row" }
-			div { class: "row", Skills { traitMax: traitMax } }
-			hr { class: "row" }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Attributes { traitMax: traitMax } }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Skills { traitMax: traitMax } }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven",
 				
 				DotEntryList
 				{
@@ -184,29 +193,6 @@ pub fn MageSheet(cx: Scope) -> Element
 					entryUpdateHandler: arcanasUpdateHandler,
 				}
 				
-				div
-				{
-					class: "column",
-					
-					SimpleEntryList
-					{
-						class: "specialties".to_string(),
-						data: specialties.clone(),
-						label: "Specialties".to_string(),
-						entryUpdateHandler: skillSpecialtyUpdateHandler,
-						entryRemoveHandler: skillSpecialtyRemoveClickHandler,
-					}
-					
-					SimpleEntryList
-					{
-						class: "conditions".to_string(),
-						data: conditions.clone(),
-						label: "Conditions".to_string(),
-						entryUpdateHandler: conditionUpdateHandler,
-						entryRemoveHandler: conditionRemoveClickHandler,
-					}
-				}
-				
 				DotEntryList
 				{
 					class: "merits".to_string(),
@@ -216,13 +202,22 @@ pub fn MageSheet(cx: Scope) -> Element
 					entryRemoveHandler: meritRemoveClickHandler,
 					entryUpdateHandler: meritUpdateHandler,
 				}
+				
+				SimpleEntryList
+				{
+					class: "specialties".to_string(),
+					data: specialties.clone(),
+					label: "Specialties".to_string(),
+					entryUpdateHandler: skillSpecialtyUpdateHandler,
+					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
+				}
 			}
 			/*
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justBetween",
 				
 				ActiveAbilities
 				{

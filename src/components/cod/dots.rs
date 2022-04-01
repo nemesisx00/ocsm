@@ -61,7 +61,7 @@ pub fn Dots<T>(cx: Scope<DotsProps<T>>) -> Element
 			
 			div
 			{
-				class: "checkerLine row",
+				class: "checkerLine row justEven",
 				
 				(0..cx.props.max).map(|i|
 				{

@@ -52,14 +52,14 @@ pub fn MortalSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod core column",
+			class: "sheet cod core column justEven",
 			
 			h1 { "Chronicles of Darkness" }
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven",
 				
 				Details
 				{
@@ -73,11 +73,11 @@ pub fn MortalSheet(cx: Scope) -> Element
 				Advantages { integrity: "Integrity".to_string() }
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row spacedOut",
+				class: "row justEven spacedOut",
 				
 				SimpleEntryList
 				{
@@ -100,24 +100,15 @@ pub fn MortalSheet(cx: Scope) -> Element
 				Experience {}
 			}
 			
-			hr { class: "row" }
-			div { class: "row", Attributes {} }
-			hr { class: "row" }
-			div { class: "row", Skills {} }
-			hr { class: "row" }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Attributes {} }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Skills {} }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
-				
-				SimpleEntryList
-				{
-					class: "specialties".to_string(),
-					data: specialties.clone(),
-					label: "Specialties".to_string(),
-					entryUpdateHandler: skillSpecialtyUpdateHandler,
-					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
-				}
+				class: "row justEven",
 				
 				DotEntryList
 				{
@@ -127,6 +118,15 @@ pub fn MortalSheet(cx: Scope) -> Element
 					entryDotHandler: meritDotHandler,
 					entryRemoveHandler: meritRemoveClickHandler,
 					entryUpdateHandler: meritUpdateHandler,
+				}
+				
+				SimpleEntryList
+				{
+					class: "specialties".to_string(),
+					data: specialties.clone(),
+					label: "Specialties".to_string(),
+					entryUpdateHandler: skillSpecialtyUpdateHandler,
+					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
 				}
 			}
 		}

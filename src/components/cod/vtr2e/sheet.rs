@@ -116,15 +116,15 @@ pub fn VampireSheet(cx: Scope) -> Element
 	{	
 		div
 		{
-			class: "sheet cod vtr2e column",
+			class: "sheet cod vtr2e column justEven",
 			
 			h1 { "Vampire: The Requiem" }
 			h3 { "Second Edition" }
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven",
 				
 				Details
 				{
@@ -145,11 +145,11 @@ pub fn VampireSheet(cx: Scope) -> Element
 				}
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row spacedOut",
+				class: "row justEven spacedOut",
 				
 				SimpleEntryList
 				{
@@ -160,26 +160,40 @@ pub fn VampireSheet(cx: Scope) -> Element
 					entryRemoveHandler: aspirationRemoveClickHandler,
 				}
 				
-				SimpleEntryList
+				div
 				{
-					class: "touchstones".to_string(),
-					data: touchstones.clone(),
-					label: "Touchstones".to_string(),
-					entryUpdateHandler: touchstoneUpdateHandler,
-					entryRemoveHandler: touchstoneRemoveClickHandler,
+					class: "column justStart",
+					
+					SimpleEntryList
+					{
+						class: "conditions".to_string(),
+						data: conditions.clone(),
+						label: "Conditions".to_string(),
+						entryUpdateHandler: conditionUpdateHandler,
+						entryRemoveHandler: conditionRemoveClickHandler,
+					}
+					
+					SimpleEntryList
+					{
+						class: "touchstones".to_string(),
+						data: touchstones.clone(),
+						label: "Touchstones".to_string(),
+						entryUpdateHandler: touchstoneUpdateHandler,
+						entryRemoveHandler: touchstoneRemoveClickHandler,
+					}
 				}
 				
 				Experience {}
 			}
-			hr { class: "row" }
-			div { class: "row", Attributes { traitMax: traitMax } }
-			hr { class: "row" }
-			div { class: "row", Skills { traitMax: traitMax } }
-			hr { class: "row" }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Attributes { traitMax: traitMax } }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Skills { traitMax: traitMax } }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justEven justEven",
 				
 				DotEntryList
 				{
@@ -192,29 +206,6 @@ pub fn VampireSheet(cx: Scope) -> Element
 					entryUpdateHandler: disciplinesUpdateHandler,
 				}
 				
-				div
-				{
-					class: "column",
-					
-					SimpleEntryList
-					{
-						class: "specialties".to_string(),
-						data: specialties.clone(),
-						label: "Specialties".to_string(),
-						entryUpdateHandler: skillSpecialtyUpdateHandler,
-						entryRemoveHandler: skillSpecialtyRemoveClickHandler,
-					}
-					
-					SimpleEntryList
-					{
-						class: "conditions".to_string(),
-						data: conditions.clone(),
-						label: "Conditions".to_string(),
-						entryUpdateHandler: conditionUpdateHandler,
-						entryRemoveHandler: conditionRemoveClickHandler,
-					}
-				}
-				
 				DotEntryList
 				{
 					class: "merits".to_string(),
@@ -224,13 +215,22 @@ pub fn VampireSheet(cx: Scope) -> Element
 					entryRemoveHandler: meritRemoveClickHandler,
 					entryUpdateHandler: meritUpdateHandler,
 				}
+				
+				SimpleEntryList
+				{
+					class: "specialties".to_string(),
+					data: specialties.clone(),
+					label: "Specialties".to_string(),
+					entryUpdateHandler: skillSpecialtyUpdateHandler,
+					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
+				}
 			}
 			
-			hr { class: "row" }
+			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row",
+				class: "row justBetween",
 				
 				ActiveAbilities
 				{

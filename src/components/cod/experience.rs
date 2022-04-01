@@ -29,18 +29,18 @@ pub fn Experience(cx: Scope) -> Element
 	{
 		div
 		{
-			class: "experienceWrapper cod column",
+			class: "experienceWrapper cod column justEven",
 			
 			div { class: "experienceLabel", "Experience" },
 			
 			div
 			{
-				class: "column",
+				class: "column justEven",
 				
-				Track { class: "row".to_string(), label: "Beats:".to_string(), tracker: beats.read().clone(), handler: beatsHandler }
+				Track { class: "row justEven".to_string(), label: "Beats:".to_string(), tracker: beats.read().clone(), handler: beatsHandler }
 				div
 				{
-					class: "row",
+					class: "row justEven",
 					
 					div { class: "label", "Experience:" }
 					input { r#type: "text", value: "{experience}", onchange: move |e| experienceHandler(e, &cx), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }

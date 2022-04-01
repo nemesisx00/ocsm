@@ -70,7 +70,7 @@ pub fn App(cx: Scope) -> Element
 		
 		div
 		{
-			class: "app column",
+			class: "app column justEven",
 			onclick: move |e| { e.cancel_bubble(); setMenuState(false); },
 			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",

@@ -69,18 +69,18 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 	{
 		div
 		{
-			class: "detailsWrapper column",
+			class: "detailsWrapper column justEven",
 			
 			div { class: "detailsLabel", "Details" },
 			
 			div
 			{
-				class: "details row",
+				class: "details row justEven",
 				
 				isMortal.then(|| rsx!(
 					div
 					{
-						class: "column",
+						class: "column justEven",
 						
 						DetailInput { label: "Player:".to_string(), value: (&details1[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
 						DetailInput { label: "Chronicle:".to_string(), value: (&details1[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
@@ -91,7 +91,7 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 					
 					div
 					{
-						class: "column",
+						class: "column justEven",
 						
 						DetailInput { label: "Concept:".to_string(), value: (&details1[&CoreDetail::Concept]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Concept, }
 						DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details1[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
@@ -104,7 +104,7 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 				notIsMortal.then(|| rsx!(
 					div
 					{
-						class: "column",
+						class: "column justEven",
 						
 						DetailInput { label: "Player:".to_string(), value: (&details2[&CoreDetail::Player]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Player, }
 						DetailInput { label: "Chronicle:".to_string(), value: (&details2[&CoreDetail::Chronicle]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Chronicle, }
@@ -115,7 +115,7 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 					
 					div
 					{
-						class: "column",
+						class: "column justEven",
 						
 						DetailInput { label: format!("{}:", &cx.props.virtue.clone()), value: (&details2[&CoreDetail::Virtue]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Virtue, }
 						DetailInput { label: format!("{}:", &cx.props.vice.clone()), value: (&details2[&CoreDetail::Vice]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Vice, }
@@ -135,12 +135,12 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 			
 			div
 			{
-				class: "calculated row",
+				class: "calculated row justEven",
 				
-				div { class: "row", label { "Armor:" } div { "{armor}" } }
-				div { class: "row", label { "Defense:" } div { "{defense}" } }
-				div { class: "row", label { "Initiative:" } div { "{initiative}" } }
-				div { class: "row", label { "Speed:" } div { "{speed}" } }
+				div { class: "row justEven", label { "Armor:" } div { "{armor}" } }
+				div { class: "row justEven", label { "Defense:" } div { "{defense}" } }
+				div { class: "row justEven", label { "Initiative:" } div { "{initiative}" } }
+				div { class: "row justEven", label { "Speed:" } div { "{speed}" } }
 			}
 		}
 	});
@@ -245,7 +245,7 @@ fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 	{
 		div
 		{
-			class: "row",
+			class: "row justEven",
 			
 			label { "{label}" }
 			
