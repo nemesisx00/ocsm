@@ -233,6 +233,15 @@ impl CoreSkill
 			_ => { coreSkillType.as_ref().to_string() }
 		};
 	}
+	
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		return match Self::asMap().iter().filter(|(cs, _)| Self::getSkillName(**cs) == name.clone()).next()
+		{
+			Some((cs, _)) => Some(*cs),
+			None => None
+		};
+	}
 }
 
 /// The categories of Chronicles of Darkness Traits.

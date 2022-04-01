@@ -110,10 +110,9 @@ pub fn updateCoreAttribute<T>(cx: &Scope<T>, attributeType: &CoreAttribute, valu
 	let mut attributes = attributesRef.write();
 	let skills = skillsRef.read();
 	
-	match attributes.get_mut(attributeType)
+	if let Some(attr) = attributes.get_mut(attributeType)
 	{
-		Some(attr) => { *attr = value; }
-		None => {}
+		*attr = value;
 	}
 	
 	match attributeType
@@ -193,10 +192,9 @@ pub fn updateCoreSkill<T>(cx: &Scope<T>, skillType: &CoreSkill, value: usize)
 	let attributes = attributesRef.read();
 	let mut skills = skillsRef.write();
 	
-	match skills.get_mut(skillType)
+	if let Some(skill) = skills.get_mut(skillType)
 	{
-		Some(ski) => { *ski = value; }
-		None => {}
+		*skill = value;
 	}
 	
 	// Handle 

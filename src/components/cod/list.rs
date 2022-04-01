@@ -34,6 +34,9 @@ pub struct SimpleEntryListProps
 	
 	#[props(optional)]
 	class: Option<String>,
+	
+	#[props(optional)]
+	singularOverride: Option<String>,
 }
 
 impl PartialEq for SimpleEntryListProps
@@ -56,7 +59,12 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 	
 	let posX = *clickedX.get() - RemovePopUpXOffset;
 	let posY = *clickedY.get() - RemovePopUpYOffset;
-	let singularLabel = singularize(cx.props.label.clone());
+	
+	let singularLabel = match &cx.props.singularOverride
+	{
+		Some(so) => so.clone(),
+		None => singularize(cx.props.label.clone())
+	};
 	
 	let className = match &cx.props.class
 	{
@@ -163,6 +171,9 @@ pub struct DotEntryListProps
 	
 	#[props(optional)]
 	selectOptions: Option<Vec<String>>,
+	
+	#[props(optional)]
+	singularOverride: Option<String>,
 }
 
 impl PartialEq for DotEntryListProps
@@ -185,9 +196,15 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 	
 	let posX = *clickedX.get() - RemovePopUpXOffset;
 	let posY = *clickedY.get() - RemovePopUpYOffset;
-	let singularLabel = singularize(cx.props.label.clone());
-	let singularLabel2 = singularize(cx.props.label.clone());
-	let singularLabel3 = singularize(cx.props.label.clone());
+	
+	let singularLabel = match &cx.props.singularOverride
+	{
+		Some(so) => so.clone(),
+		None => singularize(cx.props.label.clone())
+	};
+	
+	let singularLabel2 = singularLabel.clone();
+	let singularLabel3 = singularLabel.clone();
 	
 	let className = match &cx.props.class
 	{
@@ -319,6 +336,9 @@ pub struct ActiveAbilitiesProps
 	
 	#[props(optional)]
 	class: Option<String>,
+	
+	#[props(optional)]
+	singularOverride: Option<String>,
 }
 
 impl PartialEq for ActiveAbilitiesProps
@@ -341,7 +361,12 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 	
 	let posX = *clickedX.get() - RemovePopUpXOffset;
 	let posY = *clickedY.get() - RemovePopUpYOffset;
-	let singularLabel = singularize(cx.props.label.clone());
+	
+	let singularLabel = match &cx.props.singularOverride
+	{
+		Some(so) => so.clone(),
+		None => singularize(cx.props.label.clone())
+	};
 	
 	return cx.render(rsx!
 	{

@@ -45,6 +45,19 @@ impl Arcana
 	}
 }
 
+impl Arcana
+{
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		return match Self::asMap().iter().filter(|(_, n)| *n.clone() == name.clone()).next()
+		{
+			Some((a, _)) => Some(*a),
+			None => None
+		};
+	}
+}
+
+
 
 /// The Paths available to a Mage: The Awakening 2e Mage.
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
@@ -55,4 +68,22 @@ pub enum Path
 	Moros,
 	Obrimos,
 	Thyrsus,
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum PraxisField
+{
+	Arcanum,
+	Level,
+	Name,
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum RoteField
+{
+	Arcanum,
+	Creator,
+	Level,
+	Name,
+	Skill,
 }

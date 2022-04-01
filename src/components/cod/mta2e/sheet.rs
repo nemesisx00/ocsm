@@ -13,7 +13,9 @@ use crate::{
 				Path,
 			},
 			state::{
+				MageActiveSpells,
 				MageArcana,
+				MageDedicatedTools,
 				MageObsessions,
 			},
 		},
@@ -39,6 +41,10 @@ use crate::{
 				DotEntryList,
 				SimpleEntryList,
 			},
+			mta2e::spells::{
+				Praxes,
+				Rotes,
+			},
 			sheet::{
 				aspirationRemoveClickHandler,
 				aspirationUpdateHandler,
@@ -61,10 +67,12 @@ use crate::{
 /// The UI Component defining the layout of a Mage: The Awakening 2e Mage's character sheet.
 pub fn MageSheet(cx: Scope) -> Element
 {
+	let activeSpellsRef = use_atom_ref(&cx, MageActiveSpells);
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let arcanaRef = use_atom_ref(&cx, MageArcana);
 	let aspirationsRef = use_atom_ref(&cx, CharacterAspirations);
 	let conditionsRef = use_atom_ref(&cx, CharacterConditions);
+	let dedicatedToolsRef = use_atom_ref(&cx, MageDedicatedTools);
 	let meritsRef = use_atom_ref(&cx, CharacterMerits);
 	let obsessionsRef = use_atom_ref(&cx, MageObsessions);
 	let specialtiesRef = use_atom_ref(&cx, CharacterSpecialties);
@@ -80,6 +88,8 @@ pub fn MageSheet(cx: Scope) -> Element
 		paths.push(p.as_ref().to_string());
 	}
 	
+	let mut activeSpells = vec![];
+	activeSpellsRef.read().iter().for_each(|s| activeSpells.push(s.clone()));
 	let mut arcana = vec![];
 	arcanaRef.read().iter().for_each(|(a, v)| arcana.push((a.as_ref().to_string(), *v)));
 	let mut arcanaSelectOptions = vec![];
@@ -91,6 +101,8 @@ pub fn MageSheet(cx: Scope) -> Element
 	aspirationsRef.read().iter().for_each(|a| aspirations.push(a.clone()));
 	let mut conditions = vec![];
 	conditionsRef.read().iter().for_each(|c| conditions.push(c.clone()));
+	let mut dedicatedTools = vec![];
+	dedicatedToolsRef.read().iter().for_each(|dt| dedicatedTools.push(dt.clone()));
 	let mut merits = vec![];
 	meritsRef.read().iter().for_each(|m| merits.push(m.clone()));
 	let mut specialties = vec![];
@@ -142,8 +154,8 @@ pub fn MageSheet(cx: Scope) -> Element
 					class: "aspirations".to_string(),
 					data: aspirations.clone(),
 					label: "Aspirations".to_string(),
-					entryUpdateHandler: aspirationUpdateHandler,
 					entryRemoveHandler: aspirationRemoveClickHandler,
+					entryUpdateHandler: aspirationUpdateHandler,
 				}
 				
 				div
@@ -155,8 +167,8 @@ pub fn MageSheet(cx: Scope) -> Element
 						class: "conditions".to_string(),
 						data: conditions.clone(),
 						label: "Conditions".to_string(),
-						entryUpdateHandler: conditionUpdateHandler,
 						entryRemoveHandler: conditionRemoveClickHandler,
+						entryUpdateHandler: conditionUpdateHandler,
 					}
 					
 					SimpleEntryList
@@ -164,8 +176,8 @@ pub fn MageSheet(cx: Scope) -> Element
 						class: "obsessions".to_string(),
 						data: obsessions.clone(),
 						label: "Obsessions".to_string(),
-						entryUpdateHandler: obsessionUpdateHandler,
 						entryRemoveHandler: obsessionRemoveClickHandler,
+						entryUpdateHandler: obsessionUpdateHandler,
 					}
 				}
 				
@@ -189,8 +201,8 @@ pub fn MageSheet(cx: Scope) -> Element
 					label: "Arcana".to_string(),
 					selectOptions: arcanaSelectOptions.clone(),
 					entryDotHandler: arcanaDotHandler,
-					entryRemoveHandler: arcanaRemoveClickHandler,
 					entryUpdateHandler: arcanasUpdateHandler,
+					entryRemoveHandler: arcanaRemoveClickHandler,
 				}
 				
 				DotEntryList
@@ -199,8 +211,8 @@ pub fn MageSheet(cx: Scope) -> Element
 					data: merits.clone(),
 					label: "Merits".to_string(),
 					entryDotHandler: meritDotHandler,
-					entryRemoveHandler: meritRemoveClickHandler,
 					entryUpdateHandler: meritUpdateHandler,
+					entryRemoveHandler: meritRemoveClickHandler,
 				}
 				
 				SimpleEntryList
@@ -208,27 +220,46 @@ pub fn MageSheet(cx: Scope) -> Element
 					class: "specialties".to_string(),
 					data: specialties.clone(),
 					label: "Specialties".to_string(),
-					entryUpdateHandler: skillSpecialtyUpdateHandler,
 					entryRemoveHandler: skillSpecialtyRemoveClickHandler,
+					entryUpdateHandler: skillSpecialtyUpdateHandler,
 				}
 			}
-			/*
+			
 			hr { class: "row justEven" }
 			
 			div
 			{
-				class: "row justBetween",
-				
-				ActiveAbilities
+				class: "row justEven",
+			
+				SimpleEntryList
 				{
-					class: "contracts".to_string(),
-					data: contracts.clone(),
-					label: "Contracts".to_string(),
-					entryRemoveHandler: contractsRemoveClickHandler,
-					entryUpdateHandler: contractsUpdateHandler,
+					class: "activeSpells".to_string(),
+					data: activeSpells.clone(),
+					label: "Active Spells".to_string(),
+					entryRemoveHandler: activeSpellsRemoveClickHandler,
+					entryUpdateHandler: activeSpellsUpdateHandler,
 				}
+				
+				SimpleEntryList
+				{
+					class: "dedicatedTools".to_string(),
+					data: dedicatedTools.clone(),
+					label: "Dedicated Tools".to_string(),
+					entryRemoveHandler: dedicatedToolsRemoveClickHandler,
+					entryUpdateHandler: dedicatedToolsUpdateHandler,
+				}
+				
+				Praxes {}
 			}
-			*/
+			
+			hr { class: "row justEven" }
+			
+			div
+			{
+				class: "row justEven",
+				
+				Rotes {}
+			}
 		}
 	});
 }
@@ -274,66 +305,64 @@ fn arcanasUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, _index: Option<usize>)
 	}
 }
 
-/*
-/// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Contract row.
-fn contractsRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
-{
-	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
-	let mut contracts = contractsRef.write();
-	
-	if index < contracts.len()
-	{
-		contracts.remove(index);
-	}
-}
-
-/// Event handler triggered when a Contract's value changes.
-fn contractsUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>, field: ActiveAbilityField)
-{
-	let contractsRef = use_atom_ref(&cx, ChangelingContracts);
-	let mut contracts = contractsRef.write();
-	
-	match index
-	{
-		Some(i) =>
-		{
-			match field
-			{
-				ActiveAbilityField::Action => { contracts[i].action = e.value.clone(); }
-				ActiveAbilityField::Cost => { contracts[i].cost = e.value.clone(); }
-				ActiveAbilityField::Description => { contracts[i].description = e.value.clone(); }
-				ActiveAbilityField::DicePool => { contracts[i].dicePool = e.value.clone(); }
-				ActiveAbilityField::Duration => { contracts[i].duration = e.value.clone(); }
-				ActiveAbilityField::Effects => { contracts[i].effects = e.value.clone(); }
-				ActiveAbilityField::Name => { contracts[i].name = e.value.clone(); }
-				ActiveAbilityField::Requirements => { contracts[i].requirements = e.value.clone(); }
-			}
-		}
-		None =>
-		{
-			match field
-			{
-				ActiveAbilityField::Action => { contracts.push(ActiveAbility { action: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Cost => { contracts.push(ActiveAbility { cost: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Description => { contracts.push(ActiveAbility { description: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::DicePool => { contracts.push(ActiveAbility { dicePool: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Duration => { contracts.push(ActiveAbility { duration: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Effects => { contracts.push(ActiveAbility { effects: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Name => { contracts.push(ActiveAbility { name: e.value.clone(), ..Default::default() }); }
-				ActiveAbilityField::Requirements => { contracts.push(ActiveAbility { requirements: e.value.clone(), ..Default::default() }); }
-			}
-		}
-	}
-}
-*/
-
 fn templateBonusesHandler(_cx: &Scope<AdvantagesProps>)
 {
 }
 
 /// Event handler triggered by clicking the "Remove" button after
-/// right-clicking a Touchstone row.
+/// right-clicking an Active Spell row.
+fn activeSpellsRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let activeSpellsRef = use_atom_ref(&cx, MageActiveSpells);
+	let mut activeSpells = activeSpellsRef.write();
+	
+	if index < activeSpells.len()
+	{
+		activeSpells.remove(index);
+	}
+}
+
+/// Event handler triggered when an Active Spell's value changes.
+fn activeSpellsUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let activeSpellsRef = use_atom_ref(&cx, MageActiveSpells);
+	let mut activeSpells = activeSpellsRef.write();
+	
+	match index
+	{
+		Some(i) => { activeSpells[i] = e.value.to_string(); }
+		None => { activeSpells.push(e.value.to_string()); }
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Dedicated Magical Tool row.
+fn dedicatedToolsRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
+{
+	let dedicatedToolsRef = use_atom_ref(&cx, MageDedicatedTools);
+	let mut dedicatedTools = dedicatedToolsRef.write();
+	
+	if index < dedicatedTools.len()
+	{
+		dedicatedTools.remove(index);
+	}
+}
+
+/// Event handler triggered when a Dedicated Magical Tool's value changes.
+fn dedicatedToolsUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
+{
+	let dedicatedToolsRef = use_atom_ref(&cx, MageDedicatedTools);
+	let mut dedicatedTools = dedicatedToolsRef.write();
+	
+	match index
+	{
+		Some(i) => { dedicatedTools[i] = e.value.to_string(); }
+		None => { dedicatedTools.push(e.value.to_string()); }
+	}
+}
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Obsession row.
 fn obsessionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 {
 	let obsessionsRef = use_atom_ref(&cx, MageObsessions);
@@ -345,7 +374,7 @@ fn obsessionRemoveClickHandler<T>(cx: &Scope<T>, index: usize)
 	}
 }
 
-/// Event handler triggered when a Touchstone's value changes.
+/// Event handler triggered when a Obsession's value changes.
 fn obsessionUpdateHandler<T>(e: FormEvent, cx: &Scope<T>, index: Option<usize>)
 {
 	let obsessionsRef = use_atom_ref(&cx, MageObsessions);
