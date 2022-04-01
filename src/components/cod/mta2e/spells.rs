@@ -72,15 +72,6 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 			
 			div
 			{
-				class: "sublabel row justEven",
-				
-				div { "Spell" }
-				div { "Arcanum" }
-				div { "Level" }
-			}
-			
-			div
-			{
 				class: "simpleEntryList praxes column justEven",
 				
 				praxes.iter().enumerate().map(|(i, praxis)| {
@@ -133,16 +124,17 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 								showRemove.set(true);
 							},
 							prevent_default: "oncontextmenu",
+							placeholder: "Spell Name",
 						}
 						
-						// select Arcanum
 						select
 						{
+							class: "arcanum",
 							onchange: move |e| praxisUpdateHandler(e, &cx, Some(i), PraxisField::Arcanum),
 							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
-							option { value: "", selected: "true", "Choose an Arcanum" }
+							option { value: "", selected: "true", "Select Arcanum" }
 							arcanaOptions.iter().enumerate().map(|(i, name)|
 							{
 								let selected = arcanaSelected[name];
@@ -283,17 +275,6 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 			
 			div
 			{
-				class: "sublabel row justEven",
-				
-				div { "Spell" }
-				div { "Arcanum" }
-				div { "Level" }
-				div { "Creator" }
-				div { "Rote Skill" }
-			}
-			
-			div
-			{
 				class: "simpleEntryList rote column justEven",
 				
 				rotes.iter().enumerate().map(|(i, rote)| {
@@ -365,6 +346,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 								showRemove.set(true);
 							},
 							prevent_default: "oncontextmenu",
+							placeholder: "Spell Name",
 						}
 						
 						select
@@ -374,7 +356,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
-							option { value: "", selected: "true", "Choose an Arcanum" }
+							option { value: "", selected: "true", "Select Arcanum" }
 							arcanaOptions.iter().enumerate().map(|(i, name)|
 							{
 								let selected = arcanaSelected[name];
@@ -391,7 +373,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
-							option { value: "", selected: "true", "Choose a Rote Skill" }
+							option { value: "", selected: "true", "Select Skill" }
 							skillOptions.iter().enumerate().map(|(i, name)|
 							{
 								let selected = skillSelected[name];
@@ -413,6 +395,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 								showRemove.set(true);
 							},
 							prevent_default: "oncontextmenu",
+							placeholder: "Creator",
 						}
 					})
 				})

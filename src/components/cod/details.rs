@@ -123,9 +123,25 @@ pub fn Details(cx: Scope<DetailsProps>) -> Element
 						showPrimaryText.then(|| rsx!(
 							DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: typePrimaryValue1.clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
 						))
-						showPrimarySelect.then(|| rsx!(
-							DetailInput { label: format!("{}:", &cx.props.typePrimary.clone()), value: typePrimaryValue2.clone(), select: true, selectNoneLabel: format!("{} {}", "Choose a".to_string(), &cx.props.typePrimary.clone()), selectOptions: cx.props.typePrimaryOptions.as_ref().unwrap().clone(), handler: detailHandler, handlerKey: CoreDetail::TypePrimary, }
-						))
+						showPrimarySelect.then(||
+						{
+							let options = match &cx.props.typePrimaryOptions
+							{
+								Some(opt) => opt.clone(),
+								None => Vec::<String>::new()
+							};
+							
+							rsx!(DetailInput
+							{
+								label: format!("{}:", &cx.props.typePrimary.clone()),
+								value: typePrimaryValue2.clone(),
+								select: true,
+								selectNoneLabel: format!("{} {}", "Choose a".to_string(), &cx.props.typePrimary.clone()),
+								selectOptions: options,
+								handler: detailHandler,
+								handlerKey: CoreDetail::TypePrimary,
+							})
+						})
 						
 						DetailInput { label: format!("{}:", &cx.props.typeSecondary.clone()), value: (&details2[&CoreDetail::TypeSecondary]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::TypeSecondary, }
 						DetailInput { label: format!("{}:", &cx.props.faction.clone()), value: (&details2[&CoreDetail::Faction]).clone(), select: false, handler: detailHandler, handlerKey: CoreDetail::Faction, }
