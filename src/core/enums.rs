@@ -1,6 +1,10 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use std::collections::BTreeMap;
+use serde::{
+	Deserialize,
+	Serialize,
+};
 use strum::IntoEnumIterator;
 use strum_macros::{
 	AsRefStr,
@@ -9,7 +13,7 @@ use strum_macros::{
 };
 
 /// Game systems for which character sheets have been implemented.
-#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Ord)]
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum GameSystem
 {
 	CodMortal,

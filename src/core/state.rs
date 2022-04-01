@@ -3,7 +3,6 @@
 use dioxus::prelude::{
 	Atom,
 	Scope,
-	use_set
 };
 use crate::{
 	cod::{
@@ -12,10 +11,7 @@ use crate::{
 		mta2e::state::resetGlobalStateMta2e,
 		vtr2e::state::resetGlobalStateVtr2e,
 	},
-	core::{
-		enums::GameSystem,
-		io::getUserDocumentsDir,
-	},
+	core::enums::GameSystem,
 };
 
 /// Control switch used to signal all Menu components to hide their submenus.
@@ -34,9 +30,6 @@ pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodMortal;
 /// Reset every stateful value in the application, regardless of game system.
 pub fn resetGlobalState<T>(cx: &Scope<T>)
 {
-	let setCurrentFilePath = use_set(cx, CurrentFilePath);
-	setCurrentFilePath(Some(getUserDocumentsDir()));
-	
 	resetGlobalStateCod(cx);
 	resetGlobalStateCtl2e(cx);
 	resetGlobalStateMta2e(cx);

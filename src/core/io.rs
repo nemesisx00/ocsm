@@ -56,6 +56,26 @@ pub fn getUserDocumentsDir() -> String
 	};
 }
 
+/// Deserialize a Sheet from its JSON String form.
+pub fn deserializeSheet<T: DeserializeOwned>(json: String) -> Result<T, String>
+{
+	return match serde_json::from_str(json.as_str())
+	{
+		Ok(instance) => Ok(instance),
+		Err(e) => Err(format!("Error deserializing json: {}", e.to_string()))
+	};
+}
+
+/// Serialize a Sheet to its JSON String form.
+pub fn serializeSheet<T: Serialize>(sheet: T) -> Result<String, String>
+{
+	return match serde_json::to_string(&sheet)
+	{
+		Ok(json) => Ok(json),
+		Err(e) => Err(format!("Error serializing sheet: {}", e.to_string()))
+	};
+}
+
 /// Read and deserialize the contents of a file.
 pub fn loadFromFile<T: DeserializeOwned>(path: &Path) -> Result<T, String>
 {

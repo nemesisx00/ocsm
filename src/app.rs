@@ -35,9 +35,12 @@ use crate::{
 	core::{
 		enums::GameSystem,
 		io::{
+			deserializeSheet,
 			getFilePath,
+			getUserDocumentsDir,
 			loadFromFile,
 			saveToFile,
+			serializeSheet,
 		},
 		state::{
 			MainMenuState,
@@ -46,6 +49,7 @@ use crate::{
 			StatefulTemplate,
 			resetGlobalState,
 		},
+		structs::SaveData,
 	},
 	WindowTitle,
 };
@@ -80,16 +84,15 @@ pub fn App(cx: Scope) -> Element
 				Menu
 				{
 					label: "File".to_string(),
-					MenuItem { label: "New".to_string(), handler: newSheetHandler }
+					Menu
+					{
+						child: true,
+						label: "New".to_string(),
+						sheets.iter().map(|(_, l)| rsx!(cx, MenuItem { label: l.clone(), handler: newSheetHandler }))
+					}
 					MenuItem { label: "Open".to_string(), handler: menuFileOpenHandler }
 					MenuItem { label: "Save".to_string(), handler: menuSaveHandler }
 					MenuItem { label: "Exit".to_string(), handler: exitHandler }
-				}
-				
-				Menu
-				{
-					label: "Game Systems".to_string(),
-					sheets.iter().map(|(_, l)| rsx!(cx, MenuItem { label: l.clone(), handler: gameSystemHandler }))
 				}
 			}
 			
@@ -110,24 +113,6 @@ fn exitHandler<T>(cx: &Scope<T>)
 	window.close();
 }
 
-/// Event handler triggered by clicking one of the `MenuItem`s in the Game Systems `Menu`.
-/// 
-/// Updates the value of `CurrentGameSystem`, the `Window` title, and calls `newSheetHandler`.
-fn gameSystemHandler(cx: &Scope<MenuItemProps>)
-{
-	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
-	let setMenuState = use_set(&cx, MainMenuState);
-	let window = use_window(cx);
-	
-	if let Some((gs, l)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
-	{
-		window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
-		setCurrentGameSystem(*gs);
-		newSheetHandler(cx);
-		setMenuState(false);
-	}
-}
-
 /// Event handler triggered by clicking the Open `MenuItem` in the File `Menu`.
 /// 
 /// Presents the user with am open `FileDialog` to choose which file to open. Updates
@@ -135,20 +120,12 @@ fn gameSystemHandler(cx: &Scope<MenuItemProps>)
 fn menuFileOpenHandler(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
-	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	let setCurrentFilePath = use_set(&cx, CurrentFilePath);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
 	setMenuState(false);
 	setCurrentFilePath(getFilePath(false, currentFilePath.clone()));
-	
-	match currentGameSystem
-	{
-		GameSystem::CodMortal => loadSheet::<CoreCharacter>(cx),
-		GameSystem::CodChangeling2e => loadSheet::<Changeling>(cx),
-		GameSystem::CodMage2e => loadSheet::<Mage>(cx),
-		GameSystem::CodVampire2e => loadSheet::<Vampire>(cx),
-	}
+	loadSheet(cx);
 }
 
 /// Event handler triggered by clicking the Save `MenuItem` in the File `Menu`.
@@ -168,50 +145,78 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 	
 	match currentGameSystem
 	{
-		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
 		GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
 		GameSystem::CodMage2e => saveSheet::<Mage>(cx),
+		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
 		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
 	}
 }
 
-/// Event handler triggered by clicking the New `MenuItem` in the File `Menu`.
+/// Event handler triggered by clicking one of the `MenuItem`s in the New submenu.
 /// 
-/// Resets the global state, which results in a "new" sheet.
+/// Resets the global state, the `Window` title, and updates the value of `CurrentGameSystem`.
 fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
-	let currentGameSystem = use_read(&cx, CurrentGameSystem);
+	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
 	let setMenuState = use_set(&cx, MainMenuState);
+	let window = use_window(cx);
 	
-	resetGlobalState(cx);
-	
-	if currentGameSystem == &GameSystem::CodMortal
+	if let Some((gs, l)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
 	{
-		let mut mortal = CoreCharacter::mortal();
-		mortal.push(cx);
+		resetGlobalState(cx);
+		window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
+		setCurrentGameSystem(*gs);
+		setMenuState(false);
+		
+		if gs == &GameSystem::CodMortal
+		{
+			let mut mortal = CoreCharacter::mortal();
+			mortal.push(cx);
+		}
 	}
-	
-	setMenuState(false);
 }
 
 // -----
 
 /// Deserialize a character sheet from a file and push it into the global state.
-fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
+fn loadSheet(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
+	let setCurrentFilePath = use_set(&cx, CurrentFilePath);
+	if let None = currentFilePath
+	{
+		setCurrentFilePath(Some(getUserDocumentsDir()));
+	}
+	
+	let setCurrentGameSystem = use_set(&cx, CurrentGameSystem);
 	if let Some(pathStr) = currentFilePath
 	{
-		match loadFromFile::<T>(&Path::new(pathStr))
+		match loadFromFile::<SaveData>(&Path::new(pathStr))
 		{
 			Ok(data) =>
 			{
-				resetGlobalState(cx);
-				let mut sheet: T = data;
-				sheet.push(&cx);
+				let saveData = data;
+				setCurrentGameSystem(saveData.game);
+				
+				match saveData.game
+				{
+					GameSystem::CodChangeling2e => pushLoadedSheet::<Changeling>(cx, deserializeSheet::<Changeling>(saveData.sheet)),
+					GameSystem::CodMage2e => pushLoadedSheet::<Mage>(cx, deserializeSheet::<Mage>(saveData.sheet)),
+					GameSystem::CodMortal => pushLoadedSheet::<CoreCharacter>(cx, deserializeSheet::<CoreCharacter>(saveData.sheet)),
+					GameSystem::CodVampire2e => pushLoadedSheet::<Vampire>(cx, deserializeSheet::<Vampire>(saveData.sheet)),
+				}
 			},
 			Err(e) => println!("Failed to loadFromFile: {:?}", e.to_string())
 		}
+	}
+}
+
+/// Generic method to push a StatefulTemplate into the global state.
+fn pushLoadedSheet<T: StatefulTemplate>(cx: &Scope<MenuItemProps>, deserialized: Result<T, String>)
+{
+	if let Ok(mut sheet) = deserialized
+	{
+		sheet.push(&cx);
 	}
 }
 
@@ -219,14 +224,23 @@ fn loadSheet<T: DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<Menu
 fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &Scope<MenuItemProps>)
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
+	let currentGameSystem = use_read(&cx, CurrentGameSystem);
 	if let Some(pathStr) = currentFilePath
 	{
 		let mut sheet = T::default();
 		sheet.pull(&cx);
 		
-		match saveToFile(&Path::new(pathStr), &sheet)
+		match serializeSheet::<T>(sheet)
 		{
-			Ok(json) => println!("Saved to json file! {}", json),
+			Ok(sheetJson) =>
+			{
+				let saveData = SaveData::new(*currentGameSystem, sheetJson);
+				match saveToFile(&Path::new(pathStr), &saveData)
+				{
+					Ok(json) => println!("Saved to json file! {}", json),
+					Err(e) => println!("Error saving to file: {}", e)
+				}
+			},
 			Err(e) => println!("Error saving to file: {}", e)
 		}
 	}
