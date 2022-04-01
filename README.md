@@ -34,8 +34,9 @@ This application is not intended to be a replacement for official game system so
 ## Supported & Planned Game Systems
 
 - Chronicles of Darkness
+	- [x] Core Chronicles of Darkness
 	- [x] Changeling: The Lost - Second Edition
-	- [ ] Mage: The Awakening - Second Edition
+	- [x] Mage: The Awakening - Second Edition
 	- [x] Vampire: The Requiem - Second Edition
 - Dungeons & Dragons
 	- [ ] 5th Edition
