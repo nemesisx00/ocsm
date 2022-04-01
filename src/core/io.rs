@@ -39,7 +39,16 @@ pub fn getFilePath(save: bool, currentPath: Option<String>) -> Option<String>
 	{
 		Ok(pbo) => match pbo
 		{
-			Some(pb) => Some(pb.into_os_string().into_string().unwrap()),
+			Some(pb) => {
+				if let Ok(out) = pb.into_os_string().into_string()
+				{
+					Some(out)
+				}
+				else
+				{
+					None
+				}
+			},
 			None => None,
 		},
 		Err(_) => None,
@@ -51,7 +60,17 @@ pub fn getUserDocumentsDir() -> String
 {
 	return match UserDirs::new()
 	{
-		Some(dirs) => dirs.document_dir().unwrap().to_str().unwrap().to_string(),
+		Some(dirs) => {
+			match dirs.document_dir()
+			{
+				Some(docDir) => match docDir.to_str()
+				{
+					Some(docDirStr) => docDirStr.to_string(),
+					None => "~/Documents".to_string()
+				},
+				None => "~/Documents".to_string()
+			}
+		},
 		None => "~/Documents".to_string(),
 	};
 }
