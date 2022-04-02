@@ -87,3 +87,81 @@ pub enum RoteField
 	Name,
 	Skill,
 }
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellCastingMethod
+{
+	Improvised,
+	Praxis,
+	Rote,
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellFactorType
+{
+	Standard,
+	Advanced,
+}
+
+impl SpellFactorType
+{
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		let mut out = None;
+		for sft in Self::iter()
+		{
+			if sft.as_ref().to_string() == name.to_string()
+			{
+				out = Some(sft);
+			}
+		}
+		return out;
+	}
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellYantras
+{
+	Concentration,
+	Demesne,
+	Environment,
+	Mudra,
+	OrderTool,
+	PathTool,
+	Runes,
+	Sacrament,
+	Sympathy,
+}
+
+impl SpellYantras
+{
+	pub fn asStringVec() -> Vec<String>
+	{
+		let mut out = vec![];
+		for sy in Self::iter()
+		{
+			out.push(Self::getName(sy));
+		}
+		return out.clone();
+	}
+	
+	pub fn asMap() -> BTreeMap<Self, String>
+	{
+		let mut out = BTreeMap::new();
+		for sy in Self::iter()
+		{
+			out.insert(sy, Self::getName(sy));
+		}
+		return out.clone();
+	}
+	
+	pub fn getName(yantra: Self) -> String
+	{
+		return match yantra
+		{
+			SpellYantras::OrderTool => "Order Tool".to_string(),
+			SpellYantras::PathTool => "Path Tool".to_string(),
+			_ => yantra.as_ref().to_string(),
+		};
+	}
+}

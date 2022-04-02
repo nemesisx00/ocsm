@@ -41,9 +41,12 @@ use crate::{
 				DotEntryList,
 				SimpleEntryList,
 			},
-			mta2e::spells::{
-				Praxes,
-				Rotes,
+			mta2e::{
+				casting::Spellcasting,
+				spells::{
+					Praxes,
+					Rotes,
+				},
 			},
 			sheet::{
 				aspirationRemoveClickHandler,
@@ -259,6 +262,15 @@ pub fn MageSheet(cx: Scope) -> Element
 				class: "row justEven",
 				
 				Rotes {}
+			}
+			
+			hr { class: "row justEven" }
+			
+			div
+			{
+				class: "row justEven",
+				
+				Spellcasting {}
 			}
 		}
 	});
