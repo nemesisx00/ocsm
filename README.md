@@ -37,6 +37,7 @@ This application is not intended to be a replacement for official game system so
 	- [x] Core Chronicles of Darkness
 	- [x] Changeling: The Lost - Second Edition
 	- [x] Mage: The Awakening - Second Edition
+		- Includes a Spellcasting Calculator to quickly determine your dice pool and paradox risk!
 	- [x] Vampire: The Requiem - Second Edition
 - Dungeons & Dragons
 	- [ ] 5th Edition
