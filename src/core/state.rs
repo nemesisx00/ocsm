@@ -4,6 +4,10 @@ use dioxus::prelude::{
 	Atom,
 	Scope,
 };
+use serde::{
+	de::DeserializeOwned,
+	Serialize,
+};
 use crate::{
 	cod::{
 		state::resetGlobalStateCod,
@@ -39,7 +43,7 @@ pub fn resetGlobalState<T>(cx: &Scope<T>)
 // --------------------------------------------------
 
 /// Trait defining methods for interacting with the application's global state.
-pub trait StatefulTemplate
+pub trait StatefulTemplate: DeserializeOwned + Serialize
 {
 	/// Pull the global state down into this template.
 	fn pull<T>(&mut self, cx: &Scope<T>);
