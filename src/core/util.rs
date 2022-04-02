@@ -20,8 +20,8 @@ pub fn generateSelectedValue<T: PartialEq>(a: T, b: T) -> String
 {
 	return match a == b
 	{
-		true => { String::from("true") }
-		false => { String::from("false") }
+		true => "true".to_string(),
+		false => "false".to_string(),
 	};
 }
 
