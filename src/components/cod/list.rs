@@ -9,9 +9,15 @@ use crate::{
 		enums::ActiveAbilityField,
 		structs::ActiveAbility,
 	},
-	components::cod::dots::{
-		Dots,
-		DotsProps,
+	components::{
+		cod::dots::{
+			Dots,
+			DotsProps,
+		},
+		core::events::{
+			hideRemovePopUp,
+			showRemovePopUpWithIndex,
+		},
 	},
 	core::util::{
 		RemovePopUpXOffset,
@@ -89,14 +95,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 					{
 						class: "row justEven",
 						key: "{i}",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -104,14 +103,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 							r#type: "text",
 							value: "{entry}",
 							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 						}
 					})
@@ -119,8 +111,8 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 				
 				div
 				{
-					class: "row justEven",
-					input { r#type: "text", value: "", placeholder: "Enter new a {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					class: "new row justEven",
+					input { r#type: "text", value: "", placeholder: "Enter new a {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
@@ -128,8 +120,8 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 					{
 						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
-						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-						prevent_default: "onclick",
+						onclick: move |e| hideRemovePopUp(e, &showRemove),
+						prevent_default: "oncontextmenu",
 						
 						div
 						{
@@ -140,8 +132,8 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 							{
 								class: "row justEven",
 								
-								button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+								button { onclick: move |e| { hideRemovePopUp(e, &showRemove); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+								button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 							}
 						}
 					}
@@ -236,14 +228,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 				{
 					key: "{i}",
 					class: "entry row justEven",
-					oncontextmenu: move |e|
-					{
-						e.cancel_bubble();
-						clickedX.set(e.data.client_x);
-						clickedY.set(e.data.client_y);
-						lastIndex.set(i);
-						showRemove.set(true);
-					},
+					oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 					prevent_default: "oncontextmenu",
 					
 					isSelect.then(|| rsx!(cx, 
@@ -256,14 +241,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 							r#type: "text",
 							value: "{name}",
 							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu"
 						}
 						Dots { max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
@@ -272,12 +250,11 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 				
 				div
 				{
-					class: "entry row justEven",
+					class: "new row justEven",
 					
 					isSelect.then(|| rsx!(cx, select
 					{
 						onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None),
-						oncontextmenu: move |e| e.cancel_bubble(),
 						prevent_default: "oncontextmenu",
 						
 						option { value: "", selected: "true", "Add a {singularLabel}" }
@@ -290,7 +267,6 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 						value: "",
 						placeholder: "Enter new a {singularLabel2}",
 						onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None),
-						oncontextmenu: move |e| e.cancel_bubble(),
 						prevent_default: "oncontextmenu"
 					}))
 				}
@@ -300,8 +276,8 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 					{
 						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
-						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-						prevent_default: "onclick",
+						onclick: move |e| hideRemovePopUp(e, &showRemove),
+						prevent_default: "oncontextmenu",
 						
 						div
 						{
@@ -312,8 +288,8 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 							{
 								class: "row justEven",
 								
-								button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+								button { onclick: move |e| { hideRemovePopUp(e, &showRemove); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+								button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 							}
 						}
 					}
@@ -385,27 +361,13 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 					div
 					{
 						class: "entry column justStart",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 						prevent_default: "oncontextmenu",
 						
 						div
 						{
 							class: "row justEven",
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							
 							div { class: "label first", "Name:" }
@@ -414,14 +376,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.name}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Name),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Cost:" }
@@ -430,14 +385,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.cost}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Cost),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -452,14 +400,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.dicePool}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::DicePool),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Action:" }
@@ -468,14 +409,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.action}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Action),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -490,14 +424,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.requirements}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Requirements),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Duration:" }
@@ -506,14 +433,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.duration}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Duration),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -525,14 +445,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							textarea
 							{
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu",
 								
 								"{ability.description}"
@@ -546,14 +459,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							textarea
 							{
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu",
 								
 								"{ability.effects}"
@@ -564,8 +470,8 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 				
 				div
 				{
-					class: "new entry row justEven",
-					input { r#type: "text", value: "", placeholder: "Enter a new {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					class: "new row justEven",
+					input { r#type: "text", value: "", placeholder: "Enter a new {singularLabel}", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), prevent_default: "oncontextmenu" }
 				}
 			}
 			
@@ -575,8 +481,8 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 				{
 					class: "removePopUpWrapper column justEven",
 					style: "left: {posX}px; top: {posY}px;",
-					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-					prevent_default: "onclick",
+					onclick: move |e| hideRemovePopUp(e, &showRemove),
+					prevent_default: "oncontextmenu",
 					
 					div
 					{
@@ -587,8 +493,8 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 						{
 							class: "row justEven",
 							
-							button { onclick: move |e| { e.cancel_bubble(); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+							button { onclick: move |e| { hideRemovePopUp(e, &showRemove); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+							button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 						}
 					}
 				}

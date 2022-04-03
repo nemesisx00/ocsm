@@ -65,15 +65,15 @@ pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 		div
 		{
 			class: "checker circle{checkedClass}",
-			prevent_default: "onclick",
-			onclick: move |e| {
+			onclick: move |e|
+			{
+				e.cancel_bubble();
 				match &cx.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
 				}
 			},
-			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
 			svg
@@ -126,15 +126,15 @@ pub fn CheckLine<'a>(cx: Scope<'a, CheckLineProps<'a>>) -> Element<'a>
 		div
 		{
 			class: "checker line",
-			prevent_default: "onclick",
-			onclick: move |e| {
+			onclick: move |e|
+			{
+				e.cancel_bubble();
 				match &cx.props.onclick
 				{
 					Some(handler) => handler.call(e),
 					None => {}
 				}
 			},
-			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
 			svg

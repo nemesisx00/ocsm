@@ -26,9 +26,15 @@ use crate::{
 			CharacterSkills,
 		},
 	},
-	components::cod::dots::{
-		Dots,
-		DotsProps,
+	components::{
+		cod::dots::{
+			Dots,
+			DotsProps,
+		},
+		core::events::{
+			hideRemovePopUp,
+			showRemovePopUpWithIndex,
+		},
 	},
 	core::util::{
 		RemovePopUpXOffset,
@@ -247,7 +253,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 			div
 			{
 				class: "sublabel",
-				button { onclick: move |e| { e.cancel_bubble(); resetLocalState.set(true); }, prevent_default: "onclick", "Reset" }
+				button { onclick: move |e| { e.cancel_bubble(); resetLocalState.set(true); }, prevent_default: "oncontextmenu", "Reset" }
 			}
 			
 			div
@@ -272,7 +278,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							{
 								class: "arcanum",
 								onchange: move |e| { e.cancel_bubble(); highestArcanum.set(e.value.to_string()); },
-								oncontextmenu: move |e| e.cancel_bubble(),
 								prevent_default: "oncontextmenu",
 								
 								option { value: "", "Select Arcanum" }
@@ -308,7 +313,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						select
 						{
 							onchange: move |e| { e.cancel_bubble(); castingMethod.set(e.value.to_string()); },
-							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
 							castingMethodOptions.iter().enumerate().map(|(i, name)|
@@ -328,7 +332,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						select
 						{
 							onchange: move |e| { e.cancel_bubble(); castingSkill.set(e.value.to_string()); },
-							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
 							roteSkillOptions.iter().enumerate().map(|(i, name)|
@@ -357,6 +360,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 									None => totalReaches.set(*currentTotalReaches),
 								}
 							},
+							prevent_default: "oncontextmenu",
 							value: "{currentTotalReaches}"
 						}
 					}
@@ -370,7 +374,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						select
 						{
 							onchange: move |e| { e.cancel_bubble(); castingRange.set(e.value.to_string()); },
-							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
 							factorTypeOptions.iter().enumerate().map(|(i, name)|
@@ -399,7 +402,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							select
 							{
 								onchange: move |e| { e.cancel_bubble(); castingTime.set(e.value.to_string()); },
-								oncontextmenu: move |e| e.cancel_bubble(),
 								prevent_default: "oncontextmenu",
 								
 								factorTypeOptions.iter().enumerate().map(|(i, name)|
@@ -432,6 +434,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 										None => totalTime.set(*currentTotalTime),
 									}
 								},
+								prevent_default: "oncontextmenu",
 								value: "{currentTotalTime}"
 							}
 						}
@@ -450,7 +453,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							select
 							{
 								onchange: move |e| { e.cancel_bubble(); castingPotency.set(e.value.to_string()); },
-								oncontextmenu: move |e| e.cancel_bubble(),
 								prevent_default: "oncontextmenu",
 								
 								factorTypeOptions.iter().enumerate().map(|(i, name)|
@@ -483,6 +485,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 										None => totalPotency.set(*currentTotalPotency),
 									}
 								},
+								prevent_default: "oncontextmenu",
 								value: "{currentTotalPotency}"
 							}
 						}
@@ -501,7 +504,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							select
 							{
 								onchange: move |e| { e.cancel_bubble(); castingDuration.set(e.value.to_string()); },
-								oncontextmenu: move |e| e.cancel_bubble(),
 								prevent_default: "oncontextmenu",
 								
 								factorTypeOptions.iter().enumerate().map(|(i, name)|
@@ -534,6 +536,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 										None => totalDuration.set(*currentTotalDuration),
 									}
 								},
+								prevent_default: "oncontextmenu",
 								value: "{currentTotalDuration}"
 							}
 						}
@@ -552,7 +555,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							select
 							{
 								onchange: move |e| { e.cancel_bubble(); castingScale.set(e.value.to_string()); },
-								oncontextmenu: move |e| e.cancel_bubble(),
 								prevent_default: "oncontextmenu",
 								
 								factorTypeOptions.iter().enumerate().map(|(i, name)|
@@ -585,6 +587,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 										None => totalScale.set(*currentTotalScale),
 									}
 								},
+								prevent_default: "oncontextmenu",
 								value: "{currentTotalScale}"
 							}
 						}
@@ -599,7 +602,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							class: "row justEven",
 							
 							div { class: "label", "Yantras" }
-							button { class: "clear", onclick: move |e| { e.cancel_bubble(); yantraRemoveAllHandler(&usedYantras); showRemove.set(false); }, prevent_default: "onclick", "Clear Yantras" }
+							button { class: "clear", onclick: move |e| { hideRemovePopUp(e, &showRemove); yantraRemoveAllHandler(&usedYantras); }, prevent_default: "oncontextmenu", "Clear Yantras" }
 						}
 						
 						select
@@ -611,7 +614,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 								let mut yantras = currentlyUsedYantras1.clone();
 								yantraSelectChangeHandler(e, &mut yantras, &usedYantras, None);
 							},
-							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Yantra" }
@@ -624,14 +626,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							rsx!(select
 							{
 								onchange: move |e| yantraSelectChangeHandler(e, &mut yantras, &usedYantras, Some(i)),
-								oncontextmenu: move |e|
-								{
-									e.cancel_bubble();
-									clickedX.set(e.data.client_x);
-									clickedY.set(e.data.client_y);
-									lastIndex.set(i);
-									showRemove.set(true);
-								},
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 								prevent_default: "oncontextmenu",
 								
 								(SpellYantras::asStringVec()).iter().enumerate().map(|(j, name)|
@@ -650,8 +645,8 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 								{
 									class: "removePopUpWrapper column justEven",
 									style: "left: {posX}px; top: {posY}px;",
-									onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-									prevent_default: "onclick",
+									onclick: move |e| hideRemovePopUp(e, &showRemove),
+									prevent_default: "oncontextmenu",
 									
 									div
 									{
@@ -662,8 +657,8 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 										{
 											class: "row justEven",
 											
-											button { onclick: move |e| { e.cancel_bubble(); yantraRemoveHandler(&mut yantras, &usedYantras, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-											button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+											button { onclick: move |e| { hideRemovePopUp(e, &showRemove); yantraRemoveHandler(&mut yantras, &usedYantras, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+											button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 										}
 									}
 								}

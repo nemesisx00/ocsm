@@ -256,21 +256,16 @@ pub fn MageSheet(cx: Scope) -> Element
 			}
 			
 			hr { class: "row justEven" }
-			
-			div
-			{
-				class: "row justEven",
-				
-				Rotes {}
-			}
-			
+			div { class: "row justEven", Rotes {} }
+			hr { class: "row justEven" }
+			div { class: "row justEven", Spellcasting {} }
 			hr { class: "row justEven" }
 			
 			div
 			{
 				class: "row justEven",
 				
-				Spellcasting {}
+				
 			}
 		}
 	});

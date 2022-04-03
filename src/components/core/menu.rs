@@ -20,7 +20,6 @@ pub fn MainMenu<'a>(cx: Scope<'a, MainMenuProps<'a>>) -> Element<'a>
 		div
 		{
 			class: "mainMenu row justEven",
-			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
 			&cx.props.children
@@ -70,7 +69,6 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 		{
 			class: "menu column justStart{class}",
 			onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
-			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			
 			div
@@ -84,7 +82,6 @@ pub fn Menu<'a>(cx: Scope<'a, MenuProps<'a>>) -> Element<'a>
 				{
 					class: "subMenu column justEven",
 					onclick: move |e| { e.cancel_bubble(); state.set(!state.get()); },
-					oncontextmenu: move |e| e.cancel_bubble(),
 					prevent_default: "oncontextmenu",
 					
 					&cx.props.children
@@ -120,7 +117,6 @@ pub fn MenuItem<'a>(cx: Scope<'a, MenuItemProps<'a>>) -> Element<'a>
 					None => {}
 				}
 			},
-			oncontextmenu: move |e| e.cancel_bubble(),
 			prevent_default: "oncontextmenu",
 			"{cx.props.label}"
 		}

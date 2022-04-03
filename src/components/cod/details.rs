@@ -272,7 +272,6 @@ fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 					r#type: "text",
 					value: "{value}",
 					oninput:  move |e| inputHandler(e, &cx),
-					oncontextmenu: move |e| e.cancel_bubble(),
 					prevent_default: "oncontextmenu",
 				}
 			})
@@ -282,7 +281,6 @@ fn DetailInput<T>(cx: Scope<DetailInputProps<T>>) -> Element
 				select
 				{
 					onchange: move |e| inputHandler(e, &cx),
-					oncontextmenu: move |e| e.cancel_bubble(),
 					prevent_default: "oncontextmenu",
 					
 					showSelectNoneLabel.then(|| rsx!(option { value: "", "{selectNoneLabel}" }))

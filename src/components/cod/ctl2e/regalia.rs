@@ -17,6 +17,10 @@ use crate::{
 		enums::CoreDetail,
 		state::CharacterDetails,
 	},
+	components::core::events::{
+		hideRemovePopUp,
+		showRemovePopUp,
+	},
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
@@ -94,13 +98,7 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 					div
 					{
 						class: "regalia entry row justEven",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							showRemove.set(true);
-						},
+						oncontextmenu: move |e| showRemovePopUp(e, &clickedX, &clickedY, &showRemove),
 						prevent_default: "oncontextmenu",
 						"{chosenRegalia}"
 					}
@@ -115,7 +113,6 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 						select
 						{
 							onchange: move |e| selectHandler(e, &cx),
-							oncontextmenu: move |e| { e.cancel_bubble(); },
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Add a Favored Regalia" }
@@ -131,8 +128,8 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 				{
 					class: "removePopUpWrapper column justEven",
 					style: "left: {posX}px; top: {posY}px;",
-					onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-					prevent_default: "onclick",
+					onclick: move |e| hideRemovePopUp(e, &showRemove),
+					prevent_default: "oncontextmenu",
 					
 					div
 					{
@@ -143,8 +140,8 @@ pub fn FavoredRegalia(cx: Scope) -> Element
 						{
 							class: "row justEven",
 							
-							button { onclick: move |e| { e.cancel_bubble(); setFavoredRegalia(None); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-							button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+							button { onclick: move |e| { hideRemovePopUp(e, &showRemove); setFavoredRegalia(None); }, prevent_default: "oncontextmenu", "Remove" }
+							button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 						}
 					}
 				}

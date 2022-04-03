@@ -24,9 +24,15 @@ use crate::{
 			},
 		},
 	},
-	components::cod::dots::{
-		Dots,
-		DotsProps,
+	components::{
+		cod::dots::{
+			Dots,
+			DotsProps,
+		},
+		core::events::{
+			hideRemovePopUp,
+			showRemovePopUpWithIndex,
+		},
 	},
 	core::util::{
 		RemovePopUpXOffset,
@@ -100,14 +106,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 					{
 						class: "row justEven praxis",
 						key: "{i}",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -115,14 +114,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 							r#type: "text",
 							value: "{praxis.name}",
 							onchange: move |e| praxisUpdateHandler(e, &cx, Some(i), PraxisField::Name),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Spell Name",
 						}
@@ -131,7 +123,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 						{
 							class: "arcanum",
 							onchange: move |e| praxisUpdateHandler(e, &cx, Some(i), PraxisField::Arcanum),
-							oncontextmenu: move |e| e.cancel_bubble(),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Arcanum" }
@@ -149,7 +141,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 				div
 				{
 					class: "new row justEven",
-					input { r#type: "text", value: "", placeholder: "Enter new a Praxis", onchange: move |e| praxisUpdateHandler(e, &cx, None, PraxisField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter new a Praxis", onchange: move |e| praxisUpdateHandler(e, &cx, None, PraxisField::Name), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
@@ -157,8 +149,8 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 					{
 						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
-						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-						prevent_default: "onclick",
+						onclick: move |e| hideRemovePopUp(e, &showRemove),
+						prevent_default: "oncontextmenu",
 						
 						div
 						{
@@ -169,8 +161,8 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 							{
 								class: "row justEven",
 								
-								button { onclick: move |e| { e.cancel_bubble(); praxisRemoveClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+								button { onclick: move |e| { hideRemovePopUp(e, &showRemove); praxisRemoveClickHandler(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+								button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 							}
 						}
 					}
@@ -322,14 +314,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 					{
 						class: "row justEven rote",
 						key: "{i}",
-						oncontextmenu: move |e|
-						{
-							e.cancel_bubble();
-							clickedX.set(e.data.client_x);
-							clickedY.set(e.data.client_y);
-							lastIndex.set(i);
-							showRemove.set(true);
-						},
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -337,14 +322,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							r#type: "text",
 							value: "{rote.name}",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Name),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Spell Name",
 						}
@@ -353,7 +331,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 						{
 							class: "arcanum",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Arcanum),
-							oncontextmenu: move |e| e.cancel_bubble(),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Arcanum" }
@@ -370,7 +348,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 						{
 							class: "skill",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Skill),
-							oncontextmenu: move |e| e.cancel_bubble(),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Skill" }
@@ -386,14 +364,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							r#type: "text",
 							value: "{rote.creator}",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Creator),
-							oncontextmenu: move |e|
-							{
-								e.cancel_bubble();
-								clickedX.set(e.data.client_x);
-								clickedY.set(e.data.client_y);
-								lastIndex.set(i);
-								showRemove.set(true);
-							},
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Creator",
 						}
@@ -403,7 +374,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 				div
 				{
 					class: "new row justEven",
-					input { class: "newRote", r#type: "text", value: "", placeholder: "Enter new a Rote", onchange: move |e| roteUpdateHandler(e, &cx, None, RoteField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
+					input { class: "newRote", r#type: "text", value: "", placeholder: "Enter new a Rote", onchange: move |e| roteUpdateHandler(e, &cx, None, RoteField::Name), prevent_default: "oncontextmenu" }
 				}
 				
 				showRemove.then(|| rsx!{
@@ -411,8 +382,8 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 					{
 						class: "removePopUpWrapper column justEven",
 						style: "left: {posX}px; top: {posY}px;",
-						onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
-						prevent_default: "onclick",
+						onclick: move |e| hideRemovePopUp(e, &showRemove),
+						prevent_default: "oncontextmenu",
 						
 						div
 						{
@@ -423,8 +394,8 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							{
 								class: "row justEven",
 								
-								button { onclick: move |e| { e.cancel_bubble(); roteRemoveClickHandler(&cx, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
-								button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+								button { onclick: move |e| { hideRemovePopUp(e, &showRemove); roteRemoveClickHandler(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+								button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 							}
 						}
 					}
@@ -492,3 +463,177 @@ fn roteUpdateHandler(e: FormEvent, cx: &Scope<RotesProps>, index: Option<usize>,
 		}
 	}
 }
+
+// --------------------------------------------------
+
+/*
+/// The UI Component handling a Mage: The Awakening 2e Mage's list of available Spells.
+pub fn SpellDetails(cx: Scope) -> Element
+{
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
+	let lastIndex = use_state(&cx, || 0);
+	let showRemove = use_state(&cx, || false);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
+	
+	return cx.render(rsx!
+	{
+		div
+		{
+			class: "simpleEntryListWrapper abilities column justEven",
+			
+			div { class: "simpleEntryListLabel", "Spells" }
+			
+			div
+			{
+				class: "simpleEntryList column justEven",
+				
+				cx.props.data.iter().enumerate().map(|(i, ability)| rsx!(cx,
+					(i > 0).then(|| rsx!(cx, hr { class: "row justEven thin" }))
+					div
+					{
+						class: "entry column justStart",
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						prevent_default: "oncontextmenu",
+						
+						div
+						{
+							class: "row justEven",
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							prevent_default: "oncontextmenu",
+							
+							div { class: "label first", "Name:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.name}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Name),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Cost:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.cost}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Cost),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "row",
+							
+							div { class: "label first", "Dice Pool:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.dicePool}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::DicePool),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Action:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.action}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Action),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "row justEven",
+							
+							div { class: "label first", "Requirements:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.requirements}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Requirements),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+							div { class: "label second", "Duration:" }
+							input
+							{
+								r#type: "text",
+								value: "{ability.duration}",
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Duration),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu"
+							}
+						}
+						
+						div
+						{
+							class: "column justEven",
+							div { class: "label", "Description:" }
+							textarea
+							{
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu",
+								
+								"{ability.description}"
+							}
+						}
+						
+						div
+						{
+							class: "column justEven",
+							div { class: "label", "Effects:" }
+							textarea
+							{
+								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								prevent_default: "oncontextmenu",
+								
+								"{ability.effects}"
+							}
+						}
+					}
+				))
+				
+				div
+				{
+					class: "new row justEven",
+					input { r#type: "text", value: "", placeholder: "Enter a new Spell", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), prevent_default: "oncontextmenu" }
+				}
+			}
+			
+			showRemove.then(|| rsx!
+			{
+				div
+				{
+					class: "removePopUpWrapper column justEven",
+					style: "left: {posX}px; top: {posY}px;",
+					onclick: move |e| hideRemovePopUp(e, &showRemove),
+					prevent_default: "oncontextmenu",
+					
+					div
+					{
+						class: "removePopUp column justEven",
+						
+						div { class: "row justEven", "Are you sure you want to remove this Spell?" }
+						div
+						{
+							class: "row justEven",
+							
+							button { onclick: move |e| { hideRemovePopUp(e, &showRemove); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+							button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
+						}
+					}
+				}
+			})
+		}
+	});
+}
+*/
