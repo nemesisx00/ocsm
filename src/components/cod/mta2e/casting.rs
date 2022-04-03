@@ -626,7 +626,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							rsx!(select
 							{
 								onchange: move |e| yantraSelectChangeHandler(e, &mut yantras, &usedYantras, Some(i)),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
 								
 								(SpellYantras::asStringVec()).iter().enumerate().map(|(j, name)|

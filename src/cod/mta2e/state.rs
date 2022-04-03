@@ -12,6 +12,7 @@ use crate::{
 			structs::{
 				Praxis,
 				Rote,
+				Spell,
 			},
 		},
 	},
@@ -29,6 +30,8 @@ pub static MageObsessions: AtomRef<Vec<String>> = |_| Vec::<String>::new();
 pub static MagePraxes: AtomRef<Vec<Praxis>> = |_| Vec::<Praxis>::new();
 /// A Mage: The Awakening 2e Mage's list of known Praxes.
 pub static MageRotes: AtomRef<Vec<Rote>> = |_| Vec::<Rote>::new();
+///A Mage: The Awakening 2e Mage's non-exhaustive list of possible Spells and their details.
+pub static MageSpells: AtomRef<Vec<Spell>> = |_| Vec::<Spell>::new();
 
 /// Reset all `cod::mta2e::state` global state values.
 pub fn resetGlobalStateMta2e<T>(cx: &Scope<T>)
@@ -39,6 +42,7 @@ pub fn resetGlobalStateMta2e<T>(cx: &Scope<T>)
 	let mageObsessions = use_atom_ref(cx, MageObsessions);
 	let magePraxes = use_atom_ref(cx, MagePraxes);
 	let mageRotes = use_atom_ref(cx, MageRotes);
+	let mageSpells = use_atom_ref(cx, MageSpells);
 	
 	(*mageActiveSpells.write()) = Vec::<String>::new();
 	(*mageArcana.write()) = Vec::<(Arcana, usize)>::new();
@@ -46,4 +50,5 @@ pub fn resetGlobalStateMta2e<T>(cx: &Scope<T>)
 	(*mageObsessions.write()) = Vec::<String>::new();
 	(*magePraxes.write()) = Vec::<Praxis>::new();
 	(*mageRotes.write()) = Vec::<Rote>::new();
+	(*mageSpells.write()) = Vec::<Spell>::new();
 }

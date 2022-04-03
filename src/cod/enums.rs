@@ -75,6 +75,15 @@ impl CoreAttribute
 		return map;
 	}
 	
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		return match Self::asMap().iter().filter(|(ca, _)| ca.as_ref().to_string() == name.clone()).next()
+		{
+			Some((ca, _)) => Some(*ca),
+			None => None
+		};
+	}
+	
 	/// Generates the subset of Attributes defined as Mental Traits.
 	pub fn mental() -> Vec<Self>
 	{

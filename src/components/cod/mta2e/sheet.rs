@@ -46,6 +46,7 @@ use crate::{
 				spells::{
 					Praxes,
 					Rotes,
+					SpellDetails,
 				},
 			},
 			sheet::{
@@ -265,7 +266,7 @@ pub fn MageSheet(cx: Scope) -> Element
 			{
 				class: "row justEven",
 				
-				
+				SpellDetails {}
 			}
 		}
 	});

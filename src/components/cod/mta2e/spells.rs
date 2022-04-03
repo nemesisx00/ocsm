@@ -7,20 +7,28 @@ use dioxus::{
 use std::collections::HashMap;
 use crate::{
 	cod::{
-		enums::CoreSkill,
+		enums::{
+			CoreAttribute,
+			CoreSkill,
+		},
 		mta2e::{
 			enums::{
 				Arcana,
 				PraxisField,
 				RoteField,
+				SpellFactor,
+				SpellField,
+				SpellPractice,
 			},
 			structs::{
 				Praxis,
 				Rote,
+				Spell,
 			},
 			state::{
 				MagePraxes,
 				MageRotes,
+				MageSpells,
 			},
 		},
 	},
@@ -37,6 +45,7 @@ use crate::{
 	core::util::{
 		RemovePopUpXOffset,
 		RemovePopUpYOffset,
+		generateSelectedValue,
 	},
 };
 
@@ -106,7 +115,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 					{
 						class: "row justEven praxis",
 						key: "{i}",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -114,7 +123,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 							r#type: "text",
 							value: "{praxis.name}",
 							onchange: move |e| praxisUpdateHandler(e, &cx, Some(i), PraxisField::Name),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Spell Name",
 						}
@@ -123,7 +132,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 						{
 							class: "arcanum",
 							onchange: move |e| praxisUpdateHandler(e, &cx, Some(i), PraxisField::Arcanum),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Arcanum" }
@@ -314,7 +323,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 					{
 						class: "row justEven rote",
 						key: "{i}",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -322,7 +331,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							r#type: "text",
 							value: "{rote.name}",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Name),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Spell Name",
 						}
@@ -331,7 +340,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 						{
 							class: "arcanum",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Arcanum),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Arcanum" }
@@ -348,7 +357,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 						{
 							class: "skill",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Skill),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
 							option { value: "", selected: "true", "Select Skill" }
@@ -364,7 +373,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 							r#type: "text",
 							value: "{rote.creator}",
 							onchange: move |e| roteUpdateHandler(e, &cx, Some(i), RoteField::Creator),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							placeholder: "Creator",
 						}
@@ -466,10 +475,12 @@ fn roteUpdateHandler(e: FormEvent, cx: &Scope<RotesProps>, index: Option<usize>,
 
 // --------------------------------------------------
 
-/*
 /// The UI Component handling a Mage: The Awakening 2e Mage's list of available Spells.
 pub fn SpellDetails(cx: Scope) -> Element
 {
+	let spellsRef = use_atom_ref(&cx, MageSpells);
+	let spells = spellsRef.read();
+	
 	let clickedX = use_state(&cx, || 0);
 	let clickedY = use_state(&cx, || 0);
 	let lastIndex = use_state(&cx, || 0);
@@ -482,7 +493,7 @@ pub fn SpellDetails(cx: Scope) -> Element
 	{
 		div
 		{
-			class: "simpleEntryListWrapper abilities column justEven",
+			class: "simpleEntryListWrapper spells column justEven",
 			
 			div { class: "simpleEntryListLabel", "Spells" }
 			
@@ -490,99 +501,129 @@ pub fn SpellDetails(cx: Scope) -> Element
 			{
 				class: "simpleEntryList column justEven",
 				
-				cx.props.data.iter().enumerate().map(|(i, ability)| rsx!(cx,
+				spells.iter().enumerate().map(|(i, spell)| rsx!(
 					(i > 0).then(|| rsx!(cx, hr { class: "row justEven thin" }))
 					div
 					{
 						class: "entry column justStart",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
 						
 						div
 						{
 							class: "row justEven",
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
 							div { class: "label first", "Name:" }
 							input
 							{
 								r#type: "text",
-								value: "{ability.name}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Name),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								value: "{spell.name}",
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Name),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
-							div { class: "label second", "Cost:" }
-							input
+							
+							select
 							{
-								r#type: "text",
-								value: "{ability.cost}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Cost),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
-								prevent_default: "oncontextmenu"
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Arcanum),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Select Arcanum" }
+								(Arcana::asMap()).iter().enumerate().map(|(j, (a, name))|
+								{
+									let mut selected = "false".to_string();
+									if let Some(arcanum) = spell.arcanum
+									{
+										selected = generateSelectedValue(arcanum, *a);
+									}
+									rsx!(cx, option { key: "{j}", value: "{name}", selected: "{selected}", "{name}" })
+								})
 							}
+						
+							Dots { max: 5, value: SpellPractice::getValue(spell.practice), handlerKey: Some(i) }
 						}
 						
 						div
 						{
 							class: "row",
 							
-							div { class: "label first", "Dice Pool:" }
-							input
-							{
-								r#type: "text",
-								value: "{ability.dicePool}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::DicePool),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
-								prevent_default: "oncontextmenu"
-							}
-							div { class: "label second", "Action:" }
-							input
-							{
-								r#type: "text",
-								value: "{ability.action}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Action),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
-								prevent_default: "oncontextmenu"
-							}
-						}
-						
-						div
-						{
-							class: "row justEven",
+							div { class: "label first", "Practice:" }
 							
-							div { class: "label first", "Requirements:" }
-							input
+							select
 							{
-								r#type: "text",
-								value: "{ability.requirements}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Requirements),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
-								prevent_default: "oncontextmenu"
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Practice),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Select Practice" }
+								(SpellPractice::asMap()).iter().enumerate().map(|(j, (sp, name))|
+								{
+									let mut selected = "false".to_string();
+									if let Some(practice) = spell.practice
+									{
+										selected = generateSelectedValue(practice, *sp);
+									}
+									rsx!(cx, option { key: "{j}", value: "{name}", selected: "{selected}", "{name}" })
+								})
 							}
-							div { class: "label second", "Duration:" }
-							input
+							
+							div { class: "label second", "Primary Factor:" }
+							
+							select
 							{
-								r#type: "text",
-								value: "{ability.duration}",
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Duration),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
-								prevent_default: "oncontextmenu"
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::PrimaryFactor),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Select Primary Factor" }
+								(SpellFactor::asMap()).iter().enumerate().map(|(j, (sf, name))|
+								{
+									let mut selected = "false".to_string();
+									if let Some(factor) = spell.primaryFactor
+									{
+										selected = generateSelectedValue(factor, *sf);
+									}
+									rsx!(cx, option { key: "{j}", value: "{name}", selected: "{selected}", "{name}" })
+								})
+							}
+							
+							div { class: "label third", "Withstand:" }
+							
+							
+							select
+							{
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Withstand),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Select Withstand" }
+								(CoreAttribute::asMap()).iter().enumerate().map(|(j, (ca, _))|
+								{
+									let name = ca.as_ref().to_string();
+									let mut selected = "false".to_string();
+									if let Some(withstand) = spell.withstand
+									{
+										selected = generateSelectedValue(withstand, *ca);
+									}
+									rsx!(cx, option { key: "{j}", value: "{name}", selected: "{selected}", "{name}" })
+								})
 							}
 						}
 						
 						div
 						{
 							class: "column justEven",
-							div { class: "label", "Description:" }
+							div { class: "label", "Intent:" }
 							textarea
 							{
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Intent),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
 								
-								"{ability.description}"
+								"{spell.intent}"
 							}
 						}
 						
@@ -592,11 +633,11 @@ pub fn SpellDetails(cx: Scope) -> Element
 							div { class: "label", "Effects:" }
 							textarea
 							{
-								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Effects),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
 								
-								"{ability.effects}"
+								"{spell.effects}"
 							}
 						}
 					}
@@ -605,7 +646,7 @@ pub fn SpellDetails(cx: Scope) -> Element
 				div
 				{
 					class: "new row justEven",
-					input { r#type: "text", value: "", placeholder: "Enter a new Spell", onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, None, ActiveAbilityField::Name), prevent_default: "oncontextmenu" }
+					input { r#type: "text", value: "", placeholder: "Enter a new Spell", onchange: move |e| spellUpdateHandler(e, &cx, None, SpellField::Name), prevent_default: "oncontextmenu" }
 				}
 			}
 			
@@ -627,7 +668,7 @@ pub fn SpellDetails(cx: Scope) -> Element
 						{
 							class: "row justEven",
 							
-							button { onclick: move |e| { hideRemovePopUp(e, &showRemove); (cx.props.entryRemoveHandler)(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
+							button { onclick: move |e| { hideRemovePopUp(e, &showRemove); spellRemoveHandler(&cx, *(lastIndex.get())); }, prevent_default: "oncontextmenu", "Remove" }
 							button { onclick: move |e| hideRemovePopUp(e, &showRemove), prevent_default: "oncontextmenu", "Cancel" }
 						}
 					}
@@ -636,4 +677,52 @@ pub fn SpellDetails(cx: Scope) -> Element
 		}
 	});
 }
-*/
+
+/// Event handler triggered by clicking the "Remove" button after
+/// right-clicking a Spell row.
+fn spellRemoveHandler(cx: &Scope, index: usize)
+{
+	let spellsRef = use_atom_ref(&cx, MageSpells);
+	let mut spells = spellsRef.write();
+	
+	if index < spells.len()
+	{
+		spells.remove(index);
+	}
+}
+
+fn spellUpdateHandler(event: FormEvent, cx: &Scope, index: Option<usize>, field: SpellField)
+{
+	let spellsRef = use_atom_ref(&cx, MageSpells);
+	let mut spells = spellsRef.write();
+	
+	match index
+	{
+		Some(i) =>
+		{
+			match field
+			{
+				SpellField::Arcanum => if let Some(a) = Arcana::getByName(event.value.clone()) { spells[i].arcanum = Some(a); },
+				SpellField::Effects => spells[i].effects = event.value.clone(),
+				SpellField::Intent => spells[i].intent = event.value.clone(),
+				SpellField::Name => spells[i].name = event.value.clone(),
+				SpellField::Practice => if let Some(sp) = SpellPractice::getByName(event.value.clone()) { spells[i].practice = Some(sp); },
+				SpellField::PrimaryFactor => if let Some(sf) = SpellFactor::getByName(event.value.clone()) { spells[i].primaryFactor = Some(sf); },
+				SpellField::Withstand => if let Some(ca) = CoreAttribute::getByName(event.value.clone()) { spells[i].withstand = Some(ca); },
+			}
+		}
+		None =>
+		{
+			match field
+			{
+				SpellField::Arcanum => if let Some(a) = Arcana::getByName(event.value.clone()) { spells.push(Spell { arcanum: Some(a), ..Default::default() }); },
+				SpellField::Effects => spells.push(Spell { effects: event.value.clone(), ..Default::default() }),
+				SpellField::Intent => spells.push(Spell { intent: event.value.clone(), ..Default::default() }),
+				SpellField::Name => spells.push(Spell { name: event.value.clone(), ..Default::default() }),
+				SpellField::Practice => if let Some(sp) = SpellPractice::getByName(event.value.clone()) { spells.push(Spell { practice: Some(sp), ..Default::default() }); },
+				SpellField::PrimaryFactor => if let Some(sf) = SpellFactor::getByName(event.value.clone()) { spells.push(Spell { primaryFactor: Some(sf), ..Default::default() }); },
+				SpellField::Withstand => if let Some(ca) = CoreAttribute::getByName(event.value.clone()) { spells.push(Spell { withstand: Some(ca), ..Default::default() }); },
+			}
+		}
+	}
+}

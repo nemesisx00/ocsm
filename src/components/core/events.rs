@@ -8,8 +8,8 @@ use dioxus::{
 pub fn showRemovePopUpWithIndex<'a>(event: MouseEvent,
 	clickedX: &'a UseState<i32>,
 	clickedY: &'a UseState<i32>,
-	lastIndex: &'a UseState<usize>,
 	showRemove: &'a UseState<bool>,
+	lastIndex: &'a UseState<usize>,
 	index: usize)
 {
 	event.cancel_bubble();

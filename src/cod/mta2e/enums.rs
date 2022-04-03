@@ -33,20 +33,17 @@ pub enum Arcana
 
 impl Arcana
 {
-	/// Generates a collection mapping each `Discipline` to its corresponding name.
-	pub fn asMap() -> BTreeMap<Arcana, String>
+	/// Generates a collection mapping each `Arcanum` to its corresponding name.
+	pub fn asMap() -> BTreeMap<Self, String>
 	{
-		let mut map = BTreeMap::<Arcana, String>::new();
-		for a in Arcana::iter()
+		let mut map = BTreeMap::<Self, String>::new();
+		for a in Self::iter()
 		{
 			map.insert(a, a.as_ref().to_string());
 		}
 		return map;
 	}
-}
-
-impl Arcana
-{
+	
 	pub fn getByName(name: String) -> Option<Self>
 	{
 		return match Self::asMap().iter().filter(|(_, n)| *n.clone() == name.clone()).next()
@@ -97,6 +94,43 @@ pub enum SpellCastingMethod
 }
 
 #[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellFactor
+{
+	Potency,
+	Duration,
+	//Scale,
+	//Range,
+}
+
+impl SpellFactor
+{
+	/// Generates a collection mapping each `Arcanum` to its corresponding name.
+	pub fn asMap() -> BTreeMap<Self, String>
+	{
+		let mut map = BTreeMap::<Self, String>::new();
+		for sf in Self::iter()
+		{
+			map.insert(sf, sf.as_ref().to_string());
+		}
+		return map;
+	}
+	
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		let mut out = None;
+		for sf in Self::iter()
+		{
+			if sf.as_ref().to_string() == name.to_string()
+			{
+				out = Some(sf);
+			}
+		}
+		return out;
+	}
+}
+
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
 pub enum SpellFactorType
 {
 	Standard,
@@ -117,6 +151,87 @@ impl SpellFactorType
 			}
 		}
 		return out;
+	}
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellField
+{
+	Arcanum,
+	Intent,
+	Effects,
+	Name,
+	Practice,
+	PrimaryFactor,
+	Withstand,
+}
+
+#[derive(AsRefStr, Clone, Copy, Debug, EnumCount, EnumIter, Eq, Hash, PartialEq, Deserialize, Serialize, PartialOrd, Ord)]
+pub enum SpellPractice
+{
+	Compelling,
+	Knowing,
+	Unveiling,
+	Ruling,
+	Shielding,
+	Veiling,
+	Fraying,
+	Perfecting,
+	Weaving,
+	Patterning,
+	Unraveling,
+	Making,
+	Unmaking,
+}
+
+impl SpellPractice
+{
+	/// Generates a collection mapping each `Arcanum` to its corresponding name.
+	pub fn asMap() -> BTreeMap<Self, String>
+	{
+		let mut map = BTreeMap::<Self, String>::new();
+		for sp in Self::iter()
+		{
+			map.insert(sp, sp.as_ref().to_string());
+		}
+		return map;
+	}
+	
+	pub fn getByName(name: String) -> Option<Self>
+	{
+		let mut out = None;
+		for sp in Self::iter()
+		{
+			if sp.as_ref().to_string() == name.to_string()
+			{
+				out = Some(sp);
+			}
+		}
+		return out;
+	}
+	
+	pub fn getValue(practice: Option<Self>) -> usize
+	{
+		if let Some(p) = practice
+		{
+			return match p
+			{
+				Self::Compelling => 1,
+				Self::Knowing => 1,
+				Self::Unveiling => 1,
+				Self::Ruling => 2,
+				Self::Shielding => 2,
+				Self::Veiling => 2,
+				Self::Fraying => 3,
+				Self::Perfecting => 3,
+				Self::Weaving => 3,
+				Self::Patterning => 4,
+				Self::Unraveling => 4,
+				Self::Making => 5,
+				Self::Unmaking => 5,
+			};
+		}
+		return 0;
 	}
 }
 

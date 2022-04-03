@@ -95,7 +95,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 					{
 						class: "row justEven",
 						key: "{i}",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
 						
 						input
@@ -103,7 +103,7 @@ pub fn SimpleEntryList(cx: Scope<SimpleEntryListProps>) -> Element
 							r#type: "text",
 							value: "{entry}",
 							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 						}
 					})
@@ -228,7 +228,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 				{
 					key: "{i}",
 					class: "entry row justEven",
-					oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+					oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 					prevent_default: "oncontextmenu",
 					
 					isSelect.then(|| rsx!(cx, 
@@ -241,7 +241,7 @@ pub fn DotEntryList(cx: Scope<DotEntryListProps>) -> Element
 							r#type: "text",
 							value: "{name}",
 							onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i)),
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu"
 						}
 						Dots { max: 5, value: *value, handler: cx.props.entryDotHandler, handlerKey: i }
@@ -361,13 +361,13 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 					div
 					{
 						class: "entry column justStart",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
 						
 						div
 						{
 							class: "row justEven",
-							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
 							div { class: "label first", "Name:" }
@@ -376,7 +376,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.name}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Name),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Cost:" }
@@ -385,7 +385,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.cost}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Cost),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -400,7 +400,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.dicePool}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::DicePool),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Action:" }
@@ -409,7 +409,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.action}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Action),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -424,7 +424,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.requirements}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Requirements),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 							div { class: "label second", "Duration:" }
@@ -433,7 +433,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 								r#type: "text",
 								value: "{ability.duration}",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Duration),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu"
 							}
 						}
@@ -445,7 +445,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							textarea
 							{
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
 								
 								"{ability.description}"
@@ -459,7 +459,7 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							textarea
 							{
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
-								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &lastIndex, &showRemove, i),
+								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
 								
 								"{ability.effects}"

@@ -10,9 +10,16 @@ use serde::{
 };
 use crate::{
 	cod::{
-		enums::CoreSkill,
+		enums::{
+			CoreAttribute,
+			CoreSkill,
+		},
 		mta2e::{
-			enums::Arcana,
+			enums::{
+				Arcana,
+				SpellFactor,
+				SpellPractice,
+			},
 			state::{
 				MageActiveSpells,
 				MageArcana,
@@ -20,6 +27,7 @@ use crate::{
 				MageObsessions,
 				MagePraxes,
 				MageRotes,
+				MageSpells,
 			},
 		},
 		structs::CoreCharacter,
@@ -51,6 +59,9 @@ pub struct Mage
 	
 	#[serde(default)]
 	pub rotes: Vec<Rote>,
+	
+	#[serde(default)]
+	pub spells: Vec<Spell>,
 }
 
 impl StatefulTemplate for Mage
@@ -65,6 +76,7 @@ impl StatefulTemplate for Mage
 		let obsessions = use_atom_ref(cx, MageObsessions);
 		let praxes = use_atom_ref(cx, MagePraxes);
 		let rotes = use_atom_ref(cx, MageRotes);
+		let spells = use_atom_ref(cx, MageSpells);
 		
 		self.activeSpells = activeSpells.read().clone();
 		self.arcana = arcana.read().clone();
@@ -72,6 +84,7 @@ impl StatefulTemplate for Mage
 		self.obsessions = obsessions.read().clone();
 		self.praxes = praxes.read().clone();
 		self.rotes = rotes.read().clone();
+		self.spells = spells.read().clone();
 		
 		self.validate();
 	}
@@ -88,6 +101,7 @@ impl StatefulTemplate for Mage
 		let obsessions = use_atom_ref(cx, MageObsessions);
 		let praxes = use_atom_ref(cx, MagePraxes);
 		let rotes = use_atom_ref(cx, MageRotes);
+		let spells = use_atom_ref(cx, MageSpells);
 		
 		(*activeSpells.write()) = self.activeSpells.clone();
 		(*arcana.write()) = self.arcana.clone();
@@ -95,6 +109,7 @@ impl StatefulTemplate for Mage
 		(*obsessions.write()) = self.obsessions.clone();
 		(*praxes.write()) = self.praxes.clone();
 		(*rotes.write()) = self.rotes.clone();
+		(*spells.write()) = self.spells.clone();
 	}
 	
 	fn validate(&mut self)
@@ -105,7 +120,7 @@ impl StatefulTemplate for Mage
 
 // --------------------------------------------------
 
-/// Data structure defining a single Rote spell.
+/// Data structure defining a single Praxis spell.
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, PartialOrd, Serialize, Ord)]
 pub struct Praxis
 {
@@ -139,4 +154,32 @@ pub struct Rote
 	
 	#[serde(default)]
 	pub skill: Option<CoreSkill>,
+}
+
+// --------------------------------------------------
+
+/// Data structure defining a single Spell, whether improvized, Praxis, Rote, or otherwise.
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, PartialOrd, Serialize, Ord)]
+pub struct Spell
+{
+	#[serde(default)]
+	pub arcanum: Option<Arcana>,
+	
+	#[serde(default)]
+	pub intent: String,
+	
+	#[serde(default)]
+	pub effects: String,
+	
+	#[serde(default)]
+	pub name: String,
+	
+	#[serde(default)]
+	pub practice: Option<SpellPractice>,
+	
+	#[serde(default)]
+	pub primaryFactor: Option<SpellFactor>,
+	
+	#[serde(default)]
+	pub withstand: Option<CoreAttribute>,
 }
