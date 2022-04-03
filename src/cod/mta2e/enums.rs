@@ -140,6 +140,7 @@ pub enum SpellFactorType
 
 impl SpellFactorType
 {
+	#[allow(dead_code)]
 	pub fn getByName(name: String) -> Option<Self>
 	{
 		let mut out = None;
