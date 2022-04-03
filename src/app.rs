@@ -158,12 +158,11 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 {
 	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
 	let setMenuState = use_set(&cx, MainMenuState);
-	let window = use_window(cx);
 	
-	if let Some((gs, l)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
+	if let Some((gs, _)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
 	{
 		resetGlobalState(cx);
-		window.set_title(format!("{} - {}", WindowTitle, l).as_ref());
+		updateWindowTitle(cx, *gs);
 		setCurrentGameSystem(*gs);
 		setMenuState(false);
 		
@@ -196,6 +195,7 @@ fn loadSheet(cx: &Scope<MenuItemProps>)
 			{
 				let saveData = data;
 				setCurrentGameSystem(saveData.game);
+				updateWindowTitle(cx, saveData.game);
 				
 				match saveData.game
 				{
@@ -242,5 +242,14 @@ fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &
 			},
 			Err(e) => println!("Error saving to file: {}", e)
 		}
+	}
+}
+
+fn updateWindowTitle<T>(cx: &Scope<T>, gameSystem: GameSystem)
+{
+	let window = use_window(cx);
+	if let Some((_, title)) = GameSystem::asMap().iter().filter(|(gs, _)| *gs == &gameSystem).next()
+	{
+		window.set_title(format!("{} - {}", WindowTitle, title).as_ref());
 	}
 }
