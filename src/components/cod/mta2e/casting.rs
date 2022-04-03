@@ -81,6 +81,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let totalDuration = use_state(&cx, || 1);
 	let totalPotency = use_state(&cx, || 1);
 	let totalScale = use_state(&cx, || 1);
+	let totalTime = use_state(&cx, || 1);
 	let totalReaches = use_state(&cx, || 0);
 	let usedYantras = use_state(&cx, || Vec::<String>::new());
 	let resetLocalState = use_state(&cx, || false);
@@ -99,6 +100,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 		totalDuration.set(1);
 		totalPotency.set(1);
 		totalScale.set(1);
+		totalTime.set(1);
 		totalReaches.set(0);
 		usedYantras.set(Vec::<String>::new());
 		resetLocalState.set(false);
@@ -109,7 +111,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	arcanaRef.read().iter().for_each(|(arcana, _)|
 	{
 		arcanaOptions.push(arcana.as_ref().to_string());
-		arcanaSelected.insert(arcana.as_ref().to_string(), generateSelectedValue::<String>(arcana.as_ref().to_string(), highestArcanum.get().to_string()).clone());
+		arcanaSelected.insert(arcana.as_ref().to_string(), generateSelectedValue::<String>(arcana.as_ref().to_string(), highestArcanum.get().clone()).clone());
 	});
 	
 	let mut castingMethodOptions = vec![];
@@ -117,7 +119,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	for scm in SpellCastingMethod::iter()
 	{
 		castingMethodOptions.push(scm.as_ref().to_string());
-		castingMethodSelected.insert(scm.as_ref().to_string(), generateSelectedValue::<String>(scm.as_ref().to_string(), castingMethod.get().to_string()).clone());
+		castingMethodSelected.insert(scm.as_ref().to_string(), generateSelectedValue::<String>(scm.as_ref().to_string(), castingMethod.get().clone()).clone());
 	}
 	
 	let methodIsRote = castingMethod.get().clone() == SpellCastingMethod::Rote.as_ref().to_string();
@@ -175,6 +177,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let currentTotalPotency = totalPotency.get();
 	let currentTotalReaches = totalReaches.get();
 	let currentTotalScale = totalScale.get();
+	let currentTotalTime = totalTime.get();
 	
 	let mut buildYantras = vec![];
 	usedYantras.get().iter().for_each(|yantra| buildYantras.push(yantra.clone()));
@@ -182,6 +185,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let currentlyUsedYantras2 = buildYantras.clone();
 	
 	let mut canCastSpell = false;
+	let mut spellcastingTime = "1 Turn".to_string();
 	let mut spellcastingDicePool = 0;
 	let mut spellcastingFreeReach = 1;
 	let mut spellcastingParadoxDicePool = 0;
@@ -206,16 +210,32 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 		{
 			roteSkill = Some(skills[&actualRoteSkill]);
 		}
-		spellcastingDicePool = calculateDicePool(castingMethod.get().clone(), roteSkill.clone(), gnosis, characterArcanum, *currentTotalPotency, *currentTotalDuration, *currentTotalScale, buildYantras.clone());
+		spellcastingDicePool = calculateDicePool(
+								castingMethod.get().clone(),
+								roteSkill.clone(),
+								gnosis,
+								characterArcanum,
+								*currentTotalPotency,
+								*currentTotalDuration,
+								*currentTotalScale,
+								*currentTotalTime,
+								castingTime.get().clone(),
+								buildYantras.clone());
 		
 		let (reach, paradox) = calculateReachAndParadoxPool(castingMethod.get().clone(), gnosis, characterArcanum, *currentHighestArcanum, *currentTotalReaches);
 		spellcastingFreeReach = reach;
 		spellcastingParadoxDicePool = paradox;
+		spellcastingTime = calculateCastingTime(gnosis, castingTime.get().clone(), *currentTotalTime, castingMethod.get().clone(), usedYantras.get().len());
 		
 		canCastSpell = currentHighestArcanum <= &characterArcanum && spellcastingDicePool > -6;
 	}
 	
+	// Make sure an Arcanum and level has been selected for the to-be-cast spell
+	canCastSpell = canCastSpell && highestArcanum.get().clone() != "".to_string() && highestArcanumDots.get() > &0;
+	
 	let chanceDie = spellcastingDicePool <= 0 && spellcastingDicePool > -6;
+	let showConcentration = buildYantras.contains(&SpellYantras::Concentration.as_ref().to_string());
+	let showRunes = buildYantras.contains(&SpellYantras::Runes.as_ref().to_string());
 	
 	return cx.render(rsx!
 	{
@@ -345,26 +365,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 					{
 						class: "row justEnd",
 						
-						div { class: "label", "Casting Time:" }
-						
-						select
-						{
-							onchange: move |e| { e.cancel_bubble(); castingTime.set(e.value.to_string()); },
-							oncontextmenu: move |e| e.cancel_bubble(),
-							prevent_default: "oncontextmenu",
-							
-							factorTypeOptions.iter().enumerate().map(|(i, name)|
-							{
-								let selected = &castingTimeSelected[name];
-								rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
-							})
-						}
-					}
-					
-					div
-					{
-						class: "row justEnd",
-						
 						div { class: "label", "Casting Range:" }
 						
 						select
@@ -385,6 +385,57 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 				div
 				{
 					class: "column justStart spellFactors2",
+					
+					div
+					{
+						class: "row justCenter",
+						
+						div { class: "label", "Casting Time:" }
+							
+						div
+						{
+							class: "row justEnd",
+						
+							select
+							{
+								onchange: move |e| { e.cancel_bubble(); castingTime.set(e.value.to_string()); },
+								oncontextmenu: move |e| e.cancel_bubble(),
+								prevent_default: "oncontextmenu",
+								
+								factorTypeOptions.iter().enumerate().map(|(i, name)|
+								{
+									let selected = &castingTimeSelected[name];
+									rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+								})
+							}
+							
+							input
+							{
+								class: "factorStep",
+								r#type: "text",
+								onchange: move |e|
+								{
+									e.cancel_bubble();
+									match atoi::<usize>(e.value.as_bytes())
+									{
+										Some(time) =>
+										{
+											if time < 1
+											{
+												totalTime.set(*currentTotalTime);
+											}
+											else
+											{
+												totalTime.set(time);
+											}
+										},
+										None => totalTime.set(*currentTotalTime),
+									}
+								},
+								value: "{currentTotalTime}"
+							}
+						}
+					}
 					
 					div
 					{
@@ -411,13 +462,24 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							
 							input
 							{
+								class: "factorStep",
 								r#type: "text",
 								onchange: move |e|
 								{
 									e.cancel_bubble();
 									match atoi::<usize>(e.value.as_bytes())
 									{
-										Some(potency) => totalPotency.set(potency),
+										Some(potency) =>
+										{
+											if potency < 1
+											{
+												totalPotency.set(*currentTotalPotency);
+											}
+											else
+											{
+												totalPotency.set(potency);
+											}
+										},
 										None => totalPotency.set(*currentTotalPotency),
 									}
 								},
@@ -451,13 +513,24 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							
 							input
 							{
+								class: "factorStep",
 								r#type: "text",
 								onchange: move |e|
 								{
 									e.cancel_bubble();
 									match atoi::<usize>(e.value.as_bytes())
 									{
-										Some(duration) => totalDuration.set(duration),
+										Some(duration) =>
+										{
+											if duration < 1
+											{
+												totalDuration.set(*currentTotalDuration);
+											}
+											else
+											{
+												totalDuration.set(duration);
+											}
+										},
 										None => totalDuration.set(*currentTotalDuration),
 									}
 								},
@@ -491,13 +564,24 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							
 							input
 							{
+								class: "factorStep",
 								r#type: "text",
 								onchange: move |e|
 								{
 									e.cancel_bubble();
 									match atoi::<usize>(e.value.as_bytes())
 									{
-										Some(scale) => totalScale.set(scale),
+										Some(scale) =>
+										{
+											if scale < 1
+											{
+												totalScale.set(*currentTotalScale);
+											}
+											else
+											{
+												totalScale.set(scale);
+											}
+										},
 										None => totalScale.set(*currentTotalScale),
 									}
 								},
@@ -515,11 +599,12 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							class: "row justEven",
 							
 							div { class: "label", "Yantras" }
-							button { onclick: move |e| { e.cancel_bubble(); yantraRemoveAllHandler(&usedYantras); showRemove.set(false); }, prevent_default: "onclick", "Clear Yantras" }
+							button { class: "clear", onclick: move |e| { e.cancel_bubble(); yantraRemoveAllHandler(&usedYantras); showRemove.set(false); }, prevent_default: "onclick", "Clear Yantras" }
 						}
 						
 						select
 						{
+							class: "new",
 							onchange: move |e| 
 							{
 								e.cancel_bubble();
@@ -529,7 +614,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
-							option { value: "", selected: "true", "Select a Yantra" }
+							option { value: "", selected: "true", "Select Yantra" }
 							(SpellYantras::asStringVec()).iter().enumerate().map(|(i, name)| rsx!(cx, option { key: "{i}", value: "{name}", "{name}" }))
 						}
 						
@@ -549,7 +634,6 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 								},
 								prevent_default: "oncontextmenu",
 								
-								option { value: "", "Remove this Yantra" }
 								(SpellYantras::asStringVec()).iter().enumerate().map(|(j, name)|
 								{
 									let selected = generateSelectedValue(used.clone(), name.clone());
@@ -598,7 +682,7 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						
 						div { class: "label", "Casting Time:" }
 						(!canCastSpell).then(|| rsx!(div { class: "castTime", "-" }))
-						canCastSpell.then(|| rsx!(div { class: "castTime", "1" }))
+						canCastSpell.then(|| rsx!(div { class: "castTime", "{spellcastingTime}" }))
 					}
 					
 					div
@@ -648,11 +732,27 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						(!canCastSpell).then(|| rsx!(div { class: "willpowerCost", "-" }))
 						canCastSpell.then(|| rsx!(div { class: "willpowerCost", "0" }))
 					}
+					
+					showConcentration.then(|| rsx!(div
+					{
+						class: "row justEven",
+						
+						div { class: "yantra concentration", "Taking damage or a non-reflexive action cancels the spell."}
+					}))
+					
+					showRunes.then(|| rsx!(div
+					{
+						class: "row justEven",
+						
+						div { class: "yantra runes", "Breaking the runes cancels the spell."}
+					}))
 				}
 			}
 		}
 	});
 }
+
+// --------------------------------------------------
 
 fn yantraSelectChangeHandler<'a>(e: FormEvent, yantras: &mut Vec<String>, usedYantras: &'a UseState<Vec<String>>, index: Option<usize>)
 {
@@ -691,6 +791,8 @@ fn highestArcanumDotHandler<'a>(cx: &Scope<DotsProps<&'a UseState<usize>>>, clic
 	}
 }
 
+// --------------------------------------------------
+
 fn calculateReachAndParadoxPool(castingMethod: String, gnosis: usize, characterLevel: usize, spellLevel: usize, totalReaches: usize) -> (usize, usize)
 {
 	let mut freeReach = 1;
@@ -719,7 +821,7 @@ fn calculateReachAndParadoxPool(castingMethod: String, gnosis: usize, characterL
 }
 
 /// Calculate the Spellcasting Dice Pool based on the choices the user makes.
-fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGnosis: usize, characterLevel: usize, potency: usize, duration: usize, scale: usize, yantras: Vec<String>) -> isize
+fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGnosis: usize, characterLevel: usize, chosenPotency: usize, chosenDuration: usize, chosenScale: usize, chosenTime: usize, timeFactor: String, yantras: Vec<String>) -> isize
 {
 	// The Dice Pool starts out as Gnosis + Arcanum
 	let mut dice: isize = 0;
@@ -740,26 +842,46 @@ fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGn
 	
 	// Collect the Spell Factor Dice Penalty separately from the Dice Pool, so we can calculate the Yantra bonus correctly.
 	let mut stepPenalty = 0;
-	let iPotency: isize = match potency.try_into()
+	let potency: isize = match chosenPotency.try_into()
 	{
 		Ok(num) => num,
 		Err(_) => 0,
 	};
-	stepPenalty -= changeFactorStepToDice(iPotency);
+	stepPenalty -= changeFactorStepToDice(potency);
 	
-	let iDuration: isize = match duration.try_into()
+	let duration: isize = match chosenDuration.try_into()
 	{
 		Ok(num) => num,
 		Err(_) => 0,
 	};
-	stepPenalty -= changeFactorStepToDice(iDuration);
+	stepPenalty -= changeFactorStepToDice(duration);
 	
-	let iScale: isize = match scale.try_into()
+	let scale: isize = match chosenScale.try_into()
 	{
 		Ok(num) => num,
 		Err(_) => 0,
 	};
-	stepPenalty -= changeFactorStepToDice(iScale);
+	stepPenalty -= changeFactorStepToDice(scale);
+	
+	// Ritual casting, every interval beyond the first grants additional dice
+	if timeFactor == SpellFactorType::Standard.as_ref().to_string()
+	{
+		let time: isize = match chosenTime.try_into()
+		{
+			Ok(num) => num,
+			Err(_) => 0,
+		};
+		
+		if time > 1
+		{
+			let mut timeDice = time - 1;
+			if timeDice > 5
+			{
+				timeDice = 5;
+			}
+			stepPenalty += timeDice;
+		}
+	}
 	
 	// The Yantra bonuses can be used to offset the penalties from increasing Spell Factors.
 	let mut yantraBonus = stepPenalty;
@@ -809,6 +931,39 @@ fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGn
 	return dice + yantraBonus;
 }
 
+fn calculateCastingTime(gnosis: usize, time: String, timeSteps: usize, _method: String, yantrasCount: usize) -> String
+{
+	if time == SpellFactorType::Standard.as_ref().to_string()
+	{
+		//Ritual
+		let (interval, intervalLabel) = ritualIntervalPerGnosis(gnosis);
+		let quantity = interval * timeSteps;
+		
+		if quantity > 1
+		{
+			return format!("{} {}s", quantity, intervalLabel);
+		}
+		else
+		{
+			return format!("1 {}", intervalLabel);
+		}
+	}
+	else
+	{
+		//Instant
+		let mut turns = 1;
+		if yantrasCount > 1
+		{
+			turns += yantrasCount - 1;
+		}
+		if turns > 1
+		{
+			return format!("{} Turns", turns);
+		}
+		return "1 Turn".to_string();
+	}
+}
+
 /// Calculate the dice penalty for the number of steps in a particular Spell Factor.
 /// 
 /// Each step beyond the first is worth 2 dice. The first step is free.
@@ -816,6 +971,16 @@ fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGn
 fn changeFactorStepToDice(steps: isize) -> isize
 {
 	return (steps - 1) * 2;
+}
+
+fn detectAutoReach(factor: String) -> usize
+{
+	let mut autoReach = 0;
+	if factor.to_string() == SpellFactorType::Advanced.as_ref().to_string()
+	{
+		autoReach += 1;
+	}
+	return autoReach;
 }
 
 fn paradoxDicePerGnosis(gnosis: usize) -> usize
@@ -834,14 +999,20 @@ fn paradoxDicePerGnosis(gnosis: usize) -> usize
 	};
 }
 
-fn detectAutoReach(factor: String) -> usize
+fn ritualIntervalPerGnosis(gnosis: usize) -> (usize, String)
 {
-	let mut autoReach = 0;
-	if factor.to_string() == SpellFactorType::Advanced.as_ref().to_string()
+	return match gnosis
 	{
-		autoReach += 1;
-	}
-	return autoReach;
+		1 => (3, "Hour".to_string()),
+		2 => (3, "Hour".to_string()),
+		3 => (1, "Hour".to_string()),
+		4 => (1, "Hour".to_string()),
+		5 => (30, "Minute".to_string()),
+		6 => (30, "Minute".to_string()),
+		7 => (10, "Minute".to_string()),
+		8 => (10, "Minute".to_string()),
+	 	_ => (1, "Minute".to_string()),
+	};
 }
 
 fn yantrasPerGnosis(gnosis: isize) -> isize

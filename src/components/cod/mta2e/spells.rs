@@ -148,7 +148,7 @@ pub fn Praxes(cx: Scope<PraxesProps>) -> Element
 				
 				div
 				{
-					class: "row justEven",
+					class: "new row justEven",
 					input { r#type: "text", value: "", placeholder: "Enter new a Praxis", onchange: move |e| praxisUpdateHandler(e, &cx, None, PraxisField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
@@ -402,7 +402,7 @@ pub fn Rotes(cx: Scope<RotesProps>) -> Element
 				
 				div
 				{
-					class: "row justEven",
+					class: "new row justEven",
 					input { class: "newRote", r#type: "text", value: "", placeholder: "Enter new a Rote", onchange: move |e| roteUpdateHandler(e, &cx, None, RoteField::Name), oncontextmenu: move |e| e.cancel_bubble(), prevent_default: "oncontextmenu" }
 				}
 				
