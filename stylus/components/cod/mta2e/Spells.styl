@@ -34,3 +34,52 @@ arcanumWidth = 75px
 	
 	& .newRote
 		flex-grow 0.2
+
+.sheet.cod.mta2e .simpleEntryListWrapper.spells
+	
+	& hr
+		margin auto
+		width 90%
+	
+	& .entry
+		flexNone()
+		margin 15px 5px 10px
+		text-align left
+		width 98%
+		
+		&:first-child
+			margin-top 5px
+		
+		&.new input
+			flexNone()
+		
+		& textarea
+			margin 5px 0
+			padding 5px
+			resize vertical
+		
+		& .row
+			margin 2px 5px
+			
+			& .label
+				margin 0 5px
+			
+			& .label:first-child
+				margin-left 0
+			
+			& .label.spellName, & .label.spellPractice
+				width 65px
+			
+			& .spellArcanum
+				flexNone()
+				margin-left 10px
+				margin-right 10px
+			
+			& .spellDots
+				margin-top 2px
+			
+			& .label.spellFactor
+				width 105px
+			
+			& input, & select
+				flexGrow()

@@ -515,9 +515,10 @@ pub fn SpellDetails(cx: Scope) -> Element
 							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 							prevent_default: "oncontextmenu",
 							
-							div { class: "label first", "Name:" }
+							div { class: "label spellName", "Name:" }
 							input
 							{
+								class: "spellName",
 								r#type: "text",
 								value: "{spell.name}",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Name),
@@ -527,6 +528,7 @@ pub fn SpellDetails(cx: Scope) -> Element
 							
 							select
 							{
+								class: "spellArcanum",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Arcanum),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
@@ -543,17 +545,18 @@ pub fn SpellDetails(cx: Scope) -> Element
 								})
 							}
 						
-							Dots { max: 5, value: SpellPractice::getValue(spell.practice), handlerKey: Some(i) }
+							Dots { class: "spellDots".to_string(), max: 5, value: SpellPractice::getValue(spell.practice), handlerKey: Some(i) }
 						}
 						
 						div
 						{
 							class: "row",
 							
-							div { class: "label first", "Practice:" }
+							div { class: "label spellPractice", "Practice:" }
 							
 							select
 							{
+								class: "spellPractice",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Practice),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
@@ -570,10 +573,11 @@ pub fn SpellDetails(cx: Scope) -> Element
 								})
 							}
 							
-							div { class: "label second", "Primary Factor:" }
+							div { class: "label spellFactor", "Primary Factor:" }
 							
 							select
 							{
+								class: "spellFactor",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::PrimaryFactor),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
@@ -590,11 +594,12 @@ pub fn SpellDetails(cx: Scope) -> Element
 								})
 							}
 							
-							div { class: "label third", "Withstand:" }
+							div { class: "label spellWithstand", "Withstand:" }
 							
 							
 							select
 							{
+								class: "spellWithstand",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Withstand),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
