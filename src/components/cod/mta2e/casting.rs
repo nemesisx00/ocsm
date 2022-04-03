@@ -1,12 +1,18 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use atoi::atoi;
-use dioxus::prelude::*;
-use std::collections::HashMap;
-use std::convert::TryInto;
+use dioxus::{
+	events::FormEvent,
+	prelude::*,
+};
+use std::{
+	collections::HashMap,
+	convert::TryInto,
+};
 use strum::IntoEnumIterator;
 use crate::{
 	cod::{
+		enums::CoreSkill,
 		mta2e::{
 			enums::{
 				SpellCastingMethod,
@@ -15,13 +21,20 @@ use crate::{
 			},
 			state::MageArcana,
 		},
-		state::CharacterAdvantages,
+		state::{
+			CharacterAdvantages,
+			CharacterSkills,
+		},
 	},
 	components::cod::dots::{
 		Dots,
 		DotsProps,
 	},
-	core::util::generateSelectedValue,
+	core::util::{
+		RemovePopUpXOffset,
+		RemovePopUpYOffset,
+		generateSelectedValue,
+	},
 };
 
 /// The properties struct for `Spellcasting`.
@@ -39,6 +52,8 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 {
 	let advantagesRef = use_atom_ref(&cx, CharacterAdvantages);
 	let arcanaRef = use_atom_ref(&cx, MageArcana);
+	let skillsRef = use_atom_ref(&cx, CharacterSkills);
+	let skills = skillsRef.read();
 	
 	let className = match &cx.props.class
 	{
@@ -46,11 +61,20 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 		None => "".to_string()
 	};
 	
+	let clickedX = use_state(&cx, || 0);
+	let clickedY = use_state(&cx, || 0);
+	let lastIndex = use_state(&cx, || 0);
+	let showRemove = use_state(&cx, || false);
+	
+	let posX = *clickedX.get() - RemovePopUpXOffset;
+	let posY = *clickedY.get() - RemovePopUpYOffset;
+	
 	let castingMethod = use_state(&cx, || SpellCastingMethod::Improvised.as_ref().to_string());
 	let castingDuration = use_state(&cx, || SpellFactorType::Standard.as_ref().to_string());
 	let castingPotency = use_state(&cx, || SpellFactorType::Standard.as_ref().to_string());
 	let castingRange = use_state(&cx, || SpellFactorType::Standard.as_ref().to_string());
 	let castingScale = use_state(&cx, || SpellFactorType::Standard.as_ref().to_string());
+	let castingSkill = use_state(&cx, || "".to_string());
 	let castingTime = use_state(&cx, || SpellFactorType::Standard.as_ref().to_string());
 	let highestArcanum = use_state(&cx, || "".to_string());
 	let highestArcanumDots = use_state(&cx, || 0);
@@ -59,6 +83,26 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let totalScale = use_state(&cx, || 1);
 	let totalReaches = use_state(&cx, || 0);
 	let usedYantras = use_state(&cx, || Vec::<String>::new());
+	let resetLocalState = use_state(&cx, || false);
+	
+	if resetLocalState.get() == &true
+	{
+		castingMethod.set(SpellCastingMethod::Improvised.as_ref().to_string());
+		castingDuration.set(SpellFactorType::Standard.as_ref().to_string());
+		castingPotency.set(SpellFactorType::Standard.as_ref().to_string());
+		castingRange.set(SpellFactorType::Standard.as_ref().to_string());
+		castingScale.set(SpellFactorType::Standard.as_ref().to_string());
+		castingSkill.set("".to_string());
+		castingTime.set(SpellFactorType::Standard.as_ref().to_string());
+		highestArcanum.set("".to_string());
+		highestArcanumDots.set(0);
+		totalDuration.set(1);
+		totalPotency.set(1);
+		totalScale.set(1);
+		totalReaches.set(0);
+		usedYantras.set(Vec::<String>::new());
+		resetLocalState.set(false);
+	}
 	
 	let mut arcanaOptions = vec![];
 	let mut arcanaSelected = HashMap::new();
@@ -76,6 +120,16 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 		castingMethodSelected.insert(scm.as_ref().to_string(), generateSelectedValue::<String>(scm.as_ref().to_string(), castingMethod.get().to_string()).clone());
 	}
 	
+	let methodIsRote = castingMethod.get().clone() == SpellCastingMethod::Rote.as_ref().to_string();
+	let mut roteSkillOptions = vec![];
+	let mut roteSkillOptionsSelected = HashMap::<String, String>::new();
+	CoreSkill::asMap().iter().for_each(|(cs, _)|
+	{
+		let skillName = CoreSkill::getSkillName(*cs);
+		roteSkillOptions.push(skillName.clone());
+		roteSkillOptionsSelected.insert(skillName.clone(), generateSelectedValue::<String>(skillName.clone(), castingSkill.get().clone()));
+	});
+	
 	let mut factorTypeOptions = vec![];
 	let mut castingDurationSelected = HashMap::new();
 	let mut castingPotencySelected = HashMap::new();
@@ -84,35 +138,32 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let mut castingTimeSelected = HashMap::new();
 	for sft in SpellFactorType::iter()
 	{
-		factorTypeOptions.push(sft.as_ref().to_string());
-		castingDurationSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingDuration.get().to_string()).clone());
-		castingPotencySelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingPotency.get().to_string()).clone());
-		castingRangeSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingRange.get().to_string()).clone());
-		castingScaleSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingScale.get().to_string()).clone());
-		castingTimeSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingTime.get().to_string()).clone());
+		if sft == SpellFactorType::AdvancedFree
+		{
+			let modifiedName = "Advanced (No Reach)".to_string();
+			factorTypeOptions.push(modifiedName.clone());
+			castingDurationSelected.insert(modifiedName.clone(), generateSelectedValue::<String>(modifiedName.clone(), castingDuration.get().to_string()).clone());
+			castingPotencySelected.insert(modifiedName.clone(), generateSelectedValue::<String>(modifiedName.clone(), castingPotency.get().to_string()).clone());
+			castingRangeSelected.insert(modifiedName.clone(), generateSelectedValue::<String>(modifiedName.clone(), castingRange.get().to_string()).clone());
+			castingScaleSelected.insert(modifiedName.clone(), generateSelectedValue::<String>(modifiedName.clone(), castingScale.get().to_string()).clone());
+			castingTimeSelected.insert(modifiedName.clone(), generateSelectedValue::<String>(modifiedName.clone(), castingTime.get().to_string()).clone());
+		}
+		else
+		{
+			factorTypeOptions.push(sft.as_ref().to_string());
+			castingDurationSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingDuration.get().to_string()).clone());
+			castingPotencySelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingPotency.get().to_string()).clone());
+			castingRangeSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingRange.get().to_string()).clone());
+			castingScaleSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingScale.get().to_string()).clone());
+			castingTimeSelected.insert(sft.as_ref().to_string(), generateSelectedValue::<String>(sft.as_ref().to_string(), castingTime.get().to_string()).clone());
+		}
 	}
 	
-	let mut autoReach = 0;
-	if castingDuration.get().to_string() == SpellFactorType::Advanced.as_ref().to_string()
-	{
-		autoReach += 1;
-	}
-	if castingPotency.get().to_string() == SpellFactorType::Advanced.as_ref().to_string()
-	{
-		autoReach += 1;
-	}
-	if castingRange.get().to_string() == SpellFactorType::Advanced.as_ref().to_string()
-	{
-		autoReach += 1;
-	}
-	if castingScale.get().to_string() == SpellFactorType::Advanced.as_ref().to_string()
-	{
-		autoReach += 1;
-	}
-	if castingTime.get().to_string() == SpellFactorType::Advanced.as_ref().to_string()
-	{
-		autoReach += 1;
-	}
+	let autoReach = detectAutoReach(castingDuration.get().to_string())
+					+ detectAutoReach(castingPotency.get().to_string())
+					+ detectAutoReach(castingRange.get().to_string())
+					+ detectAutoReach(castingScale.get().to_string())
+					+ detectAutoReach(castingTime.get().to_string());
 	
 	if totalReaches.get() < &autoReach
 	{
@@ -125,19 +176,10 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 	let currentTotalReaches = totalReaches.get();
 	let currentTotalScale = totalScale.get();
 	
-	let yantraOptions = SpellYantras::asStringVec();
-	let mut yantraSelected = HashMap::<String, String>::new();
-	let mut currentlyUsedYantras = vec![];
-	usedYantras.get().iter().for_each(|yantra| currentlyUsedYantras.push(yantra.clone()));
-	
-	yantraOptions.iter().for_each(|yo|
-	{
-		match currentlyUsedYantras.iter().filter(|used| used.to_string() == yo.to_string()).next()
-		{
-			Some(_) => yantraSelected.insert(yo.to_string(), "true".to_string()),
-			None => yantraSelected.insert(yo.to_string(), "false".to_string()),
-		};
-	});
+	let mut buildYantras = vec![];
+	usedYantras.get().iter().for_each(|yantra| buildYantras.push(yantra.clone()));
+	let currentlyUsedYantras1 = buildYantras.clone();
+	let currentlyUsedYantras2 = buildYantras.clone();
 	
 	let mut canCastSpell = false;
 	let mut spellcastingDicePool = 0;
@@ -158,7 +200,13 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 			characterArcanum = *dots;
 		}
 		
-		spellcastingDicePool = calculateDicePool(castingMethod.get().clone(), gnosis, characterArcanum, *currentTotalPotency, *currentTotalDuration, *currentTotalScale, currentlyUsedYantras.clone());
+		let currentRoteSkill = castingSkill.get().clone();
+		let mut roteSkill = None;
+		if let Some(actualRoteSkill) = CoreSkill::getByName(currentRoteSkill.clone())
+		{
+			roteSkill = Some(skills[&actualRoteSkill]);
+		}
+		spellcastingDicePool = calculateDicePool(castingMethod.get().clone(), roteSkill.clone(), gnosis, characterArcanum, *currentTotalPotency, *currentTotalDuration, *currentTotalScale, buildYantras.clone());
 		
 		let (reach, paradox) = calculateReachAndParadoxPool(castingMethod.get().clone(), gnosis, characterArcanum, *currentHighestArcanum, *currentTotalReaches);
 		spellcastingFreeReach = reach;
@@ -175,7 +223,12 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 		{
 			class: "column justEven spellcasting {className}",
 			
-			div { class: "label", "Spellcasting Calculations" },
+			div { class: "label", "Spellcasting Calculator" },
+			div
+			{
+				class: "sublabel",
+				button { onclick: move |e| { e.cancel_bubble(); resetLocalState.set(true); }, prevent_default: "onclick", "Reset" }
+			}
 			
 			div
 			{
@@ -183,132 +236,166 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 				
 				div
 				{
-					class: "column justEven",
+					class: "column justStart spellFactors1",
 					
 					div
 					{
-						class: "row justStart",
+						class: "row justEnd",
+						
+						div { class: "label", "Spell Arcanum:" }
+						
+						div
+						{
+							class: "row justStart",
+							
+							select
+							{
+								class: "arcanum",
+								onchange: move |e| { e.cancel_bubble(); highestArcanum.set(e.value.to_string()); },
+								oncontextmenu: move |e| e.cancel_bubble(),
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Select Arcanum" }
+								arcanaOptions.iter().enumerate().map(|(i, name)|
+								{
+									let selected = &arcanaSelected[name];
+									rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+								})
+							}
+						}
+					}
+					
+					div
+					{
+						class: "row justEnd",
+						
+						div { class: "label", "Spell Level:" }
+						
+						div
+						{
+							class: "row justStart",
+							
+							Dots { max: 5, value: *currentHighestArcanum, handler: highestArcanumDotHandler, handlerKey: highestArcanumDots }
+						}
+					}
+					
+					div
+					{
+						class: "row justEnd",
+						
+						div { class: "label", "Casting Method:" }
+					
 						select
 						{
-							class: "arcanum",
-							onchange: move |e| { e.cancel_bubble(); highestArcanum.set(e.value.to_string()); },
+							onchange: move |e| { e.cancel_bubble(); castingMethod.set(e.value.to_string()); },
 							oncontextmenu: move |e| e.cancel_bubble(),
 							prevent_default: "oncontextmenu",
 							
-							option { value: "", "Select Arcanum" }
-							arcanaOptions.iter().enumerate().map(|(i, name)|
+							castingMethodOptions.iter().enumerate().map(|(i, name)|
 							{
-								let selected = &arcanaSelected[name];
+								let selected = &castingMethodSelected[name];
 								rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
 							})
 						}
 					}
 					
-					div { class: "row justStart", div { class: "label", "Casting Method" } }
-					div { class: "row justStart", div { class: "label", "Total Number of Reaches:" } }
-					div { class: "row justStart", div { class: "label", "Casting Time" } }
-					div { class: "row justStart", div { class: "label", "Casting Range" } }
-				}
-				
-				div
-				{
-					class: "column justEven",
-					
-					Dots { max: 5, value: *currentHighestArcanum, handler: highestArcanumDotHandler, handlerKey: highestArcanumDots }
-					
-					select
+					methodIsRote.then(|| rsx!(div
 					{
-						onchange: move |e| { e.cancel_bubble(); castingMethod.set(e.value.to_string()); },
-						oncontextmenu: move |e| e.cancel_bubble(),
-						prevent_default: "oncontextmenu",
+						class: "row justEnd",
 						
-						castingMethodOptions.iter().enumerate().map(|(i, name)|
+						div { class: "label", "Rote Skill:" }
+						
+						select
 						{
-							let selected = &castingMethodSelected[name];
-							rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
-						})
-					}
-					
-					input
-					{
-						r#type: "text",
-						onchange: move |e|
-						{
-							e.cancel_bubble();
-							match atoi::<usize>(e.value.as_bytes())
+							onchange: move |e| { e.cancel_bubble(); castingSkill.set(e.value.to_string()); },
+							oncontextmenu: move |e| e.cancel_bubble(),
+							prevent_default: "oncontextmenu",
+							
+							roteSkillOptions.iter().enumerate().map(|(i, name)|
 							{
-								Some(reaches) => totalReaches.set(reaches),
-								None => totalReaches.set(*currentTotalReaches),
-							}
-						},
-						value: "{currentTotalReaches}"
-					}
-					
-					select
-					{
-						onchange: move |e| { e.cancel_bubble(); castingTime.set(e.value.to_string()); },
-						oncontextmenu: move |e| e.cancel_bubble(),
-						prevent_default: "oncontextmenu",
-						
-						factorTypeOptions.iter().enumerate().map(|(i, name)|
-						{
-							let selected = &castingTimeSelected[name];
-							rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
-						})
-					}
-					
-					select
-					{
-						onchange: move |e| { e.cancel_bubble(); castingRange.set(e.value.to_string()); },
-						oncontextmenu: move |e| e.cancel_bubble(),
-						prevent_default: "oncontextmenu",
-						
-						factorTypeOptions.iter().enumerate().map(|(i, name)|
-						{
-							let selected = &castingRangeSelected[name];
-							rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
-						})
-					}
-				}
-				
-				div
-				{
-					class: "column justEven",
+								let selected = &roteSkillOptionsSelected[name];
+								rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+							})
+						}
+					}))
 					
 					div
 					{
-						class: "row justEven",
+						class: "row justEnd",
 						
-						div
+						div { class: "label", "Total Reach:" }
+						
+						input
 						{
-							class: "column justEven",
-							
-							div
+							r#type: "text",
+							onchange: move |e|
 							{
-								class: "row justStart",
-								
-								div { class: "label", "Casting Potency" }
-							}
-							
-							div
-							{
-								class: "row justStart",
-								
-								div { class: "label", "Casting Duration" }
-							}
-							
-							div
-							{
-								class: "row justStart",
-								
-								div { class: "label", "Casting Scale" }
-							}
+								e.cancel_bubble();
+								match atoi::<usize>(e.value.as_bytes())
+								{
+									Some(reaches) => totalReaches.set(reaches),
+									None => totalReaches.set(*currentTotalReaches),
+								}
+							},
+							value: "{currentTotalReaches}"
 						}
+					}
+					
+					div
+					{
+						class: "row justEnd",
 						
+						div { class: "label", "Casting Time:" }
+						
+						select
+						{
+							onchange: move |e| { e.cancel_bubble(); castingTime.set(e.value.to_string()); },
+							oncontextmenu: move |e| e.cancel_bubble(),
+							prevent_default: "oncontextmenu",
+							
+							factorTypeOptions.iter().enumerate().map(|(i, name)|
+							{
+								let selected = &castingTimeSelected[name];
+								rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+							})
+						}
+					}
+					
+					div
+					{
+						class: "row justEnd",
+						
+						div { class: "label", "Casting Range:" }
+						
+						select
+						{
+							onchange: move |e| { e.cancel_bubble(); castingRange.set(e.value.to_string()); },
+							oncontextmenu: move |e| e.cancel_bubble(),
+							prevent_default: "oncontextmenu",
+							
+							factorTypeOptions.iter().enumerate().map(|(i, name)|
+							{
+								let selected = &castingRangeSelected[name];
+								rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+							})
+						}
+					}
+				}
+				
+				div
+				{
+					class: "column justStart spellFactors2",
+					
+					div
+					{
+						class: "row justCenter",
+						
+						div { class: "label", "Casting Potency:" }
+							
 						div
 						{
-							class: "column justEven",
-								
+							class: "row justEnd",
+							
 							select
 							{
 								onchange: move |e| { e.cancel_bubble(); castingPotency.set(e.value.to_string()); },
@@ -336,6 +423,18 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 								},
 								value: "{currentTotalPotency}"
 							}
+						}
+					}
+					
+					div
+					{
+						class: "row justCenter",
+						
+						div { class: "label", "Casting Duration:" }
+							
+						div
+						{
+							class: "row justEnd",
 							
 							select
 							{
@@ -364,6 +463,18 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 								},
 								value: "{currentTotalDuration}"
 							}
+						}
+					}
+					
+					div
+					{
+						class: "row justCenter",
+						
+						div { class: "label", "Casting Scale:" }
+							
+						div
+						{
+							class: "row justEnd",
 							
 							select
 							{
@@ -395,61 +506,181 @@ pub fn Spellcasting(cx: Scope<SpellcastingProps>) -> Element
 						}
 					}
 					
-					div { class: "label", "Yantras" }
-					
-					select
+					div
 					{
-						class: "yantras",
-						onchange: move |e| { e.cancel_bubble(); if let None = currentlyUsedYantras.iter().filter(|inside| inside.to_string() == e.value.to_string()).next() { currentlyUsedYantras.push(e.value.to_string()); } usedYantras.set(currentlyUsedYantras.clone()); },
-						oncontextmenu: move |e| e.cancel_bubble(),
-						prevent_default: "oncontextmenu",
+						class: "column justCenter yantras",
 						
-						option { value: "", "Choose a Yantra" }
-						yantraOptions.iter().enumerate().map(|(i, name)|
+						div
 						{
-							let selected = &yantraSelected[name];
-							rsx!(cx, option { key: "{i}", value: "{name}", selected: "{selected}", "{name}" })
+							class: "row justEven",
+							
+							div { class: "label", "Yantras" }
+							button { onclick: move |e| { e.cancel_bubble(); yantraRemoveAllHandler(&usedYantras); showRemove.set(false); }, prevent_default: "onclick", "Clear Yantras" }
+						}
+						
+						select
+						{
+							onchange: move |e| 
+							{
+								e.cancel_bubble();
+								let mut yantras = currentlyUsedYantras1.clone();
+								yantraSelectChangeHandler(e, &mut yantras, &usedYantras, None);
+							},
+							oncontextmenu: move |e| e.cancel_bubble(),
+							prevent_default: "oncontextmenu",
+							
+							option { value: "", selected: "true", "Select a Yantra" }
+							(SpellYantras::asStringVec()).iter().enumerate().map(|(i, name)| rsx!(cx, option { key: "{i}", value: "{name}", "{name}" }))
+						}
+						
+						currentlyUsedYantras2.iter().enumerate().map(|(i, used)|
+						{
+							let mut yantras = currentlyUsedYantras2.clone();
+							rsx!(select
+							{
+								onchange: move |e| yantraSelectChangeHandler(e, &mut yantras, &usedYantras, Some(i)),
+								oncontextmenu: move |e|
+								{
+									e.cancel_bubble();
+									clickedX.set(e.data.client_x);
+									clickedY.set(e.data.client_y);
+									lastIndex.set(i);
+									showRemove.set(true);
+								},
+								prevent_default: "oncontextmenu",
+								
+								option { value: "", "Remove this Yantra" }
+								(SpellYantras::asStringVec()).iter().enumerate().map(|(j, name)|
+								{
+									let selected = generateSelectedValue(used.clone(), name.clone());
+									rsx!(cx, option { key: "{j}", value: "{name}", selected: "{selected}", "{name}" })
+								})
+							})
+						})
+						
+						showRemove.then(||
+						{
+							let mut yantras = currentlyUsedYantras2.clone();
+							rsx!(
+								div
+								{
+									class: "removePopUpWrapper column justEven",
+									style: "left: {posX}px; top: {posY}px;",
+									onclick: move |e| { e.cancel_bubble(); showRemove.set(false); },
+									prevent_default: "onclick",
+									
+									div
+									{
+										class: "removePopUp column justEven",
+										
+										div { class: "row justEven", "Are you sure you want to remove this Yantra?" }
+										div
+										{
+											class: "row justEven",
+											
+											button { onclick: move |e| { e.cancel_bubble(); yantraRemoveHandler(&mut yantras, &usedYantras, *(lastIndex.get())); showRemove.set(false); }, prevent_default: "onclick", "Remove" }
+											button { onclick: move |e| { e.cancel_bubble(); showRemove.set(false); }, prevent_default: "onclick", "Cancel" }
+										}
+									}
+								}
+							)
 						})
 					}
 				}
 				
 				div
 				{
-					class: "column justEven results",
+					class: "column justStart results",
 					
-					div { class: "label", "Casting Time:" }
-					div { class: "label", "Dice Pool:" }
-					div { class: "label", "Paradox Dice Pool:" }
-					div { class: "label", "Free Reach:" }
-					div { class: "label", "Mana Cost:" }
-					div { class: "label", "Willpower Cost:" }
-				}
-				
-				div
-				{
-					class: "column justEven results",
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Casting Time:" }
+						(!canCastSpell).then(|| rsx!(div { class: "castTime", "-" }))
+						canCastSpell.then(|| rsx!(div { class: "castTime", "1" }))
+					}
 					
-					(!canCastSpell).then(|| rsx!(
-						div { class: "castTime", "-" }
-						div { class: "dicePool", "-" }
-						div { class: "paradoxDice", "-" }
-						div { class: "freeReach", "-" }
-						div { class: "manaCost", "-" }
-						div { class: "willpowerCost", "-" }
-					))
-					canCastSpell.then(|| rsx!(
-						div { class: "castTime", "1" }
-						(!chanceDie).then(|| rsx!(div { class: "dicePool", "{spellcastingDicePool}" }))
-						chanceDie.then(|| rsx!(div { class: "dicePool", "Chance Die" }))
-						div { class: "paradoxDice", "{spellcastingParadoxDicePool}" }
-						div { class: "freeReach", "{spellcastingFreeReach}" }
-						div { class: "manaCost", "1" }
-						div { class: "willpowerCost", "0" }
-					))
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Dice Pool:" }
+						(!canCastSpell).then(|| rsx!(div { class: "dicePool", "-" }))
+						canCastSpell.then(|| rsx!(
+							(!chanceDie).then(|| rsx!(div { class: "dicePool", "{spellcastingDicePool}" }))
+							chanceDie.then(|| rsx!(div { class: "dicePool", "Chance Die" }))
+						))
+					}
+					
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Paradox Dice Pool:" }
+						(!canCastSpell).then(|| rsx!(div { class: "paradoxDice", "-" }))
+						canCastSpell.then(|| rsx!(div { class: "paradoxDice", "{spellcastingParadoxDicePool}" }))
+					}
+					
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Free Reach:" }
+						(!canCastSpell).then(|| rsx!(div { class: "freeReach", "-" }))
+						canCastSpell.then(|| rsx!(div { class: "freeReach", "{spellcastingFreeReach}" }))
+					}
+					
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Mana Cost:" }
+						(!canCastSpell).then(|| rsx!(div { class: "manaCost", "-" }))
+						canCastSpell.then(|| rsx!(div { class: "manaCost", "1" }))
+					}
+					
+					div
+					{
+						class: "row justStart",
+						
+						div { class: "label", "Willpower Cost:" }
+						(!canCastSpell).then(|| rsx!(div { class: "willpowerCost", "-" }))
+						canCastSpell.then(|| rsx!(div { class: "willpowerCost", "0" }))
+					}
 				}
 			}
 		}
 	});
+}
+
+fn yantraSelectChangeHandler<'a>(e: FormEvent, yantras: &mut Vec<String>, usedYantras: &'a UseState<Vec<String>>, index: Option<usize>)
+{
+	e.cancel_bubble();
+	
+	match index
+	{
+		Some(i) => { yantras[i] = e.value.to_string(); }
+		None =>
+		{
+			if let None = yantras.iter().enumerate().filter(|(_, inside)| inside.to_string() == e.value.to_string()).next()
+			{
+				yantras.push(e.value.to_string());
+			}
+		}
+	}
+	usedYantras.set(yantras.clone());
+}
+
+fn yantraRemoveHandler<'a>(yantras: &mut Vec<String>, usedYantras: &'a UseState<Vec<String>>, i: usize)
+{
+	yantras.remove(i);
+	usedYantras.set(yantras.clone());
+}
+
+fn yantraRemoveAllHandler<'a>(usedYantras: &'a UseState<Vec<String>>)
+{
+	usedYantras.set(Vec::<String>::new());
 }
 
 fn highestArcanumDotHandler<'a>(cx: &Scope<DotsProps<&'a UseState<usize>>>, clickedValue: usize)
@@ -488,7 +719,7 @@ fn calculateReachAndParadoxPool(castingMethod: String, gnosis: usize, characterL
 }
 
 /// Calculate the Spellcasting Dice Pool based on the choices the user makes.
-fn calculateDicePool(castingMethod:String, characterGnosis: usize, characterLevel: usize, potency: usize, duration: usize, scale: usize, yantras: Vec<String>) -> isize
+fn calculateDicePool(castingMethod:String, roteSkill: Option<usize>, characterGnosis: usize, characterLevel: usize, potency: usize, duration: usize, scale: usize, yantras: Vec<String>) -> isize
 {
 	// The Dice Pool starts out as Gnosis + Arcanum
 	let mut dice: isize = 0;
@@ -543,13 +774,22 @@ fn calculateDicePool(castingMethod:String, characterGnosis: usize, characterLeve
 			if let Some(_) = yantras.iter().filter(|y| y.to_string() == name.to_string()).next()
 			{
 				yantrasUsed += 1;
+				let roteSkillValue: isize = match roteSkill
+				{
+					Some(num) => match num.clone().try_into()
+					{
+						Ok(num2) => num2,
+						Err(_) => 0
+					},
+					None => 0,
+				};
 				match yantra
 				{
 					SpellYantras::Concentration => yantraBonus += 2,
 					SpellYantras::Demesne => yantraBonus += 2,
 					SpellYantras::Environment => yantraBonus += 1,
 					// Only applies to Rotes
-					SpellYantras::Mudra => { if castingMethod.clone() == SpellCastingMethod::Rote.as_ref().to_string() { yantraBonus += 1 } },
+					SpellYantras::Mudra => { if castingMethod.clone() == SpellCastingMethod::Rote.as_ref().to_string() { yantraBonus += roteSkillValue } },
 					SpellYantras::OrderTool => yantraBonus += 1,
 					SpellYantras::PathTool => yantraBonus += 1,
 					SpellYantras::Runes => yantraBonus += 2,
@@ -592,6 +832,16 @@ fn paradoxDicePerGnosis(gnosis: usize) -> usize
 		8 => 4,
 		_ => 5,
 	};
+}
+
+fn detectAutoReach(factor: String) -> usize
+{
+	let mut autoReach = 0;
+	if factor.to_string() == SpellFactorType::Advanced.as_ref().to_string()
+	{
+		autoReach += 1;
+	}
+	return autoReach;
 }
 
 fn yantrasPerGnosis(gnosis: isize) -> isize

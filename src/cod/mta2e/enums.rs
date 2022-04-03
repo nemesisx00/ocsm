@@ -101,6 +101,7 @@ pub enum SpellFactorType
 {
 	Standard,
 	Advanced,
+	AdvancedFree,
 }
 
 impl SpellFactorType
