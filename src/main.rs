@@ -4,6 +4,7 @@ pub(crate) mod app;
 pub(crate) mod cod;
 pub(crate) mod core;
 pub(crate) mod components;
+pub(crate) mod dnd;
 
 use dioxus::desktop::{
 	tao::{

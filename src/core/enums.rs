@@ -27,7 +27,7 @@ pub enum GameSystem
 		//CodPromethean,
 	CodVampire2e,
 		//CodWerewolf,
-	//Dnd5e,
+	Dnd5e,
 	//WodVampireV5,
 }
 
@@ -41,7 +41,7 @@ impl GameSystem
 		map.insert(GameSystem::CodChangeling2e, "Changeling: The Lost 2e".to_string());
 		map.insert(GameSystem::CodMage2e, "Mage: The Awakening 2e".to_string());
 		map.insert(GameSystem::CodVampire2e, "Vampire: The Requiem 2e".to_string());
-		//map.insert(GameSystem::Dnd5e, "Dungeons & Dragons 5E".to_string());
+		map.insert(GameSystem::Dnd5e, "Dungeons & Dragons 5E".to_string());
 		//map.insert(GameSystem::WodVampireV5, "Vampire: The Masquerade V5".to_string());
 		return map;
 	}

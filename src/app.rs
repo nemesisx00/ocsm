@@ -31,6 +31,7 @@ use crate::{
 				MenuItemProps,
 			},
 		},
+		dnd::fifth::sheet::Dnd5eSheet,
 	},
 	core::{
 		enums::GameSystem,
@@ -51,6 +52,7 @@ use crate::{
 		},
 		structs::SaveData,
 	},
+	dnd::fifth::structs::Dnd5eCharacter,
 	WindowTitle,
 };
 
@@ -95,10 +97,11 @@ pub fn App(cx: Scope) -> Element
 				}
 			}
 			
-			show[&GameSystem::CodMortal].then(|| rsx! { MortalSheet {} })
-			show[&GameSystem::CodChangeling2e].then(|| rsx! { ChangelingSheet {} })
-			show[&GameSystem::CodMage2e].then(|| rsx! { MageSheet {} })
-			show[&GameSystem::CodVampire2e].then(|| rsx! { VampireSheet {} })
+			show[&GameSystem::CodMortal].then(|| rsx!(MortalSheet {}))
+			show[&GameSystem::CodChangeling2e].then(|| rsx!(ChangelingSheet {}))
+			show[&GameSystem::CodMage2e].then(|| rsx!(MageSheet {}))
+			show[&GameSystem::CodVampire2e].then(|| rsx!(VampireSheet {}))
+			show[&GameSystem::Dnd5e].then(|| rsx!(Dnd5eSheet {}))
 		}
 	});
 }
@@ -148,6 +151,7 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 		GameSystem::CodMage2e => saveSheet::<Mage>(cx),
 		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
 		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
+		GameSystem::Dnd5e => saveSheet::<Dnd5eCharacter>(cx),
 	}
 }
 
@@ -203,6 +207,7 @@ fn loadSheet(cx: &Scope<MenuItemProps>)
 					GameSystem::CodMage2e => pushLoadedSheet::<Mage>(cx, deserializeSheet::<Mage>(saveData.sheet)),
 					GameSystem::CodMortal => pushLoadedSheet::<CoreCharacter>(cx, deserializeSheet::<CoreCharacter>(saveData.sheet)),
 					GameSystem::CodVampire2e => pushLoadedSheet::<Vampire>(cx, deserializeSheet::<Vampire>(saveData.sheet)),
+					GameSystem::Dnd5e => pushLoadedSheet::<Dnd5eCharacter>(cx, deserializeSheet::<Dnd5eCharacter>(saveData.sheet)),
 				}
 			},
 			Err(e) => println!("Failed to loadFromFile: {:?}", e.to_string())

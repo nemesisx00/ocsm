@@ -10,7 +10,7 @@ publish = false
 readme = "./README.md"
 repository = "https://github.com/nemesisx00/ocsm"
 rust-version = "1.59.0"
-version = "0.2.0"
+version = "0.3.0"
 
 [dependencies]
 atoi = "1.0.0"

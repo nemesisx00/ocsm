@@ -57,6 +57,38 @@ pub fn singularize(s: String) -> String
 	return format!("{}{}", start, ending);
 }
 
+/// Insert spaces before capital letters in a string.
+/// 
+/// Only tested on English/ASCII letters.
+pub fn spaceOutCapitals(input: &str) -> String
+{
+	let mut charVec = Vec::new();
+	let mut words = Vec::new();
+	input.chars().for_each(|c|
+	{
+		if let Some(u) = c.to_uppercase().next()
+		{
+			if c == u
+			{
+				words.push(charVec.iter().collect::<String>());
+				charVec = Vec::new();
+				charVec.push(u);
+			}
+			else
+			{
+				charVec.push(c);
+			}
+		}
+		else
+		{
+			charVec.push(c);
+		}
+	});
+	
+	words.push(charVec.iter().collect());
+	return words.join(" ").trim().to_string();
+}
+
 // --------------------------------------------------
 
 #[cfg(test)]
@@ -79,5 +111,14 @@ mod tests
 			let result = singularize(val.clone());
 			assert_eq!(expected.clone(), result);
 		});
+	}
+	
+	#[test]
+	fn fn_spaceOutCapitals()
+	{
+		let data = "INeedSpacesInMyLife";
+		let expected = "I Need Spaces In My Life".to_string();
+		let result = spaceOutCapitals(data);
+		assert_eq!(expected, result);
 	}
 }
