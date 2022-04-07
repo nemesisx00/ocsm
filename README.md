@@ -29,7 +29,7 @@ It also can facilitate sharing characters, either between players or to keep you
 
 ## What OCSM is Not
 
-This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter all the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields.
+This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter most, if not all, of the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields.
 
 ## Supported & Planned Game Systems
 
@@ -43,6 +43,8 @@ This application is not intended to be a replacement for official game system so
 	- [ ] 5th Edition
 - World of Darkness
 	- [ ] Vampire: The Masquerade V5
+
+...and more to come in the future!
 
 ## Why a Character Sheet Manager?
 
