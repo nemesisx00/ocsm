@@ -2,11 +2,9 @@
 
 pub mod advantages;
 pub mod details;
-pub mod dots;
 pub mod experience;
 pub mod list;
 pub mod sheet;
-pub mod tracks;
 pub mod traits;
 
 pub mod ctl2e;

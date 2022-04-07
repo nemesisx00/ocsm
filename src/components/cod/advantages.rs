@@ -3,10 +3,7 @@
 use dioxus::prelude::*;
 use crate::{
 	cod::{
-		enums::{
-			CoreAdvantage,
-			TrackerState,
-		},
+		enums::CoreAdvantage,
 		state::{
 			CharacterAdvantages,
 			updateCoreAdvantage,
@@ -14,10 +11,9 @@ use crate::{
 			updateCoreResource,
 			updateCoreWillpower
 		},
-		structs::Tracker,
 	},
 	components::{
-		cod::{
+		core::{
 			dots::{
 				Dots,
 				DotsProps,
@@ -28,6 +24,10 @@ use crate::{
 			},
 		},
 	},
+	core::{
+		enums::TrackerState,
+		structs::Tracker,
+	}
 };
 
 /// The properties struct for `Advantages`.

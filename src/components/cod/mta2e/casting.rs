@@ -27,13 +27,15 @@ use crate::{
 		},
 	},
 	components::{
-		cod::dots::{
-			Dots,
-			DotsProps,
-		},
-		core::events::{
-			hideRemovePopUp,
-			showRemovePopUpWithIndex,
+		core::{
+			dots::{
+				Dots,
+				DotsProps,
+			},
+			events::{
+				hideRemovePopUp,
+				showRemovePopUpWithIndex,
+			},
 		},
 	},
 	core::util::{

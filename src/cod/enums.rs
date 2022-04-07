@@ -262,15 +262,6 @@ pub enum CoreTrait
 	Social,
 }
 
-/// The possible states of a value within a `Tracker`.
-#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, PartialEq, PartialOrd, Serialize, Ord)]
-pub enum TrackerState
-{
-	Three,
-	Two,
-	One
-}
-
 #[cfg(test)]
 mod tests
 {

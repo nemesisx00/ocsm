@@ -14,7 +14,7 @@ use crate::{
 			updateCoreSkill,
 		},
 	},
-	components::cod::dots::{
+	components::core::dots::{
 		Dots,
 		DotsProps,
 	},

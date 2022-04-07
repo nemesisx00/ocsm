@@ -2,13 +2,13 @@
 
 use dioxus::prelude::*;
 use crate::{
-	cod::{
-		enums::TrackerState,
-		structs::Tracker,
-	},
 	components::core::check::{
 		CheckLine,
 		CheckLineState,
+	},
+	core::{
+		enums::TrackerState,
+		structs::Tracker,
 	},
 };
 
@@ -38,7 +38,7 @@ impl PartialEq for TrackProps
 	}
 }
 
-/// The UI Component handling a single Chronicles of Darkness character sheet Track.
+/// The UI Component handling a single contiguous Track of CheckLine components.
 pub fn Track(cx: Scope<TrackProps>) -> Element
 {
 	let max = cx.props.tracker.clone().getMax();

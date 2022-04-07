@@ -43,13 +43,8 @@ use crate::{
 				AdvantagesProps,
 			},
 			details::Details,
-			dots::DotsProps,
 			experience::Experience,
-			list::{
-				ActiveAbilities,
-				DotEntryList,
-				SimpleEntryList,
-			},
+			list::ActiveAbilities,
 			sheet::{
 				aspirationRemoveClickHandler,
 				aspirationUpdateHandler,
@@ -64,6 +59,13 @@ use crate::{
 			traits::{
 				Attributes,
 				Skills,
+			},
+		},
+		core::{
+			dots::DotsProps,
+			list::{
+				DotEntryList,
+				SimpleEntryList,
 			},
 		},
 	},

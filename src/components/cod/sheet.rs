@@ -17,15 +17,17 @@ use crate::{
 		cod::{
 			advantages::Advantages,
 			details::Details,
-			dots::DotsProps,
 			experience::Experience,
-			list::{
-				DotEntryList,
-				SimpleEntryList,
-			},
 			traits::{
 				Attributes,
 				Skills,
+			},
+		},
+		core::{
+			dots::DotsProps,
+			list::{
+				DotEntryList,
+				SimpleEntryList,
 			},
 		},
 	},

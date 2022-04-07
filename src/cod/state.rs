@@ -15,12 +15,12 @@ use crate::{
 			CoreAttribute,
 			CoreDetail,
 			CoreSkill,
-			TrackerState,
 		},
-		structs::{
-			CoreAdvantages,
-			Tracker,
-		},
+		structs::CoreAdvantages,
+	},
+	core::{
+		enums::TrackerState,
+		structs::Tracker,
 	},
 };
 

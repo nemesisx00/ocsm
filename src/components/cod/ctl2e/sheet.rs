@@ -43,11 +43,7 @@ use crate::{
 			},
 			details::Details,
 			experience::Experience,
-			list::{
-				ActiveAbilities,
-				DotEntryList,
-				SimpleEntryList,
-			},
+			list::ActiveAbilities,
 			sheet::{
 				aspirationRemoveClickHandler,
 				aspirationUpdateHandler,
@@ -63,6 +59,10 @@ use crate::{
 				Attributes,
 				Skills,
 			},
+		},
+		core::list::{
+			DotEntryList,
+			SimpleEntryList,
 		},
 	},
 };

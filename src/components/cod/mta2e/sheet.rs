@@ -35,12 +35,7 @@ use crate::{
 				AdvantagesProps,
 			},
 			details::Details,
-			dots::DotsProps,
 			experience::Experience,
-			list::{
-				DotEntryList,
-				SimpleEntryList,
-			},
 			mta2e::{
 				casting::Spellcasting,
 				spells::{
@@ -63,6 +58,13 @@ use crate::{
 			traits::{
 				Attributes,
 				Skills,
+			},
+		},
+		core::{
+			dots::DotsProps,
+			list::{
+				DotEntryList,
+				SimpleEntryList,
 			},
 		},
 	},

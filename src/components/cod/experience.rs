@@ -13,7 +13,7 @@ use crate::{
 			updateCoreBeats,
 		},
 	},
-	components::cod::tracks::{
+	components::core::tracks::{
 		Track,
 		TrackProps,
 	},
