@@ -1,0 +1,36 @@
+.sheet .simpleEntryListWrapper
+	justify-content flex-start
+	
+	& .checkerLine
+		margin-top 6px
+	
+	&.merits input
+		text-align right
+	
+	& .new input
+		text-align center
+	
+	& .simpleEntryListLabel
+		componentLabel()
+	
+	& .simpleEntryList
+		flexNone()
+		justify-content space-evenly
+		
+		& .row, & .column
+			flexNone()
+			margin 2px 5px
+			
+			&.tracker .label
+				margin 0
+				text-align left
+				width 80px
+			
+			& input
+				flexGrowX(0.9)
+				
+				&:hover
+					color menuHoverColor
+			
+			& textarea:hover
+				color menuHoverColor
