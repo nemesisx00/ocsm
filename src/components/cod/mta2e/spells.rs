@@ -626,7 +626,6 @@ pub fn SpellDetails(cx: Scope) -> Element
 							div { class: "label", "Intent:" }
 							textarea
 							{
-								//autosize: "true",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Intent),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
@@ -641,7 +640,6 @@ pub fn SpellDetails(cx: Scope) -> Element
 							div { class: "label", "Effects:" }
 							textarea
 							{
-								//autosize: "true",
 								onchange: move |e| spellUpdateHandler(e, &cx, Some(i), SpellField::Effects),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",

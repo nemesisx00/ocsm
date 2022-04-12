@@ -20,6 +20,9 @@ pub struct CheckCircleProps<'a>
 	class: Option<String>,
 	
 	#[props(optional)]
+	tooltip: Option<String>,
+	
+	#[props(optional)]
 	onclick: Option<EventHandler<'a, MouseEvent>>
 }
 
@@ -47,24 +50,41 @@ impl<'a> PartialEq for CheckCircleProps<'a>
 			}
 		};
 		
-		return checkedEq && classEq;
+		let tooltipEq = self.tooltip == other.tooltip;
+		
+		return checkedEq && classEq && tooltipEq;
 	}
 }
 
 /// Generate a clickable circle rendered by inline SVG.
 pub fn CheckCircle<'a>(cx: Scope<'a, CheckCircleProps<'a>>) -> Element<'a>
 {
-	let checkedClass = match cx.props.checked
+	let classNames = match &cx.props.class
 	{
-		true => " checked",
-		false => ""
+		Some(class) => match cx.props.checked
+		{
+			true => format!(" {} {}", class, "checked"),
+			false => format!(" {}", class),
+		},
+		None => match cx.props.checked
+		{
+			true => " checked".to_string(),
+			false => "".to_string(),
+		}
+	};
+	
+	let tooltip = match &cx.props.tooltip
+	{
+		Some(tt) => tt.clone(),
+		None => "".to_string(),
 	};
 	
 	return cx.render(rsx!
 	{
 		div
 		{
-			class: "checker circle{checkedClass}",
+			class: "checker circle{classNames}",
+			title: "{tooltip}",
 			onclick: move |e|
 			{
 				e.cancel_bubble();

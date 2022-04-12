@@ -167,7 +167,6 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							div { class: "label", "Description:" }
 							textarea
 							{
-								//autosize: "true",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Description),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",
@@ -182,7 +181,6 @@ pub fn ActiveAbilities(cx: Scope<ActiveAbilitiesProps>) -> Element
 							div { class: "label", "Effects:" }
 							textarea
 							{
-								//autosize: "true",
 								onchange: move |e| (cx.props.entryUpdateHandler)(e, &cx, Some(i), ActiveAbilityField::Effects),
 								oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 								prevent_default: "oncontextmenu",

@@ -61,7 +61,7 @@ pub fn MortalSheet(cx: Scope) -> Element
 			
 			div
 			{
-				class: "row justEven",
+				class: "row justEven detailsRow",
 				
 				Details
 				{

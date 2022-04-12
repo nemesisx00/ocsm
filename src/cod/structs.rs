@@ -33,7 +33,6 @@ use crate::{
 		},
 	},
 	core::{
-		enums::TrackerState,
 		state::StatefulTemplate,
 		structs::Tracker,
 	},
