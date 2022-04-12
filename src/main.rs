@@ -1,6 +1,5 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
-pub(crate) mod app;
 pub(crate) mod cod;
 pub(crate) mod core;
 pub(crate) mod components;
@@ -18,10 +17,10 @@ use dioxus::desktop::{
 	},
 	launch_cfg
 };
-use crate::app::App;
+use crate::components::core::app::App;
 
 /// The base application title applied to the `Window`
-pub const WindowTitle: &str = "Open Character Sheet Manager v0.2.0";
+pub const WindowTitle: &str = "Open Character Sheet Manager v0.3.0";
 
 /// The entry point for the application
 fn main()

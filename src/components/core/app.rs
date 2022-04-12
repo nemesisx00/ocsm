@@ -24,6 +24,7 @@ use crate::{
 			vtr2e::sheet::VampireSheet,
 		},
 		core::{
+			home::HomeScreen,
 			menu::{
 				MainMenu,
 				Menu,
@@ -78,7 +79,8 @@ document.ScanForNewTextareasToAutosize = () => {
 	})
 }
 
-document.AutosizeTextareasIntervalTimer = setInterval(document.ScanForNewTextareasToAutosize, 1000)
+document.AutosizeTextareasIntervalSeconds = 1000
+document.AutosizeTextareasIntervalTimer = setInterval(document.ScanForNewTextareasToAutosize, document.AutosizeTextareasIntervalSeconds)
 "#;
 
 /// The application's top-level UI component.
@@ -98,25 +100,19 @@ pub fn App(cx: Scope) -> Element
 	return cx.render(rsx!
 	{
 		script { "{TextareaAutosizeJavascript}" }
-		style { [include_str!("../static/app.css")] }
+		style { [include_str!("../../../static/app.css")] }
 		
 		div
 		{
 			class: "app column justEven",
 			onclick: move |e| { e.cancel_bubble(); setMenuState(false); },
-			//prevent_default: "oncontextmenu",
 			
 			MainMenu
 			{
 				Menu
 				{
 					label: "File".to_string(),
-					Menu
-					{
-						child: true,
-						label: "New".to_string(),
-						sheets.iter().map(|(_, l)| rsx!(cx, MenuItem { label: l.clone(), handler: newSheetHandler }))
-					}
+					MenuItem { label: "New".to_string(), handler: newSheetHandler }
 					MenuItem { label: "Open".to_string(), handler: menuFileOpenHandler }
 					MenuItem { label: "Save".to_string(), handler: menuSaveHandler }
 					MenuItem { label: "Exit".to_string(), handler: exitHandler }
@@ -128,6 +124,7 @@ pub fn App(cx: Scope) -> Element
 			show[&GameSystem::CodMage2e].then(|| rsx!(MageSheet {}))
 			show[&GameSystem::CodVampire2e].then(|| rsx!(VampireSheet {}))
 			show[&GameSystem::Dnd5e].then(|| rsx!(Dnd5eAdventurerSheet {}))
+			show[&GameSystem::None].then(|| rsx!(HomeScreen {}))
 		}
 	});
 }
@@ -169,15 +166,19 @@ fn menuSaveHandler(cx: &Scope<MenuItemProps>)
 	let setMenuState = use_set(&cx, MainMenuState);
 	
 	setMenuState(false);
-	setCurrentFilePath(getFilePath(true, currentFilePath.clone()));
-	
-	match currentGameSystem
+	if *currentGameSystem != GameSystem::None
 	{
-		GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
-		GameSystem::CodMage2e => saveSheet::<Mage>(cx),
-		GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
-		GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
-		GameSystem::Dnd5e => saveSheet::<Dnd5eCharacter>(cx),
+		setCurrentFilePath(getFilePath(true, currentFilePath.clone()));
+		
+		match currentGameSystem
+		{
+			GameSystem::CodChangeling2e => saveSheet::<Changeling>(cx),
+			GameSystem::CodMage2e => saveSheet::<Mage>(cx),
+			GameSystem::CodMortal => saveSheet::<CoreCharacter>(cx),
+			GameSystem::CodVampire2e => saveSheet::<Vampire>(cx),
+			GameSystem::Dnd5e => saveSheet::<Dnd5eCharacter>(cx),
+			GameSystem::None => {},
+		}
 	}
 }
 
@@ -189,19 +190,10 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
 	let setMenuState = use_set(&cx, MainMenuState);
 	
-	if let Some((gs, _)) = GameSystem::asMap().iter().filter(|(_, l)| *l.clone() == cx.props.label).next()
-	{
-		resetGlobalState(cx);
-		updateWindowTitle(cx, *gs);
-		setCurrentGameSystem(*gs);
-		setMenuState(false);
-		
-		if gs == &GameSystem::CodMortal
-		{
-			let mut mortal = CoreCharacter::mortal();
-			mortal.push(cx);
-		}
-	}
+	resetGlobalState(cx);
+	updateWindowTitle(cx, GameSystem::None);
+	setCurrentGameSystem(GameSystem::None);
+	setMenuState(false);
 }
 
 // -----
@@ -234,6 +226,7 @@ fn loadSheet(cx: &Scope<MenuItemProps>)
 					GameSystem::CodMortal => pushLoadedSheet::<CoreCharacter>(cx, deserializeSheet::<CoreCharacter>(saveData.sheet)),
 					GameSystem::CodVampire2e => pushLoadedSheet::<Vampire>(cx, deserializeSheet::<Vampire>(saveData.sheet)),
 					GameSystem::Dnd5e => pushLoadedSheet::<Dnd5eCharacter>(cx, deserializeSheet::<Dnd5eCharacter>(saveData.sheet)),
+					GameSystem::None => {},
 				}
 			},
 			Err(e) => println!("Failed to loadFromFile: {:?}", e.to_string())
@@ -255,23 +248,26 @@ fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &
 {
 	let currentFilePath = use_read(&cx, CurrentFilePath);
 	let currentGameSystem = use_read(&cx, CurrentGameSystem);
-	if let Some(pathStr) = currentFilePath
+	if *currentGameSystem != GameSystem::None
 	{
-		let mut sheet = T::default();
-		sheet.pull(&cx);
-		
-		match serializeSheet::<T>(sheet)
+		if let Some(pathStr) = currentFilePath
 		{
-			Ok(sheetJson) =>
+			let mut sheet = T::default();
+			sheet.pull(&cx);
+			
+			match serializeSheet::<T>(sheet)
 			{
-				let saveData = SaveData::new(*currentGameSystem, sheetJson);
-				match saveToFile(&Path::new(pathStr), &saveData)
+				Ok(sheetJson) =>
 				{
-					Ok(json) => println!("Saved to json file! {}", json),
-					Err(e) => println!("Error saving to file: {}", e)
-				}
-			},
-			Err(e) => println!("Error saving to file: {}", e)
+					let saveData = SaveData::new(*currentGameSystem, sheetJson);
+					match saveToFile(&Path::new(pathStr), &saveData)
+					{
+						Ok(json) => println!("Saved to json file! {}", json),
+						Err(e) => println!("Error saving to file: {}", e)
+					}
+				},
+				Err(e) => println!("Error saving to file: {}", e)
+			}
 		}
 	}
 }
@@ -279,8 +275,16 @@ fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &
 fn updateWindowTitle<T>(cx: &Scope<T>, gameSystem: GameSystem)
 {
 	let window = use_window(cx);
-	if let Some((_, title)) = GameSystem::asMap().iter().filter(|(gs, _)| *gs == &gameSystem).next()
+	
+	if gameSystem == GameSystem::None
 	{
-		window.set_title(format!("{} - {}", WindowTitle, title).as_ref());
+		window.set_title(format!("{}", WindowTitle).as_ref());
+	}
+	else
+	{
+		if let Some((_, title)) = GameSystem::asMap().iter().filter(|(gs, _)| *gs == &gameSystem).next()
+		{
+			window.set_title(format!("{} - {}", WindowTitle, title).as_ref());
+		}
 	}
 }

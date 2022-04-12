@@ -16,6 +16,7 @@ use strum_macros::{
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum GameSystem
 {
+	None,
 	CodMortal,
 		//CodBeast,
 	CodChangeling2e,

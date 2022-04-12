@@ -27,7 +27,7 @@ pub static MainMenuState: Atom<bool> = |_| true;
 /// Updated by loading or saving a character sheet.
 pub static CurrentFilePath: Atom<Option<String>> = |_| None;
 /// The active `GameSystem` determining which character sheet is rendered.
-pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::CodMortal;
+pub static CurrentGameSystem: Atom<GameSystem> = |_| GameSystem::None;
 
 // --------------------------------------------------
 

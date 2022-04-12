@@ -116,11 +116,22 @@ hr
 	margin 0
 
 .app
-	padding-bottom 250px
 	margin-bottom 0
+	margin-left 5%
+	margin-right 5%
+	margin-top mainMenuHeight + mainMenuBorderWidth
+	padding-bottom 250px
 	text-align center
+	
+	& hr
+		width 90vw
+		margin 10px auto
+		
+		&.thin
+			margin 5px auto
 
 @require "./components/core/Check.styl"
+@require "./components/core/Home.styl"
 @require "./components/core/List.styl"
 @require "./components/core/Menu.styl"
 @require "./components/core/Sheet.styl"
