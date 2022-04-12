@@ -1,0 +1,144 @@
+.sheet.dnd.fifth
+	
+	& .sectionLabel
+		font-size 1.1em
+		font-weight bold
+		margin 0 auto
+	
+	& .characterDetails
+		flexGrow()
+		min-height 75px
+		
+		& .label
+			margin-right 10px
+			text-align right
+			width 90px
+		
+		& .label.long
+			width 137px
+		
+		& input
+			width 125px
+		
+		& select
+			width 130px
+		
+		& .checker.line
+			margin-top 5px
+	
+	& .combatDetails
+		flexGrow()
+		
+		& .label
+			margin-right 10px
+			text-align right
+			width 160px
+		
+		& input
+			width 30px
+		
+		& .checkerLine, & .checker.line
+			margin-top 5px
+		
+		& .row
+			margin-bottom 10px
+		
+		& .row:last-child
+			margin-bottom 0
+		
+		& .hp
+			
+			& .hpRow
+				
+				& input
+					text-align center
+				
+				& .hpSlash
+					text-align center
+					width 15px
+	
+	& .deathSaves
+		
+		& .tracker
+			
+			& .label
+				width 75px
+			
+			& .checkerLine
+				margin-top 5px
+	
+	& .abilityScoresWrapper
+		flexGrow()
+		
+		& .abilityScore:first-child
+			margin-bottom 5px
+		
+		& .abilityScore
+			flexGrowX(0.5)
+			
+			& .label
+				margin-bottom 5px
+			
+			& input
+				border-radius 5px
+				font-size 2em
+				margin 0 auto
+				text-align center
+				width 50px
+	
+	& .savingThrowsWrapper
+		flexNone()
+		width 40%
+		
+		& .savingThrows
+			flexGrow()
+			
+			& > .column
+				flexNone()
+			
+			& .savingThrow
+			
+				& .checker
+					margin-top 20px
+				
+				& .value
+					font-size 2em
+					margin 0 5px
+					text-align right
+					width 40px
+				
+				& .label
+					margin-top 15px
+				
+				& .half svg circle
+					fill #666
+				
+				& .double svg circle
+					fill #800
+	
+	& .skillsWrapper
+		
+		& .skills
+			flexGrow()
+			
+			& .column > .label
+				border-bottom 1px solid menuBorderColor
+				margin 0 auto
+				width 75%
+			
+			& .skill
+				margin-left 15%
+			
+				& .checker
+					margin-top 5px
+				
+				& .value
+					margin 0 5px
+					text-align right
+					width 20px
+				
+				& .half svg circle
+					fill #666
+				
+				& .double svg circle
+					fill #800

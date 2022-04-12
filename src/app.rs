@@ -31,7 +31,7 @@ use crate::{
 				MenuItemProps,
 			},
 		},
-		dnd::fifth::sheet::Dnd5eSheet,
+		dnd::fifth::sheet::Dnd5eAdventurerSheet,
 	},
 	core::{
 		enums::GameSystem,
@@ -56,6 +56,31 @@ use crate::{
 	WindowTitle,
 };
 
+/// Raw Javascript workaround for setting up autosized textarea elements.
+const TextareaAutosizeJavascript: &str = r#"
+document.CustomTextareaKeyupHandler = e => {
+	e.target.style.height = 'auto'
+	e.target.style.height = `${e.target.scrollHeight}px`
+}
+
+document.AddCustomTextareaKeyupHandler = el => {
+	el.addEventListener('keyup', document.CustomTextareaKeyupHandler)
+	el.dispatchEvent(new Event('keyup'))
+}
+
+document.ScanForNewTextareasToAutosize = () => {
+	document.querySelectorAll('textarea').forEach(el => {
+		if(!el.hasOwnProperty('autosize'))
+		{
+			document.AddCustomTextareaKeyupHandler(el)
+			el.autosize = true
+		}
+	})
+}
+
+document.AutosizeTextareasIntervalTimer = setInterval(document.ScanForNewTextareasToAutosize, 1000)
+"#;
+
 /// The application's top-level UI component.
 pub fn App(cx: Scope) -> Element
 {
@@ -72,13 +97,14 @@ pub fn App(cx: Scope) -> Element
 	
 	return cx.render(rsx!
 	{
+		script { "{TextareaAutosizeJavascript}" }
 		style { [include_str!("../static/app.css")] }
 		
 		div
 		{
 			class: "app column justEven",
 			onclick: move |e| { e.cancel_bubble(); setMenuState(false); },
-			prevent_default: "oncontextmenu",
+			//prevent_default: "oncontextmenu",
 			
 			MainMenu
 			{
@@ -101,7 +127,7 @@ pub fn App(cx: Scope) -> Element
 			show[&GameSystem::CodChangeling2e].then(|| rsx!(ChangelingSheet {}))
 			show[&GameSystem::CodMage2e].then(|| rsx!(MageSheet {}))
 			show[&GameSystem::CodVampire2e].then(|| rsx!(VampireSheet {}))
-			show[&GameSystem::Dnd5e].then(|| rsx!(Dnd5eSheet {}))
+			show[&GameSystem::Dnd5e].then(|| rsx!(Dnd5eAdventurerSheet {}))
 		}
 	});
 }

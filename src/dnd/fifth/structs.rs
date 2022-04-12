@@ -5,30 +5,37 @@ use serde::{
 	Deserialize,
 	Serialize,
 };
-use std::collections::BTreeMap;
 use crate::{
 	core::{
 		state::StatefulTemplate,
 		util::spaceOutCapitals,
 	},
-	dnd::fifth::enums::{
-		Ability,
-		DamageType,
-		Die,
-		ItemType,
-		Proficiency,
-		Skill,
-		WeaponProperty,
+	dnd::{
+		fifth::{
+			enums::{
+				Ability,
+				Advantage,
+				DamageType,
+				Die,
+				ItemType,
+				Proficiency,
+				Skill,
+				WeaponProperty,
+			},
+		},
 	},
 };
 
 #[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Dnd5eCharacter
 {
+	#[serde(default)]
 	pub name: String,
 	
-	pub savingThrows: Vec<SavingThrow>,
+	#[serde(default)]
+	pub abilityScores: Vec<AbilityScore>,
 	
+	#[serde(default)]
 	pub skills: Vec<SkillScore>,
 }
 
@@ -52,21 +59,13 @@ impl StatefulTemplate for Dnd5eCharacter
 
 // --------------------------------------------------
 
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Aesthetics
-{
-	
-}
-
-// --------------------------------------------------
-
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct AbilityScore
 {
 	pub ability: Ability,
 	
 	#[serde(default)]
-	pub value: isize,
+	pub score: isize,
 }
 
 impl AbilityScore
@@ -76,21 +75,9 @@ impl AbilityScore
 		return Self
 		{
 			ability: ability,
-			value: 10,
+			score: 10,
 		};
 	}
-}
-
-// --------------------------------------------------
-
-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct Feature
-{
-	#[serde(default)]
-	pub name: String,
-	
-	#[serde(default)]
-	pub description: String,
 }
 
 // --------------------------------------------------
@@ -105,28 +92,16 @@ pub struct Item
 	pub description: String,
 	
 	#[serde(default)]
-	pub cost: isize,
-	
-	#[serde(default)]
 	pub itemType: ItemType,
 	
 	#[serde(default)]
-	pub armorClass: Option<isize>,
+	pub cost: isize,
 	
 	#[serde(default)]
-	pub dexterityModMax: Option<isize>,
+	pub armor: Option<ItemArmor>,
 	
 	#[serde(default)]
-	pub damageDie: Option<Die>,
-	
-	#[serde(default)]
-	pub damageRolls: Option<isize>,
-	
-	#[serde(default)]
-	pub damageType: Option<DamageType>,
-	
-	#[serde(default)]
-	pub properties: Option<Vec<WeaponProperty>>,
+	pub damage: Option<ItemDamage>,
 	
 	#[serde(default)]
 	pub weight: Option<isize>,
@@ -134,60 +109,44 @@ pub struct Item
 
 // --------------------------------------------------
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct LevelFeatures
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct ItemArmor
 {
-	pub class: String,
+	#[serde(default)]
+	pub armorClass: isize,
 	
 	#[serde(default)]
-	pub level: usize,
-	
-	#[serde(default)]
-	pub features: Vec<Feature>
-}
-
-impl LevelFeatures
-{
-	pub fn new(class: String, level: usize) -> Self
-	{
-		return Self
-		{
-			class: class,
-			level: level,
-			features: Vec::new(),
-		};
-	}
+	pub dexterityModMax: Option<isize>,
 }
 
 // --------------------------------------------------
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
-pub struct SavingThrow
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct ItemDamage
 {
-	pub ability: Ability,
+	#[serde(default)]
+	pub damageDie: Die,
 	
-	pub proficiency: Proficiency,
-}
-
-impl SavingThrow
-{
-	pub fn new(ability: Ability) -> Self
-	{
-		return Self
-		{
-			ability: ability,
-			proficiency: Proficiency::None,
-		};
-	}
+	#[serde(default)]
+	pub damageRolls: isize,
+	
+	pub damageType: DamageType,
+	
+	#[serde(default)]
+	pub properties: Option<Vec<WeaponProperty>>,
 }
 
 // --------------------------------------------------
 
-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct SkillScore
 {
 	pub ability: Ability,
 	
+	#[serde(default)]
+	pub advantage: Advantage,
+	
+	#[serde(default)]
 	pub proficiency: Proficiency,
 	
 	pub skill: Skill,
@@ -200,6 +159,7 @@ impl SkillScore
 		return Self
 		{
 			ability: ability,
+			advantage: Advantage::None,
 			proficiency: Proficiency::None,
 			skill: skill,
 		};
