@@ -54,6 +54,7 @@ use crate::{
 		structs::SaveData,
 	},
 	dnd::fifth::structs::Dnd5eCharacter,
+	AppVersion,
 	WindowTitle,
 };
 
@@ -196,7 +197,7 @@ fn newSheetHandler(cx: &Scope<MenuItemProps>)
 	setMenuState(false);
 }
 
-// -----
+// --------------------------------------------------
 
 /// Deserialize a character sheet from a file and push it into the global state.
 fn loadSheet(cx: &Scope<MenuItemProps>)
@@ -272,19 +273,19 @@ fn saveSheet<T: Default + DeserializeOwned + Serialize + StatefulTemplate>(cx: &
 	}
 }
 
-fn updateWindowTitle<T>(cx: &Scope<T>, gameSystem: GameSystem)
+pub fn updateWindowTitle<T>(cx: &Scope<T>, gameSystem: GameSystem)
 {
 	let window = use_window(cx);
 	
 	if gameSystem == GameSystem::None
 	{
-		window.set_title(format!("{}", WindowTitle).as_ref());
+		window.set_title(format!("{} {}", WindowTitle, AppVersion).as_ref());
 	}
 	else
 	{
 		if let Some((_, title)) = GameSystem::asMap().iter().filter(|(gs, _)| *gs == &gameSystem).next()
 		{
-			window.set_title(format!("{} - {}", WindowTitle, title).as_ref());
+			window.set_title(format!("{} {} - {}", WindowTitle, AppVersion, title).as_ref());
 		}
 	}
 }

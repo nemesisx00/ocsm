@@ -1,9 +1,17 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use crate::core::{
-	enums::GameSystem,
-	state::CurrentGameSystem,
+use crate::{
+	components::core::app::updateWindowTitle,
+	cod::structs::CoreCharacter,
+	core::{
+		enums::GameSystem,
+		state::{
+			CurrentGameSystem,
+			StatefulTemplate,
+		},
+	},
+	AppVersion,
 };
 
 /// The default UI to display when no Game System is currently selected.
@@ -17,7 +25,7 @@ pub fn HomeScreen(cx: Scope) -> Element
 			class: "home column justEven",
 			
 			h1 { "Open Character Sheet Manager" }
-			h4 { "Version 0.3.0" }
+			h4 { "Version {AppVersion}" }
 			hr { class: "row justEven" }
 			h2 { "Select a Game System" }
 			
@@ -52,4 +60,15 @@ fn gameSystemClickHandler(cx: &Scope, gameSystem: GameSystem)
 {
 	let setCurrentGameSystem = use_set(cx, CurrentGameSystem);
 	setCurrentGameSystem(gameSystem);
+	
+	if gameSystem != GameSystem::None
+	{
+		updateWindowTitle(cx, gameSystem);
+		
+		if gameSystem == GameSystem::CodMortal
+		{
+			let mut mortal = CoreCharacter::mortal();
+			mortal.push(cx);
+		}
+	}
 }
