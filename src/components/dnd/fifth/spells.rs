@@ -4,7 +4,10 @@ use dioxus::prelude::*;
 use std::collections::BTreeMap;
 use strum::IntoEnumIterator;
 use crate::{
-	components::core::tracks::Track,
+	components::core::{
+		check::CheckCircle,
+		tracks::Track,
+	},
 	core::structs::Tracker,
 	dnd::fifth::util::getSpellSlots,
 };
@@ -70,13 +73,9 @@ pub fn PreparedSpells(cx: Scope<PreparedSpellsProps>) -> Element
 						{
 							class: "column justStart",
 							
-							isCantrip.then(|| rsx!(div { class: "label", "Cantrips" }))
-							isSpell.then(|| rsx!(div { class: "label", "Level {level}" }))
-							select
-							{
-								option { value: "", "Prepare a Spell" }
-								names.iter().map(|name| rsx!(option { value: "{name}", "{name}" }))
-							}
+							isCantrip.then(|| rsx!(div { class: "spellLevel", "Cantrips" }))
+							isSpell.then(|| rsx!(div { class: "spellLevel", "Level {level}" }))
+							names.iter().map(|name| rsx!(PreparableSpell { label: name.clone(), prepared: false }))
 						})
 					})
 			}
@@ -91,14 +90,40 @@ pub fn PreparedSpells(cx: Scope<PreparedSpellsProps>) -> Element
 					{
 						class: "column justStart",
 						
-						div { class: "label", "Level {level}" }
-						select
-						{
-							option { value: "", "Prepare a Spell" }
-							names.iter().map(|name| rsx!(option { value: "{name}", "{name}" }))
-						}
+						div { class: "spellLevel", "Level {level}" }
+						names.iter().map(|name| rsx!(PreparableSpell { label: name.clone(), prepared: false }))
 					}))
 			}
+		}
+	});
+}
+
+// --------------------------------------------------
+
+#[derive(PartialEq, Props)]
+pub struct PreparableSpellProps
+{
+	pub label: String,
+	pub prepared: bool,
+}
+
+/// The UI Component defining the layout of one of a D&D5e Adventurer's Preparable Spells.
+pub fn PreparableSpell(cx: Scope<PreparableSpellProps>) -> Element
+{
+	let tooltip = match cx.props.prepared
+	{
+		true => "Prepared".to_string(),
+		false => "Not Prepared".to_string(),
+	};
+	
+	return cx.render(rsx!
+	{
+		div
+		{
+			class: "row justStart preparableSpell",
+			
+			CheckCircle { checked: cx.props.prepared, tooltip: tooltip }
+			div { class: "spellName", "{cx.props.label}" }
 		}
 	});
 }

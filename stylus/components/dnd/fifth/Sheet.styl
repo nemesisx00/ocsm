@@ -140,13 +140,26 @@
 	
 	& .preparedSpells
 		
-		& .row
+		& > .row:first-child
+			margin-top 0
+		& > .row:last-child
+			margin-bottom 0
+		& > .row
+			margin 5px 0
 			
-			& .column
+			& > .column:first-child
+				margin-left 0
+			& > .column:last-child
+				margin-right 0
+			& > .column
+				margin 0 5px
 				
-				& .label
+				& .spellLevel
+					border-bottom 1px solid menuBorderColor
 					text-align center
 				
-				& .label, & select
-					margin 0 auto
-					width 150px
+				& .checker.circle
+					margin-top 5px
+				
+				& .spellName
+					margin-left 5px
