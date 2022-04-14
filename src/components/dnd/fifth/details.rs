@@ -37,7 +37,7 @@ pub fn CharacterDetails(cx: Scope) -> Element
 		{
 			class: "column justStart",
 			
-			div { class: "row sectionLabel", "Character Details" }
+			h3 { class: "row justEven", "Character Details" }
 			
 			div
 			{
@@ -291,7 +291,7 @@ pub fn DeathSaves(cx: Scope) -> Element
 		{
 			class: "column justStart",
 			
-			div { class: "row sectionLabel", "Death Saves" }
+			h3 { class: "row justEven", "Death Saves" }
 			
 			div
 			{

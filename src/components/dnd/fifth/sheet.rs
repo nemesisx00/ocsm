@@ -1,7 +1,10 @@
 #![allow(non_snake_case, non_upper_case_globals)]
 
 use dioxus::prelude::*;
-use std::collections::HashMap;
+use std::collections::{
+	BTreeMap,
+	HashMap,
+};
 use crate::{
 	components::dnd::fifth::{
 		abilities::{
@@ -15,6 +18,7 @@ use crate::{
 			DeathSaves,
 		},
 		spells::{
+			PreparedSpells,
 			SpellSlots,
 		},
 	},
@@ -66,6 +70,18 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 	skillProficiencies.insert(Skill::Stealth, Proficiency::Proficient);
 	skillProficiencies.insert(Skill::Survival, Proficiency::Proficient);
 	
+	let mut spells = BTreeMap::new();
+	spells.insert(0, vec!["Chill Touch".to_string(), "Message".to_string(), "Minor Illusion".to_string(), "Dancing Lights".to_string()]);
+	spells.insert(1, vec!["Magic Missile".to_string(), "Chromatic Orb".to_string()]);
+	spells.insert(2, vec!["Suggestion".to_string(), "Flaming Sphere".to_string()]);
+	spells.insert(3, vec!["Animate Dead".to_string(), "Fireball".to_string()]);
+	spells.insert(4, vec!["Stoneskin".to_string(), "Dimension Door".to_string()]);
+	spells.insert(5, vec!["Teleportation Circle".to_string(), "Geas".to_string()]);
+	spells.insert(6, vec!["Chain Lightning".to_string(), "Programmed Illusion".to_string()]);
+	spells.insert(7, vec!["Prismatic Spray".to_string(), "Simulacrum".to_string()]);
+	spells.insert(8, vec!["Clone".to_string(), "Incendiary Cloud".to_string()]);
+	spells.insert(9, vec!["True Polymorph".to_string(), "Wish".to_string()]);
+	
 	return cx.render(rsx!
 	{
 		div
@@ -79,8 +95,6 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 			div { class: "row justEven", CharacterDetails {} }
 			hr { class: "row justEven" }
 			div { class: "row justEven", CombatDetails {} }
-			hr { class: "row justEven" }
-			div { class: "row justEven", SpellSlots { characterLevel: characterLevel } }
 			hr { class: "row justEven" }
 			
 			div
@@ -99,9 +113,14 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 				class: "row justEven",
 				Skills { abilityScores: abilityScores.clone(), proficiencies: skillProficiencies.clone() }
 			}
+			
+			hr { class: "row justEven" }
+			div { class: "row justEven", SpellSlots { characterLevel: characterLevel } }
+			hr { class: "row justEven" }
+			div { class: "row justEven", PreparedSpells { spells: spells.clone() } }
+			
 			/*
 			Equipment
-			Prepared Spells, Spell Slots
 			Passive Skills, Proficiencies/Languages, Characteristics (Ideals/Flaws/etc)
 			Features & Traits
 			Known Spell Details (use this list to generate available spells in the Prepared Spells component above)

@@ -34,7 +34,7 @@ pub fn AbilityScores(cx: Scope<AbilityScoresProps>) -> Element
 		{
 			class: "column justStart abilityScoresWrapper",
 			
-			div { class: "row sectionLabel", "Ability Scores" }
+			h3 { class: "row justEven", "Ability Scores" }
 			
 			div
 			{
@@ -113,7 +113,7 @@ pub fn SavingThrows(cx: Scope<SavingThrowsProps>) -> Element
 		{
 			class: "column justStart savingThrowsWrapper",
 			
-			div { class: "row sectionLabel", "Saving Throws" }
+			h3 { class: "row justEven", "Saving Throws" }
 			
 			div
 			{
@@ -189,7 +189,7 @@ pub fn Skills(cx: Scope<SkillsProps>) -> Element
 		{
 			class: "column justStart skillsWrapper",
 			
-			div { class: "row sectionLabel", "Skills" }
+			h3 { class: "row justEven", "Skills" }
 			
 			div
 			{
