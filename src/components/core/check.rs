@@ -10,6 +10,15 @@ const SvgPathLineFwd: &str = "M12,0 L0,12";
 const SvgPathLineVert: &str = "M6,0 L6,12";
 const SvgPathEnd: &str = "Z";
 
+pub fn getSingleCheckLineState(checked: bool) -> CheckLineState
+{
+	return match checked
+	{
+		true => CheckLineState::Double,
+		false => CheckLineState::None,
+	};
+}
+
 /// The properties struct for `CheckCircle`.
 #[derive(Props)]
 pub struct CheckCircleProps<'a>

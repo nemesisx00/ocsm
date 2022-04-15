@@ -357,6 +357,37 @@ impl Display for ItemType
 // --------------------------------------------------
 
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
+pub enum MagicSchool
+{
+	Abjuration,
+	Conjuration,
+	Divination,
+	Enchantment,
+	Evocation,
+	Illusion,
+	Necromancy,
+	Transmutation,
+}
+
+impl Default for MagicSchool
+{
+	fn default() -> Self
+	{
+		return Self::Abjuration;
+	}
+}
+
+impl Display for MagicSchool
+{
+	fn fmt(&self, f: &mut Formatter<'_>) -> Result
+	{
+		return write!(f, "{}", self.as_ref());
+	}
+}
+
+// --------------------------------------------------
+
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum Proficiency
 {
 	None,
@@ -461,6 +492,59 @@ impl Display for Skill
 	fn fmt(&self, f: &mut Formatter<'_>) -> Result
 	{
 		return write!(f, "{}", spaceOutCapitals(self.as_ref()));
+	}
+}
+
+// --------------------------------------------------
+
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
+pub enum SpellCastTime
+{
+	Action,
+	Bonus,
+	Reaction,
+	Ritual,
+}
+
+impl Default for SpellCastTime
+{
+	fn default() -> Self
+	{
+		return Self::Action;
+	}
+}
+
+impl Display for SpellCastTime
+{
+	fn fmt(&self, f: &mut Formatter<'_>) -> Result
+	{
+		return write!(f, "{}", self.as_ref());
+	}
+}
+
+// --------------------------------------------------
+
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
+pub enum SpellComponent
+{
+	Verbal,
+	Somatic,
+	Material,
+}
+
+impl Default for SpellComponent
+{
+	fn default() -> Self
+	{
+		return Self::Verbal;
+	}
+}
+
+impl Display for SpellComponent
+{
+	fn fmt(&self, f: &mut Formatter<'_>) -> Result
+	{
+		return write!(f, "{}", self.as_ref());
 	}
 }
 

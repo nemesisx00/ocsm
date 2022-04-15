@@ -18,14 +18,22 @@ use crate::{
 			DeathSaves,
 		},
 		spells::{
+			KnownSpells,
 			PreparedSpells,
 			SpellSlots,
 		},
 	},
-	dnd::fifth::enums::{
-		Ability,
-		Proficiency,
-		Skill,
+	dnd::fifth::{
+		enums::{
+			Ability,
+			MagicSchool,
+			Proficiency,
+			Skill,
+		},
+		structs::{
+			Spell,
+			SpellComponents,
+		}
 	},
 };
 
@@ -70,17 +78,35 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 	skillProficiencies.insert(Skill::Stealth, Proficiency::Proficient);
 	skillProficiencies.insert(Skill::Survival, Proficiency::Proficient);
 	
-	let mut spells = BTreeMap::new();
-	spells.insert(0, vec!["Chill Touch".to_string(), "Message".to_string(), "Minor Illusion".to_string(), "Dancing Lights".to_string()]);
-	spells.insert(1, vec!["Magic Missile".to_string(), "Chromatic Orb".to_string()]);
-	spells.insert(2, vec!["Suggestion".to_string(), "Flaming Sphere".to_string()]);
-	spells.insert(3, vec!["Animate Dead".to_string(), "Fireball".to_string()]);
-	spells.insert(4, vec!["Stoneskin".to_string(), "Dimension Door".to_string()]);
-	spells.insert(5, vec!["Teleportation Circle".to_string(), "Geas".to_string()]);
-	spells.insert(6, vec!["Chain Lightning".to_string(), "Programmed Illusion".to_string()]);
-	spells.insert(7, vec!["Prismatic Spray".to_string(), "Simulacrum".to_string()]);
-	spells.insert(8, vec!["Clone".to_string(), "Incendiary Cloud".to_string()]);
-	spells.insert(9, vec!["True Polymorph".to_string(), "Wish".to_string()]);
+	let spells = vec![
+		Spell
+		{
+			castingTime: Some("1 action".to_string()),
+			components: SpellComponents { verbal: true, somatic: true, material: false },
+			concentration: false,
+			description: "You create a ghostly, skeletal hand in the space of a creature within range. Make a ranged spell attack against the creature to assail it with the chill of the grave. On a hit, the target takes 1d8 necrotic damage, and it can't regain hit points until the start of your next turn. Until then, the hand clings to the target.\n\nIf you hit an undead target, it also has disadvantage on attack rolls against you until the end of your next turn.\n\nThis spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).".to_string(),
+			duration: Some("1 round".to_string()),
+			level: 0,
+			materials: None,
+			name: "Chill Touch".to_string(),
+			range: Some("120 feet".to_string()),
+			school: MagicSchool::Necromancy,
+		},
+		
+		Spell
+		{
+			castingTime: Some("1 action".to_string()),
+			components: SpellComponents { verbal: true, somatic: true, material: true },
+			concentration: false,
+			description: "You hurl a 4-inch-diameter sphere of energy at a creature that you can see within range. You choose acid, cold, fire, lightning, poison, or thunder for the type of orb you create, and then make a ranged spell attack against the target. If the attack hits, the creature takes 3d8 damage of the type you chose.\n\nAt Higher Levels: When you cast this spell using a spell slots of 2nd level or higher, the dammage increases by 1d8 for each slot level above 1st.".to_string(),
+			duration: None,
+			level: 1,
+			materials: Some("A diamond worth at least 50 gp".to_string()),
+			name: "Chromatic Orb".to_string(),
+			range: Some("90 feet".to_string()),
+			school: MagicSchool::Evocation,
+		}
+	];
 	
 	return cx.render(rsx!
 	{
@@ -118,6 +144,8 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 			div { class: "row justEven", SpellSlots { characterLevel: characterLevel } }
 			hr { class: "row justEven" }
 			div { class: "row justEven", PreparedSpells { spells: spells.clone() } }
+			hr { class: "row justEven" }
+			div { class: "row justEven", KnownSpells { spells: spells.clone() } }
 			
 			/*
 			Equipment

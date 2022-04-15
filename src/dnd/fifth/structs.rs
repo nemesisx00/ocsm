@@ -18,8 +18,11 @@ use crate::{
 				DamageType,
 				Die,
 				ItemType,
+				MagicSchool,
 				Proficiency,
 				Skill,
+				SpellCastTime,
+				SpellComponent,
 				WeaponProperty,
 			},
 		},
@@ -82,6 +85,20 @@ impl AbilityScore
 
 // --------------------------------------------------
 
+#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct Damage
+{
+	#[serde(default)]
+	pub damageDie: Die,
+	
+	#[serde(default)]
+	pub damageRolls: isize,
+	
+	pub damageType: DamageType,
+}
+
+// --------------------------------------------------
+
 #[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize, PartialOrd, Ord)]
 pub struct Item
 {
@@ -125,12 +142,7 @@ pub struct ItemArmor
 pub struct ItemDamage
 {
 	#[serde(default)]
-	pub damageDie: Die,
-	
-	#[serde(default)]
-	pub damageRolls: isize,
-	
-	pub damageType: DamageType,
+	pub damage: Damage,
 	
 	#[serde(default)]
 	pub properties: Option<Vec<WeaponProperty>>,
@@ -169,4 +181,54 @@ impl SkillScore
 	{
 		return format!("{} ({})", self.ability.as_ref(), spaceOutCapitals(self.skill.as_ref()));
 	}
+}
+
+// --------------------------------------------------
+
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct Spell
+{
+	#[serde(default)]
+	pub castingTime: Option<String>,
+	
+	#[serde(default)]
+	pub components: SpellComponents,
+	
+	#[serde(default)]
+	pub concentration: bool,
+	
+	#[serde(default)]
+	pub description: String,
+	
+	#[serde(default)]
+	pub duration: Option<String>,
+	
+	pub level: usize,
+	
+	// Only present if the spell requires Material components
+	#[serde(default)]
+	pub materials: Option<String>,
+	
+	#[serde(default)]
+	pub name: String,
+	
+	#[serde(default)]
+	pub range: Option<String>,
+	
+	pub school: MagicSchool,
+}
+
+// --------------------------------------------------
+
+#[derive(Clone, Debug, Default, Deserialize, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct SpellComponents
+{
+	#[serde(default)]
+	pub verbal: bool,
+	
+	#[serde(default)]
+	pub somatic: bool,
+	
+	#[serde(default)]
+	pub material: bool,
 }
