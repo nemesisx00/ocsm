@@ -88,16 +88,33 @@ pub fn EditSpell(cx: Scope<EditSpellProps>) -> Element
 			{
 				class: "row justEven",
 				
-				div { class: "label", "Name:" }
-				input { r#type: "text", value: "{cx.props.spell.name}" }
+				div { class: "label colOne", "Name:" }
+				input { class: "grow", r#type: "text", value: "{cx.props.spell.name}" }
 				
-				div { class: "label", "Level:" }
-				input { r#type: "text", value: "{cx.props.spell.level}" }
-				
-				div { class: "label", "Name:" }
+				div { class: "label colTwo", "Level:" }
 				select
 				{
-					option { value: "", "School of Magic" }
+					option { value: "", "Choose Level" }
+					(0..=9).map(|i|
+					{
+						let label = match i == 0
+						{
+							true => "Cantrip".to_string(),
+							false => i.to_string(),
+						};
+						let selected = match cx.props.spell.level == i
+						{
+							true => "true",
+							false => "false",
+						};
+						rsx!(option { key: "{i}", value: "{i}", selected: "{selected}", "{label}" })
+					})
+				}
+				
+				div { class: "label colThree", "School:" }
+				select
+				{
+					option { value: "", "Choose School" }
 					magicSchools.iter().enumerate().map(|(i, school)|
 					{
 						let selected = match &cx.props.spell.school == school
@@ -114,34 +131,58 @@ pub fn EditSpell(cx: Scope<EditSpellProps>) -> Element
 			{
 				class: "row justEven",
 				
-				div { class: "label", "Casting Time:" }
-				input { r#type: "text", value: "{castingTime}" }
+				div { class: "label colOne", "Casting Time:" }
+				input { class: "grow", r#type: "text", value: "{castingTime}" }
 				
-				div { class: "label", "Range:" }
-				input { r#type: "text", value: "{range}" }
+				div { class: "label colTwo", "Range:" }
+				input { class: "grow", r#type: "text", value: "{range}" }
 				
-				div { class: "label", "Duration:" }
-				input { r#type: "text", value: "{duration}" }
+				div { class: "label colThree", "Duration:" }
+				input { class: "grow", r#type: "text", value: "{duration}" }
 			}
 			
 			div
 			{
-				class: "row justEven",
+				class: "row justEven checkerRow",
 				
-				div { class: "label", "Components:" }
-				div { class: "label", "Verbal" }
-				CheckLine { lineState: verbal }
-				div { class: "label", "Somatic" }
-				CheckLine { lineState: somatic }
-				div { class: "label", "Material" }
-				CheckLine { lineState: material }
+				div
+				{
+					class: "row justAround",
+					
+					div { class: "label", "Concentration" }
+					CheckLine { lineState: concentration }
+				}
+				
+				div
+				{
+					class: "row justAround",
+					
+					div { class: "label", "Verbal" }
+					CheckLine { lineState: verbal }
+				}
+				
+				div
+				{
+					class: "row justAround",
+					
+					div { class: "label", "Somatic" }
+					CheckLine { lineState: somatic }
+				}
+				
+				div
+				{
+					class: "row justAround",
+					
+					div { class: "label", "Material" }
+					CheckLine { lineState: material }
+				}
 			}
 			
 			cx.props.spell.components.material
 				.then(|| rsx!(div
 				{
 					class: "row justEven",
-					input { class: "materialComponents", value: "{materials}" }
+					input { class: "materialComponents", placeholder: "Required materials", title: "Required materials", value: "{materials}" }
 				}))
 			
 			div
@@ -150,14 +191,12 @@ pub fn EditSpell(cx: Scope<EditSpellProps>) -> Element
 				
 				div
 				{
-					class: "row justEvent",
+					class: "row justStart",
 					
-					div { class: "label", "Description:" }
-					div { class: "label", "Concentration" }
-					CheckLine { lineState: concentration }
+					div { class: "label description", "Description:" }
 				}
 				
-				textarea { class: "description", "{cx.props.spell.description}" }
+				textarea { "{cx.props.spell.description}" }
 			}
 		}
 	});
@@ -197,7 +236,7 @@ pub fn KnownSpells(cx: Scope<KnownSpellsProps>) -> Element
 				{
 					rsx!(cx, div
 					{
-						class: "row justCenter",
+						class: "row justCenter editSpellWrapper",
 						key: "{i}",
 						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
 						prevent_default: "oncontextmenu",
