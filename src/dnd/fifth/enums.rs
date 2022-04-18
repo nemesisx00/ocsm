@@ -157,6 +157,32 @@ impl Display for Armor
 // --------------------------------------------------
 
 #[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
+pub enum CasterWeight
+{
+	Full,
+	Half,
+	Third,
+}
+
+impl Default for CasterWeight
+{
+	fn default() -> Self
+	{
+		return Self::Full;
+	}
+}
+
+impl Display for CasterWeight
+{
+	fn fmt(&self, f: &mut Formatter<'_>) -> Result
+	{
+		return write!(f, "{}", self.as_ref());
+	}
+}
+
+// --------------------------------------------------
+
+#[derive(AsRefStr, Clone, Copy, Debug, Deserialize, EnumCount, EnumIter, Eq, Hash, PartialEq, PartialOrd, Serialize, Ord)]
 pub enum DamageType
 {
 	Acid,

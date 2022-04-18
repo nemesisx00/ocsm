@@ -36,7 +36,7 @@ fn main()
 				w.with_title(format!("{} {}", WindowTitle, AppVersion))
 					//.with_menu(generateMainMenu())
 					.with_resizable(true)
-					.with_inner_size(LogicalSize::new(900, 800))
+					.with_inner_size(LogicalSize::new(950, 800))
 			})
 			//.with_event_handler(move |eventLoop, webView| {})
 	});

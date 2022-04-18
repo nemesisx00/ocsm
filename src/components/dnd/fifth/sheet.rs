@@ -2,7 +2,6 @@
 
 use dioxus::prelude::*;
 use std::collections::{
-	BTreeMap,
 	HashMap,
 };
 use crate::{
@@ -30,17 +29,22 @@ use crate::{
 			Proficiency,
 			Skill,
 		},
+		state::{
+			AdventurerClassLevels,
+		},
 		structs::{
 			Spell,
 			SpellComponents,
-		}
+		},
+		util::calculateCasterLevel,
 	},
 };
 
 /// The UI Component defining the layout of a Chronicles of Darkness Mortal's character sheet.
 pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 {
-	let characterLevel = 20;
+	let classLevelsRef = use_atom_ref(&cx, AdventurerClassLevels);
+	let casterLevel = calculateCasterLevel(classLevelsRef.read().clone());
 	
 	let mut abilityScores = HashMap::new();
 	abilityScores.insert(Ability::Strength, 16);
@@ -107,6 +111,7 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 			school: MagicSchool::Evocation,
 		}
 	];
+	let spellsClone = spells.clone();
 	
 	return cx.render(rsx!
 	{
@@ -140,12 +145,19 @@ pub fn Dnd5eAdventurerSheet(cx: Scope) -> Element
 				Skills { abilityScores: abilityScores.clone(), proficiencies: skillProficiencies.clone() }
 			}
 			
-			hr { class: "row justEven" }
-			div { class: "row justEven", SpellSlots { characterLevel: characterLevel } }
-			hr { class: "row justEven" }
-			div { class: "row justEven", PreparedSpells { spells: spells.clone() } }
-			hr { class: "row justEven" }
-			div { class: "row justEven", KnownSpells { spells: spells.clone() } }
+			(casterLevel > 0).then(|| rsx!
+			{
+				hr { class: "row justEven" }
+				div { class: "row justEven", SpellSlots {} }
+				hr { class: "row justEven" }
+				div { class: "row justEven", PreparedSpells { spells: spells.clone() } }
+			}),
+			
+			(casterLevel > 0).then(|| rsx!
+			{
+				hr { class: "row justEven" }
+				div { class: "row justEven", KnownSpells { spells: spellsClone.clone() } }
+			})
 			
 			/*
 			Equipment

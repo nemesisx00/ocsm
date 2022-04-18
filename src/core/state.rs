@@ -16,6 +16,7 @@ use crate::{
 		vtr2e::state::resetGlobalStateVtr2e,
 	},
 	core::enums::GameSystem,
+	dnd::fifth::state::resetGlobalStateDnd5e,
 };
 
 /// Control switch used to signal all Menu components to hide their submenus.
@@ -36,6 +37,7 @@ pub fn resetGlobalState<T>(cx: &Scope<T>)
 {
 	resetGlobalStateCod(cx);
 	resetGlobalStateCtl2e(cx);
+	resetGlobalStateDnd5e(cx);
 	resetGlobalStateMta2e(cx);
 	resetGlobalStateVtr2e(cx);
 }

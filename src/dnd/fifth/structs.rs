@@ -15,6 +15,7 @@ use crate::{
 			enums::{
 				Ability,
 				Advantage,
+				CasterWeight,
 				DamageType,
 				Die,
 				ItemType,
@@ -146,6 +147,21 @@ pub struct ItemDamage
 	
 	#[serde(default)]
 	pub properties: Option<Vec<WeaponProperty>>,
+}
+
+// --------------------------------------------------
+
+#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq, Serialize, PartialOrd, Ord)]
+pub struct ClassLevel
+{
+	pub class: String,
+	
+	pub level: isize,
+	
+	#[serde(default)]
+	pub caster: Option<CasterWeight>,
+	
+	//pub features: Vec<Feature>,
 }
 
 // --------------------------------------------------

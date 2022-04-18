@@ -13,15 +13,40 @@ use crate::{
 		}
 	},
 	core::structs::Tracker,
-	dnd::fifth::enums::{
-		Ability,
-		Alignment,
+	dnd::fifth::{
+		enums::{
+			Ability,
+			Alignment,
+		},
+		state::{
+			AdventurerClassLevels,
+		},
+		util::{
+			calculateCharacterLevel,
+			getHighestLevels,
+		},
 	},
 };
 
 /// The UI Component defining the layout of a D&D5e Adventurer's character details.
 pub fn CharacterDetails(cx: Scope) -> Element
 {
+	let classLevelsRef = use_atom_ref(&cx, AdventurerClassLevels);
+	let classLevels = classLevelsRef.read();
+	
+	let characterLevel = calculateCharacterLevel(classLevels.clone());
+	let classes = getHighestLevels(classLevels.clone());
+	
+	let mut classesString = "".to_string();
+	classes.iter().for_each(|(class, level)|
+	{
+		if classesString.len() > 0
+		{
+			classesString += " / ";
+		}
+		classesString += format!("{} ({})", class, level).as_ref();
+	});
+	
 	let bardicInspiration = use_state(&cx, || CheckLineState::None);
 	let inspiration = use_state(&cx, || CheckLineState::None);
 	
@@ -94,8 +119,8 @@ pub fn CharacterDetails(cx: Scope) -> Element
 					div
 					{
 						class: "row justStart",
-						div { class: "label", "Class(es):" }
-						input { r#type: "text" }
+						div { class: "label", "Class:" }
+						div { class: "value", "{classesString}" }
 					}
 				}
 				
@@ -143,7 +168,7 @@ fn flipCheckLineState(current: CheckLineState) -> CheckLineState
 /// The UI Component defining the layout of a D&D5e Adventurer's combat details.
 pub fn CombatDetails(cx: Scope) -> Element
 {
-	let concentration = use_state(&cx, || CheckLineState::None);
+	let concentrating = use_state(&cx, || CheckLineState::None);
 	
 	let mut spellcastingAbilityOptions = vec![];
 	spellcastingAbilityOptions.push(Ability::Intelligence);
@@ -233,8 +258,8 @@ pub fn CombatDetails(cx: Scope) -> Element
 					{
 						class: "row justStart",
 						
-						div { class: "label", "Concentration:" }
-						CheckLine { lineState: *concentration.get(), onclick: move |_| concentration.set(flipCheckLineState(*concentration.get())) }
+						div { class: "label", "Concentrating:" }
+						CheckLine { lineState: *concentrating.get(), onclick: move |_| concentrating.set(flipCheckLineState(*concentrating.get())) }
 					}
 				}
 				

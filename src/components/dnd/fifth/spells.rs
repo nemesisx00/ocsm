@@ -28,9 +28,21 @@ use crate::{
 		},
 	},
 	dnd::fifth::{
-		enums::MagicSchool,
-		structs::Spell,
-		util::getSpellSlots,
+		enums::{
+			CasterWeight,
+			MagicSchool,
+		},
+		state::{
+			AdventurerClassLevels,
+		},
+		structs::{
+			ClassLevel,
+			Spell,
+		},
+		util::{
+			calculateCasterLevel,
+			getSpellSlots,
+		},
 	},
 };
 
@@ -234,15 +246,19 @@ pub fn KnownSpells(cx: Scope<KnownSpellsProps>) -> Element
 				
 				cx.props.spells.iter().enumerate().map(|(i, spell)|
 				{
-					rsx!(cx, div
+					rsx!
 					{
-						class: "row justCenter editSpellWrapper",
-						key: "{i}",
-						oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
-						prevent_default: "oncontextmenu",
-						
-						EditSpell { spell: spell.clone(), spellIndex: i }
-					})
+						(i > 0).then(|| rsx!(hr { class: "row justEven" }))
+						div
+						{
+							class: "row justCenter editSpellWrapper",
+							key: "{i}",
+							oncontextmenu: move |e| showRemovePopUpWithIndex(e, &clickedX, &clickedY, &showRemove, &lastIndex, i),
+							prevent_default: "oncontextmenu",
+							
+							EditSpell { spell: spell.clone(), spellIndex: i }
+						}
+					}
 				})
 				
 				div
@@ -397,17 +413,12 @@ pub fn PreparedSpells(cx: Scope<PreparedSpellsProps>) -> Element
 }
 
 // --------------------------------------------------
-
-#[derive(PartialEq, Props)]
-pub struct SpellSlotsProps
-{
-	pub characterLevel: usize,
-}
-
 /// The UI Component defining the layout of a D&D5e Adventurer's character details.
-pub fn SpellSlots(cx: Scope<SpellSlotsProps>) -> Element
+pub fn SpellSlots(cx: Scope) -> Element
 {
-	let slots = getSpellSlots(cx.props.characterLevel);
+	let classLevelsRef = use_atom_ref(&cx, AdventurerClassLevels);
+	let casterLevel = calculateCasterLevel(classLevelsRef.read().clone());
+	let slots = getSpellSlots(casterLevel);
 	
 	return cx.render(rsx!
 	{
@@ -421,7 +432,9 @@ pub fn SpellSlots(cx: Scope<SpellSlotsProps>) -> Element
 			{
 				class: "row justEven",
 				
-				slots.iter().map(|(level, slots)| rsx!(cx, Track { class: "column".to_string(), label: level.to_string(), tracker: Tracker::new(*slots) }))
+				slots.iter()
+					.filter(|(_, slots)| **slots > 0)
+					.map(|(level, slots)| rsx!(Track { class: "column".to_string(), label: level.to_string(), tracker: Tracker::new(*slots) }))
 			}
 		}
 	});
