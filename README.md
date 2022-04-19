@@ -71,7 +71,7 @@ You may be surprised to see [Node.js](https://nodejs.org) in the list, consideri
 
 Now that you've got all the tools you'll need, the next step is to acquire the source code. The easiest way is to use git to clone this repository directly. If you're not sure how to do that, GitHub has provided very detailed instructions here: [Cloning a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigate to the project directory. Download and install [Stylus](https://stylus-lang.com/) by running:
+Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigating to the project directory. Download and install [Stylus](https://stylus-lang.com/) by running:
 ```
 npm install
 ```
@@ -91,7 +91,7 @@ Finally, you can run all the tests in the project:
 cargo test
 ```
 
-That's it! You may run into errors and you will definitely run into missing features. Unfortuantely, that is inevitable at this stage of development.
+That's it! You may run into errors and you will definitely run into missing features. Unfortunately, that is inevitable at this stage of development.
 
 ## What Inspired Me to Create OCSM?
 
