@@ -1,47 +1,54 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/interface/menu/FileMenu.cs" type="Script" id=1]
+[ext_resource path="res://scripts/App.cs" type="Script" id=2]
+[ext_resource path="res://resources/Default.tres" type="Theme" id=3]
 
 [node name="AppRoot" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Column" type="VFlowContainer" parent="Panel"]
+[node name="Column" type="GridContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MenuRow" type="VFlowContainer" parent="Panel/Column"]
-margin_right = 81.0
-margin_bottom = 20.0
+margin_right = 1024.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
 [node name="FileMenu" type="MenuButton" parent="Panel/Column/MenuRow"]
 unique_name_in_owner = true
-margin_right = 35.0
-margin_bottom = 20.0
+margin_right = 29.0
+margin_bottom = 25.0
 text = "File"
 items = [ "New", null, 0, false, false, 0, 0, null, "", false, "Open", null, 0, false, false, 1, 0, null, "", false, "Save", null, 0, false, false, 2, 0, null, "", false, "Quit", null, 0, false, false, 3, 0, null, "", false ]
 script = ExtResource( 1 )
 
 [node name="HelpMenu" type="MenuButton" parent="Panel/Column/MenuRow"]
 unique_name_in_owner = true
-margin_left = 39.0
-margin_right = 81.0
-margin_bottom = 20.0
+margin_left = 33.0
+margin_right = 67.0
+margin_bottom = 25.0
 text = "Help"
 items = [ "About", null, 0, false, false, 0, 0, null, "", false ]
 
-[node name="GridContainer" type="GridContainer" parent="Panel/Column"]
-margin_top = 24.0
-margin_right = 81.0
+[node name="SheetTabs" type="TabContainer" parent="Panel/Column"]
+unique_name_in_owner = true
+margin_top = 29.0
+margin_right = 1024.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tab_align = 0
+drag_to_rearrange_enabled = true

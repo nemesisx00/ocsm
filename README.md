@@ -54,7 +54,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is written almost entirely in [Rust](https://www.rust-lang.org/). [Dioxus](https://dioxuslabs.com/) is a GUI library used to create the desktop WebView2 window and construct the whole UI in [Rust](https://www.rust-lang.org/), leveraging its benefits on the frontend. Rounding things out, the CSS is generated via the [Stylus](https://stylus-lang.com/) CSS preprocessor.
+OCSM is created using [Godot](https://godotengine.org) with scripts written in the C#.
 
 ## Getting Started
 
@@ -62,47 +62,27 @@ OCSM isn't ready for release as an installable application just yet but you are 
 
 #### Requirements
 
-- [Rust](https://www.rust-lang.org/)
-- [Node.js](https://nodejs.org)
+- [.NET SDK](https://dotnet.microsoft.com/download)
+- [Godot](https://godotengine.org)
 
-You may be surprised to see [Node.js](https://nodejs.org) in the list, considering this is primarily a [Rust](https://www.rust-lang.org/) application. But managing CSS files can be a very verbose ordeal and a CSS Preprocessor like [Stylus](https://stylus-lang.com/) makes it so much easier. [NPM](https://www.npmjs.com) is used to manage the installation of [Stylus](https://stylus-lang.com/).
+Currently, I'm using Godot 3.5 but I'll be sticking to the latest stable Mono version.
 
 #### Compiling, Running, and Testing
 
 Now that you've got all the tools you'll need, the next step is to acquire the source code. The easiest way is to use git to clone this repository directly. If you're not sure how to do that, GitHub has provided very detailed instructions here: [Cloning a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-Now you're ready to compile! Well, almost. Start by opening your preferred command line interface and navigating to the project directory. Download and install [Stylus](https://stylus-lang.com/) by running:
-```
-npm install
-```
+Now you're ready to get to it! All you need to do at this point is open up [Godot](https://godotengine.org) and import the project.
 
-Ok, now you're *really* ready to compile! [Stylus](https://stylus-lang.com/) is scripted to run automatically so go ahead and build the project with this command:
-```
-cargo build
-```
-
-You can also build and run the application in one step:
-```
-cargo run
-```
-
-Finally, you can run all the tests in the project:
-```
-cargo test
-```
+Once it's open in [Godot](https://godotengine.org), you can press F5 to run the application.
 
 That's it! You may run into errors and you will definitely run into missing features. Unfortunately, that is inevitable at this stage of development.
 
 ## What Inspired Me to Create OCSM?
 
-First, and foremost, this was a learning opportunity for me. I wanted a project that would push me to explore [Rust](https://www.rust-lang.org/) in greater detail. I am fascinated by the language: its focus on error prevention via strict adherence to deterministic syntax and type safety, built-in code tests, eschewing inheritance altogether, and, perhaps most importantly, its incredibly helpful compiler error messages!
+First, and foremost, this was a learning opportunity for me. Originally, I wanted a project that would push me to explore [Rust](https://www.rust-lang.org/) in greater detail. I am fascinated by the language: its focus on error prevention via strict adherence to deterministic syntax and type safety, built-in code tests, eschewing inheritance altogether, and, perhaps most importantly, its incredibly helpful compiler error messages!
 
 In searching for GUI libraries, I happened upon [Tauri](https://tauri.studio) and my interest in writing a WebView2 desktop application was piqued. While that original version of the project, using [React](https://reactjs.org) to build the frontend, was absolutely functional, I was disappointed with the fact that more than 80% of the project was written in JavaScript rather than [Rust](https://www.rust-lang.org/), my primary focus.
 
 More searching lead me to discover [Dioxus](https://dioxuslabs.com/) which provides most of the same functionality I was getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://www.rust-lang.org/) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
 
-## Coding Style
-
-For people familiar with [Rust](https://www.rust-lang.org/), a brief glance at the source code will reveal that I'm not sticking very close to the idiomatic [Rust](https://www.rust-lang.org/) coding style. While it is primarily about maintaining readability, coding style is also one of the few ways in which software developers can express themselves directly in their work. So I take issue with languages that try to prescribe any specific coding style, such as adding default compiler warnings when you don't use snake_case...
-
-As for me, I hate snake_case, love hard tabs, and like my braces to line up vertically. Sorry, not sorry. With more than a decade of professional software development under my belt, I've put a lot of thought into my preferences for coding style and they are unlikely to change any time soon. I tend to use PascalCase for static variables, constants, structs/classes/objects, and traits/interfaces. I use camelCase for pretty much everything else. Even though UI components in [Dioxus](https://dioxuslabs.com/) are written as functions, I still think of them like a struct/class/object so I use PascalCase when naming them.
+After making considerable progress building the application with [Rust](https://www.rust-lang.org/) & [Dioxus](https://dioxuslabs.com/), I started realizing that, while it was a very educational experience, it was also just a lot of work to create & maintain new sheets. At the same time, I had started exploring game development using [Godot](https://godotengine.org) and realized [Godot](https://godotengine.org)'s UI scenes would be an acceptable replacement which would be less hassle in the long run.
