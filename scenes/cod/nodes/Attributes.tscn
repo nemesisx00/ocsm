@@ -1,0 +1,120 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/cod/nodes/CircleTrack.tscn" type="PackedScene" id=1]
+
+[node name="Attributes" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 14.0
+text = "Attributes"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="."]
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Column1" type="VBoxContainer" parent="Row1"]
+margin_right = 338.0
+margin_bottom = 750.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Row1/Column1"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Mental"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row1/Column1"]
+margin_top = 18.0
+margin_right = 338.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column1/Row1"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Intelligence"
+align = 2
+
+[node name="Intelligence" parent="Row1/Column1/Row1" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+columns = 5
+
+[node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
+margin_top = 36.0
+margin_right = 338.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column1/Row2"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Wits"
+align = 2
+
+[node name="Wits" parent="Row1/Column1/Row2" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+columns = 5
+
+[node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
+margin_top = 54.0
+margin_right = 338.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column1/Row3"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Resolve"
+align = 2
+
+[node name="Resolve" parent="Row1/Column1/Row3" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+columns = 5
+
+[node name="Column2" type="VBoxContainer" parent="Row1"]
+margin_left = 342.0
+margin_right = 681.0
+margin_bottom = 750.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Column3" type="VBoxContainer" parent="Row1"]
+margin_left = 685.0
+margin_right = 1024.0
+margin_bottom = 750.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

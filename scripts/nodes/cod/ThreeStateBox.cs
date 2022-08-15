@@ -32,17 +32,17 @@ public class ThreeStateBox : TextureButton
 	
 	public void updateTexture()
 	{
-		var tex = Constants.Texture.TrackState0;
+		var tex = Constants.Texture.FullTransparent;
 		switch(CurrentState)
 		{
 			case State.One:
-				tex = Constants.Texture.TrackState1;
+				tex = Constants.Texture.TrackBox1;
 				break;
 			case State.Two:
-				tex = Constants.Texture.TrackState2;
+				tex = Constants.Texture.TrackBox2;
 				break;
 			case State.Three:
-				tex = Constants.Texture.TrackState3;
+				tex = Constants.Texture.TrackBox3;
 				break;
 			case State.None:
 			default:

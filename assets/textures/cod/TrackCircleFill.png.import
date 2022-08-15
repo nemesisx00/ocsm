@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TrackState3.png-83d091c4cc5f9c9f5c0b6588bf17f0e0.stex"
+path="res://.import/TrackCircleFill.png-9f800fb180bb6f8644fdac79fa6bbc3d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/cod/TrackState3.png"
-dest_files=[ "res://.import/TrackState3.png-83d091c4cc5f9c9f5c0b6588bf17f0e0.stex" ]
+source_file="res://assets/textures/cod/TrackCircleFill.png"
+dest_files=[ "res://.import/TrackCircleFill.png-9f800fb180bb6f8644fdac79fa6bbc3d.stex" ]
 
 [params]
 

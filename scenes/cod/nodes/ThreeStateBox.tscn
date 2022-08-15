@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/textures/cod/TrackStateBorder.png" type="Texture" id=1]
-[ext_resource path="res://scenes/cod/nodes/ThreeStateBox.cs" type="Script" id=2]
+[ext_resource path="res://assets/textures/cod/TrackBoxBorder.png" type="Texture" id=1]
+[ext_resource path="res://scripts/nodes/cod/ThreeStateBox.cs" type="Script" id=2]
 
 [node name="ThreeStateBox" type="TextureRect"]
 margin_left = 43.0

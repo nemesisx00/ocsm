@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TrackState0.png-3d8925679089ad0744cc2fcee48aa582.stex"
+path="res://.import/TrackBox2.png-5fe44596290801be9cdab36fde7fd243.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/cod/TrackState0.png"
-dest_files=[ "res://.import/TrackState0.png-3d8925679089ad0744cc2fcee48aa582.stex" ]
+source_file="res://assets/textures/cod/TrackBox2.png"
+dest_files=[ "res://.import/TrackBox2.png-5fe44596290801be9cdab36fde7fd243.stex" ]
 
 [params]
 

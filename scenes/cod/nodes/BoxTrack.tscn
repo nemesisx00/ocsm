@@ -5,6 +5,5 @@
 [node name="BoxTrack" type="GridContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
 columns = 10
 script = ExtResource( 2 )
