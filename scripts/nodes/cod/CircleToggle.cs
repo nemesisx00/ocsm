@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CircleState : TextureButton
+public class CircleToggle : TextureButton
 {
 	
 	public bool CurrentState { get; set; } = false;
@@ -9,7 +9,7 @@ public class CircleState : TextureButton
 	private bool HandleMouseEvents { get; set; } = true;
 	
 	[Signal]
-	public delegate void StateToggled(CircleState currentState);
+	public delegate void StateToggled(CircleToggle currentState);
 	
 	public override void _Ready()
 	{

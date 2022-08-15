@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CircleTrack : GridContainer
+public class TrackCircle : GridContainer
 {
 	[Export]
 	public int Max { get; set; } = 5;
@@ -12,12 +12,12 @@ public class CircleTrack : GridContainer
 	{
 		if(Max > 0)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.TwoStateCircle);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.CircleToggle);
 			for(var i = 0; i < Max; i++)
 			{
 				var instance = resource.Instance<TextureRect>();
 				AddChild(instance);
-				instance.GetChild(0).Connect(nameof(CircleState.StateToggled), this, nameof(handleCircleToggle));
+				instance.GetChild(0).Connect(nameof(CircleToggle.StateToggled), this, nameof(handleCircleToggle));
 			}
 			
 			updateCircles(Value);
@@ -35,7 +35,7 @@ public class CircleTrack : GridContainer
 		
 		foreach(Node c in GetChildren())
 		{
-			var circle = c.GetChild<CircleState>(0);
+			var circle = c.GetChild<CircleToggle>(0);
 			if(GetChildren().IndexOf(c) < target)
 				circle.CurrentState = true;
 			else
@@ -44,7 +44,7 @@ public class CircleTrack : GridContainer
 		}
 	}
 	
-	private void handleCircleToggle(CircleState circle)
+	private void handleCircleToggle(CircleToggle circle)
 	{
 		var value = GetChildren().IndexOf(circle.GetParent());
 		if(value > -1)

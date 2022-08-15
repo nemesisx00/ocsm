@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class BoxTrack : GridContainer
+public class TrackBox : GridContainer
 {
 	[Export]
 	public int Max { get; set; } = 5;
@@ -13,19 +13,19 @@ public class BoxTrack : GridContainer
 			var state = new TrackThreeState();
 			foreach(Node c in GetChildren())
 			{
-				var box = c.GetChild<ThreeStateBox>(0);
+				var box = c.GetChild<BoxToggle>(0);
 				switch(box.CurrentState)
 				{
-					case ThreeStateBox.State.One:
+					case BoxToggle.State.One:
 						state.One++;
 						break;
-					case ThreeStateBox.State.Two:
+					case BoxToggle.State.Two:
 						state.Two++;
 						break;
-					case ThreeStateBox.State.Three:
+					case BoxToggle.State.Three:
 						state.Three++;
 						break;
-					case ThreeStateBox.State.None:
+					case BoxToggle.State.None:
 						break;
 				}
 			}
@@ -38,7 +38,7 @@ public class BoxTrack : GridContainer
 	{
 		if(Max > 0)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ThreeStateBox);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.BoxToggle);
 			for(var i = 0; i < Max; i++)
 			{
 				var instance = resource.Instance<TextureRect>();

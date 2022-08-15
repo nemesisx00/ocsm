@@ -13,8 +13,8 @@ public class Constants
 		
 		public sealed class CoD
 		{
-			public const string ThreeStateBox = "res://scenes/cod/nodes/ThreeStateBox.tscn";
-			public const string TwoStateCircle = "res://scenes/cod/nodes/TwoStateCircle.tscn";
+			public const string BoxToggle = "res://scenes/cod/nodes/BoxToggle.tscn";
+			public const string CircleToggle = "res://scenes/cod/nodes/CircleToggle.tscn";
 			public const string MortalSheet = "res://scenes/cod/sheets/Mortal.tscn";
 		}
 	}

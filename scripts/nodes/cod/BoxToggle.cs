@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class ThreeStateBox : TextureButton
+public class BoxToggle : TextureButton
 {
 	public sealed class State
 	{
