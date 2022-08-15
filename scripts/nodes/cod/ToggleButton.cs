@@ -11,6 +11,7 @@ public class ToggleButton : TextureRect
 	public override void _Ready()
 	{
 		updateTexture();
+		
 		var button = GetChild<TextureButton>(0);
 		button.Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
 		button.MouseDefaultCursorShape = CursorShape.PointingHand;
