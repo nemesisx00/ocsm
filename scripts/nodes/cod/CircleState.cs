@@ -8,6 +8,9 @@ public class CircleState : TextureButton
 	[Export]
 	private bool HandleMouseEvents { get; set; } = true;
 	
+	[Signal]
+	public delegate void StateToggled(CircleState currentState);
+	
 	public override void _Ready()
 	{
 		updateTexture();
@@ -19,6 +22,8 @@ public class CircleState : TextureButton
 	public void toggleState()
 	{
 		CurrentState = !CurrentState;
+		updateTexture();
+		EmitSignal(nameof(StateToggled), this);
 	}
 	
 	public void updateTexture()
@@ -31,10 +36,9 @@ public class CircleState : TextureButton
 	
 	private void handleClick(InputEvent e)
 	{
-		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
+		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && ButtonList.Left == (ButtonList)buttonEvent.ButtonIndex)
 		{
 			toggleState();
-			updateTexture();
 		}
 	}
 }
