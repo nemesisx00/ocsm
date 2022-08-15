@@ -9,7 +9,7 @@ public class CircleToggle : TextureButton
 	private bool HandleMouseEvents { get; set; } = true;
 	
 	[Signal]
-	public delegate void StateToggled(CircleToggle currentState);
+	public delegate void StateToggled(CircleToggle circle);
 	
 	public override void _Ready()
 	{

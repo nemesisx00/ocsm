@@ -17,6 +17,9 @@ public class BoxToggle : TextureButton
 	[Export]
 	private bool HandleMouseEvents { get; set; } = true;
 	
+	[Signal]
+	public delegate void StateChanged(BoxToggle box);
+	
 	public override void _Ready()
 	{
 		updateTexture();
@@ -61,10 +64,12 @@ public class BoxToggle : TextureButton
 				case ButtonList.Left:
 					CurrentState = nextState(CurrentState);
 					updateTexture();
+					EmitSignal(nameof(StateChanged), this);
 					break;
 				case ButtonList.Right:
 					CurrentState = nextState(CurrentState, true);
 					updateTexture();
+					EmitSignal(nameof(StateChanged), this);
 					break;
 				default:
 					break;

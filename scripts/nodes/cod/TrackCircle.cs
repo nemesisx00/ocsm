@@ -33,10 +33,11 @@ public class TrackCircle : GridContainer
 			target = 0;
 		Value = target;
 		
-		foreach(Node c in GetChildren())
+		var children = GetChildren();
+		foreach(Node c in children)
 		{
 			var circle = c.GetChild<CircleToggle>(0);
-			if(GetChildren().IndexOf(c) < target)
+			if(children.IndexOf(c) < target)
 				circle.CurrentState = true;
 			else
 				circle.CurrentState = false;
