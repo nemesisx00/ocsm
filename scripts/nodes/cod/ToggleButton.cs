@@ -1,22 +1,19 @@
 using Godot;
-using System;
 
-public class CircleToggle : TextureButton
+public class ToggleButton : TextureRect
 {
+	[Signal]
+	public delegate void StateToggled(ToggleButton circle);
 	
 	public bool CurrentState { get; set; } = false;
-	[Export]
-	private bool HandleMouseEvents { get; set; } = true;
-	
-	[Signal]
-	public delegate void StateToggled(CircleToggle circle);
+	public string ToggledTexturePath { get; set; }
 	
 	public override void _Ready()
 	{
 		updateTexture();
-		
-		if(HandleMouseEvents)
-			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+		var button = GetChild<TextureButton>(0);
+		button.Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+		button.MouseDefaultCursorShape = CursorShape.PointingHand;
 	}
 	
 	public void toggleState()
@@ -30,15 +27,13 @@ public class CircleToggle : TextureButton
 	{
 		var tex = Constants.Texture.FullTransparent;
 		if(CurrentState)
-			tex = Constants.Texture.TrackCircle1;
-		TextureNormal = GD.Load<StreamTexture>(tex);
+			tex = ToggledTexturePath;
+		GetChild<TextureButton>(0).TextureNormal = GD.Load<StreamTexture>(tex);
 	}
 	
 	private void handleClick(InputEvent e)
 	{
 		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && ButtonList.Left == (ButtonList)buttonEvent.ButtonIndex)
-		{
 			toggleState();
-		}
 	}
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class BoxToggle : TextureButton
+public class BoxComplex : TextureButton
 {
 	public sealed class State
 	{
@@ -14,18 +14,14 @@ public class BoxToggle : TextureButton
 	
 	[Export(PropertyHint.Enum, State.EnumHint)]
 	public string CurrentState { get; set; } = State.None;
-	[Export]
-	private bool HandleMouseEvents { get; set; } = true;
 	
 	[Signal]
-	public delegate void StateChanged(BoxToggle box);
+	public delegate void StateChanged(BoxComplex box);
 	
 	public override void _Ready()
 	{
 		updateTexture();
-		
-		if(HandleMouseEvents)
-			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+		Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
 	}
 	
 	public void nextState(bool reverse = false)

@@ -13,8 +13,8 @@ public class Constants
 		
 		public sealed class CoD
 		{
-			public const string BoxToggle = "res://scenes/cod/nodes/BoxToggle.tscn";
-			public const string CircleToggle = "res://scenes/cod/nodes/CircleToggle.tscn";
+			public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
+			public const string ToggleButton = "res://scenes/cod/nodes/ToggleButton.tscn";
 			public const string MortalSheet = "res://scenes/cod/sheets/Mortal.tscn";
 		}
 	}
@@ -31,9 +31,11 @@ public class Constants
 	public sealed class Texture
 	{
 		public const string FullTransparent = "res://assets/textures/cod/FullTransparent.png";
+		public const string TrackBoxBorder = "res://assets/textures/cod/TrackBoxBorder.png";
 		public const string TrackBox1 = "res://assets/textures/cod/TrackBox1.png";
 		public const string TrackBox2 = "res://assets/textures/cod/TrackBox2.png";
 		public const string TrackBox3 = "res://assets/textures/cod/TrackBox3.png";
-		public const string TrackCircle1 = "res://assets/textures/cod/TrackCircleFill.png";
+		public const string TrackCircle = "res://assets/textures/cod/TrackCircle.png";
+		public const string TrackCircleFill = "res://assets/textures/cod/TrackCircleFill.png";
 	}
 }
