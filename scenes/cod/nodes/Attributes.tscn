@@ -109,9 +109,161 @@ margin_bottom = 750.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Label" type="Label" parent="Row1/Column2"]
+margin_right = 339.0
+margin_bottom = 14.0
+text = "Physical"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row1/Column2"]
+margin_top = 18.0
+margin_right = 339.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column2/Row1"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Strength"
+align = 2
+
+[node name="Strength" parent="Row1/Column2/Row1" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+Value = 1
+
+[node name="Row2" type="HBoxContainer" parent="Row1/Column2"]
+margin_top = 36.0
+margin_right = 339.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column2/Row2"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Dexterity"
+align = 2
+
+[node name="Dexterity" parent="Row1/Column2/Row2" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+Value = 1
+
+[node name="Row3" type="HBoxContainer" parent="Row1/Column2"]
+margin_top = 54.0
+margin_right = 339.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column2/Row3"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Stamina"
+align = 2
+
+[node name="Stamina" parent="Row1/Column2/Row3" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+Value = 1
+
 [node name="Column3" type="VBoxContainer" parent="Row1"]
 margin_left = 685.0
 margin_right = 1024.0
 margin_bottom = 750.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Row1/Column3"]
+margin_right = 339.0
+margin_bottom = 14.0
+text = "Social"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row1/Column3"]
+margin_top = 18.0
+margin_right = 339.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column3/Row1"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Presence"
+align = 2
+
+[node name="Presence" parent="Row1/Column3/Row1" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+Value = 1
+
+[node name="Row2" type="HBoxContainer" parent="Row1/Column3"]
+margin_top = 36.0
+margin_right = 339.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column3/Row2"]
+margin_left = 126.0
+margin_right = 209.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Manipulation"
+align = 2
+
+[node name="Manipulation" parent="Row1/Column3/Row2" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 213.0
+margin_right = 213.0
+margin_bottom = 14.0
+Value = 1
+
+[node name="Row3" type="HBoxContainer" parent="Row1/Column3"]
+margin_top = 54.0
+margin_right = 339.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row1/Column3/Row3"]
+margin_left = 127.0
+margin_right = 207.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 80, 0 )
+text = "Composure"
+align = 2
+
+[node name="Composure" parent="Row1/Column3/Row3" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 211.0
+margin_right = 211.0
+margin_bottom = 14.0
+Value = 1
