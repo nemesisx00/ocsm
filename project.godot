@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 AppManager="*res://scripts/autoload/AppManager.cs"
+SheetManager="*res://scripts/autoload/SheetManager.cs"
 
 [display]
 

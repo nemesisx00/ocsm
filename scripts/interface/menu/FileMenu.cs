@@ -31,25 +31,7 @@ public class FileMenu : MenuButton
 	
 	private void doNew()
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.CoD.MortalSheet);
-		var instance = resource.Instance();
-		instance.Name = "New Mortal";
-		
-		var target = GetParent().GetParent().GetNode("SheetTabs");
-		if(target is TabContainer tc)
-		{
-			var dupeCount = 0;
-			foreach(Node c in tc.GetChildren())
-			{
-				if(c.Name.Contains(instance.Name))
-					dupeCount++;
-			}
-			
-			if(dupeCount > 0)
-				instance.Name += String.Format(" ({0})", dupeCount);
-			
-			tc.AddChild(instance);
-		}
+		GetNode<SheetManager>(Constants.NodePath.SheetManager).addNewSheet(Constants.Scene.CoD.MortalSheet, "New Mortal");
 	}
 	
 	private void doOpen()

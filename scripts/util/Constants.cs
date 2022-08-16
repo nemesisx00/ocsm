@@ -5,6 +5,8 @@ public class Constants
 	public sealed class NodePath
 	{
 		public const string AppManager = "/root/AppManager";
+		public const string SheetManager = "/root/SheetManager";
+		public const string SheetTabs = "/root/AppRoot/Column/SheetTabs";
 	}
 	
 	public sealed class Scene
