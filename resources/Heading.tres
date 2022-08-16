@@ -1,7 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=2]
-
-[ext_resource path="res://resources/fonts/KM50-40px.tres" type="DynamicFont" id=1]
-
-[resource]
-Label/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-Label/fonts/font = ExtResource( 1 )

@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://resources/SubHeading.tres" type="Theme" id=1]
+[ext_resource path="res://assets/fonts/a-area-kilometer-50-font/AreaKilometer50-ow3xB.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=2]
+[ext_resource path="res://resources/fonts/SalmaPro-12px.tres" type="DynamicFont" id=3]
+[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=2]
+Label/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
+Label/fonts/font = SubResource( 1 )
 
 [node name="Skills" type="VBoxContainer"]
 anchor_right = 1.0
@@ -9,14 +19,15 @@ anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="."]
 margin_right = 1024.0
-margin_bottom = 20.0
-theme = ExtResource( 1 )
+margin_bottom = 24.0
+theme = SubResource( 2 )
+custom_fonts/font = ExtResource( 4 )
 text = "Skills"
 align = 1
 valign = 1
 
 [node name="Row" type="HBoxContainer" parent="."]
-margin_top = 24.0
+margin_top = 28.0
 margin_right = 1024.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
@@ -25,7 +36,7 @@ alignment = 1
 
 [node name="Mental" type="VBoxContainer" parent="Row"]
 margin_right = 338.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
@@ -39,15 +50,16 @@ valign = 1
 [node name="Label2" type="Label" parent="Row/Mental"]
 margin_top = 18.0
 margin_right = 338.0
-margin_bottom = 32.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
 text = "(-3 unskilled)"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 36.0
+margin_top = 37.0
 margin_right = 338.0
-margin_bottom = 50.0
+margin_bottom = 51.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -68,9 +80,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 54.0
+margin_top = 55.0
 margin_right = 338.0
-margin_bottom = 68.0
+margin_bottom = 69.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -91,9 +103,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 72.0
+margin_top = 73.0
 margin_right = 338.0
-margin_bottom = 86.0
+margin_bottom = 87.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -114,9 +126,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 90.0
+margin_top = 91.0
 margin_right = 338.0
-margin_bottom = 104.0
+margin_bottom = 105.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -137,9 +149,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 108.0
+margin_top = 109.0
 margin_right = 338.0
-margin_bottom = 122.0
+margin_bottom = 123.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -160,9 +172,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 126.0
+margin_top = 127.0
 margin_right = 338.0
-margin_bottom = 140.0
+margin_bottom = 141.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -183,9 +195,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 144.0
+margin_top = 145.0
 margin_right = 338.0
-margin_bottom = 158.0
+margin_bottom = 159.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -206,9 +218,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Mental"]
-margin_top = 162.0
+margin_top = 163.0
 margin_right = 338.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -231,7 +243,7 @@ size_flags_horizontal = 3
 [node name="Physical" type="VBoxContainer" parent="Row"]
 margin_left = 342.0
 margin_right = 681.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
@@ -245,15 +257,16 @@ valign = 1
 [node name="Label2" type="Label" parent="Row/Physical"]
 margin_top = 18.0
 margin_right = 339.0
-margin_bottom = 32.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
 text = "(-1 unskilled)"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 36.0
+margin_top = 37.0
 margin_right = 339.0
-margin_bottom = 50.0
+margin_bottom = 51.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -274,9 +287,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 54.0
+margin_top = 55.0
 margin_right = 339.0
-margin_bottom = 68.0
+margin_bottom = 69.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -297,9 +310,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 72.0
+margin_top = 73.0
 margin_right = 339.0
-margin_bottom = 86.0
+margin_bottom = 87.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -320,9 +333,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 90.0
+margin_top = 91.0
 margin_right = 339.0
-margin_bottom = 104.0
+margin_bottom = 105.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -343,9 +356,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 108.0
+margin_top = 109.0
 margin_right = 339.0
-margin_bottom = 122.0
+margin_bottom = 123.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -366,9 +379,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 126.0
+margin_top = 127.0
 margin_right = 339.0
-margin_bottom = 140.0
+margin_bottom = 141.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -389,9 +402,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 144.0
+margin_top = 145.0
 margin_right = 339.0
-margin_bottom = 158.0
+margin_bottom = 159.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -412,9 +425,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Physical"]
-margin_top = 162.0
+margin_top = 163.0
 margin_right = 339.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -437,7 +450,7 @@ size_flags_horizontal = 3
 [node name="Social" type="VBoxContainer" parent="Row"]
 margin_left = 685.0
 margin_right = 1024.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
@@ -451,15 +464,16 @@ valign = 1
 [node name="Label2" type="Label" parent="Row/Social"]
 margin_top = 18.0
 margin_right = 339.0
-margin_bottom = 32.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 3 )
 text = "(-1 unskilled)"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Social"]
-margin_top = 36.0
+margin_top = 37.0
 margin_right = 339.0
-margin_bottom = 50.0
+margin_bottom = 51.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -480,9 +494,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Social"]
-margin_top = 54.0
+margin_top = 55.0
 margin_right = 339.0
-margin_bottom = 68.0
+margin_bottom = 69.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -503,9 +517,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Social"]
-margin_top = 72.0
+margin_top = 73.0
 margin_right = 339.0
-margin_bottom = 86.0
+margin_bottom = 87.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -526,9 +540,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Social"]
-margin_top = 90.0
+margin_top = 91.0
 margin_right = 339.0
-margin_bottom = 104.0
+margin_bottom = 105.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -549,9 +563,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Social"]
-margin_top = 108.0
+margin_top = 109.0
 margin_right = 339.0
-margin_bottom = 122.0
+margin_bottom = 123.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -572,9 +586,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Social"]
-margin_top = 126.0
+margin_top = 127.0
 margin_right = 339.0
-margin_bottom = 140.0
+margin_bottom = 141.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -595,9 +609,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Social"]
-margin_top = 144.0
+margin_top = 145.0
 margin_right = 339.0
-margin_bottom = 158.0
+margin_bottom = 159.0
 size_flags_horizontal = 3
 alignment = 1
 
@@ -618,9 +632,9 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Social"]
-margin_top = 162.0
+margin_top = 163.0
 margin_right = 339.0
-margin_bottom = 176.0
+margin_bottom = 177.0
 size_flags_horizontal = 3
 alignment = 1
 
