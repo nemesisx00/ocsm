@@ -1,0 +1,641 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/SubHeading.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=2]
+
+[node name="Skills" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 20.0
+theme = ExtResource( 1 )
+text = "Skills"
+align = 1
+valign = 1
+
+[node name="Row" type="HBoxContainer" parent="."]
+margin_top = 24.0
+margin_right = 1024.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Mental" type="VBoxContainer" parent="Row"]
+margin_right = 338.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="Row/Mental"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Mental"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Row/Mental"]
+margin_top = 18.0
+margin_right = 338.0
+margin_bottom = 32.0
+text = "(-3 unskilled)"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 36.0
+margin_right = 338.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row1"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Academics"
+align = 2
+valign = 1
+
+[node name="Academics" parent="Row/Mental/Row1" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 54.0
+margin_right = 338.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row2"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Computer"
+align = 2
+valign = 1
+
+[node name="Computer" parent="Row/Mental/Row2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row3" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 72.0
+margin_right = 338.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row3"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Crafts"
+align = 2
+valign = 1
+
+[node name="Crafts" parent="Row/Mental/Row3" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 90.0
+margin_right = 338.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row4"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Investigation"
+align = 2
+valign = 1
+
+[node name="Investigation" parent="Row/Mental/Row4" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row5" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 108.0
+margin_right = 338.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row5"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Medicine"
+align = 2
+valign = 1
+
+[node name="Medicine" parent="Row/Mental/Row5" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row6" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 126.0
+margin_right = 338.0
+margin_bottom = 140.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row6"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Occult"
+align = 2
+valign = 1
+
+[node name="Occult" parent="Row/Mental/Row6" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row7" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 144.0
+margin_right = 338.0
+margin_bottom = 158.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row7"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Politics"
+align = 2
+valign = 1
+
+[node name="Politics" parent="Row/Mental/Row7" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row8" type="HBoxContainer" parent="Row/Mental"]
+margin_top = 162.0
+margin_right = 338.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Mental/Row8"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Science"
+align = 2
+valign = 1
+
+[node name="Science" parent="Row/Mental/Row8" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 338.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Physical" type="VBoxContainer" parent="Row"]
+margin_left = 342.0
+margin_right = 681.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="Row/Physical"]
+margin_right = 339.0
+margin_bottom = 14.0
+text = "Physical"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Row/Physical"]
+margin_top = 18.0
+margin_right = 339.0
+margin_bottom = 32.0
+text = "(-1 unskilled)"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 36.0
+margin_right = 339.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row1"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Athletics"
+align = 2
+valign = 1
+
+[node name="Athletics" parent="Row/Physical/Row1" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 54.0
+margin_right = 339.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row2"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Brawl"
+align = 2
+valign = 1
+
+[node name="Brawl" parent="Row/Physical/Row2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row3" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 72.0
+margin_right = 339.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row3"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Drive"
+align = 2
+valign = 1
+
+[node name="Drive" parent="Row/Physical/Row3" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 90.0
+margin_right = 339.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row4"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Firearms"
+align = 2
+valign = 1
+
+[node name="Firearms" parent="Row/Physical/Row4" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row5" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 108.0
+margin_right = 339.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row5"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Larceny"
+align = 2
+valign = 1
+
+[node name="Larceny" parent="Row/Physical/Row5" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row6" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 126.0
+margin_right = 339.0
+margin_bottom = 140.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row6"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Stealth"
+align = 2
+valign = 1
+
+[node name="Stealth" parent="Row/Physical/Row6" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row7" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 144.0
+margin_right = 339.0
+margin_bottom = 158.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row7"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Survival"
+align = 2
+valign = 1
+
+[node name="Survival" parent="Row/Physical/Row7" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row8" type="HBoxContainer" parent="Row/Physical"]
+margin_top = 162.0
+margin_right = 339.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Physical/Row8"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Weaponry"
+align = 2
+valign = 1
+
+[node name="Weaponry" parent="Row/Physical/Row8" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Social" type="VBoxContainer" parent="Row"]
+margin_left = 685.0
+margin_right = 1024.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Label" type="Label" parent="Row/Social"]
+margin_right = 339.0
+margin_bottom = 14.0
+text = "Social"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Row/Social"]
+margin_top = 18.0
+margin_right = 339.0
+margin_bottom = 32.0
+text = "(-1 unskilled)"
+align = 1
+valign = 1
+
+[node name="Row1" type="HBoxContainer" parent="Row/Social"]
+margin_top = 36.0
+margin_right = 339.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row1"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Animal Ken"
+align = 2
+valign = 1
+
+[node name="Animal Ken" parent="Row/Social/Row1" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="Row/Social"]
+margin_top = 54.0
+margin_right = 339.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row2"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Empathy"
+align = 2
+valign = 1
+
+[node name="Empathy" parent="Row/Social/Row2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row3" type="HBoxContainer" parent="Row/Social"]
+margin_top = 72.0
+margin_right = 339.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row3"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Expression"
+align = 2
+valign = 1
+
+[node name="Expression" parent="Row/Social/Row3" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="Row/Social"]
+margin_top = 90.0
+margin_right = 339.0
+margin_bottom = 104.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row4"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Intimidation"
+align = 2
+valign = 1
+
+[node name="Intimidation" parent="Row/Social/Row4" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row5" type="HBoxContainer" parent="Row/Social"]
+margin_top = 108.0
+margin_right = 339.0
+margin_bottom = 122.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row5"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Persuasion"
+align = 2
+valign = 1
+
+[node name="Persuasion" parent="Row/Social/Row5" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row6" type="HBoxContainer" parent="Row/Social"]
+margin_top = 126.0
+margin_right = 339.0
+margin_bottom = 140.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row6"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Socialize"
+align = 2
+valign = 1
+
+[node name="Socialize" parent="Row/Social/Row6" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row7" type="HBoxContainer" parent="Row/Social"]
+margin_top = 144.0
+margin_right = 339.0
+margin_bottom = 158.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row7"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Streetwise"
+align = 2
+valign = 1
+
+[node name="Streetwise" parent="Row/Social/Row7" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Row8" type="HBoxContainer" parent="Row/Social"]
+margin_top = 162.0
+margin_right = 339.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row/Social/Row8"]
+margin_right = 167.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Subterfuge"
+align = 2
+valign = 1
+
+[node name="Subterfuge" parent="Row/Social/Row8" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 171.0
+margin_right = 339.0
+margin_bottom = 14.0
+size_flags_horizontal = 3

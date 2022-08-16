@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/cod/nodes/TrackComplex.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/Heading.tres" type="Theme" id=2]
 [ext_resource path="res://resources/SubHeading.tres" type="Theme" id=3]
 [ext_resource path="res://scenes/cod/nodes/Attributes.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/cod/nodes/Skills.tscn" type="PackedScene" id=6]
 
 [node name="MortalSheet" type="VBoxContainer"]
 anchor_left = 0.5
@@ -16,25 +17,40 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 9.0
 
-[node name="Label" type="Label" parent="."]
-margin_left = 301.0
-margin_right = 722.0
+[node name="Title" type="Label" parent="."]
+margin_right = 1024.0
 margin_bottom = 71.0
-size_flags_horizontal = 6
-size_flags_vertical = 2
+size_flags_horizontal = 7
+size_flags_vertical = 1
 size_flags_stretch_ratio = 0.0
 theme = ExtResource( 2 )
 text = "Chronicles of Darkness"
+align = 1
+valign = 2
 
-[node name="HSeparator" type="HSeparator" parent="."]
+[node name="SubTitle" type="Label" parent="."]
 margin_top = 75.0
 margin_right = 1024.0
-margin_bottom = 79.0
+margin_bottom = 95.0
+size_flags_horizontal = 7
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.0
+theme = ExtResource( 3 )
+text = "2nd Edition"
+align = 1
+valign = 2
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 99.0
+margin_right = 1024.0
+margin_bottom = 109.0
+rect_min_size = Vector2( 0, 10 )
+size_flags_horizontal = 3
 
 [node name="DetailsRow" type="HBoxContainer" parent="."]
-margin_top = 83.0
+margin_top = 113.0
 margin_right = 1024.0
-margin_bottom = 241.0
+margin_bottom = 296.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
@@ -42,7 +58,7 @@ alignment = 1
 
 [node name="Details" type="VBoxContainer" parent="DetailsRow"]
 margin_right = 714.0
-margin_bottom = 158.0
+margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
@@ -58,24 +74,24 @@ align = 1
 [node name="Row1" type="HBoxContainer" parent="DetailsRow/Details"]
 margin_top = 24.0
 margin_right = 714.0
-margin_bottom = 140.0
+margin_bottom = 165.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column1" type="VBoxContainer" parent="DetailsRow/Details/Row1"]
 margin_right = 355.0
-margin_bottom = 116.0
+margin_bottom = 141.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column1"]
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column1/Row1"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -87,20 +103,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column1"]
-margin_top = 24.0
+margin_top = 29.0
 margin_right = 355.0
-margin_bottom = 44.0
+margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column1/Row2"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -112,20 +129,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row3" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column1"]
-margin_top = 48.0
+margin_top = 58.0
 margin_right = 355.0
-margin_bottom = 68.0
+margin_bottom = 83.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column1/Row3"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -137,20 +155,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row4" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column1"]
-margin_top = 72.0
+margin_top = 87.0
 margin_right = 355.0
-margin_bottom = 92.0
+margin_bottom = 112.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column1/Row4"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -162,20 +181,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row5" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column1"]
-margin_top = 96.0
+margin_top = 116.0
 margin_right = 355.0
-margin_bottom = 116.0
+margin_bottom = 141.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column1/Row5"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -187,7 +207,8 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -205,18 +226,18 @@ items = [ "4", null, 0, false, false, 0, 0, null, "", false, "5", null, 0, false
 [node name="Column2" type="VBoxContainer" parent="DetailsRow/Details/Row1"]
 margin_left = 359.0
 margin_right = 714.0
-margin_bottom = 116.0
+margin_bottom = 141.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column2"]
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column2/Row1"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -228,20 +249,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column2"]
-margin_top = 24.0
+margin_top = 29.0
 margin_right = 355.0
-margin_bottom = 44.0
+margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column2/Row2"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -253,20 +275,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row3" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column2"]
-margin_top = 48.0
+margin_top = 58.0
 margin_right = 355.0
-margin_bottom = 68.0
+margin_bottom = 83.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column2/Row3"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -278,20 +301,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row4" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column2"]
-margin_top = 72.0
+margin_top = 87.0
 margin_right = 355.0
-margin_bottom = 92.0
+margin_bottom = 112.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column2/Row4"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -303,20 +327,21 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row5" type="HBoxContainer" parent="DetailsRow/Details/Row1/Column2"]
-margin_top = 96.0
+margin_top = 116.0
 margin_right = 355.0
-margin_bottom = 116.0
+margin_bottom = 141.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="Label" type="Label" parent="DetailsRow/Details/Row1/Column2/Row5"]
 margin_right = 100.0
-margin_bottom = 20.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
@@ -328,15 +353,16 @@ valign = 1
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 355.0
-margin_bottom = 20.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="DetailsRow/Details"]
-margin_top = 144.0
+margin_top = 169.0
 margin_right = 714.0
-margin_bottom = 158.0
+margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -431,16 +457,16 @@ valign = 1
 [node name="Advantages" type="CenterContainer" parent="DetailsRow"]
 margin_left = 718.0
 margin_right = 1024.0
-margin_bottom = 158.0
+margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DetailsRow/Advantages"]
 margin_left = 121.0
-margin_top = 59.0
+margin_top = 60.0
 margin_right = 185.0
-margin_bottom = 99.0
+margin_bottom = 122.0
 
 [node name="Row1" type="VBoxContainer" parent="DetailsRow/Advantages/VBoxContainer"]
 margin_right = 64.0
@@ -455,9 +481,11 @@ align = 1
 [node name="Health" parent="DetailsRow/Advantages/VBoxContainer/Row1" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_left = 32.0
 margin_top = 18.0
-margin_right = 64.0
+margin_right = 32.0
 margin_bottom = 18.0
+size_flags_horizontal = 6
 
 [node name="Row2" type="VBoxContainer" parent="DetailsRow/Advantages/VBoxContainer"]
 margin_top = 22.0
@@ -470,21 +498,96 @@ margin_bottom = 14.0
 text = "Willpower"
 align = 1
 
-[node name="Tracker" parent="DetailsRow/Advantages/VBoxContainer/Row2" instance=ExtResource( 5 )]
+[node name="Willpower" parent="DetailsRow/Advantages/VBoxContainer/Row2" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_left = 32.0
 margin_top = 18.0
-margin_right = 64.0
+margin_right = 32.0
 margin_bottom = 18.0
+size_flags_horizontal = 6
 columns = 10
 UseCircles = false
 
-[node name="Attributes" parent="." instance=ExtResource( 4 )]
+[node name="Row3" type="VBoxContainer" parent="DetailsRow/Advantages/VBoxContainer"]
+margin_top = 44.0
+margin_right = 64.0
+margin_bottom = 62.0
+
+[node name="Label" type="Label" parent="DetailsRow/Advantages/VBoxContainer/Row3"]
+margin_right = 64.0
+margin_bottom = 14.0
+text = "Integrity"
+align = 1
+
+[node name="Integrity" parent="DetailsRow/Advantages/VBoxContainer/Row3" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 245.0
+margin_left = 32.0
+margin_top = 18.0
+margin_right = 32.0
+margin_bottom = 18.0
+size_flags_horizontal = 6
+columns = 10
+Max = 10
+Value = 7
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+margin_top = 300.0
 margin_right = 1024.0
-margin_bottom = 331.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="TabContainer" type="TabContainer" parent="."]
+margin_top = 324.0
+margin_right = 1024.0
+margin_bottom = 680.0
+tab_align = 0
+
+[node name="Traits" type="VBoxContainer" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 5
+size_flags_vertical = 5
+alignment = 1
+
+[node name="Attributes" parent="TabContainer/Traits" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1016.0
+margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
+
+[node name="HSeparator3" type="HSeparator" parent="TabContainer/Traits"]
+margin_top = 96.0
+margin_right = 1016.0
+margin_bottom = 116.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="Skills" parent="TabContainer/Traits" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 120.0
+margin_right = 1016.0
+margin_bottom = 320.0
+
+[node name="Merits" type="VBoxContainer" parent="TabContainer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Inventory" type="VBoxContainer" parent="TabContainer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Game Notes" type="VBoxContainer" parent="TabContainer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0

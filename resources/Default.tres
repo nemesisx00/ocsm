@@ -1,13 +1,17 @@
-[gd_resource type="Theme" load_steps=4 format=2]
+[gd_resource type="Theme" load_steps=6 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-Default.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/styles/AppBackground.tres" type="StyleBox" id=2]
 [ext_resource path="res://resources/styles/BodyBackground.tres" type="StyleBox" id=3]
+[ext_resource path="res://resources/styles/BorderLine.tres" type="StyleBox" id=4]
+[ext_resource path="res://resources/styles/TabBackground.tres" type="StyleBox" id=5]
 
 [resource]
+default_font = ExtResource( 1 )
+HSeparator/styles/separator = ExtResource( 4 )
 Label/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-Label/fonts/font = ExtResource( 1 )
 MenuButton/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-MenuButton/fonts/font = ExtResource( 1 )
 Panel/styles/panel = ExtResource( 2 )
+TabContainer/colors/font_color_fg = Color( 0.662745, 0.670588, 0.690196, 1 )
 TabContainer/styles/panel = ExtResource( 3 )
+TabContainer/styles/tab_fg = ExtResource( 5 )
