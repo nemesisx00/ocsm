@@ -54,32 +54,41 @@ size_flags_horizontal = 3
 [node name="DetailsRow" type="HBoxContainer" parent="Column"]
 margin_top = 92.0
 margin_right = 1024.0
-margin_bottom = 279.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
 alignment = 1
 
-[node name="Details" parent="Column/DetailsRow" instance=ExtResource( 5 )]
-margin_bottom = 187.0
-
 [node name="Advantages" parent="Column/DetailsRow" instance=ExtResource( 1 )]
-margin_bottom = 187.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 92.0
 
 [node name="HSeparator2" type="HSeparator" parent="Column"]
-margin_top = 283.0
+margin_top = 188.0
 margin_right = 1024.0
-margin_bottom = 303.0
+margin_bottom = 208.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="TabContainer" type="TabContainer" parent="Column"]
-margin_top = 307.0
+margin_top = 212.0
 margin_right = 1024.0
-margin_bottom = 672.0
+margin_bottom = 417.0
 tab_align = 0
 drag_to_rearrange_enabled = true
 
+[node name="Details" parent="Column/TabContainer" instance=ExtResource( 5 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
 [node name="Traits" parent="Column/TabContainer" instance=ExtResource( 4 )]
+visible = false
 
 [node name="Merits" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false

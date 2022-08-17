@@ -3,129 +3,311 @@
 [ext_resource path="res://scenes/cod/nodes/TrackComplex.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=4]
 
-[node name="Advantages" type="CenterContainer"]
-margin_left = 718.0
-margin_right = 1024.0
-margin_bottom = 183.0
+[node name="Advantages" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 114.0
-margin_top = 33.0
-margin_right = 192.0
-margin_bottom = 150.0
+[node name="Column1" type="VBoxContainer" parent="."]
+margin_right = 253.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
 
-[node name="Row1" type="VBoxContainer" parent="VBoxContainer"]
-margin_right = 78.0
+[node name="Row1" type="VBoxContainer" parent="Column1"]
+margin_right = 253.0
 margin_bottom = 18.0
+alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Row1"]
-margin_right = 78.0
+[node name="Label" type="Label" parent="Column1/Row1"]
+margin_right = 253.0
 margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Health"
 align = 1
+valign = 1
 
-[node name="Health" parent="VBoxContainer/Row1" instance=ExtResource( 3 )]
+[node name="Health" parent="Column1/Row1" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 39.0
+margin_left = 126.0
 margin_top = 18.0
-margin_right = 39.0
+margin_right = 126.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 
-[node name="Row2" type="VBoxContainer" parent="VBoxContainer"]
+[node name="Row2" type="VBoxContainer" parent="Column1"]
 margin_top = 22.0
-margin_right = 78.0
+margin_right = 253.0
 margin_bottom = 40.0
 
-[node name="Label" type="Label" parent="VBoxContainer/Row2"]
-margin_right = 78.0
+[node name="Label" type="Label" parent="Column1/Row2"]
+margin_right = 253.0
 margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Willpower"
 align = 1
+valign = 1
 
-[node name="Willpower" parent="VBoxContainer/Row2" instance=ExtResource( 4 )]
+[node name="Willpower" parent="Column1/Row2" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 39.0
+margin_left = 126.0
 margin_top = 18.0
-margin_right = 39.0
+margin_right = 126.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
 UseCircles = false
 
-[node name="Row3" type="VBoxContainer" parent="VBoxContainer"]
+[node name="Row3" type="VBoxContainer" parent="Column1"]
 margin_top = 44.0
-margin_right = 78.0
+margin_right = 253.0
 margin_bottom = 62.0
 
-[node name="Label" type="Label" parent="VBoxContainer/Row3"]
-margin_right = 78.0
+[node name="Label" type="Label" parent="Column1/Row3"]
+margin_right = 253.0
 margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Integrity"
 align = 1
+valign = 1
 
-[node name="Integrity" parent="VBoxContainer/Row3" instance=ExtResource( 4 )]
+[node name="Integrity" parent="Column1/Row3" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 39.0
+margin_left = 126.0
 margin_top = 18.0
-margin_right = 39.0
+margin_right = 126.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
 Max = 10
 Value = 7
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 66.0
-margin_right = 78.0
-margin_bottom = 70.0
+[node name="Column2" type="VBoxContainer" parent="."]
+margin_left = 257.0
+margin_right = 510.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
 
-[node name="Row4" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 74.0
-margin_right = 78.0
-margin_bottom = 88.0
+[node name="Row1" type="HBoxContainer" parent="Column2"]
+margin_right = 253.0
+margin_bottom = 14.0
 
-[node name="Label" type="Label" parent="VBoxContainer/Row4"]
-margin_right = 40.0
+[node name="Label" type="Label" parent="Column2/Row1"]
+margin_right = 124.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
+text = "Armor:"
+align = 2
+
+[node name="Armor" type="Label" parent="Column2/Row1"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "0"
+
+[node name="Row2" type="HBoxContainer" parent="Column2"]
+margin_top = 18.0
+margin_right = 253.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="Column2/Row2"]
+margin_right = 124.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Defense:"
+align = 2
+
+[node name="Defense" type="Label" parent="Column2/Row2"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "1"
+
+[node name="Row3" type="HBoxContainer" parent="Column2"]
+margin_top = 36.0
+margin_right = 253.0
+margin_bottom = 50.0
+
+[node name="Label" type="Label" parent="Column2/Row3"]
+margin_right = 124.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Initiative:"
+align = 2
+
+[node name="Initiative" type="Label" parent="Column2/Row3"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "2"
+
+[node name="Row4" type="HBoxContainer" parent="Column2"]
+margin_top = 54.0
+margin_right = 253.0
+margin_bottom = 68.0
+
+[node name="Label" type="Label" parent="Column2/Row4"]
+margin_right = 124.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Speed:"
+align = 2
+
+[node name="Speed" type="Label" parent="Column2/Row4"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "7"
+
+[node name="Column3" type="VBoxContainer" parent="."]
+margin_left = 514.0
+margin_right = 767.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Row1" type="HBoxContainer" parent="Column3"]
+margin_right = 253.0
+margin_bottom = 14.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Column3/Row1"]
+margin_right = 124.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Beats:"
 align = 2
-valign = 1
 
-[node name="Beats" parent="VBoxContainer/Row4" instance=ExtResource( 4 )]
+[node name="Beats" parent="Column3/Row1" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 61.0
-margin_right = 61.0
+margin_left = 128.0
+margin_right = 253.0
 margin_bottom = 14.0
-size_flags_horizontal = 6
 UseCircles = false
 
-[node name="Row5" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 92.0
-margin_right = 78.0
-margin_bottom = 117.0
+[node name="Row2" type="HBoxContainer" parent="Column3"]
+margin_top = 18.0
+margin_right = 253.0
+margin_bottom = 43.0
+alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Row5"]
+[node name="Label" type="Label" parent="Column3/Row2"]
 margin_top = 5.0
-margin_right = 74.0
+margin_right = 124.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
+size_flags_vertical = 6
 text = "Experience:"
 align = 2
 valign = 1
 
-[node name="Experience" type="TextEdit" parent="VBoxContainer/Row5"]
-margin_left = 78.0
-margin_right = 78.0
+[node name="Experience" type="TextEdit" parent="Column3/Row2"]
+margin_left = 128.0
+margin_right = 253.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 text = "0"
+
+[node name="Row3" type="HBoxContainer" parent="Column3"]
+margin_top = 47.0
+margin_right = 253.0
+margin_bottom = 72.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Column3/Row3"]
+margin_top = 5.0
+margin_right = 124.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Virtue:"
+align = 2
+valign = 1
+
+[node name="Virtue" type="Label" parent="Column3/Row3"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 6
+align = 2
+valign = 1
+
+[node name="Row4" type="HBoxContainer" parent="Column3"]
+margin_top = 76.0
+margin_right = 253.0
+margin_bottom = 101.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Column3/Row4"]
+margin_top = 5.0
+margin_right = 124.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Vice:"
+align = 2
+valign = 1
+
+[node name="Vice" type="Label" parent="Column3/Row4"]
+margin_left = 128.0
+margin_right = 253.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 6
+align = 2
+valign = 1
+
+[node name="Column4" type="VBoxContainer" parent="."]
+margin_left = 771.0
+margin_right = 1024.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Conditions" type="VBoxContainer" parent="Column4"]
+margin_right = 253.0
+margin_bottom = 101.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Column4/Conditions"]
+margin_right = 253.0
+margin_bottom = 14.0
+text = "Conditions"
+align = 1
+
+[node name="TextEdit1" type="TextEdit" parent="Column4/Conditions"]
+margin_top = 18.0
+margin_right = 253.0
+margin_bottom = 43.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+
+[node name="TextEdit2" type="TextEdit" parent="Column4/Conditions"]
+margin_top = 47.0
+margin_right = 253.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+
+[node name="TextEdit3" type="TextEdit" parent="Column4/Conditions"]
+margin_top = 76.0
+margin_right = 253.0
+margin_bottom = 101.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3

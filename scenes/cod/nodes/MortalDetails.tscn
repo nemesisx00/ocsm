@@ -1,37 +1,27 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
+[gd_scene format=2]
 
 [node name="Details" type="VBoxContainer"]
-margin_right = 714.0
-margin_bottom = 183.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
-
-[node name="SubHeading" type="Label" parent="."]
-margin_right = 714.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
-text = "Details"
-align = 1
+custom_constants/separation = 5
 
 [node name="Row1" type="HBoxContainer" parent="."]
-margin_top = 28.0
-margin_right = 714.0
-margin_bottom = 169.0
+margin_right = 1024.0
+margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column1" type="VBoxContainer" parent="Row1"]
-margin_right = 355.0
-margin_bottom = 141.0
+margin_right = 510.0
+margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Column1"]
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -48,7 +38,7 @@ valign = 1
 [node name="Player" type="TextEdit" parent="Row1/Column1/Row1"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -57,7 +47,7 @@ size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 29.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -74,7 +64,7 @@ valign = 1
 [node name="Chronicle" type="TextEdit" parent="Row1/Column1/Row2"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -83,7 +73,7 @@ size_flags_vertical = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 58.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 83.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -100,7 +90,7 @@ valign = 1
 [node name="Name" type="TextEdit" parent="Row1/Column1/Row3"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -109,7 +99,7 @@ size_flags_vertical = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 87.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 112.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -126,7 +116,7 @@ valign = 1
 [node name="Age" type="TextEdit" parent="Row1/Column1/Row4"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -135,7 +125,7 @@ size_flags_vertical = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 116.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 141.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -152,7 +142,7 @@ valign = 1
 [node name="Size" type="TextEdit" parent="Row1/Column1/Row5"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -160,10 +150,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MenuButton" type="MenuButton" parent="Row1/Column1/Row5/Size"]
-margin_left = 231.0
-margin_right = 251.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -20.0
 margin_bottom = 20.0
-focus_mode = 2
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 10
 size_flags_vertical = 6
@@ -171,14 +161,14 @@ text = "V"
 items = [ "4", null, 0, false, false, 0, 0, null, "", false, "5", null, 0, false, false, 1, 0, null, "", false, "6", null, 0, false, false, 2, 0, null, "", false ]
 
 [node name="Column2" type="VBoxContainer" parent="Row1"]
-margin_left = 359.0
-margin_right = 714.0
-margin_bottom = 141.0
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Column2"]
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -195,7 +185,7 @@ valign = 1
 [node name="Concept" type="TextEdit" parent="Row1/Column2/Row1"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -204,7 +194,7 @@ size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Column2"]
 margin_top = 29.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -221,7 +211,7 @@ valign = 1
 [node name="Virtue" type="TextEdit" parent="Row1/Column2/Row2"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -230,7 +220,7 @@ size_flags_vertical = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Column2"]
 margin_top = 58.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 83.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -247,7 +237,7 @@ valign = 1
 [node name="Vice" type="TextEdit" parent="Row1/Column2/Row3"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -256,7 +246,7 @@ size_flags_vertical = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row1/Column2"]
 margin_top = 87.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 112.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -273,7 +263,7 @@ valign = 1
 [node name="GroupName" type="TextEdit" parent="Row1/Column2/Row4"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
@@ -282,7 +272,7 @@ size_flags_vertical = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row1/Column2"]
 margin_top = 116.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 141.0
 rect_min_size = Vector2( 0, 20 )
 
@@ -299,104 +289,9 @@ valign = 1
 [node name="Faction" type="TextEdit" parent="Row1/Column2/Row5"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 355.0
+margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter this character's player name here"
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Row2" type="HBoxContainer" parent="."]
-margin_top = 173.0
-margin_right = 714.0
-margin_bottom = 187.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-
-[node name="ArmorLabel" type="Label" parent="Row2"]
-margin_left = 140.0
-margin_right = 184.0
-margin_bottom = 14.0
-size_flags_horizontal = 5
-size_flags_vertical = 6
-text = "Armor:"
-align = 2
-valign = 1
-
-[node name="ArmorValue" type="Label" parent="Row2"]
-unique_name_in_owner = true
-margin_left = 188.0
-margin_right = 238.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 50, 0 )
-size_flags_horizontal = 5
-size_flags_vertical = 6
-text = "0"
-valign = 1
-
-[node name="DefenseLabel" type="Label" parent="Row2"]
-margin_left = 242.0
-margin_right = 299.0
-margin_bottom = 14.0
-size_flags_horizontal = 5
-size_flags_vertical = 6
-text = "Defense:"
-align = 2
-valign = 1
-
-[node name="DefenseValue" type="Label" parent="Row2"]
-unique_name_in_owner = true
-margin_left = 303.0
-margin_right = 353.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 50, 0 )
-size_flags_horizontal = 5
-size_flags_vertical = 6
-size_flags_stretch_ratio = 2.0
-text = "1"
-valign = 1
-
-[node name="IntiativeLabel" type="Label" parent="Row2"]
-margin_left = 357.0
-margin_right = 418.0
-margin_bottom = 14.0
-size_flags_horizontal = 5
-size_flags_vertical = 6
-text = "Initiative:"
-align = 2
-valign = 1
-
-[node name="InitiativeValue" type="Label" parent="Row2"]
-unique_name_in_owner = true
-margin_left = 422.0
-margin_right = 472.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 50, 0 )
-size_flags_horizontal = 5
-size_flags_vertical = 6
-size_flags_stretch_ratio = 2.0
-text = "2"
-valign = 1
-
-[node name="SpeedLabel" type="Label" parent="Row2"]
-margin_left = 476.0
-margin_right = 519.0
-margin_bottom = 14.0
-size_flags_horizontal = 5
-size_flags_vertical = 6
-text = "Speed:"
-align = 2
-valign = 1
-
-[node name="SpeedValue" type="Label" parent="Row2"]
-unique_name_in_owner = true
-margin_left = 523.0
-margin_right = 573.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 50, 0 )
-size_flags_horizontal = 5
-size_flags_vertical = 6
-size_flags_stretch_ratio = 2.0
-text = "7"
-valign = 1
