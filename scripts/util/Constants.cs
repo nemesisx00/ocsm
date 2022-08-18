@@ -2,9 +2,16 @@ using System;
 
 public class Constants
 {
+	public sealed class Action
+	{
+		public const string Cancel = "ui_cancel";
+	}
+	
 	public sealed class NodePath
 	{
 		public const string AppManager = "/root/AppManager";
+		public const string AppRoot = "/root/AppRoot";
+		public const string NewSheet = "/root/AppRoot/NewSheet";
 		public const string SheetManager = "/root/SheetManager";
 		public const string SheetTabs = "/root/AppRoot/Column/SheetTabs";
 	}
@@ -12,6 +19,7 @@ public class Constants
 	public sealed class Scene
 	{
 		public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
+		public const string NewSheet = "res://scenes/NewSheet.tscn";
 		
 		public sealed class CoD
 		{
