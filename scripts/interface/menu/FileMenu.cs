@@ -31,7 +31,7 @@ public class FileMenu : MenuButton
 	
 	private void doNew()
 	{
-		GetNode<SheetManager>(Constants.NodePath.SheetManager).addNewSheet(Constants.Scene.CoD.MortalSheet, "New Mortal");
+		GetNode<SheetManager>(Constants.NodePath.SheetManager).showNewSheetUI();
 	}
 	
 	private void doOpen()
