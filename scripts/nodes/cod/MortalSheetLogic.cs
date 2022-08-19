@@ -46,16 +46,6 @@ public class MortalSheetLogic : ScrollContainer
 	
 	private Mortal sheetData { get; set; } = new Mortal();
 	
-	/*
-	public override void _Input(InputEvent e)
-	{
-		if(e is InputEventMouseButton eb && eb.Pressed && eb.ButtonIndex == (int)ButtonList.Left)
-		{
-			GD.Print(sheetData.ToString());
-		}
-	}
-	*/
-	
     public override void _Ready()
     {
 		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), sheetData.Age > -1 ? sheetData.Age.ToString() : String.Empty, nameof(changed_Age));
@@ -69,15 +59,13 @@ public class MortalSheetLogic : ScrollContainer
 		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)), sheetData.Virtue, nameof(changed_Virtue));
 		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), sheetData.Size.ToString(), nameof(changed_Size));
 		
-		
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), sheetData.Beats, nameof(changed_Beats));
 		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), sheetData.Experience, nameof(changed_Experience));
-		GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(sheetData.HealthMax);
+		updateMaxHealth();
 		InitAndConnect(GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), sheetData.HealthCurrent, nameof(changed_Health));
-		GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(sheetData.WillpowerMax);
+		updateMaxWillpower();
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)), sheetData.WillpowerSpent.ToString(), nameof(changed_Willpower));
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Integrity, AdvantagesPath)), sheetData.Integrity.ToString(), nameof(changed_Integrity));
-		
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
 		
@@ -90,6 +78,10 @@ public class MortalSheetLogic : ScrollContainer
 		{
 			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), sheetData.Skills[s], String.Format("changed_{0}", s.Name.Replace(" ", "")));
 		}
+		
+		updateDefense();
+		updateInitiative();
+		updateSpeed();
     }
 	
 	private void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName)
@@ -127,35 +119,16 @@ public class MortalSheetLogic : ScrollContainer
 			node.Text = sheetData.Age.ToString();
 	}
 	
-	private void changed_Chronicle()
-	{
-		sheetData.Chronicle = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)).Text;
-	}
-	
-	private void changed_Concept()
-	{
-		sheetData.Concept = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)).Text;
-	}
-	
-	private void changed_Faction()
-	{
-		sheetData.Faction = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)).Text;
-	}
-	
-	private void changed_GroupName()
-	{
-		sheetData.GroupName = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)).Text;
-	}
-	
+	private void changed_Chronicle() { sheetData.Chronicle = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)).Text; }
+	private void changed_Concept() { sheetData.Concept = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)).Text; }
+	private void changed_Faction() { sheetData.Faction = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)).Text; }
+	private void changed_GroupName() { sheetData.GroupName = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)).Text; }
 	private void changed_Name()
 	{
 		sheetData.Name = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)).Text;
+		Name = sheetData.Name;
 	}
-	
-	private void changed_Player()
-	{
-		sheetData.Player = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)).Text;
-	}
+	private void changed_Player() { sheetData.Player = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)).Text; }
 	
 	private void changed_Vice()
 	{
@@ -175,7 +148,12 @@ public class MortalSheetLogic : ScrollContainer
 		var newText = node.Text;
 		int newSize;
 		if(int.TryParse(newText, out newSize))
+		{
 			sheetData.Size = newSize;
+			
+			updateMaxHealth();
+			updateSpeed();
+		}
 		else
 			node.Text = sheetData.Size.ToString();
 	}
@@ -204,183 +182,113 @@ public class MortalSheetLogic : ScrollContainer
 			node.Text = sheetData.Experience.ToString();
 	}
 	
-	private void changed_Health(Dictionary<string, int> values)
-	{
-		sheetData.HealthCurrent = values;
-	}
-	
-	private void changed_Integrity(int value)
-	{
-		sheetData.Integrity = value;
-	}
-	
-	private void changed_Willpower(int value)
-	{
-		sheetData.WillpowerSpent = value;
-	}
+	private void changed_Health(Dictionary<string, int> values) { sheetData.HealthCurrent = values; }
+	private void changed_Integrity(int value) { sheetData.Integrity = value; }
+	private void changed_Willpower(int value) { sheetData.WillpowerSpent = value; }
 	
 	private void changed_Composure(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Composure] = value;
+		
+		updateMaxWillpower();
+		updateInitiative();
 	}
 	
 	private void changed_Dexterity(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Dexterity] = value;
+		
+		updateDefense();
+		updateInitiative();
+		updateSpeed();
 	}
 	
-	private void changed_Intelligence(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Intelligence] = value;
-	}
-	
-	private void changed_Manipulation(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Manipulation] = value;
-	}
-	
-	private void changed_Presence(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Presence] = value;
-	}
+	private void changed_Intelligence(int value) { sheetData.Attributes[OCSM.Attribute.Intelligence] = value; }
+	private void changed_Manipulation(int value) { sheetData.Attributes[OCSM.Attribute.Manipulation] = value; }
+	private void changed_Presence(int value) { sheetData.Attributes[OCSM.Attribute.Presence] = value; }
 	
 	private void changed_Resolve(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Resolve] = value;
+		updateMaxWillpower();
 	}
 	
 	private void changed_Stamina(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Stamina] = value;
+		updateMaxHealth();
 	}
 	
 	private void changed_Strength(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Strength] = value;
+		
+		updateSpeed();
 	}
-	
 	private void changed_Wits(int value)
 	{
 		sheetData.Attributes[OCSM.Attribute.Wits] = value;
+		
+		updateDefense();
 	}
 	
-	private void changed_Academics(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Academics] = value;
-	}
-	
+	private void changed_Academics(int value) { sheetData.Skills[OCSM.Skill.Academics] = value; }
 	private void changed_Athletics(int value)
 	{
 		sheetData.Skills[OCSM.Skill.Athletics] = value;
+		
+		updateDefense();
+	}
+	private void changed_AnimalKen(int value) { sheetData.Skills[OCSM.Skill.AnimalKen] = value; }
+	private void changed_Brawl(int value) { sheetData.Skills[OCSM.Skill.Brawl] = value; }
+	private void changed_Computer(int value) { sheetData.Skills[OCSM.Skill.Computer] = value; }
+	private void changed_Crafts(int value) { sheetData.Skills[OCSM.Skill.Crafts] = value; }
+	private void changed_Drive(int value) { sheetData.Skills[OCSM.Skill.Drive] = value; }
+	private void changed_Empathy(int value) { sheetData.Skills[OCSM.Skill.Empathy] = value; }
+	private void changed_Expression(int value) { sheetData.Skills[OCSM.Skill.Expression] = value; }
+	private void changed_Firearms(int value) { sheetData.Skills[OCSM.Skill.Firearms] = value; }
+	private void changed_Intimidation(int value) { sheetData.Skills[OCSM.Skill.Intimidation] = value; }
+	private void changed_Investigation(int value) { sheetData.Skills[OCSM.Skill.Investigation] = value; }
+	private void changed_Larceny(int value) { sheetData.Skills[OCSM.Skill.Larceny] = value; }
+	private void changed_Medicine(int value) { sheetData.Skills[OCSM.Skill.Medicine] = value; }
+	private void changed_Occult(int value) { sheetData.Skills[OCSM.Skill.Occult] = value; }
+	private void changed_Persuasion(int value) { sheetData.Skills[OCSM.Skill.Persuasion] = value; }
+	private void changed_Politics(int value) { sheetData.Skills[OCSM.Skill.Politics] = value; }
+	private void changed_Science(int value) { sheetData.Skills[OCSM.Skill.Science] = value; }
+	private void changed_Socialize(int value) { sheetData.Skills[OCSM.Skill.Socialize] = value; }
+	private void changed_Stealth(int value) { sheetData.Skills[OCSM.Skill.Stealth] = value; }
+	private void changed_Streetwise(int value) { sheetData.Skills[OCSM.Skill.Streetwise] = value; }
+	private void changed_Subterfuge(int value) { sheetData.Skills[OCSM.Skill.Subterfuge] = value; }
+	private void changed_Survival(int value) { sheetData.Skills[OCSM.Skill.Survival] = value; }
+	private void changed_Weaponry(int value) { sheetData.Skills[OCSM.Skill.Weaponry] = value; }
+	
+	private void updateDefense()
+	{
+		if(sheetData.Attributes[OCSM.Attribute.Dexterity] < sheetData.Attributes[OCSM.Attribute.Wits])
+			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (sheetData.Attributes[OCSM.Attribute.Dexterity] + sheetData.Skills[OCSM.Skill.Athletics]).ToString();
+		else
+			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (sheetData.Attributes[OCSM.Attribute.Wits] + sheetData.Skills[OCSM.Skill.Athletics]).ToString();
 	}
 	
-	private void changed_AnimalKen(int value)
+	private void updateInitiative()
 	{
-		sheetData.Skills[OCSM.Skill.AnimalKen] = value;
+		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Initiative, AdvantagesPath)).Text = (sheetData.Attributes[OCSM.Attribute.Dexterity] + sheetData.Attributes[OCSM.Attribute.Composure]).ToString();
 	}
 	
-	private void changed_Brawl(int value)
+	private void updateMaxHealth()
 	{
-		sheetData.Skills[OCSM.Skill.Brawl] = value;
+		sheetData.HealthMax = sheetData.Size + sheetData.Attributes[OCSM.Attribute.Stamina];
+		GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(sheetData.HealthMax);
 	}
 	
-	private void changed_Computer(int value)
+	private void updateMaxWillpower()
 	{
-		sheetData.Skills[OCSM.Skill.Computer] = value;
+		sheetData.WillpowerMax = sheetData.Attributes[OCSM.Attribute.Composure] + sheetData.Attributes[OCSM.Attribute.Resolve];
+		GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(sheetData.WillpowerMax);
 	}
 	
-	private void changed_Crafts(int value)
+	private void updateSpeed()
 	{
-		sheetData.Skills[OCSM.Skill.Crafts] = value;
-	}
-	
-	private void changed_Drive(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Drive] = value;
-	}
-	
-	private void changed_Empathy(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Empathy] = value;
-	}
-	
-	private void changed_Expression(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Expression] = value;
-	}
-	
-	private void changed_Firearms(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Firearms] = value;
-	}
-	
-	private void changed_Intimidation(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Intimidation] = value;
-	}
-	
-	private void changed_Investigation(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Investigation] = value;
-	}
-	
-	private void changed_Larceny(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Larceny] = value;
-	}
-	
-	private void changed_Medicine(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Medicine] = value;
-	}
-	
-	private void changed_Occult(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Occult] = value;
-	}
-	
-	private void changed_Persuasion(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Persuasion] = value;
-	}
-	
-	private void changed_Politics(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Politics] = value;
-	}
-	
-	private void changed_Science(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Science] = value;
-	}
-	
-	private void changed_Socialize(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Socialize] = value;
-	}
-	
-	private void changed_Stealth(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Stealth] = value;
-	}
-	
-	private void changed_Streetwise(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Streetwise] = value;
-	}
-	
-	private void changed_Subterfuge(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Subterfuge] = value;
-	}
-	
-	private void changed_Survival(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Survival] = value;
-	}
-	
-	private void changed_Weaponry(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Weaponry] = value;
+		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Speed, AdvantagesPath)).Text = (sheetData.Attributes[OCSM.Attribute.Strength] + sheetData.Attributes[OCSM.Attribute.Dexterity] + sheetData.Size).ToString();
 	}
 }
