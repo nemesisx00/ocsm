@@ -72,12 +72,10 @@ public class TrackSimple : GridContainer
 		}
 		else
 		{
-			foreach(ToggleButton c in children)
+			foreach(Node c in children)
 			{
 				if(children.IndexOf(c) >= Max)
-				{
 					c.QueueFree();
-				}
 			}
 		}
 	}

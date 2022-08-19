@@ -109,7 +109,7 @@ public class TrackComplex : GridContainer
 		{
 			foreach(Node c in children)
 			{
-				if(children.IndexOf(c) > Max)
+				if(children.IndexOf(c) >= Max)
 					c.QueueFree();
 			}
 		}
