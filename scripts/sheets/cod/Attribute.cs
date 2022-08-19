@@ -12,8 +12,19 @@ namespace OCSM
 				Add(a, 1);
 			}
 		}
+		
+		public override string ToString()
+		{
+			string output = "Attributes { ";
+			foreach(var a in Keys)
+			{
+				output += String.Format("{0}: {1}, ", a.Name, this[a]);
+			}
+			output += " }";
+			return output;
+		}
 	}
-
+	
 	public sealed class Attribute
 	{
 		public static Attribute Composure = new Attribute { Name = "Composure", Type = TraitType.Social };

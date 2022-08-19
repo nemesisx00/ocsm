@@ -12,8 +12,19 @@ namespace OCSM
 				Add(s, 0);
 			}
 		}
+		
+		public override string ToString()
+		{
+			string output = "Skills { ";
+			foreach(var s in Keys)
+			{
+				output += String.Format("{0}: {1}, ", s.Name, this[s]);
+			}
+			output += " }";
+			return output;
+		}
 	}
-
+	
 	public sealed class Skill
 	{
 		public static Skill Academics = new Skill { Name = "Academics", Type = TraitType.Mental };
