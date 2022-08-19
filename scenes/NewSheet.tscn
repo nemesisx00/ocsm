@@ -20,6 +20,7 @@ margin_right = 510.0
 margin_bottom = 731.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 25
 
 [node name="D&D" type="VBoxContainer" parent="Row/Column1"]
 margin_right = 510.0
@@ -34,14 +35,41 @@ text = "Dungeons & Dragons"
 align = 1
 valign = 1
 
-[node name="5E" type="Button" parent="Row/Column1/D&D"]
+[node name="D&D5E" type="Button" parent="Row/Column1/D&D"]
+unique_name_in_owner = true
 margin_left = 214.0
 margin_top = 34.0
 margin_right = 295.0
 margin_bottom = 54.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
+disabled = true
 text = "5th Edition"
+
+[node name="WoD" type="VBoxContainer" parent="Row/Column1"]
+margin_top = 79.0
+margin_right = 510.0
+margin_bottom = 127.0
+
+[node name="Label" type="Label" parent="Row/Column1/WoD"]
+margin_right = 510.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "World of Darkness"
+align = 1
+valign = 1
+
+[node name="VampireV5" type="Button" parent="Row/Column1/WoD"]
+unique_name_in_owner = true
+margin_left = 151.0
+margin_top = 28.0
+margin_right = 358.0
+margin_bottom = 48.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 6
+disabled = true
+text = "Vampire: The Masquerade - V5"
 
 [node name="Column2" type="VBoxContainer" parent="Row"]
 margin_left = 514.0
@@ -49,6 +77,7 @@ margin_right = 1024.0
 margin_bottom = 731.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 25
 
 [node name="CoD" type="VBoxContainer" parent="Row/Column2"]
 margin_right = 510.0
@@ -64,37 +93,48 @@ align = 1
 valign = 1
 
 [node name="Mortal2e" type="Button" parent="Row/Column2/CoD"]
-margin_left = 186.0
+unique_name_in_owner = true
+margin_left = 165.0
 margin_top = 34.0
-margin_right = 324.0
+margin_right = 345.0
 margin_bottom = 54.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
-text = "Mortal - 2nd Edition"
+text = "Core / Mortal - 2nd Edition"
 
 [node name="Changeling2e" type="Button" parent="Row/Column2/CoD"]
+unique_name_in_owner = true
 margin_left = 141.0
 margin_top = 64.0
 margin_right = 369.0
 margin_bottom = 84.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
+disabled = true
 text = "Changeling: The Lost - 2nd Edition"
 
 [node name="Mage2e" type="Button" parent="Row/Column2/CoD"]
+unique_name_in_owner = true
 margin_left = 138.0
 margin_top = 94.0
 margin_right = 372.0
 margin_bottom = 114.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
+disabled = true
 text = "Mage: The Awakening - 2nd Edition"
 
 [node name="Vampire2e" type="Button" parent="Row/Column2/CoD"]
+unique_name_in_owner = true
 margin_left = 134.0
 margin_top = 124.0
 margin_right = 376.0
 margin_bottom = 144.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
+disabled = true
 text = "Vampire: The Requiem - 2nd Edition"
