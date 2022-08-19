@@ -9,6 +9,8 @@ public class MortalSheetLogic : ScrollContainer
 	private const string TabContainerPath = "Column/TabContainer/";
 	private const string DetailsPath = TabContainerPath + "Details/";
 	private const string TraitsPath = TabContainerPath + "Traits/";
+	private const string AttributesPath = TraitsPath + "Attributes/";
+	private const string SkillsPath = TraitsPath + "Skills/";
 	private const string MeritsPath = TabContainerPath + "Merits/";
 	private const string InventoryPath = TabContainerPath + "Inventory/";
 	private const string GameNotesPath = TabContainerPath + "Game Notes/";
@@ -78,6 +80,16 @@ public class MortalSheetLogic : ScrollContainer
 		
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
+		
+		foreach(var a in OCSM.Attribute.toList())
+		{
+			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(a.Name, AttributesPath)), sheetData.Attributes[a], String.Format("changed_{0}", a.Name));
+		}
+		
+		foreach(var s in OCSM.Skill.toList())
+		{
+			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), sheetData.Skills[s], String.Format("changed_{0}", s.Name.Replace(" ", "")));
+		}
     }
 	
 	private void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName)
@@ -205,5 +217,170 @@ public class MortalSheetLogic : ScrollContainer
 	private void changed_Willpower(int value)
 	{
 		sheetData.WillpowerSpent = value;
+	}
+	
+	private void changed_Composure(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Composure] = value;
+	}
+	
+	private void changed_Dexterity(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Dexterity] = value;
+	}
+	
+	private void changed_Intelligence(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Intelligence] = value;
+	}
+	
+	private void changed_Manipulation(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Manipulation] = value;
+	}
+	
+	private void changed_Presence(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Presence] = value;
+	}
+	
+	private void changed_Resolve(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Resolve] = value;
+	}
+	
+	private void changed_Stamina(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Stamina] = value;
+	}
+	
+	private void changed_Strength(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Strength] = value;
+	}
+	
+	private void changed_Wits(int value)
+	{
+		sheetData.Attributes[OCSM.Attribute.Wits] = value;
+	}
+	
+	private void changed_Academics(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Academics] = value;
+	}
+	
+	private void changed_Athletics(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Athletics] = value;
+	}
+	
+	private void changed_AnimalKen(int value)
+	{
+		sheetData.Skills[OCSM.Skill.AnimalKen] = value;
+	}
+	
+	private void changed_Brawl(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Brawl] = value;
+	}
+	
+	private void changed_Computer(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Computer] = value;
+	}
+	
+	private void changed_Crafts(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Crafts] = value;
+	}
+	
+	private void changed_Drive(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Drive] = value;
+	}
+	
+	private void changed_Empathy(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Empathy] = value;
+	}
+	
+	private void changed_Expression(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Expression] = value;
+	}
+	
+	private void changed_Firearms(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Firearms] = value;
+	}
+	
+	private void changed_Intimidation(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Intimidation] = value;
+	}
+	
+	private void changed_Investigation(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Investigation] = value;
+	}
+	
+	private void changed_Larceny(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Larceny] = value;
+	}
+	
+	private void changed_Medicine(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Medicine] = value;
+	}
+	
+	private void changed_Occult(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Occult] = value;
+	}
+	
+	private void changed_Persuasion(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Persuasion] = value;
+	}
+	
+	private void changed_Politics(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Politics] = value;
+	}
+	
+	private void changed_Science(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Science] = value;
+	}
+	
+	private void changed_Socialize(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Socialize] = value;
+	}
+	
+	private void changed_Stealth(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Stealth] = value;
+	}
+	
+	private void changed_Streetwise(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Streetwise] = value;
+	}
+	
+	private void changed_Subterfuge(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Subterfuge] = value;
+	}
+	
+	private void changed_Survival(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Survival] = value;
+	}
+	
+	private void changed_Weaponry(int value)
+	{
+		sheetData.Skills[OCSM.Skill.Weaponry] = value;
 	}
 }

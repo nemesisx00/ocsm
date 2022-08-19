@@ -72,12 +72,12 @@ align = 2
 valign = 1
 
 [node name="Academics" parent="Row/Mental/Row1" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 55.0
@@ -95,12 +95,12 @@ align = 2
 valign = 1
 
 [node name="Computer" parent="Row/Mental/Row2" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 73.0
@@ -118,12 +118,12 @@ align = 2
 valign = 1
 
 [node name="Crafts" parent="Row/Mental/Row3" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 91.0
@@ -141,12 +141,12 @@ align = 2
 valign = 1
 
 [node name="Investigation" parent="Row/Mental/Row4" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 109.0
@@ -164,12 +164,12 @@ align = 2
 valign = 1
 
 [node name="Medicine" parent="Row/Mental/Row5" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 127.0
@@ -187,12 +187,12 @@ align = 2
 valign = 1
 
 [node name="Occult" parent="Row/Mental/Row6" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 145.0
@@ -210,12 +210,12 @@ align = 2
 valign = 1
 
 [node name="Politics" parent="Row/Mental/Row7" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Mental"]
 margin_top = 163.0
@@ -233,12 +233,12 @@ align = 2
 valign = 1
 
 [node name="Science" parent="Row/Mental/Row8" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Physical" type="VBoxContainer" parent="Row"]
 margin_left = 342.0
@@ -279,12 +279,12 @@ align = 2
 valign = 1
 
 [node name="Athletics" parent="Row/Physical/Row1" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 55.0
@@ -302,12 +302,12 @@ align = 2
 valign = 1
 
 [node name="Brawl" parent="Row/Physical/Row2" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 73.0
@@ -325,12 +325,12 @@ align = 2
 valign = 1
 
 [node name="Drive" parent="Row/Physical/Row3" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 91.0
@@ -348,12 +348,12 @@ align = 2
 valign = 1
 
 [node name="Firearms" parent="Row/Physical/Row4" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 109.0
@@ -371,12 +371,12 @@ align = 2
 valign = 1
 
 [node name="Larceny" parent="Row/Physical/Row5" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 127.0
@@ -394,12 +394,12 @@ align = 2
 valign = 1
 
 [node name="Stealth" parent="Row/Physical/Row6" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 145.0
@@ -417,12 +417,12 @@ align = 2
 valign = 1
 
 [node name="Survival" parent="Row/Physical/Row7" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Physical"]
 margin_top = 163.0
@@ -440,12 +440,12 @@ align = 2
 valign = 1
 
 [node name="Weaponry" parent="Row/Physical/Row8" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Social" type="VBoxContainer" parent="Row"]
 margin_left = 685.0
@@ -486,12 +486,12 @@ align = 2
 valign = 1
 
 [node name="Animal Ken" parent="Row/Social/Row1" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Row/Social"]
 margin_top = 55.0
@@ -509,12 +509,12 @@ align = 2
 valign = 1
 
 [node name="Empathy" parent="Row/Social/Row2" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Social"]
 margin_top = 73.0
@@ -532,12 +532,12 @@ align = 2
 valign = 1
 
 [node name="Expression" parent="Row/Social/Row3" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Row/Social"]
 margin_top = 91.0
@@ -555,12 +555,12 @@ align = 2
 valign = 1
 
 [node name="Intimidation" parent="Row/Social/Row4" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row5" type="HBoxContainer" parent="Row/Social"]
 margin_top = 109.0
@@ -578,12 +578,12 @@ align = 2
 valign = 1
 
 [node name="Persuasion" parent="Row/Social/Row5" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row6" type="HBoxContainer" parent="Row/Social"]
 margin_top = 127.0
@@ -601,12 +601,12 @@ align = 2
 valign = 1
 
 [node name="Socialize" parent="Row/Social/Row6" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row7" type="HBoxContainer" parent="Row/Social"]
 margin_top = 145.0
@@ -624,12 +624,12 @@ align = 2
 valign = 1
 
 [node name="Streetwise" parent="Row/Social/Row7" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 
 [node name="Row8" type="HBoxContainer" parent="Row/Social"]
 margin_top = 163.0
@@ -647,9 +647,9 @@ align = 2
 valign = 1
 
 [node name="Subterfuge" parent="Row/Social/Row8" instance=ExtResource( 2 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3

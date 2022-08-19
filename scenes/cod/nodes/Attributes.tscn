@@ -50,13 +50,14 @@ text = "Intelligence"
 align = 2
 
 [node name="Intelligence" parent="Row1/Column1/Row1" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 36.0
@@ -73,13 +74,14 @@ text = "Wits"
 align = 2
 
 [node name="Wits" parent="Row1/Column1/Row2" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
 margin_top = 54.0
@@ -96,13 +98,14 @@ text = "Resolve"
 align = 2
 
 [node name="Resolve" parent="Row1/Column1/Row3" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 338.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Physical" type="VBoxContainer" parent="Row1"]
 margin_left = 342.0
@@ -133,13 +136,14 @@ text = "Strength"
 align = 2
 
 [node name="Strength" parent="Row1/Physical/Row1" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Physical"]
 margin_top = 36.0
@@ -156,13 +160,14 @@ text = "Dexterity"
 align = 2
 
 [node name="Dexterity" parent="Row1/Physical/Row2" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Physical"]
 margin_top = 54.0
@@ -179,13 +184,14 @@ text = "Stamina"
 align = 2
 
 [node name="Stamina" parent="Row1/Physical/Row3" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Social" type="VBoxContainer" parent="Row1"]
 margin_left = 685.0
@@ -216,13 +222,14 @@ text = "Presence"
 align = 2
 
 [node name="Presence" parent="Row1/Social/Row1" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Social"]
 margin_top = 36.0
@@ -239,13 +246,14 @@ text = "Manipulation"
 align = 2
 
 [node name="Manipulation" parent="Row1/Social/Row2" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Social"]
 margin_top = 54.0
@@ -262,10 +270,11 @@ text = "Composure"
 align = 2
 
 [node name="Composure" parent="Row1/Social/Row3" instance=ExtResource( 1 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 171.0
 margin_right = 339.0
 margin_bottom = 14.0
-size_flags_horizontal = 3
 Value = 1
+EnableToggling = false

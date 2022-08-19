@@ -72,11 +72,13 @@ namespace OCSM
 			output += "Vice: '" + Vice + "', ";
 			output += "Virtue: '" + Virtue + "', ";
 			output += "Size: " + Size.ToString() + ", ";
-			output += "Baats: " + Beats.ToString() + ", ";
+			output += "Beats: " + Beats.ToString() + ", ";
 			output += "Experience: " + Experience.ToString() + ", ";
 			output += "Health: a) " + HealthCurrent[BoxComplex.State.Three] + " l) " + HealthCurrent[BoxComplex.State.Two] + " b) " + HealthCurrent[BoxComplex.State.One] + " / " + HealthMax + ", ";
 			output += "Integrity: " + Integrity + ", ";
 			output += "Willpower: " + WillpowerSpent + " / " + WillpowerMax + ", ";
+			output += "Attributes: " + Attributes.ToString() + ", ";
+			output += "Skills: " + Skills.ToString() + ", ";
 			output += " }";
 			return output;
 		}
