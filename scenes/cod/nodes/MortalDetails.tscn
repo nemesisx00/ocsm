@@ -41,7 +41,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the player's name here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -67,7 +67,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the Chronicle name here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -93,7 +93,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's name here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -119,7 +119,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's age here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -145,7 +145,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's size here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -188,7 +188,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's core concept here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -214,7 +214,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's Virtue here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -240,7 +240,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "Enter the character's Vice here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -266,7 +266,7 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "If the character is a part of a Faction, enter that Faction here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -292,6 +292,6 @@ margin_left = 104.0
 margin_right = 510.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-hint_tooltip = "Enter this character's player name here"
+hint_tooltip = "If the character is a part of a group, enter the Group Name here."
 size_flags_horizontal = 3
 size_flags_vertical = 3
