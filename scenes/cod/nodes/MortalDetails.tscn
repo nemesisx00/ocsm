@@ -256,11 +256,11 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
-text = "Group Name:"
+text = "Faction:"
 align = 2
 valign = 1
 
-[node name="GroupName" type="TextEdit" parent="Row1/Column2/Row4"]
+[node name="Faction" type="TextEdit" parent="Row1/Column2/Row4"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -282,11 +282,11 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 5
 size_flags_vertical = 5
-text = "Faction:"
+text = "Group Name:"
 align = 2
 valign = 1
 
-[node name="Faction" type="TextEdit" parent="Row1/Column2/Row5"]
+[node name="GroupName" type="TextEdit" parent="Row1/Column2/Row5"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0

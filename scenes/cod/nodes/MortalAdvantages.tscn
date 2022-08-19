@@ -29,6 +29,7 @@ align = 1
 valign = 1
 
 [node name="Health" parent="Column1/Row1" instance=ExtResource( 3 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 126.0
@@ -52,6 +53,7 @@ align = 1
 valign = 1
 
 [node name="Willpower" parent="Column1/Row2" instance=ExtResource( 4 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 126.0
@@ -77,6 +79,7 @@ align = 1
 valign = 1
 
 [node name="Integrity" parent="Column1/Row3" instance=ExtResource( 4 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 126.0
@@ -87,6 +90,7 @@ size_flags_horizontal = 6
 columns = 10
 Max = 10
 Value = 7
+EnableToggling = false
 
 [node name="Column2" type="VBoxContainer" parent="."]
 margin_left = 257.0
@@ -106,6 +110,7 @@ text = "Armor:"
 align = 2
 
 [node name="Armor" type="Label" parent="Column2/Row1"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 14.0
@@ -125,6 +130,7 @@ text = "Defense:"
 align = 2
 
 [node name="Defense" type="Label" parent="Column2/Row2"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 14.0
@@ -144,6 +150,7 @@ text = "Initiative:"
 align = 2
 
 [node name="Initiative" type="Label" parent="Column2/Row3"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 14.0
@@ -163,6 +170,7 @@ text = "Speed:"
 align = 2
 
 [node name="Speed" type="Label" parent="Column2/Row4"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 14.0
@@ -190,6 +198,7 @@ text = "Beats:"
 align = 2
 
 [node name="Beats" parent="Column3/Row1" instance=ExtResource( 4 )]
+unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 128.0
@@ -214,6 +223,7 @@ align = 2
 valign = 1
 
 [node name="Experience" type="TextEdit" parent="Column3/Row2"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 25.0
@@ -238,13 +248,13 @@ align = 2
 valign = 1
 
 [node name="Virtue" type="Label" parent="Column3/Row3"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
-align = 2
 valign = 1
 
 [node name="Row4" type="HBoxContainer" parent="Column3"]
@@ -264,13 +274,13 @@ align = 2
 valign = 1
 
 [node name="Vice" type="Label" parent="Column3/Row4"]
+unique_name_in_owner = true
 margin_left = 128.0
 margin_right = 253.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
-align = 2
 valign = 1
 
 [node name="Column4" type="VBoxContainer" parent="."]

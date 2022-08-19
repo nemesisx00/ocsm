@@ -1,7 +1,10 @@
 
-public enum TraitType
+namespace OCSM
 {
-	Mental,
-	Physical,
-	Social,
+	public enum TraitType
+	{
+		Mental,
+		Physical,
+		Social,
+	}
 }
