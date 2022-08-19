@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
+[ext_resource path="res://scripts/nodes/cod/ItemList.cs" type="Script" id=1]
 [ext_resource path="res://scenes/cod/nodes/TrackComplex.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=4]
 
@@ -8,19 +9,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 25
 
 [node name="Column1" type="VBoxContainer" parent="."]
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 
 [node name="Row1" type="VBoxContainer" parent="Column1"]
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 18.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Column1/Row1"]
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -32,19 +34,19 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 126.0
+margin_left = 94.0
 margin_top = 18.0
-margin_right = 126.0
+margin_right = 94.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 
 [node name="Row2" type="VBoxContainer" parent="Column1"]
 margin_top = 22.0
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="Column1/Row2"]
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -56,9 +58,9 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 126.0
+margin_left = 94.0
 margin_top = 18.0
-margin_right = 126.0
+margin_right = 94.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
@@ -66,11 +68,11 @@ UseCircles = false
 
 [node name="Row3" type="VBoxContainer" parent="Column1"]
 margin_top = 44.0
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 62.0
 
 [node name="Label" type="Label" parent="Column1/Row3"]
-margin_right = 253.0
+margin_right = 189.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -82,9 +84,9 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 126.0
+margin_left = 94.0
 margin_top = 18.0
-margin_right = 126.0
+margin_right = 94.0
 margin_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
@@ -93,17 +95,17 @@ Value = 7
 EnableToggling = false
 
 [node name="Column2" type="VBoxContainer" parent="."]
-margin_left = 257.0
-margin_right = 510.0
+margin_left = 214.0
+margin_right = 404.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 
 [node name="Row1" type="HBoxContainer" parent="Column2"]
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 14.0
 
 [node name="Label" type="Label" parent="Column2/Row1"]
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Armor:"
@@ -111,19 +113,19 @@ align = 2
 
 [node name="Armor" type="Label" parent="Column2/Row1"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "0"
 
 [node name="Row2" type="HBoxContainer" parent="Column2"]
 margin_top = 18.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 32.0
 
 [node name="Label" type="Label" parent="Column2/Row2"]
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Defense:"
@@ -131,19 +133,19 @@ align = 2
 
 [node name="Defense" type="Label" parent="Column2/Row2"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "1"
 
 [node name="Row3" type="HBoxContainer" parent="Column2"]
 margin_top = 36.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 50.0
 
 [node name="Label" type="Label" parent="Column2/Row3"]
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Initiative:"
@@ -151,19 +153,19 @@ align = 2
 
 [node name="Initiative" type="Label" parent="Column2/Row3"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "2"
 
 [node name="Row4" type="HBoxContainer" parent="Column2"]
 margin_top = 54.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 68.0
 
 [node name="Label" type="Label" parent="Column2/Row4"]
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "Speed:"
@@ -171,26 +173,26 @@ align = 2
 
 [node name="Speed" type="Label" parent="Column2/Row4"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 text = "7"
 
 [node name="Column3" type="VBoxContainer" parent="."]
-margin_left = 514.0
-margin_right = 767.0
+margin_left = 429.0
+margin_right = 619.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="Column3"]
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 14.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Column3/Row1"]
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -201,20 +203,20 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 14.0
 UseCircles = false
 
 [node name="Row2" type="HBoxContainer" parent="Column3"]
 margin_top = 18.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 43.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Column3/Row2"]
 margin_top = 5.0
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -222,10 +224,10 @@ text = "Experience:"
 align = 2
 valign = 1
 
-[node name="Experience" type="TextEdit" parent="Column3/Row2"]
+[node name="Experience" type="LineEdit" parent="Column3/Row2"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
@@ -233,13 +235,13 @@ text = "0"
 
 [node name="Row3" type="HBoxContainer" parent="Column3"]
 margin_top = 47.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 72.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Column3/Row3"]
 margin_top = 5.0
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -249,8 +251,8 @@ valign = 1
 
 [node name="Virtue" type="Label" parent="Column3/Row3"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
@@ -259,13 +261,13 @@ valign = 1
 
 [node name="Row4" type="HBoxContainer" parent="Column3"]
 margin_top = 76.0
-margin_right = 253.0
+margin_right = 190.0
 margin_bottom = 101.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Column3/Row4"]
 margin_top = 5.0
-margin_right = 124.0
+margin_right = 93.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -275,8 +277,8 @@ valign = 1
 
 [node name="Vice" type="Label" parent="Column3/Row4"]
 unique_name_in_owner = true
-margin_left = 128.0
-margin_right = 253.0
+margin_left = 97.0
+margin_right = 190.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
@@ -284,40 +286,28 @@ size_flags_vertical = 6
 valign = 1
 
 [node name="Column4" type="VBoxContainer" parent="."]
-margin_left = 771.0
+margin_left = 644.0
 margin_right = 1024.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 
-[node name="Conditions" type="VBoxContainer" parent="Column4"]
-margin_right = 253.0
-margin_bottom = 101.0
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Column4/Conditions"]
-margin_right = 253.0
+[node name="ConditionsLabel" type="Label" parent="Column4"]
+margin_right = 380.0
 margin_bottom = 14.0
 text = "Conditions"
 align = 1
 
-[node name="TextEdit1" type="TextEdit" parent="Column4/Conditions"]
+[node name="Conditions" type="ScrollContainer" parent="Column4"]
+unique_name_in_owner = true
 margin_top = 18.0
-margin_right = 253.0
-margin_bottom = 43.0
-rect_min_size = Vector2( 0, 25 )
+margin_right = 380.0
+margin_bottom = 768.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
 
-[node name="TextEdit2" type="TextEdit" parent="Column4/Conditions"]
-margin_top = 47.0
-margin_right = 253.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
-
-[node name="TextEdit3" type="TextEdit" parent="Column4/Conditions"]
-margin_top = 76.0
-margin_right = 253.0
-margin_bottom = 101.0
-rect_min_size = Vector2( 0, 25 )
+[node name="Column" type="VBoxContainer" parent="Column4/Conditions"]
+margin_right = 380.0
 size_flags_horizontal = 3

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/cod/nodes/MortalAdvantages.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/cod/nodes/Traits.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/cod/nodes/MortalDetails.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/nodes/cod/MortalSheetLogic.cs" type="Script" id=6]
+[ext_resource path="res://scenes/cod/nodes/Merits.tscn" type="PackedScene" id=7]
 
 [node name="MortalSheet" type="ScrollContainer"]
 anchor_right = 1.0
@@ -77,7 +78,9 @@ rect_min_size = Vector2( 0, 20 )
 [node name="TabContainer" type="TabContainer" parent="Column"]
 margin_top = 221.0
 margin_right = 1024.0
-margin_bottom = 398.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tab_align = 0
 drag_to_rearrange_enabled = true
 
@@ -90,14 +93,8 @@ margin_bottom = -4.0
 [node name="Traits" parent="Column/TabContainer" instance=ExtResource( 4 )]
 visible = false
 
-[node name="Merits" type="VBoxContainer" parent="Column/TabContainer"]
+[node name="Merits" parent="Column/TabContainer" instance=ExtResource( 7 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
 
 [node name="Inventory" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false

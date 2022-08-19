@@ -1,4 +1,3 @@
-using System;
 
 namespace OCSM
 {
@@ -26,6 +25,7 @@ namespace OCSM
 			public sealed class CoD
 			{
 				public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
+				public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
 				public const string ToggleButton = "res://scenes/cod/nodes/ToggleButton.tscn";
 				public const string MortalSheet = "res://scenes/cod/sheets/Mortal.tscn";
 			}
@@ -36,6 +36,7 @@ namespace OCSM
 			public const string Confirmed = "confirmed";
 			public const string GuiInput = "gui_input";
 			public const string IdPressed = "id_pressed";
+			public const string NodeChanged = "NodeChanged";
 			public const string Pressed = "pressed";
 			public const string Released = "released";
 			public const string TextChanged = "text_changed";

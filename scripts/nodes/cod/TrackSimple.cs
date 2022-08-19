@@ -4,6 +4,8 @@ using OCSM;
 public class TrackSimple : GridContainer
 {
 	[Signal]
+	public delegate void NodeChanged(TrackSimple node);
+	[Signal]
 	public delegate void ValueChanged(int value);
 	
 	[Export]
@@ -105,6 +107,8 @@ public class TrackSimple : GridContainer
 			value++;
 		value = filterValue(value);
 		updateChildren(value);
+		
+		EmitSignal(nameof(NodeChanged), this);
 		EmitSignal(nameof(ValueChanged), value);
 	}
 }

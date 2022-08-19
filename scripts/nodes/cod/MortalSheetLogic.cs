@@ -20,6 +20,7 @@ public class MortalSheetLogic : ScrollContainer
 		public const string Armor = "Armor";
 		public const string Beats = "Beats";
 		public const string Defense = "Defense";
+		public const string Conditions = "Conditions";
 		public const string Experience = "Experience";
 		public const string Health = "Health";
 		public const string Initiative = "Initiative";
@@ -33,6 +34,7 @@ public class MortalSheetLogic : ScrollContainer
 	private sealed class Detail
 	{
 		public const string Age = "Age";
+		public const string Aspirations = "Aspirations";
 		public const string Chronicle = "Chronicle";
 		public const string Concept = "Concept";
 		public const string Faction = "Faction";
@@ -44,23 +46,27 @@ public class MortalSheetLogic : ScrollContainer
 		public const string Size = "Size";
 	}
 	
+	private const string Merits = "Merits";
+	
 	private Mortal sheetData { get; set; } = new Mortal();
 	
     public override void _Ready()
     {
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), sheetData.Age > -1 ? sheetData.Age.ToString() : String.Empty, nameof(changed_Age));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), sheetData.Chronicle, nameof(changed_Chronicle));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), sheetData.Concept, nameof(changed_Concept));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)), sheetData.Faction, nameof(changed_Faction));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)), sheetData.GroupName, nameof(changed_GroupName));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), sheetData.Name, nameof(changed_Name));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), sheetData.Player, nameof(changed_Player));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)), sheetData.Vice, nameof(changed_Vice));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)), sheetData.Virtue, nameof(changed_Virtue));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), sheetData.Size.ToString(), nameof(changed_Size));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), sheetData.Age > -1 ? sheetData.Age.ToString() : String.Empty, nameof(changed_Age));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), sheetData.Chronicle, nameof(changed_Chronicle));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), sheetData.Concept, nameof(changed_Concept));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)), sheetData.Faction, nameof(changed_Faction));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)), sheetData.GroupName, nameof(changed_GroupName));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), sheetData.Name, nameof(changed_Name));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), sheetData.Player, nameof(changed_Player));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)), sheetData.Vice, nameof(changed_Vice));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)), sheetData.Virtue, nameof(changed_Virtue));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), sheetData.Size.ToString(), nameof(changed_Size));
+		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Detail.Aspirations, DetailsPath)), sheetData.Aspirations, nameof(changed_Aspirations));
 		
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), sheetData.Beats, nameof(changed_Beats));
-		InitAndConnect(GetNode<TextEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), sheetData.Experience, nameof(changed_Experience));
+		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), sheetData.Conditions, nameof(changed_Conditions));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), sheetData.Experience, nameof(changed_Experience));
 		updateMaxHealth();
 		InitAndConnect(GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), sheetData.HealthCurrent, nameof(changed_Health));
 		updateMaxWillpower();
@@ -71,26 +77,28 @@ public class MortalSheetLogic : ScrollContainer
 		
 		foreach(var a in OCSM.Attribute.toList())
 		{
-			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(a.Name, AttributesPath)), sheetData.Attributes[a], String.Format("changed_{0}", a.Name));
+			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(a.Name, AttributesPath)), sheetData.Attributes[a], nameof(changed_Attribute), true);
 		}
 		
 		foreach(var s in OCSM.Skill.toList())
 		{
-			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), sheetData.Skills[s], String.Format("changed_{0}", s.Name.Replace(" ", "")));
+			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), sheetData.Skills[s], nameof(changed_Skill), true);
 		}
+		
+		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Merits, MeritsPath)), sheetData.Merits, nameof(changed_Merits));
 		
 		updateDefense();
 		updateInitiative();
 		updateSpeed();
     }
 	
-	private void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName)
+	private void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
 		where T1: Control
 	{
-		if(node is TextEdit te)
+		if(node is LineEdit le)
 		{
-			te.Text = initialValue as string;
-			te.Connect(Constants.Signal.TextChanged, this, handlerName);
+			le.Text = initialValue as string;
+			le.Connect(Constants.Signal.TextChanged, this, handlerName);
 		}
 		else if(node is TrackSimple ts)
 		{
@@ -99,63 +107,78 @@ public class MortalSheetLogic : ScrollContainer
 				val = int.Parse(initialValue.ToString());
 			if(val > 0)
 				ts.updateValue(val);
-			ts.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			if(nodeChanged)
+				ts.Connect(Constants.Signal.NodeChanged, this, handlerName);
+			else
+				ts.Connect(Constants.Signal.ValueChanged, this, handlerName);
 		}
 		else if(node is TrackComplex tc)
 		{
 			tc.Values = initialValue as Dictionary<string, int>;
 			tc.Connect(Constants.Signal.ValueChanged, this, handlerName);
 		}
+		else if(node is ItemList il)
+		{
+			il.Values = initialValue as List<string>;
+			il.refresh();
+			il.Connect(Constants.Signal.ValueChanged, this, handlerName);
+		}
+		else if(node is ItemDotsList idl)
+		{
+			idl.Values = initialValue as List<TextValueItem>;
+			idl.refresh();
+			idl.Connect(Constants.Signal.ValueChanged, this, handlerName);
+		}
 	}
 	
-	private void changed_Age()
+	private void changed_Age(string newText)
 	{
-		var node = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath));
-		var newText = node.Text;
 		int newAge;
 		if(int.TryParse(newText, out newAge))
 			sheetData.Age = newAge;
 		else
-			node.Text = sheetData.Age.ToString();
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)).Text = sheetData.Age.ToString();
 	}
 	
-	private void changed_Chronicle() { sheetData.Chronicle = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)).Text; }
-	private void changed_Concept() { sheetData.Concept = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)).Text; }
-	private void changed_Faction() { sheetData.Faction = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)).Text; }
-	private void changed_GroupName() { sheetData.GroupName = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)).Text; }
-	private void changed_Name()
+	private void changed_Chronicle(string newText) { sheetData.Chronicle = newText; }
+	private void changed_Concept(string newText) { sheetData.Concept = newText; }
+	private void changed_Faction(string newText) { sheetData.Faction = newText; }
+	private void changed_GroupName(string newText) { sheetData.GroupName = newText; }
+	private void changed_Name(string newText)
 	{
-		sheetData.Name = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)).Text;
+		sheetData.Name = newText;
 		Name = sheetData.Name;
 	}
-	private void changed_Player() { sheetData.Player = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)).Text; }
+	private void changed_Player(string newText) { sheetData.Player = newText; }
 	
-	private void changed_Vice()
+	private void changed_Vice(string newText)
 	{
-		sheetData.Vice = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)).Text;
+		sheetData.Vice = newText;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
 	}
 	
-	private void changed_Virtue()
+	private void changed_Virtue(string newText)
 	{
-		sheetData.Virtue = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)).Text;
+		sheetData.Virtue = newText;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
 	}
 	
-	private void changed_Size()
+	private void changed_Size(string newText)
 	{
-		var node = GetNode<TextEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath));
-		var newText = node.Text;
 		int newSize;
 		if(int.TryParse(newText, out newSize))
 		{
 			sheetData.Size = newSize;
-			
 			updateMaxHealth();
 			updateSpeed();
 		}
 		else
-			node.Text = sheetData.Size.ToString();
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)).Text = sheetData.Size.ToString();
+	}
+	
+	private void changed_Aspirations(List<string> values)
+	{
+		sheetData.Aspirations = values;
 	}
 	
 	private void changed_Beats(int value)
@@ -165,102 +188,80 @@ public class MortalSheetLogic : ScrollContainer
 			sheetData.Beats = 0;
 			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(sheetData.Beats);
 			sheetData.Experience++;
-			GetNode<TextEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
 		}
 		else
 			sheetData.Beats = value;
+		GD.Print(sheetData);
 	}
 	
-	private void changed_Experience()
+	private void changed_Conditions(List<string> values)
 	{
-		var node = GetNode<TextEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath));
-		var newText = node.Text;
+		sheetData.Conditions = values;
+	}
+	
+	private void changed_Experience(string newText)
+	{
 		int newXp;
 		if(int.TryParse(newText, out newXp))
 			sheetData.Experience = newXp;
 		else
-			node.Text = sheetData.Experience.ToString();
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
 	}
 	
 	private void changed_Health(Dictionary<string, int> values) { sheetData.HealthCurrent = values; }
 	private void changed_Integrity(int value) { sheetData.Integrity = value; }
 	private void changed_Willpower(int value) { sheetData.WillpowerSpent = value; }
 	
-	private void changed_Composure(int value)
+	private void changed_Attribute(TrackSimple node)
 	{
-		sheetData.Attributes[OCSM.Attribute.Composure] = value;
-		
-		updateMaxWillpower();
-		updateInitiative();
+		var attr = OCSM.Attribute.byName(node.Name);
+		if(attr != null)
+		{
+			sheetData.Attributes[attr] = node.Value;
+			switch(node.Name)
+			{
+				case OCSM.Attribute.Names.Composure:
+					updateMaxWillpower();
+					updateInitiative();
+					break;
+				case OCSM.Attribute.Names.Dexterity:
+					updateDefense();
+					updateInitiative();
+					updateSpeed();
+					break;
+				case OCSM.Attribute.Names.Resolve:
+					updateMaxWillpower();
+					break;
+				case OCSM.Attribute.Names.Stamina:
+					updateMaxHealth();
+					break;
+				case OCSM.Attribute.Names.Strength:
+					updateSpeed();
+					break;
+				case OCSM.Attribute.Names.Wits:
+					updateDefense();
+					break;
+			}
+		}
 	}
 	
-	private void changed_Dexterity(int value)
+	private void changed_Skill(TrackSimple node)
 	{
-		sheetData.Attributes[OCSM.Attribute.Dexterity] = value;
-		
-		updateDefense();
-		updateInitiative();
-		updateSpeed();
+		var skill = OCSM.Skill.byName(node.Name);
+		if(skill != null)
+		{
+			sheetData.Skills[skill] = node.Value;
+			switch(node.Name)
+			{
+				case OCSM.Skill.Names.Athletics:
+					updateDefense();
+					break;
+			}
+		}
 	}
 	
-	private void changed_Intelligence(int value) { sheetData.Attributes[OCSM.Attribute.Intelligence] = value; }
-	private void changed_Manipulation(int value) { sheetData.Attributes[OCSM.Attribute.Manipulation] = value; }
-	private void changed_Presence(int value) { sheetData.Attributes[OCSM.Attribute.Presence] = value; }
-	
-	private void changed_Resolve(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Resolve] = value;
-		updateMaxWillpower();
-	}
-	
-	private void changed_Stamina(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Stamina] = value;
-		updateMaxHealth();
-	}
-	
-	private void changed_Strength(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Strength] = value;
-		
-		updateSpeed();
-	}
-	private void changed_Wits(int value)
-	{
-		sheetData.Attributes[OCSM.Attribute.Wits] = value;
-		
-		updateDefense();
-	}
-	
-	private void changed_Academics(int value) { sheetData.Skills[OCSM.Skill.Academics] = value; }
-	private void changed_Athletics(int value)
-	{
-		sheetData.Skills[OCSM.Skill.Athletics] = value;
-		
-		updateDefense();
-	}
-	private void changed_AnimalKen(int value) { sheetData.Skills[OCSM.Skill.AnimalKen] = value; }
-	private void changed_Brawl(int value) { sheetData.Skills[OCSM.Skill.Brawl] = value; }
-	private void changed_Computer(int value) { sheetData.Skills[OCSM.Skill.Computer] = value; }
-	private void changed_Crafts(int value) { sheetData.Skills[OCSM.Skill.Crafts] = value; }
-	private void changed_Drive(int value) { sheetData.Skills[OCSM.Skill.Drive] = value; }
-	private void changed_Empathy(int value) { sheetData.Skills[OCSM.Skill.Empathy] = value; }
-	private void changed_Expression(int value) { sheetData.Skills[OCSM.Skill.Expression] = value; }
-	private void changed_Firearms(int value) { sheetData.Skills[OCSM.Skill.Firearms] = value; }
-	private void changed_Intimidation(int value) { sheetData.Skills[OCSM.Skill.Intimidation] = value; }
-	private void changed_Investigation(int value) { sheetData.Skills[OCSM.Skill.Investigation] = value; }
-	private void changed_Larceny(int value) { sheetData.Skills[OCSM.Skill.Larceny] = value; }
-	private void changed_Medicine(int value) { sheetData.Skills[OCSM.Skill.Medicine] = value; }
-	private void changed_Occult(int value) { sheetData.Skills[OCSM.Skill.Occult] = value; }
-	private void changed_Persuasion(int value) { sheetData.Skills[OCSM.Skill.Persuasion] = value; }
-	private void changed_Politics(int value) { sheetData.Skills[OCSM.Skill.Politics] = value; }
-	private void changed_Science(int value) { sheetData.Skills[OCSM.Skill.Science] = value; }
-	private void changed_Socialize(int value) { sheetData.Skills[OCSM.Skill.Socialize] = value; }
-	private void changed_Stealth(int value) { sheetData.Skills[OCSM.Skill.Stealth] = value; }
-	private void changed_Streetwise(int value) { sheetData.Skills[OCSM.Skill.Streetwise] = value; }
-	private void changed_Subterfuge(int value) { sheetData.Skills[OCSM.Skill.Subterfuge] = value; }
-	private void changed_Survival(int value) { sheetData.Skills[OCSM.Skill.Survival] = value; }
-	private void changed_Weaponry(int value) { sheetData.Skills[OCSM.Skill.Weaponry] = value; }
+	private void changed_Merits(List<TextValueItem> values) { sheetData.Merits = values; }
 	
 	private void updateDefense()
 	{
