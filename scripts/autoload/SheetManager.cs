@@ -49,4 +49,19 @@ public class SheetManager : Node
 			}
 		}
 	}
+	
+	public void closeActiveSheet()
+	{
+		var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+		if(tc is TabContainer)
+		{
+			var tab = tc.GetCurrentTabControl();
+			if(tab is Node)
+			{
+				if(tc.GetTabCount() <= tc.CurrentTab + 1)
+					showNewSheetUI();
+				tab.QueueFree();
+			}
+		}
+	}
 }
