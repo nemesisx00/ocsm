@@ -11,7 +11,10 @@ namespace OCSM
 		/// </summary>
 		public static string SceneUnique(string name, string basePath = "")
 		{
-			return String.Format(SceneUniqueFormat, name, basePath);
+			var path = basePath;
+			if(!String.IsNullOrEmpty(basePath) && !basePath.EndsWith("/"))
+				path += "/";
+			return String.Format(SceneUniqueFormat, name, path);
 		}
 	}
 }
