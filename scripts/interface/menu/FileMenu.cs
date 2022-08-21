@@ -3,11 +3,16 @@ using OCSM;
 
 public class FileMenu : MenuButton
 {
-	private enum MenuItem { New, Open, Save, CloseSheet, Quit }
+	public enum MenuItem { New, Open, Save, CloseSheet, Quit }
+	
+	private SheetManager sheetManager;
 	
 	public override void _Ready()
 	{
+		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
+		
 		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
+		GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.ShortcutTriggered), this, nameof(handleMenuItem));
 	}
 	
 	private void handleMenuItem(int id)
@@ -15,7 +20,7 @@ public class FileMenu : MenuButton
 		switch((MenuItem)id)
 		{
 			case MenuItem.New:
-				GetNode<SheetManager>(Constants.NodePath.SheetManager).showNewSheetUI();
+				sheetManager.showNewSheetUI();
 				break;
 			case MenuItem.Open:
 				doOpen();
@@ -27,7 +32,7 @@ public class FileMenu : MenuButton
 				GetTree().Notification(MainLoop.NotificationWmQuitRequest);
 				break;
 			case MenuItem.CloseSheet:
-				GetNode<SheetManager>(Constants.NodePath.SheetManager).closeActiveSheet();
+				sheetManager.closeActiveSheet();
 				break;
 		}
 	}
