@@ -5,19 +5,19 @@ using OCSM;
 
 public class MortalSheetLogic : CoreSheetLogic
 {
-	private const string AdvantagesPath = "Column/Row/Advantages/";
+	private const string AdvantagesPath = "Column/Advantages/";
 	private const string TabContainerPath = "Column/TabContainer/";
 	private const string DetailsPath = TabContainerPath + "Details/";
 	private const string TraitsPath = TabContainerPath + "Traits/";
 	private const string AttributesPath = TraitsPath + "Attributes/";
 	private const string SkillsPath = TraitsPath + "Skills/";
-	private const string MeritsPath = TabContainerPath + "Merits/";
 	private const string InventoryPath = TabContainerPath + "Inventory/";
 	private const string GameNotesPath = TabContainerPath + "Game Notes/";
 	
 	private sealed class Advantage
 	{
 		public const string Armor = "Armor";
+		public const string Aspirations = "Aspirations";
 		public const string Beats = "Beats";
 		public const string Defense = "Defense";
 		public const string Conditions = "Conditions";
@@ -34,7 +34,6 @@ public class MortalSheetLogic : CoreSheetLogic
 	private sealed class Detail
 	{
 		public const string Age = "Age";
-		public const string Aspirations = "Aspirations";
 		public const string Chronicle = "Chronicle";
 		public const string Concept = "Concept";
 		public const string Faction = "Faction";
@@ -53,18 +52,7 @@ public class MortalSheetLogic : CoreSheetLogic
 	
     public override void _Ready()
     {
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), sheetData.Age > -1 ? sheetData.Age.ToString() : String.Empty, nameof(changed_Age));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), sheetData.Chronicle, nameof(changed_Chronicle));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), sheetData.Concept, nameof(changed_Concept));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)), sheetData.Faction, nameof(changed_Faction));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)), sheetData.GroupName, nameof(changed_GroupName));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), sheetData.Name, nameof(changed_Name));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), sheetData.Player, nameof(changed_Player));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)), sheetData.Vice, nameof(changed_Vice));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)), sheetData.Virtue, nameof(changed_Virtue));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), sheetData.Size.ToString(), nameof(changed_Size));
-		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Detail.Aspirations, DetailsPath)), sheetData.Aspirations, nameof(changed_Aspirations));
-		
+		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Aspirations, AdvantagesPath)), sheetData.Aspirations, nameof(changed_Aspirations));
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), sheetData.Beats, nameof(changed_Beats));
 		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), sheetData.Conditions, nameof(changed_Conditions));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), sheetData.Experience, nameof(changed_Experience));
@@ -75,6 +63,17 @@ public class MortalSheetLogic : CoreSheetLogic
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Integrity, AdvantagesPath)), sheetData.Integrity.ToString(), nameof(changed_Integrity));
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
+		
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), sheetData.Age > -1 ? sheetData.Age.ToString() : String.Empty, nameof(changed_Age));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), sheetData.Chronicle, nameof(changed_Chronicle));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), sheetData.Concept, nameof(changed_Concept));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)), sheetData.Faction, nameof(changed_Faction));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)), sheetData.GroupName, nameof(changed_GroupName));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), sheetData.Name, nameof(changed_Name));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), sheetData.Player, nameof(changed_Player));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)), sheetData.Vice, nameof(changed_Vice));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Virtue, DetailsPath)), sheetData.Virtue, nameof(changed_Virtue));
+		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), sheetData.Size.ToString(), nameof(changed_Size));
 		
 		foreach(var a in OCSM.Attribute.toList())
 		{
@@ -87,7 +86,7 @@ public class MortalSheetLogic : CoreSheetLogic
 		}
 		InitAndConnect(GetNode<SpecialtyList>(PathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), sheetData.Specialties, nameof(changed_SkillSpecialty));
 		
-		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Merits, MeritsPath)), sheetData.Merits, nameof(changed_Merits));
+		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Merits)), sheetData.Merits, nameof(changed_Merits));
 		
 		updateDefense();
 		updateInitiative();
