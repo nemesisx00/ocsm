@@ -103,78 +103,7 @@ public class MortalSheetLogic : CoreSheetLogic
 			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)).Text = sheetData.Age.ToString();
 	}
 	
-	private void changed_Chronicle(string newText) { sheetData.Chronicle = newText; }
-	private void changed_Concept(string newText) { sheetData.Concept = newText; }
-	private void changed_Faction(string newText) { sheetData.Faction = newText; }
-	private void changed_GroupName(string newText) { sheetData.GroupName = newText; }
-	private void changed_Name(string newText)
-	{
-		sheetData.Name = newText;
-		Name = sheetData.Name;
-	}
-	private void changed_Player(string newText) { sheetData.Player = newText; }
-	
-	private void changed_Vice(string newText)
-	{
-		sheetData.Vice = newText;
-		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
-	}
-	
-	private void changed_Virtue(string newText)
-	{
-		sheetData.Virtue = newText;
-		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
-	}
-	
-	private void changed_Size(string newText)
-	{
-		int newSize;
-		if(int.TryParse(newText, out newSize))
-		{
-			sheetData.Size = newSize;
-			updateMaxHealth();
-			updateSpeed();
-		}
-		else
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)).Text = sheetData.Size.ToString();
-	}
-	
-	private void changed_Aspirations(List<string> values)
-	{
-		sheetData.Aspirations = values;
-	}
-	
-	private void changed_Beats(int value)
-	{
-		if(value >= 5)
-		{
-			sheetData.Beats = 0;
-			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(sheetData.Beats);
-			sheetData.Experience++;
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
-		}
-		else
-			sheetData.Beats = value;
-		GD.Print(sheetData);
-	}
-	
-	private void changed_Conditions(List<string> values)
-	{
-		sheetData.Conditions = values;
-	}
-	
-	private void changed_Experience(string newText)
-	{
-		int newXp;
-		if(int.TryParse(newText, out newXp))
-			sheetData.Experience = newXp;
-		else
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
-	}
-	
-	private void changed_Health(Dictionary<string, int> values) { sheetData.HealthCurrent = values; }
-	private void changed_Integrity(int value) { sheetData.Integrity = value; }
-	private void changed_Willpower(int value) { sheetData.WillpowerSpent = value; }
+	private void changed_Aspirations(List<string> values) { sheetData.Aspirations = values; }
 	
 	private void changed_Attribute(TrackSimple node)
 	{
@@ -209,6 +138,59 @@ public class MortalSheetLogic : CoreSheetLogic
 		}
 	}
 	
+	private void changed_Beats(int value)
+	{
+		if(value >= 5)
+		{
+			sheetData.Beats = 0;
+			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(sheetData.Beats);
+			sheetData.Experience++;
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
+		}
+		else
+			sheetData.Beats = value;
+		GD.Print(sheetData);
+	}
+	
+	private void changed_Chronicle(string newText) { sheetData.Chronicle = newText; }
+	private void changed_Concept(string newText) { sheetData.Concept = newText; }
+	private void changed_Conditions(List<string> values) { sheetData.Conditions = values; }
+	
+	private void changed_Experience(string newText)
+	{
+		int newXp;
+		if(int.TryParse(newText, out newXp))
+			sheetData.Experience = newXp;
+		else
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = sheetData.Experience.ToString();
+	}
+	
+	private void changed_Faction(string newText) { sheetData.Faction = newText; }
+	private void changed_GroupName(string newText) { sheetData.GroupName = newText; }
+	private void changed_Health(Dictionary<string, int> values) { sheetData.HealthCurrent = values; }
+	private void changed_Integrity(int value) { sheetData.Integrity = value; }
+	private void changed_Merits(List<TextValueItem> values) { sheetData.Merits = values; }
+	
+	private void changed_Name(string newText)
+	{
+		sheetData.Name = newText;
+		Name = sheetData.Name;
+	}
+	
+	private void changed_Player(string newText) { sheetData.Player = newText; }
+	
+	private void changed_Vice(string newText)
+	{
+		sheetData.Vice = newText;
+		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = sheetData.Vice;
+	}
+	
+	private void changed_Virtue(string newText)
+	{
+		sheetData.Virtue = newText;
+		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = sheetData.Virtue;
+	}
+	
 	private void changed_Skill(TrackSimple node)
 	{
 		var skill = OCSM.Skill.byName(node.Name);
@@ -224,12 +206,22 @@ public class MortalSheetLogic : CoreSheetLogic
 		}
 	}
 	
-	private void changed_SkillSpecialty(List<Skill.Specialty> values)
+	private void changed_SkillSpecialty(List<Skill.Specialty> values) { sheetData.Specialties = values; }
+	
+	private void changed_Size(string newText)
 	{
-		sheetData.Specialties = values;
+		int newSize;
+		if(int.TryParse(newText, out newSize))
+		{
+			sheetData.Size = newSize;
+			updateMaxHealth();
+			updateSpeed();
+		}
+		else
+			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)).Text = sheetData.Size.ToString();
 	}
 	
-	private void changed_Merits(List<TextValueItem> values) { sheetData.Merits = values; }
+	private void changed_Willpower(int value) { sheetData.WillpowerSpent = value; }
 	
 	private void updateDefense()
 	{
