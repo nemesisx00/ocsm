@@ -12,15 +12,15 @@ margin_bottom = -4.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Merits" type="ScrollContainer" parent="."]
-unique_name_in_owner = true
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 margin_right = 1016.0
 margin_bottom = 732.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
 
-[node name="Column" type="GridContainer" parent="Merits"]
+[node name="Merits" type="GridContainer" parent="ScrollContainer"]
+unique_name_in_owner = true
 margin_right = 1016.0
 size_flags_horizontal = 3
 columns = 2
+script = ExtResource( 1 )

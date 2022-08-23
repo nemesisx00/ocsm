@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using OCSM;
 
-public class ItemList : ScrollContainer
+public class ItemList : Container
 {
-	private const string InputContainer = "Column";
-	
 	[Signal]
 	public delegate void ValueChanged(List<string> values);
 	
@@ -19,7 +17,7 @@ public class ItemList : ScrollContainer
 	
 	public void refresh()
 	{
-		foreach(Node c in GetNode<VBoxContainer>(InputContainer).GetChildren())
+		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
@@ -36,7 +34,7 @@ public class ItemList : ScrollContainer
 	private void textChanged(string text)
 	{
 		var values = new List<string>();
-		var children = GetNode<VBoxContainer>(InputContainer).GetChildren();
+		var children = GetChildren();
 		foreach(LineEdit c in children)
 		{
 			if(!String.IsNullOrEmpty(c.Text))
@@ -55,14 +53,13 @@ public class ItemList : ScrollContainer
 	
 	private void addInput(string value = "")
 	{
-		var container = GetNode<VBoxContainer>(InputContainer);
 		var node = new LineEdit();
 		node.Text = value;
 		node.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
 		node.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
 		node.RectMinSize = new Vector2(0, 25);
 		node.HintTooltip = "Enter a new " + Name.Substring(0, Name.Length - 1);
-		container.AddChild(node);
+		AddChild(node);
 		node.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 	}
 }

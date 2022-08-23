@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using OCSM;
 
-public class SpecialtyList : ScrollContainer
+public class SpecialtyList : Container
 {
-	private const string InputContainer = "Grid";
-	
 	[Signal]
 	public delegate void ValueChanged(List<Skill.Specialty> values);
 	
@@ -19,7 +17,7 @@ public class SpecialtyList : ScrollContainer
 	
 	public void refresh()
 	{
-		foreach(Node c in GetNode<GridContainer>(InputContainer).GetChildren())
+		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
@@ -39,7 +37,7 @@ public class SpecialtyList : ScrollContainer
 	private void updateValues()
 	{
 		var values = new List<Skill.Specialty>();
-		var children = GetNode<GridContainer>(InputContainer).GetChildren();
+		var children = GetChildren();
 		foreach(HBoxContainer row in children)
 		{
 			var optButton = row.GetChild<OptionButton>(0);
@@ -62,8 +60,6 @@ public class SpecialtyList : ScrollContainer
 	
 	private void addInput(Skill.Specialty value = null)
 	{
-		var container = GetNode<GridContainer>(InputContainer);
-		
 		var row = new HBoxContainer();
 		row.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
 		row.SizeFlagsVertical = (int)Control.SizeFlags.ShrinkCenter;
@@ -94,7 +90,7 @@ public class SpecialtyList : ScrollContainer
 			node.Text = value.Value;
 		row.AddChild(node);
 		
-		container.AddChild(row);
+		AddChild(row);
 		skill.Connect(Constants.Signal.ItemSelected, this, nameof(skillChanged));
 		node.Connect(Constants.Signal.TextChanged, this, nameof(valueChanged));
 	}

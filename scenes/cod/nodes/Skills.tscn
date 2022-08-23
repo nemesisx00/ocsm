@@ -671,18 +671,18 @@ custom_fonts/font = ExtResource( 4 )
 text = "Specialties"
 align = 1
 
-[node name="Specialties" type="ScrollContainer" parent="Column"]
-unique_name_in_owner = true
+[node name="ScrollContainer" type="ScrollContainer" parent="Column"]
 margin_top = 28.0
 margin_right = 1024.0
 margin_bottom = 527.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 5 )
 
-[node name="Grid" type="GridContainer" parent="Column/Specialties"]
+[node name="Specialties" type="GridContainer" parent="Column/ScrollContainer"]
+unique_name_in_owner = true
 margin_right = 1024.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 15
 columns = 2
+script = ExtResource( 5 )

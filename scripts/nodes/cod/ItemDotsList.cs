@@ -3,10 +3,8 @@ using System;
 using System.Collections.Generic;
 using OCSM;
 
-public class ItemDotsList : ScrollContainer
+public class ItemDotsList : Container
 {
-	private const string InputContainer = "Column";
-	
 	[Signal]
 	public delegate void ValueChanged(List<TextValueItem> values);
 	
@@ -19,7 +17,7 @@ public class ItemDotsList : ScrollContainer
 	
 	public void refresh()
 	{
-		foreach(Node c in GetNode(InputContainer).GetChildren())
+		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
@@ -44,7 +42,7 @@ public class ItemDotsList : ScrollContainer
 		var track = node.GetChild<TrackSimple>(1);
 		track.Value = dots;
 		
-		GetNode(InputContainer).AddChild(node);
+		AddChild(node);
 		lineEdit.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		track.Connect(Constants.Signal.NodeChanged, this, nameof(dotsChanged));
 	}
@@ -52,7 +50,7 @@ public class ItemDotsList : ScrollContainer
 	private void textChanged(string newText)
 	{
 		var values = new List<TextValueItem>();
-		var children = GetNode(InputContainer).GetChildren();
+		var children = GetChildren();
 		foreach(Node c in children)
 		{
 			var le = c.GetChild<LineEdit>(0);
