@@ -55,6 +55,23 @@ namespace OCSM
 			public const string Weaponry = "Weaponry";
 		}
 		
+		public class Specialty : Godot.Object
+		{
+			public Skill Skill { get; set; }
+			public string Value { get; set; }
+			
+			public Specialty(Skill skill, string value)
+			{
+				Skill = skill;
+				Value = value;
+			}
+
+			public override string ToString()
+			{
+				return String.Format("{{ Skill: {0}, Value: '{1}' }}", Skill, Value);
+			}
+		}
+		
 		public static Skill Academics = new Skill { Name = Names.Academics, Type = TraitType.Mental };
 		public static Skill Athletics = new Skill { Name = Names.Athletics, Type = TraitType.Physical };
 		public static Skill AnimalKen = new Skill { Name = Names.AnimalKen, Type = TraitType.Social };
@@ -169,5 +186,10 @@ namespace OCSM
 		
 		public string Name { get; private set; }
 		public TraitType Type { get; private set; }
+
+		public override string ToString()
+		{
+			return String.Format("{{ Name: '{0}', Type: '{1}' }}", Name, Type.ToString());
+		}
 	}
 }

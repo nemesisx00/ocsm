@@ -47,6 +47,7 @@ public class MortalSheetLogic : CoreSheetLogic
 	}
 	
 	private const string Merits = "Merits";
+	private const string SkillSpecialties = "Specialties";
 	
 	private Mortal sheetData { get; set; } = new Mortal();
 	
@@ -84,6 +85,7 @@ public class MortalSheetLogic : CoreSheetLogic
 		{
 			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), sheetData.Skills[s], nameof(changed_Skill), true);
 		}
+		InitAndConnect(GetNode<SpecialtyList>(PathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), sheetData.Specialties, nameof(changed_SkillSpecialty));
 		
 		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Merits, MeritsPath)), sheetData.Merits, nameof(changed_Merits));
 		
@@ -220,6 +222,11 @@ public class MortalSheetLogic : CoreSheetLogic
 					break;
 			}
 		}
+	}
+	
+	private void changed_SkillSpecialty(List<Skill.Specialty> values)
+	{
+		sheetData.Specialties = values;
 	}
 	
 	private void changed_Merits(List<TextValueItem> values) { sheetData.Merits = values; }

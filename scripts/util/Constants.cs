@@ -41,6 +41,7 @@ namespace OCSM
 			public const string Confirmed = "confirmed";
 			public const string GuiInput = "gui_input";
 			public const string IdPressed = "id_pressed";
+			public const string ItemSelected = "item_selected";
 			public const string NodeChanged = "NodeChanged";
 			public const string Pressed = "pressed";
 			public const string Released = "released";

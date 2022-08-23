@@ -42,5 +42,11 @@ public class CoreSheetLogic : ScrollContainer
 			idl.refresh();
 			idl.Connect(Constants.Signal.ValueChanged, this, handlerName);
 		}
+		else if(node is SpecialtyList sl)
+		{
+			sl.Values = initialValue as List<Skill.Specialty>;
+			sl.refresh();
+			sl.Connect(Constants.Signal.ValueChanged, this, handlerName);
+		}
 	}
 }

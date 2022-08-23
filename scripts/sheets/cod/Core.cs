@@ -22,6 +22,7 @@ namespace OCSM
 		public Dictionary<string, int> HealthCurrent { get; set; }
 		public List<TextValueItem> Merits { get; set; }
 		public Skills Skills { get; set; }
+		public List<Skill.Specialty> Specialties { get; set; }
 		
 		public CodCore()
 		{
@@ -47,8 +48,9 @@ namespace OCSM
 			HealthCurrent.Add(BoxComplex.State.One, 0);
 			Merits = new List<TextValueItem>();
 			Skills = new Skills();
+			Specialties = new List<Skill.Specialty>();
 		}
-
+		
 		public override string ToString()
 		{
 			var output = "{ ";
@@ -69,6 +71,7 @@ namespace OCSM
 			output += "Willpower: " + WillpowerSpent + " / " + WillpowerMax + ", ";
 			output += "Attributes: " + Attributes.ToString() + ", ";
 			output += "Skills: " + Skills.ToString() + ", ";
+			output += "Specialties: { " + String.Join("', '", Specialties) + " }, ";
 			output += " }";
 			return output;
 		}
