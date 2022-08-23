@@ -19,18 +19,5 @@ namespace OCSM
 			Vice = String.Empty;
 			Virtue = String.Empty;
 		}
-
-		public override string ToString()
-		{
-			var output = "{ ";
-			output += "Core: " + base.ToString() + ", ";
-			output += "Faction: '" + Faction + "', ";
-			output += "GroupName: '" + GroupName + "', ";
-			output += "Vice: '" + Vice + "', ";
-			output += "Virtue: '" + Virtue + "', ";
-			output += "Integrity: " + Integrity + ", ";
-			output += " }";
-			return output;
-		}
 	}
 }

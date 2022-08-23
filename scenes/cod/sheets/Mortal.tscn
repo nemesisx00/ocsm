@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://scenes/cod/nodes/MortalAdvantages.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/cod/nodes/core/MortalAdvantages.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="DynamicFont" id=2]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=3]
 [ext_resource path="res://scenes/cod/nodes/Traits.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/cod/nodes/MortalDetails.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/cod/nodes/core/MortalDetails.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/nodes/cod/sheets/MortalSheetLogic.cs" type="Script" id=6]
 [ext_resource path="res://scripts/nodes/cod/ItemDotsList.cs" type="Script" id=7]
 
@@ -59,17 +59,17 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 92.0
 margin_right = 1024.0
-margin_bottom = 245.0
+margin_bottom = 215.0
 size_flags_vertical = 1
 
 [node name="HSeparator2" type="HSeparator" parent="Column"]
-margin_top = 249.0
+margin_top = 219.0
 margin_right = 1024.0
-margin_bottom = 269.0
+margin_bottom = 239.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="TabContainer" type="TabContainer" parent="Column"]
-margin_top = 273.0
+margin_top = 243.0
 margin_right = 1024.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
@@ -86,11 +86,41 @@ margin_bottom = -4.0
 [node name="Traits" parent="Column/TabContainer" instance=ExtResource( 4 )]
 visible = false
 
-[node name="Merits" type="GridContainer" parent="Column/TabContainer"]
-unique_name_in_owner = true
+[node name="Merits & Flaws" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Column/TabContainer/Merits & Flaws"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+text = "Merits"
+align = 1
+valign = 1
+
+[node name="Merits" type="GridContainer" parent="Column/TabContainer/Merits & Flaws"]
+unique_name_in_owner = true
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+columns = 2
+script = ExtResource( 7 )
+
+[node name="Label2" type="Label" parent="Column/TabContainer/Merits & Flaws"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+text = "Flaws"
+align = 1
+valign = 1
+
+[node name="Flaws" type="GridContainer" parent="Column/TabContainer/Merits & Flaws"]
+unique_name_in_owner = true
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+columns = 2
 script = ExtResource( 7 )
 
 [node name="Inventory" type="VBoxContainer" parent="Column/TabContainer"]

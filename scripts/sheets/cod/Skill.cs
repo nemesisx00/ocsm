@@ -3,29 +3,7 @@ using System.Collections.Generic;
 
 namespace OCSM
 {
-	public sealed class Skills : Dictionary<Skill, int>
-	{
-		public Skills() : base()
-		{
-			foreach(var s in Skill.toList())
-			{
-				Add(s, 0);
-			}
-		}
-		
-		public override string ToString()
-		{
-			string output = "Skills { ";
-			foreach(var s in Keys)
-			{
-				output += String.Format("{0}: {1}, ", s.Name, this[s]);
-			}
-			output += " }";
-			return output;
-		}
-	}
-	
-	public sealed class Skill
+	public sealed class Skill : IEquatable<Skill>
 	{
 		public sealed class Names
 		{
@@ -55,47 +33,30 @@ namespace OCSM
 			public const string Weaponry = "Weaponry";
 		}
 		
-		public class Specialty : Godot.Object
-		{
-			public Skill Skill { get; set; }
-			public string Value { get; set; }
-			
-			public Specialty(Skill skill, string value)
-			{
-				Skill = skill;
-				Value = value;
-			}
-
-			public override string ToString()
-			{
-				return String.Format("{{ Skill: {0}, Value: '{1}' }}", Skill, Value);
-			}
-		}
-		
-		public static Skill Academics = new Skill { Name = Names.Academics, Type = TraitType.Mental };
-		public static Skill Athletics = new Skill { Name = Names.Athletics, Type = TraitType.Physical };
-		public static Skill AnimalKen = new Skill { Name = Names.AnimalKen, Type = TraitType.Social };
-		public static Skill Brawl = new Skill { Name = Names.Brawl, Type = TraitType.Physical };
-		public static Skill Computer = new Skill { Name = Names.Computer, Type = TraitType.Mental };
-		public static Skill Crafts = new Skill { Name = Names.Crafts, Type = TraitType.Mental };
-		public static Skill Drive = new Skill { Name = Names.Drive, Type = TraitType.Physical };
-		public static Skill Empathy = new Skill { Name = Names.Empathy, Type = TraitType.Social };
-		public static Skill Expression = new Skill { Name = Names.Expression, Type = TraitType.Social };
-		public static Skill Firearms = new Skill { Name = Names.Firearms, Type = TraitType.Physical };
-		public static Skill Intimidation = new Skill { Name = Names.Intimidation, Type = TraitType.Social };
-		public static Skill Investigation = new Skill { Name = Names.Investigation, Type = TraitType.Mental };
-		public static Skill Larceny = new Skill { Name = Names.Larceny, Type = TraitType.Physical };
-		public static Skill Medicine = new Skill { Name = Names.Medicine, Type = TraitType.Mental };
-		public static Skill Occult = new Skill { Name = Names.Occult, Type = TraitType.Mental };
-		public static Skill Persuasion = new Skill { Name = Names.Persuasion, Type = TraitType.Social };
-		public static Skill Politics = new Skill { Name = Names.Politics, Type = TraitType.Mental };
-		public static Skill Science = new Skill { Name = Names.Science, Type = TraitType.Mental };
-		public static Skill Socialize = new Skill { Name = Names.Socialize, Type = TraitType.Social };
-		public static Skill Stealth = new Skill { Name = Names.Stealth, Type = TraitType.Physical };
-		public static Skill Streetwise = new Skill { Name = Names.Streetwise, Type = TraitType.Social };
-		public static Skill Subterfuge = new Skill { Name = Names.Subterfuge, Type = TraitType.Social };
-		public static Skill Survival = new Skill { Name = Names.Survival, Type = TraitType.Physical };
-		public static Skill Weaponry = new Skill { Name = Names.Weaponry, Type = TraitType.Physical };
+		public static Skill Academics = new Skill { Name = Names.Academics, Type = TraitType.Mental, Value = 0 };
+		public static Skill Athletics = new Skill { Name = Names.Athletics, Type = TraitType.Physical, Value = 0 };
+		public static Skill AnimalKen = new Skill { Name = Names.AnimalKen, Type = TraitType.Social, Value = 0 };
+		public static Skill Brawl = new Skill { Name = Names.Brawl, Type = TraitType.Physical, Value = 0 };
+		public static Skill Computer = new Skill { Name = Names.Computer, Type = TraitType.Mental, Value = 0 };
+		public static Skill Crafts = new Skill { Name = Names.Crafts, Type = TraitType.Mental, Value = 0 };
+		public static Skill Drive = new Skill { Name = Names.Drive, Type = TraitType.Physical, Value = 0 };
+		public static Skill Empathy = new Skill { Name = Names.Empathy, Type = TraitType.Social, Value = 0 };
+		public static Skill Expression = new Skill { Name = Names.Expression, Type = TraitType.Social, Value = 0 };
+		public static Skill Firearms = new Skill { Name = Names.Firearms, Type = TraitType.Physical, Value = 0 };
+		public static Skill Intimidation = new Skill { Name = Names.Intimidation, Type = TraitType.Social, Value = 0 };
+		public static Skill Investigation = new Skill { Name = Names.Investigation, Type = TraitType.Mental, Value = 0 };
+		public static Skill Larceny = new Skill { Name = Names.Larceny, Type = TraitType.Physical, Value = 0 };
+		public static Skill Medicine = new Skill { Name = Names.Medicine, Type = TraitType.Mental, Value = 0 };
+		public static Skill Occult = new Skill { Name = Names.Occult, Type = TraitType.Mental, Value = 0 };
+		public static Skill Persuasion = new Skill { Name = Names.Persuasion, Type = TraitType.Social, Value = 0 };
+		public static Skill Politics = new Skill { Name = Names.Politics, Type = TraitType.Mental, Value = 0 };
+		public static Skill Science = new Skill { Name = Names.Science, Type = TraitType.Mental, Value = 0 };
+		public static Skill Socialize = new Skill { Name = Names.Socialize, Type = TraitType.Social, Value = 0 };
+		public static Skill Stealth = new Skill { Name = Names.Stealth, Type = TraitType.Physical, Value = 0 };
+		public static Skill Streetwise = new Skill { Name = Names.Streetwise, Type = TraitType.Social, Value = 0 };
+		public static Skill Subterfuge = new Skill { Name = Names.Subterfuge, Type = TraitType.Social, Value = 0 };
+		public static Skill Survival = new Skill { Name = Names.Survival, Type = TraitType.Physical, Value = 0 };
+		public static Skill Weaponry = new Skill { Name = Names.Weaponry, Type = TraitType.Physical, Value = 0 };
 		
 		public static Skill byName(string name)
 		{
@@ -154,7 +115,7 @@ namespace OCSM
 			}
 		}
 		
-		public static List<Skill> toList()
+		public static List<Skill> asList()
 		{
 			var list = new List<Skill>();
 			list.Add(Academics);
@@ -185,11 +146,14 @@ namespace OCSM
 		}
 		
 		public string Name { get; private set; }
-		public TraitType Type { get; private set; }
-
-		public override string ToString()
+		public string Type { get; private set; }
+		public int Value { get; set; }
+		
+		public bool Equals(Skill skill)
 		{
-			return String.Format("{{ Name: '{0}', Type: '{1}' }}", Name, Type.ToString());
+			return skill.Name.Equals(Name)
+				&& skill.Type.Equals(Type)
+				&& skill.Value.Equals(Value);
 		}
 	}
 }

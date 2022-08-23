@@ -1,10 +1,10 @@
 
 namespace OCSM
 {
-	public enum TraitType
+	public sealed class TraitType
 	{
-		Mental,
-		Physical,
-		Social,
+		public const string Mental = "Mental";
+		public const string Physical = "Physical";
+		public const string Social = "Social";
 	}
 }

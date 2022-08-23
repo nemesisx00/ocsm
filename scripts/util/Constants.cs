@@ -3,6 +3,8 @@ namespace OCSM
 {
 	public class Constants
 	{
+		public const int TextInputMinHeight = 23;
+		
 		public sealed class Action
 		{
 			public const string Cancel = "ui_cancel";
@@ -30,10 +32,20 @@ namespace OCSM
 			public sealed class CoD
 			{
 				public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
-				public const string ChangelingSheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 				public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
 				public const string ToggleButton = "res://scenes/cod/nodes/ToggleButton.tscn";
-				public const string MortalSheet = "res://scenes/cod/sheets/Mortal.tscn";
+				public const string Specialty = "res://scenes/cod/nodes/Specialty.tscn";
+				
+				public sealed class Mortal
+				{
+					public const string Sheet = "res://scenes/cod/sheets/Mortal.tscn";
+				}
+				
+				public sealed class Changeling
+				{
+					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
+					public const string Contract = "res://scenes/cod/nodes/ctl/Contract.tscn";
+				}
 			}
 		}
 		

@@ -1,4 +1,5 @@
 using Godot;
+using System.Text.Json;
 using OCSM;
 
 public class NewSheet : ScrollContainer
@@ -23,10 +24,12 @@ public class NewSheet : ScrollContainer
 	{
 		GetNode<Button>(PathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
 		GetNode<Button>(PathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
+		
+		GD.Print(JsonSerializer.Serialize(new Mortal()));
 	}
 	
-	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.MortalSheet, "New Mortal"); }
-	private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.ChangelingSheet, "New Changeling"); }
+	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, "New Mortal"); }
+	private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.Changeling.Sheet, "New Changeling"); }
 	
 	private void addSheet(string sheetPath, string name)
 	{

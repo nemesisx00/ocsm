@@ -1,31 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace OCSM
 {
-	public sealed class Attributes : Dictionary<Attribute, int>
-	{
-		public Attributes() : base()
-		{
-			foreach(var a in Attribute.toList())
-			{
-				Add(a, 1);
-			}
-		}
-		
-		public override string ToString()
-		{
-			string output = "Attributes { ";
-			foreach(var a in Keys)
-			{
-				output += String.Format("{0}: {1}, ", a.Name, this[a]);
-			}
-			output += " }";
-			return output;
-		}
-	}
-	
-	public sealed class Attribute
+	public sealed class Attribute : IEquatable<Attribute>
 	{
 		public sealed class Names
 		{
@@ -40,15 +19,15 @@ namespace OCSM
 			public const string Wits = "Wits";
 		}
 		
-		public static Attribute Composure = new Attribute { Name = Names.Composure, Type = TraitType.Social };
-		public static Attribute Dexterity = new Attribute { Name = Names.Dexterity, Type = TraitType.Physical };
-		public static Attribute Intelligence = new Attribute { Name = Names.Intelligence, Type = TraitType.Mental };
-		public static Attribute Manipulation = new Attribute { Name = Names.Manipulation, Type = TraitType.Social };
-		public static Attribute Presence = new Attribute { Name = Names.Presence, Type = TraitType.Social };
-		public static Attribute Resolve = new Attribute { Name = Names.Resolve, Type = TraitType.Mental };
-		public static Attribute Stamina = new Attribute { Name = Names.Stamina, Type = TraitType.Physical };
-		public static Attribute Strength = new Attribute { Name = Names.Strength, Type = TraitType.Physical };
-		public static Attribute Wits = new Attribute { Name = Names.Wits, Type = TraitType.Mental };
+		public static Attribute Composure = new Attribute(Names.Composure, TraitType.Social, 1);
+		public static Attribute Dexterity = new Attribute(Names.Dexterity, TraitType.Physical, 1);
+		public static Attribute Intelligence = new Attribute(Names.Intelligence, TraitType.Mental, 1);
+		public static Attribute Manipulation = new Attribute(Names.Manipulation, TraitType.Social, 1);
+		public static Attribute Presence = new Attribute(Names.Presence, TraitType.Social, 1);
+		public static Attribute Resolve = new Attribute(Names.Resolve, TraitType.Mental, 1);
+		public static Attribute Stamina = new Attribute(Names.Stamina, TraitType.Physical, 1);
+		public static Attribute Strength = new Attribute(Names.Strength, TraitType.Physical, 1);
+		public static Attribute Wits = new Attribute(Names.Wits, TraitType.Mental, 1);
 		
 		public static Attribute byName(string name)
 		{
@@ -77,7 +56,7 @@ namespace OCSM
 			}
 		}
 		
-		public static List<Attribute> toList()
+		public static List<Attribute> asList()
 		{
 			var list = new List<Attribute>();
 			list.Add(Composure);
@@ -92,7 +71,22 @@ namespace OCSM
 			return list;
 		}
 		
+		public Attribute(string name, string type, int value = 1)
+		{
+			Name = name;
+			Type = type;
+			Value = value;
+		}
+		
 		public string Name { get; private set; }
-		public TraitType Type { get; private set; }
+		public string Type { get; private set; }
+		public int Value { get; set; }
+		
+		public bool Equals(Attribute attr)
+		{
+			return attr.Name.Equals(Name)
+				&& attr.Type.Equals(Type)
+				&& attr.Value.Equals(Value);
+		}
 	}
 }

@@ -6,9 +6,9 @@ using OCSM;
 public class ItemDotsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(List<TextValueItem> values);
+	public delegate void ValueChanged(Dictionary<string, int> values);
 	
-	public List<TextValueItem> Values { get; set; } = new List<TextValueItem>();
+	public Dictionary<string, int> Values { get; set; } = new Dictionary<string, int>();
 	
 	public override void _Ready()
 	{
@@ -22,10 +22,10 @@ public class ItemDotsList : Container
 			c.QueueFree();
 		}
 		
-		foreach(var v in Values)
+		foreach(var key in Values.Keys)
 		{
-			if(!String.IsNullOrEmpty(v.Text))
-				addInput(v.Text, v.Value);
+			if(!String.IsNullOrEmpty(key))
+				addInput(key, Values[key]);
 		}
 		
 		addInput();
@@ -49,7 +49,17 @@ public class ItemDotsList : Container
 	
 	private void textChanged(string newText)
 	{
-		var values = new List<TextValueItem>();
+		updateValues();
+	}
+	
+	private void dotsChanged(TrackSimple node)
+	{
+		updateValues();
+	}
+	
+	private void updateValues()
+	{
+		var values = new Dictionary<string, int>();
 		var children = GetChildren();
 		foreach(Node c in children)
 		{
@@ -57,9 +67,9 @@ public class ItemDotsList : Container
 			var dots = c.GetChild<TrackSimple>(1).Value;
 			
 			if(!String.IsNullOrEmpty(le.Text))
-				values.Add(new TextValueItem(le.Text, dots));
+				values.Add(le.Text, dots);
 			else if(children.IndexOf(c) != children.Count - 1)
-				le.QueueFree();
+				c.QueueFree();
 		}
 		
 		Values = values;
@@ -69,17 +79,5 @@ public class ItemDotsList : Container
 		{
 			addInput();
 		}
-	}
-	
-	private void dotsChanged(TrackSimple node)
-	{
-		var dots = node.Value;
-		var index = node.GetParent().GetIndex();
-		if(index >= Values.Count)
-			Values.Add(new TextValueItem(String.Empty, dots));
-		else
-			Values[index].Value = dots;
-		
-		EmitSignal(nameof(ValueChanged), Values);
 	}
 }

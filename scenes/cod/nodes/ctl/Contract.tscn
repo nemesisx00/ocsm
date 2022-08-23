@@ -1,0 +1,225 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/textures/up-arrow.png" type="Texture" id=2]
+[ext_resource path="res://assets/textures/down-arrow.png" type="Texture" id=3]
+[ext_resource path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/nodes/cod/ctl/ContractTypeButton.cs" type="Script" id=5]
+[ext_resource path="res://scripts/nodes/cod/SkillOptionButton.cs" type="Script" id=6]
+[ext_resource path="res://scripts/nodes/cod/AttributeOptionButton.cs" type="Script" id=7]
+[ext_resource path="res://scripts/nodes/cod/ctl/Contract.cs" type="Script" id=8]
+
+[node name="Contract" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+script = ExtResource( 8 )
+
+[node name="Row" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 24.0
+
+[node name="Name" type="LineEdit" parent="Row"]
+unique_name_in_owner = true
+margin_right = 745.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Row"]
+margin_left = 749.0
+margin_top = 5.0
+margin_right = 798.0
+margin_bottom = 19.0
+text = "Regalia:"
+align = 2
+valign = 1
+
+[node name="Regalia" type="OptionButton" parent="Row"]
+unique_name_in_owner = true
+margin_left = 802.0
+margin_right = 902.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 100, 0 )
+script = ExtResource( 4 )
+includeNonRegalia = true
+
+[node name="ContractType" type="OptionButton" parent="Row"]
+unique_name_in_owner = true
+margin_left = 906.0
+margin_right = 996.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 90, 0 )
+script = ExtResource( 5 )
+
+[node name="ToggleDetails" type="TextureButton" parent="Row"]
+unique_name_in_owner = true
+margin_left = 1000.0
+margin_right = 1024.0
+margin_bottom = 24.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+toggle_mode = true
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 3 )
+
+[node name="Details" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+margin_top = 34.0
+margin_right = 1024.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+
+[node name="Row" type="HBoxContainer" parent="Details"]
+margin_right = 1024.0
+margin_bottom = 24.0
+
+[node name="Label3" type="Label" parent="Details/Row"]
+margin_top = 5.0
+margin_right = 45.0
+margin_bottom = 19.0
+text = "Action:"
+align = 2
+valign = 1
+
+[node name="Action" type="OptionButton" parent="Details/Row"]
+unique_name_in_owner = true
+margin_left = 49.0
+margin_right = 149.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 100, 0 )
+items = [ "", null, false, 0, null, "Instant", null, false, 1, null, "Reflexive", null, false, 2, null, "Extended", null, false, 3, null, "Contested", null, false, 4, null, "Resisted", null, false, 5, null ]
+selected = 0
+
+[node name="Label2" type="Label" parent="Details/Row"]
+margin_left = 153.0
+margin_top = 5.0
+margin_right = 185.0
+margin_bottom = 19.0
+text = "Cost:"
+align = 2
+valign = 1
+
+[node name="Cost" type="LineEdit" parent="Details/Row"]
+unique_name_in_owner = true
+margin_left = 189.0
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="Details"]
+margin_top = 28.0
+margin_right = 1024.0
+margin_bottom = 52.0
+
+[node name="Label4" type="Label" parent="Details/Row2"]
+margin_top = 5.0
+margin_right = 59.0
+margin_bottom = 19.0
+text = "Duration:"
+align = 2
+valign = 1
+
+[node name="Duration" type="LineEdit" parent="Details/Row2"]
+unique_name_in_owner = true
+margin_left = 63.0
+margin_right = 1024.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Current Scene"
+
+[node name="Row3" type="HBoxContainer" parent="Details"]
+margin_top = 56.0
+margin_right = 1024.0
+margin_bottom = 76.0
+
+[node name="Label" type="Label" parent="Details/Row3"]
+margin_top = 3.0
+margin_right = 65.0
+margin_bottom = 17.0
+text = "Dice Pool:"
+align = 2
+valign = 1
+
+[node name="Wyrd" type="Label" parent="Details/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 616.0
+margin_top = -51.0
+margin_right = 661.0
+margin_bottom = -37.0
+text = "Wyrd +"
+
+[node name="Attribute" type="OptionButton" parent="Details/Row3"]
+unique_name_in_owner = true
+margin_left = 69.0
+margin_right = 184.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 115, 0 )
+text = "None"
+items = [ "None", null, false, 0, null ]
+selected = 0
+script = ExtResource( 7 )
+emptyOption = false
+
+[node name="SkillPlus" type="Label" parent="Details/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 784.0
+margin_top = -51.0
+margin_right = 792.0
+margin_bottom = -37.0
+text = "+"
+
+[node name="Skill" type="OptionButton" parent="Details/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 796.0
+margin_top = -56.0
+margin_right = 911.0
+margin_bottom = -32.0
+rect_min_size = Vector2( 115, 0 )
+script = ExtResource( 6 )
+
+[node name="Attribute2Minus" type="Label" parent="Details/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 915.0
+margin_top = -51.0
+margin_right = 920.0
+margin_bottom = -37.0
+text = "-"
+
+[node name="Attribute2" type="OptionButton" parent="Details/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 924.0
+margin_top = -56.0
+margin_right = 1024.0
+margin_bottom = -32.0
+rect_min_size = Vector2( 100, 0 )
+script = ExtResource( 7 )
+
+[node name="Row4" type="VBoxContainer" parent="Details"]
+margin_top = 80.0
+margin_right = 1024.0
+margin_bottom = 121.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Details/Row4"]
+margin_right = 1024.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+text = "Description"
+align = 1
+valign = 1
+
+[node name="Description" type="TextEdit" parent="Details/Row4"]
+unique_name_in_owner = true
+margin_top = 18.0
+margin_right = 1024.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+wrap_enabled = true

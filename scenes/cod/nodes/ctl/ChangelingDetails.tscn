@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/nodes/cod/ItemList.cs" type="Script" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" type="Script" id=3]
 
 [node name="Details" type="VBoxContainer"]
 anchor_right = 1.0
@@ -71,9 +72,9 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter the character's core concept here."
 focus_neighbour_left = NodePath("../../Row1/Player")
-focus_neighbour_bottom = NodePath("../Thread")
-focus_next = NodePath("../Thread")
-focus_previous = NodePath("../Size")
+focus_neighbour_bottom = NodePath("../../Row7/Thread")
+focus_next = NodePath("../../Row7/Thread")
+focus_previous = NodePath("../../Row1/Player")
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -135,10 +136,10 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 hint_tooltip = "Enter the character's Virtue here."
 focus_neighbour_left = NodePath("../../Row2/Chronicle")
-focus_neighbour_top = NodePath("../Needle")
+focus_neighbour_top = NodePath("../../Row6/Needle")
 focus_neighbour_bottom = NodePath("../../Row8/Seeming")
 focus_next = NodePath("../../Row8/Seeming")
-focus_previous = NodePath("../Needle")
+focus_previous = NodePath("../../Row6/Needle")
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -373,18 +374,14 @@ custom_constants/separation = 25
 margin_right = 100.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 100, 0 )
-size_flags_horizontal = 3
-items = [ "", null, false, 0, null, "Crown", null, false, 1, null, "Jewels", null, false, 2, null, "Mirror", null, false, 3, null, "Shield", null, false, 4, null, "Steed", null, false, 5, null, "Sword", null, false, 6, null ]
-selected = 0
+script = ExtResource( 3 )
 
 [node name="Regalia2" type="OptionButton" parent="Column/HBoxContainer"]
 margin_left = 125.0
 margin_right = 225.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 100, 0 )
-size_flags_horizontal = 3
-items = [ "", null, false, 0, null, "Crown", null, false, 1, null, "Jewels", null, false, 2, null, "Mirror", null, false, 3, null, "Shield", null, false, 4, null, "Steed", null, false, 5, null, "Sword", null, false, 6, null ]
-selected = 0
+script = ExtResource( 3 )
 
 [node name="Label2" type="Label" parent="Column"]
 margin_top = 74.0

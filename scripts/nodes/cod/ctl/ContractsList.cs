@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using OCSM;
 
-public class SpecialtyList : Container
+public class ContractsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(Dictionary<string, string> values);
+	public delegate void ValueChanged(List<Contract> values);
 	
-	public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
+	public List<Contract> Values { get; set; } = new List<Contract>();
 	
 	public override void _Ready()
 	{
@@ -22,11 +22,10 @@ public class SpecialtyList : Container
 			c.QueueFree();
 		}
 		
-		foreach(var key in Values.Keys)
+		foreach(var v in Values)
 		{
-			var skill = Skill.byName(key);
-			if(skill is Skill)
-				addInput(skill, Values[key]);
+			if(v is Contract)
+				addInput(v);
 		}
 		
 		addInput();
@@ -37,7 +36,7 @@ public class SpecialtyList : Container
 	
 	private void updateValues()
 	{
-		var values = new Dictionary<string, string>();
+		var values = new List<Contract>();
 		var children = GetChildren();
 		foreach(HBoxContainer row in children)
 		{
@@ -46,7 +45,9 @@ public class SpecialtyList : Container
 			var value = row.GetChild<LineEdit>(1).Text;
 			
 			if(!String.IsNullOrEmpty(value))
-				values.Add(skill.Name, value);
+			{
+				//values.Add(new Skill.Specialty(skill, value));
+			}
 			else if(children.IndexOf(row) != children.Count - 1)
 				row.QueueFree();
 		}
@@ -59,14 +60,16 @@ public class SpecialtyList : Container
 		}
 	}
 	
-	private void addInput(Skill skill = null, string specialty = "")
+	private void addInput(Contract value = null)
 	{
-		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Specialty);
-		var instance = resource.Instance<HBoxContainer>();
-		if(skill is Skill && !String.IsNullOrEmpty(specialty))
+		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
+		var instance = resource.Instance<VBoxContainer>();
+		if(value is Contract)
 		{
-			instance.GetChild<SkillOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
-			instance.GetChild<LineEdit>(1).Text = specialty;
+			/*
+			instance.GetChild<SkillOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(value)) + 1;
+			instance.GetChild<LineEdit>(1).Text = value.Value;
+			*/
 		}
 		
 		AddChild(instance);
