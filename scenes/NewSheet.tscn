@@ -80,7 +80,6 @@ margin_bottom = 84.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
-disabled = true
 text = "Changeling: The Lost - 2nd Edition"
 
 [node name="Mage2e" type="Button" parent="Grid/CoD"]

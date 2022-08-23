@@ -30,6 +30,7 @@ namespace OCSM
 			public sealed class CoD
 			{
 				public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
+				public const string ChangelingSheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 				public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
 				public const string ToggleButton = "res://scenes/cod/nodes/ToggleButton.tscn";
 				public const string MortalSheet = "res://scenes/cod/sheets/Mortal.tscn";

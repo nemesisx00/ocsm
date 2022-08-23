@@ -22,11 +22,15 @@ public class NewSheet : ScrollContainer
 	public override void _Ready()
 	{
 		GetNode<Button>(PathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
+		GetNode<Button>(PathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
 	}
 	
-	private void newCoDMortal2e()
+	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.MortalSheet, "New Mortal"); }
+	private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.ChangelingSheet, "New Changeling"); }
+	
+	private void addSheet(string sheetPath, string name)
 	{
-		GetNode<SheetManager>(Constants.NodePath.SheetManager).addNewSheet(Constants.Scene.CoD.MortalSheet, "New Mortal");
+		GetNode<SheetManager>(Constants.NodePath.SheetManager).addNewSheet(sheetPath, name);
 		GetParent().GetNode<Control>(Constants.NodePath.SheetTabs).Show();
 		QueueFree();
 	}

@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using OCSM;
 
-public class CoreSheetLogic : ScrollContainer
+public class CoreSheetLogic : Container
 {
 	protected void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
 		where T1: Control
