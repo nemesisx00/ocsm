@@ -33,7 +33,7 @@ public class ChangelingSheetLogic : CoreSheetLogic<Changeling>
 	{
 		if(node is ContractsList cl)
 		{
-			cl.Values = initialValue as List<Contract>;
+			cl.Values = initialValue as List<OCSM.Contract>;
 			cl.refresh();
 			cl.Connect(Constants.Signal.ValueChanged, this, handlerName);
 		}

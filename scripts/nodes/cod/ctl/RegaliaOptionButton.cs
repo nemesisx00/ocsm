@@ -20,7 +20,7 @@ public class RegaliaOptionButton : OptionButton
 		
 		if(includeNonRegalia)
 		{
-			foreach(var court in Contracts.Court.asList())
+			foreach(var court in Court.asList())
 			{
 				AddItem(court);
 			}

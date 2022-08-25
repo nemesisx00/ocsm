@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace OCSM
 {
 	public class Changeling : CodCore
 	{
 		public int Clarity { get; set; }
+		public List<Contract> Contracts { get; set; }
 		public string Kith { get; set; }
 		public string Seeming { get; set; }
 		public string Court { get; set; }
@@ -15,6 +17,7 @@ namespace OCSM
 		public Changeling() : base()
 		{
 			Clarity = 7;
+			Contracts = new List<Contract>();
 			Kith = String.Empty;
 			Seeming = String.Empty;
 			Court = String.Empty;

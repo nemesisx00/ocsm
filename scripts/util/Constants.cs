@@ -46,6 +46,7 @@ namespace OCSM
 				{
 					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 					public const string Contract = "res://scenes/cod/nodes/ctl/Contract.tscn";
+					public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
 				}
 			}
 		}
