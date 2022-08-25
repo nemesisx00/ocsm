@@ -38,7 +38,7 @@ public class HelpMenu : MenuButton
 		instance.Name = PopupName;
 		GetTree().CurrentScene.AddChild(instance);
 		var center = GetViewportRect().GetCenter();
-		instance.RectPosition = new Vector2(center.x - 360.0f, center.y - 130.0f);
+		instance.RectPosition = new Vector2(center.x - (instance.RectSize.x / 2), center.y - (instance.RectSize.y / 2));
 		instance.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideDarkPack));
 		instance.Show();
 	}
