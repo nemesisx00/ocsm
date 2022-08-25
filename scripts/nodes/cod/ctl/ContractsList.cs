@@ -1,13 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Linq;
 using OCSM;
 
 public class ContractsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(List<OCSM.Contract> values);
+	public delegate void ValueChanged(SignalPayload<List<OCSM.Contract>> values);
 	
 	public List<OCSM.Contract> Values { get; set; } = new List<OCSM.Contract>();
 	
@@ -100,7 +101,7 @@ public class ContractsList : Container
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), values);
+		EmitSignal(nameof(ValueChanged), new SignalPayload<List<OCSM.Contract>>() { Payload = values });
 		
 		if(GetChildren().Count <= Values.Count)
 		{

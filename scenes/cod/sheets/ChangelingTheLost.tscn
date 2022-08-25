@@ -134,6 +134,7 @@ columns = 2
 script = ExtResource( 6 )
 
 [node name="Contracts" type="VBoxContainer" parent="Column/TabContainer"]
+unique_name_in_owner = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0

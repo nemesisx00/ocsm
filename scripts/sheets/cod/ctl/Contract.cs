@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace OCSM
 {
-	public class Contract : Godot.Object
+	public class Contract
 	{
-		public int Action { get; set; }
+		public int Action { get; set; } = 0;
 		public Attribute Attribute { get; set; }
 		public Attribute AttributeResisted { get; set; }
 		public Attribute AttributeContested { get; set; }
@@ -20,7 +20,7 @@ namespace OCSM
 		public string RollSuccessExceptional { get; set; }
 		public string RollFailure { get; set; }
 		public string RollFailureExceptional { get; set; }
-		public Dictionary<string, string> SeemingBenefits { get; set; }
+		public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
 		public Skill Skill { get; set; }
 	}
 	
