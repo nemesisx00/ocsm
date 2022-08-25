@@ -11,6 +11,7 @@ public class ConfirmQuit : CenterContainer
 		confirmQuit.Connect(Constants.Signal.Confirmed, this, nameof(quitGame));
 		confirmQuit.GetCancel().Connect(Constants.Signal.Pressed, this, nameof(hideConfirmQuit));
 		confirmQuit.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideConfirmQuit));
+		confirmQuit.RectPosition = new Vector2(GetViewportRect().GetCenter().x - (confirmQuit.RectSize.x / 2), GetViewportRect().GetCenter().y - (confirmQuit.RectSize.y / 2));
 		confirmQuit.Show();
 	}
 	
