@@ -7,7 +7,7 @@ using OCSM;
 public class ContractsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(List<Contract> values);
+	public delegate void ValueChanged(List<OCSM.Contract> values);
 	
 	public List<OCSM.Contract> Values { get; set; } = new List<OCSM.Contract>();
 	
@@ -32,30 +32,77 @@ public class ContractsList : Container
 		addInput();
 	}
 	
-	private void skillChanged(int index) { updateValues(); }
-	private void valueChanged(string text) { updateValues(); }
-	
 	private void updateValues()
 	{
 		var values = new List<OCSM.Contract>();
 		var children = GetChildren();
-		foreach(HBoxContainer row in children)
+		foreach(Contract contract in children)
 		{
-			var optButton = row.GetChild<OptionButton>(0);
-			var skill = Skill.byName(optButton.GetItemText(optButton.Selected));
-			var value = row.GetChild<LineEdit>(1).Text;
+			var attr1Node = contract.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute));
+			var attr2Node = contract.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute2));
+			var attr3Node = contract.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute3));
+			var skillNode = contract.GetNode<SkillOptionButton>(PathBuilder.SceneUnique(Contract.Skill));
+			var regaliaNode = contract.GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Contract.Regalia));
+			var contractTypeNode = contract.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.ContractType));
 			
-			if(!String.IsNullOrEmpty(value))
+			var name = contract.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.NameName)).Text;
+			var action = contract.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.Action)).Selected;
+			var cost = contract.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Cost)).Text;
+			var description = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Description)).Text;
+			var duration = contract.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Duration)).Text;
+			var effects = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Effects)).Text;
+			var seemingBenefits = contract.SeemingBenefits;
+			var failure = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Text;
+			var failureExceptional = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Text;
+			var success = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Text;
+			var successExceptional = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Text;
+			var loophole = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Text;
+			
+			var attribute = OCSM.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
+			var attributeResisted = OCSM.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
+			var attributeContested = OCSM.Attribute.byName(attr3Node.GetItemText(attr3Node.Selected));
+			var skill = OCSM.Skill.byName(skillNode.GetItemText(skillNode.Selected));
+			var regalia = regaliaNode.GetItemText(regaliaNode.Selected);
+			var contractType = contractTypeNode.GetItemText(contractTypeNode.Selected);
+			
+			var shouldRemove = String.IsNullOrEmpty(name) && action < 1 && String.IsNullOrEmpty(description)
+				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.Attribute) && !(attributeResisted is OCSM.Attribute) && !(attributeContested is OCSM.Attribute)
+				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(failureExceptional)
+				&& !OCSM.Regalia.asList().Contains(regalia) && !OCSM.ContractType.asList().Contains(contractType)
+				&& String.IsNullOrEmpty(success) && String.IsNullOrEmpty(successExceptional) && String.IsNullOrEmpty(loophole);
+			
+			if(!shouldRemove)
 			{
-				//values.Add(new Skill.Specialty(skill, value));
+				values.Add(new OCSM.Contract()
+				{
+					Action = action,
+					Attribute = attribute,
+					AttributeResisted = attributeResisted,
+					AttributeContested = attributeContested,
+					Cost = cost,
+					Description = description,
+					Duration = duration,
+					Effects = effects,
+					Loophole = loophole,
+					Name = name,
+					Regalia = regalia,
+					ContractType = contractType,
+					RollFailure = failure,
+					RollFailureExceptional = failureExceptional,
+					RollSuccess = success,
+					RollSuccessExceptional = successExceptional,
+					SeemingBenefits = seemingBenefits,
+					Skill = skill,
+				});
 			}
-			else if(children.IndexOf(row) != children.Count - 1)
-				row.QueueFree();
+			else if(children.IndexOf(contract) != children.Count - 1)
+				contract.QueueFree();
 		}
 		
+		Values = values;
 		EmitSignal(nameof(ValueChanged), values);
 		
-		if(children.Count <= values.Count)
+		if(GetChildren().Count <= Values.Count)
 		{
 			addInput();
 		}
@@ -67,37 +114,66 @@ public class ContractsList : Container
 		var instance = resource.Instance<Contract>();
 		if(value is OCSM.Contract)
 		{
-			if(!String.IsNullOrEmpty(value.Name))
-				instance.GetNode<LineEdit>(Contract.NameName).Text = value.Name;
 			if(value.Action > -1)
-				instance.GetNode<OptionButton>(Contract.Action).Selected = value.Action;
-			if(!String.IsNullOrEmpty(value.Description))
-				instance.GetNode<TextEdit>(Contract.Description).Text = value.Description;
-			if(!String.IsNullOrEmpty(value.Effects))
-				instance.GetNode<TextEdit>(Contract.Effects).Text = value.Effects;
+				instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.Action)).Selected = value.Action;
 			if(value.Attribute is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(Contract.Attribute).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.Attribute.Name)) + 1;
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.Attribute.Name)) + 1;
 			if(value.AttributeResisted is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(Contract.Attribute2).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeResisted.Name)) + 1;
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeResisted.Name)) + 1;
 			if(value.AttributeContested is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(Contract.Attribute3).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeContested.Name)) + 1;
-			if(value.Skill is Skill)
-				instance.GetNode<SkillOptionButton>(Contract.Skill).Selected = Skill.asList().IndexOf(value.Skill) + 1;
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute3)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeContested.Name)) + 1;
+			if(!String.IsNullOrEmpty(value.Cost))
+				instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Cost)).Text = value.Cost;
+			if(!String.IsNullOrEmpty(value.Description))
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Description)).Text = value.Description;
+			if(!String.IsNullOrEmpty(value.Duration))
+				instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Duration)).Text = value.Duration;
+			if(!String.IsNullOrEmpty(value.Effects))
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Effects)).Text = value.Effects;
+			if(!String.IsNullOrEmpty(value.Loophole))
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Text = value.Loophole;
+			if(!String.IsNullOrEmpty(value.Name))
+				instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.NameName)).Text = value.Name;
 			if(value.SeemingBenefits is Dictionary<string, string>)
 				instance.SeemingBenefits = value.SeemingBenefits;
+			if(value.Skill is Skill)
+				instance.GetNode<SkillOptionButton>(PathBuilder.SceneUnique(Contract.Skill)).Selected = Skill.asList().IndexOf(value.Skill) + 1;
+			if(!String.IsNullOrEmpty(value.Regalia))
+				instance.GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Contract.Regalia)).Selected = Regalia.asList().FindIndex(r => r.Equals(value.Regalia)) + 1;
+			if(!String.IsNullOrEmpty(value.ContractType))
+				instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.ContractType)).Selected = ContractType.asList().FindIndex(r => r.Equals(value.ContractType)) + 1;
 			if(!String.IsNullOrEmpty(value.RollFailure))
-				instance.GetNode<TextEdit>(Contract.Failure).Text = value.RollFailure;
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Text = value.RollFailure;
 			if(!String.IsNullOrEmpty(value.RollFailureExceptional))
-				instance.GetNode<TextEdit>(Contract.FailureExceptional).Text = value.RollFailureExceptional;
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Text = value.RollFailureExceptional;
 			if(!String.IsNullOrEmpty(value.RollSuccess))
-				instance.GetNode<TextEdit>(Contract.Success).Text = value.RollSuccess;
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Text = value.RollSuccess;
 			if(!String.IsNullOrEmpty(value.RollSuccessExceptional))
-				instance.GetNode<TextEdit>(Contract.SuccessExceptional).Text = value.RollSuccessExceptional;
-			if(!String.IsNullOrEmpty(value.Loophole))
-				instance.GetNode<TextEdit>(Contract.Loophole).Text = value.Loophole;
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Text = value.RollSuccessExceptional;
 		}
 		
 		AddChild(instance);
-		//Wire up
+		
+		instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.Action)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute2)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute3)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<SkillOptionButton>(PathBuilder.SceneUnique(Contract.Skill)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Contract.Regalia)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.ContractType)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Cost)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Duration)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.NameName)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Description)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Effects)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 	}
+	
+	private void optionSelected(int index) { updateValues(); }
+	private void textChanged(string newText) { textChanged(); }
+	private void textChanged() { updateValues(); }
 }

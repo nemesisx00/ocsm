@@ -13,13 +13,17 @@ public class Contract : VBoxContainer
 	public const string Attribute3 = "Attribute3";
 	private const string Attribute2Minus = "Attribute2Minus";
 	private const string Benefit = "Benefit";
+	public const string ContractType = "ContractType";
+	public const string Cost = "Cost";
 	public const string Details = "Details";
 	public const string Description = "Description";
+	public const string Duration = "Duration";
 	public const string Effects = "Effects";
 	public const string Failure = "Failure";
 	public const string FailureExceptional = "ExceptionalFailure";
 	public const string Loophole = "Loophole";
 	public const string NameName = "Name";
+	public const string Regalia = "Regalia";
 	private const string Seeming = "Seeming";
 	private const string SeemingBenefitsRow = "SeemingBenefitsRow";
 	public const string Skill = "Skill";

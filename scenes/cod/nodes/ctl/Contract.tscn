@@ -22,14 +22,14 @@ margin_bottom = 24.0
 
 [node name="Name" type="LineEdit" parent="Row"]
 unique_name_in_owner = true
-margin_right = 745.0
+margin_right = 735.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row"]
-margin_left = 749.0
+margin_left = 739.0
 margin_top = 5.0
-margin_right = 798.0
+margin_right = 788.0
 margin_bottom = 19.0
 text = "Regalia:"
 align = 2
@@ -37,8 +37,8 @@ valign = 1
 
 [node name="Regalia" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 802.0
-margin_right = 902.0
+margin_left = 792.0
+margin_right = 892.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 script = ExtResource( 4 )
@@ -46,10 +46,12 @@ includeNonRegalia = true
 
 [node name="ContractType" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 906.0
+margin_left = 896.0
 margin_right = 996.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 90, 0 )
+rect_min_size = Vector2( 100, 0 )
+items = [ "", null, false, 0, null ]
+selected = 0
 script = ExtResource( 5 )
 
 [node name="ToggleDetails" type="TextureButton" parent="Row"]
@@ -66,6 +68,7 @@ texture_pressed = ExtResource( 3 )
 
 [node name="Details" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 margin_top = 34.0
 margin_right = 1024.0
 margin_bottom = 389.0
@@ -127,7 +130,6 @@ margin_left = 63.0
 margin_right = 1024.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
-text = "Current Scene"
 
 [node name="Row3" type="HBoxContainer" parent="Details"]
 margin_top = 56.0

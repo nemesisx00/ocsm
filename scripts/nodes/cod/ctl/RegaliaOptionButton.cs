@@ -13,7 +13,7 @@ public class RegaliaOptionButton : OptionButton
 		if(emptyOption)
 			AddItem("");
 		
-		foreach(var regalia in Contracts.Regalia.asList())
+		foreach(var regalia in Regalia.asList())
 		{
 			AddItem(regalia);
 		}
