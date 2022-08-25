@@ -11,6 +11,6 @@ public class AutosizeTextEdit : TextEdit
 	
 	private void autosize()
 	{
-		TextEditUtilities.autoSize(this, Constants.TextInputMinHeight);
+		NodeUtilities.autoSize(this, Constants.TextInputMinHeight);
 	}
 }

@@ -2,7 +2,7 @@ using Godot;
 
 namespace OCSM
 {
-	public class TextEditUtilities
+	public class NodeUtilities
 	{
 		public static void autoSize(TextEdit node, int absoluteMinimumHeight = 0)
 		{
@@ -11,8 +11,13 @@ namespace OCSM
 			if(offset < 0)
 				offset = 0;
 			
-			var minY = (lineHeight * TextEditUtilities.getLineCount(node)) + offset;
+			var minY = (lineHeight * NodeUtilities.getLineCount(node)) + offset;
 			node.RectMinSize = new Vector2(node.RectMinSize.x, minY);
+		}
+		
+		public static void centerControl(Control control, Vector2 center)
+		{
+			control.RectPosition = new Vector2(center.x - (control.RectSize.x / 2), center.y - (control.RectSize.y / 2));
 		}
 		
 		public static int getLineCount(TextEdit node)
