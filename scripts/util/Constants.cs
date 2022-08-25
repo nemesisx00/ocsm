@@ -4,6 +4,15 @@ namespace OCSM
 	public class Constants
 	{
 		public const int TextInputMinHeight = 23;
+		public const string NewSheetFileName = "New Sheet";
+		public const string SheetFileExtension = ".ocsd";
+		
+		public sealed class FilePath
+		{
+			public const string Sheets = "OCSM/sheets/";
+			public const string Windows = "%UserProfile%/Documents/";
+			public const string Linux = "~/";
+		}
 		
 		public sealed class Action
 		{
@@ -29,6 +38,7 @@ namespace OCSM
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
 			public const string DarkPack = "res://scenes/DarkPack.tscn";
 			public const string NewSheet = "res://scenes/NewSheet.tscn";
+			public const string SaveSheet = "res://scenes/SaveSheet.tscn";
 			
 			public sealed class CoD
 			{
@@ -54,6 +64,7 @@ namespace OCSM
 		public sealed class Signal
 		{
 			public const string Confirmed = "confirmed";
+			public const string FileSelected = "file_selected";
 			public const string GuiInput = "gui_input";
 			public const string IdPressed = "id_pressed";
 			public const string ItemSelected = "item_selected";

@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM;
 
 public class FileMenu : MenuButton
@@ -44,6 +45,15 @@ public class FileMenu : MenuButton
 	
 	private void doSave()
 	{
-		GD.Print("Do Save!");
+		var data = sheetManager.getActiveSheetJsonData();
+		if(data != null)
+		{
+			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.SaveSheet);
+			var instance = resource.Instance<SaveSheet>();
+			instance.SheetData = data;
+			GetTree().CurrentScene.AddChild(instance);
+			instance.Show();
+			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
+		}
 	}
 }
