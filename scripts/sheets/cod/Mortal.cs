@@ -5,6 +5,7 @@ namespace OCSM
 {
 	public class Mortal : CodCore
 	{
+		public int Age { get; set; }
 		public int Integrity { get; set; }
 		public string Faction { get; set; }
 		public string GroupName { get; set; }
@@ -13,6 +14,7 @@ namespace OCSM
 		
 		public Mortal() : base()
 		{
+			Age = -1;
 			Integrity = 7;
 			Faction = String.Empty;
 			GroupName = String.Empty;

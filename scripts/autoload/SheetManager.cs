@@ -4,26 +4,6 @@ using OCSM;
 
 public class SheetManager : Node
 {
-	public void showNewSheetUI()
-	{
-		var existingNode = GetNodeOrNull<NewSheet>(Constants.NodePath.NewSheet);
-		if(!(existingNode is NewSheet))
-		{
-			var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
-			sheetTabsNode.Hide();
-			
-			var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
-			var instance = resource.Instance<NewSheet>();
-			GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
-		}
-	}
-	
-	public void hideNewSheetUI()
-	{
-		GetNode<Control>(Constants.NodePath.SheetTabs).Show();
-		GetNode<Control>(Constants.NodePath.NewSheet).QueueFree();
-	}
-	
 	public void addNewSheet(string scenePath, string name)
 	{
 		if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
@@ -62,6 +42,41 @@ public class SheetManager : Node
 					showNewSheetUI();
 				tab.QueueFree();
 			}
+		}
+	}
+	
+	public string getActiveSheetJsonData()
+	{
+		string data = null;
+		var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+		if(tc is TabContainer)
+		{
+			var tab = tc.GetCurrentTabControl();
+			if(tab is ICharacterSheet sheet)
+			{
+				data = sheet.GetJsonData();
+			}
+		}
+		return data;
+	}
+	
+	public void hideNewSheetUI()
+	{
+		GetNode<Control>(Constants.NodePath.SheetTabs).Show();
+		GetNode<Control>(Constants.NodePath.NewSheet).QueueFree();
+	}
+	
+	public void showNewSheetUI()
+	{
+		var existingNode = GetNodeOrNull<NewSheet>(Constants.NodePath.NewSheet);
+		if(!(existingNode is NewSheet))
+		{
+			var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
+			sheetTabsNode.Hide();
+			
+			var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
+			var instance = resource.Instance<NewSheet>();
+			GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
 		}
 	}
 }

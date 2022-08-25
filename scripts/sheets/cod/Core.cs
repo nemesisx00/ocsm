@@ -5,7 +5,6 @@ namespace OCSM
 {
 	public class CodCore : Character
 	{
-		public int Age { get; set; }
 		public int Beats { get; set; }
 		public int Experience { get; set; }
 		public int HealthMax { get; set; }
@@ -27,7 +26,6 @@ namespace OCSM
 		
 		public CodCore()
 		{
-			Age = -1;
 			Beats = 0;
 			Experience = 0;
 			HealthMax = 6;
