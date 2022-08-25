@@ -27,6 +27,7 @@ namespace OCSM
 		public sealed class Scene
 		{
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
+			public const string DarkPack = "res://scenes/DarkPack.tscn";
 			public const string NewSheet = "res://scenes/NewSheet.tscn";
 			
 			public sealed class CoD
