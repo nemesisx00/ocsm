@@ -1,10 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
 using OCSM;
 
 public class SheetManager : Node
 {
-	public void addNewSheet(string scenePath, string name)
+	public void addNewSheet(string scenePath, string name, string json = null)
 	{
 		if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
 		{
@@ -25,7 +28,11 @@ public class SheetManager : Node
 				if(dupeCount > 0)
 					instance.Name = String.Format("{0} ({1})", instance.Name, dupeCount);
 				
+				if(!String.IsNullOrEmpty(json))
+					((ICharacterSheet)instance).SetJsonData(json);
+				
 				tc.AddChild(instance);
+				tc.CurrentTab = tc.GetTabCount() - 1;
 			}
 		}
 	}
@@ -62,8 +69,35 @@ public class SheetManager : Node
 	
 	public void hideNewSheetUI()
 	{
-		GetNode<Control>(Constants.NodePath.SheetTabs).Show();
-		GetNode<Control>(Constants.NodePath.NewSheet).QueueFree();
+		if(GetNode<Control>(Constants.NodePath.SheetTabs) is Control sheetTabs && !sheetTabs.Visible)
+			sheetTabs.Show();
+		if(GetNodeOrNull<Control>(Constants.NodePath.NewSheet) is Control newSheet)
+			newSheet.QueueFree();
+	}
+	
+	public void loadSheetJsonData(string json)
+	{
+		if(!String.IsNullOrEmpty(json))
+		{
+			var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+			if(tc is TabContainer)
+			{
+				var loaded = false;
+				if(json.Contains(OCSM.GameSystem.Cod.Changeling))
+				{
+					addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
+					loaded = true;
+				}
+				else if(json.Contains(OCSM.GameSystem.Cod.Mortal))
+				{
+					addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
+					loaded = true;
+				}
+				
+				if(loaded)
+					hideNewSheetUI();
+			}
+		}
 	}
 	
 	public void showNewSheetUI()

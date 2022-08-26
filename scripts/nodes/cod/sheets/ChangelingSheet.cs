@@ -26,9 +26,13 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	
 	private const string ContractsList = "Contracts";
 	
+	
 	public override void _Ready()
 	{
-		SheetData = new Changeling();
+		GD.Print("LOL");
+		GD.Print(SheetData);
+		if(!(SheetData is Changeling))
+			SheetData = new Changeling();
 		
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity.ToString(), nameof(changed_Clarity));
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd.ToString(), nameof(changed_Wyrd));

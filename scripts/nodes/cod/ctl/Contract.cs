@@ -170,7 +170,7 @@ public class Contract : VBoxContainer
 		if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))
 		{
 			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(seeming)) + 1;
-			instance.GetChild<LineEdit>(1).Text = benefit;
+			instance.GetChild<TextEdit>(1).Text = benefit;
 		}
 		
 		row.AddChild(instance);

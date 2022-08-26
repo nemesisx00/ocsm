@@ -65,7 +65,9 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		
 		foreach(var s in SheetData.Skills)
 		{
-			InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), s, nameof(changed_Skill), true);
+			GD.Print("Skill name: ", s.Name);
+			if(!String.IsNullOrEmpty(s.Name))
+				InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), s, nameof(changed_Skill), true);
 		}
 		
 		InitAndConnect(GetNode<SpecialtyList>(PathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), SheetData.Specialties, nameof(changed_SkillSpecialty));

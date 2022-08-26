@@ -16,6 +16,7 @@ namespace OCSM
 		
 		public Changeling() : base()
 		{
+			GameSystem = OCSM.GameSystem.Cod.Changeling;
 			Clarity = 7;
 			Contracts = new List<Contract>();
 			Kith = String.Empty;

@@ -14,6 +14,7 @@ namespace OCSM
 		
 		public Mortal() : base()
 		{
+			GameSystem = OCSM.GameSystem.Cod.Mortal;
 			Age = -1;
 			Integrity = 7;
 			Faction = String.Empty;

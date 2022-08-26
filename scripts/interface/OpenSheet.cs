@@ -2,9 +2,10 @@ using Godot;
 using System;
 using OCSM;
 
-public class SaveSheet : FileDialog
+public class OpenSheet : FileDialog
 {
-	public string SheetData { get; set; }
+	[Signal]
+	public delegate void JsonLoaded(string json);
 	
 	public override void _Ready()
 	{
@@ -21,10 +22,10 @@ public class SaveSheet : FileDialog
 		}
 		System.IO.Directory.CreateDirectory(path);
 		CurrentDir = path;
-		Connect(Constants.Signal.FileSelected, this, nameof(doSave));
+		Connect(Constants.Signal.FileSelected, this, nameof(doOpen));
 	}
 	
-	private void doSave(string filePath)
+	private void doOpen(string filePath)
 	{
 		var path = filePath;
 		if(String.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
@@ -35,7 +36,17 @@ public class SaveSheet : FileDialog
 		else if(!path.EndsWith(Constants.SheetFileExtension))
 			path += Constants.SheetFileExtension;
 		
-		if(!String.IsNullOrEmpty(SheetData))
-			System.IO.File.WriteAllText(path, SheetData);
+		string json = null;
+		try
+		{
+			json = System.IO.File.ReadAllText(path);
+		}
+		catch(Exception ex)
+		{
+			GD.PrintErr("Error opening sheet: ", ex);
+		}
+		
+		if(!String.IsNullOrEmpty(json))
+			EmitSignal(nameof(JsonLoaded), json);
 	}
 }

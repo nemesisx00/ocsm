@@ -7,13 +7,6 @@ namespace OCSM
 		public const string NewSheetFileName = "New Sheet";
 		public const string SheetFileExtension = ".ocsd";
 		
-		public sealed class FilePath
-		{
-			public const string Sheets = "OCSM/sheets/";
-			public const string Windows = "%UserProfile%/Documents/";
-			public const string Linux = "~/";
-		}
-		
 		public sealed class Action
 		{
 			public const string Cancel = "ui_cancel";
@@ -22,6 +15,25 @@ namespace OCSM
 			public const string FileSave = "fileSave";
 			public const string FileSaveAs = "fileSaveAs";
 			public const string FileCloseSheet = "fileCloseSheet";
+		}
+		
+		public sealed class FilePath
+		{
+			public const string Sheets = "OCSM/sheets/";
+			public const string Windows = "%UserProfile%/Documents/";
+			public const string Linux = "~/.local/share/";
+		}
+		
+		public sealed class Json
+		{
+			public const string SheetType = "type";
+			public const string SheetData = "data";
+			
+			public sealed class DataType
+			{
+				public const string CodMortal = "OCSM.Mortal";
+				public const string CodChangeling = "OCSM.Changeling";
+			}
 		}
 		
 		public sealed class NodePath
@@ -38,6 +50,7 @@ namespace OCSM
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
 			public const string DarkPack = "res://scenes/DarkPack.tscn";
 			public const string NewSheet = "res://scenes/NewSheet.tscn";
+			public const string OpenSheet = "res://scenes/OpenSheet.tscn";
 			public const string SaveSheet = "res://scenes/SaveSheet.tscn";
 			
 			public sealed class CoD
@@ -49,14 +62,16 @@ namespace OCSM
 				
 				public sealed class Mortal
 				{
+					public const string NewSheetName = "New Mortal";
 					public const string Sheet = "res://scenes/cod/sheets/Mortal.tscn";
 				}
 				
 				public sealed class Changeling
 				{
-					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 					public const string Contract = "res://scenes/cod/nodes/ctl/Contract.tscn";
+					public const string NewSheetName = "New Changeling";
 					public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
+					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 				}
 			}
 		}

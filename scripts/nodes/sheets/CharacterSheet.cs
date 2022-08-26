@@ -14,6 +14,7 @@ public abstract class CharacterSheet<T> : Container, ICharacterSheet
 	protected virtual T SheetData { get; set; }
 	
 	public string GetJsonData() { return JsonSerializer.Serialize(SheetData); }
+	
 	public void SetJsonData(string json)
 	{
 		var data = JsonSerializer.Deserialize<T>(json);

@@ -40,7 +40,17 @@ public class FileMenu : MenuButton
 	
 	private void doOpen()
 	{
-		GD.Print("Do Open!");
+		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.OpenSheet);
+		var instance = resource.Instance<OpenSheet>();
+		GetTree().CurrentScene.AddChild(instance);
+		instance.Show();
+		NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
+		instance.Connect(nameof(OpenSheet.JsonLoaded), this, nameof(handleOpenJson));
+	}
+	
+	private void handleOpenJson(string json)
+	{
+		sheetManager.loadSheetJsonData(json);
 	}
 	
 	private void doSave()

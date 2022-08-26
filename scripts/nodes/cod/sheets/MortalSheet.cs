@@ -23,7 +23,8 @@ public class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 	
 	public override void _Ready()
 	{
-		SheetData = new Mortal();
+		if(!(SheetData is Mortal))
+			SheetData = new Mortal();
 		
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Integrity, AdvantagesPath)), SheetData.Integrity.ToString(), nameof(changed_Integrity));
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = SheetData.Vice;

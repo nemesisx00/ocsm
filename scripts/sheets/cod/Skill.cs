@@ -33,30 +33,30 @@ namespace OCSM
 			public const string Weaponry = "Weaponry";
 		}
 		
-		public static Skill Academics = new Skill { Name = Names.Academics, Type = TraitType.Mental, Value = 0 };
-		public static Skill Athletics = new Skill { Name = Names.Athletics, Type = TraitType.Physical, Value = 0 };
-		public static Skill AnimalKen = new Skill { Name = Names.AnimalKen, Type = TraitType.Social, Value = 0 };
-		public static Skill Brawl = new Skill { Name = Names.Brawl, Type = TraitType.Physical, Value = 0 };
-		public static Skill Computer = new Skill { Name = Names.Computer, Type = TraitType.Mental, Value = 0 };
-		public static Skill Crafts = new Skill { Name = Names.Crafts, Type = TraitType.Mental, Value = 0 };
-		public static Skill Drive = new Skill { Name = Names.Drive, Type = TraitType.Physical, Value = 0 };
-		public static Skill Empathy = new Skill { Name = Names.Empathy, Type = TraitType.Social, Value = 0 };
-		public static Skill Expression = new Skill { Name = Names.Expression, Type = TraitType.Social, Value = 0 };
-		public static Skill Firearms = new Skill { Name = Names.Firearms, Type = TraitType.Physical, Value = 0 };
-		public static Skill Intimidation = new Skill { Name = Names.Intimidation, Type = TraitType.Social, Value = 0 };
-		public static Skill Investigation = new Skill { Name = Names.Investigation, Type = TraitType.Mental, Value = 0 };
-		public static Skill Larceny = new Skill { Name = Names.Larceny, Type = TraitType.Physical, Value = 0 };
-		public static Skill Medicine = new Skill { Name = Names.Medicine, Type = TraitType.Mental, Value = 0 };
-		public static Skill Occult = new Skill { Name = Names.Occult, Type = TraitType.Mental, Value = 0 };
-		public static Skill Persuasion = new Skill { Name = Names.Persuasion, Type = TraitType.Social, Value = 0 };
-		public static Skill Politics = new Skill { Name = Names.Politics, Type = TraitType.Mental, Value = 0 };
-		public static Skill Science = new Skill { Name = Names.Science, Type = TraitType.Mental, Value = 0 };
-		public static Skill Socialize = new Skill { Name = Names.Socialize, Type = TraitType.Social, Value = 0 };
-		public static Skill Stealth = new Skill { Name = Names.Stealth, Type = TraitType.Physical, Value = 0 };
-		public static Skill Streetwise = new Skill { Name = Names.Streetwise, Type = TraitType.Social, Value = 0 };
-		public static Skill Subterfuge = new Skill { Name = Names.Subterfuge, Type = TraitType.Social, Value = 0 };
-		public static Skill Survival = new Skill { Name = Names.Survival, Type = TraitType.Physical, Value = 0 };
-		public static Skill Weaponry = new Skill { Name = Names.Weaponry, Type = TraitType.Physical, Value = 0 };
+		public static Skill Academics = new Skill(Names.Academics, TraitType.Mental, 0);
+		public static Skill Athletics = new Skill(Names.Athletics, TraitType.Physical, 0);
+		public static Skill AnimalKen = new Skill(Names.AnimalKen, TraitType.Social, 0);
+		public static Skill Brawl = new Skill(Names.Brawl, TraitType.Physical, 0);
+		public static Skill Computer = new Skill(Names.Computer, TraitType.Mental, 0);
+		public static Skill Crafts = new Skill(Names.Crafts, TraitType.Mental, 0);
+		public static Skill Drive = new Skill(Names.Drive, TraitType.Physical, 0);
+		public static Skill Empathy = new Skill(Names.Empathy, TraitType.Social, 0);
+		public static Skill Expression = new Skill(Names.Expression, TraitType.Social, 0);
+		public static Skill Firearms = new Skill(Names.Firearms, TraitType.Physical, 0);
+		public static Skill Intimidation = new Skill(Names.Intimidation, TraitType.Social, 0);
+		public static Skill Investigation = new Skill(Names.Investigation, TraitType.Mental, 0);
+		public static Skill Larceny = new Skill(Names.Larceny, TraitType.Physical, 0);
+		public static Skill Medicine = new Skill(Names.Medicine, TraitType.Mental, 0);
+		public static Skill Occult = new Skill(Names.Occult, TraitType.Mental, 0);
+		public static Skill Persuasion = new Skill(Names.Persuasion, TraitType.Social, 0);
+		public static Skill Politics = new Skill(Names.Politics, TraitType.Mental, 0);
+		public static Skill Science = new Skill(Names.Science, TraitType.Mental, 0);
+		public static Skill Socialize = new Skill(Names.Socialize, TraitType.Social, 0);
+		public static Skill Stealth = new Skill(Names.Stealth, TraitType.Physical, 0);
+		public static Skill Streetwise = new Skill(Names.Streetwise, TraitType.Social, 0);
+		public static Skill Subterfuge = new Skill(Names.Subterfuge, TraitType.Social, 0);
+		public static Skill Survival = new Skill(Names.Survival, TraitType.Physical, 0);
+		public static Skill Weaponry = new Skill(Names.Weaponry, TraitType.Physical, 0);
 		
 		public static Skill byName(string name)
 		{
@@ -143,6 +143,13 @@ namespace OCSM
 			list.Add(Survival);
 			list.Add(Weaponry);
 			return list;
+		}
+		
+		public Skill(string name, string type, int value)
+		{
+			Name = name;
+			Type = type;
+			Value = value;
 		}
 		
 		public string Name { get; private set; }
