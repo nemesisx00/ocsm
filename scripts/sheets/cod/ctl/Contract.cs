@@ -19,7 +19,7 @@ namespace OCSM
 		public string RollSuccess { get; set; }
 		public string RollSuccessExceptional { get; set; }
 		public string RollFailure { get; set; }
-		public string RollFailureExceptional { get; set; }
+		public string RollFailureDramatic { get; set; }
 		public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
 		public Skill Skill { get; set; }
 	}

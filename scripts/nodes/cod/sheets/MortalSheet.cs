@@ -50,7 +50,7 @@ public class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 	
 	private void changed_Faction(string newText) { SheetData.Faction = newText; }
 	private void changed_GroupName(string newText) { SheetData.GroupName = newText; }
-	private void changed_Integrity(int value) { SheetData.Integrity = value; GD.Print(JsonSerializer.Serialize(SheetData)); }
+	private void changed_Integrity(int value) { SheetData.Integrity = value; }
 	
 	private void changed_Vice(string newText)
 	{

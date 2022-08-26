@@ -371,12 +371,14 @@ size_flags_horizontal = 6
 custom_constants/separation = 25
 
 [node name="Regalia1" type="OptionButton" parent="Column/HBoxContainer"]
+unique_name_in_owner = true
 margin_right = 100.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 100, 0 )
 script = ExtResource( 3 )
 
 [node name="Regalia2" type="OptionButton" parent="Column/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 125.0
 margin_right = 225.0
 margin_bottom = 20.0

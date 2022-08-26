@@ -373,10 +373,10 @@ margin_top = 4.0
 margin_right = 165.0
 margin_bottom = 18.0
 rect_min_size = Vector2( 165, 0 )
-text = "Exceptional Failure:"
+text = "Dramatic Failure:"
 valign = 1
 
-[node name="ExceptionalFailure" type="TextEdit" parent="Details/Row6/Row4"]
+[node name="DramaticFailure" type="TextEdit" parent="Details/Row6/Row4"]
 unique_name_in_owner = true
 margin_left = 169.0
 margin_right = 1024.0

@@ -20,7 +20,7 @@ public class Contract : VBoxContainer
 	public const string Duration = "Duration";
 	public const string Effects = "Effects";
 	public const string Failure = "Failure";
-	public const string FailureExceptional = "ExceptionalFailure";
+	public const string FailureDramatic = "DramaticFailure";
 	public const string Loophole = "Loophole";
 	public const string NameName = "Name";
 	public const string Regalia = "Regalia";
@@ -47,7 +47,7 @@ public class Contract : VBoxContainer
 		refreshSeemingBenefits();
 	}
 	
-	private void refreshSeemingBenefits()
+	public void refreshSeemingBenefits()
 	{
 		var row = GetNode<VBoxContainer>(PathBuilder.SceneUnique(SeemingBenefitsRow));
 		foreach(Node c in row.GetChildren())
@@ -167,13 +167,16 @@ public class Contract : VBoxContainer
 		var row = GetNode<VBoxContainer>(PathBuilder.SceneUnique(SeemingBenefitsRow));
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
 		var instance = resource.Instance<HBoxContainer>();
+		row.AddChild(instance);
+		
+		//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
 		if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))
 		{
-			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(seeming)) + 1;
-			instance.GetChild<TextEdit>(1).Text = benefit;
+			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.Seeming.asList().FindIndex(s => s.Equals(seeming)) + 1;
+			var text = instance.GetChild<TextEdit>(1);
+			text.Text = benefit;
+			NodeUtilities.autoSize(text, Constants.TextInputMinHeight);
 		}
-		
-		row.AddChild(instance);
 		instance.GetChild<SeemingOptionButton>(0).Connect(Constants.Signal.ItemSelected, this, nameof(seemingChanged));
 		instance.GetChild<TextEdit>(1).Connect(Constants.Signal.TextChanged, this, nameof(benefitChanged));
 	}

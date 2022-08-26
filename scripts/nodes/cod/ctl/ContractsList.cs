@@ -54,7 +54,7 @@ public class ContractsList : Container
 			var effects = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Effects)).Text;
 			var seemingBenefits = contract.SeemingBenefits;
 			var failure = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Text;
-			var failureExceptional = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Text;
+			var FailureDramatic = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureDramatic)).Text;
 			var success = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Text;
 			var successExceptional = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Text;
 			var loophole = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Text;
@@ -68,7 +68,7 @@ public class ContractsList : Container
 			
 			var shouldRemove = String.IsNullOrEmpty(name) && action < 1 && String.IsNullOrEmpty(description)
 				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.Attribute) && !(attributeResisted is OCSM.Attribute) && !(attributeContested is OCSM.Attribute)
-				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(failureExceptional)
+				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(FailureDramatic)
 				&& !OCSM.Regalia.asList().Contains(regalia) && !OCSM.ContractType.asList().Contains(contractType)
 				&& String.IsNullOrEmpty(success) && String.IsNullOrEmpty(successExceptional) && String.IsNullOrEmpty(loophole);
 			
@@ -89,7 +89,7 @@ public class ContractsList : Container
 					Regalia = regalia,
 					ContractType = contractType,
 					RollFailure = failure,
-					RollFailureExceptional = failureExceptional,
+					RollFailureDramatic = FailureDramatic,
 					RollSuccess = success,
 					RollSuccessExceptional = successExceptional,
 					SeemingBenefits = seemingBenefits,
@@ -113,6 +113,9 @@ public class ContractsList : Container
 	{
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
 		var instance = resource.Instance<Contract>();
+		
+		AddChild(instance);
+		
 		if(value is OCSM.Contract)
 		{
 			if(value.Action > -1)
@@ -136,7 +139,10 @@ public class ContractsList : Container
 			if(!String.IsNullOrEmpty(value.Name))
 				instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.NameName)).Text = value.Name;
 			if(value.SeemingBenefits is Dictionary<string, string>)
+			{
 				instance.SeemingBenefits = value.SeemingBenefits;
+				instance.refreshSeemingBenefits();
+			}
 			if(value.Skill is Skill)
 				instance.GetNode<SkillOptionButton>(PathBuilder.SceneUnique(Contract.Skill)).Selected = Skill.asList().IndexOf(value.Skill) + 1;
 			if(!String.IsNullOrEmpty(value.Regalia))
@@ -145,15 +151,13 @@ public class ContractsList : Container
 				instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.ContractType)).Selected = ContractType.asList().FindIndex(r => r.Equals(value.ContractType)) + 1;
 			if(!String.IsNullOrEmpty(value.RollFailure))
 				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Text = value.RollFailure;
-			if(!String.IsNullOrEmpty(value.RollFailureExceptional))
-				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Text = value.RollFailureExceptional;
+			if(!String.IsNullOrEmpty(value.RollFailureDramatic))
+				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureDramatic)).Text = value.RollFailureDramatic;
 			if(!String.IsNullOrEmpty(value.RollSuccess))
 				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Text = value.RollSuccess;
 			if(!String.IsNullOrEmpty(value.RollSuccessExceptional))
 				instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Text = value.RollSuccessExceptional;
 		}
-		
-		AddChild(instance);
 		
 		instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.Action)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
 		instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
@@ -169,7 +173,7 @@ public class ContractsList : Container
 		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Effects)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Failure)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureExceptional)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.FailureDramatic)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Success)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 	}

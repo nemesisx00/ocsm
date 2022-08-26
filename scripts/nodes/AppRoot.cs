@@ -8,7 +8,9 @@ public class AppRoot : Control
 	private const string HelpMenuName = "HelpMenu";
 	
 	[Signal]
-	public delegate void ShortcutTriggered(int menuItem);
+	public delegate void FileMenuTriggered(int menuItem);
+	[Signal]
+	public delegate void HelpMenuTriggered(int menuItem);
 	
 	private AppManager appManager;
 	
@@ -19,13 +21,13 @@ public class AppRoot : Control
 			if(e is InputEventKey iek && iek.Pressed)
 			{
 				if(e.IsActionPressed(Constants.Action.FileNew))
-					EmitSignal(nameof(ShortcutTriggered), FileMenu.MenuItem.New);
+					EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.New);
 				else if(e.IsActionPressed(Constants.Action.FileOpen))
-					EmitSignal(nameof(ShortcutTriggered), FileMenu.MenuItem.Open);
+					EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.Open);
 				else if(e.IsActionPressed(Constants.Action.FileSave))
-					EmitSignal(nameof(ShortcutTriggered), FileMenu.MenuItem.Save);
+					EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.Save);
 				else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
-					EmitSignal(nameof(ShortcutTriggered), FileMenu.MenuItem.CloseSheet);
+					EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.CloseSheet);
 			}
 		}
 	}

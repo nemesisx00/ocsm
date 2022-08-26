@@ -13,7 +13,7 @@ public class FileMenu : MenuButton
 		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 		
 		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-		GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.ShortcutTriggered), this, nameof(handleMenuItem));
+		GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.FileMenuTriggered), this, nameof(handleMenuItem));
 	}
 	
 	private void handleMenuItem(int id)

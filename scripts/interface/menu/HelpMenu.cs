@@ -12,7 +12,7 @@ public class HelpMenu : MenuButton
 	public override void _Ready()
 	{
 		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-		GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.ShortcutTriggered), this, nameof(handleMenuItem));
+		GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.HelpMenuTriggered), this, nameof(handleMenuItem));
 	}
 	
 	private void handleMenuItem(int id)

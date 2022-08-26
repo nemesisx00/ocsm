@@ -15,6 +15,18 @@ namespace OCSM
 			node.RectMinSize = new Vector2(node.RectMinSize.x, minY);
 		}
 		
+		public static void autoSizeChildren(Control node, int absoluteMinimumHeight = 0)
+		{
+			foreach(var c in node.GetChildren())
+			{
+				if(c is TextEdit te)
+					NodeUtilities.autoSize(te, absoluteMinimumHeight);
+				
+				if(c is Control cc)
+					NodeUtilities.autoSizeChildren(cc, absoluteMinimumHeight);
+			}
+		}
+		
 		public static void centerControl(Control control, Vector2 center)
 		{
 			control.RectPosition = new Vector2(center.x - (control.RectSize.x / 2), center.y - (control.RectSize.y / 2));

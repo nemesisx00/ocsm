@@ -63,13 +63,14 @@ public class SpecialtyList : Container
 	{
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Specialty);
 		var instance = resource.Instance<HBoxContainer>();
+		AddChild(instance);
+		
 		if(skill is Skill && !String.IsNullOrEmpty(specialty))
 		{
 			instance.GetChild<SkillOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
 			instance.GetChild<LineEdit>(1).Text = specialty;
 		}
 		
-		AddChild(instance);
 		instance.GetChild<SkillOptionButton>(0).Connect(Constants.Signal.ItemSelected, this, nameof(skillChanged));
 		instance.GetChild<LineEdit>(1).Connect(Constants.Signal.TextChanged, this, nameof(valueChanged));
 	}
