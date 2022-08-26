@@ -43,7 +43,7 @@ public class FileMenu : MenuButton
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.OpenSheet);
 		var instance = resource.Instance<OpenSheet>();
 		GetTree().CurrentScene.AddChild(instance);
-		instance.Show();
+		instance.Popup_();
 		NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
 		instance.Connect(nameof(OpenSheet.JsonLoaded), this, nameof(handleOpenJson));
 	}
@@ -62,7 +62,7 @@ public class FileMenu : MenuButton
 			var instance = resource.Instance<SaveSheet>();
 			instance.SheetData = data;
 			GetTree().CurrentScene.AddChild(instance);
-			instance.Show();
+			instance.Popup_();
 			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
 		}
 	}
