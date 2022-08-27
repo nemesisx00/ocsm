@@ -1,7 +1,7 @@
 using Godot;
-using OCSM.CoD;
+using OCSM.DnD.Fifth.Meta;
 
-public class SkillOptionButton : OptionButton
+public class FeatureTypeOptionButton : OptionButton
 {
 	[Export]
 	public bool emptyOption = true;
@@ -11,9 +11,9 @@ public class SkillOptionButton : OptionButton
 		if(emptyOption)
 			AddItem("");
 		
-		foreach(var skill in Skill.asList())
+		foreach(var type in FeatureType.asList())
 		{
-			AddItem(skill.Name);
+			AddItem(type);
 		}
 	}
 }

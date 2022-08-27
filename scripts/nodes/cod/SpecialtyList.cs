@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using OCSM;
+using OCSM.CoD;
 
 public class SpecialtyList : Container
 {
@@ -67,7 +68,7 @@ public class SpecialtyList : Container
 		
 		if(skill is Skill && !String.IsNullOrEmpty(specialty))
 		{
-			instance.GetChild<SkillOptionButton>(0).Selected = OCSM.Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
+			instance.GetChild<SkillOptionButton>(0).Selected = Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
 			instance.GetChild<LineEdit>(1).Text = specialty;
 		}
 		

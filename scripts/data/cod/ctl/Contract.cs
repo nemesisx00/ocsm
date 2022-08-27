@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OCSM
+namespace OCSM.CoD.CtL
 {
 	public class Contract
 	{

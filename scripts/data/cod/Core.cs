@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OCSM
+namespace OCSM.CoD
 {
 	public class CodCore : Character
 	{

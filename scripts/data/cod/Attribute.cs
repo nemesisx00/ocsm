@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace OCSM
+namespace OCSM.CoD
 {
 	public sealed class Attribute : IEquatable<Attribute>
 	{

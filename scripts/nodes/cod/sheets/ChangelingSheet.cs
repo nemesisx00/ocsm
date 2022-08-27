@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Linq;
 using OCSM;
+using OCSM.CoD;
+using OCSM.CoD.CtL;
 
 public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 {
@@ -65,7 +65,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	{
 		if(node is ContractsList cl)
 		{
-			cl.Values = initialValue as List<OCSM.Contract>;
+			cl.Values = initialValue as List<OCSM.CoD.CtL.Contract>;
 			cl.refresh();
 			cl.Connect(Constants.Signal.ValueChanged, this, handlerName);
 		}
@@ -79,7 +79,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	}
 	
 	private void changed_Clarity(int value) { SheetData.Clarity = value; }
-	private void changed_Contracts(SignalPayload<List<OCSM.Contract>> payload) { SheetData.Contracts = payload.Payload; }
+	private void changed_Contracts(SignalPayload<List<OCSM.CoD.CtL.Contract>> payload) { SheetData.Contracts = payload.Payload; }
 	private void changed_Court(string value) { SheetData.Court = value; }
 	private void changed_Frailties(List<string> values) { SheetData.Frailties = values; }
 	private void changed_Glamour(int value) { SheetData.GlamourSpent = value; }

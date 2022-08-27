@@ -74,6 +74,17 @@ namespace OCSM
 					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 				}
 			}
+			
+			public sealed class DnD
+			{
+				public sealed class Fifth
+				{
+					public const string Sheet = "res://scenes/dnd/sheets/Fifth.tscn";
+					public const string NewSheetName = "New Adventurer";
+					public const string NewFeature = "res://scenes/dnd/fifth/NewFeature.tscn";
+					public const string FeatureSection = "res://scenes/dnd/fifth/FeatureSection.tscn";
+				}
+			}
 		}
 		
 		public sealed class Signal

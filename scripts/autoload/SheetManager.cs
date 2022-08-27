@@ -1,8 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
 using OCSM;
 
 public class SheetManager : Node
@@ -83,12 +80,12 @@ public class SheetManager : Node
 			if(tc is TabContainer)
 			{
 				var loaded = false;
-				if(json.Contains(OCSM.GameSystem.Cod.Changeling))
+				if(json.Contains(OCSM.GameSystem.CoD.Changeling))
 				{
 					addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
 					loaded = true;
 				}
-				else if(json.Contains(OCSM.GameSystem.Cod.Mortal))
+				else if(json.Contains(OCSM.GameSystem.CoD.Mortal))
 				{
 					addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
 					loaded = true;

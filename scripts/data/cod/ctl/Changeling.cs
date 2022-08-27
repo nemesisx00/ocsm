@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OCSM
+namespace OCSM.CoD.CtL
 {
 	public class Changeling : CodCore
 	{
@@ -20,7 +20,7 @@ namespace OCSM
 		
 		public Changeling() : base()
 		{
-			GameSystem = OCSM.GameSystem.Cod.Changeling;
+			GameSystem = OCSM.GameSystem.CoD.Changeling;
 			Clarity = 7;
 			Contracts = new List<Contract>();
 			Court = String.Empty;

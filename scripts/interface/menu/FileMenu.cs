@@ -29,11 +29,11 @@ public class FileMenu : MenuButton
 			case MenuItem.Save:
 				doSave();
 				break;
-			case MenuItem.Quit:
-				GetTree().Notification(MainLoop.NotificationWmQuitRequest);
-				break;
 			case MenuItem.CloseSheet:
 				sheetManager.closeActiveSheet();
+				break;
+			case MenuItem.Quit:
+				GetTree().Notification(MainLoop.NotificationWmQuitRequest);
 				break;
 		}
 	}

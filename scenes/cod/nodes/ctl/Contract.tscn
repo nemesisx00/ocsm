@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=1]
-[ext_resource path="res://assets/textures/up-arrow.png" type="Texture" id=2]
-[ext_resource path="res://assets/textures/down-arrow.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/up-arrow.svg" type="Texture" id=2]
+[ext_resource path="res://assets/textures/down-arrow.svg" type="Texture" id=3]
 [ext_resource path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" type="Script" id=4]
 [ext_resource path="res://scripts/nodes/cod/ctl/ContractTypeButton.cs" type="Script" id=5]
 [ext_resource path="res://scripts/nodes/cod/SkillOptionButton.cs" type="Script" id=6]
@@ -22,14 +22,14 @@ margin_bottom = 24.0
 
 [node name="Name" type="LineEdit" parent="Row"]
 unique_name_in_owner = true
-margin_right = 735.0
+margin_right = 743.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row"]
-margin_left = 739.0
+margin_left = 747.0
 margin_top = 5.0
-margin_right = 788.0
+margin_right = 796.0
 margin_bottom = 19.0
 text = "Regalia:"
 align = 2
@@ -37,8 +37,8 @@ valign = 1
 
 [node name="Regalia" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 792.0
-margin_right = 892.0
+margin_left = 800.0
+margin_right = 900.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 script = ExtResource( 4 )
@@ -46,8 +46,8 @@ includeNonRegalia = true
 
 [node name="ContractType" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 896.0
-margin_right = 996.0
+margin_left = 904.0
+margin_right = 1004.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 items = [ "", null, false, 0, null ]
@@ -56,9 +56,10 @@ script = ExtResource( 5 )
 
 [node name="ToggleDetails" type="TextureButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 1000.0
+margin_left = 1008.0
+margin_top = 4.0
 margin_right = 1024.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4

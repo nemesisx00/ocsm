@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OCSM;
+using OCSM.CoD;
 
 public abstract class CoreSheet<T> : CharacterSheet<T>
 	where T: CodCore
@@ -130,11 +131,11 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateDefense()
 	{
-		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Dexterity.Name));
-		var wits = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Wits.Name));
-		var athl = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(OCSM.Skill.Athletics.Name));
+		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
+		var wits = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Wits.Name));
+		var athl = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(Skill.Athletics.Name));
 		
-		if(dex is OCSM.Attribute && wits is OCSM.Attribute && athl is OCSM.Skill)
+		if(dex is OCSM.CoD.Attribute && wits is OCSM.CoD.Attribute && athl is Skill)
 		{
 			if(dex.Value < wits.Value)
 				GetNode<Label>(PathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (dex.Value + athl.Value).ToString();
@@ -145,10 +146,10 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateInitiative()
 	{
-		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Dexterity.Name));
-		var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Composure.Name));
+		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
+		var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Composure.Name));
 		
-		if(dex is OCSM.Attribute && comp is OCSM.Attribute)
+		if(dex is OCSM.CoD.Attribute && comp is OCSM.CoD.Attribute)
 		{
 			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Initiative, AdvantagesPath)).Text = (dex.Value + comp.Value).ToString();
 		}
@@ -156,9 +157,9 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateMaxHealth()
 	{
-		var stam = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Stamina.Name));
+		var stam = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Stamina.Name));
 		
-		if(stam is OCSM.Attribute)
+		if(stam is OCSM.CoD.Attribute)
 		{
 			SheetData.HealthMax = SheetData.Size + stam.Value;
 			GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(SheetData.HealthMax);
@@ -167,10 +168,10 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateMaxWillpower()
 	{
-		var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Composure.Name));
-		var res = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Resolve.Name));
+		var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Composure.Name));
+		var res = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Resolve.Name));
 		
-		if(comp is OCSM.Attribute && res is OCSM.Attribute)
+		if(comp is OCSM.CoD.Attribute && res is OCSM.CoD.Attribute)
 		{
 			SheetData.WillpowerMax = comp.Value + res.Value;
 			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(SheetData.WillpowerMax);
@@ -179,10 +180,10 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateSpeed()
 	{
-		var str = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Strength.Name));
-		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.Attribute.Dexterity.Name));
+		var str = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Strength.Name));
+		var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
 		
-		if(str is OCSM.Attribute && dex is OCSM.Attribute)
+		if(str is OCSM.CoD.Attribute && dex is OCSM.CoD.Attribute)
 		{
 			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Speed, AdvantagesPath)).Text = (str.Value + dex.Value + SheetData.Size).ToString();
 		}
@@ -191,30 +192,30 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Attribute(TrackSimple node)
 	{
 		var attr = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(node.Name));
-		if(attr is OCSM.Attribute)
+		if(attr is OCSM.CoD.Attribute)
 			attr.Value = node.Value;
 		
 		switch(node.Name)
 		{
-			case OCSM.Attribute.Names.Composure:
+			case OCSM.CoD.Attribute.Names.Composure:
 				updateMaxWillpower();
 				updateInitiative();
 				break;
-			case OCSM.Attribute.Names.Dexterity:
+			case OCSM.CoD.Attribute.Names.Dexterity:
 				updateDefense();
 				updateInitiative();
 				updateSpeed();
 				break;
-			case OCSM.Attribute.Names.Resolve:
+			case OCSM.CoD.Attribute.Names.Resolve:
 				updateMaxWillpower();
 				break;
-			case OCSM.Attribute.Names.Stamina:
+			case OCSM.CoD.Attribute.Names.Stamina:
 				updateMaxHealth();
 				break;
-			case OCSM.Attribute.Names.Strength:
+			case OCSM.CoD.Attribute.Names.Strength:
 				updateSpeed();
 				break;
-			case OCSM.Attribute.Names.Wits:
+			case OCSM.CoD.Attribute.Names.Wits:
 				updateDefense();
 				break;
 		}
@@ -261,12 +262,12 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Skill(TrackSimple node)
 	{
 		var skill = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(node.Name));
-		if(skill is OCSM.Skill)
+		if(skill is Skill)
 			skill.Value = node.Value;
 		
 		switch(node.Name)
 		{
-			case OCSM.Skill.Names.Athletics:
+			case Skill.Names.Athletics:
 				updateDefense();
 				break;
 		}

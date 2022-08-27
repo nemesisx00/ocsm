@@ -1,5 +1,5 @@
 using Godot;
-using OCSM;
+using OCSM.CoD.CtL;
 
 public class ContractTypeButton : OptionButton
 {

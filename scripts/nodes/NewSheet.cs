@@ -23,10 +23,12 @@ public class NewSheet : ScrollContainer
 	{
 		GetNode<Button>(PathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
 		GetNode<Button>(PathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
+		GetNode<Button>(PathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
 	}
 	
 	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }
 	private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName); }
+	private void newDnd5e() { addSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName); }
 	
 	private void addSheet(string sheetPath, string name)
 	{

@@ -1,16 +1,17 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Linq;
 using OCSM;
+using OCSM.CoD;
+using OCSM.CoD.CtL;
 
 public class ContractsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(SignalPayload<List<OCSM.Contract>> values);
+	public delegate void ValueChanged(SignalPayload<List<OCSM.CoD.CtL.Contract>> values);
 	
-	public List<OCSM.Contract> Values { get; set; } = new List<OCSM.Contract>();
+	public List<OCSM.CoD.CtL.Contract> Values { get; set; } = new List<OCSM.CoD.CtL.Contract>();
 	
 	public override void _Ready()
 	{
@@ -26,7 +27,7 @@ public class ContractsList : Container
 		
 		foreach(var v in Values)
 		{
-			if(v is OCSM.Contract)
+			if(v is OCSM.CoD.CtL.Contract)
 				addInput(v);
 		}
 		
@@ -35,7 +36,7 @@ public class ContractsList : Container
 	
 	private void updateValues()
 	{
-		var values = new List<OCSM.Contract>();
+		var values = new List<OCSM.CoD.CtL.Contract>();
 		var children = GetChildren();
 		foreach(Contract contract in children)
 		{
@@ -59,22 +60,22 @@ public class ContractsList : Container
 			var successExceptional = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.SuccessExceptional)).Text;
 			var loophole = contract.GetNode<TextEdit>(PathBuilder.SceneUnique(Contract.Loophole)).Text;
 			
-			var attribute = OCSM.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
-			var attributeResisted = OCSM.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
-			var attributeContested = OCSM.Attribute.byName(attr3Node.GetItemText(attr3Node.Selected));
-			var skill = OCSM.Skill.byName(skillNode.GetItemText(skillNode.Selected));
+			var attribute = OCSM.CoD.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
+			var attributeResisted = OCSM.CoD.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
+			var attributeContested = OCSM.CoD.Attribute.byName(attr3Node.GetItemText(attr3Node.Selected));
+			var skill = Skill.byName(skillNode.GetItemText(skillNode.Selected));
 			var regalia = regaliaNode.GetItemText(regaliaNode.Selected);
 			var contractType = contractTypeNode.GetItemText(contractTypeNode.Selected);
 			
 			var shouldRemove = String.IsNullOrEmpty(name) && action < 1 && String.IsNullOrEmpty(description)
-				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.Attribute) && !(attributeResisted is OCSM.Attribute) && !(attributeContested is OCSM.Attribute)
+				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.CoD.Attribute) && !(attributeResisted is OCSM.CoD.Attribute) && !(attributeContested is OCSM.CoD.Attribute)
 				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(FailureDramatic)
-				&& !OCSM.Regalia.asList().Contains(regalia) && !OCSM.ContractType.asList().Contains(contractType)
+				&& !OCSM.CoD.CtL.Regalia.asList().Contains(regalia) && !OCSM.CoD.CtL.ContractType.asList().Contains(contractType)
 				&& String.IsNullOrEmpty(success) && String.IsNullOrEmpty(successExceptional) && String.IsNullOrEmpty(loophole);
 			
 			if(!shouldRemove)
 			{
-				values.Add(new OCSM.Contract()
+				values.Add(new OCSM.CoD.CtL.Contract()
 				{
 					Action = action,
 					Attribute = attribute,
@@ -101,7 +102,7 @@ public class ContractsList : Container
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), new SignalPayload<List<OCSM.Contract>>() { Payload = values });
+		EmitSignal(nameof(ValueChanged), new SignalPayload<List<OCSM.CoD.CtL.Contract>>(values));
 		
 		if(GetChildren().Count <= Values.Count)
 		{
@@ -109,23 +110,23 @@ public class ContractsList : Container
 		}
 	}
 	
-	private void addInput(OCSM.Contract value = null)
+	private void addInput(OCSM.CoD.CtL.Contract value = null)
 	{
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
 		var instance = resource.Instance<Contract>();
 		
 		AddChild(instance);
 		
-		if(value is OCSM.Contract)
+		if(value is OCSM.CoD.CtL.Contract)
 		{
 			if(value.Action > -1)
 				instance.GetNode<OptionButton>(PathBuilder.SceneUnique(Contract.Action)).Selected = value.Action;
-			if(value.Attribute is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.Attribute.Name)) + 1;
-			if(value.AttributeResisted is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeResisted.Name)) + 1;
-			if(value.AttributeContested is OCSM.Attribute)
-				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute3)).Selected = OCSM.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeContested.Name)) + 1;
+			if(value.Attribute is OCSM.CoD.Attribute)
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.Attribute.Name)) + 1;
+			if(value.AttributeResisted is OCSM.CoD.Attribute)
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeResisted.Name)) + 1;
+			if(value.AttributeContested is OCSM.CoD.Attribute)
+				instance.GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Contract.Attribute3)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeContested.Name)) + 1;
 			if(!String.IsNullOrEmpty(value.Cost))
 				instance.GetNode<LineEdit>(PathBuilder.SceneUnique(Contract.Cost)).Text = value.Cost;
 			if(!String.IsNullOrEmpty(value.Description))

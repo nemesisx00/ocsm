@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OCSM
+namespace OCSM.CoD
 {
 	public class Mortal : CodCore
 	{
@@ -14,7 +14,7 @@ namespace OCSM
 		
 		public Mortal() : base()
 		{
-			GameSystem = OCSM.GameSystem.Cod.Mortal;
+			GameSystem = OCSM.GameSystem.CoD.Mortal;
 			Age = -1;
 			Integrity = 7;
 			Faction = String.Empty;

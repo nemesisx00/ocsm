@@ -1,5 +1,5 @@
 
-namespace OCSM
+namespace OCSM.CoD
 {
 	public sealed class TraitType
 	{

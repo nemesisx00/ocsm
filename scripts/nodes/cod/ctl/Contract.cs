@@ -172,7 +172,7 @@ public class Contract : VBoxContainer
 		//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
 		if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))
 		{
-			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.Seeming.asList().FindIndex(s => s.Equals(seeming)) + 1;
+			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.CoD.CtL.Seeming.asList().FindIndex(s => s.Equals(seeming)) + 1;
 			var text = instance.GetChild<TextEdit>(1);
 			text.Text = benefit;
 			NodeUtilities.autoSize(text, Constants.TextInputMinHeight);

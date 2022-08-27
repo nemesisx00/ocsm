@@ -1,7 +1,7 @@
 using Godot;
 using System;
-using System.Text.Json;
 using OCSM;
+using OCSM.CoD;
 
 public class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 {
