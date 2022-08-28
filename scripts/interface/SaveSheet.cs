@@ -9,7 +9,6 @@ public class SaveSheet : FileDialog
 	public override void _Ready()
 	{
 		var path = FileSystemUtilities.DefaultSheetDirectory;
-		System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
 		CurrentDir = path;
 		Connect(Constants.Signal.FileSelected, this, nameof(doSave));
 	}

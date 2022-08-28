@@ -9,8 +9,8 @@ namespace OCSM
 		private const string Sheets = App + "sheets/";
 		private const string Metadata = App + "metadata/";
 		
-		public static string DefaultSheetDirectory { get { return AutoLower(GetFinalPath(Environment.SpecialFolder.ApplicationData, Sheets)); } }
-		public static string DefaultMetadataDirectory { get { return AutoLower(GetFinalPath(Environment.SpecialFolder.CommonApplicationData, Metadata)); } }
+		public static string DefaultSheetDirectory { get { return CreatePathIfNotExists(AutoLower(GetFinalPath(Environment.SpecialFolder.ApplicationData, Sheets))); } }
+		public static string DefaultMetadataDirectory { get { return CreatePathIfNotExists(AutoLower(GetFinalPath(Environment.SpecialFolder.CommonApplicationData, Metadata))); } }
 		
 		public static string ReadString(string path)
 		{
@@ -20,8 +20,7 @@ namespace OCSM
 		
 		public static void WriteString(string path, string data)
 		{
-			var finalPath = Path.GetFullPath(path);
-			Directory.CreateDirectory(Path.GetDirectoryName(path));
+			var finalPath = CreatePathIfNotExists(Path.GetFullPath(path));
 			File.WriteAllText(finalPath, data);
 		}
 		
@@ -35,6 +34,12 @@ namespace OCSM
 		private static string GetFinalPath(Environment.SpecialFolder folder, string pathFragment)
 		{
 			return Path.GetFullPath(Environment.GetFolderPath(folder) + pathFragment);
+		}
+		
+		private static string CreatePathIfNotExists(string path)
+		{
+			Directory.CreateDirectory(Path.GetDirectoryName(path));
+			return path;
 		}
 	}
 }
