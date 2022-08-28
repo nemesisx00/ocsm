@@ -17,13 +17,6 @@ namespace OCSM
 			public const string FileCloseSheet = "fileCloseSheet";
 		}
 		
-		public sealed class FilePath
-		{
-			public const string Sheets = "OCSM/sheets/";
-			public const string Windows = "%UserProfile%/Documents/";
-			public const string Linux = "~/.local/share/";
-		}
-		
 		public sealed class Json
 		{
 			public const string SheetType = "type";
@@ -40,6 +33,7 @@ namespace OCSM
 		{
 			public const string AppManager = "/root/AppManager";
 			public const string AppRoot = "/root/AppRoot";
+			public const string MetadataManager = "/root/MetadataManager";
 			public const string NewSheet = "/root/AppRoot/NewSheet";
 			public const string SheetManager = "/root/SheetManager";
 			public const string SheetTabs = "/root/AppRoot/Column/SheetTabs";
