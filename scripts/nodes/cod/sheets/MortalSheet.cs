@@ -30,7 +30,7 @@ public class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Vice, AdvantagesPath)).Text = SheetData.Vice;
 		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Virtue, AdvantagesPath)).Text = SheetData.Virtue;
 		
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), SheetData.Age > -1 ? SheetData.Age.ToString() : String.Empty, nameof(changed_Age));
+		InitAndConnect(GetNode<SpinBox>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)), SheetData.Age, nameof(changed_Age));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Faction, DetailsPath)), SheetData.Faction, nameof(changed_Faction));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.GroupName, DetailsPath)), SheetData.GroupName, nameof(changed_GroupName));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Vice, DetailsPath)), SheetData.Vice, nameof(changed_Vice));
@@ -39,15 +39,7 @@ public class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 		base._Ready();
 	}
 	
-	private void changed_Age(string newText)
-	{
-		int newAge;
-		if(int.TryParse(newText, out newAge))
-			SheetData.Age = newAge;
-		else
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Age, DetailsPath)).Text = SheetData.Age.ToString();
-	}
-	
+	private void changed_Age(float number) { SheetData.Age = (int)number; }
 	private void changed_Faction(string newText) { SheetData.Faction = newText; }
 	private void changed_GroupName(string newText) { SheetData.GroupName = newText; }
 	private void changed_Integrity(int value) { SheetData.Integrity = value; }

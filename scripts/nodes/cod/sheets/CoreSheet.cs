@@ -49,7 +49,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Aspirations, AdvantagesPath)), SheetData.Aspirations, nameof(changed_Aspirations));
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), SheetData.Beats, nameof(changed_Beats));
 		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), SheetData.Conditions, nameof(changed_Conditions));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), SheetData.Experience.ToString(), nameof(changed_Experience));
+		InitAndConnect(GetNode<SpinBox>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), SheetData.Experience, nameof(changed_Experience));
 		InitAndConnect(GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), SheetData.HealthCurrent, nameof(changed_Health));
 		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)), SheetData.WillpowerSpent, nameof(changed_Willpower));
 		
@@ -57,7 +57,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), SheetData.Concept, nameof(changed_Concept));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), SheetData.Name, nameof(changed_Name));
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), SheetData.Player, nameof(changed_Player));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size.ToString(), nameof(changed_Size));
+		InitAndConnect(GetNode<SpinBox>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size, nameof(changed_Size));
 		
 		foreach(var a in SheetData.Attributes)
 		{
@@ -91,41 +91,44 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 			le.Text = initialValue as string;
 			le.Connect(Constants.Signal.TextChanged, this, handlerName);
 		}
+		else if(node is SpinBox sb)
+		{
+			if(initialValue is int number)
+				sb.Value = number;
+			sb.Connect(Constants.Signal.ValueChanged, this, handlerName);
+		}
 		else if(node is TrackSimple ts)
 		{
-			var val = 0;
-			if(initialValue is int)
-				val = int.Parse(initialValue.ToString());
-			if(val > 0)
-				ts.updateValue(val);
+			if(initialValue is int number)
+				ts.updateValue(number > 0 ? number : 0);
 			
 			if(nodeChanged)
 				ts.Connect(Constants.Signal.NodeChanged, this, handlerName);
 			else
-				ts.Connect(Constants.Signal.ValueChanged, this, handlerName);
+				ts.Connect(nameof(TrackSimple.ValueChanged), this, handlerName);
 		}
 		else if(node is TrackComplex tc)
 		{
 			tc.Values = initialValue as Dictionary<string, int>;
-			tc.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			tc.Connect(nameof(TrackComplex.ValueChanged), this, handlerName);
 		}
 		else if(node is ItemList il)
 		{
 			il.Values = initialValue as List<string>;
 			il.refresh();
-			il.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			il.Connect(nameof(ItemList.ValueChanged), this, handlerName);
 		}
 		else if(node is ItemDotsList idl)
 		{
 			idl.Values = initialValue as Dictionary<string, int>;
 			idl.refresh();
-			idl.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			idl.Connect(nameof(ItemDotsList.ValueChanged), this, handlerName);
 		}
 		else if(node is SpecialtyList sl)
 		{
 			sl.Values = initialValue as Dictionary<string, string>;
 			sl.refresh();
-			sl.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			sl.Connect(nameof(SpecialtyList.ValueChanged), this, handlerName);
 		}
 	}
 	
@@ -228,7 +231,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 			SheetData.Beats = 0;
 			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(SheetData.Beats);
 			SheetData.Experience++;
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = SheetData.Experience.ToString();
+			GetNode<SpinBox>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Value = SheetData.Experience;
 		}
 		else
 			SheetData.Beats = value;
@@ -237,15 +240,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Chronicle(string newText) { SheetData.Chronicle = newText; }
 	private void changed_Concept(string newText) { SheetData.Concept = newText; }
 	private void changed_Conditions(List<string> values) { SheetData.Conditions = values; }
-	
-	private void changed_Experience(string newText)
-	{
-		int newXp;
-		if(int.TryParse(newText, out newXp))
-			SheetData.Experience = newXp;
-		else
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Text = SheetData.Experience.ToString();
-	}
+	private void changed_Experience(float number) { SheetData.Experience = (int)number; }
 	private void changed_Flaws(Dictionary<string, int> values) { SheetData.Flaws = values; }
 	private void changed_Health(Dictionary<string, int> values) { SheetData.HealthCurrent = values; }
 	private void changed_Merits(Dictionary<string, int> values) { SheetData.Merits = values; }
@@ -275,17 +270,11 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	private void changed_SkillSpecialty(Dictionary<string, string> values) { SheetData.Specialties = values; }
 	
-	private void changed_Size(string newText)
+	private void changed_Size(float number)
 	{
-		int newSize;
-		if(int.TryParse(newText, out newSize))
-		{
-			SheetData.Size = newSize;
-			updateMaxHealth();
-			updateSpeed();
-		}
-		else
-			GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)).Text = SheetData.Size.ToString();
+		SheetData.Size = (int)number;
+		updateMaxHealth();
+		updateSpeed();
 	}
 	
 	private void changed_Willpower(int value) { SheetData.WillpowerSpent = value; }

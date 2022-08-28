@@ -99,7 +99,7 @@ namespace OCSM
 			public const string Pressed = "pressed";
 			public const string Released = "released";
 			public const string TextChanged = "text_changed";
-			public const string ValueChanged = "ValueChanged";
+			public const string ValueChanged = "value_changed";
 		}
 		
 		public sealed class Texture

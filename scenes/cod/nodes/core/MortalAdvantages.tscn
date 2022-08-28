@@ -230,14 +230,13 @@ text = "Experience:"
 align = 2
 valign = 1
 
-[node name="Experience" type="LineEdit" parent="Row/Column3/Row2"]
+[node name="Experience" type="SpinBox" parent="Row/Column3/Row2"]
 unique_name_in_owner = true
 margin_left = 164.0
 margin_right = 325.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
-text = "0"
 
 [node name="Row3" type="HBoxContainer" parent="Row/Column3"]
 margin_top = 47.0

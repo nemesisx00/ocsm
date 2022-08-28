@@ -200,16 +200,13 @@ text = "Experience:"
 align = 2
 valign = 1
 
-[node name="Experience" type="LineEdit" parent="Row/Column2/Row2"]
+[node name="Experience" type="SpinBox" parent="Row/Column2/Row2"]
 unique_name_in_owner = true
 margin_left = 167.0
 margin_right = 331.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
-text = "0"
-caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="Row3" type="HBoxContainer" parent="Row/Column2"]
 margin_top = 47.0

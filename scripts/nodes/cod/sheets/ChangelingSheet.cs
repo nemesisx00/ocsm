@@ -29,7 +29,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		public const string Touchstones = "Touchstones";
 	}
 	
-	private const string ContractsList = "Contracts";
+	private const string ContractsListName = "Contracts";
 	
 	
 	public override void _Ready()
@@ -53,7 +53,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, nameof(changed_Thread));
 		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, nameof(changed_Touchstones));
 		
-		InitAndConnect(GetNode<ContractsList>(PathBuilder.SceneUnique(ContractsList)), SheetData.Contracts, nameof(changed_Contracts));
+		InitAndConnect(GetNode<ContractsList>(PathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, nameof(changed_Contracts));
 		
 		base._Ready();
 		
@@ -67,7 +67,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		{
 			cl.Values = initialValue as List<OCSM.CoD.CtL.Contract>;
 			cl.refresh();
-			cl.Connect(Constants.Signal.ValueChanged, this, handlerName);
+			cl.Connect(nameof(ContractsList.ValueChanged), this, handlerName);
 		}
 		else if(node is RegaliaOptionButton rob)
 		{

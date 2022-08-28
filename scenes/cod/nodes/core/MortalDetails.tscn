@@ -221,7 +221,7 @@ text = "Age:"
 align = 2
 valign = 1
 
-[node name="Age" type="LineEdit" parent="Grid/Row4"]
+[node name="Age" type="SpinBox" parent="Grid/Row4"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -286,7 +286,7 @@ text = "Size:"
 align = 2
 valign = 1
 
-[node name="Size" type="LineEdit" parent="Grid/Row5"]
+[node name="Size" type="SpinBox" parent="Grid/Row5"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -299,17 +299,8 @@ focus_next = NodePath("../../Row6/Concept")
 focus_previous = NodePath("../../Row4/Age")
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="MenuButton" type="MenuButton" parent="Grid/Row5/Size"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -20.0
-margin_bottom = 20.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 10
-size_flags_vertical = 6
-text = "V"
-items = [ "4", null, 0, false, false, 0, 0, null, "", false, "5", null, 0, false, false, 1, 0, null, "", false, "6", null, 0, false, false, 2, 0, null, "", false ]
+min_value = 1.0
+value = 5.0
 
 [node name="Row10" type="HBoxContainer" parent="Grid"]
 margin_left = 514.0
