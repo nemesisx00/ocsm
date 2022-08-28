@@ -56,6 +56,8 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), SheetData.Chronicle, nameof(changed_Chronicle));
 		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Concept, DetailsPath)), SheetData.Concept, nameof(changed_Concept));
 		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Name, DetailsPath)), SheetData.Name, nameof(changed_Name));
+		if(!String.IsNullOrEmpty(SheetData.Name))
+			Name = SheetData.Name;
 		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Player, DetailsPath)), SheetData.Player, nameof(changed_Player));
 		InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size, nameof(changed_Size));
 		
