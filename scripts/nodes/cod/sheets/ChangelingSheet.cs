@@ -37,23 +37,23 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		if(!(SheetData is Changeling))
 			SheetData = new Changeling();
 		
-		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity, nameof(changed_Clarity));
-		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd, nameof(changed_Wyrd));
-		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Glamour, AdvantagesPath)), SheetData.GlamourSpent, nameof(changed_Glamour));
-		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Needle, AdvantagesPath)).Text = SheetData.Needle;
-		GetNode<Label>(PathBuilder.SceneUnique(Advantage.Thread, AdvantagesPath)).Text = SheetData.Thread;
+		InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity, nameof(changed_Clarity));
+		InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd, nameof(changed_Wyrd));
+		InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Glamour, AdvantagesPath)), SheetData.GlamourSpent, nameof(changed_Glamour));
+		GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Needle, AdvantagesPath)).Text = SheetData.Needle;
+		GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Thread, AdvantagesPath)).Text = SheetData.Thread;
 		
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Court, DetailsPath)), SheetData.Court, nameof(changed_Court));
-		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Detail.Frailties, DetailsPath)), SheetData.Frailties, nameof(changed_Frailties));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Kith, DetailsPath)), SheetData.Kith, nameof(changed_Kith));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Needle, DetailsPath)), SheetData.Needle, nameof(changed_Needle));
-		InitAndConnect(GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Detail.Regalia1, DetailsPath)), SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, nameof(changed_FavoredRegalia));
-		InitAndConnect(GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Detail.Regalia2, DetailsPath)), SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, nameof(changed_FavoredRegalia));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Seeming, DetailsPath)), SheetData.Seeming, nameof(changed_Seeming));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, nameof(changed_Thread));
-		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, nameof(changed_Touchstones));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Court, DetailsPath)), SheetData.Court, nameof(changed_Court));
+		InitAndConnect(GetNode<ItemList>(NodePathBuilder.SceneUnique(Detail.Frailties, DetailsPath)), SheetData.Frailties, nameof(changed_Frailties));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Kith, DetailsPath)), SheetData.Kith, nameof(changed_Kith));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Needle, DetailsPath)), SheetData.Needle, nameof(changed_Needle));
+		InitAndConnect(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath)), SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, nameof(changed_FavoredRegalia));
+		InitAndConnect(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath)), SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, nameof(changed_FavoredRegalia));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Seeming, DetailsPath)), SheetData.Seeming, nameof(changed_Seeming));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, nameof(changed_Thread));
+		InitAndConnect(GetNode<ItemList>(NodePathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, nameof(changed_Touchstones));
 		
-		InitAndConnect(GetNode<ContractsList>(PathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, nameof(changed_Contracts));
+		InitAndConnect(GetNode<ContractsList>(NodePathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, nameof(changed_Contracts));
 		
 		base._Ready();
 		
@@ -89,12 +89,12 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	{
 		var regalia = new List<string>(2);
 		
-		var r1 = GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Detail.Regalia1, DetailsPath));
+		var r1 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath));
 		var text = r1.GetItemText(r1.Selected);
 		if(!String.IsNullOrEmpty(text))
 			regalia.Add(text);
 		
-		var r2 = GetNode<RegaliaOptionButton>(PathBuilder.SceneUnique(Detail.Regalia2, DetailsPath));
+		var r2 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath));
 		text = r2.GetItemText(r2.Selected);
 		if(!String.IsNullOrEmpty(text))
 			regalia.Add(text);

@@ -1,0 +1,40 @@
+using System;
+using System.IO;
+
+namespace OCSM
+{
+	public class FileSystemUtilities
+	{
+		private const string App = "/OCSM/";
+		private const string Sheets = App + "sheets/";
+		private const string Metadata = App + "metadata/";
+		
+		public static string DefaultSheetDirectory { get { return AutoLower(GetFinalPath(Environment.SpecialFolder.ApplicationData, Sheets)); } }
+		public static string DefaultMetadataDirectory { get { return AutoLower(GetFinalPath(Environment.SpecialFolder.CommonApplicationData, Metadata)); } }
+		
+		public static string ReadString(string path)
+		{
+			var finalPath = Path.GetFullPath(path);
+			return File.ReadAllText(finalPath);
+		}
+		
+		public static void WriteString(string path, string data)
+		{
+			var finalPath = Path.GetFullPath(path);
+			Directory.CreateDirectory(Path.GetDirectoryName(path));
+			File.WriteAllText(finalPath, data);
+		}
+		
+		private static string AutoLower(string path)
+		{
+			if(Environment.OSVersion.Platform.Equals(PlatformID.Unix) || Environment.OSVersion.Platform.Equals(PlatformID.MacOSX))
+				return path.ToLower();
+			return path;
+		}
+		
+		private static string GetFinalPath(Environment.SpecialFolder folder, string pathFragment)
+		{
+			return Path.GetFullPath(Environment.GetFolderPath(folder) + pathFragment);
+		}
+	}
+}

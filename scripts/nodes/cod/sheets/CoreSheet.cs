@@ -46,35 +46,35 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	
 	public override void _Ready()
 	{
-		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Aspirations, AdvantagesPath)), SheetData.Aspirations, nameof(changed_Aspirations));
-		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), SheetData.Beats, nameof(changed_Beats));
-		InitAndConnect(GetNode<ItemList>(PathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), SheetData.Conditions, nameof(changed_Conditions));
-		InitAndConnect(GetNode<SpinBox>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), SheetData.Experience, nameof(changed_Experience));
-		InitAndConnect(GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), SheetData.HealthCurrent, nameof(changed_Health));
-		InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)), SheetData.WillpowerSpent, nameof(changed_Willpower));
+		InitAndConnect(GetNode<ItemList>(NodePathBuilder.SceneUnique(Advantage.Aspirations, AdvantagesPath)), SheetData.Aspirations, nameof(changed_Aspirations));
+		InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), SheetData.Beats, nameof(changed_Beats));
+		InitAndConnect(GetNode<ItemList>(NodePathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), SheetData.Conditions, nameof(changed_Conditions));
+		InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), SheetData.Experience, nameof(changed_Experience));
+		InitAndConnect(GetNode<TrackComplex>(NodePathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), SheetData.HealthCurrent, nameof(changed_Health));
+		InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)), SheetData.WillpowerSpent, nameof(changed_Willpower));
 		
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), SheetData.Chronicle, nameof(changed_Chronicle));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Concept, DetailsPath)), SheetData.Concept, nameof(changed_Concept));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Name, DetailsPath)), SheetData.Name, nameof(changed_Name));
-		InitAndConnect(GetNode<LineEdit>(PathBuilder.SceneUnique(Detail.Player, DetailsPath)), SheetData.Player, nameof(changed_Player));
-		InitAndConnect(GetNode<SpinBox>(PathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size, nameof(changed_Size));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), SheetData.Chronicle, nameof(changed_Chronicle));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Concept, DetailsPath)), SheetData.Concept, nameof(changed_Concept));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Name, DetailsPath)), SheetData.Name, nameof(changed_Name));
+		InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Player, DetailsPath)), SheetData.Player, nameof(changed_Player));
+		InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size, nameof(changed_Size));
 		
 		foreach(var a in SheetData.Attributes)
 		{
 			if(!String.IsNullOrEmpty(a.Name))
-				InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(a.Name, AttributesPath)), a.Value, nameof(changed_Attribute), true);
+				InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(a.Name, AttributesPath)), a.Value, nameof(changed_Attribute), true);
 		}
 		
 		foreach(var s in SheetData.Skills)
 		{
 			if(!String.IsNullOrEmpty(s.Name))
-				InitAndConnect(GetNode<TrackSimple>(PathBuilder.SceneUnique(s.Name, SkillsPath)), s.Value, nameof(changed_Skill), true);
+				InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(s.Name, SkillsPath)), s.Value, nameof(changed_Skill), true);
 		}
 		
-		InitAndConnect(GetNode<SpecialtyList>(PathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), SheetData.Specialties, nameof(changed_SkillSpecialty));
+		InitAndConnect(GetNode<SpecialtyList>(NodePathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), SheetData.Specialties, nameof(changed_SkillSpecialty));
 		
-		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Merits)), SheetData.Merits, nameof(changed_Merits));
-		InitAndConnect(GetNode<ItemDotsList>(PathBuilder.SceneUnique(Flaws)), SheetData.Flaws, nameof(changed_Flaws));
+		InitAndConnect(GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Merits)), SheetData.Merits, nameof(changed_Merits));
+		InitAndConnect(GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Flaws)), SheetData.Flaws, nameof(changed_Flaws));
 		
 		updateDefense();
 		updateInitiative();
@@ -141,9 +141,9 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		if(dex is OCSM.CoD.Attribute && wits is OCSM.CoD.Attribute && athl is Skill)
 		{
 			if(dex.Value < wits.Value)
-				GetNode<Label>(PathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (dex.Value + athl.Value).ToString();
+				GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (dex.Value + athl.Value).ToString();
 			else
-				GetNode<Label>(PathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (wits.Value + athl.Value).ToString();
+				GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (wits.Value + athl.Value).ToString();
 		}
 	}
 	
@@ -154,7 +154,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		
 		if(dex is OCSM.CoD.Attribute && comp is OCSM.CoD.Attribute)
 		{
-			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Initiative, AdvantagesPath)).Text = (dex.Value + comp.Value).ToString();
+			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Initiative, AdvantagesPath)).Text = (dex.Value + comp.Value).ToString();
 		}
 	}
 	
@@ -165,7 +165,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		if(stam is OCSM.CoD.Attribute)
 		{
 			SheetData.HealthMax = SheetData.Size + stam.Value;
-			GetNode<TrackComplex>(PathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(SheetData.HealthMax);
+			GetNode<TrackComplex>(NodePathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(SheetData.HealthMax);
 		}
 	}
 	
@@ -177,7 +177,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		if(comp is OCSM.CoD.Attribute && res is OCSM.CoD.Attribute)
 		{
 			SheetData.WillpowerMax = comp.Value + res.Value;
-			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(SheetData.WillpowerMax);
+			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(SheetData.WillpowerMax);
 		}
 	}
 	
@@ -188,7 +188,7 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		
 		if(str is OCSM.CoD.Attribute && dex is OCSM.CoD.Attribute)
 		{
-			GetNode<Label>(PathBuilder.SceneUnique(Advantage.Speed, AdvantagesPath)).Text = (str.Value + dex.Value + SheetData.Size).ToString();
+			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Speed, AdvantagesPath)).Text = (str.Value + dex.Value + SheetData.Size).ToString();
 		}
 	}private void changed_Aspirations(List<string> values) { SheetData.Aspirations = values; }
 	
@@ -229,9 +229,9 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		if(value >= 5)
 		{
 			SheetData.Beats = 0;
-			GetNode<TrackSimple>(PathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(SheetData.Beats);
+			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(SheetData.Beats);
 			SheetData.Experience++;
-			GetNode<SpinBox>(PathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Value = SheetData.Experience;
+			GetNode<SpinBox>(NodePathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Value = SheetData.Experience;
 		}
 		else
 			SheetData.Beats = value;

@@ -2,7 +2,7 @@ using System;
 
 namespace OCSM
 {
-	public class PathBuilder
+	public class NodePathBuilder
 	{
 		private static string SceneUniqueFormat = "{1}%{0}";
 		

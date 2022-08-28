@@ -8,18 +8,8 @@ public class SaveSheet : FileDialog
 	
 	public override void _Ready()
 	{
-		string path;
-		switch(System.Environment.OSVersion.Platform)
-		{
-			case PlatformID.Unix:
-				path = System.IO.Path.GetFullPath(System.Environment.ExpandEnvironmentVariables(Constants.FilePath.Linux) + Constants.FilePath.Sheets).ToLower();
-				break;
-			case PlatformID.Win32NT:
-			default:
-				path = System.IO.Path.GetFullPath(System.Environment.ExpandEnvironmentVariables(Constants.FilePath.Windows) + Constants.FilePath.Sheets);
-				break;
-		}
-		System.IO.Directory.CreateDirectory(path);
+		var path = FileSystemUtilities.DefaultSheetDirectory;
+		System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
 		CurrentDir = path;
 		Connect(Constants.Signal.FileSelected, this, nameof(doSave));
 	}
@@ -36,6 +26,6 @@ public class SaveSheet : FileDialog
 			path += Constants.SheetFileExtension;
 		
 		if(!String.IsNullOrEmpty(SheetData))
-			System.IO.File.WriteAllText(path, SheetData);
+			FileSystemUtilities.WriteString(path, SheetData);
 	}
 }

@@ -39,17 +39,17 @@ public class Contract : VBoxContainer
 	
 	public override void _Ready()
 	{
-		GetNode<OptionButton>(PathBuilder.SceneUnique(Action)).Connect(Constants.Signal.ItemSelected, this, nameof(actionChanged));
-		GetNode<TextureButton>(PathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed, this, nameof(toggleDetails));
-		GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(attributeChanged));
-		GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Attribute3)).Connect(Constants.Signal.ItemSelected, this, nameof(contestedAttributeChanged));
+		GetNode<OptionButton>(NodePathBuilder.SceneUnique(Action)).Connect(Constants.Signal.ItemSelected, this, nameof(actionChanged));
+		GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed, this, nameof(toggleDetails));
+		GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(attributeChanged));
+		GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3)).Connect(Constants.Signal.ItemSelected, this, nameof(contestedAttributeChanged));
 		
 		refreshSeemingBenefits();
 	}
 	
 	public void refreshSeemingBenefits()
 	{
-		var row = GetNode<VBoxContainer>(PathBuilder.SceneUnique(SeemingBenefitsRow));
+		var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 		foreach(Node c in row.GetChildren())
 		{
 			if(c is HBoxContainer)
@@ -66,7 +66,7 @@ public class Contract : VBoxContainer
 	
 	private void toggleDetails()
 	{
-		var node = GetNode<VBoxContainer>(PathBuilder.SceneUnique(Details));
+		var node = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Details));
 		if(node.Visible)
 			node.Hide();
 		else
@@ -75,50 +75,50 @@ public class Contract : VBoxContainer
 	
 	private void actionChanged(int index)
 	{
-		var attr3 = GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Attribute3));
+		var attr3 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3));
 		if(ActionContested.Equals(index))
 		{
-			GetNode<Label>(PathBuilder.SceneUnique(Versus)).Show();
+			GetNode<Label>(NodePathBuilder.SceneUnique(Versus)).Show();
 			attr3.Show();
 		}
 		else
 		{
-			GetNode<Label>(PathBuilder.SceneUnique(Versus)).Hide();
+			GetNode<Label>(NodePathBuilder.SceneUnique(Versus)).Hide();
 			attr3.Hide();
 			attr3.Selected = 0;
-			GetNode<Control>(PathBuilder.SceneUnique(Wyrd2)).Hide();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Hide();
 		}
 		
-		var attr2 = GetNode<AttributeOptionButton>(PathBuilder.SceneUnique(Attribute2));
+		var attr2 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2));
 		if(ActionResisted.Equals(index))
 		{
 			attr2.Show();
-			GetNode<Control>(PathBuilder.SceneUnique(Attribute2Minus)).Show();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Attribute2Minus)).Show();
 		}
 		else
 		{
 			attr2.Hide();
 			attr2.Selected = 0;
-			GetNode<Control>(PathBuilder.SceneUnique(Attribute2Minus)).Hide();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Attribute2Minus)).Hide();
 		}
 	}
 	
 	private void attributeChanged(int index)
 	{
-		var skill = GetNode<SkillOptionButton>(PathBuilder.SceneUnique(Skill));
+		var skill = GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Skill));
 		
 		if(index > 0)
 		{
 			skill.Show();
-			GetNode<Control>(PathBuilder.SceneUnique(SkillPlus)).Show();
-			GetNode<Control>(PathBuilder.SceneUnique(Wyrd)).Show();
+			GetNode<Control>(NodePathBuilder.SceneUnique(SkillPlus)).Show();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd)).Show();
 		}
 		else
 		{
 			skill.Hide();
 			skill.Selected = 0;
-			GetNode<Control>(PathBuilder.SceneUnique(SkillPlus)).Hide();
-			GetNode<Control>(PathBuilder.SceneUnique(Wyrd)).Hide();
+			GetNode<Control>(NodePathBuilder.SceneUnique(SkillPlus)).Hide();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd)).Hide();
 		}
 	}
 	
@@ -126,26 +126,26 @@ public class Contract : VBoxContainer
 	{
 		if(index > 0)
 		{
-			GetNode<Control>(PathBuilder.SceneUnique(Wyrd2)).Show();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Show();
 		}
 		else
 		{
-			GetNode<Control>(PathBuilder.SceneUnique(Wyrd2)).Hide();
+			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Hide();
 		}
 	}
 	
 	private void updateSeemingBenefits()
 	{
-		var row = GetNode<VBoxContainer>(PathBuilder.SceneUnique(SeemingBenefitsRow));
+		var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 		var benefits = new Dictionary<string, string>();
 		var children = row.GetChildren();
 		foreach(Node c in children)
 		{
 			if(c is HBoxContainer)
 			{
-				var seemingNode = c.GetNode<SeemingOptionButton>(PathBuilder.SceneUnique(Seeming));
+				var seemingNode = c.GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(Seeming));
 				var seeming = seemingNode.GetItemText(seemingNode.Selected);
-				var benefit = c.GetNode<TextEdit>(PathBuilder.SceneUnique(Benefit)).Text;
+				var benefit = c.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Benefit)).Text;
 				
 				if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit) && !benefits.ContainsKey(seeming))
 					benefits.Add(seeming, benefit);
@@ -164,7 +164,7 @@ public class Contract : VBoxContainer
 	
 	private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 	{
-		var row = GetNode<VBoxContainer>(PathBuilder.SceneUnique(SeemingBenefitsRow));
+		var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
 		var instance = resource.Instance<HBoxContainer>();
 		row.AddChild(instance);

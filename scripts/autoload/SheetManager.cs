@@ -36,7 +36,7 @@ public class SheetManager : Node
 	
 	public void closeActiveSheet()
 	{
-		var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+		var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
 		if(tc is TabContainer)
 		{
 			var tab = tc.GetCurrentTabControl();
@@ -52,7 +52,7 @@ public class SheetManager : Node
 	public string getActiveSheetJsonData()
 	{
 		string data = null;
-		var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+		var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
 		if(tc is TabContainer)
 		{
 			var tab = tc.GetCurrentTabControl();
@@ -76,7 +76,7 @@ public class SheetManager : Node
 	{
 		if(!String.IsNullOrEmpty(json))
 		{
-			var tc = GetNode<TabContainer>(PathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+			var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
 			if(tc is TabContainer)
 			{
 				var loaded = false;

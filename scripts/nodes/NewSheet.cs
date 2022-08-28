@@ -21,9 +21,9 @@ public class NewSheet : ScrollContainer
 	
 	public override void _Ready()
 	{
-		GetNode<Button>(PathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
-		GetNode<Button>(PathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
-		GetNode<Button>(PathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
+		GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
+		GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
+		GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
 	}
 	
 	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }

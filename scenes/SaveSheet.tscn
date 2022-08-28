@@ -12,5 +12,4 @@ window_title = "Save Current Character Sheet"
 resizable = true
 access = 2
 filters = PoolStringArray( "*.ocsd ; Open Character Sheet Data" )
-show_hidden_files = true
 script = ExtResource( 1 )
