@@ -49,6 +49,7 @@ namespace OCSM
 		{
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
 			public const string DarkPack = "res://scenes/DarkPack.tscn";
+			public const string GameSystemLicenses = "res://scenes/GameSystemLicenses.tscn";
 			public const string NewSheet = "res://scenes/NewSheet.tscn";
 			public const string OpenSheet = "res://scenes/OpenSheet.tscn";
 			public const string SaveSheet = "res://scenes/SaveSheet.tscn";

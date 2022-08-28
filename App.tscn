@@ -39,7 +39,7 @@ margin_left = 43.0
 margin_right = 91.0
 margin_bottom = 25.0
 text = "Help"
-items = [ "About OCSM", null, 0, false, false, 0, 0, null, "", false, "Attribution", null, 0, false, false, 1, 0, null, "", false, "The Dark Pack", null, 0, false, false, 2, 0, null, "", false ]
+items = [ "About OCSM", null, 0, false, false, 0, 0, null, "", false, "Game System Licenses", null, 0, false, false, 1, 0, null, "", false ]
 script = ExtResource( 5 )
 
 [node name="HSeparator" type="HSeparator" parent="Column"]

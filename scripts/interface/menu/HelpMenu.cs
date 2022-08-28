@@ -3,9 +3,9 @@ using OCSM;
 
 public class HelpMenu : MenuButton
 {
-	private const string PopupName = "DarkPack";
+	private const string PopupName = "GameSystemLicenses";
 	
-	public enum MenuItem { About, Attributions, TheDarkPack }
+	public enum MenuItem { About, GameSystemLicenses }
 	
 	private SheetManager sheetManager;
 	
@@ -22,27 +22,24 @@ public class HelpMenu : MenuButton
 			case MenuItem.About:
 				GD.Print("Show About Popup");
 				break;
-			case MenuItem.Attributions:
-				GD.Print("Show Attributions Popup");
-				break;
-			case MenuItem.TheDarkPack:
-				showDarkPack();
+			case MenuItem.GameSystemLicenses:
+				showGameSystemLicenses();
 				break;
 		}
 	}
 	
-	private void showDarkPack()
+	private void showGameSystemLicenses()
 	{
-		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DarkPack);
+		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
 		var instance = resource.Instance<WindowDialog>();
 		instance.Name = PopupName;
 		GetTree().CurrentScene.AddChild(instance);
 		NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-		instance.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideDarkPack));
-		instance.Show();
+		instance.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideGameSystemLicenses));
+		instance.Popup_();
 	}
 	
-	private void hideDarkPack()
+	private void hideGameSystemLicenses()
 	{
 		GetTree().CurrentScene.GetNode<WindowDialog>(PopupName).QueueFree();
 	}
