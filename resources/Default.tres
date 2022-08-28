@@ -13,5 +13,6 @@ Label/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
 MenuButton/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
 Panel/styles/panel = ExtResource( 2 )
 TabContainer/colors/font_color_fg = Color( 0.662745, 0.670588, 0.690196, 1 )
+TabContainer/constants/side_margin = 15
 TabContainer/styles/panel = ExtResource( 3 )
 TabContainer/styles/tab_fg = ExtResource( 5 )

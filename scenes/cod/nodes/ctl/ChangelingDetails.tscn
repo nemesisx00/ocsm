@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://scripts/nodes/cod/ItemList.cs" type="Script" id=1]
+[ext_resource path="res://scripts/nodes/ItemList.cs" type="Script" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" type="Script" id=3]
 
