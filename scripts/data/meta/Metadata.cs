@@ -1,8 +1,15 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace OCSM.Meta
 {
+	public interface IMetadataContainer
+	{
+		void Deserialize(string json);
+		string Serialize();
+	}
+	
 	public class Metadata : IEquatable<Metadata>
 	{
 		public string Name { get; set; }

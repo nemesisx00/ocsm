@@ -92,6 +92,8 @@ namespace OCSM
 			public const string NodeChanged = "NodeChanged";
 			public const string Pressed = "pressed";
 			public const string Released = "released";
+			public const string TabChanged = "tab_changed";
+			public const string TabSelected = "tab_selected";
 			public const string TextChanged = "text_changed";
 			public const string ValueChanged = "value_changed";
 		}

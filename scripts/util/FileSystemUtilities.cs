@@ -15,7 +15,9 @@ namespace OCSM
 		public static string ReadString(string path)
 		{
 			var finalPath = Path.GetFullPath(path);
-			return File.ReadAllText(finalPath);
+			if(File.Exists(finalPath))
+				return File.ReadAllText(finalPath);
+			return null;
 		}
 		
 		public static void WriteString(string path, string data)

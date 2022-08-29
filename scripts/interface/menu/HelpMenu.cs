@@ -7,8 +7,6 @@ public class HelpMenu : MenuButton
 	
 	public enum MenuItem { About, GameSystemLicenses }
 	
-	private SheetManager sheetManager;
-	
 	public override void _Ready()
 	{
 		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));

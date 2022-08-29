@@ -6,10 +6,12 @@ public class FileMenu : MenuButton
 {
 	public enum MenuItem { New, Open, Save, CloseSheet, Quit }
 	
+	private MetadataManager metadataManager;
 	private SheetManager sheetManager;
 	
 	public override void _Ready()
 	{
+		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 		
 		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));

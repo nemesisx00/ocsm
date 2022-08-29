@@ -42,7 +42,7 @@ public class SheetManager : Node
 			var tab = tc.GetCurrentTabControl();
 			if(tab is Node)
 			{
-				if(tc.GetTabCount() <= tc.CurrentTab + 1)
+				if(tc.GetTabCount() <= 1)
 					showNewSheetUI();
 				tab.QueueFree();
 			}
@@ -108,6 +108,8 @@ public class SheetManager : Node
 			var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
 			var instance = resource.Instance<NewSheet>();
 			GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
+			
+			GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = String.Empty;
 		}
 	}
 }

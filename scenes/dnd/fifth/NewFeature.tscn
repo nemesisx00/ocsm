@@ -1,15 +1,21 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" type="Script" id=2]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=3]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeatureTypeOptionButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/nodes/dnd/fifth/meta/NewFeature.cs" type="Script" id=5]
 
-[node name="NewFeature" type="Panel"]
+[node name="NewFeature" type="WindowDialog"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -384.0
 margin_bottom = -288.0
+popup_exclusive = true
+window_title = "Add a New Feature"
+resizable = true
+script = ExtResource( 5 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 anchor_right = 1.0
@@ -17,7 +23,7 @@ anchor_bottom = 1.0
 
 [node name="Column" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 640.0
-margin_bottom = 191.0
+margin_bottom = 192.0
 size_flags_horizontal = 3
 custom_constants/separation = 10
 
@@ -39,6 +45,7 @@ unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 484.0
 margin_bottom = 24.0
+rect_min_size = Vector2( 0, 23 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 9.0
 caret_blink = true
@@ -62,10 +69,38 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 105, 0 )
 script = ExtResource( 4 )
 
-[node name="Requirements" type="VBoxContainer" parent="ScrollContainer/Column"]
+[node name="Row2" type="HBoxContainer" parent="ScrollContainer/Column"]
 margin_top = 34.0
 margin_right = 640.0
-margin_bottom = 86.0
+margin_bottom = 57.0
+
+[node name="Label" type="Label" parent="ScrollContainer/Column/Row2"]
+margin_top = 4.0
+margin_right = 100.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 100, 0 )
+text = "Description:"
+align = 2
+valign = 1
+
+[node name="Description" type="TextEdit" parent="ScrollContainer/Column/Row2"]
+unique_name_in_owner = true
+margin_left = 104.0
+margin_right = 640.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 9.0
+wrap_enabled = true
+caret_blink = true
+caret_blink_speed = 0.5
+script = ExtResource( 3 )
+
+[node name="Requirements" type="VBoxContainer" parent="ScrollContainer/Column"]
+visible = false
+margin_top = 68.0
+margin_right = 640.0
+margin_bottom = 120.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/Requirements"]
 margin_right = 640.0
@@ -89,15 +124,13 @@ margin_right = 232.0
 margin_bottom = 19.0
 text = "Level:"
 
-[node name="Level" type="LineEdit" parent="ScrollContainer/Column/Requirements/Row2"]
+[node name="Level" type="SpinBox" parent="ScrollContainer/Column/Requirements/Row2"]
 unique_name_in_owner = true
 margin_left = 236.0
 margin_right = 336.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_stretch_ratio = 4.0
-caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="RequirementType" type="OptionButton" parent="ScrollContainer/Column/Requirements/Row2"]
 unique_name_in_owner = true
@@ -133,12 +166,12 @@ margin_right = 497.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 
-[node name="Row2" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 96.0
+[node name="Row3" type="HBoxContainer" parent="ScrollContainer/Column"]
+margin_top = 67.0
 margin_right = 640.0
-margin_bottom = 120.0
+margin_bottom = 91.0
 
-[node name="Label" type="Label" parent="ScrollContainer/Column/Row2"]
+[node name="Label" type="Label" parent="ScrollContainer/Column/Row3"]
 margin_top = 5.0
 margin_right = 100.0
 margin_bottom = 19.0
@@ -147,7 +180,7 @@ text = "Source:"
 align = 2
 valign = 1
 
-[node name="Source" type="LineEdit" parent="ScrollContainer/Column/Row2"]
+[node name="Source" type="LineEdit" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 640.0
@@ -157,12 +190,12 @@ size_flags_stretch_ratio = 9.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Row3" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 130.0
+[node name="Row4" type="HBoxContainer" parent="ScrollContainer/Column"]
+margin_top = 101.0
 margin_right = 640.0
-margin_bottom = 153.0
+margin_bottom = 124.0
 
-[node name="Label" type="Label" parent="ScrollContainer/Column/Row3"]
+[node name="Label" type="Label" parent="ScrollContainer/Column/Row4"]
 margin_top = 4.0
 margin_right = 100.0
 margin_bottom = 18.0
@@ -171,7 +204,7 @@ text = "Text:"
 align = 2
 valign = 1
 
-[node name="Text" type="TextEdit" parent="ScrollContainer/Column/Row3"]
+[node name="Text" type="TextEdit" parent="ScrollContainer/Column/Row4"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 640.0
@@ -182,9 +215,9 @@ wrap_enabled = true
 script = ExtResource( 3 )
 
 [node name="SectionsSection" type="VBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 163.0
+margin_top = 134.0
 margin_right = 640.0
-margin_bottom = 191.0
+margin_bottom = 162.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/SectionsSection"]
 margin_right = 640.0
@@ -200,3 +233,27 @@ margin_top = 28.0
 margin_right = 640.0
 margin_bottom = 28.0
 script = ExtResource( 2 )
+
+[node name="Row5" type="HBoxContainer" parent="ScrollContainer/Column"]
+margin_top = 172.0
+margin_right = 640.0
+margin_bottom = 192.0
+size_flags_horizontal = 3
+custom_constants/separation = 25
+alignment = 1
+
+[node name="Save" type="Button" parent="ScrollContainer/Column/Row5"]
+unique_name_in_owner = true
+margin_left = 232.0
+margin_right = 307.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 75, 0 )
+text = "Save"
+
+[node name="Cancel" type="Button" parent="ScrollContainer/Column/Row5"]
+unique_name_in_owner = true
+margin_left = 332.0
+margin_right = 407.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 75, 0 )
+text = "Cancel"

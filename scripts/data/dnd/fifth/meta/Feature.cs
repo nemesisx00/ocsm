@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OCSM.Meta;
 
 namespace OCSM.DnD.Fifth.Meta
 {
@@ -19,32 +20,54 @@ namespace OCSM.DnD.Fifth.Meta
 		}
 	}
 	
-	public class Feature : IEquatable<Feature>
+	public class Feature : Metadata, IEquatable<Feature>
 	{
-		public string Name { get; set; }
-		public FeatureRequirement Requirement { get; set; }
-		public Dictionary<string, string> Sections { get; set; }
+		//public FeatureRequirement Requirement { get; set; }
+		public List<FeatureSection> Sections { get; set; }
 		public string Source { get; set; }
 		public string Text { get; set; }
 		public string Type { get; set; }
 		
+		public Feature() : base()
+		{
+			//Requirement = null;
+			Sections = new List<FeatureSection>();
+			Source = String.Empty;
+			Text = String.Empty;
+			Type = String.Empty;
+		}
+		
+		public Feature(string name, string description = "") : base(name, description)
+		{
+			Sections = new List<FeatureSection>();
+			Source = String.Empty;
+			Text = String.Empty;
+			Type = String.Empty;
+		}
+		
 		public bool Equals(Feature feature)
 		{
-			return feature.Name.Equals(Name)
-				&& feature.Requirement.Equals(Requirement)
+			return base.Equals(feature as Metadata)
+				//&& feature.Requirement.Equals(Requirement)
 				&& feature.Sections.Equals(Sections)
 				&& feature.Source.Equals(Source)
 				&& feature.Text.Equals(Text)
 				&& feature.Type.Equals(Type);
 		}
 	}
-	
+	/*
 	public class FeatureRequirement : IEquatable<FeatureRequirement>
 	{
 		public Background Background { get; set; } = null;
 		public Class Class { get; set; } = null;
 		public int Level { get; set; }
 		public Race Race { get; set; } = null;
+		
+		public FeatureRequirement()
+		{
+			Background = null;
+			Level = 0;
+		}
 		
 		public bool Equals(FeatureRequirement requirement)
 		{
@@ -68,6 +91,7 @@ namespace OCSM.DnD.Fifth.Meta
 			return output;
 		}
 	}
+	*/
 	
 	public class FeatureSection : IEquatable<FeatureSection>
 	{
