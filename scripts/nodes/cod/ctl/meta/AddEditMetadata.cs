@@ -10,7 +10,7 @@ public class AddEditMetadata : WindowDialog
 	private enum Tabs { Selector, Contract, ContractType, Court, Flaw, Kith, Merit, Regalia, Seeming}
 	
 	private const string ContractName = "Contract";
-	private const string ContractTypeName = "ContractType";
+	private const string ContractTypeName = "Contract Type";
 	private const string CourtName = "Court";
 	private const string FlawName = "Flaw";
 	private const string KithName = "Kith";

@@ -39,7 +39,7 @@ unique_name_in_owner = true
 [node name="Contract" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 2 )]
 visible = false
 
-[node name="ContractType" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
+[node name="Contract Type" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 visible = false
 MetadataTypeLabel = "Contract Type"
