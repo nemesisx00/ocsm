@@ -31,6 +31,7 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	}
 	
 	private const string ContractsListName = "Contracts";
+	private const string MeritsFromMetadataName = "MeritsFromMetadata";
 	
 	private MetadataManager metadataManager;
 	
@@ -59,6 +60,8 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		
 		InitAndConnect(GetNode<ContractsList>(NodePathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, nameof(changed_Contracts));
 		
+		GetNode<MeritsFromMetadata>(NodePathBuilder.SceneUnique(MeritsFromMetadataName)).Connect(nameof(MeritsFromMetadata.AddMerit), this, nameof(addExistingMerit));
+		
 		base._Ready();
 		
 		NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
@@ -75,9 +78,9 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 		else if(node is CourtOptionButton cob)
 		{
-			if(initialValue is Court c && metadataManager.Container is CoDChangelingContainer ccc)
+			if(initialValue is Court court && metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var index = ccc.Courts.FindIndex(r => r.Equals(c)) + 1;
+				var index = ccc.Courts.FindIndex(c => c.Equals(court)) + 1;
 				if(index > 0)
 					cob.Selected = index;
 			}
@@ -85,9 +88,9 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 		else if(node is KithOptionButton kob)
 		{
-			if(initialValue is Kith k && metadataManager.Container is CoDChangelingContainer ccc)
+			if(initialValue is Kith kith && metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var index = ccc.Courts.FindIndex(r => r.Equals(k)) + 1;
+				var index = ccc.Kiths.FindIndex(k => k.Equals(kith)) + 1;
 				if(index > 0)
 					kob.Selected = index;
 			}
@@ -95,9 +98,9 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 		else if(node is RegaliaOptionButton rob)
 		{
-			if(initialValue is Court c && metadataManager.Container is CoDChangelingContainer ccc)
+			if(initialValue is Regalia regalia && metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var index = ccc.Courts.FindIndex(r => r.Equals(c)) + 1;
+				var index = ccc.Regalias.FindIndex(r => r.Equals(regalia)) + 1;
 				if(index > 0)
 					rob.Selected = index;
 			}
@@ -105,9 +108,9 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 		else if(node is SeemingOptionButton sob)
 		{
-			if(initialValue is Seeming s && metadataManager.Container is CoDChangelingContainer ccc)
+			if(initialValue is Seeming seeming && metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var index = ccc.Courts.FindIndex(r => r.Equals(s)) + 1;
+				var index = ccc.Seemings.FindIndex(s => s.Equals(seeming)) + 1;
 				if(index > 0)
 					sob.Selected = index;
 			}
@@ -117,52 +120,63 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 			base.InitAndConnect(node, initialValue, handlerName, nodeChanged);
 	}
 	
+	private void addExistingMerit(string name)
+	{
+		if(!String.IsNullOrEmpty(name) && metadataManager.Container is CoDChangelingContainer ccc)
+		{
+			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+			{
+				SheetData.Merits.Add(merit.Name, 0);
+				var merits = GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Merits));
+				merits.Values = SheetData.Merits;
+				merits.refresh();
+			}
+		}
+	}
+	
 	private void changed_Clarity(int value) { SheetData.Clarity = value; }
 	private void changed_Contracts(SignalPayload<List<OCSM.CoD.CtL.Contract>> payload) { SheetData.Contracts = payload.Payload; }
 	
-	private void changed_Court(int item)
+	private void changed_Court(int index)
 	{
-		if(item > 0 && metadataManager.Container is CoDChangelingContainer ccc)
-			SheetData.Court = ccc.Courts[item - 1];
-		else if(item > 0)
+		if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Courts[index - 1] is Court court)
+			SheetData.Court = court;
+		else
 			SheetData.Court = null;
 	}
 	
 	private void changed_Frailties(List<string> values) { SheetData.Frailties = values; }
 	private void changed_Glamour(int value) { SheetData.GlamourSpent = value; }
 	
-	private void changed_Kith(int item)
+	private void changed_Kith(int index)
 	{
-		if(item > 0 && metadataManager.Container is CoDChangelingContainer ccc)
-			SheetData.Kith = ccc.Kiths[item - 1];
-		else if(item > 0)
+		if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Kiths[index - 1] is Kith kith)
+			SheetData.Kith = kith;
+		else
 			SheetData.Kith = null;
 	}
 	
 	private void changed_Needle(string value) { SheetData.Needle = value; }
 	private void changed_FavoredRegalia(int item)
 	{
+		SheetData.FavoredRegalia = new List<Regalia>(2);
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var regalia = new List<Regalia>(2);
-			
 			var r1 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath));
-			if(r1.Selected > 0)
-				regalia.Add(ccc.Regalias[r1.Selected - 1]);
+			if(r1.Selected > 0 && ccc.Regalias[r1.Selected - 1] is Regalia regalia1)
+				SheetData.FavoredRegalia.Add(regalia1);
 			
 			var r2 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath));
-			if(r2.Selected > 0)
-				regalia.Add(ccc.Regalias[r2.Selected - 1]);
-			
-			SheetData.FavoredRegalia = regalia;
+			if(r2.Selected > 0 && ccc.Regalias[r2.Selected - 1] is Regalia regalia2)
+				SheetData.FavoredRegalia.Add(regalia2);
 		}
 	}
 	
-	private void changed_Seeming(int item)
+	private void changed_Seeming(int index)
 	{
-		if(item > 0 && metadataManager.Container is CoDChangelingContainer ccc)
-			SheetData.Seeming = ccc.Seemings[item - 1];
-		else if(item > 0)
+		if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Seemings[index - 1] is Seeming seeming)
+			SheetData.Seeming = seeming;
+		else
 			SheetData.Seeming = null;
 	}
 	

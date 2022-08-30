@@ -7,12 +7,11 @@ using System.Text.Json;
 
 public class AddEditMetadata : WindowDialog
 {
-	private enum Tabs { Selector, Contract, ContractType, Court, Flaw, Kith, Merit, Regalia, Seeming}
+	private enum Tabs { Selector, Contract, ContractType, Court, Kith, Merit, Regalia, Seeming}
 	
 	private const string ContractName = "Contract";
 	private const string ContractTypeName = "Contract Type";
 	private const string CourtName = "Court";
-	private const string FlawName = "Flaw";
 	private const string KithName = "Kith";
 	private const string MeritName = "Merit";
 	private const string MetadataSelectorName = "MetadataSelector";
@@ -42,10 +41,6 @@ public class AddEditMetadata : WindowDialog
 		courtEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveCourt));
 		courtEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteCourt));
 		
-		var flawEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(FlawName));
-		flawEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveFlaw));
-		flawEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteFlaw));
-		
 		var kithEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName));
 		kithEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveKith));
 		kithEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteKith));
@@ -66,7 +61,6 @@ public class AddEditMetadata : WindowDialog
 		selector.Connect(nameof(MetadataSelector.ContractSelected), this, nameof(editContract));
 		selector.Connect(nameof(MetadataSelector.ContractTypeSelected), this, nameof(editContractType));
 		selector.Connect(nameof(MetadataSelector.CourtSelected), this, nameof(editCourt));
-		selector.Connect(nameof(MetadataSelector.FlawSelected), this, nameof(editFlaw));
 		selector.Connect(nameof(MetadataSelector.KithSelected), this, nameof(editKith));
 		selector.Connect(nameof(MetadataSelector.MeritSelected), this, nameof(editMerit));
 		selector.Connect(nameof(MetadataSelector.RegaliaSelected), this, nameof(editRegalia));
@@ -109,18 +103,6 @@ public class AddEditMetadata : WindowDialog
 			if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 			{
 				ccc.Courts.Remove(court);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	private void deleteFlaw(string name)
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
-		{
-			if(ccc.Flaws.Find(f => f.Name.Equals(name)) is Merit flaw)
-			{
-				ccc.Flaws.Remove(flaw);
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -211,18 +193,6 @@ public class AddEditMetadata : WindowDialog
 		}
 	}
 	
-	private void editFlaw(string name)
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
-		{
-			if(ccc.Flaws.Find(f => f.Name.Equals(name)) is Merit flaw)
-			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(FlawName)).loadMetadataEntry(flaw);
-				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Flaw;
-			}
-		}
-	}
-	
 	private void editKith(string name)
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
@@ -304,18 +274,6 @@ public class AddEditMetadata : WindowDialog
 			if(ccc.Courts.Contains(c))
 				ccc.Courts.Remove(c);
 			ccc.Courts.Add(c);
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	private void saveFlaw(string name, string description)
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
-		{
-			var m = new Merit(name, description);
-			if(ccc.Flaws.Contains(m))
-				ccc.Flaws.Remove(m);
-			ccc.Flaws.Add(m);
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}

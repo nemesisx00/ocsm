@@ -13,8 +13,6 @@ public class MetadataSelector : GridContainer
 	[Signal]
 	public delegate void CourtSelected(string name);
 	[Signal]
-	public delegate void FlawSelected(string name);
-	[Signal]
 	public delegate void KithSelected(string name);
 	[Signal]
 	public delegate void MeritSelected(string name);
@@ -26,7 +24,6 @@ public class MetadataSelector : GridContainer
 	private const string ContractsName = "Contracts";
 	private const string ContractTypesName = "ContractTypes";
 	private const string CourtsName = "Courts";
-	private const string FlawsName = "Flaws";
 	private const string KithsName = "Kiths";
 	private const string MeritsName = "Merits";
 	private const string RegaliasName = "Regalias";
@@ -47,7 +44,6 @@ public class MetadataSelector : GridContainer
 		GetNode<OptionButton>(ContractsName).Connect(Constants.Signal.ItemSelected, this, nameof(contractSelected));
 		GetNode<OptionButton>(ContractTypesName).Connect(Constants.Signal.ItemSelected, this, nameof(contractTypeSelected));
 		GetNode<OptionButton>(CourtsName).Connect(Constants.Signal.ItemSelected, this, nameof(courtSelected));
-		GetNode<OptionButton>(FlawsName).Connect(Constants.Signal.ItemSelected, this, nameof(flawSelected));
 		GetNode<OptionButton>(KithsName).Connect(Constants.Signal.ItemSelected, this, nameof(kithSelected));
 		GetNode<OptionButton>(MeritsName).Connect(Constants.Signal.ItemSelected, this, nameof(meritSelected));
 		GetNode<OptionButton>(RegaliasName).Connect(Constants.Signal.ItemSelected, this, nameof(regaliaSelected));
@@ -89,14 +85,6 @@ public class MetadataSelector : GridContainer
 				optionButton.AddItem(itemName);
 			}
 			
-			optionButton = GetNode<OptionButton>(FlawsName);
-			optionButton.Clear();
-			optionButton.AddItem("");
-			foreach(var f in ccc.Flaws)
-			{
-				optionButton.AddItem(f.Name);
-			}
-			
 			optionButton = GetNode<OptionButton>(MeritsName);
 			optionButton.Clear();
 			optionButton.AddItem("");
@@ -128,13 +116,6 @@ public class MetadataSelector : GridContainer
 	{
 		var optionsButton = GetNode<OptionButton>(CourtsName);
 		EmitSignal(nameof(CourtSelected), optionsButton.GetItemText(index));
-		optionsButton.Selected = 0;
-	}
-	
-	private void flawSelected(int index)
-	{
-		var optionsButton = GetNode<OptionButton>(FlawsName);
-		EmitSignal(nameof(FlawSelected), optionsButton.GetItemText(index));
 		optionsButton.Selected = 0;
 	}
 	

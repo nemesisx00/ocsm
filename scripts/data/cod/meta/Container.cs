@@ -8,7 +8,6 @@ namespace OCSM.CoD.Meta
 	public class CoDCoreContainer : IMetadataContainer, IEquatable<CoDCoreContainer>
 	{
 		public List<Merit> Merits { get; set; } = new List<Merit>();
-		public List<Merit> Flaws { get; set; } = new List<Merit>();
 		
 		public virtual void Deserialize(string json)
 		{
@@ -21,8 +20,7 @@ namespace OCSM.CoD.Meta
 		
 		public virtual bool IsEmpty()
 		{
-			return Flaws.Count < 1
-				&& Merits.Count < 1;
+			return Merits.Count < 1;
 		}
 		
 		public virtual string Serialize()

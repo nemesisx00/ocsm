@@ -49,11 +49,6 @@ unique_name_in_owner = true
 visible = false
 MetadataTypeLabel = "Court"
 
-[node name="Flaw" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
-unique_name_in_owner = true
-visible = false
-MetadataTypeLabel = "Flaw"
-
 [node name="Kith" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 visible = false

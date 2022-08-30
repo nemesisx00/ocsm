@@ -80,12 +80,13 @@ public class SheetManager : Node
 			if(tc is TabContainer)
 			{
 				var loaded = false;
-				if(json.Contains(OCSM.GameSystem.CoD.Changeling))
+				if(json.Contains(GameSystem.CoD.Changeling))
 				{
+					GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Changeling;
 					addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
 					loaded = true;
 				}
-				else if(json.Contains(OCSM.GameSystem.CoD.Mortal))
+				else if(json.Contains(GameSystem.CoD.Mortal))
 				{
 					addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
 					loaded = true;

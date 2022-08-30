@@ -18,7 +18,6 @@ namespace OCSM.CoD
 		public List<string> Aspirations { get; set; }
 		public List<Attribute> Attributes { get; set; }
 		public List<string> Conditions { get; set; }
-		public Dictionary<string, int> Flaws { get; set; }
 		public Dictionary<string, int> HealthCurrent { get; set; }
 		public Dictionary<string, int> Merits { get; set; }
 		public List<Skill> Skills { get; set; }
@@ -41,7 +40,6 @@ namespace OCSM.CoD
 			Aspirations = new List<string>();
 			Attributes = Attribute.asList();
 			Conditions = new List<string>();
-			Flaws = new Dictionary<string, int>();
 			HealthCurrent = new Dictionary<string, int>();
 			HealthCurrent.Add(BoxComplex.State.Three, 0);
 			HealthCurrent.Add(BoxComplex.State.Two, 0);

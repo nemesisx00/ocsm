@@ -31,7 +31,8 @@ namespace OCSM.Meta
 		
 		public bool Equals(Metadata metadata)
 		{
-			return metadata.Description.Equals(Description)
+			return metadata is Metadata
+				&& metadata.Description.Equals(Description)
 				&& Logic.AreEqualOrNull<Texture>(metadata.Icon, Icon)
 				&& metadata.Name.Equals(Name);
 		}

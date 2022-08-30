@@ -17,7 +17,6 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	protected const string InventoryPath = TabContainerPath + "Inventory/";
 	protected const string GameNotesPath = TabContainerPath + "Game Notes/";
 	
-	protected const string Flaws = "Flaws";
 	protected const string Merits = "Merits";
 	protected const string SkillSpecialties = "Specialties";
 	
@@ -76,7 +75,6 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 		InitAndConnect(GetNode<SpecialtyList>(NodePathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), SheetData.Specialties, nameof(changed_SkillSpecialty));
 		
 		InitAndConnect(GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Merits)), SheetData.Merits, nameof(changed_Merits));
-		InitAndConnect(GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Flaws)), SheetData.Flaws, nameof(changed_Flaws));
 		
 		updateDefense();
 		updateInitiative();
@@ -243,7 +241,6 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Concept(string newText) { SheetData.Concept = newText; }
 	private void changed_Conditions(List<string> values) { SheetData.Conditions = values; }
 	private void changed_Experience(float number) { SheetData.Experience = (int)number; }
-	private void changed_Flaws(Dictionary<string, int> values) { SheetData.Flaws = values; }
 	private void changed_Health(Dictionary<string, int> values) { SheetData.HealthCurrent = values; }
 	private void changed_Merits(Dictionary<string, int> values) { SheetData.Merits = values; }
 	

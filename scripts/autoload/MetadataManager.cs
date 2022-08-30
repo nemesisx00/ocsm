@@ -27,6 +27,25 @@ public class MetadataManager : Node
 		{
 			gameSystem = value;
 			EmitSignal(nameof(GameSystemChanged), gameSystem);
+			
+			switch(gameSystem)
+			{
+				case GameSystem.CoD.Changeling:
+					Container = new CoDChangelingContainer();
+					loadGameSystemMetadata();
+					break;
+				case GameSystem.CoD.Mortal:
+					Container = new CoDCoreContainer();
+					loadGameSystemMetadata();
+					break;
+				case GameSystem.DnD.Fifth:
+					Container = new DnDFifthContainer();
+					loadGameSystemMetadata();
+					break;
+				default:
+					Container = null;
+					break;
+			}
 		}
 	}
 	
@@ -42,38 +61,29 @@ public class MetadataManager : Node
 	{
 		var tab = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).GetTabControl(tabIndex);
 		if(tab is ChangelingSheet)
-		{
 			CurrentGameSystem = GameSystem.CoD.Changeling;
-			Container = new CoDChangelingContainer();
-		}
 		else if (tab is MortalSheet)
-		{
 			CurrentGameSystem = GameSystem.CoD.Mortal;
-			Container = new CoDCoreContainer();
-		}
 		else if (tab is DndFifthSheet)
-		{
 			CurrentGameSystem = GameSystem.DnD.Fifth;
-			Container = new DnDFifthContainer();
-		}
 		else
-		{
 			CurrentGameSystem = String.Empty;
-			Container = null;
-		}
-		
-		loadGameSystemMetadata();
 	}
 	
 	public void loadGameSystemMetadata()
 	{
-		var filename = String.Format(FileNameFormat, CurrentGameSystem);
-		var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
-		var json = FileSystemUtilities.ReadString(path);
-		if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
+		if(!String.IsNullOrEmpty(CurrentGameSystem))
 		{
-			Container.Deserialize(json);
-			EmitSignal(nameof(MetadataLoaded));
+			var filename = String.Format(FileNameFormat, CurrentGameSystem);
+			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
+			var json = FileSystemUtilities.ReadString(path);
+			GD.Print("json length: ", json.Length);
+			if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
+			{
+				Container.Deserialize(json);
+				GD.Print("Is container empty after load? ", Container.IsEmpty());
+				EmitSignal(nameof(MetadataLoaded));
+			}
 		}
 	}
 	
@@ -92,11 +102,10 @@ public class MetadataManager : Node
 	
 	public void initializeGameSystems()
 	{
-		gameSystem = GameSystem.CoD.Changeling;
-		Container = new CoDChangelingContainer();
-		loadGameSystemMetadata();
+		CurrentGameSystem = GameSystem.CoD.Changeling;
 		if(Container.IsEmpty())
 		{
+			GD.Print("Should initialize Changeling.");
 			Container = CoDChangelingContainer.initializeWithDefaultValues();
 			saveGameSystemMetadata();
 		}
