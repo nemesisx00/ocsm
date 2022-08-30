@@ -7,7 +7,7 @@ using OCSM.DnD.Fifth.Meta;
 public class SectionList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(SignalPayload<List<FeatureSection>> values);
+	public delegate void ValueChanged(List<Transport<FeatureSection>> values);
 	
 	public List<FeatureSection> Values { get; set; } = new List<FeatureSection>();
 	
@@ -51,12 +51,21 @@ public class SectionList : Container
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), new SignalPayload<List<FeatureSection>>(values));
 		
 		if(children.Count <= values.Count)
 		{
 			addInput();
 		}
+	}
+	
+	private void doEmitSignal()
+	{
+		var list = new List<Transport<FeatureSection>>();
+		foreach(var fs in Values)
+		{
+			list.Add(new Transport<FeatureSection>(fs));
+		}
+		EmitSignal(nameof(ValueChanged), list);
 	}
 	
 	private void addInput(FeatureSection section = null)

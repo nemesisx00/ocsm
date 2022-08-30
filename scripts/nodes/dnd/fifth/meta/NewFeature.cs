@@ -60,7 +60,15 @@ public class NewFeature : WindowDialog
 	
 	private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 	private void nameChanged(string text) { Feature.Name = text; }
-	private void sectionsChanged(SignalPayload<List<FeatureSection>> payload) { Feature.Sections = payload.Payload; }
+	private void sectionsChanged(List<Transport<FeatureSection>> values)
+	{
+		var list = new List<FeatureSection>();
+		foreach(var t in values)
+		{
+			list.Add(t.Value);
+		}
+		Feature.Sections = list;
+	}
 	private void sourceChanged(string text) { Feature.Source = text; }
 	private void textChanged() { Feature.Text = textNode.Text; }
 	private void typeChanged(int index) { Feature.Type = typeNode.GetItemText(index); }

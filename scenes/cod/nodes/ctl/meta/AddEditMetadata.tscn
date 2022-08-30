@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/cod/nodes/ctl/meta/MetadataSelector.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/cod/nodes/ctl/meta/ContractEntry.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/meta/BasicMetadataEntry.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/nodes/cod/ctl/meta/AddEditMetadata.cs" type="Script" id=4]
+[ext_resource path="res://scenes/cod/nodes/meta/MeritEntry.tscn" type="PackedScene" id=5]
 
 [node name="AddEditMetadata" type="WindowDialog"]
 anchor_right = 1.0
@@ -54,10 +55,9 @@ unique_name_in_owner = true
 visible = false
 MetadataTypeLabel = "Kith"
 
-[node name="Merit" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
+[node name="Merit" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 5 )]
 unique_name_in_owner = true
 visible = false
-MetadataTypeLabel = "Merit"
 
 [node name="Regalia" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource( 3 )]
 unique_name_in_owner = true

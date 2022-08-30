@@ -118,6 +118,12 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 			il.refresh();
 			il.Connect(nameof(ItemList.ValueChanged), this, handlerName);
 		}
+		else if(node is MeritList ml)
+		{
+			ml.Values = initialValue as List<Merit>;
+			ml.refresh();
+			ml.Connect(nameof(MeritList.ValueChanged), this, handlerName);
+		}
 		else if(node is ItemDotsList idl)
 		{
 			idl.Values = initialValue as Dictionary<string, int>;
@@ -242,7 +248,16 @@ public abstract class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Conditions(List<string> values) { SheetData.Conditions = values; }
 	private void changed_Experience(float number) { SheetData.Experience = (int)number; }
 	private void changed_Health(Dictionary<string, int> values) { SheetData.HealthCurrent = values; }
-	private void changed_Merits(Dictionary<string, int> values) { SheetData.Merits = values; }
+	private void changed_Merits(List<Transport<Merit>> values)
+	{
+		var list = new List<Merit>();
+		foreach(var mt in values)
+		{
+			list.Add(mt.Value);
+		}
+		
+		SheetData.Merits = list;
+	}
 	
 	private void changed_Name(string newText)
 	{

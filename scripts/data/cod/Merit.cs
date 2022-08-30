@@ -7,7 +7,20 @@ namespace OCSM.CoD
 	{
 		public int Value { get; set; }
 		
-		public Merit(string name, string description = "") : base(name, description) { }
+		public Merit() : base()
+		{
+			Value = 0;
+		}
+		
+		public Merit(string name, string description = "") : base(name, description)
+		{
+			Value = 0;
+		}
+		
+		public Merit(string name, string description = "", int value = 0) : base(name, description)
+		{
+			Value = value;
+		}
 		
 		public bool Equals(Merit merit)
 		{

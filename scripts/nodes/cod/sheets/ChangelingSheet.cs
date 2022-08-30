@@ -126,8 +126,8 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		{
 			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 			{
-				SheetData.Merits.Add(merit.Name, 0);
-				var merits = GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Merits));
+				SheetData.Merits.Add(merit);
+				var merits = GetNode<MeritList>(NodePathBuilder.SceneUnique(Merits));
 				merits.Values = SheetData.Merits;
 				merits.refresh();
 			}
@@ -135,7 +135,15 @@ public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	}
 	
 	private void changed_Clarity(int value) { SheetData.Clarity = value; }
-	private void changed_Contracts(SignalPayload<List<OCSM.CoD.CtL.Contract>> payload) { SheetData.Contracts = payload.Payload; }
+	private void changed_Contracts(List<Transport<OCSM.CoD.CtL.Contract>> values)
+	{
+		var list = new List<OCSM.CoD.CtL.Contract>();
+		foreach(var t in values)
+		{
+			list.Add(t.Value);
+		}
+		SheetData.Contracts = list;
+	}
 	
 	private void changed_Court(int index)
 	{

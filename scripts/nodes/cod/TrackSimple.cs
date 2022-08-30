@@ -84,7 +84,8 @@ public class TrackSimple : GridContainer
 	
 	public void updateValue(int value)
 	{
-		updateChildren(filterValue(value));
+		Value = filterValue(value);
+		updateChildren(value);
 	}
 	
 	private int filterValue(int value)

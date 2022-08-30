@@ -2,82 +2,85 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using OCSM;
+using OCSM.CoD;
 
-public class ItemDotsList : Container
+public class MeritList : ItemDotsList
 {
 	[Signal]
-	public delegate void ValueChanged(Dictionary<string, int> values);
+	public new delegate void ValueChanged(List<Transport<Merit>> values);
 	
-	public Dictionary<string, int> Values { get; set; } = new Dictionary<string, int>();
+	public new List<Merit> Values { get; set; } = new List<Merit>();
 	
 	public override void _Ready()
 	{
 		refresh();
 	}
 	
-	public virtual void refresh()
+	public override void refresh()
 	{
+		GD.Print("Calling refresh?");
 		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
 		
-		foreach(var key in Values.Keys)
+		foreach(var merit in Values)
 		{
-			if(!String.IsNullOrEmpty(key))
-				addInput(key, Values[key]);
+			if(merit is Merit)
+				addInput(merit.Name, merit.Value);
 		}
 		
 		addInput();
 	}
 	
-	protected virtual void addInput(string text = "", int dots = 0)
+	protected override void addInput(string text = "", int dots = 0)
 	{
 		var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
 		var node = resource.Instance();
 		var lineEdit = node.GetChild<LineEdit>(0);
 		lineEdit.Text = text;
-		lineEdit.HintTooltip = "Enter a new " + Name.Substring(0, Name.Length - 1);
+		lineEdit.HintTooltip = "Enter a new Merit";
 		
 		var track = node.GetChild<TrackSimple>(1);
-		track.Value = dots;
+		track.updateValue(dots);
 		
 		AddChild(node);
 		lineEdit.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		track.Connect(Constants.Signal.NodeChanged, this, nameof(dotsChanged));
 	}
 	
-	protected void textChanged(string newText)
+	protected override void updateValues()
 	{
-		updateValues();
-	}
-	
-	protected void dotsChanged(TrackSimple node)
-	{
-		updateValues();
-	}
-	
-	protected virtual void updateValues()
-	{
-		var values = new Dictionary<string, int>();
+		var values = new List<Merit>();
 		var children = GetChildren();
 		foreach(Node c in children)
 		{
 			var le = c.GetChild<LineEdit>(0);
 			var dots = c.GetChild<TrackSimple>(1).Value;
-			
+			GD.Print("Dots? ", dots);
 			if(!String.IsNullOrEmpty(le.Text))
-				values.Add(le.Text, dots);
+				values.Add(new Merit(le.Text, String.Empty, dots));
 			else if(children.IndexOf(c) != children.Count - 1)
 				c.QueueFree();
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), Values);
+		
+		doEmitSignal();
 		
 		if(children.Count <= Values.Count)
 		{
 			addInput();
 		}
+	}
+	
+	private void doEmitSignal()
+	{
+		var list = new List<Transport<Merit>>();
+		foreach(var merit in Values)
+		{
+			list.Add(new Transport<Merit>(merit));
+		}
+		EmitSignal(nameof(ValueChanged), list);
 	}
 }

@@ -19,7 +19,7 @@ namespace OCSM.CoD
 		public List<Attribute> Attributes { get; set; }
 		public List<string> Conditions { get; set; }
 		public Dictionary<string, int> HealthCurrent { get; set; }
-		public Dictionary<string, int> Merits { get; set; }
+		public List<Merit> Merits { get; set; }
 		public List<Skill> Skills { get; set; }
 		public Dictionary<string, string> Specialties { get; set; }
 		
@@ -44,7 +44,7 @@ namespace OCSM.CoD
 			HealthCurrent.Add(BoxComplex.State.Three, 0);
 			HealthCurrent.Add(BoxComplex.State.Two, 0);
 			HealthCurrent.Add(BoxComplex.State.One, 0);
-			Merits = new Dictionary<string, int>();
+			Merits = new List<Merit>();
 			Skills = Skill.asList();
 			Specialties = new Dictionary<string, string>();
 		}

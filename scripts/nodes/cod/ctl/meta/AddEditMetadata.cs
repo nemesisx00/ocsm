@@ -35,27 +35,27 @@ public class AddEditMetadata : WindowDialog
 		
 		var contractTypeEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName));
 		contractTypeEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveContractType));
-		contractTypeEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteContractType));
+		contractTypeEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteContractType));
 		
 		var courtEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName));
 		courtEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveCourt));
-		courtEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteCourt));
+		courtEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteCourt));
 		
 		var kithEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName));
 		kithEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveKith));
-		kithEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteKith));
+		kithEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteKith));
 		
-		var meritEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(MeritName));
-		meritEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveMerit));
-		meritEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteMerit));
+		var meritEntry = GetNode<MeritEntry>(NodePathBuilder.SceneUnique(MeritName));
+		meritEntry.Connect(nameof(MeritEntry.SaveClicked), this, nameof(saveMerit));
+		meritEntry.Connect(nameof(MeritEntry.DeleteConfirmed), this, nameof(deleteMerit));
 		
 		var regaliaEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName));
 		regaliaEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveRegalia));
-		regaliaEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteRegalia));
+		regaliaEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteRegalia));
 		
 		var seemingEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName));
 		seemingEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveSeeming));
-		seemingEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteSeeming));
+		seemingEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteSeeming));
 		
 		var selector = GetNode<MetadataSelector>(NodePathBuilder.SceneUnique(MetadataSelectorName));
 		selector.Connect(nameof(MetadataSelector.ContractSelected), this, nameof(editContract));
@@ -175,7 +175,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName)).loadMetadataEntry(contractType);
+				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName)).loadEntry(contractType);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.ContractType;
 			}
 		}
@@ -187,7 +187,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName)).loadMetadataEntry(court);
+				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName)).loadEntry(court);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Court;
 			}
 		}
@@ -199,7 +199,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName)).loadMetadataEntry(kith);
+				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName)).loadEntry(kith);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Kith;
 			}
 		}
@@ -211,7 +211,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(MeritName)).loadMetadataEntry(merit);
+				GetNode<MeritEntry>(NodePathBuilder.SceneUnique(MeritName)).loadMerit(merit);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Merit;
 			}
 		}
@@ -223,7 +223,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName)).loadMetadataEntry(regalia);
+				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName)).loadEntry(regalia);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Regalia;
 			}
 		}
@@ -235,7 +235,7 @@ public class AddEditMetadata : WindowDialog
 		{
 			if(ccc.Seemings.Find(ct => ct.Name.Equals(name)) is Seeming seeming)
 			{
-				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName)).loadMetadataEntry(seeming);
+				GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName)).loadEntry(seeming);
 				GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Seeming;
 			}
 		}
@@ -247,8 +247,10 @@ public class AddEditMetadata : WindowDialog
 		{
 			var entry = GetNode<ContractEntry>(NodePathBuilder.SceneUnique(ContractName));
 			var contract = entry.GetNode<Contract>(NodePathBuilder.SceneUnique(ContractEntry.ContractInput)).getData();
+			
 			if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is OCSM.CoD.CtL.Contract existingContract)
 				ccc.Contracts.Remove(existingContract);
+			
 			ccc.Contracts.Add(contract);
 			EmitSignal(nameof(MetadataChanged));
 		}
@@ -258,10 +260,10 @@ public class AddEditMetadata : WindowDialog
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var ct = new ContractType(name, description);
-			if(ccc.ContractTypes.Contains(ct))
-				ccc.ContractTypes.Remove(ct);
-			ccc.ContractTypes.Add(ct);
+			if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
+				ccc.ContractTypes.Remove(contractType);
+			
+			ccc.ContractTypes.Add(new ContractType(name, description));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}
@@ -270,10 +272,10 @@ public class AddEditMetadata : WindowDialog
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var c = new Court(name, description);
-			if(ccc.Courts.Contains(c))
-				ccc.Courts.Remove(c);
-			ccc.Courts.Add(c);
+			if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
+				ccc.Courts.Remove(court);
+			
+			ccc.Courts.Add(new Court(name, description));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}
@@ -282,22 +284,22 @@ public class AddEditMetadata : WindowDialog
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var k = new Kith(name, description);
-			if(ccc.Kiths.Contains(k))
-				ccc.Kiths.Remove(k);
-			ccc.Kiths.Add(k);
+			if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
+				ccc.Kiths.Remove(kith);
+			
+			ccc.Kiths.Add(new Kith(name, description));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}
 	
-	private void saveMerit(string name, string description)
+	private void saveMerit(string name, string description, int value)
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var m = new Merit(name, description);
-			if(ccc.Merits.Contains(m))
-				ccc.Merits.Remove(m);
-			ccc.Merits.Add(m);
+			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+				ccc.Merits.Remove(merit);
+			
+			ccc.Merits.Add(new Merit(name, description, value));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}
@@ -306,10 +308,10 @@ public class AddEditMetadata : WindowDialog
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var r = new Regalia(name, description);
-			if(ccc.Regalias.Contains(r))
-				ccc.Regalias.Remove(r);
-			ccc.Regalias.Add(r);
+			if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
+				ccc.Regalias.Remove(regalia);
+			
+			ccc.Regalias.Add(new Regalia(name, description));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}
@@ -318,10 +320,10 @@ public class AddEditMetadata : WindowDialog
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			var s = new Seeming(name, description);
-			if(ccc.Seemings.Contains(s))
-				ccc.Seemings.Remove(s);
-			ccc.Seemings.Add(s);
+			if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
+				ccc.Seemings.Remove(seeming);
+			
+			ccc.Seemings.Add(new Seeming(name, description));
 			EmitSignal(nameof(MetadataChanged));
 		}
 	}

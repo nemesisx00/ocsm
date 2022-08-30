@@ -5,11 +5,11 @@ using OCSM.Meta;
 
 public class BasicMetadataEntry : Container
 {
-	private const string ClearButton = "Clear";
-	private const string DescriptionInput = "Description";
-	private const string DeleteButton = "Delete";
-	private const string NameInput = "Name";
-	private const string SaveButton = "Save";
+	protected const string ClearButton = "Clear";
+	protected const string DescriptionInput = "Description";
+	protected const string DeleteButton = "Delete";
+	protected const string NameInput = "Name";
+	protected const string SaveButton = "Save";
 	
 	[Signal]
 	public delegate void SaveClicked(string name, string description);
@@ -26,19 +26,19 @@ public class BasicMetadataEntry : Container
 		GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
 	}
 	
-	public void loadMetadataEntry(Metadata entry)
+	public virtual void loadEntry(Metadata entry)
 	{
 		GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = entry.Name;
 		GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
 	}
 	
-	private void clearInputs()
+	protected virtual void clearInputs()
 	{
 		GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = String.Empty;
 		GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
 	}
 	
-	private void doSave()
+	protected virtual void doSave()
 	{
 		var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
 		var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
@@ -47,7 +47,7 @@ public class BasicMetadataEntry : Container
 		clearInputs();
 	}
 	
-	private void handleDelete()
+	protected void handleDelete()
 	{
 		var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
 		var instance = resource.Instance<ConfirmDeleteEntry>();
@@ -58,7 +58,7 @@ public class BasicMetadataEntry : Container
 		instance.Popup_();
 	}
 	
-	private void doDelete()
+	protected virtual void doDelete()
 	{
 		var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
 		if(!String.IsNullOrEmpty(name))

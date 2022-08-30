@@ -77,11 +77,9 @@ public class MetadataManager : Node
 			var filename = String.Format(FileNameFormat, CurrentGameSystem);
 			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
 			var json = FileSystemUtilities.ReadString(path);
-			GD.Print("json length: ", json.Length);
 			if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
 			{
 				Container.Deserialize(json);
-				GD.Print("Is container empty after load? ", Container.IsEmpty());
 				EmitSignal(nameof(MetadataLoaded));
 			}
 		}
@@ -105,7 +103,6 @@ public class MetadataManager : Node
 		CurrentGameSystem = GameSystem.CoD.Changeling;
 		if(Container.IsEmpty())
 		{
-			GD.Print("Should initialize Changeling.");
 			Container = CoDChangelingContainer.initializeWithDefaultValues();
 			saveGameSystemMetadata();
 		}

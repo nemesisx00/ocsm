@@ -10,7 +10,7 @@ using OCSM.CoD.CtL.Meta;
 public class ContractsList : Container
 {
 	[Signal]
-	public delegate void ValueChanged(SignalPayload<List<OCSM.CoD.CtL.Contract>> values);
+	public delegate void ValueChanged(List<Transport<OCSM.CoD.CtL.Contract>> values);
 	
 	public List<OCSM.CoD.CtL.Contract> Values { get; set; } = new List<OCSM.CoD.CtL.Contract>();
 	
@@ -60,12 +60,21 @@ public class ContractsList : Container
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), new SignalPayload<List<OCSM.CoD.CtL.Contract>>(values));
 		
 		if(GetChildren().Count <= Values.Count)
 		{
 			addInput();
 		}
+	}
+	
+	private void doEmitSignal()
+	{
+		var list = new List<Transport<OCSM.CoD.CtL.Contract>>();
+		foreach(var c in Values)
+		{
+			list.Add(new Transport<OCSM.CoD.CtL.Contract>(c));
+		}
+		EmitSignal(nameof(ValueChanged), list);
 	}
 	
 	private void addInput(OCSM.CoD.CtL.Contract value = null)
