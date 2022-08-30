@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text.Json;
 using OCSM;
 using OCSM.Meta;
+using OCSM.CoD.Meta;
+using OCSM.CoD.CtL.Meta;
 using OCSM.DnD.Fifth.Meta;
 
 public class MetadataManager : Node
@@ -42,10 +44,12 @@ public class MetadataManager : Node
 		if(tab is ChangelingSheet)
 		{
 			CurrentGameSystem = GameSystem.CoD.Changeling;
+			Container = new CoDChangelingContainer();
 		}
 		else if (tab is MortalSheet)
 		{
 			CurrentGameSystem = GameSystem.CoD.Mortal;
+			Container = new CoDCoreContainer();
 		}
 		else if (tab is DndFifthSheet)
 		{
@@ -66,7 +70,7 @@ public class MetadataManager : Node
 		var filename = String.Format(FileNameFormat, CurrentGameSystem);
 		var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
 		var json = FileSystemUtilities.ReadString(path);
-		if(!String.IsNullOrEmpty(json))
+		if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
 		{
 			Container.Deserialize(json);
 			EmitSignal(nameof(MetadataLoaded), new SignalPayload<IMetadataContainer>(Container));
@@ -75,11 +79,25 @@ public class MetadataManager : Node
 	
 	public void saveGameSystemMetadata()
 	{
-		var metadata = Container.Serialize();
-		var filename = String.Format(FileNameFormat, CurrentGameSystem);
-		var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
-		
-		FileSystemUtilities.WriteString(path, metadata);
-		EmitSignal(nameof(MetadataSaved));
+		if(Container is IMetadataContainer)
+		{
+			var metadata = Container.Serialize();
+			var filename = String.Format(FileNameFormat, CurrentGameSystem);
+			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
+			
+			FileSystemUtilities.WriteString(path, metadata);
+			EmitSignal(nameof(MetadataSaved));
+		}
+	}
+	
+	public void initializeGameSystems()
+	{
+		gameSystem = GameSystem.CoD.Changeling;
+		loadGameSystemMetadata();
+		if(!(Container is IMetadataContainer) || Container.IsEmpty())
+		{
+			Container = CoDChangelingContainer.initializeWithDefaultValues();
+			saveGameSystemMetadata();
+		}
 	}
 }

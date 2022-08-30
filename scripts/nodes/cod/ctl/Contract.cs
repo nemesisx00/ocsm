@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using OCSM;
+using OCSM.CoD.CtL.Meta;
 
 public class Contract : VBoxContainer
 {
@@ -37,8 +38,12 @@ public class Contract : VBoxContainer
 	
 	public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
 	
+	private MetadataManager metadataManager;
+	
 	public override void _Ready()
 	{
+		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		
 		GetNode<OptionButton>(NodePathBuilder.SceneUnique(Action)).Connect(Constants.Signal.ItemSelected, this, nameof(actionChanged));
 		GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed, this, nameof(toggleDetails));
 		GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(attributeChanged));
@@ -73,7 +78,7 @@ public class Contract : VBoxContainer
 			node.Show();
 	}
 	
-	private void actionChanged(int index)
+	public void actionChanged(int index)
 	{
 		var attr3 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3));
 		if(ActionContested.Equals(index))
@@ -103,7 +108,7 @@ public class Contract : VBoxContainer
 		}
 	}
 	
-	private void attributeChanged(int index)
+	public void attributeChanged(int index)
 	{
 		var skill = GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Skill));
 		
@@ -122,7 +127,7 @@ public class Contract : VBoxContainer
 		}
 	}
 	
-	private void contestedAttributeChanged(int index)
+	public void contestedAttributeChanged(int index)
 	{
 		if(index > 0)
 		{
@@ -172,7 +177,10 @@ public class Contract : VBoxContainer
 		//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
 		if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))
 		{
-			instance.GetChild<SeemingOptionButton>(0).Selected = OCSM.CoD.CtL.Seeming.asList().FindIndex(s => s.Equals(seeming)) + 1;
+			if(metadataManager.Container is CoDChangelingContainer ccc)
+			{
+				instance.GetChild<SeemingOptionButton>(0).Selected = ccc.Seemings.FindIndex(s => s.Name.Equals(seeming)) + 1;
+			}
 			var text = instance.GetChild<TextEdit>(1);
 			text.Text = benefit;
 			NodeUtilities.autoSize(text, Constants.TextInputMinHeight);

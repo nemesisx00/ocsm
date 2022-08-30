@@ -35,5 +35,6 @@ public class AppRoot : Control
 	public override void _Ready()
 	{
 		appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
+		GetNode<MetadataManager>(Constants.NodePath.MetadataManager).initializeGameSystems();
 	}
 }

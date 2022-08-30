@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/nodes/ItemList.cs" type="Script" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
 [ext_resource path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" type="Script" id=3]
+[ext_resource path="res://scripts/nodes/cod/ctl/CourtOptionButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/nodes/cod/ctl/SeemingOptionButton.cs" type="Script" id=5]
+[ext_resource path="res://scripts/nodes/cod/ctl/KithOptionButton.cs" type="Script" id=6]
 
 [node name="Details" type="VBoxContainer"]
 anchor_right = 1.0
@@ -193,7 +196,7 @@ text = "Seeming:"
 align = 2
 valign = 1
 
-[node name="Seeming" type="LineEdit" parent="Grid/Row8"]
+[node name="Seeming" type="OptionButton" parent="Grid/Row8"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -207,6 +210,7 @@ focus_next = NodePath("../../Row9/Kith")
 focus_previous = NodePath("../../Row7/Thread")
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 5 )
 
 [node name="Row4" type="HBoxContainer" parent="Grid"]
 margin_top = 87.0
@@ -258,7 +262,7 @@ text = "Kith:"
 align = 2
 valign = 1
 
-[node name="Kith" type="LineEdit" parent="Grid/Row9"]
+[node name="Kith" type="OptionButton" parent="Grid/Row9"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -272,6 +276,7 @@ focus_next = NodePath("../../Row10/Court")
 focus_previous = NodePath("../../Row8/Seeming")
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 6 )
 
 [node name="Row5" type="HBoxContainer" parent="Grid"]
 margin_top = 116.0
@@ -324,7 +329,7 @@ text = "Court:"
 align = 2
 valign = 1
 
-[node name="Court" type="LineEdit" parent="Grid/Row10"]
+[node name="Court" type="OptionButton" parent="Grid/Row10"]
 unique_name_in_owner = true
 margin_left = 104.0
 margin_right = 510.0
@@ -335,6 +340,7 @@ focus_neighbour_left = NodePath("../../Row5/Size")
 focus_previous = NodePath("../../Row9/Kith")
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 4 )
 
 [node name="Column" type="VBoxContainer" parent="."]
 margin_top = 166.0

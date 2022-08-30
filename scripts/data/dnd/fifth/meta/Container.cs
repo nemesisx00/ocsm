@@ -24,6 +24,14 @@ namespace OCSM.DnD.Fifth.Meta
 			}
 		}
 		
+		public bool IsEmpty()
+		{
+			return Backgrounds.Count < 1
+				&& Classes.Count < 1
+				&& Features.Count < 1
+				&& Races.Count < 1;
+		}
+		
 		public string Serialize()
 		{
 			return JsonSerializer.Serialize(this);

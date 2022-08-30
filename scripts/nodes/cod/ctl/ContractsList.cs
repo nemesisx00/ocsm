@@ -1,9 +1,11 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OCSM;
 using OCSM.CoD;
 using OCSM.CoD.CtL;
+using OCSM.CoD.CtL.Meta;
 
 public class ContractsList : Container
 {
@@ -12,8 +14,12 @@ public class ContractsList : Container
 	
 	public List<OCSM.CoD.CtL.Contract> Values { get; set; } = new List<OCSM.CoD.CtL.Contract>();
 	
+	private MetadataManager metadataManager;
+	
 	public override void _Ready()
 	{
+		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		
 		refresh();
 	}
 	
@@ -66,28 +72,42 @@ public class ContractsList : Container
 			var regalia = regaliaNode.GetItemText(regaliaNode.Selected);
 			var contractType = contractTypeNode.GetItemText(contractTypeNode.Selected);
 			
+			var container = metadataManager.Container;
+			var regaliaAndContractTypeExist = true;
+			if(container is CoDChangelingContainer ccc)
+			{
+				regaliaAndContractTypeExist = ccc.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia
+					&& ccc.ContractTypes.Find(ct => ct.Name.Equals(contractType)) is ContractType;
+			}
+			
 			var shouldRemove = String.IsNullOrEmpty(name) && action < 1 && String.IsNullOrEmpty(description)
 				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.CoD.Attribute) && !(attributeResisted is OCSM.CoD.Attribute) && !(attributeContested is OCSM.CoD.Attribute)
 				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(FailureDramatic)
-				&& !OCSM.CoD.CtL.Regalia.asList().Contains(regalia) && !OCSM.CoD.CtL.ContractType.asList().Contains(contractType)
+				&& !regaliaAndContractTypeExist
 				&& String.IsNullOrEmpty(success) && String.IsNullOrEmpty(successExceptional) && String.IsNullOrEmpty(loophole);
 			
 			if(!shouldRemove)
 			{
-				values.Add(new OCSM.CoD.CtL.Contract()
+				Regalia regaliaObj = null;
+				ContractType contractTypeObj = null;
+				if(metadataManager.Container is CoDChangelingContainer ccc2)
+				{
+					regaliaObj = ccc2.Regalias.Find(r => r.Name.Equals(regalia));
+					contractTypeObj = ccc2.ContractTypes.Find(ct => ct.Name.Equals(contractType));
+				}
+				
+				values.Add(new OCSM.CoD.CtL.Contract(name, description)
 				{
 					Action = action,
 					Attribute = attribute,
 					AttributeResisted = attributeResisted,
 					AttributeContested = attributeContested,
 					Cost = cost,
-					Description = description,
 					Duration = duration,
 					Effects = effects,
 					Loophole = loophole,
-					Name = name,
-					Regalia = regalia,
-					ContractType = contractType,
+					Regalia = regaliaObj,
+					ContractType = contractTypeObj,
 					RollFailure = failure,
 					RollFailureDramatic = FailureDramatic,
 					RollSuccess = success,
@@ -119,13 +139,28 @@ public class ContractsList : Container
 		if(value is OCSM.CoD.CtL.Contract)
 		{
 			if(value.Action > -1)
+			{
 				instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.Action)).Selected = value.Action;
+				instance.actionChanged(value.Action);
+			}
+			
 			if(value.Attribute is OCSM.CoD.Attribute)
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.Attribute.Name)) + 1;
+			{
+				var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.Attribute)) + 1;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute)).Selected = index;
+				instance.attributeChanged(index);
+			}
+			
 			if(value.AttributeResisted is OCSM.CoD.Attribute)
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeResisted.Name)) + 1;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeResisted)) + 1;
+			
 			if(value.AttributeContested is OCSM.CoD.Attribute)
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(value.AttributeContested.Name)) + 1;
+			{
+				var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeContested)) + 1;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3)).Selected = index;
+				instance.contestedAttributeChanged(index);
+			}
+			
 			if(!String.IsNullOrEmpty(value.Cost))
 				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Cost)).Text = value.Cost;
 			if(!String.IsNullOrEmpty(value.Description))
@@ -138,17 +173,24 @@ public class ContractsList : Container
 				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Loophole)).Text = value.Loophole;
 			if(!String.IsNullOrEmpty(value.Name))
 				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameName)).Text = value.Name;
+			
 			if(value.SeemingBenefits is Dictionary<string, string>)
 			{
 				instance.SeemingBenefits = value.SeemingBenefits;
 				instance.refreshSeemingBenefits();
 			}
+			
 			if(value.Skill is Skill)
 				instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.Skill)).Selected = Skill.asList().IndexOf(value.Skill) + 1;
-			if(!String.IsNullOrEmpty(value.Regalia))
-				instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia)).Selected = Regalia.asList().FindIndex(r => r.Equals(value.Regalia)) + 1;
-			if(!String.IsNullOrEmpty(value.ContractType))
-				instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Selected = ContractType.asList().FindIndex(r => r.Equals(value.ContractType)) + 1;
+			
+			if(metadataManager.Container is CoDChangelingContainer ccc)
+			{
+				if(value.Regalia is Regalia)
+					instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia)).Selected = ccc.Regalias.FindIndex(r => r.Equals(value.Regalia)) + 1;
+				if(value.ContractType is ContractType)
+					instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Selected = ccc.ContractTypes.FindIndex(r => r.Equals(value.ContractType)) + 1;
+			}
+			
 			if(!String.IsNullOrEmpty(value.RollFailure))
 				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Failure)).Text = value.RollFailure;
 			if(!String.IsNullOrEmpty(value.RollFailureDramatic))
@@ -165,7 +207,7 @@ public class ContractsList : Container
 		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
 		instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.Skill)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
 		instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<ContractTypeButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
 		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Cost)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Duration)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameName)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));

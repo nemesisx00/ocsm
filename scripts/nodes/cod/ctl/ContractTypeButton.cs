@@ -1,13 +1,18 @@
 using Godot;
-using OCSM.CoD.CtL;
+using OCSM;
+using OCSM.CoD.CtL.Meta;
 
 public class ContractTypeButton : OptionButton
 {
 	public override void _Ready()
 	{
-		foreach(var t in ContractType.asList())
+		var container = GetNode<MetadataManager>(Constants.NodePath.MetadataManager).Container;
+		if(container is CoDChangelingContainer ccc)
 		{
-			AddItem(t);
+			foreach(var contractType in ccc.ContractTypes)
+			{
+				AddItem(contractType.Name);
+			}
 		}
 	}
 }

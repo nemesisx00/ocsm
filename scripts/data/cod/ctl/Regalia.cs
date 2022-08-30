@@ -1,26 +1,16 @@
-using System.Collections.Generic;
+using System;
+using OCSM.Meta;
 
 namespace OCSM.CoD.CtL
 {
-	public sealed class Regalia
+	public class Regalia : Metadata, IEquatable<Regalia>
 	{
-		public const string Crown = "Crown";
-		public const string Jewels = "Jewels";
-		public const string Mirror = "Mirror";
-		public const string Shield = "Shield";
-		public const string Steed = "Steed";
-		public const string Sword = "Sword";
+		public Regalia(string name, string description = "") : base(name, description) { }
 		
-		public static List<string> asList()
+		public bool Equals(Regalia regalia)
 		{
-			var output = new List<string>();
-			output.Add(Crown);
-			output.Add(Jewels);
-			output.Add(Mirror);
-			output.Add(Shield);
-			output.Add(Steed);
-			output.Add(Sword);
-			return output;
+			return regalia.Description.Equals(Description)
+				&& regalia.Name.Equals(Name);
 		}
 	}
 }

@@ -1,26 +1,16 @@
-using System.Collections.Generic;
+using System;
+using OCSM.Meta;
 
 namespace OCSM.CoD.CtL
 {
-	public sealed class Seeming
+	public class Seeming : Metadata, IEquatable<Seeming>
 	{
-		public const string Beast = "Beast";
-		public const string Darkling = "Darkling";
-		public const string Elemental = "Elemental";
-		public const string Fairest = "Fairest";
-		public const string Ogre = "Ogre";
-		public const string Wizened = "Wizened";
+		public Seeming(string name, string description = "") : base(name, description) { }
 		
-		public static List<string> asList()
+		public bool Equals(Seeming seeming)
 		{
-			var list = new List<string>();
-			list.Add(Beast);
-			list.Add(Darkling);
-			list.Add(Elemental);
-			list.Add(Fairest);
-			list.Add(Ogre);
-			list.Add(Wizened);
-			return list;
+			return seeming.Description.Equals(Description)
+				&& seeming.Name.Equals(Name);
 		}
 	}
 }

@@ -1,24 +1,16 @@
-using System.Collections.Generic;
+using System;
+using OCSM.Meta;
 
 namespace OCSM.CoD.CtL
 {
-	public sealed class Court
+	public class Court : Metadata, IEquatable<Court>
 	{
-		public const string Autumn = "Autumn";
-		public const string Spring = "Spring";
-		public const string Summer = "Summer";
-		public const string Winter = "Winter";
-		public const string Goblin = "Goblin";
+		public Court(string name, string description = "") : base(name, description) { }
 		
-		public static List<string> asList()
+		public bool Equals(Court court)
 		{
-			var list = new List<string>();
-			list.Add(Spring);
-			list.Add(Summer);
-			list.Add(Autumn);
-			list.Add(Winter);
-			list.Add(Goblin);
-			return list;
+			return court.Description.Equals(Description)
+				&& court.Name.Equals(Name);
 		}
 	}
 }

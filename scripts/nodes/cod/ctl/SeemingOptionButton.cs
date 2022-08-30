@@ -1,6 +1,6 @@
 using Godot;
-using System;
-using OCSM.CoD.CtL;
+using OCSM;
+using OCSM.CoD.CtL.Meta;
 
 public class SeemingOptionButton : OptionButton
 {
@@ -12,9 +12,13 @@ public class SeemingOptionButton : OptionButton
 		if(emptyOption)
 			AddItem("");
 		
-		foreach(var seeming in Seeming.asList())
+		var container = GetNode<MetadataManager>(Constants.NodePath.MetadataManager).Container;
+		if(container is CoDChangelingContainer ccc)
 		{
-			AddItem(seeming);
+			foreach(var seeming in ccc.Seemings)
+			{
+				AddItem(seeming.Name);
+			}
 		}
 	}
 }
