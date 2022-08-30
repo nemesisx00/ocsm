@@ -13,7 +13,7 @@ public class MetadataManager : Node
 	[Signal]
 	public delegate void GameSystemChanged(string gameSystem);
 	[Signal]
-	public delegate void MetadataLoaded(SignalPayload<List<Metadata>> payload);
+	public delegate void MetadataLoaded();
 	[Signal]
 	public delegate void MetadataSaved();
 	
@@ -59,10 +59,10 @@ public class MetadataManager : Node
 		else
 		{
 			CurrentGameSystem = String.Empty;
+			Container = null;
 		}
-		//TODO: We shouldn't auto-load here
+		
 		loadGameSystemMetadata();
-		GD.Print(Container);
 	}
 	
 	public void loadGameSystemMetadata()
@@ -73,7 +73,7 @@ public class MetadataManager : Node
 		if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
 		{
 			Container.Deserialize(json);
-			EmitSignal(nameof(MetadataLoaded), new SignalPayload<IMetadataContainer>(Container));
+			EmitSignal(nameof(MetadataLoaded));
 		}
 	}
 	
@@ -93,11 +93,15 @@ public class MetadataManager : Node
 	public void initializeGameSystems()
 	{
 		gameSystem = GameSystem.CoD.Changeling;
+		Container = new CoDChangelingContainer();
 		loadGameSystemMetadata();
-		if(!(Container is IMetadataContainer) || Container.IsEmpty())
+		if(Container.IsEmpty())
 		{
 			Container = CoDChangelingContainer.initializeWithDefaultValues();
 			saveGameSystemMetadata();
 		}
+		
+		gameSystem = String.Empty;
+		Container = null;
 	}
 }

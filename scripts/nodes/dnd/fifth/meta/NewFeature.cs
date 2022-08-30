@@ -56,7 +56,6 @@ public class NewFeature : WindowDialog
 		var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 		if(metadataManager.Container is DnDFifthContainer dfc)
 			dfc.Features.Add(Feature);
-		metadataManager.saveGameSystemMetadata();
 	}
 	
 	private void descriptionChanged() { Feature.Description = descriptionNode.Text; }

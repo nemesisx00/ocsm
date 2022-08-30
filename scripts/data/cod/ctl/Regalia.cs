@@ -6,11 +6,6 @@ namespace OCSM.CoD.CtL
 	public class Regalia : Metadata, IEquatable<Regalia>
 	{
 		public Regalia(string name, string description = "") : base(name, description) { }
-		
-		public bool Equals(Regalia regalia)
-		{
-			return regalia.Description.Equals(Description)
-				&& regalia.Name.Equals(Name);
-		}
+		public bool Equals(Regalia regalia) { return base.Equals(regalia); }
 	}
 }

@@ -48,6 +48,11 @@ namespace OCSM
 			public const string OpenSheet = "res://scenes/OpenSheet.tscn";
 			public const string SaveSheet = "res://scenes/SaveSheet.tscn";
 			
+			public sealed class Meta
+			{
+				public const string ConfirmDeleteEntry = "res://scenes/meta/ConfirmDeleteEntry.tscn";
+			}
+			
 			public sealed class CoD
 			{
 				public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
@@ -67,6 +72,11 @@ namespace OCSM
 					public const string NewSheetName = "New Changeling";
 					public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
 					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
+					
+					public sealed class Meta
+					{
+						public const string AddEditMetadata = "res://scenes/cod/nodes/ctl/meta/AddEditMetadata.tscn";
+					}
 				}
 			}
 			

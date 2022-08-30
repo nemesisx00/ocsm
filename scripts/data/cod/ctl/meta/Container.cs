@@ -76,6 +76,7 @@ namespace OCSM.CoD.CtL.Meta
 				Contracts = ccc.Contracts;
 				ContractTypes = ccc.ContractTypes;
 				Courts = ccc.Courts;
+				Flaws = ccc.Flaws;
 				Kiths = ccc.Kiths;
 				Merits = ccc.Merits;
 				Regalias = ccc.Regalias;

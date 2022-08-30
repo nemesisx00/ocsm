@@ -45,77 +45,16 @@ public class ContractsList : Container
 		var children = GetChildren();
 		foreach(Contract contract in children)
 		{
-			var attr1Node = contract.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute));
-			var attr2Node = contract.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2));
-			var attr3Node = contract.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3));
-			var skillNode = contract.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.Skill));
-			var regaliaNode = contract.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia));
-			var contractTypeNode = contract.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractType));
+			var data = contract.getData();
 			
-			var name = contract.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameName)).Text;
-			var action = contract.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.Action)).Selected;
-			var cost = contract.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Cost)).Text;
-			var description = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Description)).Text;
-			var duration = contract.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Duration)).Text;
-			var effects = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Effects)).Text;
-			var seemingBenefits = contract.SeemingBenefits;
-			var failure = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Failure)).Text;
-			var FailureDramatic = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureDramatic)).Text;
-			var success = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Success)).Text;
-			var successExceptional = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessExceptional)).Text;
-			var loophole = contract.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Loophole)).Text;
-			
-			var attribute = OCSM.CoD.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
-			var attributeResisted = OCSM.CoD.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
-			var attributeContested = OCSM.CoD.Attribute.byName(attr3Node.GetItemText(attr3Node.Selected));
-			var skill = Skill.byName(skillNode.GetItemText(skillNode.Selected));
-			var regalia = regaliaNode.GetItemText(regaliaNode.Selected);
-			var contractType = contractTypeNode.GetItemText(contractTypeNode.Selected);
-			
-			var container = metadataManager.Container;
-			var regaliaAndContractTypeExist = true;
-			if(container is CoDChangelingContainer ccc)
-			{
-				regaliaAndContractTypeExist = ccc.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia
-					&& ccc.ContractTypes.Find(ct => ct.Name.Equals(contractType)) is ContractType;
-			}
-			
-			var shouldRemove = String.IsNullOrEmpty(name) && action < 1 && String.IsNullOrEmpty(description)
-				&& String.IsNullOrEmpty(effects) && !(attribute is OCSM.CoD.Attribute) && !(attributeResisted is OCSM.CoD.Attribute) && !(attributeContested is OCSM.CoD.Attribute)
-				&& seemingBenefits.Count < 1 && String.IsNullOrEmpty(failure) && String.IsNullOrEmpty(FailureDramatic)
-				&& !regaliaAndContractTypeExist
-				&& String.IsNullOrEmpty(success) && String.IsNullOrEmpty(successExceptional) && String.IsNullOrEmpty(loophole);
+			var shouldRemove = String.IsNullOrEmpty(data.Name) && data.Action < 1 && String.IsNullOrEmpty(data.Description)
+				&& String.IsNullOrEmpty(data.Effects) && !(data.Attribute is OCSM.CoD.Attribute) && !(data.AttributeResisted is OCSM.CoD.Attribute) && !(data.AttributeContested is OCSM.CoD.Attribute)
+				&& data.SeemingBenefits.Count < 1 && String.IsNullOrEmpty(data.RollFailure) && String.IsNullOrEmpty(data.RollFailureDramatic)
+				&& !(data.Regalia is Regalia) && !(data.ContractType is ContractType)
+				&& String.IsNullOrEmpty(data.RollSuccess) && String.IsNullOrEmpty(data.RollSuccessExceptional) && String.IsNullOrEmpty(data.Loophole);
 			
 			if(!shouldRemove)
-			{
-				Regalia regaliaObj = null;
-				ContractType contractTypeObj = null;
-				if(metadataManager.Container is CoDChangelingContainer ccc2)
-				{
-					regaliaObj = ccc2.Regalias.Find(r => r.Name.Equals(regalia));
-					contractTypeObj = ccc2.ContractTypes.Find(ct => ct.Name.Equals(contractType));
-				}
-				
-				values.Add(new OCSM.CoD.CtL.Contract(name, description)
-				{
-					Action = action,
-					Attribute = attribute,
-					AttributeResisted = attributeResisted,
-					AttributeContested = attributeContested,
-					Cost = cost,
-					Duration = duration,
-					Effects = effects,
-					Loophole = loophole,
-					Regalia = regaliaObj,
-					ContractType = contractTypeObj,
-					RollFailure = failure,
-					RollFailureDramatic = FailureDramatic,
-					RollSuccess = success,
-					RollSuccessExceptional = successExceptional,
-					SeemingBenefits = seemingBenefits,
-					Skill = skill,
-				});
-			}
+				values.Add(data);
 			else if(children.IndexOf(contract) != children.Count - 1)
 				contract.QueueFree();
 		}
@@ -140,39 +79,39 @@ public class ContractsList : Container
 		{
 			if(value.Action > -1)
 			{
-				instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.Action)).Selected = value.Action;
+				instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ActionInput)).Selected = value.Action;
 				instance.actionChanged(value.Action);
 			}
 			
 			if(value.Attribute is OCSM.CoD.Attribute)
 			{
 				var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.Attribute)) + 1;
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute)).Selected = index;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.AttributeInput)).Selected = index;
 				instance.attributeChanged(index);
 			}
 			
 			if(value.AttributeResisted is OCSM.CoD.Attribute)
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeResisted)) + 1;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2Input)).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeResisted)) + 1;
 			
 			if(value.AttributeContested is OCSM.CoD.Attribute)
 			{
 				var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeContested)) + 1;
-				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3)).Selected = index;
+				instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3Input)).Selected = index;
 				instance.contestedAttributeChanged(index);
 			}
 			
 			if(!String.IsNullOrEmpty(value.Cost))
-				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Cost)).Text = value.Cost;
+				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.CostInput)).Text = value.Cost;
 			if(!String.IsNullOrEmpty(value.Description))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Description)).Text = value.Description;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.DescriptionInput)).Text = value.Description;
 			if(!String.IsNullOrEmpty(value.Duration))
-				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Duration)).Text = value.Duration;
+				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.DurationInput)).Text = value.Duration;
 			if(!String.IsNullOrEmpty(value.Effects))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Effects)).Text = value.Effects;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.EffectsInput)).Text = value.Effects;
 			if(!String.IsNullOrEmpty(value.Loophole))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Loophole)).Text = value.Loophole;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.LoopholeInput)).Text = value.Loophole;
 			if(!String.IsNullOrEmpty(value.Name))
-				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameName)).Text = value.Name;
+				instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameInput)).Text = value.Name;
 			
 			if(value.SeemingBenefits is Dictionary<string, string>)
 			{
@@ -181,43 +120,43 @@ public class ContractsList : Container
 			}
 			
 			if(value.Skill is Skill)
-				instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.Skill)).Selected = Skill.asList().IndexOf(value.Skill) + 1;
+				instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.SkillInput)).Selected = Skill.asList().IndexOf(value.Skill) + 1;
 			
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				if(value.Regalia is Regalia)
-					instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia)).Selected = ccc.Regalias.FindIndex(r => r.Equals(value.Regalia)) + 1;
+					instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.RegaliaInput)).Selected = ccc.Regalias.FindIndex(r => r.Equals(value.Regalia)) + 1;
 				if(value.ContractType is ContractType)
-					instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Selected = ccc.ContractTypes.FindIndex(r => r.Equals(value.ContractType)) + 1;
+					instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ContractTypeInput)).Selected = ccc.ContractTypes.FindIndex(r => r.Equals(value.ContractType)) + 1;
 			}
 			
 			if(!String.IsNullOrEmpty(value.RollFailure))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Failure)).Text = value.RollFailure;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureInput)).Text = value.RollFailure;
 			if(!String.IsNullOrEmpty(value.RollFailureDramatic))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureDramatic)).Text = value.RollFailureDramatic;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureDramaticInput)).Text = value.RollFailureDramatic;
 			if(!String.IsNullOrEmpty(value.RollSuccess))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Success)).Text = value.RollSuccess;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessInput)).Text = value.RollSuccess;
 			if(!String.IsNullOrEmpty(value.RollSuccessExceptional))
-				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessExceptional)).Text = value.RollSuccessExceptional;
+				instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessExceptionalInput)).Text = value.RollSuccessExceptional;
 		}
 		
-		instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.Action)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.Skill)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.Regalia)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<ContractTypeButton>(NodePathBuilder.SceneUnique(Contract.ContractType)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
-		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Cost)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.Duration)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameName)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Description)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Effects)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Loophole)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Failure)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureDramatic)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.Success)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessExceptional)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<OptionButton>(NodePathBuilder.SceneUnique(Contract.ActionInput)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.AttributeInput)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute2Input)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Contract.Attribute3Input)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(Contract.SkillInput)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Contract.RegaliaInput)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<ContractTypeButton>(NodePathBuilder.SceneUnique(Contract.ContractTypeInput)).Connect(Constants.Signal.ItemSelected, this, nameof(optionSelected));
+		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.CostInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.DurationInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<LineEdit>(NodePathBuilder.SceneUnique(Contract.NameInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.DescriptionInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.EffectsInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.LoopholeInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.FailureDramaticInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+		instance.GetNode<TextEdit>(NodePathBuilder.SceneUnique(Contract.SuccessExceptionalInput)).Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 	}
 	
 	private void optionSelected(int index) { updateValues(); }

@@ -1,17 +1,17 @@
 using System;
+using OCSM.Meta;
 
 namespace OCSM.CoD
 {
-	public class Merit : IEquatable<Merit>
+	public class Merit : Metadata, IEquatable<Merit>
 	{
-		public string Name { get; set; }
-		public string Description { get; set; }
 		public int Value { get; set; }
+		
+		public Merit(string name, string description = "") : base(name, description) { }
 		
 		public bool Equals(Merit merit)
 		{
-			return merit.Name.Equals(Name)
-				&& merit.Description.Equals(Description)
+			return base.Equals(merit)
 				&& merit.Value.Equals(Value);
 		}
 	}

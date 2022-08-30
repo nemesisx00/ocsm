@@ -40,7 +40,7 @@ margin_left = 43.0
 margin_right = 127.0
 margin_bottom = 25.0
 text = "Metadata"
-items = [ "Edit Metadata", null, 0, false, false, 0, 0, null, "", false ]
+items = [ "Manage Metadata", null, 0, false, false, 0, 0, null, "", false ]
 script = ExtResource( 6 )
 
 [node name="HelpMenu" type="MenuButton" parent="Column/MenuRow"]
