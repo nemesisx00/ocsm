@@ -9,7 +9,7 @@ public class AutosizeTextEdit : TextEdit
 		Connect(Constants.Signal.TextChanged, this, nameof(autosize));
 	}
 	
-	private void autosize()
+	public void autosize()
 	{
 		NodeUtilities.autoSize(this, Constants.TextInputMinHeight);
 	}

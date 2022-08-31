@@ -156,8 +156,15 @@ public class Contract : VBoxContainer
 	{
 		if(metadataManager.Container is CoDChangelingContainer ccc)
 		{
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.Attribute) + 1;
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input)).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeContested) + 1;
+			var attributeIndex = 0;
+			var contestedIndex = 0;
+			if(contract.Attribute is OCSM.CoD.Attribute)
+				attributeIndex = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(contract.Attribute.Name)) + 1;
+			if(contract.AttributeContested is OCSM.CoD.Attribute)
+				contestedIndex = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(contract.AttributeContested.Name)) + 1;
+			
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Selected = attributeIndex;
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input)).Selected = contestedIndex;
 			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeResisted) + 1;
 			GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput)).Selected = OCSM.CoD.Skill.asList().IndexOf(contract.Skill) + 1;
 			GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(RegaliaInput)).Selected = ccc.Regalias.IndexOf(contract.Regalia) + 1;
@@ -176,6 +183,11 @@ public class Contract : VBoxContainer
 			GetNode<TextEdit>(NodePathBuilder.SceneUnique(LoopholeInput)).Text = contract.Loophole;
 			
 			SeemingBenefits = contract.SeemingBenefits;
+			
+			refreshSeemingBenefits();
+			actionChanged(contract.Action, false);
+			attributeChanged(attributeIndex);
+			contestedAttributeChanged(contestedIndex);
 		}
 	}
 	
@@ -207,6 +219,11 @@ public class Contract : VBoxContainer
 	
 	public void actionChanged(int index)
 	{
+		actionChanged(index, true);
+	}
+	
+	public void actionChanged(int index, bool reset = true)
+	{
 		var attr3 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input));
 		if(ActionContestedIndex.Equals(index))
 		{
@@ -217,7 +234,8 @@ public class Contract : VBoxContainer
 		{
 			GetNode<Label>(NodePathBuilder.SceneUnique(Versus)).Hide();
 			attr3.Hide();
-			attr3.Selected = 0;
+			if(reset)
+				attr3.Selected = 0;
 			GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Hide();
 		}
 		
@@ -230,7 +248,8 @@ public class Contract : VBoxContainer
 		else
 		{
 			attr2.Hide();
-			attr2.Selected = 0;
+			if(reset)
+				attr2.Selected = 0;
 			GetNode<Control>(NodePathBuilder.SceneUnique(Attribute2Minus)).Hide();
 		}
 	}
@@ -276,7 +295,9 @@ public class Contract : VBoxContainer
 			if(c is HBoxContainer)
 			{
 				var seemingNode = c.GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(SeemingInput));
-				var seeming = seemingNode.GetItemText(seemingNode.Selected);
+				var seeming = String.Empty;
+				if(seemingNode.Selected > -1)
+					seeming = seemingNode.GetItemText(seemingNode.Selected);
 				var benefit = c.GetNode<TextEdit>(NodePathBuilder.SceneUnique(BenefitInput)).Text;
 				
 				if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit) && !benefits.ContainsKey(seeming))

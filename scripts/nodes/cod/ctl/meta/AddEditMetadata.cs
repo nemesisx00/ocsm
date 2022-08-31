@@ -57,6 +57,7 @@ public class AddEditMetadata : WindowDialog
 		seemingEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveSeeming));
 		seemingEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteSeeming));
 		
+		/*
 		var selector = GetNode<MetadataSelector>(NodePathBuilder.SceneUnique(MetadataSelectorName));
 		selector.Connect(nameof(MetadataSelector.ContractSelected), this, nameof(editContract));
 		selector.Connect(nameof(MetadataSelector.ContractTypeSelected), this, nameof(editContractType));
@@ -65,6 +66,7 @@ public class AddEditMetadata : WindowDialog
 		selector.Connect(nameof(MetadataSelector.MeritSelected), this, nameof(editMerit));
 		selector.Connect(nameof(MetadataSelector.RegaliaSelected), this, nameof(editRegalia));
 		selector.Connect(nameof(MetadataSelector.SeemingSelected), this, nameof(editSeeming));
+		*/
 	}
 	
 	private void closeHandler()

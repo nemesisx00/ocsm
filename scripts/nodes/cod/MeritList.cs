@@ -18,7 +18,6 @@ public class MeritList : ItemDotsList
 	
 	public override void refresh()
 	{
-		GD.Print("Calling refresh?");
 		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
@@ -57,7 +56,6 @@ public class MeritList : ItemDotsList
 		{
 			var le = c.GetChild<LineEdit>(0);
 			var dots = c.GetChild<TrackSimple>(1).Value;
-			GD.Print("Dots? ", dots);
 			if(!String.IsNullOrEmpty(le.Text))
 				values.Add(new Merit(le.Text, String.Empty, dots));
 			else if(children.IndexOf(c) != children.Count - 1)

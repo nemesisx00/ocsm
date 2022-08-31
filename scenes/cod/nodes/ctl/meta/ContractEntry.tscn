@@ -17,10 +17,34 @@ script = ExtResource( 3 )
 [node name="Row" type="HBoxContainer" parent="."]
 margin_right = 1016.0
 margin_bottom = 20.0
+rect_pivot_offset = Vector2( -407, -179 )
+custom_constants/separation = 15
+
+[node name="ExistingLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+margin_top = 3.0
+margin_right = 500.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Existing Contracts:"
+align = 2
+
+[node name="ExistingEntry" type="OptionButton" parent="Row"]
+unique_name_in_owner = true
+margin_left = 515.0
+margin_right = 615.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 2
+
+[node name="Row2" type="HBoxContainer" parent="."]
+margin_top = 35.0
+margin_right = 1016.0
+margin_bottom = 55.0
 custom_constants/separation = 25
 alignment = 1
 
-[node name="Save" type="Button" parent="Row"]
+[node name="Save" type="Button" parent="Row2"]
 unique_name_in_owner = true
 margin_left = 370.0
 margin_right = 445.0
@@ -28,7 +52,7 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 75, 0 )
 text = "Save"
 
-[node name="Clear" type="Button" parent="Row"]
+[node name="Clear" type="Button" parent="Row2"]
 unique_name_in_owner = true
 margin_left = 470.0
 margin_right = 545.0
@@ -36,7 +60,7 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 75, 0 )
 text = "Clear"
 
-[node name="Delete" type="Button" parent="Row"]
+[node name="Delete" type="Button" parent="Row2"]
 unique_name_in_owner = true
 margin_left = 570.0
 margin_right = 645.0
@@ -48,6 +72,6 @@ text = "Delete"
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 35.0
+margin_top = 70.0
 margin_right = 1016.0
-margin_bottom = 59.0
+margin_bottom = 94.0
