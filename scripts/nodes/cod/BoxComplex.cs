@@ -1,108 +1,110 @@
 using Godot;
-using OCSM;
 
-public class BoxComplex : TextureButton
+namespace OCSM.Nodes.CoD
 {
-	public sealed class State
+	public class BoxComplex : TextureButton
 	{
-		public const string None = "None";
-		public const string One = "One";
-		public const string Two = "Two";
-		public const string Three = "Three";
-		public const string EnumHint = None + "," + One + "," + Two + "," + Three;
-	}
-	
-	[Export(PropertyHint.Enum, State.EnumHint)]
-	public string CurrentState { get; set; } = State.None;
-	
-	[Signal]
-	public delegate void StateChanged(BoxComplex box);
-	
-	public override void _Ready()
-	{
-		updateTexture();
-		Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
-	}
-	
-	public void nextState(bool reverse = false)
-	{
-		nextState(CurrentState, reverse);
-	}
-	
-	public void updateTexture()
-	{
-		var tex = Constants.Texture.FullTransparent;
-		switch(CurrentState)
+		public sealed class State
 		{
-			case State.One:
-				tex = Constants.Texture.TrackBox1;
-				break;
-			case State.Two:
-				tex = Constants.Texture.TrackBox2;
-				break;
-			case State.Three:
-				tex = Constants.Texture.TrackBox3;
-				break;
-			case State.None:
-			default:
-				break;
+			public const string None = "None";
+			public const string One = "One";
+			public const string Two = "Two";
+			public const string Three = "Three";
+			public const string EnumHint = None + "," + One + "," + Two + "," + Three;
 		}
 		
-		TextureNormal = GD.Load<StreamTexture>(tex);
-	}
-	
-	private void handleClick(InputEvent e)
-	{
-		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
+		[Export(PropertyHint.Enum, State.EnumHint)]
+		public string CurrentState { get; set; } = State.None;
+		
+		[Signal]
+		public delegate void StateChanged(BoxComplex box);
+		
+		public override void _Ready()
 		{
-			switch((ButtonList)buttonEvent.ButtonIndex)
+			updateTexture();
+			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+		}
+		
+		public void nextState(bool reverse = false)
+		{
+			nextState(CurrentState, reverse);
+		}
+		
+		public void updateTexture()
+		{
+			var tex = Constants.Texture.FullTransparent;
+			switch(CurrentState)
 			{
-				case ButtonList.Left:
-					CurrentState = nextState(CurrentState);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
+				case State.One:
+					tex = Constants.Texture.TrackBox1;
 					break;
-				case ButtonList.Right:
-					CurrentState = nextState(CurrentState, true);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
+				case State.Two:
+					tex = Constants.Texture.TrackBox2;
 					break;
+				case State.Three:
+					tex = Constants.Texture.TrackBox3;
+					break;
+				case State.None:
 				default:
 					break;
 			}
+			
+			TextureNormal = GD.Load<StreamTexture>(tex);
 		}
-	}
-	
-	private string nextState(string state, bool reverse = false)
-	{
-		if(reverse)
+		
+		private void handleClick(InputEvent e)
 		{
-			switch(state)
+			if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
 			{
-				case State.Two:
-					return State.One;
-				case State.Three:
-					return State.Two;
-				case State.None:
-					return State.Three;
-				case State.One:
-				default:
-					return State.None;
+				switch((ButtonList)buttonEvent.ButtonIndex)
+				{
+					case ButtonList.Left:
+						CurrentState = nextState(CurrentState);
+						updateTexture();
+						EmitSignal(nameof(StateChanged), this);
+						break;
+					case ButtonList.Right:
+						CurrentState = nextState(CurrentState, true);
+						updateTexture();
+						EmitSignal(nameof(StateChanged), this);
+						break;
+					default:
+						break;
+				}
 			}
 		}
-		else
+		
+		private string nextState(string state, bool reverse = false)
 		{
-			switch(state)
+			if(reverse)
 			{
-				case State.None:
-					return State.One;
-				case State.One:
-					return State.Two;
-				case State.Two:
-					return State.Three;
-				case State.Three:
-				default:
-					return State.None;
+				switch(state)
+				{
+					case State.Two:
+						return State.One;
+					case State.Three:
+						return State.Two;
+					case State.None:
+						return State.Three;
+					case State.One:
+					default:
+						return State.None;
+				}
+			}
+			else
+			{
+				switch(state)
+				{
+					case State.None:
+						return State.One;
+					case State.One:
+						return State.Two;
+					case State.Two:
+						return State.Three;
+					case State.Three:
+					default:
+						return State.None;
+				}
 			}
 		}
 	}

@@ -1,40 +1,43 @@
 using Godot;
-using OCSM;
 using OCSM.CoD.CtL.Meta;
+using OCSM.Nodes.Autoload;
 
-public class KithOptionButton : OptionButton
+namespace OCSM.Nodes.CoD.CtL
 {
-	[Export]
-	public bool emptyOption = true;
-	
-	private MetadataManager metadataManager;
-	
-	public override void _Ready()
+	public class KithOptionButton : OptionButton
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-		metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+		[Export]
+		public bool emptyOption = true;
 		
-		refreshMetadata();
-	}
-	
-	private void refreshMetadata()
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
+		private MetadataManager metadataManager;
+		
+		public override void _Ready()
 		{
-			var index = Selected;
+			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
+			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
 			
-			Clear();
-			
-			if(emptyOption)
-				AddItem("");
-			
-			foreach(var kith in ccc.Kiths)
+			refreshMetadata();
+		}
+		
+		private void refreshMetadata()
+		{
+			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				AddItem(kith.Name);
+				var index = Selected;
+				
+				Clear();
+				
+				if(emptyOption)
+					AddItem("");
+				
+				foreach(var kith in ccc.Kiths)
+				{
+					AddItem(kith.Name);
+				}
+				
+				Selected = index;
 			}
-			
-			Selected = index;
 		}
 	}
 }

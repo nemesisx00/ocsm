@@ -1,116 +1,119 @@
 using Godot;
 using System;
-using OCSM;
+using OCSM.Nodes.Sheets;
 
-public class SheetManager : Node
+namespace OCSM.Nodes.Autoload
 {
-	public void addNewSheet(string scenePath, string name, string json = null)
+	public class SheetManager : Node
 	{
-		if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
+		public void addNewSheet(string scenePath, string name, string json = null)
 		{
-			var resource = GD.Load<PackedScene>(scenePath);
-			var instance = resource.Instance();
-			instance.Name = name;
-			
-			var target = GetNode(Constants.NodePath.SheetTabs);
-			if(target is TabContainer tc)
+			if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
 			{
-				var dupeCount = 0;
-				foreach(Node c in tc.GetChildren())
+				var resource = GD.Load<PackedScene>(scenePath);
+				var instance = resource.Instance();
+				instance.Name = name;
+				
+				var target = GetNode(Constants.NodePath.SheetTabs);
+				if(target is TabContainer tc)
 				{
-					if(c.Name.Contains(instance.Name))
-						dupeCount++;
+					var dupeCount = 0;
+					foreach(Node c in tc.GetChildren())
+					{
+						if(c.Name.Contains(instance.Name))
+							dupeCount++;
+					}
+					
+					if(dupeCount > 0)
+						instance.Name = String.Format("{0} ({1})", instance.Name, dupeCount);
+					
+					if(!String.IsNullOrEmpty(json))
+						((ICharacterSheet)instance).SetJsonData(json);
+					
+					tc.AddChild(instance);
+					tc.CurrentTab = tc.GetTabCount() - 1;
 				}
-				
-				if(dupeCount > 0)
-					instance.Name = String.Format("{0} ({1})", instance.Name, dupeCount);
-				
-				if(!String.IsNullOrEmpty(json))
-					((ICharacterSheet)instance).SetJsonData(json);
-				
-				tc.AddChild(instance);
-				tc.CurrentTab = tc.GetTabCount() - 1;
 			}
 		}
-	}
-	
-	public void closeActiveSheet()
-	{
-		var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
-		if(tc is TabContainer)
-		{
-			var tab = tc.GetCurrentTabControl();
-			if(tab is Node)
-			{
-				if(tc.GetTabCount() <= 1)
-					showNewSheetUI();
-				tab.QueueFree();
-			}
-		}
-	}
-	
-	public string getActiveSheetJsonData()
-	{
-		string data = null;
-		var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
-		if(tc is TabContainer)
-		{
-			var tab = tc.GetCurrentTabControl();
-			if(tab is ICharacterSheet sheet)
-			{
-				data = sheet.GetJsonData();
-			}
-		}
-		return data;
-	}
-	
-	public void hideNewSheetUI()
-	{
-		if(GetNode<Control>(Constants.NodePath.SheetTabs) is Control sheetTabs && !sheetTabs.Visible)
-			sheetTabs.Show();
-		if(GetNodeOrNull<Control>(Constants.NodePath.NewSheet) is Control newSheet)
-			newSheet.QueueFree();
-	}
-	
-	public void loadSheetJsonData(string json)
-	{
-		if(!String.IsNullOrEmpty(json))
+		
+		public void closeActiveSheet()
 		{
 			var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
 			if(tc is TabContainer)
 			{
-				var loaded = false;
-				if(json.Contains(GameSystem.CoD.Changeling))
+				var tab = tc.GetCurrentTabControl();
+				if(tab is Node)
 				{
-					GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Changeling;
-					addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
-					loaded = true;
+					if(tc.GetTabCount() <= 1)
+						showNewSheetUI();
+					tab.QueueFree();
 				}
-				else if(json.Contains(GameSystem.CoD.Mortal))
-				{
-					addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
-					loaded = true;
-				}
-				
-				if(loaded)
-					hideNewSheetUI();
 			}
 		}
-	}
-	
-	public void showNewSheetUI()
-	{
-		var existingNode = GetNodeOrNull<NewSheet>(Constants.NodePath.NewSheet);
-		if(!(existingNode is NewSheet))
+		
+		public string getActiveSheetJsonData()
 		{
-			var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
-			sheetTabsNode.Hide();
-			
-			var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
-			var instance = resource.Instance<NewSheet>();
-			GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
-			
-			GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = String.Empty;
+			string data = null;
+			var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+			if(tc is TabContainer)
+			{
+				var tab = tc.GetCurrentTabControl();
+				if(tab is ICharacterSheet sheet)
+				{
+					data = sheet.GetJsonData();
+				}
+			}
+			return data;
+		}
+		
+		public void hideNewSheetUI()
+		{
+			if(GetNode<Control>(Constants.NodePath.SheetTabs) is Control sheetTabs && !sheetTabs.Visible)
+				sheetTabs.Show();
+			if(GetNodeOrNull<Control>(Constants.NodePath.NewSheet) is Control newSheet)
+				newSheet.QueueFree();
+		}
+		
+		public void loadSheetJsonData(string json)
+		{
+			if(!String.IsNullOrEmpty(json))
+			{
+				var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
+				if(tc is TabContainer)
+				{
+					var loaded = false;
+					if(json.Contains(GameSystem.CoD.Changeling))
+					{
+						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Changeling;
+						addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
+						loaded = true;
+					}
+					else if(json.Contains(GameSystem.CoD.Mortal))
+					{
+						addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
+						loaded = true;
+					}
+					
+					if(loaded)
+						hideNewSheetUI();
+				}
+			}
+		}
+		
+		public void showNewSheetUI()
+		{
+			var existingNode = GetNodeOrNull<NewSheet>(Constants.NodePath.NewSheet);
+			if(!(existingNode is NewSheet))
+			{
+				var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
+				sheetTabsNode.Hide();
+				
+				var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
+				var instance = resource.Instance<NewSheet>();
+				GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
+				
+				GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = String.Empty;
+			}
 		}
 	}
 }

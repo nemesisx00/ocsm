@@ -1,34 +1,37 @@
 using Godot;
-using OCSM;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
+using OCSM.Nodes.Meta;
 
-public class ContractTypeEntry : BasicMetadataEntry
+namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	protected override void entrySelected(int index)
+	public class ContractTypeEntry : BasicMetadataEntry
 	{
-		var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-		var name = optionsButton.GetItemText(index);
-		if(metadataManager.Container is CoDChangelingContainer ccc)
+		protected override void entrySelected(int index)
 		{
-			if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
+			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var name = optionsButton.GetItemText(index);
+			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				loadEntry(contractType);
-				optionsButton.Selected = 0;
+				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
+				{
+					loadEntry(contractType);
+					optionsButton.Selected = 0;
+				}
 			}
 		}
-	}
-	
-	public override void refreshMetadata()
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
+		
+		public override void refreshMetadata()
 		{
-			var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			optionButton.Clear();
-			optionButton.AddItem("");
-			foreach(var ct in ccc.ContractTypes)
+			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				optionButton.AddItem(ct.Name);
+				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				optionButton.Clear();
+				optionButton.AddItem("");
+				foreach(var ct in ccc.ContractTypes)
+				{
+					optionButton.AddItem(ct.Name);
+				}
 			}
 		}
 	}

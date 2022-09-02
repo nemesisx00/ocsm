@@ -5,22 +5,22 @@ namespace OCSM.DnD.Fifth
 {
 	public sealed class SavingThrow : IEquatable<SavingThrow>
 	{
-		public static List<SavingThrow> generateNewSavingThrow()
+		public static List<SavingThrow> generateBaseSavingThrows()
 		{
 			var list = new List<SavingThrow>();
-			list.Add(new SavingThrow(AbilityScore.Names.Constitution, Proficiency.Enum.NoProficiency));
-			list.Add(new SavingThrow(AbilityScore.Names.Charisma, Proficiency.Enum.NoProficiency));
-			list.Add(new SavingThrow(AbilityScore.Names.Dexterity, Proficiency.Enum.NoProficiency));
-			list.Add(new SavingThrow(AbilityScore.Names.Intelligence, Proficiency.Enum.NoProficiency));
-			list.Add(new SavingThrow(AbilityScore.Names.Strength, Proficiency.Enum.NoProficiency));
-			list.Add(new SavingThrow(AbilityScore.Names.Wisdom, Proficiency.Enum.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Constitution, Proficiency.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Charisma, Proficiency.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Dexterity, Proficiency.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Intelligence, Proficiency.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Strength, Proficiency.NoProficiency));
+			list.Add(new SavingThrow(AbilityScore.Names.Wisdom, Proficiency.NoProficiency));
 			return list;
 		}
 		
 		public string Name { get; set; }
-		public Proficiency.Enum Proficient { get; set; }
+		public Proficiency Proficient { get; set; }
 		
-		public SavingThrow(string name, Proficiency.Enum proficient)
+		public SavingThrow(string name, Proficiency proficient)
 		{
 			Name = name;
 			Proficient = proficient;

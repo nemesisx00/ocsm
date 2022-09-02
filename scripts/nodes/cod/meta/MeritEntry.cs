@@ -1,75 +1,78 @@
 using Godot;
 using System;
-using OCSM;
 using OCSM.CoD;
 using OCSM.CoD.Meta;
+using OCSM.Nodes.Meta;
 
-public class MeritEntry : BasicMetadataEntry
+namespace OCSM.Nodes.CoD.Meta
 {
-	[Signal]
-	public new delegate void SaveClicked(string name, string description, int value);
-	
-	private const string DotsName = "Dots";
-	
-	public void loadMerit(Merit merit)
+	public class MeritEntry : BasicMetadataEntry
 	{
-		base.loadEntry(merit);
+		[Signal]
+		public new delegate void SaveClicked(string name, string description, int value);
 		
-		GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(merit.Value);
-	}
-	
-	protected override void clearInputs()
-	{
-		base.clearInputs();
+		private const string DotsName = "Dots";
 		
-		GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(0);
-	}
-	
-	protected override void doSave()
-	{
-		var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-		var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
-		var value = GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).Value;
-		
-		EmitSignal(nameof(SaveClicked), name, description, value);
-		clearInputs();
-	}
-	
-	protected override void doDelete()
-	{
-		var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-		if(!String.IsNullOrEmpty(name))
+		public void loadMerit(Merit merit)
 		{
-			EmitSignal(nameof(DeleteConfirmed), name);
+			base.loadEntry(merit);
+			
+			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(merit.Value);
+		}
+		
+		protected override void clearInputs()
+		{
+			base.clearInputs();
+			
+			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(0);
+		}
+		
+		protected override void doSave()
+		{
+			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
+			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
+			var value = GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).Value;
+			
+			EmitSignal(nameof(SaveClicked), name, description, value);
 			clearInputs();
 		}
-		//TODO: Display error message if name is empty
-	}
-	
-	protected override void entrySelected(int index)
-	{
-		var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-		var name = optionsButton.GetItemText(index);
-		if(metadataManager.Container is CoDCoreContainer ccc)
+		
+		protected override void doDelete()
 		{
-			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
+			if(!String.IsNullOrEmpty(name))
 			{
-				loadMerit(merit);
-				optionsButton.Selected = 0;
+				EmitSignal(nameof(DeleteConfirmed), name);
+				clearInputs();
+			}
+			//TODO: Display error message if name is empty
+		}
+		
+		protected override void entrySelected(int index)
+		{
+			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var name = optionsButton.GetItemText(index);
+			if(metadataManager.Container is CoDCoreContainer ccc)
+			{
+				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+				{
+					loadMerit(merit);
+					optionsButton.Selected = 0;
+				}
 			}
 		}
-	}
-	
-	public override void refreshMetadata()
-	{
-		if(metadataManager.Container is CoDCoreContainer ccc)
+		
+		public override void refreshMetadata()
 		{
-			var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			optionButton.Clear();
-			optionButton.AddItem("");
-			foreach(var m in ccc.Merits)
+			if(metadataManager.Container is CoDCoreContainer ccc)
 			{
-				optionButton.AddItem(m.Name);
+				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				optionButton.Clear();
+				optionButton.AddItem("");
+				foreach(var m in ccc.Merits)
+				{
+					optionButton.AddItem(m.Name);
+				}
 			}
 		}
 	}

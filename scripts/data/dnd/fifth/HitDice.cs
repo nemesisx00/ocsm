@@ -2,7 +2,7 @@ using System;
 
 namespace OCSM.DnD.Fifth
 {
-	public class HitDice
+	public class HitDice : IEquatable<HitDice>
 	{
 		public Die Die { get; set; }
 		public int Quantity { get; set; }
@@ -31,6 +31,13 @@ namespace OCSM.DnD.Fifth
 		public void refresh()
 		{
 			Quantity = Max;
+		}
+		
+		public bool Equals(HitDice hitDice)
+		{
+			return hitDice.Die.Equals(Die)
+				&& hitDice.Quantity.Equals(Quantity)
+				&& hitDice.Max.Equals(Max);
 		}
 	}
 }

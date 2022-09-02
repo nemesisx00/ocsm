@@ -1,19 +1,22 @@
 using Godot;
-using OCSM.DnD.Fifth.Meta;
+using OCSM.DnD.Fifth;
 
-public class FeatureTypeOptionButton : OptionButton
+namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	[Export]
-	public bool emptyOption = true;
-	
-	public override void _Ready()
+	public class FeatureTypeOptionButton : OptionButton
 	{
-		if(emptyOption)
-			AddItem("");
+		[Export]
+		public bool emptyOption = true;
 		
-		foreach(var type in FeatureType.asList())
+		public override void _Ready()
 		{
-			AddItem(type);
+			if(emptyOption)
+				AddItem("");
+			
+			foreach(var type in FeatureType.asList())
+			{
+				AddItem(type);
+			}
 		}
 	}
 }

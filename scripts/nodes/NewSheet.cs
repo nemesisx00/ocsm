@@ -1,39 +1,48 @@
 using Godot;
-using OCSM;
+using OCSM.Nodes.Autoload;
 
-public class NewSheet : ScrollContainer
+namespace OCSM.Nodes
 {
-	private const string Dnd5thPath = "D&D5E";
-	private const string CodMortal2e = "Mortal2e";
-	private const string CodChangeling2e = "Changeling2e";
-	private const string CodMage2e = "Mage2e";
-	private const string CodVampire2e = "Vampire2e";
-	private const string WodVampireV5 = "VampireV5";
-	
-	public override void _Input(InputEvent e)
+	public class NewSheet : ScrollContainer
 	{
-		if(e is InputEventKey ek && ek.IsActionReleased(Constants.Action.Cancel)
-			&& GetNode<TabContainer>(Constants.NodePath.SheetTabs).GetChildren().Count > 0)
+		private const string Dnd5thPath = "D&D5E";
+		private const string CodMortal2e = "Mortal2e";
+		private const string CodChangeling2e = "Changeling2e";
+		private const string CodMage2e = "Mage2e";
+		private const string CodVampire2e = "Vampire2e";
+		private const string WodVampireV5 = "VampireV5";
+		
+		private SheetManager sheetManager;
+		private TabContainer tabContainer;
+		
+		public override void _Input(InputEvent e)
 		{
-			GetNode<SheetManager>(Constants.NodePath.SheetManager).hideNewSheetUI();
+			if(e is InputEventKey ek && ek.IsActionReleased(Constants.Action.Cancel)
+				&& tabContainer.GetChildren().Count > 0)
+			{
+				sheetManager.hideNewSheetUI();
+			}
 		}
-	}
-	
-	public override void _Ready()
-	{
-		GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
-		GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
-		GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
-	}
-	
-	private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }
-	private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName); }
-	private void newDnd5e() { addSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName); }
-	
-	private void addSheet(string sheetPath, string name)
-	{
-		GetNode<SheetManager>(Constants.NodePath.SheetManager).addNewSheet(sheetPath, name);
-		GetParent().GetNode<Control>(Constants.NodePath.SheetTabs).Show();
-		QueueFree();
+		
+		public override void _Ready()
+		{
+			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
+			tabContainer = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
+			
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
+		}
+		
+		private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }
+		private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName); }
+		private void newDnd5e() { addSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName); }
+		
+		private void addSheet(string sheetPath, string name)
+		{
+			sheetManager.addNewSheet(sheetPath, name);
+			tabContainer.Show();
+			QueueFree();
+		}
 	}
 }

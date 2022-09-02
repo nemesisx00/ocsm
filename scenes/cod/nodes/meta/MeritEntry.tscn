@@ -2,7 +2,7 @@
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
-[ext_resource path="res://scripts/nodes/cod/TrackSimple.cs" type="Script" id=3]
+[ext_resource path="res://scripts/nodes/TrackSimple.cs" type="Script" id=3]
 [ext_resource path="res://scripts/nodes/cod/meta/MeritEntry.cs" type="Script" id=4]
 
 [node name="MeritEntry" type="VBoxContainer"]

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OCSM.Meta;
 
-namespace OCSM.DnD.Fifth.Meta
+namespace OCSM.DnD.Fifth
 {
 	public sealed class FeatureType
 	{
@@ -47,7 +47,7 @@ namespace OCSM.DnD.Fifth.Meta
 		
 		public bool Equals(Feature feature)
 		{
-			return base.Equals(feature as Metadata)
+			return base.Equals(feature)
 				//&& feature.Requirement.Equals(Requirement)
 				&& feature.Sections.Equals(Sections)
 				&& feature.Source.Equals(Source)

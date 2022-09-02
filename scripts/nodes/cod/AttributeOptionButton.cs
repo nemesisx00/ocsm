@@ -1,19 +1,22 @@
 using Godot;
 using OCSM.CoD;
 
-public class AttributeOptionButton : OptionButton
+namespace OCSM.Nodes.CoD
 {
-	[Export]
-	public bool emptyOption = true;
-	
-	public override void _Ready()
+	public class AttributeOptionButton : OptionButton
 	{
-		if(emptyOption)
-			AddItem("");
+		[Export]
+		public bool emptyOption = true;
 		
-		foreach(var attr in Attribute.asList())
+		public override void _Ready()
 		{
-			AddItem(attr.Name);
+			if(emptyOption)
+				AddItem("");
+			
+			foreach(var attr in Attribute.asList())
+			{
+				AddItem(attr.Name);
+			}
 		}
 	}
 }

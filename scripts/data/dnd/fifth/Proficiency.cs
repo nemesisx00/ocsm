@@ -1,44 +1,44 @@
 
 namespace OCSM.DnD.Fifth
 {
-	public sealed class Proficiency
+	public enum Proficiency { NoProficiency, HalfProficiency, Proficiency, DoubleProficiency }
+	
+	public sealed class ProficiencyUtility
 	{
-		public enum Enum { NoProficiency, HalfProficiency, Proficiency, DoubleProficiency }
-		
 		public const string NoProficiency = "Not Proficient";
 		public const string HalfProficiency = "Half Proficiency";
 		public const string Proficient = "Proficient";
 		public const string DoubleProficiency = "Expertise";
 		
-		public string byEnum(Enum value)
+		public string byEnum(Proficiency value)
 		{
 			switch(value)
 			{
-				case Enum.HalfProficiency:
+				case Proficiency.HalfProficiency:
 					return HalfProficiency;
-				case Enum.Proficiency:
+				case Proficiency.Proficiency:
 					return Proficient;
-				case Enum.DoubleProficiency:
+				case Proficiency.DoubleProficiency:
 					return DoubleProficiency;
-				case Enum.NoProficiency:
+				case Proficiency.NoProficiency:
 				default:
 					return NoProficiency;
 			}
 		}
 		
-		public Enum byName(string name)
+		public Proficiency byName(string name)
 		{
 			switch(name)
 			{
 				case HalfProficiency:
-					return Enum.HalfProficiency;
+					return Proficiency.HalfProficiency;
 				case Proficient:
-					return Enum.Proficiency;
+					return Proficiency.Proficiency;
 				case DoubleProficiency:
-					return Enum.DoubleProficiency;
+					return Proficiency.DoubleProficiency;
 				case NoProficiency:
 				default:
-					return Enum.NoProficiency;
+					return Proficiency.NoProficiency;
 			}
 		}
 	}

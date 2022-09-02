@@ -2,23 +2,25 @@ using System;
 
 namespace OCSM.DnD.Fifth
 {
-	public sealed class Class : IEquatable<Class>
+	public class Class : Featureful, IEquatable<Class>
 	{
-		
 		public int Level { get; set; }
-		public string Name { get; set; }
-		public HitDice HitDice { get; set; }
+		public Die HitDie { get; set; }
 		
-		public Class(string name, Die die)
+		public Class() : base() { }
+		
+		public Class(string name, Die die) : this()
 		{
 			Name = name;
 			Level = 1;
-			HitDice = new HitDice(die, Level);
+			HitDie = die;
 		}
 		
 		public bool Equals(Class c)
 		{
-			return c.Name.Equals(Name);
+			return base.Equals(c)
+				&& c.Level.Equals(Level)
+				&& c.HitDie.Equals(HitDie);
 		}
 	}
 }

@@ -108,15 +108,6 @@ size_flags_vertical = 3
 [node name="MeritsFromMetadata" parent="Column/TabContainer/Merits" instance=ExtResource( 9 )]
 unique_name_in_owner = true
 
-[node name="Label" type="Label" parent="Column/TabContainer/Merits"]
-margin_top = 24.0
-margin_right = 1016.0
-margin_bottom = 48.0
-custom_fonts/font = ExtResource( 3 )
-text = "Merits"
-align = 1
-valign = 1
-
 [node name="Merits" type="GridContainer" parent="Column/TabContainer/Merits"]
 unique_name_in_owner = true
 margin_top = 52.0

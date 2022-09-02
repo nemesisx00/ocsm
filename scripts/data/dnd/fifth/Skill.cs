@@ -27,34 +27,34 @@ namespace OCSM.DnD.Fifth
 			public const string Survival = "Survival";
 		}
 		
-		public static List<Skill> generateNewAbilityScores()
+		public static List<Skill> generateBaseSkills()
 		{
 			var list = new List<Skill>();
-			list.Add(new Skill(Names.Acrobatics, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.AnimalHandling, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Arcana, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Athletics, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Deception, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.History, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Insight, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Intimidation, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Investigation, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Medicine, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Nature, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Perception, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Performance, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Persuasion, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Religion, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.SleightOfHand, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Stealth, Proficiency.Enum.NoProficiency));
-			list.Add(new Skill(Names.Survival, Proficiency.Enum.NoProficiency));
+			list.Add(new Skill(Names.Acrobatics, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.AnimalHandling, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Arcana, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Athletics, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Deception, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.History, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Insight, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Intimidation, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Investigation, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Medicine, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Nature, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Perception, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Performance, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Persuasion, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Religion, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.SleightOfHand, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Stealth, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Survival, Proficiency.NoProficiency));
 			return list;
 		}
 		
 		public string Name { get; set; }
-		public Proficiency.Enum Proficient { get; set; }
+		public Proficiency Proficient { get; set; }
 		
-		public Skill(string name, Proficiency.Enum proficient)
+		public Skill(string name, Proficiency proficient)
 		{
 			Name = name;
 			Proficient = proficient;

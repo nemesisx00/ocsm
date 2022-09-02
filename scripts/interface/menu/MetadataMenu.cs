@@ -1,45 +1,49 @@
 using Godot;
-using OCSM;
+using OCSM.Nodes.Autoload;
+using OCSM.Nodes.CoD.CtL.Meta;
 
-public class MetadataMenu : MenuButton
+namespace OCSM.Nodes
 {
-	public enum MetadataItem { ManageMetadata }
-	
-	private MetadataManager metadataManager;
-	
-	public override void _Ready()
+	public class MetadataMenu : MenuButton
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		public enum MetadataItem { ManageMetadata }
 		
-		GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-	}
-	
-	private void handleMenuItem(int id)
-	{
-		switch((MetadataItem)id)
+		private MetadataManager metadataManager;
+		
+		public override void _Ready()
 		{
-			case MetadataItem.ManageMetadata:
-				showAddEditMetadata();
-				break;
-			default:
-				break;
+			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			
+			GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
 		}
-	}
-	
-	private void showAddEditMetadata()
-	{
-		switch(metadataManager.CurrentGameSystem)
+		
+		private void handleMenuItem(int id)
 		{
-			case GameSystem.CoD.Changeling:
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata);
-				var instance = resource.Instance<AddEditMetadata>();
-				GetTree().CurrentScene.AddChild(instance);
-				NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-				instance.Popup_();
-				instance.Connect(nameof(AddEditMetadata.MetadataChanged), metadataManager, nameof(MetadataManager.saveGameSystemMetadata));
-				break;
-			default:
-				break;
+			switch((MetadataItem)id)
+			{
+				case MetadataItem.ManageMetadata:
+					showAddEditMetadata();
+					break;
+				default:
+					break;
+			}
+		}
+		
+		private void showAddEditMetadata()
+		{
+			switch(metadataManager.CurrentGameSystem)
+			{
+				case GameSystem.CoD.Changeling:
+					var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata);
+					var instance = resource.Instance<AddEditMetadata>();
+					GetTree().CurrentScene.AddChild(instance);
+					NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
+					instance.Popup_();
+					instance.Connect(nameof(AddEditMetadata.MetadataChanged), metadataManager, nameof(MetadataManager.saveGameSystemMetadata));
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

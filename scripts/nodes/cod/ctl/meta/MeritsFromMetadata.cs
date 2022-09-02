@@ -1,47 +1,50 @@
 using Godot;
-using OCSM;
 using OCSM.CoD.CtL.Meta;
+using OCSM.Nodes.Autoload;
 
-public class MeritsFromMetadata : Container
+namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	[Signal]
-	public delegate void AddMerit(string name);
-	private const string MeritsName = "ExistingMerits";
-	
-	private MetadataManager metadataManager;
-	
-	public override void _Ready()
+	public class MeritsFromMetadata : Container
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMerits));
-		metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMerits));
+		[Signal]
+		public delegate void AddMerit(string name);
+		private const string MeritsName = "ExistingMerits";
 		
-		GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected, this, nameof(meritSelected));
+		private MetadataManager metadataManager;
 		
-		refreshMerits();
-	}
-	
-	private void refreshMerits()
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
+		public override void _Ready()
 		{
-			var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
-			optionButton.Clear();
-			optionButton.AddItem("");
-			foreach(var m in ccc.Merits)
+			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMerits));
+			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMerits));
+			
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected, this, nameof(meritSelected));
+			
+			refreshMerits();
+		}
+		
+		private void refreshMerits()
+		{
+			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				optionButton.AddItem(m.Name);
+				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
+				optionButton.Clear();
+				optionButton.AddItem("");
+				foreach(var m in ccc.Merits)
+				{
+					optionButton.AddItem(m.Name);
+				}
 			}
 		}
-	}
-	
-	private void meritSelected(int index)
-	{
-		if(index > 0)
+		
+		private void meritSelected(int index)
 		{
-			var node = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
-			EmitSignal(nameof(AddMerit), node.GetItemText(index));
-			node.Selected = 0;
+			if(index > 0)
+			{
+				var node = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
+				EmitSignal(nameof(AddMerit), node.GetItemText(index));
+				node.Selected = 0;
+			}
 		}
 	}
 }

@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scripts/nodes/dnd/fifth/sheets/DndFifthSheet.cs" type="Script" id=1]
+[ext_resource path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" type="Script" id=1]
+[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/dnd/fifth/Ability.tscn" type="PackedScene" id=4]
 
 [node name="5E" type="ScrollContainer"]
 anchor_right = 1.0
@@ -12,3 +15,79 @@ margin_right = 1024.0
 margin_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Column"]
+margin_right = 1024.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 3 )
+text = "Dungeons & Dragons"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Column"]
+margin_top = 50.0
+margin_right = 1024.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 2 )
+text = "Fifth Edition"
+align = 1
+valign = 1
+
+[node name="HSeparator" type="HSeparator" parent="Column"]
+margin_top = 78.0
+margin_right = 1024.0
+margin_bottom = 82.0
+
+[node name="Row" type="HBoxContainer" parent="Column"]
+margin_top = 86.0
+margin_right = 1024.0
+margin_bottom = 166.0
+alignment = 1
+
+[node name="Strength" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 280.0
+margin_right = 354.0
+margin_bottom = 80.0
+AbilityName = "Strength"
+
+[node name="Dexterity" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 358.0
+margin_right = 432.0
+margin_bottom = 80.0
+AbilityName = "Dexterity"
+
+[node name="Constitution" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 436.0
+margin_right = 510.0
+margin_bottom = 80.0
+AbilityName = "Constitution"
+
+[node name="Wisdom" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 514.0
+margin_right = 588.0
+margin_bottom = 80.0
+AbilityName = "Wisdom"
+
+[node name="Intelligence" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 592.0
+margin_right = 666.0
+margin_bottom = 80.0
+AbilityName = "Intelligence"
+
+[node name="Charisma" parent="Column/Row" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 670.0
+margin_right = 744.0
+margin_bottom = 80.0
+AbilityName = "Charisma"

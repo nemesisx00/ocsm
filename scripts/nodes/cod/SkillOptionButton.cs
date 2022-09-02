@@ -1,19 +1,22 @@
 using Godot;
 using OCSM.CoD;
 
-public class SkillOptionButton : OptionButton
+namespace OCSM.Nodes.CoD
 {
-	[Export]
-	public bool emptyOption = true;
-	
-	public override void _Ready()
+	public class SkillOptionButton : OptionButton
 	{
-		if(emptyOption)
-			AddItem("");
+		[Export]
+		public bool emptyOption = true;
 		
-		foreach(var skill in Skill.asList())
+		public override void _Ready()
 		{
-			AddItem(skill.Name);
+			if(emptyOption)
+				AddItem("");
+			
+			foreach(var skill in Skill.asList())
+			{
+				AddItem(skill.Name);
+			}
 		}
 	}
 }

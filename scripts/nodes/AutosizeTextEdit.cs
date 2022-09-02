@@ -1,16 +1,17 @@
 using Godot;
-using System;
-using OCSM;
 
-public class AutosizeTextEdit : TextEdit
+namespace OCSM.Nodes
 {
-	public override void _Ready()
+	public class AutosizeTextEdit : TextEdit
 	{
-		Connect(Constants.Signal.TextChanged, this, nameof(autosize));
-	}
-	
-	public void autosize()
-	{
-		NodeUtilities.autoSize(this, Constants.TextInputMinHeight);
+		public override void _Ready()
+		{
+			Connect(Constants.Signal.TextChanged, this, nameof(autosize));
+		}
+		
+		public void autosize()
+		{
+			NodeUtilities.autoSize(this, Constants.TextInputMinHeight);
+		}
 	}
 }

@@ -1,42 +1,45 @@
 using Godot;
-using OCSM;
 using OCSM.CoD.CtL.Meta;
+using OCSM.Nodes.Autoload;
 
-public class RegaliaOptionButton : OptionButton
+namespace OCSM.Nodes.CoD.CtL
 {
-	[Export]
-	public bool emptyOption = true;
-	[Export]
-	private bool includeNonRegalia = false;
-	
-	private MetadataManager metadataManager;
-	
-	public override void _Ready()
+	public class RegaliaOptionButton : OptionButton
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-		metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+		[Export]
+		public bool emptyOption = true;
+		[Export]
+		private bool includeNonRegalia = false;
 		
-		refreshMetadata();
-	}
-	
-	private void refreshMetadata()
-	{
-		if(metadataManager.Container is CoDChangelingContainer ccc)
+		private MetadataManager metadataManager;
+		
+		public override void _Ready()
 		{
-			var index = Selected;
+			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
+			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
 			
-			Clear();
-			
-			if(emptyOption)
-				AddItem("");
-			
-			foreach(var regalia in ccc.Regalias)
+			refreshMetadata();
+		}
+		
+		private void refreshMetadata()
+		{
+			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				AddItem(regalia.Name);
+				var index = Selected;
+				
+				Clear();
+				
+				if(emptyOption)
+					AddItem("");
+				
+				foreach(var regalia in ccc.Regalias)
+				{
+					AddItem(regalia.Name);
+				}
+				
+				Selected = index;
 			}
-			
-			Selected = index;
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace OCSM.DnD.Fifth
 			public const string Wisdom = "Wisdom";
 		}
 		
-		public static List<AbilityScore> generateNewAbilityScores(int defaultScore = 10)
+		public static List<AbilityScore> generateBaseAbilityScores(int defaultScore = 10)
 		{
 			var list = new List<AbilityScore>();
 			list.Add(new AbilityScore(Names.Constitution, defaultScore));
