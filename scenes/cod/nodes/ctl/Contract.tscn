@@ -20,13 +20,20 @@ script = ExtResource( 8 )
 margin_right = 1024.0
 margin_bottom = 24.0
 
+[node name="Label" type="Label" parent="Row"]
+margin_top = 5.0
+margin_right = 42.0
+margin_bottom = 19.0
+text = "Name:"
+
 [node name="Name" type="LineEdit" parent="Row"]
 unique_name_in_owner = true
+margin_left = 46.0
 margin_right = 743.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Row"]
+[node name="Label2" type="Label" parent="Row"]
 margin_left = 747.0
 margin_top = 5.0
 margin_right = 796.0
