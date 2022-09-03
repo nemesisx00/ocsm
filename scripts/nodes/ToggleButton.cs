@@ -1,22 +1,39 @@
 using Godot;
+using System;
 
 namespace OCSM.Nodes
 {
-	public class ToggleButton : TextureRect
+	public class ToggleButton : TextureButton
 	{
 		[Signal]
-		public delegate void StateToggled(ToggleButton circle);
+		public delegate void StateToggled(ToggleButton button);
 		
+		[Export]
 		public bool CurrentState { get; set; } = false;
-		public string ToggledTexturePath { get; set; }
+		[Export]
+		public bool UseCircles { get; set; } = false;
+		public StreamTexture ToggledTexture { get; set; }
+		public StreamTexture EmptyTexture { get; set; }
 		
 		public override void _Ready()
 		{
-			updateTexture();
+			if(UseCircles)
+			{
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
+				ToggledTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircleFill);
+			}
+			else
+			{
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
+				ToggledTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBox2);
+			}
 			
-			var button = GetChild<TextureButton>(0);
-			button.Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
-			button.MouseDefaultCursorShape = CursorShape.PointingHand;
+			EmptyTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.FullTransparent);
+			
+			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+			MouseDefaultCursorShape = CursorShape.PointingHand;
+			
+			updateTexture();
 		}
 		
 		public void toggleState()
@@ -28,10 +45,10 @@ namespace OCSM.Nodes
 		
 		public void updateTexture()
 		{
-			var tex = Constants.Texture.FullTransparent;
 			if(CurrentState)
-				tex = ToggledTexturePath;
-			GetChild<TextureButton>(0).TextureNormal = ResourceLoader.Load<StreamTexture>(tex);
+				TextureNormal = ToggledTexture;
+			else
+				TextureNormal = EmptyTexture;
 		}
 		
 		private void handleClick(InputEvent e)

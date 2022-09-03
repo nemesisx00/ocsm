@@ -58,17 +58,7 @@ namespace OCSM.Nodes
 				for(var i = children.Count; i < Max; i++)
 				{
 					var instance = resource.Instance<ToggleButton>();
-					if(UseCircles)
-					{
-						instance.Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
-						instance.ToggledTexturePath = Constants.Texture.TrackCircleFill;
-					}
-					else
-					{
-						instance.Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
-						instance.ToggledTexturePath = Constants.Texture.TrackBox2;
-					}
-					
+					instance.UseCircles = UseCircles;
 					AddChild(instance);
 					instance.Connect(nameof(ToggleButton.StateToggled), this, nameof(handleToggle));
 				}
