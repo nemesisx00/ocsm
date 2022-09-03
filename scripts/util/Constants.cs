@@ -47,6 +47,8 @@ namespace OCSM
 			public const string NewSheet = "res://scenes/NewSheet.tscn";
 			public const string OpenSheet = "res://scenes/OpenSheet.tscn";
 			public const string SaveSheet = "res://scenes/SaveSheet.tscn";
+			public const string StatefulButton = "res://scenes/nodes/StatefulButton.tscn";
+			public const string ToggleButton = "res://scenes/nodes/ToggleButton.tscn";
 			
 			public sealed class Meta
 			{
@@ -55,9 +57,7 @@ namespace OCSM
 			
 			public sealed class CoD
 			{
-				public const string BoxComplex = "res://scenes/cod/nodes/BoxComplex.tscn";
 				public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
-				public const string ToggleButton = "res://scenes/cod/nodes/ToggleButton.tscn";
 				public const string Specialty = "res://scenes/cod/nodes/Specialty.tscn";
 				
 				public sealed class Mortal
@@ -84,6 +84,7 @@ namespace OCSM
 			{
 				public sealed class Fifth
 				{
+					public const string Skill = "res://scenes/dnd/fifth/Skill.tscn";
 					public const string Sheet = "res://scenes/dnd/sheets/Fifth.tscn";
 					public const string NewSheetName = "New Adventurer";
 					public const string NewFeature = "res://scenes/dnd/fifth/NewFeature.tscn";
@@ -110,13 +111,15 @@ namespace OCSM
 		
 		public sealed class Texture
 		{
-			public const string FullTransparent = "res://assets/textures/cod/FullTransparent.png";
-			public const string TrackBoxBorder = "res://assets/textures/cod/TrackBoxBorder.png";
-			public const string TrackBox1 = "res://assets/textures/cod/TrackBox1.png";
-			public const string TrackBox2 = "res://assets/textures/cod/TrackBox2.png";
-			public const string TrackBox3 = "res://assets/textures/cod/TrackBox3.png";
-			public const string TrackCircle = "res://assets/textures/cod/TrackCircle.png";
-			public const string TrackCircleFill = "res://assets/textures/cod/TrackCircleFill.png";
+			public const string FullTransparent = "res://assets/textures/box-transparent-16.svg";
+			public const string TrackBoxBorder = "res://assets/textures/box-border-16.png";
+			public const string TrackBox1 = "res://assets/textures/slash-one.svg";
+			public const string TrackBox2 = "res://assets/textures/slash-two.svg";
+			public const string TrackBox3 = "res://assets/textures/slash-three.svg";
+			public const string TrackCircle = "res://assets/textures/circle-empty.png";
+			public const string TrackCircleFill = "res://assets/textures/circle-fill.png";
+			public const string TrackCircleHalf = "res://assets/textures/circle-fill-half.png";
+			public const string TrackCircleRed = "res://assets/textures/circle-fill-red.png";
 		}
 	}
 }

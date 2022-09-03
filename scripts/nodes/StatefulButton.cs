@@ -1,8 +1,8 @@
 using Godot;
 
-namespace OCSM.Nodes.CoD
+namespace OCSM.Nodes
 {
-	public class BoxComplex : TextureButton
+	public class StatefulButton : TextureButton
 	{
 		public sealed class State
 		{
@@ -15,9 +15,11 @@ namespace OCSM.Nodes.CoD
 		
 		[Export(PropertyHint.Enum, State.EnumHint)]
 		public string CurrentState { get; set; } = State.None;
+		[Export]
+		public bool UseCircles { get; set; } = false;
 		
 		[Signal]
-		public delegate void StateChanged(BoxComplex box);
+		public delegate void StateChanged(StatefulButton box);
 		
 		public override void _Ready()
 		{
@@ -32,24 +34,38 @@ namespace OCSM.Nodes.CoD
 		
 		public void updateTexture()
 		{
+			if(UseCircles)
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
+			else
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
+			
 			var tex = Constants.Texture.FullTransparent;
 			switch(CurrentState)
 			{
 				case State.One:
-					tex = Constants.Texture.TrackBox1;
+					if(UseCircles)
+						tex = Constants.Texture.TrackCircleHalf;
+					else
+						tex = Constants.Texture.TrackBox1;
 					break;
 				case State.Two:
-					tex = Constants.Texture.TrackBox2;
+					if(UseCircles)
+						tex = Constants.Texture.TrackCircleFill;
+					else
+						tex = Constants.Texture.TrackBox2;
 					break;
 				case State.Three:
-					tex = Constants.Texture.TrackBox3;
+					if(UseCircles)
+						tex = Constants.Texture.TrackCircleRed;
+					else
+						tex = Constants.Texture.TrackBox3;
 					break;
 				case State.None:
 				default:
 					break;
 			}
 			
-			TextureNormal = GD.Load<StreamTexture>(tex);
+			TextureNormal = ResourceLoader.Load<StreamTexture>(tex);
 		}
 		
 		private void handleClick(InputEvent e)

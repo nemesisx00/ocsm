@@ -54,18 +54,18 @@ namespace OCSM.Nodes
 			var children = GetChildren();
 			if(children.Count < Max)
 			{
-				var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ToggleButton);
+				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.ToggleButton);
 				for(var i = children.Count; i < Max; i++)
 				{
 					var instance = resource.Instance<ToggleButton>();
 					if(UseCircles)
 					{
-						instance.Texture = GD.Load<StreamTexture>(Constants.Texture.TrackCircle);
+						instance.Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
 						instance.ToggledTexturePath = Constants.Texture.TrackCircleFill;
 					}
 					else
 					{
-						instance.Texture = GD.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
+						instance.Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
 						instance.ToggledTexturePath = Constants.Texture.TrackBox2;
 					}
 					

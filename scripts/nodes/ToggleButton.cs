@@ -31,7 +31,7 @@ namespace OCSM.Nodes
 			var tex = Constants.Texture.FullTransparent;
 			if(CurrentState)
 				tex = ToggledTexturePath;
-			GetChild<TextureButton>(0).TextureNormal = GD.Load<StreamTexture>(tex);
+			GetChild<TextureButton>(0).TextureNormal = ResourceLoader.Load<StreamTexture>(tex);
 		}
 		
 		private void handleClick(InputEvent e)

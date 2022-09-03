@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scenes/cod/nodes/TrackSimple.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/nodes/TrackSimple.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
 
 [node name="Attributes" type="VBoxContainer"]

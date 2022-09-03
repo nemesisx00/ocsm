@@ -43,9 +43,9 @@ namespace OCSM.CoD
 			Attributes = Attribute.asList();
 			Conditions = new List<string>();
 			HealthCurrent = new Dictionary<string, int>();
-			HealthCurrent.Add(BoxComplex.State.Three, 0);
-			HealthCurrent.Add(BoxComplex.State.Two, 0);
-			HealthCurrent.Add(BoxComplex.State.One, 0);
+			HealthCurrent.Add(StatefulButton.State.Three, 0);
+			HealthCurrent.Add(StatefulButton.State.Two, 0);
+			HealthCurrent.Add(StatefulButton.State.One, 0);
 			Merits = new List<Merit>();
 			Skills = Skill.asList();
 			Specialties = new Dictionary<string, string>();
