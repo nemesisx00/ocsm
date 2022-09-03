@@ -51,6 +51,54 @@ namespace OCSM.DnD.Fifth
 			return list;
 		}
 		
+		public static List<Skill> listDexterity()
+		{
+			var list = new List<Skill>();
+			list.Add(new Skill(Names.Acrobatics, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.SleightOfHand, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Stealth, Proficiency.NoProficiency));
+			return list;
+		}
+		
+		public static List<Skill> listCharisma()
+		{
+			var list = new List<Skill>();
+			list.Add(new Skill(Names.Deception, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Intimidation, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Performance, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Persuasion, Proficiency.NoProficiency));
+			return list;
+		}
+		
+		public static List<Skill> listIntelligence()
+		{
+			var list = new List<Skill>();
+			list.Add(new Skill(Names.Arcana, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.History, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Investigation, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Nature, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Religion, Proficiency.NoProficiency));
+			return list;
+		}
+		
+		public static List<Skill> listWisdom()
+		{
+			var list = new List<Skill>();
+			list.Add(new Skill(Names.AnimalHandling, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Insight, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Medicine, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Perception, Proficiency.NoProficiency));
+			list.Add(new Skill(Names.Survival, Proficiency.NoProficiency));
+			return list;
+		}
+		
+		public static List<Skill> listStrength()
+		{
+			var list = new List<Skill>();
+			list.Add(new Skill(Names.Athletics, Proficiency.NoProficiency));
+			return list;
+		}
+		
 		public string Name { get; set; }
 		public Proficiency Proficient { get; set; }
 		

@@ -13,6 +13,7 @@ namespace OCSM.DnD.Fifth
 			public const string Intelligence = "Intelligence";
 			public const string Strength = "Strength";
 			public const string Wisdom = "Wisdom";
+			public const string EnumHint = " ," + Constitution + "," + Charisma + "," + Dexterity + "," + Intelligence + "," + Strength + "," + Wisdom;
 		}
 		
 		public static List<AbilityScore> generateBaseAbilityScores(int defaultScore = 10)
