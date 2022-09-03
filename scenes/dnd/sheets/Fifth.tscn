@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" type="Script" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
 [ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="DynamicFont" id=3]
 [ext_resource path="res://scenes/dnd/fifth/Ability.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=5]
+[ext_resource path="res://scripts/nodes/ToggleButton.cs" type="Script" id=6]
 
 [node name="5E" type="ScrollContainer"]
 anchor_right = 1.0
@@ -42,67 +44,420 @@ margin_bottom = 104.0
 [node name="Row" type="HBoxContainer" parent="Column"]
 margin_top = 119.0
 margin_right = 1024.0
-margin_bottom = 203.0
+margin_bottom = 319.0
+custom_constants/separation = 5
+
+[node name="Details" type="VBoxContainer" parent="Column/Row"]
+margin_right = 338.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="Row" type="HBoxContainer" parent="Column/Row/Details"]
+margin_right = 338.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="Column/Row/Details/Row"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 80, 0 )
+text = "Player:"
+align = 2
+valign = 1
+
+[node name="PlayerName" type="LineEdit" parent="Column/Row/Details/Row"]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_right = 338.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Row2" type="HBoxContainer" parent="Column/Row/Details"]
+margin_top = 39.0
+margin_right = 338.0
+margin_bottom = 63.0
+
+[node name="Label" type="Label" parent="Column/Row/Details/Row2"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 80, 0 )
+text = "Name: "
+align = 2
+valign = 1
+
+[node name="CharacterName" type="LineEdit" parent="Column/Row/Details/Row2"]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_right = 338.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Row3" type="HBoxContainer" parent="Column/Row/Details"]
+margin_top = 78.0
+margin_right = 338.0
+margin_bottom = 102.0
+
+[node name="Label" type="Label" parent="Column/Row/Details/Row3"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 80, 0 )
+text = "Alignment:"
+align = 2
+valign = 1
+
+[node name="Alignment" type="LineEdit" parent="Column/Row/Details/Row3"]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_right = 338.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="Column/Row/Details"]
+margin_top = 117.0
+margin_right = 338.0
+margin_bottom = 141.0
+
+[node name="Label" type="Label" parent="Column/Row/Details/Row4"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 80, 0 )
+text = "Race:"
+align = 2
+valign = 1
+
+[node name="Race" type="LineEdit" parent="Column/Row/Details/Row4"]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_right = 338.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Row5" type="HBoxContainer" parent="Column/Row/Details"]
+margin_top = 156.0
+margin_right = 338.0
+margin_bottom = 180.0
+
+[node name="Label" type="Label" parent="Column/Row/Details/Row5"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 80, 0 )
+text = "Background:"
+align = 2
+valign = 1
+
+[node name="Background" type="LineEdit" parent="Column/Row/Details/Row5"]
+unique_name_in_owner = true
+margin_left = 84.0
+margin_right = 338.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Traits" type="VBoxContainer" parent="Column/Row"]
+margin_left = 343.0
+margin_right = 681.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+
+[node name="Row" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_right = 338.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row"]
+margin_right = 73.0
+margin_bottom = 14.0
+text = "Inspiration:"
+
+[node name="Inspiration" type="TextureRect" parent="Column/Row/Traits/Row"]
+margin_left = 77.0
+margin_right = 77.0
+margin_bottom = 14.0
+script = ExtResource( 6 )
+
+[node name="Row2" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 18.0
+margin_right = 338.0
+margin_bottom = 32.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row2"]
+margin_right = 117.0
+margin_bottom = 14.0
+text = "Bardic Inspiration:"
+
+[node name="BardicInspiration" type="TextureRect" parent="Column/Row/Traits/Row2"]
+margin_left = 121.0
+margin_right = 121.0
+margin_bottom = 14.0
+script = ExtResource( 6 )
+
+[node name="Row3" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 36.0
+margin_right = 338.0
+margin_bottom = 60.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row3"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row3"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Row4" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 64.0
+margin_right = 338.0
+margin_bottom = 88.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row4"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row4"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Row5" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 92.0
+margin_right = 338.0
+margin_bottom = 116.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row5"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row5"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Row6" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 120.0
+margin_right = 338.0
+margin_bottom = 144.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row6"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row6"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Row7" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 148.0
+margin_right = 338.0
+margin_bottom = 172.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row7"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row7"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Row8" type="HBoxContainer" parent="Column/Row/Traits"]
+margin_top = 176.0
+margin_right = 338.0
+margin_bottom = 200.0
+
+[node name="Label" type="Label" parent="Column/Row/Traits/Row8"]
+margin_top = 5.0
+margin_bottom = 19.0
+
+[node name="LineEdit" type="LineEdit" parent="Column/Row/Traits/Row8"]
+margin_left = 4.0
+margin_right = 62.0
+margin_bottom = 24.0
+
+[node name="Personality" type="VBoxContainer" parent="Column/Row"]
+margin_left = 686.0
+margin_right = 1024.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+custom_constants/separation = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Column/Row/Personality"]
+margin_right = 338.0
+margin_bottom = 39.0
+custom_constants/separation = 2
+
+[node name="Label" type="Label" parent="Column/Row/Personality/VBoxContainer"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Personality Traits"
+align = 1
+valign = 1
+
+[node name="Personality Traits" type="TextEdit" parent="Column/Row/Personality/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 16.0
+margin_right = 338.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+wrap_enabled = true
+script = ExtResource( 5 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Column/Row/Personality"]
+margin_top = 54.0
+margin_right = 338.0
+margin_bottom = 91.0
+custom_constants/separation = 0
+
+[node name="Label2" type="Label" parent="Column/Row/Personality/VBoxContainer2"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Ideals"
+align = 1
+valign = 1
+
+[node name="Ideals" type="TextEdit" parent="Column/Row/Personality/VBoxContainer2"]
+unique_name_in_owner = true
+margin_top = 14.0
+margin_right = 338.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+wrap_enabled = true
+script = ExtResource( 5 )
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Column/Row/Personality"]
+margin_top = 106.0
+margin_right = 338.0
+margin_bottom = 143.0
+custom_constants/separation = 0
+
+[node name="Label3" type="Label" parent="Column/Row/Personality/VBoxContainer3"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Bonds"
+align = 1
+valign = 1
+
+[node name="Bonds" type="TextEdit" parent="Column/Row/Personality/VBoxContainer3"]
+unique_name_in_owner = true
+margin_top = 14.0
+margin_right = 338.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+wrap_enabled = true
+script = ExtResource( 5 )
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="Column/Row/Personality"]
+margin_top = 158.0
+margin_right = 338.0
+margin_bottom = 195.0
+custom_constants/separation = 0
+
+[node name="Label4" type="Label" parent="Column/Row/Personality/VBoxContainer4"]
+margin_right = 338.0
+margin_bottom = 14.0
+text = "Flaws"
+align = 1
+valign = 1
+
+[node name="Flaws" type="TextEdit" parent="Column/Row/Personality/VBoxContainer4"]
+unique_name_in_owner = true
+margin_top = 14.0
+margin_right = 338.0
+margin_bottom = 37.0
+rect_min_size = Vector2( 0, 23 )
+size_flags_horizontal = 3
+wrap_enabled = true
+script = ExtResource( 5 )
+
+[node name="HSeparator2" type="HSeparator" parent="Column"]
+margin_top = 334.0
+margin_right = 1024.0
+margin_bottom = 338.0
+
+[node name="Tabs" type="TabContainer" parent="Column"]
+unique_name_in_owner = true
+margin_top = 353.0
+margin_right = 1024.0
+margin_bottom = 613.0
+
+[node name="Ability Scores" type="VBoxContainer" parent="Column/Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Row" type="HBoxContainer" parent="Column/Tabs/Ability Scores"]
+margin_right = 1016.0
+margin_bottom = 110.0
 custom_constants/separation = 15
 alignment = 1
 
-[node name="Strength" parent="Column/Row" instance=ExtResource( 4 )]
+[node name="Strength" parent="Column/Tabs/Ability Scores/Row" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 227.0
-margin_right = 407.0
-margin_bottom = 84.0
+margin_left = 223.0
+margin_right = 403.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Strength"
 
-[node name="Dexterity" parent="Column/Row" instance=ExtResource( 4 )]
+[node name="Dexterity" parent="Column/Tabs/Ability Scores/Row" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 422.0
-margin_right = 602.0
-margin_bottom = 84.0
+margin_left = 418.0
+margin_right = 598.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Dexterity"
 
-[node name="Constitution" parent="Column/Row" instance=ExtResource( 4 )]
+[node name="Constitution" parent="Column/Tabs/Ability Scores/Row" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 617.0
-margin_right = 797.0
-margin_bottom = 84.0
+margin_left = 613.0
+margin_right = 793.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Constitution"
 
-[node name="Row2" type="HBoxContainer" parent="Column"]
-margin_top = 218.0
-margin_right = 1024.0
-margin_bottom = 302.0
+[node name="Row2" type="HBoxContainer" parent="Column/Tabs/Ability Scores"]
+margin_top = 114.0
+margin_right = 1016.0
+margin_bottom = 224.0
 custom_constants/separation = 15
 alignment = 1
 
-[node name="Wisdom" parent="Column/Row2" instance=ExtResource( 4 )]
+[node name="Wisdom" parent="Column/Tabs/Ability Scores/Row2" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 227.0
-margin_right = 407.0
-margin_bottom = 84.0
+margin_left = 223.0
+margin_right = 403.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Wisdom"
 
-[node name="Intelligence" parent="Column/Row2" instance=ExtResource( 4 )]
+[node name="Intelligence" parent="Column/Tabs/Ability Scores/Row2" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 422.0
-margin_right = 602.0
-margin_bottom = 84.0
+margin_left = 418.0
+margin_right = 598.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Intelligence"
 
-[node name="Charisma" parent="Column/Row2" instance=ExtResource( 4 )]
+[node name="Charisma" parent="Column/Tabs/Ability Scores/Row2" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 617.0
-margin_right = 797.0
-margin_bottom = 84.0
+margin_left = 613.0
+margin_right = 793.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
 AbilityName = "Charisma"
