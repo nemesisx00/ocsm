@@ -1,6 +1,5 @@
 using Godot;
 using OCSM.Nodes.Autoload;
-using OCSM.Nodes.CoD.CtL.Meta;
 
 namespace OCSM.Nodes
 {
@@ -34,16 +33,30 @@ namespace OCSM.Nodes
 			switch(metadataManager.CurrentGameSystem)
 			{
 				case GameSystem.CoD.Changeling:
-					var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata);
-					var instance = resource.Instance<AddEditMetadata>();
-					GetTree().CurrentScene.AddChild(instance);
-					NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-					instance.Popup_();
-					instance.Connect(nameof(AddEditMetadata.MetadataChanged), metadataManager, nameof(MetadataManager.saveGameSystemMetadata));
+					generatePopup<OCSM.Nodes.CoD.CtL.Meta.AddEditMetadata>(
+						ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata),
+						nameof(OCSM.Nodes.CoD.CtL.Meta.AddEditMetadata.MetadataChanged)
+					);
+					break;
+				case GameSystem.DnD.Fifth:
+					generatePopup<OCSM.Nodes.DnD.Fifth.Meta.AddEditMetadata>(
+						ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata),
+						nameof(OCSM.Nodes.DnD.Fifth.Meta.AddEditMetadata.MetadataChanged)
+					);
 					break;
 				default:
 					break;
 			}
+		}
+		
+		private void generatePopup<T>(PackedScene resource, string signal)
+			where T: WindowDialog
+		{
+			var instance = resource.Instance<T>();
+			GetTree().CurrentScene.AddChild(instance);
+			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
+			instance.Popup_();
+			instance.Connect(signal, metadataManager, nameof(MetadataManager.saveGameSystemMetadata));
 		}
 	}
 }

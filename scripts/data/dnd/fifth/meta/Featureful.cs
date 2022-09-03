@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OCSM.Meta;
 
-namespace OCSM.DnD.Fifth
+namespace OCSM.DnD.Fifth.Meta
 {
 	public abstract class Featureful : Metadata, IEquatable<Featureful>
 	{
@@ -11,6 +11,16 @@ namespace OCSM.DnD.Fifth
 		public Featureful() : base()
 		{
 			Features = new List<Feature>();
+		}
+		
+		public Featureful(string name, string description) : base(name, description)
+		{
+			Features = new List<Feature>();
+		}
+		
+		public Featureful(string name, string description, List<Feature> features) : base(name, description)
+		{
+			Features = new List<Feature>(features);
 		}
 		
 		public bool Equals(Featureful f)

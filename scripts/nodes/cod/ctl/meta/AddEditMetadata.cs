@@ -10,8 +10,6 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 {
 	public class AddEditMetadata : WindowDialog
 	{
-		private enum Tabs { Selector, Contract, ContractType, Court, Kith, Merit, Regalia, Seeming}
-		
 		private const string ContractName = "Contract";
 		private const string ContractTypeName = "Contract Type";
 		private const string CourtName = "Court";
@@ -146,91 +144,6 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				{
 					ccc.Seemings.Remove(seeming);
 					EmitSignal(nameof(MetadataChanged));
-				}
-			}
-		}
-		
-		private void editContract(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is OCSM.CoD.CtL.Contract contract)
-				{
-					var entry = GetNode<ContractEntry>(NodePathBuilder.SceneUnique(ContractName));
-					entry.GetNode<Contract>(NodePathBuilder.SceneUnique(ContractEntry.ContractInput)).setData(contract);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Contract;
-				}
-			}
-		}
-		
-		private void editContractType(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
-				{
-					GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName)).loadEntry(contractType);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.ContractType;
-				}
-			}
-		}
-		
-		private void editCourt(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
-				{
-					GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName)).loadEntry(court);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Court;
-				}
-			}
-		}
-		
-		private void editKith(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
-				{
-					GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName)).loadEntry(kith);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Kith;
-				}
-			}
-		}
-		
-		private void editMerit(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
-				{
-					GetNode<MeritEntry>(NodePathBuilder.SceneUnique(MeritName)).loadMerit(merit);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Merit;
-				}
-			}
-		}
-		
-		private void editRegalia(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
-				{
-					GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName)).loadEntry(regalia);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Regalia;
-				}
-			}
-		}
-		
-		private void editSeeming(string name)
-		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				if(ccc.Seemings.Find(ct => ct.Name.Equals(name)) is Seeming seeming)
-				{
-					GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName)).loadEntry(seeming);
-					GetNode<TabContainer>(NodePathBuilder.SceneUnique(TabContainer)).CurrentTab = (int)Tabs.Seeming;
 				}
 			}
 		}
