@@ -52,6 +52,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 			
 			Values = values;
+			doEmitSignal();
 			
 			if(children.Count <= values.Count)
 			{
@@ -71,7 +72,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void addInput(FeatureSection section = null)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
+			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.FeatureSectionEntry);
 			var instance = resource.Instance<HBoxContainer>();
 			
 			AddChild(instance);

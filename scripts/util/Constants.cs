@@ -75,7 +75,7 @@ namespace OCSM
 					
 					public sealed class Meta
 					{
-						public const string AddEditMetadata = "res://scenes/cod/nodes/ctl/meta/AddEditMetadata.tscn";
+						public const string AddEditMetadata = "res://scenes/cod/nodes/ctl/meta/CodChangelingAddEditMetadata.tscn";
 					}
 				}
 			}
@@ -87,12 +87,14 @@ namespace OCSM
 					public const string Skill = "res://scenes/dnd/fifth/Skill.tscn";
 					public const string Sheet = "res://scenes/dnd/sheets/Fifth.tscn";
 					public const string NewSheetName = "New Adventurer";
-					public const string NewFeature = "res://scenes/dnd/fifth/NewFeature.tscn";
+					public const string Feature = "res://scenes/dnd/fifth/Feature.tscn";
 					public const string FeatureSection = "res://scenes/dnd/fifth/FeatureSection.tscn";
 					
 					public sealed class Meta
 					{
-						public const string AddEditMetadata = "res://scenes/dnd/fifth/meta/AddEditMetadata.tscn";
+						public const string AddEditMetadata = "res://scenes/dnd/fifth/meta/DndFifthAddEditMetadata.tscn";
+						public const string FeatureSectionEntry = "res://scenes/dnd/fifth/meta/FeatureSectionEntry.tscn";
+						public const string FeatureEntry = "res://scenes/dnd/fifth/meta/FeatureEntry.tscn";
 					}
 				}
 			}

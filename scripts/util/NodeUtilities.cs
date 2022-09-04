@@ -1,4 +1,5 @@
 using Godot;
+using OCSM.Nodes.Meta;
 
 namespace OCSM
 {
@@ -44,6 +45,18 @@ namespace OCSM
 				lines = 1;
 			
 			return lines;
+		}
+		
+		public static void displayDeleteConfirmation(string label, Node parent, Vector2 center, Node handler, string doDelete)
+		{
+			
+			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+			var instance = resource.Instance<ConfirmDeleteEntry>();
+			instance.EntryTypeName = label;
+			parent.AddChild(instance);
+			NodeUtilities.centerControl(instance, center);
+			instance.Connect(Constants.Signal.Confirmed, handler, doDelete);
+			instance.Popup_();
 		}
 	}
 }

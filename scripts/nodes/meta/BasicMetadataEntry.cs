@@ -66,13 +66,13 @@ namespace OCSM.Nodes.Meta
 		
 		protected void handleDelete()
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
-			var instance = resource.Instance<ConfirmDeleteEntry>();
-			instance.EntryTypeName = MetadataTypeLabel;
-			GetTree().CurrentScene.AddChild(instance);
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.Connect(Constants.Signal.Confirmed, this, nameof(doDelete));
-			instance.Popup_();
+			NodeUtilities.displayDeleteConfirmation(
+				MetadataTypeLabel,
+				GetTree().CurrentScene,
+				GetViewportRect().GetCenter(),
+				this,
+				nameof(doDelete)
+			);
 		}
 		
 		protected virtual void doDelete()

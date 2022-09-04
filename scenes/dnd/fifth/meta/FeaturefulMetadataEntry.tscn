@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeaturefulMetadataEntry.cs" type="Script" id=3]
+[ext_resource path="res://scripts/nodes/dnd/fifth/FeatureOptionsButton.cs" type="Script" id=4]
 
 [node name="FeaturefulMetadataEntry" type="VBoxContainer"]
 anchor_right = 1.0
@@ -107,12 +108,36 @@ size_flags_horizontal = 3
 wrap_enabled = true
 script = ExtResource( 2 )
 
-[node name="Row5" type="VBoxContainer" parent="."]
+[node name="Row5" type="HBoxContainer" parent="."]
 margin_top = 175.0
 margin_right = 1024.0
-margin_bottom = 203.0
+margin_bottom = 195.0
 
 [node name="Label" type="Label" parent="Row5"]
+margin_top = 3.0
+margin_right = 510.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+text = "Existing Features:"
+align = 2
+valign = 1
+
+[node name="ExistingFeatures" type="OptionButton" parent="Row5"]
+unique_name_in_owner = true
+margin_left = 514.0
+margin_right = 614.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 2
+script = ExtResource( 4 )
+
+[node name="Row6" type="VBoxContainer" parent="."]
+margin_top = 210.0
+margin_right = 1024.0
+margin_bottom = 238.0
+rect_pivot_offset = Vector2( -671, 28 )
+
+[node name="Label" type="Label" parent="Row6"]
 margin_right = 1024.0
 margin_bottom = 24.0
 custom_fonts/font = ExtResource( 1 )
@@ -120,8 +145,9 @@ text = "Features"
 align = 1
 valign = 1
 
-[node name="Features" type="VBoxContainer" parent="Row5"]
+[node name="Features" type="VBoxContainer" parent="Row6"]
 unique_name_in_owner = true
 margin_top = 28.0
 margin_right = 1024.0
 margin_bottom = 28.0
+custom_constants/separation = 25

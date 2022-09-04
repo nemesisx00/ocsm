@@ -1,5 +1,7 @@
 using Godot;
 using OCSM.Nodes.Autoload;
+using OCSM.Nodes.CoD.CtL.Meta;
+using OCSM.Nodes.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes
 {
@@ -33,15 +35,15 @@ namespace OCSM.Nodes
 			switch(metadataManager.CurrentGameSystem)
 			{
 				case GameSystem.CoD.Changeling:
-					generatePopup<OCSM.Nodes.CoD.CtL.Meta.AddEditMetadata>(
+					generatePopup<CodChangelingAddEditMetadata>(
 						ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata),
-						nameof(OCSM.Nodes.CoD.CtL.Meta.AddEditMetadata.MetadataChanged)
+						nameof(CodChangelingAddEditMetadata.MetadataChanged)
 					);
 					break;
 				case GameSystem.DnD.Fifth:
-					generatePopup<OCSM.Nodes.DnD.Fifth.Meta.AddEditMetadata>(
+					generatePopup<DndFifthAddEditMetadata>(
 						ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata),
-						nameof(OCSM.Nodes.DnD.Fifth.Meta.AddEditMetadata.MetadataChanged)
+						nameof(DndFifthAddEditMetadata.MetadataChanged)
 					);
 					break;
 				default:

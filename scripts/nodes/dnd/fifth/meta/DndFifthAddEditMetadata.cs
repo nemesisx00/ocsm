@@ -6,9 +6,10 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class AddEditMetadata : WindowDialog
+	public class DndFifthAddEditMetadata : WindowDialog
 	{
 		private const string BackgroundsName = "Backgrounds";
+		private const string FeaturesName = "FeatureEntry";
 		
 		[Signal]
 		public delegate void MetadataChanged();
@@ -23,6 +24,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var backgroundEntry = GetNode<BackgroundEntry>(NodePathBuilder.SceneUnique(BackgroundsName));
 			backgroundEntry.Connect(nameof(BackgroundEntry.SaveClicked), this, nameof(saveBackground));
 			backgroundEntry.Connect(nameof(BackgroundEntry.DeleteConfirmed), this, nameof(deleteBackground));
+			
+			var featureEntry = GetNode<FeatureEntry>(NodePathBuilder.SceneUnique(FeaturesName));
+			featureEntry.Connect(nameof(FeatureEntry.SaveClicked), this, nameof(saveFeature));
+			featureEntry.Connect(nameof(FeatureEntry.DeleteConfirmed), this, nameof(deleteFeature));
 		}
 		
 		private void closeHandler()
@@ -42,20 +47,44 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveBackground(string name, string description, List<Transport<Feature>> transports)
+		protected void deleteFeature(string name)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
+				{
+					dfc.Features.Remove(feature);
+					EmitSignal(nameof(MetadataChanged));
+				}
+			}
+		}
+		
+		protected void saveBackground(string name, string description, List<Transport<OCSM.DnD.Fifth.Feature>> transports)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
 					dfc.Backgrounds.Remove(background);
 				
-				var features = new List<Feature>();
+				var features = new List<OCSM.DnD.Fifth.Feature>();
 				foreach(var transport in transports)
 				{
 					features.Add(transport.Value);
 				}
 				
 				dfc.Backgrounds.Add(new Background(name, description, features));
+				EmitSignal(nameof(MetadataChanged));
+			}
+		}
+		
+		protected void saveFeature(Transport<OCSM.DnD.Fifth.Feature> transport)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Features.Find(f => f.Name.Equals(transport.Value.Name)) is OCSM.DnD.Fifth.Feature feature)
+					dfc.Features.Remove(feature);
+				
+				dfc.Features.Add(transport.Value);
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}

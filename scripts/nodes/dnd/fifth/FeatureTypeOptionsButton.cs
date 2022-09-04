@@ -1,9 +1,9 @@
 using Godot;
 using OCSM.DnD.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace OCSM.Nodes.DnD.Fifth
 {
-	public class FeatureTypeOptionButton : OptionButton
+	public class FeatureTypeOptionsButton : OptionButton
 	{
 		[Export]
 		public bool emptyOption = true;

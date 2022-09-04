@@ -8,7 +8,7 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class AddEditMetadata : WindowDialog
+	public class CodChangelingAddEditMetadata : WindowDialog
 	{
 		private const string ContractName = "Contract";
 		private const string ContractTypeName = "Contract Type";
