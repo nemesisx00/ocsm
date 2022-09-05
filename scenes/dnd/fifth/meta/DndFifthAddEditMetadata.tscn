@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/dnd/fifth/meta/FeaturefulMetadataEntry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/BackgroundOptionsButton.cs" type="Script" id=2]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/DndFifthAddEditMetadata.cs" type="Script" id=3]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/BackgroundEntry.cs" type="Script" id=4]
 [ext_resource path="res://scenes/dnd/fifth/meta/FeatureEntry.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/nodes/dnd/fifth/meta/RaceEntry.cs" type="Script" id=6]
+[ext_resource path="res://scripts/nodes/dnd/fifth/ClassOptionsButton.cs" type="Script" id=7]
+[ext_resource path="res://scripts/nodes/dnd/fifth/RaceOptionsButton.cs" type="Script" id=8]
+[ext_resource path="res://scripts/nodes/dnd/fifth/meta/ClassEntry.cs" type="Script" id=9]
 
 [node name="AddEditMetadata" type="WindowDialog"]
 anchor_right = 1.0
@@ -36,6 +40,13 @@ script = ExtResource( 4 )
 MetadataTypeLabel = "Background"
 OptionsButtonScript = ExtResource( 2 )
 
+[node name="Classes" parent="ScrollContainer/TabContainer" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+visible = false
+script = ExtResource( 9 )
+MetadataTypeLabel = "Class"
+OptionsButtonScript = ExtResource( 7 )
+
 [node name="Features" type="VBoxContainer" parent="ScrollContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
@@ -55,3 +66,10 @@ margin_right = 712.0
 margin_bottom = 504.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Races" parent="ScrollContainer/TabContainer" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+visible = false
+script = ExtResource( 6 )
+MetadataTypeLabel = "Race"
+OptionsButtonScript = ExtResource( 8 )

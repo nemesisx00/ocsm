@@ -12,7 +12,8 @@ namespace OCSM.DnD.Fifth
 		public static Die d20 = new Die(20);
 		public static Die d100 = new Die(100);
 		
-		private Die(int sides) : base(sides) { }
+		public Die() : this(1) { }
+		public Die(int sides) : base(sides) { }
 		
 		public int advantage()
 		{

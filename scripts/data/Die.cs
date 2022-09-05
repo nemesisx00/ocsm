@@ -6,6 +6,7 @@ namespace OCSM
 	{
 		public int Sides { get; set; }
 		
+		public Die() : this(1) { }
 		public Die(int sides)
 		{
 			Sides = sides;

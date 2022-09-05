@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" type="Script" id=1]
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://scenes/dnd/fifth/Ability.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=5]
 [ext_resource path="res://scenes/nodes/ToggleButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/nodes/dnd/fifth/BackgroundOptionsButton.cs" type="Script" id=7]
+[ext_resource path="res://scripts/nodes/dnd/fifth/RaceOptionsButton.cs" type="Script" id=8]
 
 [node name="5E" type="ScrollContainer"]
 anchor_right = 1.0
@@ -59,16 +61,16 @@ margin_bottom = 24.0
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row"]
 margin_top = 5.0
-margin_right = 80.0
+margin_right = 100.0
 margin_bottom = 19.0
-rect_min_size = Vector2( 80, 0 )
+rect_min_size = Vector2( 100, 0 )
 text = "Player:"
 align = 2
 valign = 1
 
 [node name="PlayerName" type="LineEdit" parent="Column/Row/Details/Row"]
 unique_name_in_owner = true
-margin_left = 84.0
+margin_left = 104.0
 margin_right = 338.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
@@ -80,16 +82,16 @@ margin_bottom = 63.0
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row2"]
 margin_top = 5.0
-margin_right = 80.0
+margin_right = 100.0
 margin_bottom = 19.0
-rect_min_size = Vector2( 80, 0 )
+rect_min_size = Vector2( 100, 0 )
 text = "Name: "
 align = 2
 valign = 1
 
 [node name="CharacterName" type="LineEdit" parent="Column/Row/Details/Row2"]
 unique_name_in_owner = true
-margin_left = 84.0
+margin_left = 104.0
 margin_right = 338.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
@@ -101,16 +103,16 @@ margin_bottom = 102.0
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row3"]
 margin_top = 5.0
-margin_right = 80.0
+margin_right = 100.0
 margin_bottom = 19.0
-rect_min_size = Vector2( 80, 0 )
+rect_min_size = Vector2( 100, 0 )
 text = "Alignment:"
 align = 2
 valign = 1
 
 [node name="Alignment" type="LineEdit" parent="Column/Row/Details/Row3"]
 unique_name_in_owner = true
-margin_left = 84.0
+margin_left = 104.0
 margin_right = 338.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
@@ -118,44 +120,46 @@ size_flags_horizontal = 3
 [node name="Row4" type="HBoxContainer" parent="Column/Row/Details"]
 margin_top = 117.0
 margin_right = 338.0
-margin_bottom = 141.0
+margin_bottom = 137.0
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row4"]
-margin_top = 5.0
-margin_right = 80.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 80, 0 )
+margin_top = 3.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 100, 0 )
 text = "Race:"
 align = 2
 valign = 1
 
-[node name="Race" type="LineEdit" parent="Column/Row/Details/Row4"]
+[node name="Race" type="OptionButton" parent="Column/Row/Details/Row4"]
 unique_name_in_owner = true
-margin_left = 84.0
+margin_left = 104.0
 margin_right = 338.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
+script = ExtResource( 8 )
 
 [node name="Row5" type="HBoxContainer" parent="Column/Row/Details"]
-margin_top = 156.0
+margin_top = 152.0
 margin_right = 338.0
-margin_bottom = 180.0
+margin_bottom = 172.0
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row5"]
-margin_top = 5.0
-margin_right = 80.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 80, 0 )
+margin_top = 3.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 100, 0 )
 text = "Background:"
 align = 2
 valign = 1
 
-[node name="Background" type="LineEdit" parent="Column/Row/Details/Row5"]
+[node name="Background" type="OptionButton" parent="Column/Row/Details/Row5"]
 unique_name_in_owner = true
-margin_left = 84.0
+margin_left = 104.0
 margin_right = 338.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
+script = ExtResource( 7 )
 
 [node name="Traits" type="VBoxContainer" parent="Column/Row"]
 margin_left = 343.0

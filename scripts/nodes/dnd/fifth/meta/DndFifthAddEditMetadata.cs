@@ -9,7 +9,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 	public class DndFifthAddEditMetadata : WindowDialog
 	{
 		private const string BackgroundsName = "Backgrounds";
+		private const string ClassesName = "Classes";
 		private const string FeaturesName = "FeatureEntry";
+		private const string RacesName = "Races";
 		
 		[Signal]
 		public delegate void MetadataChanged();
@@ -25,9 +27,17 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			backgroundEntry.Connect(nameof(BackgroundEntry.SaveClicked), this, nameof(saveBackground));
 			backgroundEntry.Connect(nameof(BackgroundEntry.DeleteConfirmed), this, nameof(deleteBackground));
 			
+			var classEntry = GetNode<ClassEntry>(NodePathBuilder.SceneUnique(ClassesName));
+			classEntry.Connect(nameof(ClassEntry.SaveClicked), this, nameof(saveClass));
+			classEntry.Connect(nameof(ClassEntry.DeleteConfirmed), this, nameof(deleteClass));
+			
 			var featureEntry = GetNode<FeatureEntry>(NodePathBuilder.SceneUnique(FeaturesName));
 			featureEntry.Connect(nameof(FeatureEntry.SaveClicked), this, nameof(saveFeature));
 			featureEntry.Connect(nameof(FeatureEntry.DeleteConfirmed), this, nameof(deleteFeature));
+			
+			var raceEntry = GetNode<RaceEntry>(NodePathBuilder.SceneUnique(RacesName));
+			raceEntry.Connect(nameof(RaceEntry.SaveClicked), this, nameof(saveRace));
+			raceEntry.Connect(nameof(RaceEntry.DeleteConfirmed), this, nameof(deleteRace));
 		}
 		
 		private void closeHandler()
@@ -47,6 +57,18 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
+		protected void deleteClass(string name)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
+				{
+					dfc.Classes.Remove(clazz);
+					EmitSignal(nameof(MetadataChanged));
+				}
+			}
+		}
+		
 		protected void deleteFeature(string name)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
@@ -59,20 +81,62 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveBackground(string name, string description, List<Transport<OCSM.DnD.Fifth.Feature>> transports)
+		protected void deleteRace(string name)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
+				{
+					dfc.Races.Remove(race);
+					EmitSignal(nameof(MetadataChanged));
+				}
+			}
+		}
+		
+		protected void saveBackground(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
 					dfc.Backgrounds.Remove(background);
 				
-				var features = new List<OCSM.DnD.Fifth.Feature>();
-				foreach(var transport in transports)
+				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				foreach(var transport in sections)
 				{
-					features.Add(transport.Value);
+					sectionList.Add(transport.Value);
 				}
 				
-				dfc.Backgrounds.Add(new Background(name, description, features));
+				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				foreach(var transport in features)
+				{
+					featureList.Add(transport.Value);
+				}
+				
+				dfc.Backgrounds.Add(new Background(name, description, sectionList, featureList));
+				EmitSignal(nameof(MetadataChanged));
+			}
+		}
+		
+		protected void saveClass(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
+					dfc.Classes.Remove(clazz);
+				
+				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				foreach(var transport in sections)
+				{
+					sectionList.Add(transport.Value);
+				}
+				
+				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				foreach(var transport in features)
+				{
+					featureList.Add(transport.Value);
+				}
+				
+				dfc.Classes.Add(new Class(OCSM.DnD.Fifth.Die.d10, name, description, sectionList, featureList));
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -85,6 +149,30 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Features.Remove(feature);
 				
 				dfc.Features.Add(transport.Value);
+				EmitSignal(nameof(MetadataChanged));
+			}
+		}
+		
+		protected void saveRace(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
+					dfc.Races.Remove(race);
+				
+				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				foreach(var transport in sections)
+				{
+					sectionList.Add(transport.Value);
+				}
+				
+				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				foreach(var transport in features)
+				{
+					featureList.Add(transport.Value);
+				}
+				
+				dfc.Races.Add(new Race(name, description, sectionList, featureList));
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}

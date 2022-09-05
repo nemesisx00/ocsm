@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.DnD.Fifth
@@ -8,11 +9,26 @@ namespace OCSM.DnD.Fifth
 		public int Level { get; set; }
 		public Die HitDie { get; set; }
 		
-		public Class() : base() { }
-		
-		public Class(string name, Die die) : this()
+		public Class() : base()
 		{
-			Name = name;
+			Level = 0;
+			HitDie = null;
+		}
+		
+		public Class(Die die) : base()
+		{
+			Level = 1;
+			HitDie = die;
+		}
+		
+		public Class(Die die, string name, string description) : base(name, description)
+		{
+			Level = 1;
+			HitDie = die;
+		}
+		
+		public Class(Die die, string name, string description, List<FeatureSection> sections, List<Feature> features) : base(name, description, sections, features)
+		{
 			Level = 1;
 			HitDie = die;
 		}

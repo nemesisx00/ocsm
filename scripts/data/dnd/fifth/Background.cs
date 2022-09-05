@@ -8,7 +8,7 @@ namespace OCSM.DnD.Fifth
 	{
 		public Background() : base() { }
 		public Background(string name, string description) : base(name, description) { }
-		public Background(string name, string description, List<Feature> features) : base(name, description, features) { }
+		public Background(string name, string description, List<FeatureSection> sections, List<Feature> features) : base(name, description, sections, features) { }
 		
 		public bool Equals(Background background)
 		{
