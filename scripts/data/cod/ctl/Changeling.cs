@@ -18,9 +18,8 @@ namespace OCSM.CoD.CtL
 		public List<string> Touchstones { get; set; }
 		public int Wyrd { get; set; }
 		
-		public Changeling() : base()
+		public Changeling() : base(OCSM.GameSystem.CoD.Changeling)
 		{
-			GameSystem = OCSM.GameSystem.CoD.Changeling;
 			Clarity = 7;
 			Contracts = new List<Contract>();
 			Court = null;

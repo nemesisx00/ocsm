@@ -413,7 +413,7 @@ text = "Personality Traits"
 align = 1
 valign = 1
 
-[node name="Personality Traits" type="TextEdit" parent="Column/Row/Personality/VBoxContainer"]
+[node name="PersonalityTraits" type="TextEdit" parent="Column/Row/Personality/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 16.0
 margin_right = 332.0

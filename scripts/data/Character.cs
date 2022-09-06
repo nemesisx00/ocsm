@@ -20,11 +20,13 @@ namespace OCSM
 	{
 		public string GameSystem { get; set; }
 		public string Name { get; set; }
+		public string Player { get; set; }
 		
 		public Character()
 		{
 			GameSystem = String.Empty;
 			Name = String.Empty;
+			Player = String.Empty;
 		}
 		
 		public Character(string gameSystem) : this()

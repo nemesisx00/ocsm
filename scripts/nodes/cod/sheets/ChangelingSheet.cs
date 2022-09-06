@@ -68,8 +68,6 @@ namespace OCSM.Nodes.CoD.Sheets
 			GetNode<MeritsFromMetadata>(NodePathBuilder.SceneUnique(MeritsFromMetadataName)).Connect(nameof(MeritsFromMetadata.AddMerit), this, nameof(addExistingMerit));
 			
 			base._Ready();
-			
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)

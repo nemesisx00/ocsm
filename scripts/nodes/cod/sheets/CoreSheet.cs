@@ -83,28 +83,14 @@ namespace OCSM.Nodes.CoD.Sheets
 			updateMaxHealth();
 			updateMaxWillpower();
 			updateSpeed();
+			
+			base._Ready();
 		}
 		
-		protected void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
+		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
 			where T1: Control
 		{
-			if(node is TrackSimple ts)
-			{
-				if(initialValue is int number)
-					ts.updateValue(number > 0 ? number : 0);
-				
-				if(nodeChanged)
-					ts.Connect(Constants.Signal.NodeChanged, this, handlerName);
-				else
-					ts.Connect(nameof(TrackSimple.ValueChanged), this, handlerName);
-			}
-			else if(node is TrackComplex tc)
-			{
-				if(initialValue is Dictionary<string, int> entries)
-					tc.Values = entries;
-				tc.Connect(nameof(TrackComplex.ValueChanged), this, handlerName);
-			}
-			else if(node is MeritList ml)
+			if(node is MeritList ml)
 			{
 				if(initialValue is List<Merit> merits)
 					ml.Values = merits;
@@ -126,7 +112,7 @@ namespace OCSM.Nodes.CoD.Sheets
 				sl.Connect(nameof(SpecialtyList.ValueChanged), this, handlerName);
 			}
 			else
-				base.InitAndConnect<T1, T2>(node, initialValue, handlerName);
+				base.InitAndConnect<T1, T2>(node, initialValue, handlerName, nodeChanged);
 		}
 		
 		protected void updateDefense()

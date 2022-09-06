@@ -8,7 +8,13 @@ namespace OCSM.Nodes.DnD.Fifth
 	public class Ability : Container
 	{
 		[Signal]
-		public delegate void ScoreChanged(int score, int modifier);
+		public delegate void ScoreChanged(string abilityName, int score, int modifier);
+		[Signal]
+		public delegate void NodeChanged(Ability node);
+		[Signal]
+		public delegate void SavingThrowProficiencyChanged(string abilityName, Proficiency proficiency);
+		[Signal]
+		public delegate void SkillProficienyChanged(Transport<OCSM.DnD.Fifth.Skill> transport);
 		
 		private sealed class Names
 		{
@@ -20,7 +26,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		}
 		
 		[Export(PropertyHint.Enum, AbilityScore.Names.EnumHint)]
-		private string AbilityName { get; set; } = String.Empty;
+		public string AbilityName { get; set; } = String.Empty;
 		
 		public int Score
 		{
@@ -37,6 +43,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		private SpinBox score;
 		private SpinBox modifier;
 		private Container skillsContainer;
+		private Skill savingThrow;
 		
 		public override void _Ready()
 		{
@@ -44,7 +51,9 @@ namespace OCSM.Nodes.DnD.Fifth
 			score = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Score));
 			modifier = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Modifier));
 			skillsContainer = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Skills));
-			GetNode<Skill>(NodePathBuilder.SceneUnique(Names.SavingThrow)).trackAbility(this);
+			savingThrow = GetNode<Skill>(NodePathBuilder.SceneUnique(Names.SavingThrow));
+			savingThrow.trackAbility(this);
+			savingThrow.Connect(nameof(Skill.ProficiencyChanged), this, nameof(savingThrowChanged));
 			
 			label.Text = AbilityName;
 			score.Connect(Constants.Signal.ValueChanged, this, nameof(scoreChanged));
@@ -86,7 +95,7 @@ namespace OCSM.Nodes.DnD.Fifth
 				modifier.Prefix = String.Empty;
 		}
 		
-		private void renderSkills()
+		public void renderSkills()
 		{
 			foreach(Node child in skillsContainer.GetChildren())
 			{
@@ -102,14 +111,36 @@ namespace OCSM.Nodes.DnD.Fifth
 				instance.Label = skill.Name;
 				instance.Name = skill.Name;
 				instance.trackAbility(this);
+				instance.Connect(nameof(Skill.ProficiencyChanged), this, nameof(proficiencyChanged), new Godot.Collections.Array(new Transport<OCSM.DnD.Fifth.Skill>(skill)));
 				skillsContainer.AddChild(instance);
+				instance.setProficiency(skill.Proficient);
 			}
+		}
+		
+		public void setSavingThrowProficiency(Proficiency proficiency)
+		{
+			savingThrow.setProficiency(proficiency);
+		}
+		
+		private void proficiencyChanged(string currentState, Transport<OCSM.DnD.Fifth.Skill> transport)
+		{
+			var proficiency = ProficiencyUtility.fromStatefulButtonState(currentState);
+			transport.Value.Proficient = proficiency;
+			if(Skills.Find(s => s.Name.Equals(transport.Value.Name)) is OCSM.DnD.Fifth.Skill skill)
+				skill.Proficient = proficiency;
+			EmitSignal(nameof(SkillProficienyChanged), transport);
+		}
+		
+		private void savingThrowChanged(string currentState)
+		{
+			EmitSignal(nameof(SavingThrowProficiencyChanged), AbilityName, ProficiencyUtility.fromStatefulButtonState(currentState));
 		}
 		
 		private void scoreChanged(float value)
 		{
 			calculateModifier();
-			EmitSignal(nameof(ScoreChanged), Score, Modifier);
+			EmitSignal(nameof(ScoreChanged), AbilityName, Score, Modifier);
+			EmitSignal(nameof(NodeChanged), this);
 		}
 	}
 }

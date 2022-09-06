@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace OCSM.CoD
 {
@@ -12,9 +11,8 @@ namespace OCSM.CoD
 		public string Vice { get; set; }
 		public string Virtue { get; set; }
 		
-		public Mortal() : base()
+		public Mortal() : base(OCSM.GameSystem.CoD.Mortal)
 		{
-			GameSystem = OCSM.GameSystem.CoD.Mortal;
 			Age = -1;
 			Integrity = 7;
 			Faction = String.Empty;

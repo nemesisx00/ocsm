@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using OCSM.Nodes;
-using OCSM.Nodes.CoD;
 
 namespace OCSM.CoD
 {
@@ -15,7 +14,6 @@ namespace OCSM.CoD
 		public int WillpowerSpent { get; set; }
 		public string Chronicle { get; set; }
 		public string Concept { get; set; }
-		public string Player { get; set; }
 		
 		public List<string> Aspirations { get; set; }
 		public List<Attribute> Attributes { get; set; }
@@ -25,7 +23,7 @@ namespace OCSM.CoD
 		public List<Skill> Skills { get; set; }
 		public Dictionary<string, string> Specialties { get; set; }
 		
-		public CodCore()
+		public CodCore() : base()
 		{
 			Beats = 0;
 			Experience = 0;
@@ -36,8 +34,6 @@ namespace OCSM.CoD
 			
 			Chronicle = String.Empty;
 			Concept = String.Empty;
-			Name = String.Empty;
-			Player = String.Empty;
 			
 			Aspirations = new List<string>();
 			Attributes = Attribute.asList();
@@ -49,6 +45,11 @@ namespace OCSM.CoD
 			Merits = new List<Merit>();
 			Skills = Skill.asList();
 			Specialties = new Dictionary<string, string>();
+		}
+		
+		public CodCore(string gameSystem) : this()
+		{
+			GameSystem = gameSystem;
 		}
 	}
 }

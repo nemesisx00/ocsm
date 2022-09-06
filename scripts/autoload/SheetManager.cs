@@ -90,7 +90,14 @@ namespace OCSM.Nodes.Autoload
 					}
 					else if(json.Contains(GameSystem.CoD.Mortal))
 					{
+						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Mortal;
 						addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
+						loaded = true;
+					}
+					else if(json.Contains(GameSystem.DnD.Fifth))
+					{
+						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.DnD.Fifth;
+						addNewSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName, json);
 						loaded = true;
 					}
 					

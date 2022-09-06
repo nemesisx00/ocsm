@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
@@ -13,6 +14,9 @@ namespace OCSM.Nodes.DnD.Fifth
 		}
 		
 		private const string PositiveFormat = "+{0}";
+		
+		[Signal]
+		public delegate void ProficiencyChanged(string currentState);
 		
 		[Export]
 		public string Label { get; set; } = String.Empty;
@@ -31,6 +35,13 @@ namespace OCSM.Nodes.DnD.Fifth
 			update();
 		}
 		
+		public void setProficiency(Proficiency newProficiency)
+		{
+			proficiency.CurrentState = ProficiencyUtility.toStatefulButtonState(newProficiency);
+			proficiency.updateTexture();
+			update();
+		}
+		
 		public void trackAbility(Ability ability)
 		{
 			ability.Connect(nameof(Ability.ScoreChanged), this, nameof(scoreChanged));
@@ -39,9 +50,10 @@ namespace OCSM.Nodes.DnD.Fifth
 		private void proficiencyUpdated(StatefulButton button)
 		{
 			update();
+			EmitSignal(nameof(ProficiencyChanged), button.CurrentState);
 		}
 		
-		private void scoreChanged(int score, int modifier)
+		private void scoreChanged(string abilityName, int score, int modifier)
 		{
 			AbilityModifier = modifier;
 			update();
