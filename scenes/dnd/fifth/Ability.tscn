@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/Ability.cs" type="Script" id=2]
 [ext_resource path="res://scenes/dnd/fifth/Skill.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/textures/box-transparent-16.svg" type="Texture" id=4]
 
 [node name="Ability" type="VBoxContainer"]
 anchor_right = 1.0
@@ -32,6 +33,7 @@ unique_name_in_owner = true
 margin_top = 56.0
 margin_right = 1024.0
 margin_bottom = 80.0
+custom_icons/updown = ExtResource( 4 )
 min_value = -5.0
 max_value = 10.0
 rounded = true
