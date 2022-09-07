@@ -14,16 +14,24 @@ namespace OCSM.Nodes.DnD.Sheets
 		private sealed class Names
 		{
 			public const string Alignment = "Alignment";
+			public const string ArmorClass = "ArmorClass";
 			public const string Background = "Background";
 			public const string BardicInspiration = "BardicInspiration";
+			public const string BardicInspirationDie = "BardicInspirationDie";
 			public const string Bonds = "Bonds";
 			public const string CharacterName = "CharacterName";
+			public const string Copper = "Copper";
+			public const string Electrum = "Electrum";
 			public const string Flaws = "Flaws";
+			public const string Gold = "Gold";
 			public const string Ideals = "Ideals";
+			public const string InitiativeBonus = "InitiativeBonus";
 			public const string Inspiration = "Inspiration";
 			public const string PersonalityTraits = "PersonalityTraits";
+			public const string Platinum = "Platinum";
 			public const string PlayerName = "PlayerName";
 			public const string Race = "Race";
+			public const string Silver = "Silver";
 		}
 		
 		private MetadataManager metadataManager;
@@ -41,8 +49,15 @@ namespace OCSM.Nodes.DnD.Sheets
 			InitAndConnect(GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(Names.Race)), SheetData.Race, nameof(changed_Race));
 			InitAndConnect(GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(Names.Background)), SheetData.Background, nameof(changed_Background));
 			
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Copper)), SheetData.CoinPurse.Copper, nameof(changed_Copper));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Silver)), SheetData.CoinPurse.Silver, nameof(changed_Silver));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Electrum)), SheetData.CoinPurse.Electrum, nameof(changed_Electrum));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Gold)), SheetData.CoinPurse.Gold, nameof(changed_Gold));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Platinum)), SheetData.CoinPurse.Platinum, nameof(changed_Platinum));
+			
 			InitAndConnect(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.Inspiration)), SheetData.Inspiration, nameof(changed_Inspiration));
 			InitAndConnect(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.BardicInspiration)), SheetData.BardicInspiration, nameof(changed_BardicInspiration));
+			InitAndConnect(GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie)), SheetData.BardicInspirationDie, nameof(changed_BardicInspirationDie));
 			
 			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)), SheetData.PersonalityTraits, nameof(changed_PersonalityTraits));
 			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)), SheetData.Ideals, nameof(changed_Ideals));
@@ -55,6 +70,8 @@ namespace OCSM.Nodes.DnD.Sheets
 			}
 			
 			base._Ready();
+			toggleBardicInspirationDie();
+			updateDexTraits();
 		}
 		
 		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
@@ -90,6 +107,21 @@ namespace OCSM.Nodes.DnD.Sheets
 				}
 				cob.Connect(Constants.Signal.ItemSelected, this, handlerName);
 			}
+			else if(node is DieOptionsButton dob)
+			{
+				if(initialValue is OCSM.DnD.Fifth.Die die)
+				{
+					for(var i = 0; i < dob.GetItemCount(); i++)
+					{
+						if(dob.GetItemText(i).Contains(die.Sides.ToString()))
+						{
+							dob.Selected = i;
+							break;
+						}
+					}
+				}
+				dob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+			}
 			else if(node is RaceOptionsButton rob)
 			{
 				if(initialValue is Race race && metadataManager.Container is DnDFifthContainer dfc)
@@ -104,11 +136,43 @@ namespace OCSM.Nodes.DnD.Sheets
 				base.InitAndConnect(node, initialValue, handlerName);
 		}
 		
+		private int calculateAc()
+		{
+			var ac = 10;
+			
+			//TODO: Add AC bonus from equipped armor here
+			
+			//TODO: Make Dexterity Modifier bonus react to equipped armor
+			var addDex = true;
+			var dexLimit = 0;
+			if(addDex && SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+			{
+				var dex = dexterity.Modifier;
+				if(dexLimit > 0 && dex > dexLimit)
+					dex = dexLimit;
+				ac += dex;
+			}
+			
+			return ac;
+		}
+		
+		private int calculateInitiative()
+		{
+			var bonus = 0;
+			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+				bonus += dexterity.Modifier;
+			//TODO: Make this value react to metadata features in the sheet that could affect initiative
+			return bonus;
+		}
+		
 		private void changed_Ability(Transport<Ability> transport)
 		{
 			if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is Ability ability)
 				SheetData.Abilities.Remove(ability);
 			SheetData.Abilities.Add(transport.Value);
+			
+			if(transport.Value.Name.Equals(Ability.Names.Dexterity))
+				updateDexTraits();
 		}
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
@@ -121,7 +185,27 @@ namespace OCSM.Nodes.DnD.Sheets
 				SheetData.Background = null;
 		}
 		
-		private void changed_BardicInspiration(ToggleButton button) { SheetData.BardicInspiration = button.CurrentState; }
+		private void changed_BardicInspiration(ToggleButton button)
+		{
+			SheetData.BardicInspiration = button.CurrentState;
+			toggleBardicInspirationDie();
+		}
+		
+		private void changed_BardicInspirationDie(int index)
+		{
+			var node = GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie));
+			var text = node.GetItemText(index);
+			if(!String.IsNullOrEmpty(text))
+			{
+				var die = new OCSM.DnD.Fifth.Die(int.Parse(text.Substring(1)));
+				SheetData.BardicInspirationDie = die;
+			}
+			else
+			{
+				SheetData.BardicInspirationDie = null;
+				node.Selected = 0;
+			}
+		}
 		
 		private void changed_Bonds()
 		{
@@ -136,11 +220,16 @@ namespace OCSM.Nodes.DnD.Sheets
 				Name = SheetData.Name;
 		}
 		
+		private void changed_Copper(float value) { SheetData.CoinPurse.Copper = (int)value; }
+		private void changed_Electrum(float value) { SheetData.CoinPurse.Electrum = (int)value; }
+		
 		private void changed_Flaws()
 		{
 			var text = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)).Text;
 			SheetData.Flaws = text;
 		}
+		
+		private void changed_Gold(float value) { SheetData.CoinPurse.Gold = (int)value; }
 		
 		private void changed_Ideals()
 		{
@@ -156,6 +245,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			SheetData.PersonalityTraits = text;
 		}
 		
+		private void changed_Platinum(float value) { SheetData.CoinPurse.Platinum = (int)value; }
 		private void changed_PlayerName(string newText) { SheetData.Player = newText; }
 		
 		private void changed_Race(int index)
@@ -164,6 +254,25 @@ namespace OCSM.Nodes.DnD.Sheets
 				SheetData.Race = race;
 			else
 				SheetData.Race = null;
+		}
+		
+		private void changed_Silver(float value) { SheetData.CoinPurse.Silver = (int)value; }
+		
+		private void toggleBardicInspirationDie()
+		{
+			var node = GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie));
+			if(SheetData.BardicInspiration)
+				node.Show();
+			else
+				node.Hide();
+		}
+		
+		private void updateDexTraits()
+		{
+			GetNode<Label>(NodePathBuilder.SceneUnique(Names.ArmorClass)).Text = calculateAc().ToString();
+			
+			var init = calculateInitiative();
+			GetNode<Label>(NodePathBuilder.SceneUnique(Names.InitiativeBonus)).Text = init >= 0 ? String.Format("+{0}", init) : init.ToString();
 		}
 	}
 }

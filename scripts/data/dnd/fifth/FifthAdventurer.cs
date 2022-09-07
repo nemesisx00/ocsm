@@ -9,8 +9,10 @@ namespace OCSM.DnD.Fifth
 		public string Alignment { get; set; }
 		public Background Background { get; set; }
 		public bool BardicInspiration { get; set; }
+		public Die BardicInspirationDie { get; set; }
 		public string Bonds { get; set; }
 		public List<Class> Classes { get; set; }
+		public CoinPurse CoinPurse { get; set; }
 		public List<Feature> Features { get; set; }
 		public string Flaws { get; set; }
 		public string Ideals { get; set; }
@@ -24,8 +26,10 @@ namespace OCSM.DnD.Fifth
 			Alignment = String.Empty;
 			Background = null;
 			BardicInspiration = false;
+			BardicInspirationDie = null;
 			Bonds = String.Empty;
 			Classes = new List<Class>();
+			CoinPurse = new CoinPurse();
 			Features = new List<Feature>();
 			Flaws = String.Empty;
 			Ideals = String.Empty;
