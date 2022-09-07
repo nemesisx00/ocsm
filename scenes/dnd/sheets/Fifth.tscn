@@ -525,7 +525,6 @@ margin_left = 223.0
 margin_right = 403.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Strength"
 
 [node name="Dexterity" parent="Column/Tabs/Ability Scores/Row" instance=ExtResource( 4 )]
 unique_name_in_owner = true
@@ -535,7 +534,6 @@ margin_left = 418.0
 margin_right = 598.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Dexterity"
 
 [node name="Constitution" parent="Column/Tabs/Ability Scores/Row" instance=ExtResource( 4 )]
 unique_name_in_owner = true
@@ -545,7 +543,6 @@ margin_left = 613.0
 margin_right = 793.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Constitution"
 
 [node name="Row2" type="HBoxContainer" parent="Column/Tabs/Ability Scores"]
 margin_top = 114.0
@@ -562,7 +559,6 @@ margin_left = 223.0
 margin_right = 403.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Wisdom"
 
 [node name="Intelligence" parent="Column/Tabs/Ability Scores/Row2" instance=ExtResource( 4 )]
 unique_name_in_owner = true
@@ -572,7 +568,6 @@ margin_left = 418.0
 margin_right = 598.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Intelligence"
 
 [node name="Charisma" parent="Column/Tabs/Ability Scores/Row2" instance=ExtResource( 4 )]
 unique_name_in_owner = true
@@ -582,4 +577,3 @@ margin_left = 613.0
 margin_right = 793.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
-AbilityName = "Charisma"

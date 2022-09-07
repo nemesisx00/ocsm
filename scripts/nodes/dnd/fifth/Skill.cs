@@ -42,9 +42,9 @@ namespace OCSM.Nodes.DnD.Fifth
 			update();
 		}
 		
-		public void trackAbility(Ability ability)
+		public void trackAbility(AbilityNode ability)
 		{
-			ability.Connect(nameof(Ability.ScoreChanged), this, nameof(scoreChanged));
+			ability.Connect(nameof(AbilityNode.AbilityChanged), this, nameof(scoreChanged));
 		}
 		
 		private void proficiencyUpdated(StatefulButton button)
@@ -53,9 +53,9 @@ namespace OCSM.Nodes.DnD.Fifth
 			EmitSignal(nameof(ProficiencyChanged), button.CurrentState);
 		}
 		
-		private void scoreChanged(string abilityName, int score, int modifier)
+		private void scoreChanged(Transport<Ability> transport)
 		{
-			AbilityModifier = modifier;
+			AbilityModifier = transport.Value.Modifier;
 			update();
 		}
 		

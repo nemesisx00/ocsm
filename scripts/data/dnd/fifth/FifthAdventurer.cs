@@ -5,7 +5,7 @@ namespace OCSM.DnD.Fifth
 {
 	public class FifthAdventurer : Character
 	{
-		public List<AbilityScore> AbilityScores { get; set; }
+		public List<Ability> Abilities { get; set; }
 		public string Alignment { get; set; }
 		public Background Background { get; set; }
 		public bool BardicInspiration { get; set; }
@@ -17,12 +17,10 @@ namespace OCSM.DnD.Fifth
 		public bool Inspiration { get; set; }
 		public string PersonalityTraits { get; set; }
 		public Race Race { get; set; }
-		public List<SavingThrow> SavingThrows { get; set; }
-		public List<Skill> Skills { get; set; }
 		
 		public FifthAdventurer() : base(OCSM.GameSystem.DnD.Fifth)
 		{
-			AbilityScores = AbilityScore.generateBaseAbilityScores();
+			Abilities = Ability.generateBaseAbilityScores();
 			Alignment = String.Empty;
 			Background = null;
 			BardicInspiration = false;
@@ -34,8 +32,6 @@ namespace OCSM.DnD.Fifth
 			Inspiration = false;
 			PersonalityTraits = String.Empty;
 			Race = null;
-			SavingThrows = SavingThrow.generateBaseSavingThrows();
-			Skills = Skill.generateBaseSkills();
 		}
 	}
 }

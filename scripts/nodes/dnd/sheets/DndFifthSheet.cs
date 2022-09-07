@@ -49,9 +49,9 @@ namespace OCSM.Nodes.DnD.Sheets
 			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)), SheetData.Bonds, nameof(changed_Bonds));
 			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)), SheetData.Flaws, nameof(changed_Flaws));
 			
-			foreach(var score in SheetData.AbilityScores)
+			foreach(var ability in SheetData.Abilities)
 			{
-				InitAndConnect(GetNode<Ability>(NodePathBuilder.SceneUnique(score.Name)), score, nameof(changed_AbilityScore));
+				InitAndConnect(GetNode<AbilityNode>(NodePathBuilder.SceneUnique(ability.Name)), ability, nameof(changed_Ability));
 			}
 			
 			base._Ready();
@@ -60,25 +60,15 @@ namespace OCSM.Nodes.DnD.Sheets
 		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
 			where T1: Control
 		{
-			if(node is Ability a)
+			if(node is AbilityNode a)
 			{
-				if(initialValue is AbilityScore abilityScore)
-					a.Score = abilityScore.Score;
-				
-				//This got more complex than I had originally intended but ç'est la vie...
-				if(SheetData.SavingThrows.Find(st => st.Name.Equals(a.AbilityName)) is SavingThrow savingThrow)
-					a.setSavingThrowProficiency(savingThrow.Proficient);
-				
-				foreach(var s in a.Skills)
+				if(initialValue is Ability ability)
 				{
-					if(SheetData.Skills.Find(ss => ss.Name.Equals(s.Name)) is OCSM.DnD.Fifth.Skill skill)
-						s.Proficient = skill.Proficient;
+					a.Ability = ability;
+					a.refresh();
 				}
-				a.renderSkills();
 				
-				a.Connect(nameof(Ability.SavingThrowProficiencyChanged), this, nameof(changed_SavingThrowProficiency));
-				a.Connect(nameof(Ability.SkillProficienyChanged), this, nameof(changed_SkillProficiency));
-				a.Connect(nameof(Ability.NodeChanged), this, handlerName);
+				a.Connect(nameof(AbilityNode.AbilityChanged), this, handlerName);
 			}
 			else if(node is BackgroundOptionsButton bob)
 			{
@@ -114,10 +104,11 @@ namespace OCSM.Nodes.DnD.Sheets
 				base.InitAndConnect(node, initialValue, handlerName);
 		}
 		
-		private void changed_AbilityScore(Ability node)
+		private void changed_Ability(Transport<Ability> transport)
 		{
-			if(SheetData.AbilityScores.Find(a => a.Name.Equals(node.AbilityName)) is AbilityScore abilityScore)
-				abilityScore.Score = node.Score;
+			if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is Ability ability)
+				SheetData.Abilities.Remove(ability);
+			SheetData.Abilities.Add(transport.Value);
 		}
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
@@ -166,22 +157,6 @@ namespace OCSM.Nodes.DnD.Sheets
 		}
 		
 		private void changed_PlayerName(string newText) { SheetData.Player = newText; }
-		
-		private void changed_SavingThrowProficiency(string abilityName, Proficiency proficiency)
-		{
-			if(SheetData.SavingThrows.Find(st => st.Name.Equals(abilityName)) is SavingThrow savingThrow)
-			{
-				savingThrow.Proficient = proficiency;
-			}
-		}
-		
-		private void changed_SkillProficiency(Transport<OCSM.DnD.Fifth.Skill> transport)
-		{
-			if(SheetData.Skills.Find(s => s.Name.Equals(transport.Value.Name)) is OCSM.DnD.Fifth.Skill skill)
-			{
-				skill.Proficient = transport.Value.Proficient;
-			}
-		}
 		
 		private void changed_Race(int index)
 		{
