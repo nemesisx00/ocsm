@@ -1,10 +1,13 @@
-[gd_resource type="Theme" load_steps=6 format=2]
+[gd_resource type="Theme" load_steps=7 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-Default.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/styles/AppBackground.tres" type="StyleBox" id=2]
 [ext_resource path="res://resources/styles/BodyBackground.tres" type="StyleBox" id=3]
 [ext_resource path="res://resources/styles/BorderLine.tres" type="StyleBox" id=4]
 [ext_resource path="res://resources/styles/TabBackground.tres" type="StyleBox" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.152941, 0.168627, 0.196078, 1 )
 
 [resource]
 default_font = ExtResource( 1 )
@@ -17,3 +20,5 @@ TabContainer/colors/font_color_fg = Color( 0.662745, 0.670588, 0.690196, 1 )
 TabContainer/constants/side_margin = 15
 TabContainer/styles/panel = ExtResource( 3 )
 TabContainer/styles/tab_fg = ExtResource( 5 )
+TooltipLabel/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
+TooltipPanel/styles/panel = SubResource( 1 )
