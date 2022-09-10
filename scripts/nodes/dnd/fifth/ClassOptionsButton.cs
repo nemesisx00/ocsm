@@ -18,6 +18,18 @@ namespace OCSM.Nodes.DnD.Fifth
 			refreshMetadata();
 		}
 		
+		public void select(string text)
+		{
+			for(var i = 0; i < GetItemCount(); i++)
+			{
+				if(GetItemText(i).Equals(text))
+				{
+					Selected = i;
+					break;
+				}
+			}
+		}
+		
 		private void refreshMetadata()
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)

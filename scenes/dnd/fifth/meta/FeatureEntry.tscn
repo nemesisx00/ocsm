@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeatureEntry.cs" type="Script" id=5]
 [ext_resource path="res://scripts/nodes/dnd/fifth/FeatureOptionsButton.cs" type="Script" id=6]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEditList.cs" type="Script" id=7]
+[ext_resource path="res://scripts/nodes/dnd/fifth/ClassOptionsButton.cs" type="Script" id=8]
 
 [node name="FeatureEntry" type="VBoxContainer"]
 anchor_right = 1.0
@@ -94,7 +95,7 @@ valign = 1
 [node name="Name" type="LineEdit" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
 margin_left = 104.0
-margin_right = 830.0
+margin_right = 654.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 23 )
 size_flags_horizontal = 3
@@ -103,22 +104,61 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Label2" type="Label" parent="ScrollContainer/Column/Row3"]
-margin_left = 834.0
+margin_left = 658.0
 margin_top = 5.0
-margin_right = 914.0
+margin_right = 708.0
 margin_bottom = 19.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 50, 0 )
 text = "Type:"
 align = 2
 valign = 1
 
 [node name="Type" type="OptionButton" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
-margin_left = 918.0
-margin_right = 1023.0
+margin_left = 712.0
+margin_right = 817.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 105, 0 )
 script = ExtResource( 4 )
+
+[node name="ClassLabel" type="Label" parent="ScrollContainer/Column/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 767.0
+margin_top = 5.0
+margin_right = 817.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 50, 0 )
+text = "Class:"
+align = 2
+valign = 1
+
+[node name="Class" type="OptionButton" parent="ScrollContainer/Column/Row3"]
+unique_name_in_owner = true
+visible = false
+margin_left = 712.0
+margin_right = 817.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 105, 0 )
+script = ExtResource( 8 )
+
+[node name="Label3" type="Label" parent="ScrollContainer/Column/Row3"]
+margin_left = 821.0
+margin_top = 5.0
+margin_right = 946.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 125, 0 )
+text = "Required Level:"
+align = 2
+valign = 1
+
+[node name="RequiredLevel" type="SpinBox" parent="ScrollContainer/Column/Row3"]
+unique_name_in_owner = true
+margin_left = 950.0
+margin_right = 1024.0
+margin_bottom = 24.0
+max_value = 20.0
+rounded = true
 
 [node name="Row4" type="HBoxContainer" parent="ScrollContainer/Column"]
 margin_top = 109.0
@@ -146,76 +186,6 @@ wrap_enabled = true
 caret_blink = true
 caret_blink_speed = 0.5
 script = ExtResource( 3 )
-
-[node name="Requirements" type="VBoxContainer" parent="ScrollContainer/Column"]
-visible = false
-margin_top = 68.0
-margin_right = 640.0
-margin_bottom = 120.0
-
-[node name="Label" type="Label" parent="ScrollContainer/Column/Requirements"]
-margin_right = 640.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
-text = "Requirements"
-align = 1
-valign = 1
-
-[node name="Row2" type="HBoxContainer" parent="ScrollContainer/Column/Requirements"]
-margin_top = 28.0
-margin_right = 640.0
-margin_bottom = 52.0
-alignment = 1
-
-[node name="Label" type="Label" parent="ScrollContainer/Column/Requirements/Row2"]
-margin_left = 194.0
-margin_top = 5.0
-margin_right = 232.0
-margin_bottom = 19.0
-text = "Level:"
-
-[node name="Level" type="SpinBox" parent="ScrollContainer/Column/Requirements/Row2"]
-unique_name_in_owner = true
-margin_left = 236.0
-margin_right = 336.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
-size_flags_stretch_ratio = 4.0
-
-[node name="RequirementType" type="OptionButton" parent="ScrollContainer/Column/Requirements/Row2"]
-unique_name_in_owner = true
-margin_left = 340.0
-margin_right = 445.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 105, 0 )
-text = "None"
-items = [ "None", null, false, 0, null, "Background", null, false, 1, null, "Class", null, false, 2, null, "Race", null, false, 3, null ]
-selected = 0
-
-[node name="Background" type="OptionButton" parent="ScrollContainer/Column/Requirements/Row2"]
-unique_name_in_owner = true
-visible = false
-margin_left = 364.0
-margin_right = 464.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
-
-[node name="Class" type="OptionButton" parent="ScrollContainer/Column/Requirements/Row2"]
-unique_name_in_owner = true
-visible = false
-margin_left = 381.0
-margin_right = 481.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
-
-[node name="Race" type="OptionButton" parent="ScrollContainer/Column/Requirements/Row2"]
-unique_name_in_owner = true
-visible = false
-margin_left = 397.0
-margin_right = 497.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 100, 0 )
 
 [node name="Row5" type="HBoxContainer" parent="ScrollContainer/Column"]
 margin_top = 147.0

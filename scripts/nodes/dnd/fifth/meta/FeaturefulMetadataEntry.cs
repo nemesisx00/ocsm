@@ -94,6 +94,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature && !Features.Contains(feature))
 				{
 					Features.Add(feature);
+					Features.Sort();
 					renderFeatures();
 				}
 				optionsButton.Selected = 0;
@@ -107,6 +108,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			sections.Values = entry.Sections;
 			sections.refresh();
 			Features = entry.Features;
+			Features.Sort();
 			renderFeatures();
 		}
 	}

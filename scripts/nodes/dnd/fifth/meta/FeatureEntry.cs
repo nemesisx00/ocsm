@@ -12,6 +12,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private sealed class Names
 		{
 			public const string MetadataTypeLabel = "Feature";
+			public const string Class = "Class";
+			public const string ClassLabel = "ClassLabel";
 			public const string Description = "Description";
 			public const string Name = "Name";
 			public const string Sections = "Sections";
@@ -24,6 +26,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			public const string ExistingLabelFormat = "Existing {0}";
 			public const string ExistingLabelName = "ExistingLabel";
 			public const string NumericBonusEditListName = "NumericBonuses";
+			public const string RequiredLevel = "RequiredLevel";
 			public const string SaveButton = "Save";
 		}
 		
@@ -34,9 +37,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		public OCSM.DnD.Fifth.Feature Feature { get; set; }
 		
+		private Label classLabel;
+		private ClassOptionsButton classNode;
 		private TextEdit descriptionNode;
 		private LineEdit nameNode;
 		private NumericBonusEditList numericBonusesNode;
+		private SpinBox requiredLevel;
 		private SectionList sectionsNode;
 		private LineEdit sourceNode;
 		private TextEdit textNode;
@@ -51,17 +57,22 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(!(Feature is OCSM.DnD.Fifth.Feature))
 				Feature = new OCSM.DnD.Fifth.Feature();
 			
+			classLabel = GetNode<Label>(NodePathBuilder.SceneUnique(Names.ClassLabel));
+			classNode = GetNode<ClassOptionsButton>(NodePathBuilder.SceneUnique(Names.Class));
 			descriptionNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Description));
 			nameNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Name));
 			numericBonusesNode = GetNode<NumericBonusEditList>(NodePathBuilder.SceneUnique(Names.NumericBonusEditListName));
+			requiredLevel = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.RequiredLevel));
 			sectionsNode = GetNode<SectionList>(NodePathBuilder.SceneUnique(Names.Sections));
 			sourceNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Source));
 			textNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Text));
 			typeNode = GetNode<FeatureTypeOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
 			
+			classNode.Connect(Constants.Signal.ItemSelected, this, nameof(classChanged));
 			descriptionNode.Connect(Constants.Signal.TextChanged, this, nameof(descriptionChanged));
 			nameNode.Connect(Constants.Signal.TextChanged, this, nameof(nameChanged));
 			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged), this, nameof(numericBonusesChanged));
+			requiredLevel.Connect(Constants.Signal.ValueChanged, this, nameof(requiredLevelChanged));
 			sectionsNode.Connect(nameof(SectionList.ValuesChanged), this, nameof(sectionsChanged));
 			sourceNode.Connect(Constants.Signal.TextChanged, this, nameof(sourceChanged));
 			textNode.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
@@ -79,16 +90,20 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(Feature is OCSM.DnD.Fifth.Feature)
 			{
+				classNode.select(Feature.ClassName);
 				descriptionNode.Text = Feature.Description;
 				nameNode.Text = Feature.Name;
 				numericBonusesNode.Values = Feature.NumericBonuses;
 				numericBonusesNode.refresh();
+				requiredLevel.Value = Feature.RequiredLevel;
 				sectionsNode.Values = Feature.Sections;
 				sectionsNode.refresh();
 				sourceNode.Text = Feature.Source;
 				textNode.Text = Feature.Text;
 				typeNode.Selected = FeatureType.asList().FindIndex(ft => ft.Equals(Feature.Type)) + 1;
 			}
+			
+			toggleClassInput();
 		}
 		
 		private void clearInputs()
@@ -139,10 +154,26 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(feature is OCSM.DnD.Fifth.Feature)
 			{
 				Feature = feature;
+				Feature.NumericBonuses.Sort();
 				refreshValues();
 			}
 		}
 		
+		private void toggleClassInput()
+		{
+			if(Feature.Type.Equals(FeatureType.Class))
+			{
+				classLabel.Show();
+				classNode.Show();
+			}
+			else
+			{
+				classLabel.Hide();
+				classNode.Hide();
+			}
+		}
+		
+		private void classChanged(int index) { Feature.ClassName = classNode.GetItemText(index); }
 		private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 		private void nameChanged(string text) { Feature.Name = text; }
 		
@@ -153,8 +184,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				list.Add(t.Value);
 			}
+			list.Sort();
 			Feature.NumericBonuses = list;
 		}
+		
+		private void requiredLevelChanged(float value) { Feature.RequiredLevel = (int)value; }
 		
 		private void sectionsChanged(List<Transport<FeatureSection>> values)
 		{
@@ -167,6 +201,14 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		}
 		private void sourceChanged(string text) { Feature.Source = text; }
 		private void textChanged() { Feature.Text = textNode.Text; }
-		private void typeChanged(int index) { Feature.Type = typeNode.GetItemText(index); }
+		
+		private void typeChanged(int index)
+		{
+			Feature.Type = typeNode.GetItemText(index);
+			
+			if(!Feature.Type.Equals(FeatureType.Class))
+				classNode.Selected = 0;
+			toggleClassInput();
+		}
 	}
 }

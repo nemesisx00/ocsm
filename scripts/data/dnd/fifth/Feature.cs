@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using OCSM.Meta;
-using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.DnD.Fifth
 {
@@ -23,8 +22,9 @@ namespace OCSM.DnD.Fifth
 	
 	public class Feature : Metadata, IComparable<Feature>, IEquatable<Feature>
 	{
+		public string ClassName { get; set; }
 		public List<NumericBonus> NumericBonuses { get; set; }
-		//public FeatureRequirement Requirement { get; set; }
+		public int RequiredLevel { get; set; }
 		public List<FeatureSection> Sections { get; set; }
 		public string Source { get; set; }
 		public string Text { get; set; }
@@ -32,8 +32,9 @@ namespace OCSM.DnD.Fifth
 		
 		public Feature() : base()
 		{
+			ClassName = String.Empty;
 			NumericBonuses = new List<NumericBonus>();
-			//Requirement = null;
+			RequiredLevel = 0;
 			Sections = new List<FeatureSection>();
 			Source = String.Empty;
 			Text = String.Empty;
@@ -42,7 +43,9 @@ namespace OCSM.DnD.Fifth
 		
 		public Feature(string name, string description = "") : base(name, description)
 		{
+			ClassName = String.Empty;
 			NumericBonuses = new List<NumericBonus>();
+			RequiredLevel = 0;
 			Sections = new List<FeatureSection>();
 			Source = String.Empty;
 			Text = String.Empty;
@@ -53,59 +56,29 @@ namespace OCSM.DnD.Fifth
 		{
 			var ret = 0;
 			if(feature is Feature)
-				ret = feature.Name.CompareTo(Name);
+			{
+				ret = Type.CompareTo(feature.Type);
+				if(ret.Equals(0))
+					ret = RequiredLevel.CompareTo(feature.RequiredLevel);
+				if(ret.Equals(0))
+					ret = Name.CompareTo(feature.Name);
+				if(ret.Equals(0))
+					ret = ClassName.CompareTo(feature.ClassName);
+			}
 			return ret;
 		}
 		
 		public bool Equals(Feature feature)
 		{
 			return base.Equals(feature)
-				&& feature.NumericBonuses.Equals(NumericBonuses)
-				//&& feature.Requirement.Equals(Requirement)
-				&& feature.Sections.Equals(Sections)
-				&& feature.Source.Equals(Source)
-				&& feature.Text.Equals(Text)
-				&& feature.Type.Equals(Type);
+				&& NumericBonuses.Equals(feature.NumericBonuses)
+				&& RequiredLevel.Equals(feature.RequiredLevel)
+				&& Sections.Equals(feature.Sections)
+				&& Source.Equals(feature.Source)
+				&& Text.Equals(feature.Text)
+				&& Type.Equals(feature.Type);
 		}
 	}
-	
-	/*
-	public class FeatureRequirement : IEquatable<FeatureRequirement>
-	{
-		public Background Background { get; set; } = null;
-		public Class Class { get; set; } = null;
-		public int Level { get; set; }
-		public Race Race { get; set; } = null;
-		
-		public FeatureRequirement()
-		{
-			Background = null;
-			Level = 0;
-		}
-		
-		public bool Equals(FeatureRequirement requirement)
-		{
-			var output = requirement.Level.Equals(Level);
-			
-			if(requirement.Background is Background)
-				output = output && requirement.Background.Equals(Background);
-			else
-				output = output && !(Background is Background);
-			
-			if(requirement.Class is Class)
-				output = output && requirement.Class.Equals(Class);
-			else
-				output = output && !(Class is Class);
-			
-			if(requirement.Race is Race)
-				output = output && requirement.Race.Equals(Race);
-			else
-				output = output && !(Race is Race);
-			
-			return output;
-		}
-	}
-	*/
 	
 	public class FeatureSection : IEquatable<FeatureSection>
 	{
@@ -120,8 +93,8 @@ namespace OCSM.DnD.Fifth
 		
 		public bool Equals(FeatureSection section)
 		{
-			return section.Section.Equals(Section)
-				&& section.Text.Equals(Text);
+			return Section.Equals(section.Section)
+				&& Text.Equals(section.Text);
 		}
 	}
 }

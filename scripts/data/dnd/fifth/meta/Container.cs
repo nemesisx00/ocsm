@@ -17,9 +17,16 @@ namespace OCSM.DnD.Fifth.Meta
 			var result = JsonSerializer.Deserialize<DnDFifthContainer>(json);
 			if(result is DnDFifthContainer dfc)
 			{
+				dfc.Backgrounds.Sort();
 				Backgrounds = dfc.Backgrounds;
+				
+				dfc.Classes.Sort();
 				Classes = dfc.Classes;
+				
+				dfc.Features.Sort();
 				Features = dfc.Features;
+				
+				dfc.Races.Sort();
 				Races = dfc.Races;
 			}
 		}

@@ -49,7 +49,7 @@ namespace OCSM.DnD.Fifth
 		}
 	}
 	
-	public class NumericBonus : IEquatable<NumericBonus>
+	public class NumericBonus : IComparable<NumericBonus>, IEquatable<NumericBonus>
 	{
 		public string AbilityName { get; set; }
 		public bool Add { get; set; }
@@ -66,13 +66,25 @@ namespace OCSM.DnD.Fifth
 			Value = 0;
 		}
 		
+		public int CompareTo(NumericBonus numericBonus)
+		{
+			var ret = Type.CompareTo(numericBonus.Type);
+			if(ret.Equals(0))
+				ret = Name.CompareTo(numericBonus.Name);
+			if(ret.Equals(0))
+				ret = AbilityName.CompareTo(numericBonus.AbilityName);
+			if(ret.Equals(0))
+				ret = Add.CompareTo(numericBonus.Add);
+			return ret;
+		}
+		
 		public bool Equals(NumericBonus numericBonus)
 		{
-			return numericBonus.AbilityName.Equals(AbilityName)
-				&& numericBonus.Add.Equals(Add)
-				&& numericBonus.Name.Equals(Name)
-				&& numericBonus.Type.Equals(Type)
-				&& numericBonus.Value.Equals(Value);
+			return AbilityName.Equals(numericBonus.AbilityName)
+				&& Add.Equals(numericBonus.Add)
+				&& Name.Equals(numericBonus.Name)
+				&& Type.Equals(numericBonus.Type)
+				&& Value.Equals(numericBonus.Value);
 		}
 	}
 }

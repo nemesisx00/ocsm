@@ -294,8 +294,8 @@ namespace OCSM.Nodes.DnD.Sheets
 				foreach(var feature in background.Features)
 				{
 					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
-					instance.update(feature);
 					backgroundFeatures.AddChild(instance);
+					instance.update(feature);
 					
 					if(background.Features.IndexOf(feature) < background.Features.Count - 1)
 					{
@@ -311,8 +311,8 @@ namespace OCSM.Nodes.DnD.Sheets
 				foreach(var feature in race.Features)
 				{
 					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
-					instance.update(feature);
 					raceFeatures.AddChild(instance);
+					instance.update(feature);
 					
 					if(race.Features.IndexOf(feature) < race.Features.Count - 1)
 					{

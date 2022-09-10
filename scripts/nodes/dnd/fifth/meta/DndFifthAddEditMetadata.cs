@@ -113,6 +113,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				}
 				
 				dfc.Backgrounds.Add(new Background(name, description, sectionList, featureList));
+				dfc.Backgrounds.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -137,6 +138,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				}
 				
 				dfc.Classes.Add(new Class(OCSM.DnD.Fifth.Die.d10, name, description, sectionList, featureList));
+				dfc.Classes.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -149,6 +151,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Features.Remove(feature);
 				
 				dfc.Features.Add(transport.Value);
+				dfc.Features.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -173,6 +176,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				}
 				
 				dfc.Races.Add(new Race(name, description, sectionList, featureList));
+				dfc.Races.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
