@@ -16,22 +16,28 @@ namespace OCSM.Nodes.DnD.Sheets
 			public const string Alignment = "Alignment";
 			public const string ArmorClass = "ArmorClass";
 			public const string Background = "Background";
+			public const string BackgroundFeatures = "Background Features";
 			public const string BardicInspiration = "BardicInspiration";
 			public const string BardicInspirationDie = "BardicInspirationDie";
 			public const string Bonds = "Bonds";
 			public const string CharacterName = "CharacterName";
 			public const string Copper = "Copper";
+			public const string CurrentHP = "CurrentHP";
 			public const string Electrum = "Electrum";
 			public const string Flaws = "Flaws";
 			public const string Gold = "Gold";
+			public const string HPBar = "HPBar";
 			public const string Ideals = "Ideals";
 			public const string InitiativeBonus = "InitiativeBonus";
 			public const string Inspiration = "Inspiration";
+			public const string MaxHP = "MaxHP";
 			public const string PersonalityTraits = "PersonalityTraits";
 			public const string Platinum = "Platinum";
 			public const string PlayerName = "PlayerName";
 			public const string Race = "Race";
+			public const string RaceFeatures = "Racial Features";
 			public const string Silver = "Silver";
+			public const string TempHP = "TempHP";
 		}
 		
 		private MetadataManager metadataManager;
@@ -48,6 +54,10 @@ namespace OCSM.Nodes.DnD.Sheets
 			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Alignment)), SheetData.Alignment, nameof(changed_Alignment));
 			InitAndConnect(GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(Names.Race)), SheetData.Race, nameof(changed_Race));
 			InitAndConnect(GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(Names.Background)), SheetData.Background, nameof(changed_Background));
+			
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.CurrentHP)), SheetData.HP.Current, nameof(changed_CurrentHP));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.MaxHP)), SheetData.HP.Max, nameof(changed_MaxHP));
+			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.TempHP)), SheetData.HP.Temp, nameof(changed_TempHP));
 			
 			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Copper)), SheetData.CoinPurse.Copper, nameof(changed_Copper));
 			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Silver)), SheetData.CoinPurse.Silver, nameof(changed_Silver));
@@ -70,6 +80,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			}
 			
 			base._Ready();
+			refreshFeatures();
 			toggleBardicInspirationDie();
 			updateDexTraits();
 		}
@@ -183,6 +194,8 @@ namespace OCSM.Nodes.DnD.Sheets
 				SheetData.Background = background;
 			else
 				SheetData.Background = null;
+			
+			refreshFeatures();
 		}
 		
 		private void changed_BardicInspiration(ToggleButton button)
@@ -221,6 +234,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		}
 		
 		private void changed_Copper(float value) { SheetData.CoinPurse.Copper = (int)value; }
+		private void changed_CurrentHP(float value) { SheetData.HP.Current = (int)value; }
 		private void changed_Electrum(float value) { SheetData.CoinPurse.Electrum = (int)value; }
 		
 		private void changed_Flaws()
@@ -238,6 +252,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		}
 		
 		private void changed_Inspiration(ToggleButton button) { SheetData.Inspiration = button.CurrentState; }
+		private void changed_MaxHP(float value) { SheetData.HP.Max = (int)value; }
 		
 		private void changed_PersonalityTraits()
 		{
@@ -254,9 +269,59 @@ namespace OCSM.Nodes.DnD.Sheets
 				SheetData.Race = race;
 			else
 				SheetData.Race = null;
+			
+			refreshFeatures();
 		}
 		
 		private void changed_Silver(float value) { SheetData.CoinPurse.Silver = (int)value; }
+		private void changed_TempHP(float value) { SheetData.HP.Temp = (int)value; }
+		
+		private void refreshFeatures()
+		{
+			var backgroundFeatures = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Names.BackgroundFeatures));
+			foreach(Node child in backgroundFeatures.GetChildren())
+				child.QueueFree();
+			var raceFeatures = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Names.RaceFeatures));
+			foreach(Node child in raceFeatures.GetChildren())
+				child.QueueFree();
+			
+			HSeparator hr = null;
+			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
+			OCSM.Nodes.DnD.Fifth.Feature instance = null;
+			if(SheetData.Background is Background background && background.Features.Count > 0)
+			{
+				background.Features.Sort();
+				foreach(var feature in background.Features)
+				{
+					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
+					instance.update(feature);
+					backgroundFeatures.AddChild(instance);
+					
+					if(background.Features.IndexOf(feature) < background.Features.Count - 1)
+					{
+						hr = new HSeparator();
+						backgroundFeatures.AddChild(hr);
+					}
+				}
+			}
+			
+			if(SheetData.Race is Race race && race.Features.Count > 0)
+			{
+				race.Features.Sort();
+				foreach(var feature in race.Features)
+				{
+					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
+					instance.update(feature);
+					raceFeatures.AddChild(instance);
+					
+					if(race.Features.IndexOf(feature) < race.Features.Count - 1)
+					{
+						hr = new HSeparator();
+						raceFeatures.AddChild(hr);
+					}
+				}
+			}
+		}
 		
 		private void toggleBardicInspirationDie()
 		{

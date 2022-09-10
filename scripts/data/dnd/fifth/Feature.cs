@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OCSM.Meta;
+using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.DnD.Fifth
 {
@@ -20,8 +21,9 @@ namespace OCSM.DnD.Fifth
 		}
 	}
 	
-	public class Feature : Metadata, IEquatable<Feature>
+	public class Feature : Metadata, IComparable<Feature>, IEquatable<Feature>
 	{
+		public List<NumericBonus> NumericBonuses { get; set; }
 		//public FeatureRequirement Requirement { get; set; }
 		public List<FeatureSection> Sections { get; set; }
 		public string Source { get; set; }
@@ -30,6 +32,7 @@ namespace OCSM.DnD.Fifth
 		
 		public Feature() : base()
 		{
+			NumericBonuses = new List<NumericBonus>();
 			//Requirement = null;
 			Sections = new List<FeatureSection>();
 			Source = String.Empty;
@@ -39,15 +42,25 @@ namespace OCSM.DnD.Fifth
 		
 		public Feature(string name, string description = "") : base(name, description)
 		{
+			NumericBonuses = new List<NumericBonus>();
 			Sections = new List<FeatureSection>();
 			Source = String.Empty;
 			Text = String.Empty;
 			Type = String.Empty;
 		}
 		
+		public int CompareTo(Feature feature)
+		{
+			var ret = 0;
+			if(feature is Feature)
+				ret = feature.Name.CompareTo(Name);
+			return ret;
+		}
+		
 		public bool Equals(Feature feature)
 		{
 			return base.Equals(feature)
+				&& feature.NumericBonuses.Equals(NumericBonuses)
 				//&& feature.Requirement.Equals(Requirement)
 				&& feature.Sections.Equals(Sections)
 				&& feature.Source.Equals(Source)
@@ -55,6 +68,7 @@ namespace OCSM.DnD.Fifth
 				&& feature.Type.Equals(Type);
 		}
 	}
+	
 	/*
 	public class FeatureRequirement : IEquatable<FeatureRequirement>
 	{

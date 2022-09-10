@@ -207,6 +207,8 @@ unique_name_in_owner = true
 margin_left = 87.0
 margin_right = 161.0
 margin_bottom = 24.0
+min_value = 1.0
+value = 1.0
 rounded = true
 allow_greater = true
 align = 1
@@ -734,3 +736,40 @@ margin_left = 613.0
 margin_right = 793.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 180, 0 )
+
+[node name="Classes" type="VBoxContainer" parent="Column/Tabs"]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Freatures & Traits" type="TabContainer" parent="Column/Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Background Features" type="VBoxContainer" parent="Column/Tabs/Freatures & Traits"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+custom_constants/separation = 25
+
+[node name="Racial Features" type="VBoxContainer" parent="Column/Tabs/Freatures & Traits"]
+unique_name_in_owner = true
+visible = false
+margin_top = 68.0
+margin_right = 1016.0
+margin_bottom = 68.0
+custom_constants/separation = 25

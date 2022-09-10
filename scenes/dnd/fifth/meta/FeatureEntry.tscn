@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scripts/nodes/dnd/fifth/FeatureTypeOptionsButton.cs" type="Script" id=4]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeatureEntry.cs" type="Script" id=5]
 [ext_resource path="res://scripts/nodes/dnd/fifth/FeatureOptionsButton.cs" type="Script" id=6]
+[ext_resource path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEditList.cs" type="Script" id=7]
 
 [node name="FeatureEntry" type="VBoxContainer"]
 anchor_right = 1.0
@@ -20,9 +21,9 @@ size_flags_vertical = 3
 
 [node name="Column" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 1024.0
-margin_bottom = 222.0
+margin_bottom = 344.0
 size_flags_horizontal = 3
-custom_constants/separation = 10
+custom_constants/separation = 15
 
 [node name="Row" type="HBoxContainer" parent="ScrollContainer/Column"]
 margin_right = 1024.0
@@ -48,9 +49,9 @@ size_flags_horizontal = 2
 script = ExtResource( 6 )
 
 [node name="Row2" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 30.0
+margin_top = 35.0
 margin_right = 1024.0
-margin_bottom = 50.0
+margin_bottom = 55.0
 custom_constants/separation = 25
 alignment = 1
 
@@ -77,9 +78,9 @@ rect_min_size = Vector2( 75, 0 )
 text = "Delete"
 
 [node name="Row3" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 60.0
+margin_top = 70.0
 margin_right = 1024.0
-margin_bottom = 84.0
+margin_bottom = 94.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/Row3"]
 margin_top = 5.0
@@ -120,9 +121,9 @@ rect_min_size = Vector2( 105, 0 )
 script = ExtResource( 4 )
 
 [node name="Row4" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 94.0
+margin_top = 109.0
 margin_right = 1024.0
-margin_bottom = 117.0
+margin_bottom = 132.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/Row4"]
 margin_top = 4.0
@@ -217,9 +218,9 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 100, 0 )
 
 [node name="Row5" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 127.0
+margin_top = 147.0
 margin_right = 1024.0
-margin_bottom = 151.0
+margin_bottom = 171.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/Row5"]
 margin_top = 5.0
@@ -241,9 +242,9 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Row6" type="HBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 161.0
+margin_top = 186.0
 margin_right = 1024.0
-margin_bottom = 184.0
+margin_bottom = 209.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/Row6"]
 margin_top = 4.0
@@ -264,10 +265,41 @@ size_flags_horizontal = 3
 wrap_enabled = true
 script = ExtResource( 3 )
 
-[node name="SectionsSection" type="VBoxContainer" parent="ScrollContainer/Column"]
-margin_top = 194.0
+[node name="HSeparator" type="HSeparator" parent="ScrollContainer/Column"]
+margin_top = 224.0
 margin_right = 1024.0
-margin_bottom = 222.0
+margin_bottom = 228.0
+
+[node name="NumericBonusSection" type="VBoxContainer" parent="ScrollContainer/Column"]
+margin_top = 243.0
+margin_right = 1024.0
+margin_bottom = 282.0
+custom_constants/separation = 15
+
+[node name="Label" type="Label" parent="ScrollContainer/Column/NumericBonusSection"]
+margin_right = 1024.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 1 )
+text = "Numeric Bonuses"
+align = 1
+valign = 1
+
+[node name="NumericBonuses" type="VBoxContainer" parent="ScrollContainer/Column/NumericBonusSection"]
+unique_name_in_owner = true
+margin_top = 39.0
+margin_right = 1024.0
+margin_bottom = 39.0
+script = ExtResource( 7 )
+
+[node name="HSeparator2" type="HSeparator" parent="ScrollContainer/Column"]
+margin_top = 297.0
+margin_right = 1024.0
+margin_bottom = 301.0
+
+[node name="SectionsSection" type="VBoxContainer" parent="ScrollContainer/Column"]
+margin_top = 316.0
+margin_right = 1024.0
+margin_bottom = 344.0
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/SectionsSection"]
 margin_right = 1024.0

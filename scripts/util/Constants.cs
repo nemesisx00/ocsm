@@ -95,6 +95,7 @@ namespace OCSM
 						public const string AddEditMetadata = "res://scenes/dnd/fifth/meta/DndFifthAddEditMetadata.tscn";
 						public const string FeatureSectionEntry = "res://scenes/dnd/fifth/meta/FeatureSectionEntry.tscn";
 						public const string FeatureEntry = "res://scenes/dnd/fifth/meta/FeatureEntry.tscn";
+						public const string NumericBonusEdit = "res://scenes/dnd/fifth/meta/NumericBonusEdit.tscn";
 					}
 				}
 			}

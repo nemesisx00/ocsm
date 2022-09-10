@@ -15,6 +15,7 @@ namespace OCSM.DnD.Fifth
 		public CoinPurse CoinPurse { get; set; }
 		public List<Feature> Features { get; set; }
 		public string Flaws { get; set; }
+		public HitPoints HP { get; set; }
 		public string Ideals { get; set; }
 		public bool Inspiration { get; set; }
 		public string PersonalityTraits { get; set; }
@@ -32,6 +33,7 @@ namespace OCSM.DnD.Fifth
 			CoinPurse = new CoinPurse();
 			Features = new List<Feature>();
 			Flaws = String.Empty;
+			HP = new HitPoints();
 			Ideals = String.Empty;
 			Inspiration = false;
 			PersonalityTraits = String.Empty;

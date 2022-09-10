@@ -8,7 +8,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 	public class SectionList : Container
 	{
 		[Signal]
-		public delegate void ValueChanged(List<Transport<FeatureSection>> values);
+		public delegate void ValuesChanged(List<Transport<FeatureSection>> values);
 		
 		public List<FeatureSection> Values { get; set; } = new List<FeatureSection>();
 		
@@ -67,7 +67,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				list.Add(new Transport<FeatureSection>(fs));
 			}
-			EmitSignal(nameof(ValueChanged), list);
+			EmitSignal(nameof(ValuesChanged), list);
 		}
 		
 		private void addInput(FeatureSection section = null)

@@ -7,13 +7,25 @@ namespace OCSM.DnD.Fifth
 	{
 		public sealed class Names
 		{
-			public const string Constitution = "Constitution";
 			public const string Charisma = "Charisma";
+			public const string Constitution = "Constitution";
 			public const string Dexterity = "Dexterity";
 			public const string Intelligence = "Intelligence";
 			public const string Strength = "Strength";
 			public const string Wisdom = "Wisdom";
 			public const string EnumHint = " ," + Constitution + "," + Charisma + "," + Dexterity + "," + Intelligence + "," + Strength + "," + Wisdom;
+			
+			public static List<string> asList()
+			{
+				var list = new List<string>();
+				list.Add(Names.Charisma);
+				list.Add(Names.Constitution);
+				list.Add(Names.Dexterity);
+				list.Add(Names.Intelligence);
+				list.Add(Names.Strength);
+				list.Add(Names.Wisdom);
+				return list;
+			}
 		}
 		
 		public static List<Ability> generateBaseAbilityScores(int defaultScore = 10)

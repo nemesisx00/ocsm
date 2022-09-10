@@ -13,15 +13,6 @@ namespace OCSM.Nodes.DnD.Fifth
 			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Connect(Constants.Signal.Pressed, this, nameof(toggleSections));
 		}
 		
-		private void toggleSections()
-		{
-			var node = GetNode<Container>(NodePathBuilder.SceneUnique("Details"));
-			if(node.Visible)
-				node.Hide();
-			else
-				node.Show();
-		}
-		
 		public void update(OCSM.DnD.Fifth.Feature feature)
 		{
 			var label = GetNode<Label>(NodePathBuilder.SceneUnique("Name"));
@@ -53,6 +44,15 @@ namespace OCSM.Nodes.DnD.Fifth
 					sections.AddChild(instance);
 				}
 			}
+		}
+		
+		private void toggleSections()
+		{
+			var node = GetNode<Container>(NodePathBuilder.SceneUnique("Details"));
+			if(node.Visible)
+				node.Hide();
+			else
+				node.Show();
 		}
 	}
 }

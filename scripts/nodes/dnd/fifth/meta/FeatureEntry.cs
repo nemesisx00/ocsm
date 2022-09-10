@@ -23,6 +23,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			public const string ExistingEntryName = "ExistingEntry";
 			public const string ExistingLabelFormat = "Existing {0}";
 			public const string ExistingLabelName = "ExistingLabel";
+			public const string NumericBonusEditListName = "NumericBonuses";
 			public const string SaveButton = "Save";
 		}
 		
@@ -35,6 +36,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private TextEdit descriptionNode;
 		private LineEdit nameNode;
+		private NumericBonusEditList numericBonusesNode;
 		private SectionList sectionsNode;
 		private LineEdit sourceNode;
 		private TextEdit textNode;
@@ -51,6 +53,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			
 			descriptionNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Description));
 			nameNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Name));
+			numericBonusesNode = GetNode<NumericBonusEditList>(NodePathBuilder.SceneUnique(Names.NumericBonusEditListName));
 			sectionsNode = GetNode<SectionList>(NodePathBuilder.SceneUnique(Names.Sections));
 			sourceNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Source));
 			textNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Text));
@@ -58,7 +61,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			
 			descriptionNode.Connect(Constants.Signal.TextChanged, this, nameof(descriptionChanged));
 			nameNode.Connect(Constants.Signal.TextChanged, this, nameof(nameChanged));
-			sectionsNode.Connect(nameof(SectionList.ValueChanged), this, nameof(sectionsChanged));
+			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged), this, nameof(numericBonusesChanged));
+			sectionsNode.Connect(nameof(SectionList.ValuesChanged), this, nameof(sectionsChanged));
 			sourceNode.Connect(Constants.Signal.TextChanged, this, nameof(sourceChanged));
 			textNode.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
 			typeNode.Connect(Constants.Signal.ItemSelected, this, nameof(typeChanged));
@@ -77,6 +81,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				descriptionNode.Text = Feature.Description;
 				nameNode.Text = Feature.Name;
+				numericBonusesNode.Values = Feature.NumericBonuses;
+				numericBonusesNode.refresh();
 				sectionsNode.Values = Feature.Sections;
 				sectionsNode.refresh();
 				sourceNode.Text = Feature.Source;
@@ -139,6 +145,17 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 		private void nameChanged(string text) { Feature.Name = text; }
+		
+		private void numericBonusesChanged(List<Transport<NumericBonus>> values)
+		{
+			var list = new List<NumericBonus>();
+			foreach(var t in values)
+			{
+				list.Add(t.Value);
+			}
+			Feature.NumericBonuses = list;
+		}
+		
 		private void sectionsChanged(List<Transport<FeatureSection>> values)
 		{
 			var list = new List<FeatureSection>();
