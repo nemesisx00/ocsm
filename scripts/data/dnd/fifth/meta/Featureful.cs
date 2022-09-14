@@ -4,7 +4,7 @@ using OCSM.Meta;
 
 namespace OCSM.DnD.Fifth.Meta
 {
-	public abstract class Featureful : Metadata, IEquatable<Featureful>
+	public abstract class Featureful : Metadata,  IComparable<Featureful>, IEquatable<Featureful>
 	{
 		public List<Feature> Features { get; set; }
 		public List<FeatureSection> Sections { get; set; }
@@ -25,6 +25,16 @@ namespace OCSM.DnD.Fifth.Meta
 		{
 			Features = new List<Feature>(features);
 			Sections = new List<FeatureSection>(sections);
+		}
+		
+		public int CompareTo(Featureful f)
+		{
+			var ret = 0;
+			if(f is Featureful)
+			{
+				ret = base.CompareTo(f);
+			}
+			return ret;
 		}
 		
 		public bool Equals(Featureful f)

@@ -80,7 +80,7 @@ namespace OCSM.DnD.Fifth
 		}
 	}
 	
-	public class FeatureSection : IEquatable<FeatureSection>
+	public class FeatureSection : IComparable<FeatureSection>, IEquatable<FeatureSection>
 	{
 		public string Section { get; set; }
 		public string Text { get; set; }
@@ -89,6 +89,18 @@ namespace OCSM.DnD.Fifth
 		{
 			Section = section;
 			Text = text;
+		}
+		
+		public int CompareTo(FeatureSection featureSection)
+		{
+			var ret = 0;
+			if(featureSection is FeatureSection)
+			{
+				ret = Section.CompareTo(featureSection.Section);
+				if(ret.Equals(0))
+					ret = Text.CompareTo(featureSection.Text);
+			}
+			return ret;
 		}
 		
 		public bool Equals(FeatureSection section)

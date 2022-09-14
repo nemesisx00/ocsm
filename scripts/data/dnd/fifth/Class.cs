@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.DnD.Fifth
 {
-	public class Class : Featureful, IEquatable<Class>
+	public class Class : Featureful, IComparable<Class>, IEquatable<Class>
 	{
 		public int Level { get; set; }
 		public Die HitDie { get; set; }
@@ -32,6 +32,8 @@ namespace OCSM.DnD.Fifth
 			Level = 1;
 			HitDie = die;
 		}
+		
+		public int CompareTo(Class c) { return base.CompareTo(c); }
 		
 		public bool Equals(Class c)
 		{
