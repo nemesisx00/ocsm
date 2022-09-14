@@ -279,85 +279,74 @@ margin_bottom = 102.0
 alignment = 1
 
 [node name="Col" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-margin_right = 100.0
+margin_right = 126.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 
-[node name="ArmorClass" type="Label" parent="Column/Row/Traits/Row2/Col"]
+[node name="ArmorClass" type="SpinBox" parent="Column/Row/Traits/Row2/Col"]
 unique_name_in_owner = true
-margin_right = 100.0
-margin_bottom = 14.0
+margin_right = 126.0
+margin_bottom = 24.0
+rounded = true
+allow_greater = true
+allow_lesser = true
 align = 1
+editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col"]
-margin_top = 18.0
-margin_right = 100.0
-margin_bottom = 32.0
+margin_top = 28.0
+margin_right = 126.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 text = "AC"
 align = 1
 
 [node name="Col2" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-margin_left = 104.0
-margin_right = 204.0
+margin_left = 130.0
+margin_right = 256.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 
-[node name="InitiativeBonus" type="Label" parent="Column/Row/Traits/Row2/Col2"]
+[node name="InitiativeBonus" type="SpinBox" parent="Column/Row/Traits/Row2/Col2"]
 unique_name_in_owner = true
-margin_right = 100.0
-margin_bottom = 14.0
+margin_right = 126.0
+margin_bottom = 24.0
+rounded = true
+allow_greater = true
+allow_lesser = true
 align = 1
+editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col2"]
-margin_top = 18.0
-margin_right = 100.0
-margin_bottom = 32.0
+margin_top = 28.0
+margin_right = 126.0
+margin_bottom = 42.0
 size_flags_vertical = 1
 text = "Initiative"
 align = 1
 
 [node name="Col3" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-margin_left = 208.0
-margin_right = 308.0
+margin_left = 260.0
+margin_right = 386.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 
 [node name="Speed" type="SpinBox" parent="Column/Row/Traits/Row2/Col3"]
 unique_name_in_owner = true
-margin_right = 100.0
+margin_right = 126.0
 margin_bottom = 24.0
 rounded = true
 allow_greater = true
+allow_lesser = true
 align = 1
+editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col3"]
 margin_top = 28.0
-margin_right = 100.0
+margin_right = 126.0
 margin_bottom = 42.0
 size_flags_vertical = 1
 text = "Speed"
-align = 1
-
-[node name="Col4" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-margin_left = 312.0
-margin_right = 386.0
-margin_bottom = 42.0
-
-[node name="ExperiencePoints" type="SpinBox" parent="Column/Row/Traits/Row2/Col4"]
-unique_name_in_owner = true
-margin_right = 74.0
-margin_bottom = 24.0
-rounded = true
-allow_greater = true
-align = 1
-
-[node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col4"]
-margin_top = 28.0
-margin_right = 74.0
-margin_bottom = 42.0
-size_flags_vertical = 0
-text = "XP"
 align = 1
 
 [node name="HSeparator2" type="HSeparator" parent="Column/Row/Traits"]

@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using System.Text.Json;
+using System.Collections.Generic;
 using OCSM.DnD.Fifth;
 using OCSM.Nodes.Autoload;
 using OCSM.Nodes.Sheets;
@@ -37,6 +37,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			public const string Race = "Race";
 			public const string RaceFeatures = "Racial Features";
 			public const string Silver = "Silver";
+			public const string Speed = "Speed";
 			public const string TempHP = "TempHP";
 		}
 		
@@ -82,7 +83,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			base._Ready();
 			refreshFeatures();
 			toggleBardicInspirationDie();
-			updateDexTraits();
+			updateCalculatedTraits();
 		}
 		
 		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
@@ -150,18 +151,33 @@ namespace OCSM.Nodes.DnD.Sheets
 		private int calculateAc()
 		{
 			var ac = 10;
-			
-			//TODO: Add AC bonus from equipped armor here
-			
-			//TODO: Make Dexterity Modifier bonus react to equipped armor
 			var addDex = true;
 			var dexLimit = 0;
+			
+			if(SheetData.CurrentEquipment.Armor is InventoryArmor)
+			{
+				ac = SheetData.CurrentEquipment.Armor.BaseArmorClass;
+				addDex = SheetData.CurrentEquipment.Armor.AllowDexterityBonus;
+				dexLimit = SheetData.CurrentEquipment.Armor.DexterityBonusLimit;
+			}
+			
 			if(addDex && SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
 			{
 				var dex = dexterity.Modifier;
 				if(dexLimit > 0 && dex > dexLimit)
 					dex = dexLimit;
 				ac += dex;
+			}
+			
+			foreach(var feature in collectAllFeatures())
+			{
+				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.ArmorClass)))
+				{
+					if(!nb.Add)
+						ac = nb.Value;
+					else
+						ac += nb.Value;
+				}
 			}
 			
 			return ac;
@@ -172,8 +188,37 @@ namespace OCSM.Nodes.DnD.Sheets
 			var bonus = 0;
 			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
 				bonus += dexterity.Modifier;
-			//TODO: Make this value react to metadata features in the sheet that could affect initiative
+			
+			foreach(var feature in collectAllFeatures())
+			{
+				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Initiative)))
+				{
+					if(!nb.Add)
+						bonus = nb.Value;
+					else
+						bonus += nb.Value;
+				}
+			}
+			
 			return bonus;
+		}
+		
+		private int calculateSpeed()
+		{
+			var speed = 0;
+			
+			foreach(var feature in collectAllFeatures())
+			{
+				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Speed)))
+				{
+					if(!nb.Add)
+						speed = nb.Value;
+					else
+						speed += nb.Value;
+				}
+			}
+			
+			return speed;
 		}
 		
 		private void changed_Ability(Transport<Ability> transport)
@@ -183,7 +228,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			SheetData.Abilities.Add(transport.Value);
 			
 			if(transport.Value.Name.Equals(Ability.Names.Dexterity))
-				updateDexTraits();
+				updateCalculatedTraits();
 		}
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
@@ -276,6 +321,17 @@ namespace OCSM.Nodes.DnD.Sheets
 		private void changed_Silver(float value) { SheetData.CoinPurse.Silver = (int)value; }
 		private void changed_TempHP(float value) { SheetData.HP.Temp = (int)value; }
 		
+		private List<OCSM.DnD.Fifth.Feature> collectAllFeatures()
+		{
+			var allFeatures = new List<OCSM.DnD.Fifth.Feature>();
+			if(SheetData.Background is Background background && background.Features.Count > 0)
+				allFeatures.AddRange(background.Features);
+			if(SheetData.Race is Race race && race.Features.Count > 0)
+				allFeatures.AddRange(race.Features);
+			
+			return allFeatures;
+		}
+		
 		private void refreshFeatures()
 		{
 			var backgroundFeatures = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Names.BackgroundFeatures));
@@ -285,41 +341,26 @@ namespace OCSM.Nodes.DnD.Sheets
 			foreach(Node child in raceFeatures.GetChildren())
 				child.QueueFree();
 			
-			HSeparator hr = null;
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
-			OCSM.Nodes.DnD.Fifth.Feature instance = null;
 			if(SheetData.Background is Background background && background.Features.Count > 0)
-			{
-				background.Features.Sort();
-				foreach(var feature in background.Features)
-				{
-					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
-					backgroundFeatures.AddChild(instance);
-					instance.update(feature);
-					
-					if(background.Features.IndexOf(feature) < background.Features.Count - 1)
-					{
-						hr = new HSeparator();
-						backgroundFeatures.AddChild(hr);
-					}
-				}
-			}
-			
+				renderFeatures(backgroundFeatures, background.Features, resource);
 			if(SheetData.Race is Race race && race.Features.Count > 0)
+				renderFeatures(raceFeatures, race.Features, resource);
+			
+			updateCalculatedTraits();
+		}
+		
+		private void renderFeatures(Container node, List<OCSM.DnD.Fifth.Feature> features, PackedScene resource)
+		{
+			features.Sort();
+			foreach(var feature in features)
 			{
-				race.Features.Sort();
-				foreach(var feature in race.Features)
-				{
-					instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
-					raceFeatures.AddChild(instance);
-					instance.update(feature);
-					
-					if(race.Features.IndexOf(feature) < race.Features.Count - 1)
-					{
-						hr = new HSeparator();
-						raceFeatures.AddChild(hr);
-					}
-				}
+				var instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
+				node.AddChild(instance);
+				instance.update(feature);
+				
+				if(features.IndexOf(feature) < features.Count - 1)
+					node.AddChild(new HSeparator());
 			}
 		}
 		
@@ -332,12 +373,11 @@ namespace OCSM.Nodes.DnD.Sheets
 				node.Hide();
 		}
 		
-		private void updateDexTraits()
+		private void updateCalculatedTraits()
 		{
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.ArmorClass)).Text = calculateAc().ToString();
-			
-			var init = calculateInitiative();
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.InitiativeBonus)).Text = init >= 0 ? String.Format("+{0}", init) : init.ToString();
+			GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.ArmorClass)).Value = calculateAc();
+			GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.InitiativeBonus)).Value = calculateInitiative();
+			GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Speed)).Value = calculateSpeed();
 		}
 	}
 }
