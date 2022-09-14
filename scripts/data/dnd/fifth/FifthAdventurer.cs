@@ -13,6 +13,7 @@ namespace OCSM.DnD.Fifth
 		public string Bonds { get; set; }
 		public List<Class> Classes { get; set; }
 		public CoinPurse CoinPurse { get; set; }
+		public Equipment CurrentEquipment { get; set; }
 		public List<Feature> Features { get; set; }
 		public string Flaws { get; set; }
 		public HitPoints HP { get; set; }
@@ -31,6 +32,9 @@ namespace OCSM.DnD.Fifth
 			Bonds = String.Empty;
 			Classes = new List<Class>();
 			CoinPurse = new CoinPurse();
+			CurrentEquipment = new Equipment();
+			//TODO: Chainmail equipped for testing. Remove this when the UI for equipping armor has been implemented.
+			CurrentEquipment.Armor = new InventoryArmor() { Name = "Chain Mail", Equippable = true, Weight = 50.0, AllowDexterityBonus = false, BaseArmorClass = 16 };
 			Features = new List<Feature>();
 			Flaws = String.Empty;
 			HP = new HitPoints();
