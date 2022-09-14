@@ -13,7 +13,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		protected const string SectionsName = "Sections";
 		
 		[Signal]
-		public new delegate void SaveClicked(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<Feature>> features);
+		public new delegate void SaveClicked(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features);
 		
 		protected List<OCSM.DnD.Fifth.Feature> Features;
 		
@@ -37,13 +37,14 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			foreach(var feature in Features)
 			{
 				var instance = resource.Instance<Feature>();
-				instance.update(feature);
 				var button = new Button();
 				button.Text = "Remove";
 				button.SizeFlagsHorizontal = (int)Control.SizeFlags.ShrinkCenter;
 				button.Connect(Constants.Signal.Pressed, this, nameof(removeFeature), new Godot.Collections.Array(new Transport<OCSM.DnD.Fifth.Feature>(feature)));
 				instance.AddChild(button);
 				featureContainer.AddChild(instance);
+				
+				instance.update(feature);
 			}
 		}
 		
