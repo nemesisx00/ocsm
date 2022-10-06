@@ -56,6 +56,10 @@ fileCloseSheet={
  ]
 }
 
+[mono]
+
+project/assembly_name="Open Character Sheet Manager"
+
 [physics]
 
 common/enable_pause_aware_picking=true
