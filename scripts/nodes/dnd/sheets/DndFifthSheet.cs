@@ -158,15 +158,16 @@ namespace OCSM.Nodes.DnD.Sheets
 			{
 				ac = SheetData.CurrentEquipment.Armor.BaseArmorClass;
 				addDex = SheetData.CurrentEquipment.Armor.AllowDexterityBonus;
-				dexLimit = SheetData.CurrentEquipment.Armor.DexterityBonusLimit;
+				if(SheetData.CurrentEquipment.Armor.LimitDexterityBonus)
+					dexLimit = SheetData.CurrentEquipment.Armor.DexterityBonusLimit;
 			}
 			
 			if(addDex && SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
 			{
-				var dex = dexterity.Modifier;
-				if(dexLimit > 0 && dex > dexLimit)
-					dex = dexLimit;
-				ac += dex;
+				var mod = dexterity.Modifier;
+				if(mod < 0 || (dexLimit > 0 && mod > dexLimit))
+					mod = dexLimit;
+				ac += mod;
 			}
 			
 			foreach(var feature in collectAllFeatures())

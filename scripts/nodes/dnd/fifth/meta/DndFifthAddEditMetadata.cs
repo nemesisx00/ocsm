@@ -8,6 +8,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 {
 	public class DndFifthAddEditMetadata : WindowDialog
 	{
+		private const string ArmorName = "Armor";
 		private const string BackgroundsName = "Backgrounds";
 		private const string ClassesName = "Classes";
 		private const string FeaturesName = "FeatureEntry";
@@ -22,6 +23,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(closeHandler));
+			
+			var armorEntry = GetNode<ArmorEntry>(NodePathBuilder.SceneUnique(ArmorName));
+			armorEntry.Connect(nameof(ArmorEntry.SaveClicked), this, nameof(saveArmor));
+			armorEntry.Connect(nameof(ArmorEntry.DeleteConfirmed), this, nameof(deleteArmor));
 			
 			var backgroundEntry = GetNode<BackgroundEntry>(NodePathBuilder.SceneUnique(BackgroundsName));
 			backgroundEntry.Connect(nameof(BackgroundEntry.SaveClicked), this, nameof(saveBackground));
@@ -43,6 +48,18 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private void closeHandler()
 		{
 			QueueFree();
+		}
+		
+		protected void deleteArmor(string name)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				if(dfc.Armor.Find(a => a.Name.Equals(name)) is InventoryArmor armor)
+				{
+					dfc.Armor.Remove(armor);
+					EmitSignal(nameof(MetadataChanged));
+				}
+			}
 		}
 		
 		protected void deleteBackground(string name)
@@ -90,6 +107,21 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Races.Remove(race);
 					EmitSignal(nameof(MetadataChanged));
 				}
+			}
+		}
+		
+		protected void saveArmor(Transport<InventoryArmor> transport)
+		{
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				var armor = transport.Value;
+				
+				if(dfc.Armor.Find(a => a.Name.Equals(armor.Name)) is InventoryArmor existingArmor)
+					dfc.Armor.Remove(existingArmor);
+				
+				dfc.Armor.Add(armor);
+				dfc.Armor.Sort();
+				EmitSignal(nameof(MetadataChanged));
 			}
 		}
 		

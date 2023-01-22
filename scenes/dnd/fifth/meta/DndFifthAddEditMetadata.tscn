@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/dnd/fifth/meta/FeaturefulMetadataEntry.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/BackgroundOptionsButton.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://scripts/nodes/dnd/fifth/ClassOptionsButton.cs" type="Script" id=7]
 [ext_resource path="res://scripts/nodes/dnd/fifth/RaceOptionsButton.cs" type="Script" id=8]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/ClassEntry.cs" type="Script" id=9]
+[ext_resource path="res://scenes/dnd/fifth/meta/ArmorEntry.tscn" type="PackedScene" id=10]
 
 [node name="AddEditMetadata" type="WindowDialog"]
 anchor_right = 1.0
@@ -66,6 +67,28 @@ margin_right = 712.0
 margin_bottom = 504.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Items" type="VBoxContainer" parent="ScrollContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="TabContainer" type="TabContainer" parent="ScrollContainer/TabContainer/Items"]
+margin_right = 712.0
+margin_bottom = 504.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Armor" parent="ScrollContainer/TabContainer/Items/TabContainer" instance=ExtResource( 10 )]
+unique_name_in_owner = true
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 
 [node name="Races" parent="ScrollContainer/TabContainer" instance=ExtResource( 1 )]
 unique_name_in_owner = true
