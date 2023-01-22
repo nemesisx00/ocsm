@@ -72,7 +72,6 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		public void loadEntry(InventoryArmor entry)
 		{
-			System.Console.WriteLine("Entry to be laoded: {0}", entry);
 			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = entry.Name;
 			GetNode<OptionButton>(NodePathBuilder.SceneUnique(TypeInput)).Selected = (int)entry.Type;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(ArmorClassInput)).Value = entry.BaseArmorClass;
