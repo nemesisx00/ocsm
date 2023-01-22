@@ -105,9 +105,33 @@ size_flags_vertical = 2
 disabled = true
 text = "Vampire: The Requiem - 2nd Edition"
 
-[node name="WoD" type="VBoxContainer" parent="Grid"]
+[node name="PF" type="VBoxContainer" parent="Grid"]
 margin_top = 169.0
 margin_right = 510.0
+margin_bottom = 217.0
+
+[node name="Label" type="Label" parent="Grid/PF"]
+margin_right = 510.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "Pathfinder"
+align = 1
+valign = 1
+
+[node name="Pf2e" type="Button" parent="Grid/PF"]
+unique_name_in_owner = true
+margin_left = 165.0
+margin_top = 28.0
+margin_right = 344.0
+margin_bottom = 48.0
+size_flags_horizontal = 6
+disabled = true
+text = "Pathfinder: Second Edition"
+
+[node name="WoD" type="VBoxContainer" parent="Grid"]
+margin_left = 514.0
+margin_top = 169.0
+margin_right = 1024.0
 margin_bottom = 217.0
 size_flags_horizontal = 3
 
