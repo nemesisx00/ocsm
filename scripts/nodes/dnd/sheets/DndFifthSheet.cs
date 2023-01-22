@@ -24,6 +24,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			public const string Copper = "Copper";
 			public const string CurrentHP = "CurrentHP";
 			public const string Electrum = "Electrum";
+			public const string EquipmentNode = "Equipment";
 			public const string Flaws = "Flaws";
 			public const string Gold = "Gold";
 			public const string HPBar = "HPBar";
@@ -80,6 +81,8 @@ namespace OCSM.Nodes.DnD.Sheets
 				InitAndConnect(GetNode<AbilityNode>(NodePathBuilder.SceneUnique(ability.Name)), ability, nameof(changed_Ability));
 			}
 			
+			InitAndConnect(GetNode<EquipmentNode>(NodePathBuilder.SceneUnique(Names.EquipmentNode)), SheetData.CurrentEquipment, nameof(changed_Equipment));
+			
 			base._Ready();
 			refreshFeatures();
 			toggleBardicInspirationDie();
@@ -89,15 +92,15 @@ namespace OCSM.Nodes.DnD.Sheets
 		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
 			where T1: Control
 		{
-			if(node is AbilityNode a)
+			if(node is AbilityNode ab)
 			{
 				if(initialValue is Ability ability)
 				{
-					a.Ability = ability;
-					a.refresh();
+					ab.Ability = ability;
+					ab.refresh();
 				}
 				
-				a.Connect(nameof(AbilityNode.AbilityChanged), this, handlerName);
+				ab.Connect(nameof(AbilityNode.AbilityChanged), this, handlerName);
 			}
 			else if(node is BackgroundOptionsButton bob)
 			{
@@ -133,6 +136,15 @@ namespace OCSM.Nodes.DnD.Sheets
 					}
 				}
 				dob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+			}
+			else if(node is EquipmentNode en)
+			{
+				if(initialValue is Equipment eq && metadataManager.Container is DnDFifthContainer dfc)
+				{
+					en.Equipment = eq;
+					en.refreshSelected();
+				}
+				en.Connect(nameof(EquipmentNode.EquipmentChanged), this, handlerName);
 			}
 			else if(node is RaceOptionsButton rob)
 			{
@@ -233,6 +245,12 @@ namespace OCSM.Nodes.DnD.Sheets
 		}
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
+		
+		private void changed_Equipment(Transport<Equipment> equipment)
+		{
+			SheetData.CurrentEquipment = equipment.Value;
+			updateCalculatedTraits();
+		}
 		
 		private void changed_Background(int index)
 		{

@@ -33,8 +33,6 @@ namespace OCSM.DnD.Fifth
 			Classes = new List<Class>();
 			CoinPurse = new CoinPurse();
 			CurrentEquipment = new Equipment();
-			//TODO: Chainmail equipped for testing. Remove this when the UI for equipping armor has been implemented.
-			CurrentEquipment.Armor = new InventoryArmor() { Name = "Chain Mail", Equippable = true, Weight = 50.0, AllowDexterityBonus = false, BaseArmorClass = 16 };
 			Features = new List<Feature>();
 			Flaws = String.Empty;
 			HP = new HitPoints();

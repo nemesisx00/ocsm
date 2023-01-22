@@ -7,6 +7,9 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public class ArmorOptionsButton : OptionButton
 	{
+		[Signal]
+		public delegate void ItemsChanged();
+		
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
@@ -45,6 +48,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				}
 				
 				Selected = index;
+				
+				EmitSignal(nameof(ItemsChanged));
 			}
 		}
 	}
