@@ -55,7 +55,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is created using [Godot](https://godotengine.org) with scripts written in the C#.
+OCSM is created using [Godot](https://godotengine.org) with scripts written in C#.
 
 ## Getting Started
 
@@ -65,6 +65,7 @@ OCSM isn't ready for release as an installable application just yet but you are 
 
 - [.NET SDK](https://dotnet.microsoft.com/download)
 - [Godot](https://godotengine.org)
+	- Make sure get the Mono version.
 
 Currently, I'm using Godot 3.5 but I'll be sticking to the latest stable Mono version.
 
