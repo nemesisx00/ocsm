@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using OCSM.Meta;
+using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.DnD.Fifth.Meta
 {

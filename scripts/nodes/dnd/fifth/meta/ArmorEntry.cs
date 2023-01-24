@@ -1,9 +1,8 @@
 using Godot;
 using System;
 using OCSM.Nodes.Autoload;
-using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
-using OCSM.Nodes.Meta;
+using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.DnD.Fifth
 {

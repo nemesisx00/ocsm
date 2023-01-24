@@ -1,7 +1,6 @@
 using System;
-using OCSM.Meta;
 
-namespace OCSM.DnD.Fifth
+namespace OCSM.DnD.Fifth.Inventory
 {
 	public class InventoryArmor : InventoryItem, IComparable<InventoryArmor>, IEquatable<InventoryArmor>
 	{

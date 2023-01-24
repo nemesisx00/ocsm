@@ -6,6 +6,7 @@ using OCSM.Nodes.Autoload;
 using OCSM.Nodes.Sheets;
 using OCSM.DnD.Fifth.Meta;
 using OCSM.Nodes.DnD.Fifth;
+using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Sheets
 {
