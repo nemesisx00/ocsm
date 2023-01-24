@@ -4,6 +4,7 @@
     <RootNamespace>OpenCharacterSheetManager</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Enums.NET" Version="4.0.1" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
   </ItemGroup>
 </Project>
