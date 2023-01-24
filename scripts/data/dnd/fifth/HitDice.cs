@@ -8,10 +8,10 @@ namespace OCSM.DnD.Fifth
 		public int Quantity { get; set; }
 		public int Max { get; set; }
 		
-		public HitDice(Die die, int max)
+		public HitDice()
 		{
-			Die = die;
-			Quantity = Max = max;
+			Die = new Die();
+			Quantity = Max = 0;
 		}
 		
 		public int spend(uint amount = 1)
@@ -33,11 +33,25 @@ namespace OCSM.DnD.Fifth
 			Quantity = Max;
 		}
 		
-		public bool Equals(HitDice hitDice)
+		public int CompareTo(HitDice other)
 		{
-			return hitDice.Die.Equals(Die)
-				&& hitDice.Quantity.Equals(Quantity)
-				&& hitDice.Max.Equals(Max);
+			var ret = 0;
+			if(other is HitDice)
+			{
+				ret = Die.CompareTo(other.Die);
+				if(ret.Equals(0))
+					ret = Max.CompareTo(other.Max);
+				if(ret.Equals(0))
+					ret = Quantity.CompareTo(other.Quantity);
+			}
+			return ret;
+		}
+		
+		public bool Equals(HitDice other)
+		{
+			return Die.Equals(other.Die)
+				&& Quantity.Equals(other.Quantity)
+				&& Max.Equals(other.Max);
 		}
 	}
 }

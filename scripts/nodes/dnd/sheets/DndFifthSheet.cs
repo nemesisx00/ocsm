@@ -275,7 +275,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			var text = node.GetItemText(index);
 			if(!String.IsNullOrEmpty(text))
 			{
-				var die = new OCSM.DnD.Fifth.Die(int.Parse(text.Substring(1)));
+				var die = new OCSM.DnD.Fifth.Die() { Sides = int.Parse(text.Substring(1)) };
 				SheetData.BardicInspirationDie = die;
 			}
 			else

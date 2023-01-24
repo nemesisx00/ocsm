@@ -2,7 +2,7 @@ using System;
 
 namespace OCSM.DnD.Fifth
 {
-	public class Die : OCSM.Die
+	public class Die : OCSM.Die, IComparable<Die>, IEquatable<Die>
 	{
 		public static Die d4 = new Die() { Sides = 4 };
 		public static Die d6 = new Die() { Sides = 6 };
@@ -27,5 +27,8 @@ namespace OCSM.DnD.Fifth
 			var two = roll();
 			return one < two ? one : two;
 		}
+		
+		public int CompareTo(Die other) { return base.CompareTo(other); }
+		public bool Equals(Die other) { return base.Equals(other); }
 	}
 }
