@@ -139,7 +139,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private void doSave()
 		{
 			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-			var type = (ArmorType)GetNode<OptionButton>(NodePathBuilder.SceneUnique(TypeInput)).Selected;
+			var type = (ItemArmor.ArmorType)GetNode<OptionButton>(NodePathBuilder.SceneUnique(TypeInput)).Selected;
 			var ac = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(ArmorClassInput)).Value;
 			var cost = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(CostInput)).Value;
 			var weight = GetNode<SpinBox>(NodePathBuilder.SceneUnique(WeightInput)).Value;
@@ -150,16 +150,20 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var minStr = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value;
 			var description = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
 			
-			var armor = new ItemArmor(name, description);
-			armor.AllowDexterityBonus = allowDex;
-			armor.BaseArmorClass = ac;
-			armor.Cost = cost;
-			armor.DexterityBonusLimit = dexLimit;
-			armor.LimitDexterityBonus = limitDex;
-			armor.MinimumStrength = minStr;
-			armor.StealthDisadvantage = stealth;
-			armor.Type = type;
-			armor.Weight = weight;
+			var armor = new ItemArmor()
+			{
+				AllowDexterityBonus = allowDex,
+				BaseArmorClass = ac,
+				Cost = cost,
+				DexterityBonusLimit = dexLimit,
+				Description = description,
+				LimitDexterityBonus = limitDex,
+				MinimumStrength = minStr,
+				Name = name,
+				StealthDisadvantage = stealth,
+				Type = type,
+				Weight = weight,
+			};
 			
 			EmitSignal(nameof(SaveClicked), new Transport<ItemArmor>(armor));
 			clearInputs();

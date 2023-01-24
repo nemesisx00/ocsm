@@ -4,6 +4,15 @@ namespace OCSM.DnD.Fifth.Inventory
 {
 	public class ItemArmor : Item, IComparable<ItemArmor>, IEquatable<ItemArmor>
 	{
+		public enum ArmorType
+		{
+			None = 0,
+			Light,
+			Medium,
+			Heavy,
+			Shield,
+		}
+		
 		public bool AllowDexterityBonus { get; set; }
 		public int BaseArmorClass { get; set; }
 		public int DexterityBonusLimit { get; set; }
@@ -13,18 +22,6 @@ namespace OCSM.DnD.Fifth.Inventory
 		public ArmorType Type { get; set; }
 		
 		public ItemArmor() : base()
-		{
-			AllowDexterityBonus = true;
-			BaseArmorClass = 0;
-			DexterityBonusLimit = -1;
-			Equippable = true;
-			LimitDexterityBonus = false;
-			MinimumStrength = 0;
-			StealthDisadvantage = false;
-			Type = ArmorType.None;
-		}
-		
-		public ItemArmor(string name, string description) : base(name, description)
 		{
 			AllowDexterityBonus = true;
 			BaseArmorClass = 0;

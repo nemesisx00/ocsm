@@ -23,12 +23,6 @@ namespace OCSM.Meta
 			Name = String.Empty;
 		}
 		
-		public Metadata(string name, string description = "") : this()
-		{
-			Description = description;
-			Name = name;
-		}
-		
 		public int CompareTo(Metadata metadata)
 		{
 			var ret = 0;

@@ -12,41 +12,41 @@ namespace OCSM.CoD.CtL.Meta
 		{
 			var container = new CoDChangelingContainer();
 			
-			container.ContractTypes.Add(new ContractType("Common"));
-			container.ContractTypes.Add(new ContractType("Royal"));
-			container.ContractTypes.Add(new ContractType("Goblin"));
+			container.ContractTypes.Add(new ContractType() { Name = "Common" });
+			container.ContractTypes.Add(new ContractType() { Name = "Royal" });
+			container.ContractTypes.Add(new ContractType() { Name = "Goblin" });
 			
-			container.Courts.Add(new Court("Autumn"));
-			container.Courts.Add(new Court("Spring"));
-			container.Courts.Add(new Court("Summer"));
-			container.Courts.Add(new Court("Winter"));
+			container.Courts.Add(new Court() { Name = "Autumn" });
+			container.Courts.Add(new Court() { Name = "Spring" });
+			container.Courts.Add(new Court() { Name = "Summer" });
+			container.Courts.Add(new Court() { Name = "Winter" });
 			
-			container.Kiths.Add(new Kith("Artist"));
-			container.Kiths.Add(new Kith("Bright One"));
-			container.Kiths.Add(new Kith("Chatelaine"));
-			container.Kiths.Add(new Kith("Gristlegrinder"));
-			container.Kiths.Add(new Kith("Helldiver"));
-			container.Kiths.Add(new Kith("Hunterheart"));
-			container.Kiths.Add(new Kith("Leechfinger"));
-			container.Kiths.Add(new Kith("Mirrorskin"));
-			container.Kiths.Add(new Kith("Nightsinger"));
-			container.Kiths.Add(new Kith("Notary"));
-			container.Kiths.Add(new Kith("Playmate"));
-			container.Kiths.Add(new Kith("Snowskin"));
+			container.Kiths.Add(new Kith() { Name = "Artist" });
+			container.Kiths.Add(new Kith() { Name = "Bright One" });
+			container.Kiths.Add(new Kith() { Name = "Chatelaine" });
+			container.Kiths.Add(new Kith() { Name = "Gristlegrinder" });
+			container.Kiths.Add(new Kith() { Name = "Helldiver" });
+			container.Kiths.Add(new Kith() { Name = "Hunterheart" });
+			container.Kiths.Add(new Kith() { Name = "Leechfinger" });
+			container.Kiths.Add(new Kith() { Name = "Mirrorskin" });
+			container.Kiths.Add(new Kith() { Name = "Nightsinger" });
+			container.Kiths.Add(new Kith() { Name = "Notary" });
+			container.Kiths.Add(new Kith() { Name = "Playmate" });
+			container.Kiths.Add(new Kith() { Name = "Snowskin" });
 			
-			container.Regalias.Add(new Regalia("Crown"));
-			container.Regalias.Add(new Regalia("Jewels"));
-			container.Regalias.Add(new Regalia("Mirror"));
-			container.Regalias.Add(new Regalia("Shield"));
-			container.Regalias.Add(new Regalia("Steed"));
-			container.Regalias.Add(new Regalia("Sword"));
+			container.Regalias.Add(new Regalia() { Name = "Crown" });
+			container.Regalias.Add(new Regalia() { Name = "Jewels" });
+			container.Regalias.Add(new Regalia() { Name = "Mirror" });
+			container.Regalias.Add(new Regalia() { Name = "Shield" });
+			container.Regalias.Add(new Regalia() { Name = "Steed" });
+			container.Regalias.Add(new Regalia() { Name = "Sword" });
 			
-			container.Seemings.Add(new Seeming("Beast"));
-			container.Seemings.Add(new Seeming("Darkling"));
-			container.Seemings.Add(new Seeming("Elemental"));
-			container.Seemings.Add(new Seeming("Fairest"));
-			container.Seemings.Add(new Seeming("Ogre"));
-			container.Seemings.Add(new Seeming("Wizened"));
+			container.Seemings.Add(new Seeming() { Name = "Beast" });
+			container.Seemings.Add(new Seeming() { Name = "Darkling" });
+			container.Seemings.Add(new Seeming() { Name = "Elemental" });
+			container.Seemings.Add(new Seeming() { Name = "Fairest" });
+			container.Seemings.Add(new Seeming() { Name = "Ogre" });
+			container.Seemings.Add(new Seeming() { Name = "Wizened" });
 			
 			return container;
 		}

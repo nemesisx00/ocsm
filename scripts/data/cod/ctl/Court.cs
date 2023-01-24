@@ -5,7 +5,7 @@ namespace OCSM.CoD.CtL
 {
 	public class Court : Metadata, IEquatable<Court>
 	{
-		public Court(string name, string description = "") : base(name, description) { }
+		public Court() : base() { }
 		public bool Equals(Court court) { return base.Equals(court); }
 	}
 }

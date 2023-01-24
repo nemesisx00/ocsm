@@ -58,7 +58,7 @@ namespace OCSM.Nodes.CoD
 				var le = c.GetChild<LineEdit>(0);
 				var dots = c.GetChild<TrackSimple>(1).Value;
 				if(!String.IsNullOrEmpty(le.Text))
-					values.Add(new Merit(le.Text, String.Empty, dots));
+					values.Add(new Merit() { Name = le.Text, Value = dots });
 				else if(children.IndexOf(c) != children.Count - 1)
 					c.QueueFree();
 			}

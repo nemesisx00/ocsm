@@ -170,7 +170,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
 					ccc.ContractTypes.Remove(contractType);
 				
-				ccc.ContractTypes.Add(new ContractType(name, description));
+				ccc.ContractTypes.Add(new ContractType() { Description = description, Name = name, });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -182,7 +182,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 					ccc.Courts.Remove(court);
 				
-				ccc.Courts.Add(new Court(name, description));
+				ccc.Courts.Add(new Court() { Description = description, Name = name, });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -194,7 +194,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
 					ccc.Kiths.Remove(kith);
 				
-				ccc.Kiths.Add(new Kith(name, description));
+				ccc.Kiths.Add(new Kith() { Description = description, Name = name, });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -206,7 +206,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 					ccc.Merits.Remove(merit);
 				
-				ccc.Merits.Add(new Merit(name, description, value));
+				ccc.Merits.Add(new Merit() { Description = description, Name = name, Value = value });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -218,7 +218,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
 					ccc.Regalias.Remove(regalia);
 				
-				ccc.Regalias.Add(new Regalia(name, description));
+				ccc.Regalias.Add(new Regalia() { Description = description, Name = name, });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -230,7 +230,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
 					ccc.Seemings.Remove(seeming);
 				
-				ccc.Seemings.Add(new Seeming(name, description));
+				ccc.Seemings.Add(new Seeming() { Description = description, Name = name, });
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}

@@ -12,16 +12,6 @@ namespace OCSM.CoD
 			Value = 0;
 		}
 		
-		public Merit(string name, string description = "") : base(name, description)
-		{
-			Value = 0;
-		}
-		
-		public Merit(string name, string description = "", int value = 0) : base(name, description)
-		{
-			Value = value;
-		}
-		
 		public bool Equals(Merit merit)
 		{
 			return base.Equals(merit)

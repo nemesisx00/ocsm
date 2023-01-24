@@ -23,7 +23,7 @@ namespace OCSM.CoD.CtL
 		public Dictionary<string, string> SeemingBenefits { get; set; }
 		public Skill Skill { get; set; }
 		
-		public Contract(string name, string description = "") : base(name, description)
+		public Contract() : base()
 		{
 			Action = 0;
 			Attribute = null;

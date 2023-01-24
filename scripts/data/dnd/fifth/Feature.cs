@@ -41,17 +41,6 @@ namespace OCSM.DnD.Fifth
 			Type = String.Empty;
 		}
 		
-		public Feature(string name, string description = "") : base(name, description)
-		{
-			ClassName = String.Empty;
-			NumericBonuses = new List<NumericBonus>();
-			RequiredLevel = 0;
-			Sections = new List<FeatureSection>();
-			Source = String.Empty;
-			Text = String.Empty;
-			Type = String.Empty;
-		}
-		
 		public int CompareTo(Feature feature)
 		{
 			var ret = 0;

@@ -133,16 +133,18 @@ namespace OCSM.Nodes.CoD.CtL
 				contractTypeObj = ccc2.ContractTypes.Find(ct => ct.Name.Equals(contractType));
 			}
 			
-			return new OCSM.CoD.CtL.Contract(name, description)
+			return new OCSM.CoD.CtL.Contract()
 			{
 				Action = action,
 				Attribute = attribute,
 				AttributeResisted = attributeResisted,
 				AttributeContested = attributeContested,
 				Cost = cost,
+				Description = description,
 				Duration = duration,
 				Effects = effects,
 				Loophole = loophole,
+				Name = name,
 				Regalia = regaliaObj,
 				ContractType = contractTypeObj,
 				RollFailure = failure,

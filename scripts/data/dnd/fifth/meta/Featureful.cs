@@ -15,18 +15,6 @@ namespace OCSM.DnD.Fifth.Meta
 			Sections = new List<FeatureSection>();
 		}
 		
-		public Featureful(string name, string description) : base(name, description)
-		{
-			Features = new List<Feature>();
-			Sections = new List<FeatureSection>();
-		}
-		
-		public Featureful(string name, string description, List<FeatureSection> sections, List<Feature> features) : base(name, description)
-		{
-			Features = new List<Feature>(features);
-			Sections = new List<FeatureSection>(sections);
-		}
-		
 		public int CompareTo(Featureful f)
 		{
 			var ret = 0;

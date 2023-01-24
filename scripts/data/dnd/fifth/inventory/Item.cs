@@ -16,13 +16,6 @@ namespace OCSM.DnD.Fifth.Inventory
 			Weight = 0.0;
 		}
 		
-		public Item(string name, string description) : base(name, description)
-		{
-			Cost = 0;
-			Equippable = false;
-			Weight = 0.0;
-		}
-		
 		public int CompareTo(Item item)
 		{
 			var ret = base.CompareTo(item);

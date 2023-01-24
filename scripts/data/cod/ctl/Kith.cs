@@ -5,7 +5,7 @@ namespace OCSM.CoD.CtL
 {
 	public class Kith : Metadata, IEquatable<Kith>
 	{
-		public Kith(string name, string description = "") : base(name, description) { }
+		public Kith() : base() { }
 		public bool Equals(Kith kith) { return base.Equals(kith); }
 	}
 }

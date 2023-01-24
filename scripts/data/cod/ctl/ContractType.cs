@@ -5,7 +5,7 @@ namespace OCSM.CoD.CtL
 {
 	public class ContractType : Metadata, IEquatable<ContractType>
 	{
-		public ContractType(string name, string description = "") : base(name, description) { }
+		public ContractType() : base() { }
 		public bool Equals(ContractType contractType) { return base.Equals(contractType); }
 	}
 }
