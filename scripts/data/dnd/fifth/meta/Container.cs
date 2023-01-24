@@ -8,7 +8,7 @@ namespace OCSM.DnD.Fifth.Meta
 {
 	public class DnDFifthContainer : IMetadataContainer, IEquatable<DnDFifthContainer>
 	{
-		public List<InventoryArmor> Armor { get; set; } = new List<InventoryArmor>();
+		public List<ItemArmor> Armor { get; set; } = new List<ItemArmor>();
 		public List<Background> Backgrounds { get; set; } = new List<Background>();
 		public List<Class> Classes { get; set; } = new List<Class>();
 		public List<Feature> Features { get; set; } = new List<Feature>();

@@ -27,7 +27,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private const string WeightInput = "Weight";
 		
 		[Signal]
-		public delegate void SaveClicked(Transport<InventoryArmor> armor);
+		public delegate void SaveClicked(Transport<ItemArmor> armor);
 		[Signal]
 		public delegate void DeleteConfirmed(string name);
 		
@@ -61,7 +61,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var name = optionsButton.GetItemText(index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(dfc.Armor.Find(a => a.Name.Equals(name)) is InventoryArmor armor)
+				if(dfc.Armor.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
 					loadEntry(armor);
 					optionsButton.Selected = 0;
@@ -69,7 +69,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		public void loadEntry(InventoryArmor entry)
+		public void loadEntry(ItemArmor entry)
 		{
 			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = entry.Name;
 			GetNode<OptionButton>(NodePathBuilder.SceneUnique(TypeInput)).Selected = (int)entry.Type;
@@ -150,7 +150,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var minStr = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value;
 			var description = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
 			
-			var armor = new InventoryArmor(name, description);
+			var armor = new ItemArmor(name, description);
 			armor.AllowDexterityBonus = allowDex;
 			armor.BaseArmorClass = ac;
 			armor.Cost = cost;
@@ -161,7 +161,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			armor.Type = type;
 			armor.Weight = weight;
 			
-			EmitSignal(nameof(SaveClicked), new Transport<InventoryArmor>(armor));
+			EmitSignal(nameof(SaveClicked), new Transport<ItemArmor>(armor));
 			clearInputs();
 		}
 		

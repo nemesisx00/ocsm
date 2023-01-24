@@ -2,7 +2,7 @@ using System;
 
 namespace OCSM.DnD.Fifth.Inventory
 {
-	public class InventoryArmor : InventoryItem, IComparable<InventoryArmor>, IEquatable<InventoryArmor>
+	public class ItemArmor : Item, IComparable<ItemArmor>, IEquatable<ItemArmor>
 	{
 		public bool AllowDexterityBonus { get; set; }
 		public int BaseArmorClass { get; set; }
@@ -12,7 +12,7 @@ namespace OCSM.DnD.Fifth.Inventory
 		public bool StealthDisadvantage { get; set; }
 		public ArmorType Type { get; set; }
 		
-		public InventoryArmor() : base()
+		public ItemArmor() : base()
 		{
 			AllowDexterityBonus = true;
 			BaseArmorClass = 0;
@@ -24,7 +24,7 @@ namespace OCSM.DnD.Fifth.Inventory
 			Type = ArmorType.None;
 		}
 		
-		public InventoryArmor(string name, string description) : base(name, description)
+		public ItemArmor(string name, string description) : base(name, description)
 		{
 			AllowDexterityBonus = true;
 			BaseArmorClass = 0;
@@ -36,10 +36,10 @@ namespace OCSM.DnD.Fifth.Inventory
 			Type = ArmorType.None;
 		}
 		
-		public int CompareTo(InventoryArmor item)
+		public int CompareTo(ItemArmor item)
 		{
 			var ret = Type.CompareTo(item.Type);
-			if(item is InventoryArmor)
+			if(item is ItemArmor)
 			{
 				if(ret.Equals(0))
 					ret = BaseArmorClass.CompareTo(item.BaseArmorClass);
@@ -59,7 +59,7 @@ namespace OCSM.DnD.Fifth.Inventory
 			return ret;
 		}
 		
-		public bool Equals(InventoryArmor item)
+		public bool Equals(ItemArmor item)
 		{
 			return base.Equals(item)
 				&& AllowDexterityBonus.Equals(item.AllowDexterityBonus)

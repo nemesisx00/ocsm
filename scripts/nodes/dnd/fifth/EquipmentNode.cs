@@ -40,7 +40,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			var name = optionsButton.GetItemText(index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(dfc.Armor.Find(a => a.Name.Equals(name)) is InventoryArmor armor)
+				if(dfc.Armor.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 					Equipment.Armor = armor;
 				else
 					Equipment.Armor = null;
@@ -57,7 +57,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		private void refreshArmor()
 		{
 			var armorOptions = GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(Names.ArmorEquipped));
-			if(Equipment.Armor is InventoryArmor armor && metadataManager.Container is DnDFifthContainer dfc)
+			if(Equipment.Armor is ItemArmor armor && metadataManager.Container is DnDFifthContainer dfc)
 			{
 				var newIndex = dfc.Armor.FindIndex(a => a.Equals(armor)) + 1;
 				armorOptions.Selected = newIndex;

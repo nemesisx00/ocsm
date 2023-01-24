@@ -167,7 +167,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			var addDex = true;
 			var dexLimit = 0;
 			
-			if(SheetData.CurrentEquipment.Armor is InventoryArmor)
+			if(SheetData.CurrentEquipment.Armor is ItemArmor)
 			{
 				ac = SheetData.CurrentEquipment.Armor.BaseArmorClass;
 				addDex = SheetData.CurrentEquipment.Armor.AllowDexterityBonus;

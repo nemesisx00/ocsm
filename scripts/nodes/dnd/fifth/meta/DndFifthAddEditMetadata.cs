@@ -55,7 +55,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(dfc.Armor.Find(a => a.Name.Equals(name)) is InventoryArmor armor)
+				if(dfc.Armor.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
 					dfc.Armor.Remove(armor);
 					EmitSignal(nameof(MetadataChanged));
@@ -111,13 +111,13 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveArmor(Transport<InventoryArmor> transport)
+		protected void saveArmor(Transport<ItemArmor> transport)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				var armor = transport.Value;
 				
-				if(dfc.Armor.Find(a => a.Name.Equals(armor.Name)) is InventoryArmor existingArmor)
+				if(dfc.Armor.Find(a => a.Name.Equals(armor.Name)) is ItemArmor existingArmor)
 					dfc.Armor.Remove(existingArmor);
 				
 				dfc.Armor.Add(armor);
