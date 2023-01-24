@@ -6,10 +6,9 @@ namespace OCSM
 	{
 		public int Sides { get; set; }
 		
-		public Die() : this(1) { }
-		public Die(int sides)
+		public Die()
 		{
-			Sides = sides;
+			Sides = 1;
 		}
 		
 		public int roll()
