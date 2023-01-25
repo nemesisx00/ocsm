@@ -27,8 +27,8 @@ namespace OCSM.Nodes.Autoload
 					if(dupeCount > 0)
 						instance.Name = String.Format("{0} ({1})", instance.Name, dupeCount);
 					
-					if(!String.IsNullOrEmpty(json))
-						((ICharacterSheet)instance).SetJsonData(json);
+					if(!String.IsNullOrEmpty(json) && instance is ICharacterSheet sheet)
+						sheet.SetJsonData(json);
 					
 					tc.AddChild(instance);
 					tc.CurrentTab = tc.GetTabCount() - 1;
