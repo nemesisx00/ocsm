@@ -108,10 +108,5 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			return nodes;
 		}
-		
-		private Label centeredLabel(string text)
-		{
-			return new Label() { Text = text, Align = Label.AlignEnum.Center, Valign = Label.VAlign.Center, };
-		}
 	}
 }
