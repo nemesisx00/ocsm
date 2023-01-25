@@ -31,5 +31,15 @@ namespace OCSM
 		{
 			return Sides.Equals(other.Sides);
 		}
+
+		public override string ToString()
+		{
+			return "d" + Sides;
+		}
+		
+		public string ToString(int quantity)
+		{
+			return quantity + "d" + Sides;
+		}
 	}
 }
