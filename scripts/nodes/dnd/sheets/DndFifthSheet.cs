@@ -25,13 +25,13 @@ namespace OCSM.Nodes.DnD.Sheets
 			public const string Copper = "Copper";
 			public const string CurrentHP = "CurrentHP";
 			public const string Electrum = "Electrum";
-			public const string EquipmentNode = "Equipment";
 			public const string Flaws = "Flaws";
 			public const string Gold = "Gold";
 			public const string HPBar = "HPBar";
 			public const string Ideals = "Ideals";
 			public const string InitiativeBonus = "InitiativeBonus";
 			public const string Inspiration = "Inspiration";
+			public const string Inventory = "Inventory";
 			public const string MaxHP = "MaxHP";
 			public const string PersonalityTraits = "PersonalityTraits";
 			public const string Platinum = "Platinum";
@@ -82,7 +82,40 @@ namespace OCSM.Nodes.DnD.Sheets
 				InitAndConnect(GetNode<AbilityNode>(NodePathBuilder.SceneUnique(ability.Name)), ability, nameof(changed_Ability));
 			}
 			
-			InitAndConnect(GetNode<EquipmentNode>(NodePathBuilder.SceneUnique(Names.EquipmentNode)), SheetData.CurrentEquipment, nameof(changed_Equipment));
+			if(SheetData.Inventory.Count < 1)
+			{
+				SheetData.Inventory.Add(new ItemArmor()
+				{
+					AllowDexterityBonus = true,
+					BaseArmorClass = 12,
+					Cost = 45,
+					Description = "Made from tough but flexible leather, studded leather is reinforced with close-set rivets or spikes.",
+					Equipped = false,
+					LimitDexterityBonus = false,
+					Name = "Studded Leather",
+					StealthDisadvantage = false,
+					Type = ItemArmor.ArmorType.Light,
+					Weight = 13,
+				});
+				
+				var damageDice = new Dictionary<DamageDie, int>();
+				damageDice.Add(new DamageDie() { Sides = 8, Type = DamageDie.DamageType.Slashing }, 1);
+				var properties = new List<ItemWeapon.WeaponProperties>();
+				properties.Add(ItemWeapon.WeaponProperties.Versatile);
+				SheetData.Inventory.Add(new ItemWeapon()
+				{
+					Cost = 15,
+					DamageDice = damageDice,
+					Description = "A sword long enough to be wielded in two hands but short enough to be wielded in one hand.",
+					Equipped = false,
+					Name = "Longsword",
+					Properties = properties,
+					Type = ItemWeapon.WeaponType.MartialMelee,
+					Weight = 3,
+				});
+			}
+			
+			InitAndConnect(GetNode<Inventory>(NodePathBuilder.SceneUnique(Names.Inventory)), SheetData.Inventory, nameof(changed_Inventory));
 			
 			base._Ready();
 			refreshFeatures();
@@ -138,14 +171,24 @@ namespace OCSM.Nodes.DnD.Sheets
 				}
 				dob.Connect(Constants.Signal.ItemSelected, this, handlerName);
 			}
-			else if(node is EquipmentNode en)
+			else if(node is Inventory i)
 			{
-				if(initialValue is Equipment eq && metadataManager.Container is DnDFifthContainer dfc)
+				if(initialValue is List<Item> items)// && metadataManager.Container is DnDFifthContainer dfc)
 				{
-					en.Equipment = eq;
-					en.refreshSelected();
+					i.Items = items; //new List<Item>();
+					//validate each item before adding
+					/*
+					foreach(var item in items)
+					{
+						if(dfc.Items.Find(i => i.Name.Equals(item.Name)) is Item it)
+						{
+							i.Items.Add(it);
+						}
+					}
+					*/
+					i.regenerateItems();
 				}
-				en.Connect(nameof(EquipmentNode.EquipmentChanged), this, handlerName);
+				i.Connect(nameof(Inventory.ItemsChanged), this, handlerName);
 			}
 			else if(node is RaceOptionsButton rob)
 			{
@@ -167,12 +210,13 @@ namespace OCSM.Nodes.DnD.Sheets
 			var addDex = true;
 			var dexLimit = 0;
 			
-			if(SheetData.CurrentEquipment.Armor is ItemArmor)
+			//Find the first equipped armor
+			if(SheetData.Inventory.Find(i => i is ItemArmor ia && ia.Equipped) is ItemArmor armor)
 			{
-				ac = SheetData.CurrentEquipment.Armor.BaseArmorClass;
-				addDex = SheetData.CurrentEquipment.Armor.AllowDexterityBonus;
-				if(SheetData.CurrentEquipment.Armor.LimitDexterityBonus)
-					dexLimit = SheetData.CurrentEquipment.Armor.DexterityBonusLimit;
+				ac = armor.BaseArmorClass;
+				addDex = armor.AllowDexterityBonus;
+				if(armor.LimitDexterityBonus)
+					dexLimit = armor.DexterityBonusLimit;
 			}
 			
 			if(addDex && SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
@@ -247,12 +291,6 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
 		
-		private void changed_Equipment(Transport<Equipment> equipment)
-		{
-			SheetData.CurrentEquipment = equipment.Value;
-			updateCalculatedTraits();
-		}
-		
 		private void changed_Background(int index)
 		{
 			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Backgrounds[index - 1] is Background background)
@@ -317,6 +355,14 @@ namespace OCSM.Nodes.DnD.Sheets
 		}
 		
 		private void changed_Inspiration(ToggleButton button) { SheetData.Inspiration = button.CurrentState; }
+		
+		private void changed_Inventory(Transport<List<Item>> transport)
+		{
+			SheetData.Inventory = transport.Value;
+			
+			updateCalculatedTraits();
+		}
+		
 		private void changed_MaxHP(float value) { SheetData.HP.Max = (int)value; }
 		
 		private void changed_PersonalityTraits()

@@ -89,6 +89,7 @@ namespace OCSM
 					public const string NewSheetName = "New Adventurer";
 					public const string Feature = "res://scenes/dnd/fifth/Feature.tscn";
 					public const string FeatureSection = "res://scenes/dnd/fifth/FeatureSection.tscn";
+					public const string InventoryItem = "res://scenes/dnd/fifth/InventoryItem.tscn";
 					
 					public sealed class Meta
 					{

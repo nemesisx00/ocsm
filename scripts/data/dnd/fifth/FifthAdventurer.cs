@@ -14,14 +14,29 @@ namespace OCSM.DnD.Fifth
 		public string Bonds { get; set; }
 		public List<Class> Classes { get; set; }
 		public CoinPurse CoinPurse { get; set; }
-		public Equipment CurrentEquipment { get; set; }
 		public List<Feature> Features { get; set; }
 		public string Flaws { get; set; }
 		public HitPoints HP { get; set; }
 		public string Ideals { get; set; }
 		public bool Inspiration { get; set; }
+		public List<Item> Inventory { get; set; }
 		public string PersonalityTraits { get; set; }
 		public Race Race { get; set; }
+		
+		public double InventoryWeight
+		{
+			get
+			{
+				var val = 0.0;
+				Inventory.ForEach(i => {
+					if(i is ItemContainer ic)
+						val += ic.totalWeight();
+					else
+						val += i.Weight;
+				});
+				return val;
+			}
+		}
 		
 		public FifthAdventurer() : base(OCSM.GameSystem.DnD.Fifth)
 		{
@@ -33,12 +48,12 @@ namespace OCSM.DnD.Fifth
 			Bonds = String.Empty;
 			Classes = new List<Class>();
 			CoinPurse = new CoinPurse();
-			CurrentEquipment = new Equipment();
 			Features = new List<Feature>();
 			Flaws = String.Empty;
 			HP = new HitPoints();
 			Ideals = String.Empty;
 			Inspiration = false;
+			Inventory = new List<Item>();
 			PersonalityTraits = String.Empty;
 			Race = null;
 		}
