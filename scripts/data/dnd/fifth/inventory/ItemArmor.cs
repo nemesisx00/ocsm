@@ -2,7 +2,7 @@ using System;
 
 namespace OCSM.DnD.Fifth.Inventory
 {
-	public class ItemArmor : Item, IComparable<ItemArmor>, IEquatable<ItemArmor>
+	public class ItemArmor : ItemEquippable, IComparable<ItemArmor>, IEquatable<ItemArmor>
 	{
 		public enum ArmorType
 		{
@@ -26,7 +26,6 @@ namespace OCSM.DnD.Fifth.Inventory
 			AllowDexterityBonus = true;
 			BaseArmorClass = 0;
 			DexterityBonusLimit = -1;
-			Equippable = true;
 			LimitDexterityBonus = false;
 			MinimumStrength = 0;
 			StealthDisadvantage = false;

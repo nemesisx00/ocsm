@@ -4,7 +4,7 @@ using EnumsNET;
 
 namespace OCSM.DnD.Fifth.Inventory
 {
-	public class ItemWeapon : Item, IComparable<ItemWeapon>, IEquatable<ItemWeapon>
+	public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<ItemWeapon>
 	{
 		public enum WeaponType
 		{
@@ -58,7 +58,6 @@ namespace OCSM.DnD.Fifth.Inventory
 		public ItemWeapon() : base()
 		{
 			DamageDice = new Dictionary<DamageDie, int>();
-			Equippable = true;
 			Properties = new List<WeaponProperties>();
 			Range = Range.Melee;
 			Type = WeaponType.None;
