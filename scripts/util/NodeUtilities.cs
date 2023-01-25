@@ -33,6 +33,11 @@ namespace OCSM
 			control.RectPosition = new Vector2(center.x - (control.RectSize.x / 2), center.y - (control.RectSize.y / 2));
 		}
 		
+		public static Label createCenteredLabel(string text)
+		{
+			return new Label() { Text = text, Align = Label.AlignEnum.Center, Valign = Label.VAlign.Center, };
+		}
+		
 		public static int getLineCount(TextEdit node)
 		{
 			var lines = node.GetLineCount();
