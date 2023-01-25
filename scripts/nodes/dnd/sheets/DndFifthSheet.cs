@@ -98,6 +98,30 @@ namespace OCSM.Nodes.DnD.Sheets
 					Weight = 13,
 				});
 				
+				SheetData.Inventory.Add(new ItemArmor()
+				{
+					AllowDexterityBonus = false,
+					BaseArmorClass = 16,
+					Cost = 75,
+					Description = "Made of interlocking metal rings, chain mail includes a layer of quilted fabric worn underneath the mail to prevent chafing and to cushion the impace of blows. The suit includes gauntlets.",
+					Equipped = false,
+					LimitDexterityBonus = true,
+					DexterityBonusLimit = 0,
+					Name = "Chain Mail",
+					StealthDisadvantage = true,
+					Type = ItemArmor.ArmorType.Heavy,
+					Weight = 55,
+					MinimumStrength = 13,
+				});
+				
+				SheetData.Inventory.Add(new Item()
+				{
+					Name = "Silver Mirror",
+					Description = "A mirror set into an intricately embelished silver setting.",
+					Cost = 150,
+					Weight = 0.1,
+				});
+				
 				var damageDice = new Dictionary<DamageDie, int>();
 				damageDice.Add(new DamageDie() { Sides = 8, Type = DamageDie.DamageType.Slashing }, 1);
 				var properties = new List<ItemWeapon.WeaponProperties>();
@@ -109,6 +133,21 @@ namespace OCSM.Nodes.DnD.Sheets
 					Description = "A sword long enough to be wielded in two hands but short enough to be wielded in one hand.",
 					Equipped = false,
 					Name = "Longsword",
+					Properties = properties,
+					Type = ItemWeapon.WeaponType.MartialMelee,
+					Weight = 3,
+				});
+				
+				var damageDice2 = new Dictionary<DamageDie, int>();
+				damageDice2.Add(new DamageDie() { Sides = 4, Type = DamageDie.DamageType.Bludgeoning }, 1);
+				damageDice2.Add(new DamageDie() { Sides = 4, Type = DamageDie.DamageType.Slashing }, 1);
+				SheetData.Inventory.Add(new ItemWeapon()
+				{
+					Cost = 10,
+					DamageDice = damageDice2,
+					Description = "A sword long enough to be wielded in two hands but short enough to be wielded in one hand.",
+					Equipped = false,
+					Name = "Blunted Longsword",
 					Properties = properties,
 					Type = ItemWeapon.WeaponType.MartialMelee,
 					Weight = 3,
@@ -175,6 +214,11 @@ namespace OCSM.Nodes.DnD.Sheets
 			{
 				if(initialValue is List<Item> items)// && metadataManager.Container is DnDFifthContainer dfc)
 				{
+					if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength)
+						i.Strength = strength;
+					if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+						i.Dexterity = dexterity;
+					
 					i.Items = items; //new List<Item>();
 					//validate each item before adding
 					/*
@@ -211,7 +255,9 @@ namespace OCSM.Nodes.DnD.Sheets
 			var dexLimit = 0;
 			
 			//Find the first equipped armor
-			if(SheetData.Inventory.Find(i => i is ItemArmor ia && ia.Equipped) is ItemArmor armor)
+			if(SheetData.Inventory.Find(i => i is ItemArmor ia && ia.Equipped) is ItemArmor armor
+				&& SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength
+				&& strength.Score >= armor.MinimumStrength)
 			{
 				ac = armor.BaseArmorClass;
 				addDex = armor.AllowDexterityBonus;
@@ -219,12 +265,18 @@ namespace OCSM.Nodes.DnD.Sheets
 					dexLimit = armor.DexterityBonusLimit;
 			}
 			
-			if(addDex && SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
 			{
-				var mod = dexterity.Modifier;
-				if(mod < 0 || (dexLimit > 0 && mod > dexLimit))
-					mod = dexLimit;
-				ac += mod;
+				if(addDex)
+				{
+					var mod = dexterity.Modifier;
+					if(dexLimit > 0 && mod > dexLimit)
+						mod = dexLimit;
+					ac += mod;
+				}
+				//Negative Dex modifiers always reduce AC
+				else if(dexterity.Modifier < 0)
+					ac += dexterity.Modifier;
 			}
 			
 			foreach(var feature in collectAllFeatures())
@@ -281,12 +333,24 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Ability(Transport<Ability> transport)
 		{
-			if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is Ability ability)
-				SheetData.Abilities.Remove(ability);
-			SheetData.Abilities.Add(transport.Value);
+			if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is Ability ab)
+				SheetData.Abilities.Remove(ab);
 			
-			if(transport.Value.Name.Equals(Ability.Names.Dexterity))
+			var ability = transport.Value;
+			SheetData.Abilities.Add(ability);
+			
+			if(ability.Name.Equals(Ability.Names.Strength) || ability.Name.Equals(Ability.Names.Dexterity))
+			{
+				var inventory = GetNode<Inventory>(NodePathBuilder.SceneUnique(Names.Inventory));
+				if(ability.Name.Equals(Ability.Names.Strength))
+					inventory.Strength = ability;
+				
+				if(ability.Name.Equals(Ability.Names.Dexterity))
+					inventory.Dexterity = ability;
+				
+				inventory.regenerateItems();
 				updateCalculatedTraits();
+			}
 		}
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }

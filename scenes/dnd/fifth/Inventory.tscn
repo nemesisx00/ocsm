@@ -14,39 +14,31 @@ margin_right = 1024.0
 margin_bottom = 20.0
 alignment = 1
 
-[node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 459.0
-margin_right = 490.0
-margin_bottom = 20.0
-size_flags_vertical = 3
-text = "Item"
-align = 1
-valign = 1
-
 [node name="SelectedItem" type="OptionButton" parent="HBoxContainer"]
-margin_left = 494.0
-margin_right = 523.0
+unique_name_in_owner = true
+margin_left = 477.0
+margin_right = 506.0
 margin_bottom = 20.0
 
 [node name="AddItem" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 527.0
-margin_right = 564.0
+margin_left = 510.0
+margin_right = 547.0
 margin_bottom = 20.0
 text = "Add"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 512.0
 margin_top = 24.0
-margin_right = 1024.0
+margin_right = 512.0
 margin_bottom = 768.0
 rect_min_size = Vector2( 0, 350 )
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="ItemList" type="VBoxContainer" parent="ScrollContainer"]
 unique_name_in_owner = true
-margin_right = 1024.0
 margin_bottom = 744.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth
@@ -16,6 +17,8 @@ namespace OCSM.Nodes.DnD.Fifth
 		public delegate void ItemsChanged(Transport<List<Item>> items);
 		
 		public List<Item> Items { get; set; }
+		public Ability Strength { get; set; }
+		public Ability Dexterity { get; set; }
 		
 		public override void _Ready()
 		{
@@ -40,12 +43,16 @@ namespace OCSM.Nodes.DnD.Fifth
 			{
 				var instance = itemScene.Instance<InventoryItem>();
 				instance.Item = i;
+				instance.Strength = Strength;
+				instance.Dexterity = Dexterity;
 				instance.Connect(nameof(InventoryItem.Equipped), this, nameof(itemEquipped));
 				
 				itemList.AddChild(instance);
 				instance.refresh();
 				instance.Visible = true;
 			}
+			
+			//Dynamically update rect.min_x for everything here, based on largest values
 		}
 		
 		private void addItemHandler()
