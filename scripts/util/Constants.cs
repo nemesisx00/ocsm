@@ -1,6 +1,10 @@
 
 namespace OCSM
 {
+	/// <summary>
+	/// Class containing all constant values which need to be universally
+	/// accessible within OCSM.
+	/// </summary>
 	public class Constants
 	{
 		public const int TextInputMinHeight = 23;
