@@ -55,9 +55,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(dfc.Armor.Find(a => a.Name.Equals(name)) is ItemArmor armor)
+				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
-					dfc.Armor.Remove(armor);
+					dfc.Armors.Remove(armor);
 					EmitSignal(nameof(MetadataChanged));
 				}
 			}
@@ -117,11 +117,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				var armor = transport.Value;
 				
-				if(dfc.Armor.Find(a => a.Name.Equals(armor.Name)) is ItemArmor existingArmor)
-					dfc.Armor.Remove(existingArmor);
+				if(dfc.Armors.Find(a => a.Name.Equals(armor.Name)) is ItemArmor existingArmor)
+					dfc.Armors.Remove(existingArmor);
 				
-				dfc.Armor.Add(armor);
-				dfc.Armor.Sort();
+				dfc.Armors.Add(armor);
+				dfc.Armors.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
@@ -134,16 +134,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Backgrounds.Remove(background);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				foreach(var transport in sections)
-				{
-					sectionList.Add(transport.Value);
-				}
+				sections.ForEach(t => sectionList.Add(t.Value));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				foreach(var transport in features)
-				{
-					featureList.Add(transport.Value);
-				}
+				features.ForEach(t => featureList.Add(t.Value));
 				
 				dfc.Backgrounds.Add(new Background() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
 				dfc.Backgrounds.Sort();
@@ -159,16 +153,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Classes.Remove(clazz);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				foreach(var transport in sections)
-				{
-					sectionList.Add(transport.Value);
-				}
+				sections.ForEach(t => sectionList.Add(t.Value));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				foreach(var transport in features)
-				{
-					featureList.Add(transport.Value);
-				}
+				features.ForEach(t => featureList.Add(t.Value));
 				
 				dfc.Classes.Add(new Class() { Description = description, Features = featureList, HitDie = OCSM.DnD.Fifth.Die.d10, Name = name, Sections = sectionList, });
 				dfc.Classes.Sort();
@@ -197,16 +185,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Races.Remove(race);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				foreach(var transport in sections)
-				{
-					sectionList.Add(transport.Value);
-				}
+				sections.ForEach(t => sectionList.Add(t.Value));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				foreach(var transport in features)
-				{
-					featureList.Add(transport.Value);
-				}
+				features.ForEach(t => featureList.Add(t.Value));
 				
 				dfc.Races.Add(new Race() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
 				dfc.Races.Sort();

@@ -61,7 +61,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var name = optionsButton.GetItemText(index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(dfc.Armor.Find(a => a.Name.Equals(name)) is ItemArmor armor)
+				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
 					loadEntry(armor);
 					optionsButton.Selected = 0;
@@ -97,10 +97,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				var optionButton = GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
 				optionButton.Clear();
 				optionButton.AddItem("");
-				foreach(var a in dfc.Armor)
-				{
-					optionButton.AddItem(a.Name);
-				}
+				dfc.Armors.ForEach(a => optionButton.AddItem(a.Name));
 			}
 		}
 		

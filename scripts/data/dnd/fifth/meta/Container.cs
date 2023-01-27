@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using OCSM.Meta;
 using OCSM.DnD.Fifth.Inventory;
 
@@ -8,41 +9,58 @@ namespace OCSM.DnD.Fifth.Meta
 {
 	public class DnDFifthContainer : IMetadataContainer, IEquatable<DnDFifthContainer>
 	{
-		public List<ItemArmor> Armor { get; set; } = new List<ItemArmor>();
+		[JsonIgnore]
+		public List<Item> AllItems
+		{
+			get
+			{
+				var list = new List<Item>();
+				list.AddRange(Armors);
+				list.AddRange(Containers);
+				list.AddRange(Items);
+				list.AddRange(Weapons);
+				list.Sort();
+				return list;
+			}
+		}
+		
+		public List<ItemArmor> Armors { get; set; } = new List<ItemArmor>();
 		public List<Background> Backgrounds { get; set; } = new List<Background>();
 		public List<Class> Classes { get; set; } = new List<Class>();
+		public List<ItemContainer> Containers { get; set; } = new List<ItemContainer>();
 		public List<Feature> Features { get; set; } = new List<Feature>();
+		public List<Item> Items { get; set; } = new List<Item>();
 		public List<Race> Races { get; set; } = new List<Race>();
+		public List<ItemWeapon> Weapons { get; set; } = new List<ItemWeapon>();
 		
 		public void Deserialize(string json)
 		{
 			var result = JsonSerializer.Deserialize<DnDFifthContainer>(json);
 			if(result is DnDFifthContainer dfc)
 			{
-				dfc.Armor.Sort();
-				Armor = dfc.Armor;
+				dfc.Sort();
 				
-				dfc.Backgrounds.Sort();
+				Armors = dfc.Armors;
 				Backgrounds = dfc.Backgrounds;
-				
-				dfc.Classes.Sort();
 				Classes = dfc.Classes;
-				
-				dfc.Features.Sort();
+				Containers = dfc.Containers;
 				Features = dfc.Features;
-				
-				dfc.Races.Sort();
+				Items = dfc.Items;
 				Races = dfc.Races;
+				Weapons = dfc.Weapons;
 			}
 		}
 		
 		public bool IsEmpty()
 		{
-			return Armor.Count < 1
+			return Armors.Count < 1
 				&& Backgrounds.Count < 1
 				&& Classes.Count < 1
+				&& Containers.Count < 1
 				&& Features.Count < 1
-				&& Races.Count < 1;
+				&& Items.Count < 1
+				&& Races.Count < 1
+				&& Weapons.Count < 1;
 		}
 		
 		public string Serialize()
@@ -50,13 +68,28 @@ namespace OCSM.DnD.Fifth.Meta
 			return JsonSerializer.Serialize(this);
 		}
 		
+		public void Sort()
+		{
+			Armors.Sort();
+			Backgrounds.Sort();
+			Classes.Sort();
+			Containers.Sort();
+			Features.Sort();
+			Items.Sort();
+			Races.Sort();
+			Weapons.Sort();
+		}
+		
 		public bool Equals(DnDFifthContainer container)
 		{
-			return container.Armor.Equals(Armor)
-				&& container.Backgrounds.Equals(Backgrounds)
-				&& container.Classes.Equals(Classes)
-				&& container.Features.Equals(Features)
-				&& container.Races.Equals(Races);
+			return Armors.Equals(container.Armors)
+				&& Backgrounds.Equals(container.Backgrounds)
+				&& Classes.Equals(container.Classes)
+				&& Containers.Equals(container.Containers)
+				&& Features.Equals(container.Features)
+				&& Items.Equals(container.Items)
+				&& Races.Equals(container.Races)
+				&& Weapons.Equals(container.Weapons);
 		}
 	}
 }
