@@ -1,17 +1,16 @@
-using Godot;
 using System;
 using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class AbilityOptionsButton : OptionButton
+	public class AbilityOptionsButton : CustomOption
 	{
 		public override void _Ready()
 		{
 			refreshMetadata();
 		}
 		
-		private void refreshMetadata()
+		protected override void refreshMetadata()
 		{
 			var index = Selected;
 			

@@ -1,24 +1,11 @@
-using Godot;
 using System;
-using OCSM.Nodes.Autoload;
 using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class FeatureOptionsButton : OptionButton
+	public class FeatureOptionsButton : CustomOption
 	{
-		private MetadataManager metadataManager;
-		
-		public override void _Ready()
-		{
-			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
-			
-			refreshMetadata();
-		}
-		
-		private void refreshMetadata()
+		protected override void refreshMetadata()
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{

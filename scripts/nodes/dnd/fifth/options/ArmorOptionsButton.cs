@@ -1,40 +1,11 @@
-using Godot;
 using System;
 using OCSM.DnD.Fifth.Meta;
-using OCSM.DnD.Fifth.Inventory;
-using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class ArmorOptionsButton : OptionButton
+	public class ArmorOptionsButton : CustomOption
 	{
-		[Signal]
-		public delegate void ItemsChanged();
-		
-		private MetadataManager metadataManager;
-		
-		public override void _Ready()
-		{
-			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
-			
-			refreshMetadata();
-		}
-		
-		public void select(string text)
-		{
-			for(var i = 0; i < GetItemCount(); i++)
-			{
-				if(GetItemText(i).Equals(text))
-				{
-					Selected = i;
-					break;
-				}
-			}
-		}
-		
-		private void refreshMetadata()
+		protected override void refreshMetadata()
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -42,8 +13,7 @@ namespace OCSM.Nodes.DnD.Fifth
 				
 				Clear();
 				AddItem(String.Empty);
-				dfc.Items.FindAll(i => i is ItemArmor)
-					.ForEach(a => AddItem(((Item)a).Name));
+				dfc.Armors.ForEach(a => AddItem(a.Name));
 				
 				Selected = index;
 				

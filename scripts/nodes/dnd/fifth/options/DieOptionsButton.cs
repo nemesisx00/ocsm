@@ -3,12 +3,14 @@ using System;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class DieOptionsButton : OptionButton
+	public class DieOptionsButton : CustomOption
 	{
 		private const string DFormat = "d{0}";
 		
 		[Export]
 		public bool BardicInspiration { get; set; } = false;
+		[Export]
+		public bool DamageDie { get; set; } = false;
 		
 		public override void _Ready()
 		{
@@ -22,7 +24,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d10.Sides));
 			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d12.Sides));
 			
-			if(!BardicInspiration)
+			if(!BardicInspiration && !DamageDie)
 			{
 				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d20.Sides));
 				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d100.Sides));
