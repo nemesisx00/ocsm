@@ -6,15 +6,31 @@ namespace OCSM.DnD.Fifth.Inventory
 {
 	public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<ItemWeapon>
 	{
+		[AttributeUsage(AttributeTargets.Field)]
+		public class LabelAttribute : Attribute
+		{
+			public string Label { get; }
+
+			public LabelAttribute(string label)
+			{
+				Label = label;
+			}
+		}
+		
 		public enum WeaponType
 		{
 			None = 0,
 			Simple = SimpleMelee | SimpleRanged,
+			[Label("Simple Melee")]
 			SimpleMelee = 1,
+			[Label("Simple Ranged")]
 			SimpleRanged = 2,
 			Martial = MartialMelee | MartialRanged,
+			[Label("Martial Melee")]
 			MartialMelee = 4,
+			[Label("Martial Ranged")]
 			MartialRanged = 8,
+			[Label("Improvised")]
 			Improvised = 16,
 		}
 		
