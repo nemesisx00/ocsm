@@ -2,6 +2,8 @@ using Godot;
 using System.Collections.Generic;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
+using OCSM.DnD.Fifth.Meta;
+using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
@@ -11,6 +13,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		{
 			public const string AddItem = "AddItem";
 			public const string ItemList = "ItemList";
+			public const string SelectedItem = "SelectedItem";
 		}
 		
 		[Signal]
@@ -57,13 +60,19 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		private void addItemHandler()
 		{
-			/*
-			var item = get item from option input
-			Items.Add(item);
-			EmitSignal(nameof(ItemsChanged), new Transport<List<Item>>(Items));
-			
-			regenerateItems();
-			*/
+			var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			if(metadataManager.Container is DnDFifthContainer dfc)
+			{
+				var options = GetNode<InventoryItemOptions>(NodePathBuilder.SceneUnique(Names.SelectedItem));
+				if(options.Selected > 0 && dfc.AllItems.Find(i => i.Name.Equals(options.GetItemText(options.Selected))) is Item item)
+				{
+					Items.Add(item);
+					EmitSignal(nameof(ItemsChanged), new Transport<List<Item>>(Items));
+					
+					regenerateItems();
+				}
+				options.Selected = 0;
+			}
 		}
 		
 		private void itemEquipped(Transport<Item> transport)
