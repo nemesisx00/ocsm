@@ -6,9 +6,9 @@
 [ext_resource path="res://scenes/dnd/fifth/Ability.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=5]
 [ext_resource path="res://scenes/nodes/ToggleButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/nodes/dnd/fifth/BackgroundOptionsButton.cs" type="Script" id=7]
-[ext_resource path="res://scripts/nodes/dnd/fifth/RaceOptionsButton.cs" type="Script" id=8]
-[ext_resource path="res://scripts/nodes/dnd/fifth/DieOptionsButton.cs" type="Script" id=9]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" type="Script" id=7]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" type="Script" id=8]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/DieOptionsButton.cs" type="Script" id=9]
 [ext_resource path="res://scenes/dnd/fifth/Inventory.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=1]

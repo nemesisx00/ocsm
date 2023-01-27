@@ -1,9 +1,10 @@
 using Godot;
+using System;
 using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class NumericStatOptionsButton : OptionButton
+	public class AbilityOptionsButton : OptionButton
 	{
 		public override void _Ready()
 		{
@@ -15,10 +16,8 @@ namespace OCSM.Nodes.DnD.Fifth
 			var index = Selected;
 			
 			Clear();
-			foreach(var label in NumericStatNames.asList())
-			{
-				AddItem(label);
-			}
+			AddItem(String.Empty);
+			Ability.Names.asList().ForEach(label => AddItem(label));
 			
 			Selected = index;
 		}

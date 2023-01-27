@@ -5,7 +5,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class BackgroundOptionsButton : OptionButton
+	public class ClassOptionsButton : OptionButton
 	{
 		private MetadataManager metadataManager;
 		
@@ -18,6 +18,18 @@ namespace OCSM.Nodes.DnD.Fifth
 			refreshMetadata();
 		}
 		
+		public void select(string text)
+		{
+			for(var i = 0; i < GetItemCount(); i++)
+			{
+				if(GetItemText(i).Equals(text))
+				{
+					Selected = i;
+					break;
+				}
+			}
+		}
+		
 		private void refreshMetadata()
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
@@ -25,12 +37,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				var index = Selected;
 				
 				Clear();
-				
-				AddItem("");
-				foreach(var background in dfc.Backgrounds)
-				{
-					AddItem(background.Name);
-				}
+				AddItem(String.Empty);
+				dfc.Classes.ForEach(c => AddItem(c.Name));
 				
 				Selected = index;
 			}

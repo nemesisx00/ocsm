@@ -12,7 +12,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			AddItem("");
+			AddItem(String.Empty);
 			
 			if(!BardicInspiration)
 				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d4.Sides));

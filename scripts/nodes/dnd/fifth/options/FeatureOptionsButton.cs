@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.Nodes.Autoload;
 using OCSM.DnD.Fifth.Meta;
 
@@ -24,12 +25,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				var index = Selected;
 				
 				Clear();
-				
-				AddItem("");
-				foreach(var feature in dfc.Features)
-				{
-					AddItem(feature.Name);
-				}
+				AddItem(String.Empty);
+				dfc.Features.ForEach(f => AddItem(f.Name));
 				
 				Selected = index;
 			}

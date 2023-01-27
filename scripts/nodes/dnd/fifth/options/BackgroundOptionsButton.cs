@@ -5,7 +5,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class RaceOptionsButton : OptionButton
+	public class BackgroundOptionsButton : OptionButton
 	{
 		private MetadataManager metadataManager;
 		
@@ -25,12 +25,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				var index = Selected;
 				
 				Clear();
-				
-				AddItem("");
-				foreach(var race in dfc.Races)
-				{
-					AddItem(race.Name);
-				}
+				AddItem(String.Empty);
+				dfc.Backgrounds.ForEach(b => AddItem(b.Name));
 				
 				Selected = index;
 			}

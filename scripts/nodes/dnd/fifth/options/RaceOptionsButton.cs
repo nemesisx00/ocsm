@@ -5,7 +5,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class ClassOptionsButton : OptionButton
+	public class RaceOptionsButton : OptionButton
 	{
 		private MetadataManager metadataManager;
 		
@@ -18,18 +18,6 @@ namespace OCSM.Nodes.DnD.Fifth
 			refreshMetadata();
 		}
 		
-		public void select(string text)
-		{
-			for(var i = 0; i < GetItemCount(); i++)
-			{
-				if(GetItemText(i).Equals(text))
-				{
-					Selected = i;
-					break;
-				}
-			}
-		}
-		
 		private void refreshMetadata()
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
@@ -38,12 +26,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				
 				Clear();
 				
-				AddItem("");
-				foreach(var clazz in dfc.Classes)
-				{
-					AddItem(clazz.Name);
-				}
-				
+				AddItem(String.Empty);
+				dfc.Races.ForEach(r => AddItem(r.Name));
 				Selected = index;
 			}
 		}

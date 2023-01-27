@@ -3,11 +3,11 @@
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" type="Script" id=2]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=3]
-[ext_resource path="res://scripts/nodes/dnd/fifth/FeatureTypeOptionsButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/FeatureTypeOptionsButton.cs" type="Script" id=4]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeatureEntry.cs" type="Script" id=5]
-[ext_resource path="res://scripts/nodes/dnd/fifth/FeatureOptionsButton.cs" type="Script" id=6]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" type="Script" id=6]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEditList.cs" type="Script" id=7]
-[ext_resource path="res://scripts/nodes/dnd/fifth/ClassOptionsButton.cs" type="Script" id=8]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/ClassOptionsButton.cs" type="Script" id=8]
 
 [node name="FeatureEntry" type="VBoxContainer"]
 anchor_right = 1.0

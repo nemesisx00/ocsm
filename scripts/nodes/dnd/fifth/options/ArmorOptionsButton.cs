@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using OCSM.DnD.Fifth.Meta;
+using OCSM.DnD.Fifth.Inventory;
 using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
@@ -40,12 +41,9 @@ namespace OCSM.Nodes.DnD.Fifth
 				var index = Selected;
 				
 				Clear();
-				
-				AddItem("");
-				foreach(var armor in dfc.Armor)
-				{
-					AddItem(armor.Name);
-				}
+				AddItem(String.Empty);
+				dfc.Items.FindAll(i => i is ItemArmor)
+					.ForEach(a => AddItem(((Item)a).Name));
 				
 				Selected = index;
 				

@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
@@ -11,12 +12,9 @@ namespace OCSM.Nodes.DnD.Fifth
 		public override void _Ready()
 		{
 			if(emptyOption)
-				AddItem("");
+				AddItem(String.Empty);
 			
-			foreach(var type in FeatureType.asList())
-			{
-				AddItem(type);
-			}
+			FeatureType.asList().ForEach(type => AddItem(type));
 		}
 	}
 }

@@ -3,8 +3,9 @@
 [ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/FeaturefulMetadataEntry.cs" type="Script" id=3]
-[ext_resource path="res://scripts/nodes/dnd/fifth/FeatureOptionsButton.cs" type="Script" id=4]
+[ext_resource path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" type="Script" id=4]
 [ext_resource path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" type="Script" id=5]
+
 
 [node name="FeaturefulMetadataEntry" type="VBoxContainer"]
 anchor_right = 1.0
