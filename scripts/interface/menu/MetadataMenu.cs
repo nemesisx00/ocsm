@@ -13,7 +13,7 @@ namespace OCSM.Nodes
 			public const string ManageMetadata = "Manage Metadata";
 		}
 		
-		public enum MetadataItem { ManageMetadata }
+		public enum MenuItem : long { ManageMetadata }
 		
 		private MetadataManager metadataManager;
 		
@@ -22,15 +22,15 @@ namespace OCSM.Nodes
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
 			var popup = GetPopup();
-			popup.AddItem(ItemNames.ManageMetadata, (int)MetadataItem.ManageMetadata);
+			popup.AddItem(ItemNames.ManageMetadata, (int)MenuItem.ManageMetadata);
 			popup.IdPressed += handleMenuItem;
 		}
 		
 		private void handleMenuItem(long id)
 		{
-			switch((MetadataItem)id)
+			switch((MenuItem)id)
 			{
-				case MetadataItem.ManageMetadata:
+				case MenuItem.ManageMetadata:
 					showAddEditMetadata();
 					break;
 				default:

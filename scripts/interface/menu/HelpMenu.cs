@@ -10,7 +10,7 @@ namespace OCSM.Nodes
 			public const string GameSystemLicenses = "Game System Licences";
 		}
 		
-		public enum MenuItem { About, GameSystemLicenses }
+		public enum MenuItem : long { About, GameSystemLicenses }
 		
 		private Window licensePopup;
 		
