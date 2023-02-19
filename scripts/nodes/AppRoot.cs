@@ -23,13 +23,13 @@ namespace OCSM.Nodes
 				if(e is InputEventKey iek && iek.Pressed)
 				{
 					if(e.IsActionPressed(Constants.Action.FileNew))
-						EmitSignal(nameof(FileMenuTriggered), (int)FileMenu.MenuItem.New);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.New);
 					else if(e.IsActionPressed(Constants.Action.FileOpen))
-						EmitSignal(nameof(FileMenuTriggered), (int)FileMenu.MenuItem.Open);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Open);
 					else if(e.IsActionPressed(Constants.Action.FileSave))
-						EmitSignal(nameof(FileMenuTriggered), (int)FileMenu.MenuItem.Save);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Save);
 					else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
-						EmitSignal(nameof(FileMenuTriggered), (int)FileMenu.MenuItem.CloseSheet);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.CloseSheet);
 				}
 			}
 		}

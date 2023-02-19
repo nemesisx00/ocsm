@@ -1,15 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dtx5rqwvpdm8a"]
 
-[ext_resource path="res://scripts/interface/SaveSheet.cs" type="Script" id=1]
+[ext_resource type="Script" path="res://scripts/interface/SaveSheet.cs" id="1"]
 
 [node name="FileDialog" type="FileDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -384.0
-offset_bottom = -288.0
-exclusive = true
-window_title = "Save Current Character Sheet"
-resizable = true
+initial_position = 1
+size = Vector2i(720, 480)
+visible = true
+ok_button_text = "Save"
 access = 2
-filters = PackedStringArray( "*.ocsd ; Open Character Sheet Data" )
-script = ExtResource( 1 )
+filters = PackedStringArray("*.ocsd ; Open Character Sheet Data")
+show_hidden_files = true
+script = ExtResource("1")

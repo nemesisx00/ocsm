@@ -5,7 +5,16 @@ namespace OCSM.Nodes
 {
 	public partial class FileMenu : MenuButton
 	{
-		public enum MenuItem { New, Open, Save, CloseSheet, Quit }
+		private sealed class ItemNames
+		{
+			public const string CloseSheet = "Close Sheet";
+			public const string New = "New";
+			public const string Open = "Open";
+			public const string Quit = "Quit";
+			public const string Save = "Save";
+		}
+		
+		public enum MenuItem : long { New, Open, Save, CloseSheet, Quit }
 		
 		private MetadataManager metadataManager;
 		private SheetManager sheetManager;
@@ -15,7 +24,15 @@ namespace OCSM.Nodes
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			
-			GetPopup().IdPressed += handleMenuItem;
+			var popup = GetPopup();
+			popup.AddItem(ItemNames.New, (int)MenuItem.New, Key.N);
+			popup.AddItem(ItemNames.Open, (int)MenuItem.Open, Key.O);
+			popup.AddItem(ItemNames.Save, (int)MenuItem.Save, Key.S);
+			popup.AddItem(ItemNames.CloseSheet, (int)MenuItem.CloseSheet, Key.C);
+			popup.AddSeparator();
+			popup.AddItem(ItemNames.Quit, (int)MenuItem.Quit, Key.Q);
+			
+			popup.IdPressed += handleMenuItem;
 			GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
 		}
 		
@@ -36,7 +53,7 @@ namespace OCSM.Nodes
 					sheetManager.closeActiveSheet();
 					break;
 				case MenuItem.Quit:
-					GetTree().Notification((int)NotificationWMCloseRequest);
+					GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
 					break;
 			}
 		}
