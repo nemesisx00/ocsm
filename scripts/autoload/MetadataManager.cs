@@ -27,7 +27,7 @@ namespace OCSM.Nodes.Autoload
 			set
 			{
 				gameSystem = value;
-				EmitSignal(nameof(GameSystemChangedEventHandler), gameSystem);
+				EmitSignal(nameof(GameSystemChanged), gameSystem);
 				
 				switch(gameSystem)
 				{
