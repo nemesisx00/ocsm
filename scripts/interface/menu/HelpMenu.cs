@@ -4,13 +4,23 @@ namespace OCSM.Nodes
 {
 	public partial class HelpMenu : MenuButton
 	{
-		private const string PopupName = "GameSystemLicenses";
+		private sealed class ItemNames
+		{
+			public const string About = "About";
+			public const string GameSystemLicenses = "Game System Licences";
+		}
 		
 		public enum MenuItem { About, GameSystemLicenses }
 		
+		private Window licensePopup;
+		
 		public override void _Ready()
 		{
-			GetPopup().IdPressed += handleMenuItem;
+			var popup = GetPopup();
+			popup.AddItem(ItemNames.About, (int)MenuItem.About);
+			popup.AddItem(ItemNames.GameSystemLicenses, (int)MenuItem.GameSystemLicenses);
+			popup.IdPressed += handleMenuItem;
+			
 			GetNode<AppRoot>(Constants.NodePath.AppRoot).HelpMenuTriggered += handleMenuItem;
 		}
 		
@@ -29,17 +39,24 @@ namespace OCSM.Nodes
 		
 		private void showGameSystemLicenses()
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
-			var instance = resource.Instantiate<Window>();
-			instance.Name = PopupName;
-			GetTree().CurrentScene.AddChild(instance);
-			instance.CloseRequested += hideGameSystemLicenses;
-			instance.PopupCentered();
+			if(!(licensePopup is Window))
+			{
+				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
+				licensePopup = resource.Instantiate<Window>();
+				
+				GetTree().CurrentScene.AddChild(licensePopup);
+				licensePopup.CloseRequested += hideGameSystemLicenses;
+				licensePopup.PopupCentered();
+			}
 		}
 		
 		private void hideGameSystemLicenses()
 		{
-			GetTree().CurrentScene.GetNode<Window>(PopupName).QueueFree();
+			if(licensePopup is Window)
+			{
+				licensePopup.QueueFree();
+				licensePopup = null;
+			}
 		}
 	}
 }

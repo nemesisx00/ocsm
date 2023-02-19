@@ -25,14 +25,14 @@ namespace OCSM.Nodes
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			
 			var popup = GetPopup();
-			popup.AddItem(ItemNames.New, (int)MenuItem.New, Key.N);
-			popup.AddItem(ItemNames.Open, (int)MenuItem.Open, Key.O);
-			popup.AddItem(ItemNames.Save, (int)MenuItem.Save, Key.S);
-			popup.AddItem(ItemNames.CloseSheet, (int)MenuItem.CloseSheet, Key.C);
+			popup.AddItem(ItemNames.New, (int)MenuItem.New);
+			popup.AddItem(ItemNames.Open, (int)MenuItem.Open);
+			popup.AddItem(ItemNames.Save, (int)MenuItem.Save);
+			popup.AddItem(ItemNames.CloseSheet, (int)MenuItem.CloseSheet);
 			popup.AddSeparator();
-			popup.AddItem(ItemNames.Quit, (int)MenuItem.Quit, Key.Q);
-			
+			popup.AddItem(ItemNames.Quit, (int)MenuItem.Quit);
 			popup.IdPressed += handleMenuItem;
+			
 			GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
 		}
 		

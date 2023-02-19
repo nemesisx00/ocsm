@@ -8,6 +8,11 @@ namespace OCSM.Nodes
 {
 	public partial class MetadataMenu : MenuButton
 	{
+		private sealed class ItemNames
+		{
+			public const string ManageMetadata = "Manage Metadata";
+		}
+		
 		public enum MetadataItem { ManageMetadata }
 		
 		private MetadataManager metadataManager;
@@ -16,10 +21,12 @@ namespace OCSM.Nodes
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			GetPopup().Connect(Constants.Signal.IdPressed,new Callable(this,nameof(handleMenuItem)));
+			var popup = GetPopup();
+			popup.AddItem(ItemNames.ManageMetadata, (int)MetadataItem.ManageMetadata);
+			popup.IdPressed += handleMenuItem;
 		}
 		
-		private void handleMenuItem(int id)
+		private void handleMenuItem(long id)
 		{
 			switch((MetadataItem)id)
 			{
