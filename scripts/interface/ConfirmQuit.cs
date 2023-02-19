@@ -3,17 +3,12 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public partial class ConfirmQuit : CenterContainer
+	public partial class ConfirmQuit : ConfirmationDialog
 	{
-		private const string confirmQuitPath = "ConfirmQuit";
-		
 		public override void _Ready()
 		{
-			var confirmQuit = GetNode<ConfirmationDialog>(confirmQuitPath);
-			confirmQuit.Confirmed += quitGame;
-			confirmQuit.Canceled += hideConfirmQuit;
-			confirmQuit.Position = new Vector2I((int)(GetViewportRect().GetCenter().X - (confirmQuit.Size.X / 2)), (int)(GetViewportRect().GetCenter().Y - (confirmQuit.Size.Y / 2)));
-			confirmQuit.Show();
+			Confirmed += quitGame;
+			Canceled += hideConfirmQuit;
 		}
 		
 		private void quitGame()
@@ -31,7 +26,6 @@ namespace OCSM.Nodes
 		private void hideConfirmQuit()
 		{
 			GetNode<AppManager>(Constants.NodePath.AppManager).IsQuitting = false;
-			Hide();
 			QueueFree();
 		}
 	}

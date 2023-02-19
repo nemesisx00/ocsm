@@ -29,7 +29,7 @@ namespace OCSM.Nodes.Autoload
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.ConfirmQuit);
 				var confirmQuit = resource.Instantiate<ConfirmQuit>();
 				GetTree().CurrentScene.AddChild(confirmQuit);
-				confirmQuit.Show();
+				confirmQuit.PopupCentered();
 				IsQuitting = true;
 			}
 		}
