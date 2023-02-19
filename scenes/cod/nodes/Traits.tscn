@@ -4,28 +4,28 @@
 [ext_resource path="res://scenes/cod/nodes/Skills.tscn" type="PackedScene" id=2]
 
 [node name="Traits" type="VBoxContainer"]
-margin_right = 1024.0
-margin_bottom = 768.0
+offset_right = 1024.0
+offset_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Attributes" parent="." instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 1024.0
-margin_bottom = 96.0
+offset_right = 1024.0
+offset_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
 [node name="HSeparator3" type="HSeparator" parent="."]
-margin_top = 100.0
-margin_right = 1024.0
-margin_bottom = 120.0
-rect_min_size = Vector2( 0, 20 )
+offset_top = 100.0
+offset_right = 1024.0
+offset_bottom = 120.0
+custom_minimum_size = Vector2( 0, 20 )
 
 [node name="Skills" parent="." instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 124.0
-margin_right = 1024.0
-margin_bottom = 768.0
+offset_top = 124.0
+offset_right = 1024.0
+offset_bottom = 768.0

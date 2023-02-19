@@ -1,50 +1,50 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/nodes/TrackSimple.tscn" type="PackedScene" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=2]
 
 [node name="Attributes" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="."]
-margin_right = 1024.0
-margin_bottom = 24.0
+offset_right = 1024.0
+offset_bottom = 24.0
 custom_fonts/font = ExtResource( 2 )
 text = "Attributes"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="."]
-margin_top = 28.0
-margin_right = 1024.0
-margin_bottom = 768.0
+offset_top = 28.0
+offset_right = 1024.0
+offset_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column1" type="VBoxContainer" parent="Row1"]
-margin_right = 338.0
-margin_bottom = 740.0
+offset_right = 338.0
+offset_bottom = 740.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Column1"]
-margin_right = 338.0
-margin_bottom = 14.0
+offset_right = 338.0
+offset_bottom = 14.0
 text = "Mental"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Column1"]
-margin_top = 18.0
-margin_right = 338.0
-margin_bottom = 32.0
+offset_top = 18.0
+offset_right = 338.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row1"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Intelligence"
 align = 2
@@ -53,22 +53,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 338.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 338.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
-margin_top = 36.0
-margin_right = 338.0
-margin_bottom = 50.0
+offset_top = 36.0
+offset_right = 338.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row2"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Wits"
 align = 2
@@ -77,22 +77,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 338.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 338.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
-margin_top = 54.0
-margin_right = 338.0
-margin_bottom = 68.0
+offset_top = 54.0
+offset_right = 338.0
+offset_bottom = 68.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row3"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Resolve"
 align = 2
@@ -101,36 +101,36 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 338.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 338.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Physical" type="VBoxContainer" parent="Row1"]
-margin_left = 342.0
-margin_right = 681.0
-margin_bottom = 740.0
+offset_left = 342.0
+offset_right = 681.0
+offset_bottom = 740.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Physical"]
-margin_right = 339.0
-margin_bottom = 14.0
+offset_right = 339.0
+offset_bottom = 14.0
 text = "Physical"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Physical"]
-margin_top = 18.0
-margin_right = 339.0
-margin_bottom = 32.0
+offset_top = 18.0
+offset_right = 339.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row1"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Strength"
 align = 2
@@ -139,22 +139,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Physical"]
-margin_top = 36.0
-margin_right = 339.0
-margin_bottom = 50.0
+offset_top = 36.0
+offset_right = 339.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row2"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Dexterity"
 align = 2
@@ -163,22 +163,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Physical"]
-margin_top = 54.0
-margin_right = 339.0
-margin_bottom = 68.0
+offset_top = 54.0
+offset_right = 339.0
+offset_bottom = 68.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row3"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Stamina"
 align = 2
@@ -187,36 +187,36 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Social" type="VBoxContainer" parent="Row1"]
-margin_left = 685.0
-margin_right = 1024.0
-margin_bottom = 740.0
+offset_left = 685.0
+offset_right = 1024.0
+offset_bottom = 740.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Social"]
-margin_right = 339.0
-margin_bottom = 14.0
+offset_right = 339.0
+offset_bottom = 14.0
 text = "Social"
 align = 1
 valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Social"]
-margin_top = 18.0
-margin_right = 339.0
-margin_bottom = 32.0
+offset_top = 18.0
+offset_right = 339.0
+offset_bottom = 32.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row1"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Presence"
 align = 2
@@ -225,22 +225,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Social"]
-margin_top = 36.0
-margin_right = 339.0
-margin_bottom = 50.0
+offset_top = 36.0
+offset_right = 339.0
+offset_bottom = 50.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row2"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Manipulation"
 align = 2
@@ -249,22 +249,22 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Social"]
-margin_top = 54.0
-margin_right = 339.0
-margin_bottom = 68.0
+offset_top = 54.0
+offset_right = 339.0
+offset_bottom = 68.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row3"]
-margin_right = 167.0
-margin_bottom = 14.0
+offset_right = 167.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Composure"
 align = 2
@@ -273,8 +273,8 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 171.0
-margin_right = 339.0
-margin_bottom = 14.0
+offset_left = 171.0
+offset_right = 339.0
+offset_bottom = 14.0
 Value = 1
 EnableToggling = false

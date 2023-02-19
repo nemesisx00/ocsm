@@ -2,7 +2,7 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class NumericStatOptionsButton : CustomOption
+	public partial class NumericStatOptionsButton : CustomOption
 	{
 		public override void _Ready()
 		{

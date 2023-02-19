@@ -2,11 +2,11 @@ using Godot;
 
 namespace OCSM.Nodes
 {
-	public class AutosizeTextEdit : TextEdit
+	public partial class AutosizeTextEdit : TextEdit
 	{
 		public override void _Ready()
 		{
-			Connect(Constants.Signal.TextChanged, this, nameof(autosize));
+			TextChanged += autosize;
 		}
 		
 		public void autosize()

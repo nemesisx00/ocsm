@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class WeaponTypeOptions : CustomOption
+	public partial class WeaponTypeOptions : CustomOption
 	{
 		public override void _Ready()
 		{

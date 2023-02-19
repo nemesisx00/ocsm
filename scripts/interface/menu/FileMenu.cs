@@ -3,7 +3,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class FileMenu : MenuButton
+	public partial class FileMenu : MenuButton
 	{
 		public enum MenuItem { New, Open, Save, CloseSheet, Quit }
 		
@@ -15,11 +15,11 @@ namespace OCSM.Nodes
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			
-			GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-			GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.FileMenuTriggered), this, nameof(handleMenuItem));
+			GetPopup().IdPressed += handleMenuItem;
+			GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
 		}
 		
-		private void handleMenuItem(int id)
+		private void handleMenuItem(long id)
 		{
 			switch((MenuItem)id)
 			{
@@ -36,7 +36,7 @@ namespace OCSM.Nodes
 					sheetManager.closeActiveSheet();
 					break;
 				case MenuItem.Quit:
-					GetTree().Notification(MainLoop.NotificationWmQuitRequest);
+					GetTree().Notification((int)NotificationWMCloseRequest);
 					break;
 			}
 		}
@@ -44,11 +44,10 @@ namespace OCSM.Nodes
 		private void doOpen()
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.OpenSheet);
-			var instance = resource.Instance<OpenSheet>();
+			var instance = resource.Instantiate<OpenSheet>();
 			GetTree().CurrentScene.AddChild(instance);
-			instance.Popup_();
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.Connect(nameof(OpenSheet.JsonLoaded), this, nameof(handleOpenJson));
+			instance.PopupCentered();
+			instance.JsonLoaded += handleOpenJson;
 		}
 		
 		private void handleOpenJson(string json)
@@ -62,11 +61,10 @@ namespace OCSM.Nodes
 			if(data != null)
 			{
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.SaveSheet);
-				var instance = resource.Instance<SaveSheet>();
+				var instance = resource.Instantiate<SaveSheet>();
 				instance.SheetData = data;
 				GetTree().CurrentScene.AddChild(instance);
-				instance.Popup_();
-				NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
+				instance.PopupCentered();
 			}
 		}
 	}

@@ -13,7 +13,7 @@ namespace OCSM.Meta
 	public class Metadata : IComparable<Metadata>, IEquatable<Metadata>
 	{
 		public string Description { get; set; }
-		public Texture Icon { get; set; }
+		public Texture2D Icon { get; set; }
 		public string Name { get; set; }
 		
 		public Metadata()
@@ -39,7 +39,7 @@ namespace OCSM.Meta
 		{
 			return metadata is Metadata
 				&& metadata.Description.Equals(Description)
-				&& Logic.AreEqualOrNull<Texture>(metadata.Icon, Icon)
+				&& Logic.AreEqualOrNull<Texture2D>(metadata.Icon, Icon)
 				&& metadata.Name.Equals(Name);
 		}
 	}

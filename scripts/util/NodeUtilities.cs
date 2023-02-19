@@ -1,4 +1,5 @@
 using Godot;
+using OCSM.Nodes;
 using OCSM.Nodes.Meta;
 
 namespace OCSM
@@ -23,7 +24,7 @@ namespace OCSM
 				offset = 0;
 			
 			var minY = (lineHeight * NodeUtilities.getLineCount(node)) + offset;
-			node.RectMinSize = new Vector2(node.RectMinSize.x, minY);
+			node.CustomMinimumSize = new Vector2(node.CustomMinimumSize.X, minY);
 		}
 		
 		/// <summary>
@@ -49,7 +50,7 @@ namespace OCSM
 		
 		/// <summary>
 		/// Reposition a <c>Godot.Control</c> to the center of the viewport,
-		/// based on the given <c>center</c> coordinates and the current <c>RectSize</c>
+		/// based on the given <c>center</c> coordinates and the current <c>Size</c>
 		///  of the given <c>control</c>.
 		/// </summary>
 		/// <param name="control">The control being repositioned.</param>
@@ -59,7 +60,7 @@ namespace OCSM
 		/// </param>
 		public static void centerControl(Control control, Vector2 center)
 		{
-			control.RectPosition = new Vector2(center.x - (control.RectSize.x / 2), center.y - (control.RectSize.y / 2));
+			control.Position = new Vector2(center.X - (control.Size.X / 2), center.Y - (control.Size.Y / 2));
 		}
 		
 		/// <summary>
@@ -70,7 +71,7 @@ namespace OCSM
 		/// <returns>An instance of <c>Godot.Label</c>.</returns>
 		public static Label createCenteredLabel(string text)
 		{
-			return new Label() { Text = text, Align = Label.AlignEnum.Center, Valign = Label.VAlign.Center, };
+			return new Label() { Text = text, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, };
 		}
 		
 		/// <summary>
@@ -107,15 +108,14 @@ namespace OCSM
 		/// The name of the method to call when handling the Confirmed signal
 		/// emitted by the instance.
 		/// </param>
-		public static void displayDeleteConfirmation(string label, Node parent, Vector2 center, Node handler, string doDelete)
+		public static void displayDeleteConfirmation(string label, Node parent, Vector2 center, ICanDelete handler, string doDelete)
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
-			var instance = resource.Instance<ConfirmDeleteEntry>();
+			var instance = resource.Instantiate<ConfirmDeleteEntry>();
 			instance.EntryTypeName = label;
 			parent.AddChild(instance);
-			NodeUtilities.centerControl(instance, center);
-			instance.Connect(Constants.Signal.Confirmed, handler, doDelete);
-			instance.Popup_();
+			instance.Confirmed += handler.doDelete;
+			instance.PopupCentered();
 		}
 	}
 }

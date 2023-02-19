@@ -8,7 +8,7 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class CodChangelingAddEditMetadata : WindowDialog
+	public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	{
 		private const string ContractName = "Contract";
 		private const string ContractTypeName = "Contract Type";
@@ -20,43 +20,41 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		private const string SeemingName = "Seeming";
 		private const string TabContainer = "TabContainer";
 		
-		[Signal]
-		public delegate void MetadataChanged();
-		
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(closeHandler));
+			
+			CloseRequested += closeHandler;
 			
 			var contractEntry = GetNode<ContractEntry>(NodePathBuilder.SceneUnique(ContractName));
-			contractEntry.Connect(nameof(ContractEntry.SaveClicked), this, nameof(saveContract));
-			contractEntry.Connect(nameof(ContractEntry.DeleteConfirmed), this, nameof(deleteContract));
+			contractEntry.SaveClicked += saveContract;
+			contractEntry.DeleteConfirmed += deleteContract;
 			
 			var contractTypeEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName));
-			contractTypeEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveContractType));
-			contractTypeEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteContractType));
+			contractTypeEntry.SaveClicked += saveContractType;
+			contractTypeEntry.DeleteConfirmed += deleteContractType;
 			
 			var courtEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName));
-			courtEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveCourt));
-			courtEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteCourt));
+			courtEntry.SaveClicked += saveCourt;
+			courtEntry.DeleteConfirmed += deleteCourt;
 			
 			var kithEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName));
-			kithEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveKith));
-			kithEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteKith));
+			kithEntry.SaveClicked += saveKith;
+			kithEntry.DeleteConfirmed += deleteKith;
 			
 			var meritEntry = GetNode<MeritEntry>(NodePathBuilder.SceneUnique(MeritName));
-			meritEntry.Connect(nameof(MeritEntry.SaveClicked), this, nameof(saveMerit));
-			meritEntry.Connect(nameof(MeritEntry.DeleteConfirmed), this, nameof(deleteMerit));
+			meritEntry.SaveClicked += saveMerit;
+			meritEntry.DeleteConfirmed += deleteMerit;
 			
 			var regaliaEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName));
-			regaliaEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveRegalia));
-			regaliaEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteRegalia));
+			regaliaEntry.SaveClicked += saveRegalia;
+			regaliaEntry.DeleteConfirmed += deleteRegalia;
 			
 			var seemingEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName));
-			seemingEntry.Connect(nameof(BasicMetadataEntry.SaveClicked), this, nameof(saveSeeming));
-			seemingEntry.Connect(nameof(BasicMetadataEntry.DeleteConfirmed), this, nameof(deleteSeeming));
+			seemingEntry.SaveClicked += saveSeeming;
+			seemingEntry.DeleteConfirmed += deleteSeeming;
 		}
 		
 		private void closeHandler()

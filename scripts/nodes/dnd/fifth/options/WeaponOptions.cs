@@ -3,7 +3,7 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class WeaponOptions : CustomOption
+	public partial class WeaponOptions : CustomOption
 	{
 		protected override void refreshMetadata()
 		{

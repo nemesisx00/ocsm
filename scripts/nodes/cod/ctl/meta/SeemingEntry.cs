@@ -5,7 +5,7 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class SeemingEntry : BasicMetadataEntry
+	public partial class SeemingEntry : BasicMetadataEntry
 	{
 		protected override void entrySelected(int index)
 		{

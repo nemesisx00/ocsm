@@ -5,7 +5,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.Meta
 {
-	public class BasicMetadataEntry : Container
+	public partial class BasicMetadataEntry : Container, ICanDelete
 	{
 		protected const string ClearButton = "Clear";
 		protected const string DescriptionInput = "Description";
@@ -17,9 +17,9 @@ namespace OCSM.Nodes.Meta
 		protected const string SaveButton = "Save";
 		
 		[Signal]
-		public delegate void SaveClicked(string name, string description);
+		public delegate void SaveClickedEventHandler(string name, string description);
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		[Export]
 		public string MetadataTypeLabel { get; set; } = String.Empty;
@@ -31,17 +31,17 @@ namespace OCSM.Nodes.Meta
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
+			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
 			
 			GetNode<Label>(NodePathBuilder.SceneUnique(ExistingLabelName)).Text = String.Format(ExistingLabelFormat, MetadataTypeLabel);
 			
 			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			optionsButton.Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			optionsButton.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
 			if(OptionsButtonScript is Script)
 				optionsButton.SetScript(OptionsButtonScript);
 			
@@ -75,7 +75,7 @@ namespace OCSM.Nodes.Meta
 			);
 		}
 		
-		protected virtual void doDelete()
+		public void doDelete()
 		{
 			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
 			if(!String.IsNullOrEmpty(name))

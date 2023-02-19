@@ -5,22 +5,22 @@
 [node name="Merits" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+offset_left = 4.0
+offset_top = 32.0
+offset_right = -4.0
+offset_bottom = -4.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-margin_right = 1016.0
-margin_bottom = 732.0
+offset_right = 1016.0
+offset_bottom = 732.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Merits" type="GridContainer" parent="ScrollContainer"]
 unique_name_in_owner = true
-margin_right = 1016.0
+offset_right = 1016.0
 size_flags_horizontal = 3
 columns = 2
 script = ExtResource( 1 )

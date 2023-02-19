@@ -5,8 +5,8 @@
 [node name="ConfirmDeleteEntry" type="ConfirmationDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -724.0
-margin_bottom = -668.0
-popup_exclusive = true
+offset_right = -724.0
+offset_bottom = -668.0
+exclusive = true
 window_title = "Delete Metadata Entry?"
 script = ExtResource( 1 )

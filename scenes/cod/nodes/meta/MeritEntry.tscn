@@ -1,132 +1,90 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://d1mq7osydydws"]
 
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=1]
-[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
-[ext_resource path="res://scripts/nodes/TrackSimple.cs" type="Script" id=3]
-[ext_resource path="res://scripts/nodes/cod/meta/MeritEntry.cs" type="Script" id=4]
+[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/meta/MeritEntry.cs" id="4"]
 
 [node name="MeritEntry" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 15
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="Row" type="HBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( -407, -179 )
-custom_constants/separation = 15
+layout_mode = 2
 
 [node name="ExistingLabel" type="Label" parent="Row"]
 unique_name_in_owner = true
-margin_top = 3.0
-margin_right = 504.0
-margin_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Merits:"
-align = 2
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 519.0
-margin_right = 619.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 2
 
 [node name="Row2" type="HBoxContainer" parent="."]
-margin_top = 35.0
-margin_right = 1024.0
-margin_bottom = 55.0
-custom_constants/separation = 25
+layout_mode = 2
 alignment = 1
 
 [node name="Save" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 407.0
-margin_right = 448.0
-margin_bottom = 20.0
+layout_mode = 2
 text = "Save"
 
 [node name="Clear" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 473.0
-margin_right = 517.0
-margin_bottom = 20.0
+layout_mode = 2
 text = "Clear"
 
 [node name="Delete" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 542.0
-margin_right = 617.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 75, 0 )
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
 text = "Delete"
 
 [node name="Row3" type="HBoxContainer" parent="."]
-margin_top = 70.0
-margin_right = 1024.0
-margin_bottom = 94.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row3"]
-margin_top = 5.0
-margin_right = 100.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Name:"
-align = 2
-valign = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
-margin_left = 104.0
-margin_right = 1024.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="."]
-margin_top = 109.0
-margin_right = 1024.0
-margin_bottom = 123.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row4"]
-margin_right = 100.0
-margin_bottom = 14.0
-rect_min_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Value:"
-align = 2
-valign = 1
 
 [node name="Dots" type="GridContainer" parent="Row4"]
 unique_name_in_owner = true
-margin_left = 104.0
-margin_right = 104.0
-margin_bottom = 14.0
+layout_mode = 2
 columns = 5
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="Row5" type="VBoxContainer" parent="."]
-margin_top = 138.0
-margin_right = 1024.0
-margin_bottom = 189.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row5"]
-margin_right = 1024.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 1 )
+layout_mode = 2
 text = "Description"
-align = 1
-valign = 1
 
 [node name="Description" type="TextEdit" parent="Row5"]
 unique_name_in_owner = true
-margin_top = 28.0
-margin_right = 1024.0
-margin_bottom = 51.0
-rect_min_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 2 )
+script = ExtResource("2")

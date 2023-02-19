@@ -5,10 +5,10 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class AbilityNode : Container
+	public partial class AbilityNode : Container
 	{
 		[Signal]
-		public delegate void AbilityChanged(Transport<Ability> transport);
+		public delegate void AbilityChangedEventHandler(Transport<Ability> transport);
 		
 		private sealed class Names
 		{
@@ -36,9 +36,9 @@ namespace OCSM.Nodes.DnD.Fifth
 			skillsContainer = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Skills));
 			savingThrow = GetNode<Skill>(NodePathBuilder.SceneUnique(Names.SavingThrow));
 			savingThrow.trackAbility(this);
-			savingThrow.Connect(nameof(Skill.ProficiencyChanged), this, nameof(savingThrowChanged));
+			savingThrow.ProficiencyChanged += savingThrowChanged;
 			
-			score.Connect(Constants.Signal.ValueChanged, this, nameof(scoreChanged));
+			score.ValueChanged += scoreChanged;
 		}
 		
 		public void refresh()
@@ -74,24 +74,24 @@ namespace OCSM.Nodes.DnD.Fifth
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Skill);
 				foreach(var skill in Ability.Skills)
 				{
-					var instance = resource.Instance<Skill>();
+					var instance = resource.Instantiate<Skill>();
 					instance.AbilityModifier = Ability.Modifier;
 					instance.ProficiencyBonus = ProficiencyBonus;
 					instance.Label = skill.Name;
 					instance.Name = skill.Name;
 					instance.trackAbility(this);
-					instance.Connect(nameof(Skill.ProficiencyChanged), this, nameof(proficiencyChanged), new Godot.Collections.Array(new Transport<OCSM.DnD.Fifth.Skill>(skill)));
+					instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
 					skillsContainer.AddChild(instance);
 					instance.setProficiency(skill.Proficient);
 				}
 			}
 		}
 		
-		private void proficiencyChanged(string currentState, Transport<OCSM.DnD.Fifth.Skill> transport)
+		private void proficiencyChanged(string currentState, OCSM.DnD.Fifth.Skill boundSkill)
 		{
 			var proficiency = ProficiencyUtility.fromStatefulButtonState(currentState);
-			transport.Value.Proficient = proficiency;
-			if(Ability.Skills.Find(s => s.Name.Equals(transport.Value.Name)) is OCSM.DnD.Fifth.Skill skill)
+			boundSkill.Proficient = proficiency;
+			if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is OCSM.DnD.Fifth.Skill skill)
 				skill.Proficient = proficiency;
 			EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
 		}
@@ -102,7 +102,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
 		}
 		
-		private void scoreChanged(float value)
+		private void scoreChanged(double value)
 		{
 			Ability.Score = (int)value;
 			calculateModifier();

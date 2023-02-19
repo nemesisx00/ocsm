@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using OCSM.DnD.Fifth;
 using OCSM.Nodes.Autoload;
+using OCSM.Nodes.DnD.Fifth;
 using OCSM.Nodes.Sheets;
 using OCSM.DnD.Fifth.Meta;
-using OCSM.Nodes.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Sheets
 {
-	public class DndFifthSheet : CharacterSheet<FifthAdventurer>
+	public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	{
 		private sealed class Names
 		{
@@ -52,37 +52,37 @@ namespace OCSM.Nodes.DnD.Sheets
 			if(!(SheetData is FifthAdventurer))
 				SheetData = new FifthAdventurer();
 			
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.CharacterName)), SheetData.Name, nameof(changed_CharacterName));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.PlayerName)), SheetData.Player, nameof(changed_PlayerName));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Alignment)), SheetData.Alignment, nameof(changed_Alignment));
-			InitAndConnect(GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(Names.Race)), SheetData.Race, nameof(changed_Race));
-			InitAndConnect(GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(Names.Background)), SheetData.Background, nameof(changed_Background));
+			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.CharacterName)), SheetData.Name, changed_CharacterName);
+			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.PlayerName)), SheetData.Player, changed_PlayerName);
+			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Alignment)), SheetData.Alignment, changed_Alignment);
+			InitRaceOptionsButton(GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(Names.Race)), SheetData.Race, changed_Race);
+			InitBackgroundOptionsButton(GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(Names.Background)), SheetData.Background, changed_Background);
 			
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.CurrentHP)), SheetData.HP.Current, nameof(changed_CurrentHP));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.MaxHP)), SheetData.HP.Max, nameof(changed_MaxHP));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.TempHP)), SheetData.HP.Temp, nameof(changed_TempHP));
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.CurrentHP)), SheetData.HP.Current, changed_CurrentHP);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.MaxHP)), SheetData.HP.Max, changed_MaxHP);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.TempHP)), SheetData.HP.Temp, changed_TempHP);
 			
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Copper)), SheetData.CoinPurse.Copper, nameof(changed_Copper));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Silver)), SheetData.CoinPurse.Silver, nameof(changed_Silver));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Electrum)), SheetData.CoinPurse.Electrum, nameof(changed_Electrum));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Gold)), SheetData.CoinPurse.Gold, nameof(changed_Gold));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Platinum)), SheetData.CoinPurse.Platinum, nameof(changed_Platinum));
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Copper)), SheetData.CoinPurse.Copper, changed_Copper);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Silver)), SheetData.CoinPurse.Silver, changed_Silver);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Electrum)), SheetData.CoinPurse.Electrum, changed_Electrum);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Gold)), SheetData.CoinPurse.Gold, changed_Gold);
+			InitSpinBox(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Platinum)), SheetData.CoinPurse.Platinum, changed_Platinum);
 			
-			InitAndConnect(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.Inspiration)), SheetData.Inspiration, nameof(changed_Inspiration));
-			InitAndConnect(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.BardicInspiration)), SheetData.BardicInspiration, nameof(changed_BardicInspiration));
-			InitAndConnect(GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie)), SheetData.BardicInspirationDie, nameof(changed_BardicInspirationDie));
+			InitToggleButton(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.Inspiration)), SheetData.Inspiration, changed_Inspiration);
+			InitToggleButton(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.BardicInspiration)), SheetData.BardicInspiration, changed_BardicInspiration);
+			InitDieOptionsButton(GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie)), SheetData.BardicInspirationDie, changed_BardicInspirationDie);
 			
-			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)), SheetData.PersonalityTraits, nameof(changed_PersonalityTraits));
-			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)), SheetData.Ideals, nameof(changed_Ideals));
-			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)), SheetData.Bonds, nameof(changed_Bonds));
-			InitAndConnect(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)), SheetData.Flaws, nameof(changed_Flaws));
+			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)), SheetData.PersonalityTraits, changed_PersonalityTraits);
+			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)), SheetData.Ideals, changed_Ideals);
+			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)), SheetData.Bonds, changed_Bonds);
+			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)), SheetData.Flaws, changed_Flaws);
 			
 			foreach(var ability in SheetData.Abilities)
 			{
-				InitAndConnect(GetNode<AbilityNode>(NodePathBuilder.SceneUnique(ability.Name)), ability, nameof(changed_Ability));
+				InitAbilityNode(GetNode<AbilityNode>(NodePathBuilder.SceneUnique(ability.Name)), ability, changed_Ability);
 			}
 			
-			InitAndConnect(GetNode<Inventory>(NodePathBuilder.SceneUnique(Names.Inventory)), SheetData.Inventory, nameof(changed_Inventory));
+			InitInventory(GetNode<Inventory>(NodePathBuilder.SceneUnique(Names.Inventory)), SheetData.Inventory, changed_Inventory);
 			
 			base._Ready();
 			refreshFeatures();
@@ -90,90 +90,104 @@ namespace OCSM.Nodes.DnD.Sheets
 			updateCalculatedTraits();
 		}
 		
-		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
-			where T1: Control
+		protected void InitAbilityNode(AbilityNode node, Ability initialValue, AbilityNode.AbilityChangedEventHandler handler)
 		{
-			if(node is AbilityNode ab)
+			if(node is AbilityNode)
 			{
-				if(initialValue is Ability ability)
+				if(initialValue is Ability)
 				{
-					ab.Ability = ability;
-					ab.refresh();
+					node.Ability = initialValue;
+					node.refresh();
 				}
-				
-				ab.Connect(nameof(AbilityNode.AbilityChanged), this, handlerName);
+				node.AbilityChanged += handler;
 			}
-			else if(node is BackgroundOptionsButton bob)
+		}
+		
+		protected void InitBackgroundOptionsButton(BackgroundOptionsButton node, Background initialValue, BackgroundOptionsButton.ItemSelectedEventHandler handler)
+		{
+			if(node is BackgroundOptionsButton)
 			{
-				if(initialValue is Background background && metadataManager.Container is DnDFifthContainer dfc)
+				if(initialValue is Background && metadataManager.Container is DnDFifthContainer dfc)
 				{
-					var index = dfc.Backgrounds.FindIndex(b => b.Name.Equals(background.Name)) + 1;
+					var index = dfc.Backgrounds.FindIndex(b => b.Name.Equals(initialValue.Name)) + 1;
 					if(index > 0)
-						bob.Selected = index;
+						node.Selected = index;
 				}
-				bob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is ClassOptionsButton cob)
+		}
+		
+		protected void InitClassOptionsButton(ClassOptionsButton node, Class initialValue, ClassOptionsButton.ItemSelectedEventHandler handler)
+		{
+			if(node is ClassOptionsButton)
 			{
-				if(initialValue is Class clazz && metadataManager.Container is DnDFifthContainer dfc)
+				if(initialValue is Class && metadataManager.Container is DnDFifthContainer dfc)
 				{
-					var index = dfc.Classes.FindIndex(c => c.Name.Equals(clazz.Name)) + 1;
+					var index = dfc.Classes.FindIndex(c => c.Name.Equals(initialValue.Name)) + 1;
 					if(index > 0)
-						cob.Selected = index;
+						node.Selected = index;
 				}
-				cob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is DieOptionsButton dob)
+		}
+		
+		protected void InitDieOptionsButton(DieOptionsButton node, OCSM.DnD.Fifth.Die initialValue, DieOptionsButton.ItemSelectedEventHandler handler)
+		{
+			if(node is DieOptionsButton)
 			{
-				if(initialValue is OCSM.DnD.Fifth.Die die)
+				if(initialValue is OCSM.DnD.Fifth.Die)
 				{
-					for(var i = 0; i < dob.GetItemCount(); i++)
+					for(var i = 0; i < node.ItemCount; i++)
 					{
-						if(dob.GetItemText(i).Contains(die.Sides.ToString()))
+						if(node.GetItemText(i).Contains(initialValue.Sides.ToString()))
 						{
-							dob.Selected = i;
+							node.Selected = i;
 							break;
 						}
 					}
 				}
-				dob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is Inventory i)
+		}
+		
+		protected void InitInventory(Inventory node, List<Item> initialValue, Inventory.ItemsChangedEventHandler handler)
+		{
+			if(node is Inventory)
 			{
-				if(initialValue is List<Item> items)// && metadataManager.Container is DnDFifthContainer dfc)
+				if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength)
+					node.Strength = strength;
+				if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+					node.Dexterity = dexterity;
+				
+				if(initialValue is List<Item>)
+					node.Items = initialValue;
+				//validate each item before adding
+				/*
+				foreach(var item in items)
 				{
-					if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength)
-						i.Strength = strength;
-					if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
-						i.Dexterity = dexterity;
-					
-					i.Items = items; //new List<Item>();
-					//validate each item before adding
-					/*
-					foreach(var item in items)
+					if(dfc.Items.Find(i => i.Name.Equals(item.Name)) is Item it)
 					{
-						if(dfc.Items.Find(i => i.Name.Equals(item.Name)) is Item it)
-						{
-							i.Items.Add(it);
-						}
+						i.Items.Add(it);
 					}
-					*/
-					i.regenerateItems();
 				}
-				i.Connect(nameof(Inventory.ItemsChanged), this, handlerName);
+				*/
+				node.regenerateItems();
+				node.ItemsChanged += handler;
 			}
-			else if(node is RaceOptionsButton rob)
+		}
+		
+		protected void InitRaceOptionsButton(RaceOptionsButton node, Race initialValue, RaceOptionsButton.ItemSelectedEventHandler handler)
+		{
+			if(node is RaceOptionsButton)
 			{
-				if(initialValue is Race race && metadataManager.Container is DnDFifthContainer dfc)
+				if(initialValue is Race && metadataManager.Container is DnDFifthContainer dfc)
 				{
-					var index = dfc.Races.FindIndex(r => r.Name.Equals(race.Name)) + 1;
+					var index = dfc.Races.FindIndex(r => r.Name.Equals(initialValue.Name)) + 1;
 					if(index > 0)
-						rob.Selected = index;
+						node.Selected = index;
 				}
-				rob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else
-				base.InitAndConnect(node, initialValue, handlerName);
 		}
 		
 		private int calculateAc()
@@ -283,9 +297,9 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Alignment(string newText) { SheetData.Alignment = newText; }
 		
-		private void changed_Background(int index)
+		private void changed_Background(long index)
 		{
-			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Backgrounds[index - 1] is Background background)
+			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Backgrounds[(int)index - 1] is Background background)
 				SheetData.Background = background;
 			else
 				SheetData.Background = null;
@@ -299,10 +313,10 @@ namespace OCSM.Nodes.DnD.Sheets
 			toggleBardicInspirationDie();
 		}
 		
-		private void changed_BardicInspirationDie(int index)
+		private void changed_BardicInspirationDie(long index)
 		{
 			var node = GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie));
-			var text = node.GetItemText(index);
+			var text = node.GetItemText((int)index);
 			if(!String.IsNullOrEmpty(text))
 			{
 				var die = new OCSM.DnD.Fifth.Die() { Sides = int.Parse(text.Substring(1)) };
@@ -328,9 +342,9 @@ namespace OCSM.Nodes.DnD.Sheets
 				Name = SheetData.Name;
 		}
 		
-		private void changed_Copper(float value) { SheetData.CoinPurse.Copper = (int)value; }
-		private void changed_CurrentHP(float value) { SheetData.HP.Current = (int)value; }
-		private void changed_Electrum(float value) { SheetData.CoinPurse.Electrum = (int)value; }
+		private void changed_Copper(double value) { SheetData.CoinPurse.Copper = (int)value; }
+		private void changed_CurrentHP(double value) { SheetData.HP.Current = (int)value; }
+		private void changed_Electrum(double value) { SheetData.CoinPurse.Electrum = (int)value; }
 		
 		private void changed_Flaws()
 		{
@@ -338,7 +352,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			SheetData.Flaws = text;
 		}
 		
-		private void changed_Gold(float value) { SheetData.CoinPurse.Gold = (int)value; }
+		private void changed_Gold(double value) { SheetData.CoinPurse.Gold = (int)value; }
 		
 		private void changed_Ideals()
 		{
@@ -355,7 +369,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			updateCalculatedTraits();
 		}
 		
-		private void changed_MaxHP(float value) { SheetData.HP.Max = (int)value; }
+		private void changed_MaxHP(double value) { SheetData.HP.Max = (int)value; }
 		
 		private void changed_PersonalityTraits()
 		{
@@ -363,12 +377,12 @@ namespace OCSM.Nodes.DnD.Sheets
 			SheetData.PersonalityTraits = text;
 		}
 		
-		private void changed_Platinum(float value) { SheetData.CoinPurse.Platinum = (int)value; }
+		private void changed_Platinum(double value) { SheetData.CoinPurse.Platinum = (int)value; }
 		private void changed_PlayerName(string newText) { SheetData.Player = newText; }
 		
-		private void changed_Race(int index)
+		private void changed_Race(long index)
 		{
-			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Races[index - 1] is Race race)
+			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Races[(int)index - 1] is Race race)
 				SheetData.Race = race;
 			else
 				SheetData.Race = null;
@@ -376,8 +390,8 @@ namespace OCSM.Nodes.DnD.Sheets
 			refreshFeatures();
 		}
 		
-		private void changed_Silver(float value) { SheetData.CoinPurse.Silver = (int)value; }
-		private void changed_TempHP(float value) { SheetData.HP.Temp = (int)value; }
+		private void changed_Silver(double value) { SheetData.CoinPurse.Silver = (int)value; }
+		private void changed_TempHP(double value) { SheetData.HP.Temp = (int)value; }
 		
 		private List<OCSM.DnD.Fifth.Feature> collectAllFeatures()
 		{
@@ -413,7 +427,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			features.Sort();
 			foreach(var feature in features)
 			{
-				var instance = resource.Instance<OCSM.Nodes.DnD.Fifth.Feature>();
+				var instance = resource.Instantiate<OCSM.Nodes.DnD.Fifth.Feature>();
 				node.AddChild(instance);
 				instance.update(feature);
 				

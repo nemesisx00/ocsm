@@ -4,8 +4,8 @@ namespace OCSM.CoD
 {
 	public class Mortal : CodCore
 	{
-		public int Age { get; set; }
-		public int Integrity { get; set; }
+		public long Age { get; set; }
+		public long Integrity { get; set; }
 		public string Faction { get; set; }
 		public string GroupName { get; set; }
 		public string Vice { get; set; }

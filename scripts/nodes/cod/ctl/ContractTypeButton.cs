@@ -4,15 +4,15 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public class ContractTypeButton : OptionButton
+	public partial class ContractTypeButton : OptionButton
 	{
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
 			refreshMetadata();
 		}

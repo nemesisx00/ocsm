@@ -4,7 +4,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public class RegaliaOptionButton : OptionButton
+	public partial class RegaliaOptionButton : OptionButton
 	{
 		[Export]
 		public bool emptyOption = true;
@@ -16,8 +16,8 @@ namespace OCSM.Nodes.CoD.CtL
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
 			refreshMetadata();
 		}

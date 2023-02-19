@@ -3,17 +3,16 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class ConfirmQuit : CenterContainer
+	public partial class ConfirmQuit : CenterContainer
 	{
 		private const string confirmQuitPath = "ConfirmQuit";
 		
 		public override void _Ready()
 		{
 			var confirmQuit = GetNode<ConfirmationDialog>(confirmQuitPath);
-			confirmQuit.Connect(Constants.Signal.Confirmed, this, nameof(quitGame));
-			confirmQuit.GetCancel().Connect(Constants.Signal.Pressed, this, nameof(hideConfirmQuit));
-			confirmQuit.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideConfirmQuit));
-			confirmQuit.RectPosition = new Vector2(GetViewportRect().GetCenter().x - (confirmQuit.RectSize.x / 2), GetViewportRect().GetCenter().y - (confirmQuit.RectSize.y / 2));
+			confirmQuit.Confirmed += quitGame;
+			confirmQuit.Canceled += hideConfirmQuit;
+			confirmQuit.Position = new Vector2I((int)(GetViewportRect().GetCenter().X - (confirmQuit.Size.X / 2)), (int)(GetViewportRect().GetCenter().Y - (confirmQuit.Size.Y / 2)));
 			confirmQuit.Show();
 		}
 		
@@ -23,7 +22,7 @@ namespace OCSM.Nodes
 			if(OS.IsDebugBuild())
 			{
 				GD.Print("DEBUG Stray Nodes ----- START");
-				PrintStrayNodes();
+				PrintOrphanNodes();
 				GD.Print("DEBUG Stray Nodes ----- END");
 			}
 			GetTree().Quit();

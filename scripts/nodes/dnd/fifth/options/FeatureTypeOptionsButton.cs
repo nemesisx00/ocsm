@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class FeatureTypeOptionsButton : CustomOption
+	public partial class FeatureTypeOptionsButton : CustomOption
 	{
 		[Export]
 		public bool emptyOption = true;

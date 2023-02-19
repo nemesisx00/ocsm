@@ -6,7 +6,7 @@ using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class InventoryItem : HBoxContainer
+	public partial class InventoryItem : HBoxContainer
 	{
 		public sealed class Names
 		{
@@ -17,7 +17,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		}
 		
 		[Signal]
-		public delegate void Equipped(Transport<Item> transport);
+		public delegate void EquippedEventHandler(Transport<Item> transport);
 		
 		public Item Item { get; set; }
 		public Ability Strength { get; set; }
@@ -25,7 +25,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped)).Connect(Constants.Signal.Pressed, this, nameof(toggleEquipped));
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped)).Pressed += toggleEquipped;
 			
 			refresh();
 		}
@@ -49,7 +49,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			var equipped = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
 			if(Item is ItemEquippable ie)
 			{
-				equipped.Pressed = ie.Equipped;
+				equipped.ButtonPressed = ie.Equipped;
 				equipped.Visible = true;
 			}
 			else
@@ -61,7 +61,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			var checkbox = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
 			if(Item is ItemEquippable ie)
 			{
-				ie.Equipped = checkbox.Pressed;
+				ie.Equipped = checkbox.ButtonPressed;
 				EmitSignal(nameof(Equipped), new Transport<Item>(ie));
 			}
 		}

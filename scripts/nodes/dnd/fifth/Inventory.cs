@@ -7,7 +7,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class Inventory : VBoxContainer
+	public partial class Inventory : VBoxContainer
 	{
 		public sealed class Names
 		{
@@ -17,7 +17,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		}
 		
 		[Signal]
-		public delegate void ItemsChanged(Transport<List<Item>> items);
+		public delegate void ItemsChangedEventHandler(Transport<List<Item>> items);
 		
 		public List<Item> Items { get; set; }
 		public Ability Strength { get; set; }
@@ -28,7 +28,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			if(!(Items is List<Item>))
 				Items = new List<Item>();
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.AddItem)).Connect(Constants.Signal.Pressed, this, nameof(addItemHandler));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.AddItem)).Pressed += addItemHandler;
 			
 			regenerateItems();
 		}
@@ -44,11 +44,11 @@ namespace OCSM.Nodes.DnD.Fifth
 			var itemScene = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.InventoryItem);
 			foreach(Item i in Items)
 			{
-				var instance = itemScene.Instance<InventoryItem>();
+				var instance = itemScene.Instantiate<InventoryItem>();
 				instance.Item = i;
 				instance.Strength = Strength;
 				instance.Dexterity = Dexterity;
-				instance.Connect(nameof(InventoryItem.Equipped), this, nameof(itemEquipped));
+				instance.Equipped += itemEquipped;
 				
 				itemList.AddChild(instance);
 				instance.refresh();

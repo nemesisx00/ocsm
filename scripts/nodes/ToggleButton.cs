@@ -3,34 +3,34 @@ using System;
 
 namespace OCSM.Nodes
 {
-	public class ToggleButton : TextureButton
+	public partial class ToggleButton : TextureButton
 	{
 		[Signal]
-		public delegate void StateToggled(ToggleButton button);
+		public delegate void StateToggledEventHandler(ToggleButton button);
 		
 		[Export]
 		public bool CurrentState { get; set; } = false;
 		[Export]
 		public bool UseCircles { get; set; } = false;
-		public StreamTexture ToggledTexture { get; set; }
-		public StreamTexture EmptyTexture { get; set; }
+		public CompressedTexture2D ToggledTexture { get; set; }
+		public CompressedTexture2D EmptyTexture { get; set; }
 		
 		public override void _Ready()
 		{
 			if(UseCircles)
 			{
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
-				ToggledTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircleFill);
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
+				ToggledTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircleFill);
 			}
 			else
 			{
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
-				ToggledTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBox2);
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
+				ToggledTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBox2);
 			}
 			
-			EmptyTexture = ResourceLoader.Load<StreamTexture>(Constants.Texture.FullTransparent);
+			EmptyTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.FullTransparent);
 			
-			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+			GuiInput += handleClick;
 			MouseDefaultCursorShape = CursorShape.PointingHand;
 			
 			updateTexture();
@@ -53,7 +53,7 @@ namespace OCSM.Nodes
 		
 		private void handleClick(InputEvent e)
 		{
-			if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && ButtonList.Left == (ButtonList)buttonEvent.ButtonIndex)
+			if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && MouseButton.Left == buttonEvent.ButtonIndex)
 				toggleState();
 		}
 	}

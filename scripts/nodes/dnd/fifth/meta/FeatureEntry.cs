@@ -7,7 +7,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class FeatureEntry : Container
+	public partial class FeatureEntry : Container, ICanDelete
 	{
 		private sealed class Names
 		{
@@ -31,9 +31,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		}
 		
 		[Signal]
-		public delegate void SaveClicked(Transport<OCSM.DnD.Fifth.Feature> feature);
+		public delegate void SaveClickedEventHandler(Transport<OCSM.DnD.Fifth.Feature> feature);
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		public OCSM.DnD.Fifth.Feature Feature { get; set; }
 		
@@ -68,20 +68,20 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			textNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Text));
 			typeNode = GetNode<FeatureTypeOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
 			
-			classNode.Connect(Constants.Signal.ItemSelected, this, nameof(classChanged));
-			descriptionNode.Connect(Constants.Signal.TextChanged, this, nameof(descriptionChanged));
-			nameNode.Connect(Constants.Signal.TextChanged, this, nameof(nameChanged));
-			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged), this, nameof(numericBonusesChanged));
-			requiredLevel.Connect(Constants.Signal.ValueChanged, this, nameof(requiredLevelChanged));
-			sectionsNode.Connect(nameof(SectionList.ValuesChanged), this, nameof(sectionsChanged));
-			sourceNode.Connect(Constants.Signal.TextChanged, this, nameof(sourceChanged));
-			textNode.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-			typeNode.Connect(Constants.Signal.ItemSelected, this, nameof(typeChanged));
+			classNode.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(classChanged)));
+			descriptionNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(descriptionChanged)));
+			nameNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(nameChanged)));
+			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged),new Callable(this,nameof(numericBonusesChanged)));
+			requiredLevel.Connect(Constants.Signal.ValueChanged,new Callable(this,nameof(requiredLevelChanged)));
+			sectionsNode.Connect(nameof(SectionList.ValuesChanged),new Callable(this,nameof(sectionsChanged)));
+			sourceNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(sourceChanged)));
+			textNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
+			typeNode.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(typeChanged)));
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName)).Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
+			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
 			
 			refreshValues();
 		}
@@ -118,7 +118,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			clearInputs();
 		}
 		
-		private void doDelete()
+		public void doDelete()
 		{
 			EmitSignal(nameof(DeleteConfirmed), Feature.Name);
 			clearInputs();

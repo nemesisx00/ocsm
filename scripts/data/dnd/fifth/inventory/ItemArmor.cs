@@ -7,7 +7,7 @@ namespace OCSM.DnD.Fifth.Inventory
 		public enum ArmorType
 		{
 			None = 0,
-			Light,
+			Light3D,
 			Medium,
 			Heavy,
 			Shield,

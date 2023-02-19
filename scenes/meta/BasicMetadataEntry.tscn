@@ -2,100 +2,100 @@
 
 [ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=1]
 [ext_resource path="res://scripts/nodes/meta/BasicMetadataEntry.cs" type="Script" id=2]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=3]
+[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=3]
 
 [node name="BasicMetadataEnty" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+offset_left = 4.0
+offset_top = 32.0
+offset_right = -4.0
+offset_bottom = -4.0
 size_flags_horizontal = 3
 custom_constants/separation = 15
 script = ExtResource( 2 )
 
 [node name="Row" type="HBoxContainer" parent="."]
-margin_right = 1016.0
-margin_bottom = 20.0
+offset_right = 1016.0
+offset_bottom = 20.0
 
 [node name="ExistingLabel" type="Label" parent="Row"]
 unique_name_in_owner = true
-margin_top = 3.0
-margin_right = 506.0
-margin_bottom = 17.0
+offset_top = 3.0
+offset_right = 506.0
+offset_bottom = 17.0
 size_flags_horizontal = 3
 align = 2
 valign = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-margin_left = 510.0
-margin_right = 610.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 100, 0 )
+offset_left = 510.0
+offset_right = 610.0
+offset_bottom = 20.0
+custom_minimum_size = Vector2( 100, 0 )
 size_flags_horizontal = 2
 
 [node name="Row2" type="HBoxContainer" parent="."]
-margin_top = 35.0
-margin_right = 1016.0
-margin_bottom = 55.0
+offset_top = 35.0
+offset_right = 1016.0
+offset_bottom = 55.0
 custom_constants/separation = 25
 alignment = 1
 
 [node name="Save" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 403.0
-margin_right = 444.0
-margin_bottom = 20.0
+offset_left = 403.0
+offset_right = 444.0
+offset_bottom = 20.0
 text = "Save"
 
 [node name="Clear" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 469.0
-margin_right = 513.0
-margin_bottom = 20.0
+offset_left = 469.0
+offset_right = 513.0
+offset_bottom = 20.0
 text = "Clear"
 
 [node name="Delete" type="Button" parent="Row2"]
 unique_name_in_owner = true
-margin_left = 538.0
-margin_right = 613.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 75, 0 )
+offset_left = 538.0
+offset_right = 613.0
+offset_bottom = 20.0
+custom_minimum_size = Vector2( 75, 0 )
 text = "Delete"
 
 [node name="Row3" type="HBoxContainer" parent="."]
-margin_top = 70.0
-margin_right = 1016.0
-margin_bottom = 94.0
+offset_top = 70.0
+offset_right = 1016.0
+offset_bottom = 94.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row3"]
-margin_top = 5.0
-margin_right = 100.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 100, 0 )
+offset_top = 5.0
+offset_right = 100.0
+offset_bottom = 19.0
+custom_minimum_size = Vector2( 100, 0 )
 text = "Name:"
 align = 2
 valign = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
-margin_left = 104.0
-margin_right = 1016.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 0, 23 )
+offset_left = 104.0
+offset_right = 1016.0
+offset_bottom = 24.0
+custom_minimum_size = Vector2( 0, 23 )
 size_flags_horizontal = 3
 
 [node name="Row4" type="VBoxContainer" parent="."]
-margin_top = 109.0
-margin_right = 1016.0
-margin_bottom = 160.0
+offset_top = 109.0
+offset_right = 1016.0
+offset_bottom = 160.0
 
 [node name="Label" type="Label" parent="Row4"]
-margin_right = 1016.0
-margin_bottom = 24.0
+offset_right = 1016.0
+offset_bottom = 24.0
 custom_fonts/font = ExtResource( 3 )
 text = "Description"
 align = 1
@@ -103,10 +103,10 @@ valign = 1
 
 [node name="Description" type="TextEdit" parent="Row4"]
 unique_name_in_owner = true
-margin_top = 28.0
-margin_right = 1016.0
-margin_bottom = 51.0
-rect_min_size = Vector2( 0, 23 )
+offset_top = 28.0
+offset_right = 1016.0
+offset_bottom = 51.0
+custom_minimum_size = Vector2( 0, 23 )
 size_flags_horizontal = 3
 wrap_enabled = true
 script = ExtResource( 1 )

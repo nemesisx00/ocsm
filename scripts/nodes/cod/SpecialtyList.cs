@@ -5,10 +5,10 @@ using OCSM.CoD;
 
 namespace OCSM.Nodes.CoD
 {
-	public class SpecialtyList : Container
+	public partial class SpecialtyList : Container
 	{
 		[Signal]
-		public delegate void ValueChanged(Dictionary<string, string> values);
+		public delegate void ValueChangedEventHandler(Transport<Dictionary<string, string>> values);
 		
 		public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
 		
@@ -34,7 +34,7 @@ namespace OCSM.Nodes.CoD
 			addInput();
 		}
 		
-		private void skillChanged(int index) { updateValues(); }
+		private void skillChanged(long index) { updateValues(); }
 		private void valueChanged(string text) { updateValues(); }
 		
 		private void updateValues()
@@ -53,7 +53,7 @@ namespace OCSM.Nodes.CoD
 					row.QueueFree();
 			}
 			
-			EmitSignal(nameof(ValueChanged), values);
+			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<string, string>>(values));
 			
 			if(children.Count <= values.Count)
 			{
@@ -64,7 +64,7 @@ namespace OCSM.Nodes.CoD
 		private void addInput(Skill skill = null, string specialty = "")
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Specialty);
-			var instance = resource.Instance<HBoxContainer>();
+			var instance = resource.Instantiate<HBoxContainer>();
 			AddChild(instance);
 			
 			if(skill is Skill && !String.IsNullOrEmpty(specialty))
@@ -73,8 +73,8 @@ namespace OCSM.Nodes.CoD
 				instance.GetChild<LineEdit>(1).Text = specialty;
 			}
 			
-			instance.GetChild<SkillOptionButton>(0).Connect(Constants.Signal.ItemSelected, this, nameof(skillChanged));
-			instance.GetChild<LineEdit>(1).Connect(Constants.Signal.TextChanged, this, nameof(valueChanged));
+			instance.GetChild<SkillOptionButton>(0).ItemSelected += skillChanged;
+			instance.GetChild<LineEdit>(1).TextChanged += valueChanged;
 		}
 	}
 }

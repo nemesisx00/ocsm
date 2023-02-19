@@ -5,10 +5,10 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class SectionList : Container
+	public partial class SectionList : Container
 	{
 		[Signal]
-		public delegate void ValuesChanged(List<Transport<FeatureSection>> values);
+		public delegate void ValuesChangedEventHandler(Transport<List<FeatureSection>> transport);
 		
 		public List<FeatureSection> Values { get; set; } = new List<FeatureSection>();
 		
@@ -52,7 +52,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 			
 			Values = values;
-			doEmitSignal();
+			EmitSignal(nameof(ValuesChanged), new Transport<List<FeatureSection>>(Values));
 			
 			if(children.Count <= values.Count)
 			{
@@ -60,27 +60,17 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		private void doEmitSignal()
-		{
-			var list = new List<Transport<FeatureSection>>();
-			foreach(var fs in Values)
-			{
-				list.Add(new Transport<FeatureSection>(fs));
-			}
-			EmitSignal(nameof(ValuesChanged), list);
-		}
-		
 		private void addInput(FeatureSection section = null)
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.FeatureSectionEntry);
-			var instance = resource.Instance<HBoxContainer>();
+			var instance = resource.Instantiate<HBoxContainer>();
 			
 			AddChild(instance);
 			
 			var sectionNode = instance.GetChild<LineEdit>(0);
-			sectionNode.Connect(Constants.Signal.TextChanged, this, nameof(lineChanged));
+			sectionNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(lineChanged)));
 			var textNode = instance.GetChild<TextEdit>(1);
-			textNode.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+			textNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
 			
 			if(section is FeatureSection)
 			{

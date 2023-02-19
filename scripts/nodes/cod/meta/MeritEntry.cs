@@ -6,10 +6,10 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.Meta
 {
-	public class MeritEntry : BasicMetadataEntry
+	public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	{
 		[Signal]
-		public new delegate void SaveClicked(string name, string description, int value);
+		public new delegate void SaveClickedEventHandler(string name, string description, int value);
 		
 		private const string DotsName = "Dots";
 		
@@ -37,7 +37,7 @@ namespace OCSM.Nodes.CoD.Meta
 			clearInputs();
 		}
 		
-		protected override void doDelete()
+		public new void doDelete()
 		{
 			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
 			if(!String.IsNullOrEmpty(name))

@@ -4,10 +4,10 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class MeritsFromMetadata : Container
+	public partial class MeritsFromMetadata : Container
 	{
 		[Signal]
-		public delegate void AddMerit(string name);
+		public delegate void AddMeritEventHandler(string name);
 		private const string MeritsName = "ExistingMerits";
 		
 		private MetadataManager metadataManager;
@@ -15,10 +15,10 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMerits));
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMerits));
+			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded),new Callable(this,nameof(refreshMerits)));
+			metadataManager.Connect(nameof(MetadataManager.MetadataSaved),new Callable(this,nameof(refreshMerits)));
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected, this, nameof(meritSelected));
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(meritSelected)));
 			
 			refreshMerits();
 		}

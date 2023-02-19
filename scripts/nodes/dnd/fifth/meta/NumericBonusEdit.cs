@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class NumericBonusEdit : Container
+	public partial class NumericBonusEdit : Container
 	{
 		private sealed class Names
 		{
@@ -17,7 +17,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		}
 		
 		[Signal]
-		public delegate void ValueChanged(Transport<NumericBonus> transport);
+		public delegate void ValueChangedEventHandler(Transport<NumericBonus> transport);
 		
 		private AbilityOptionsButton abilityInput;
 		private Label abilityLabel;
@@ -40,11 +40,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			typeInput = GetNode<NumericStatOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
 			valueInput = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Value));
 			
-			abilityInput.Connect(Constants.Signal.ItemSelected, this, nameof(abilityChanged));
-			methodInput.Connect(Constants.Signal.ItemSelected, this, nameof(methodChanged));
-			nameInput.Connect(Constants.Signal.TextChanged, this, nameof(nameChanged));
-			typeInput.Connect(Constants.Signal.ItemSelected, this, nameof(typeChanged));
-			valueInput.Connect(Constants.Signal.ValueChanged, this, nameof(valueChanged));
+			abilityInput.ItemSelected += abilityChanged;
+			methodInput.ItemSelected += methodChanged;
+			nameInput.TextChanged += nameChanged;
+			typeInput.ItemSelected += typeChanged;
+			valueInput.ValueChanged += valueChanged;
 		}
 		
 		public void setValue(NumericBonus numericBonus)
@@ -79,13 +79,13 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		private void abilityChanged(int index)
+		private void abilityChanged(long index)
 		{
-			Value.AbilityName = abilityInput.GetItemText(index);
+			Value.AbilityName = abilityInput.GetItemText((int)index);
 			doEmitSignal();
 		}
 		
-		private void methodChanged(int index)
+		private void methodChanged(long index)
 		{
 			Value.Add = index > 0;
 			doEmitSignal();
@@ -97,7 +97,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			doEmitSignal();
 		}
 		
-		private void typeChanged(int index)
+		private void typeChanged(long index)
 		{
 			Value.Type = (NumericStat)index;
 			if(!Value.Type.Equals(NumericStat.AbilityScore))
@@ -109,7 +109,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			doEmitSignal();
 		}
 		
-		private void valueChanged(float value)
+		private void valueChanged(double value)
 		{
 			Value.Value = (int)value;
 			doEmitSignal();

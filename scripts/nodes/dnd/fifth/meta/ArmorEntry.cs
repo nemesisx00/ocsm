@@ -6,7 +6,7 @@ using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public sealed class ArmorEntry : Container
+	public sealed partial class ArmorEntry : Container, ICanDelete
 	{
 		private const string MetadataLabel = "Armor";
 		private const string AllowDexterityBonus = "AllowDexterityBonus";
@@ -27,9 +27,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private const string WeightInput = "Weight";
 		
 		[Signal]
-		public delegate void SaveClicked(Transport<ItemArmor> armor);
+		public delegate void SaveClickedEventHandler(Transport<ItemArmor> armor);
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		[Export]
 		public Script OptionsButtonScript { get; set; } = null;
@@ -39,18 +39,18 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
+			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
 			
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Connect(Constants.Signal.Pressed, this, nameof(toggleLimitDexterity));
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Connect(Constants.Signal.Pressed, this, nameof(toggleDexterityLimit));
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Connect(Constants.Signal.Pressed, this, nameof(toggleMinimumStrengthInput));
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleLimitDexterity)));
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleDexterityLimit)));
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleMinimumStrengthInput)));
 			
 			refreshMetadata();
 		}
@@ -76,11 +76,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(ArmorClassInput)).Value = entry.BaseArmorClass;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(CostInput)).Value = entry.Cost;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(WeightInput)).Value = entry.Weight;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Pressed = entry.AllowDexterityBonus;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Pressed = entry.LimitDexterityBonus;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).ButtonPressed = entry.AllowDexterityBonus;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).ButtonPressed = entry.LimitDexterityBonus;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(DexterityBonusLimit)).Value = entry.DexterityBonusLimit;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).Pressed = entry.StealthDisadvantage;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Pressed = entry.MinimumStrength > 0;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed = entry.StealthDisadvantage;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).ButtonPressed = entry.MinimumStrength > 0;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value = entry.MinimumStrength;
 			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
 			
@@ -108,11 +108,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(ArmorClassInput)).Value = 0;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(CostInput)).Value = 0;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(WeightInput)).Value = 0.0;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Pressed = false;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Pressed = false;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).ButtonPressed = false;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).ButtonPressed = false;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(DexterityBonusLimit)).Value = 0;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).Pressed = false;
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Pressed = false;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed = false;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).ButtonPressed = false;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value = 0;
 			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
 			
@@ -122,7 +122,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
-		private void doDelete()
+		public void doDelete()
 		{
 			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
 			if(!String.IsNullOrEmpty(name))
@@ -140,10 +140,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var ac = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(ArmorClassInput)).Value;
 			var cost = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(CostInput)).Value;
 			var weight = GetNode<SpinBox>(NodePathBuilder.SceneUnique(WeightInput)).Value;
-			var allowDex = GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Pressed;
-			var limitDex = GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Pressed;
+			var allowDex = GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).ButtonPressed;
+			var limitDex = GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).ButtonPressed;
 			var dexLimit = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(DexterityBonusLimit)).Value;
-			var stealth = GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).Pressed;
+			var stealth = GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed;
 			var minStr = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value;
 			var description = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
 			
@@ -181,7 +181,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			var allow = GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus));
 			var limit = GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus));
-			limit.GetParent<HBoxContainer>().Visible = allow.Pressed;
+			limit.GetParent<HBoxContainer>().Visible = allow.ButtonPressed;
 			toggleDexterityLimit();
 		}
 		
@@ -189,14 +189,14 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			var checkbox = GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus));
 			var input = GetNode<SpinBox>(NodePathBuilder.SceneUnique(DexterityBonusLimit));
-			input.Visible = checkbox.Pressed;
+			input.Visible = checkbox.ButtonPressed;
 		}
 		
 		private void toggleMinimumStrengthInput()
 		{
 			var checkbox = GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck));
 			var input = GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput));
-			input.Visible = checkbox.Pressed;
+			input.Visible = checkbox.ButtonPressed;
 		}
 	}
 }

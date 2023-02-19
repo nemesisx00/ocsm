@@ -2,17 +2,17 @@ using Godot;
 
 namespace OCSM.Nodes
 {
-	public class TrackSimple : GridContainer
+	public partial class TrackSimple : GridContainer
 	{
 		[Signal]
-		public delegate void NodeChanged(TrackSimple node);
+		public delegate void NodeChangedEventHandler(TrackSimple node);
 		[Signal]
-		public delegate void ValueChanged(int value);
+		public delegate void ValueChangedEventHandler(long value);
 		
 		[Export]
-		public int Max { get; set; } = 5;
+		public long Max { get; set; } = 5;
 		[Export]
-		public int Value { get; set; } = 0;
+		public long Value { get; set; } = 0;
 		[Export]
 		public bool UseCircles { get; set; } = true;
 		[Export]
@@ -32,7 +32,7 @@ namespace OCSM.Nodes
 			}
 		}
 		
-		public void updateChildren(int value = -1)
+		public void updateChildren(long value = -1)
 		{
 			var children = GetChildren();
 			foreach(ToggleButton c in children)
@@ -45,7 +45,7 @@ namespace OCSM.Nodes
 			}
 		}
 		
-		public void updateMax(int max = 1)
+		public void updateMax(long max = 1)
 		{
 			Max = max;
 			if(max < 1)
@@ -57,10 +57,10 @@ namespace OCSM.Nodes
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.ToggleButton);
 				for(var i = children.Count; i < Max; i++)
 				{
-					var instance = resource.Instance<ToggleButton>();
+					var instance = resource.Instantiate<ToggleButton>();
 					instance.UseCircles = UseCircles;
 					AddChild(instance);
-					instance.Connect(nameof(ToggleButton.StateToggled), this, nameof(handleToggle));
+					instance.StateToggled += handleToggle;
 				}
 			}
 			else
@@ -73,13 +73,13 @@ namespace OCSM.Nodes
 			}
 		}
 		
-		public void updateValue(int value)
+		public void updateValue(long value)
 		{
 			Value = filterValue(value);
 			updateChildren(value);
 		}
 		
-		private int filterValue(int value)
+		private long filterValue(long value)
 		{
 			var target = value;
 			if(EnableToggling && target == Value)
@@ -94,7 +94,7 @@ namespace OCSM.Nodes
 		
 		private void handleToggle(ToggleButton button)
 		{
-			var value = GetChildren().IndexOf(button);
+			var value = (long)GetChildren().IndexOf(button);
 			if(value > -1)
 				value++;
 			value = filterValue(value);

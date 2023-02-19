@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace OCSM.Nodes.CoD
 {
-	public class ItemDotsList : Container
+	public partial class ItemDotsList : Container
 	{
 		[Signal]
-		public delegate void ValueChanged(Dictionary<string, int> values);
+		public delegate void ValueChangedEventHandler(Transport<Dictionary<string, long>> transport);
 		
-		public Dictionary<string, int> Values { get; set; } = new Dictionary<string, int>();
+		public Dictionary<string, long> Values { get; set; } = new Dictionary<string, long>();
 		
 		public override void _Ready()
 		{
@@ -32,20 +32,22 @@ namespace OCSM.Nodes.CoD
 			addInput();
 		}
 		
-		protected virtual void addInput(string text = "", int dots = 0)
+		protected virtual void addInput(string text = "", long dots = 0)
 		{
+			var stringName = Name.ToString();
+			
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
-			var node = resource.Instance();
+			var node = resource.Instantiate();
 			var lineEdit = node.GetChild<LineEdit>(0);
 			lineEdit.Text = text;
-			lineEdit.HintTooltip = "Enter a new " + Name.Substring(0, Name.Length - 1);
+			lineEdit.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
 			
 			var track = node.GetChild<TrackSimple>(1);
 			track.Value = dots;
 			
 			AddChild(node);
-			lineEdit.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-			track.Connect(Constants.Signal.NodeChanged, this, nameof(dotsChanged));
+			lineEdit.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
+			track.Connect(Constants.Signal.NodeChanged,new Callable(this,nameof(dotsChanged)));
 		}
 		
 		protected void textChanged(string newText)
@@ -60,7 +62,7 @@ namespace OCSM.Nodes.CoD
 		
 		protected virtual void updateValues()
 		{
-			var values = new Dictionary<string, int>();
+			var values = new Dictionary<string, long>();
 			var children = GetChildren();
 			foreach(Node c in children)
 			{
@@ -74,7 +76,7 @@ namespace OCSM.Nodes.CoD
 			}
 			
 			Values = values;
-			EmitSignal(nameof(ValueChanged), Values);
+			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<string, long>>(Values));
 			
 			if(children.Count <= Values.Count)
 			{

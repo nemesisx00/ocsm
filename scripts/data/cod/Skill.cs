@@ -145,7 +145,7 @@ namespace OCSM.CoD
 			return list;
 		}
 		
-		public Skill(string name, string type, int value)
+		public Skill(string name, string type, long value)
 		{
 			Name = name;
 			Type = type;
@@ -154,7 +154,7 @@ namespace OCSM.CoD
 		
 		public string Name { get; private set; }
 		public string Type { get; private set; }
-		public int Value { get; set; }
+		public long Value { get; set; }
 		
 		public bool Equals(Skill skill)
 		{

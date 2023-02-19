@@ -4,14 +4,14 @@ using OCSM.Nodes.Sheets;
 
 namespace OCSM.Nodes.Autoload
 {
-	public class SheetManager : Node
+	public partial class SheetManager : Node
 	{
 		public void addNewSheet(string scenePath, string name, string json = null)
 		{
 			if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
 			{
 				var resource = ResourceLoader.Load<PackedScene>(scenePath);
-				var instance = resource.Instance();
+				var instance = resource.Instantiate();
 				instance.Name = name;
 				
 				var target = GetNode(Constants.NodePath.SheetTabs);
@@ -20,7 +20,7 @@ namespace OCSM.Nodes.Autoload
 					var dupeCount = 0;
 					foreach(Node c in tc.GetChildren())
 					{
-						if(c.Name.Contains(instance.Name))
+						if(c.Name.ToString().Contains(instance.Name))
 							dupeCount++;
 					}
 					
@@ -116,7 +116,7 @@ namespace OCSM.Nodes.Autoload
 				sheetTabsNode.Hide();
 				
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.NewSheet);
-				var instance = resource.Instance<NewSheet>();
+				var instance = resource.Instantiate<NewSheet>();
 				GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
 				
 				GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = String.Empty;

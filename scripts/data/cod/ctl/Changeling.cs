@@ -5,18 +5,18 @@ namespace OCSM.CoD.CtL
 {
 	public class Changeling : CodCore
 	{
-		public int Clarity { get; set; }
+		public long Clarity { get; set; }
 		public List<Contract> Contracts { get; set; }
 		public Court Court { get; set; }
 		public List<Regalia> FavoredRegalia { get; set; }
 		public List<string> Frailties { get; set; }
-		public int GlamourSpent { get; set; }
+		public long GlamourSpent { get; set; }
 		public Kith Kith { get; set; }
 		public string Needle { get; set; }
 		public Seeming Seeming { get; set; }
 		public string Thread { get; set; }
 		public List<string> Touchstones { get; set; }
-		public int Wyrd { get; set; }
+		public long Wyrd { get; set; }
 		
 		public Changeling() : base(OCSM.GameSystem.CoD.Changeling)
 		{

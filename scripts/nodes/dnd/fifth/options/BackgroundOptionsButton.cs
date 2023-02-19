@@ -3,7 +3,7 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class BackgroundOptionsButton : CustomOption
+	public partial class BackgroundOptionsButton : CustomOption
 	{
 		protected override void refreshMetadata()
 		{

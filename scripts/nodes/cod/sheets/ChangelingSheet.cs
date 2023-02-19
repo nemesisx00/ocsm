@@ -11,7 +11,7 @@ using OCSM.Nodes.Sheets;
 
 namespace OCSM.Nodes.CoD.Sheets
 {
-	public class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
+	public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	{
 		private sealed new class Advantage : CoreSheet<Mortal>.Advantage
 		{
@@ -47,80 +47,95 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(!(SheetData is Changeling))
 				SheetData = new Changeling();
 			
-			InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity, nameof(changed_Clarity));
-			InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd, nameof(changed_Wyrd));
-			InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Glamour, AdvantagesPath)), SheetData.GlamourSpent, nameof(changed_Glamour));
+			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity, changed_Clarity);
+			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd, changed_Wyrd);
+			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Glamour, AdvantagesPath)), SheetData.GlamourSpent, changed_Glamour);
+			
 			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Needle, AdvantagesPath)).Text = SheetData.Needle;
 			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Thread, AdvantagesPath)).Text = SheetData.Thread;
 			
-			InitAndConnect(GetNode<CourtOptionButton>(NodePathBuilder.SceneUnique(Detail.Court, DetailsPath)), SheetData.Court, nameof(changed_Court));
-			InitAndConnect(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Frailties, DetailsPath)), SheetData.Frailties, nameof(changed_Frailties));
-			InitAndConnect(GetNode<KithOptionButton>(NodePathBuilder.SceneUnique(Detail.Kith, DetailsPath)), SheetData.Kith, nameof(changed_Kith));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Needle, DetailsPath)), SheetData.Needle, nameof(changed_Needle));
-			InitAndConnect(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath)), SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, nameof(changed_FavoredRegalia));
-			InitAndConnect(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath)), SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, nameof(changed_FavoredRegalia));
-			InitAndConnect(GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(Detail.Seeming, DetailsPath)), SheetData.Seeming, nameof(changed_Seeming));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, nameof(changed_Thread));
-			InitAndConnect(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, nameof(changed_Touchstones));
+			InitCourtOptionButton(GetNode<CourtOptionButton>(NodePathBuilder.SceneUnique(Detail.Court, DetailsPath)), SheetData.Court, changed_Court);
+			InitEntryList(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Frailties, DetailsPath)), SheetData.Frailties, changed_Frailties);
+			InitKithOptionButton(GetNode<KithOptionButton>(NodePathBuilder.SceneUnique(Detail.Kith, DetailsPath)), SheetData.Kith, changed_Kith);
+			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Needle, DetailsPath)), SheetData.Needle, changed_Needle);
+			InitRegaliaOptionButton(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath)), SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, changed_FavoredRegalia);
+			InitRegaliaOptionButton(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath)), SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, changed_FavoredRegalia);
+			InitSeemingOptionButton(GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(Detail.Seeming, DetailsPath)), SheetData.Seeming, changed_Seeming);
+			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, changed_Thread);
+			InitEntryList(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, changed_Touchstones);
 			
-			InitAndConnect(GetNode<ContractsList>(NodePathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, nameof(changed_Contracts));
+			InitContractsList(GetNode<ContractsList>(NodePathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, changed_Contracts);
 			
-			GetNode<MeritsFromMetadata>(NodePathBuilder.SceneUnique(MeritsFromMetadataName)).Connect(nameof(MeritsFromMetadata.AddMerit), this, nameof(addExistingMerit));
+			GetNode<MeritsFromMetadata>(NodePathBuilder.SceneUnique(MeritsFromMetadataName)).AddMerit += addExistingMerit;
 			
 			base._Ready();
 		}
 		
-		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
-			where T1: Control
+		protected void InitContractsList(ContractsList node, List<OCSM.CoD.CtL.Contract> initialValue, ContractsList.ValueChangedEventHandler handler)
 		{
-			if(node is ContractsList cl)
+			if(node is ContractsList)
 			{
-				cl.Values = initialValue as List<OCSM.CoD.CtL.Contract>;
-				cl.refresh();
-				cl.Connect(nameof(ContractsList.ValueChanged), this, handlerName);
+				if(initialValue is List<OCSM.CoD.CtL.Contract>)
+					node.Values = initialValue;
+				node.refresh();
+				node.ValueChanged += handler;
 			}
-			else if(node is CourtOptionButton cob)
+		}
+		
+		protected void InitCourtOptionButton(CourtOptionButton node, Court initialValue, OptionButton.ItemSelectedEventHandler handler)
+		{
+			if(node is CourtOptionButton)
 			{
-				if(initialValue is Court court && metadataManager.Container is CoDChangelingContainer ccc)
+				if(initialValue is Court && metadataManager.Container is CoDChangelingContainer ccc)
 				{
-					var index = ccc.Courts.FindIndex(c => c.Equals(court)) + 1;
+					var index = ccc.Courts.FindIndex(c => c.Equals(initialValue)) + 1;
 					if(index > 0)
-						cob.Selected = index;
+						node.Selected = index;
 				}
-				cob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is KithOptionButton kob)
+		}
+		
+		protected void InitKithOptionButton(KithOptionButton node, Kith initialValue, KithOptionButton.ItemSelectedEventHandler handler)
+		{
+			if(node is KithOptionButton)
 			{
-				if(initialValue is Kith kith && metadataManager.Container is CoDChangelingContainer ccc)
+				if(initialValue is Kith && metadataManager.Container is CoDChangelingContainer ccc)
 				{
-					var index = ccc.Kiths.FindIndex(k => k.Equals(kith)) + 1;
+					var index = ccc.Kiths.FindIndex(k => k.Equals(initialValue)) + 1;
 					if(index > 0)
-						kob.Selected = index;
+						node.Selected = index;
 				}
-				kob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is RegaliaOptionButton rob)
+		}
+		
+		protected void InitRegaliaOptionButton(RegaliaOptionButton node, Regalia initialValue, RegaliaOptionButton.ItemSelectedEventHandler handler)
+		{
+			if(node is RegaliaOptionButton)
 			{
-				if(initialValue is Regalia regalia && metadataManager.Container is CoDChangelingContainer ccc)
+				if(initialValue is Regalia && metadataManager.Container is CoDChangelingContainer ccc)
 				{
-					var index = ccc.Regalias.FindIndex(r => r.Equals(regalia)) + 1;
+					var index = ccc.Regalias.FindIndex(r => r.Equals(initialValue)) + 1;
 					if(index > 0)
-						rob.Selected = index;
+						node.Selected = index;
 				}
-				rob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else if(node is SeemingOptionButton sob)
+		}
+		
+		protected void InitSeemingOptionButton(SeemingOptionButton node, Seeming initialValue, SeemingOptionButton.ItemSelectedEventHandler handler)
+		{
+			if(node is SeemingOptionButton)
 			{
-				if(initialValue is Seeming seeming && metadataManager.Container is CoDChangelingContainer ccc)
+				if(initialValue is Seeming && metadataManager.Container is CoDChangelingContainer ccc)
 				{
-					var index = ccc.Seemings.FindIndex(s => s.Equals(seeming)) + 1;
+					var index = ccc.Seemings.FindIndex(s => s.Equals(initialValue)) + 1;
 					if(index > 0)
-						sob.Selected = index;
+						node.Selected = index;
 				}
-				sob.Connect(Constants.Signal.ItemSelected, this, handlerName);
+				node.ItemSelected += handler;
 			}
-			else
-				base.InitAndConnect(node, initialValue, handlerName, nodeChanged);
 		}
 		
 		private void addExistingMerit(string name)
@@ -137,38 +152,31 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_Clarity(int value) { SheetData.Clarity = value; }
-		private void changed_Contracts(List<Transport<OCSM.CoD.CtL.Contract>> values)
-		{
-			var list = new List<OCSM.CoD.CtL.Contract>();
-			foreach(var t in values)
-			{
-				list.Add(t.Value);
-			}
-			SheetData.Contracts = list;
-		}
+		private void changed_Clarity(long value) { SheetData.Clarity = value; }
+		private void changed_Contracts(Transport<List<OCSM.CoD.CtL.Contract>> transport) { SheetData.Contracts = transport.Value; }
 		
-		private void changed_Court(int index)
+		private void changed_Court(long index)
 		{
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Courts[index - 1] is Court court)
+			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Courts[(int)index - 1] is Court court)
 				SheetData.Court = court;
 			else
 				SheetData.Court = null;
 		}
 		
-		private void changed_Frailties(List<string> values) { SheetData.Frailties = values; }
-		private void changed_Glamour(int value) { SheetData.GlamourSpent = value; }
+		private void changed_Frailties(Transport<List<string>> transport) { SheetData.Frailties = transport.Value; }
+		private void changed_Glamour(long value) { SheetData.GlamourSpent = value; }
 		
-		private void changed_Kith(int index)
+		private void changed_Kith(long index)
 		{
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Kiths[index - 1] is Kith kith)
+			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Kiths[(int)index - 1] is Kith kith)
 				SheetData.Kith = kith;
 			else
 				SheetData.Kith = null;
 		}
 		
 		private void changed_Needle(string value) { SheetData.Needle = value; }
-		private void changed_FavoredRegalia(int item)
+		
+		private void changed_FavoredRegalia(long item)
 		{
 			SheetData.FavoredRegalia = new List<Regalia>(2);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
@@ -183,16 +191,16 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_Seeming(int index)
+		private void changed_Seeming(long index)
 		{
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Seemings[index - 1] is Seeming seeming)
+			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Seemings[(int)index - 1] is Seeming seeming)
 				SheetData.Seeming = seeming;
 			else
 				SheetData.Seeming = null;
 		}
 		
 		private void changed_Thread(string value) { SheetData.Thread = value; }
-		private void changed_Touchstones(List<string> values) { SheetData.Touchstones = values; }
-		private void changed_Wyrd(int value) { SheetData.Wyrd = value; }
+		private void changed_Touchstones(Transport<List<string>> transport) { SheetData.Touchstones = transport.Value; }
+		private void changed_Wyrd(long value) { SheetData.Wyrd = value; }
 	}
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/nodes/EntryList.cs" type="Script" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=2]
 [ext_resource path="res://scenes/nodes/TrackComplex.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/nodes/TrackSimple.tscn" type="PackedScene" id=4]
 
@@ -12,24 +12,24 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row" type="HBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 101.0
+offset_right = 1024.0
+offset_bottom = 101.0
 size_flags_horizontal = 3
 custom_constants/separation = 25
 
 [node name="Column1" type="VBoxContainer" parent="Row"]
-margin_right = 324.0
-margin_bottom = 101.0
+offset_right = 324.0
+offset_bottom = 101.0
 size_flags_horizontal = 3
 
 [node name="Row1" type="VBoxContainer" parent="Row/Column1"]
-margin_right = 324.0
-margin_bottom = 18.0
+offset_right = 324.0
+offset_bottom = 18.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Column1/Row1"]
-margin_right = 324.0
-margin_bottom = 14.0
+offset_right = 324.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Health"
@@ -40,20 +40,20 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 162.0
-margin_top = 18.0
-margin_right = 162.0
-margin_bottom = 18.0
+offset_left = 162.0
+offset_top = 18.0
+offset_right = 162.0
+offset_bottom = 18.0
 size_flags_horizontal = 6
 
 [node name="Row2" type="VBoxContainer" parent="Row/Column1"]
-margin_top = 22.0
-margin_right = 324.0
-margin_bottom = 40.0
+offset_top = 22.0
+offset_right = 324.0
+offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="Row/Column1/Row2"]
-margin_right = 324.0
-margin_bottom = 14.0
+offset_right = 324.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Willpower"
@@ -64,22 +64,22 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 162.0
-margin_top = 18.0
-margin_right = 162.0
-margin_bottom = 18.0
+offset_left = 162.0
+offset_top = 18.0
+offset_right = 162.0
+offset_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
 UseCircles = false
 
 [node name="Row3" type="VBoxContainer" parent="Row/Column1"]
-margin_top = 44.0
-margin_right = 324.0
-margin_bottom = 62.0
+offset_top = 44.0
+offset_right = 324.0
+offset_bottom = 62.0
 
 [node name="Label" type="Label" parent="Row/Column1/Row3"]
-margin_right = 324.0
-margin_bottom = 14.0
+offset_right = 324.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Integrity"
@@ -90,10 +90,10 @@ valign = 1
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 162.0
-margin_top = 18.0
-margin_right = 162.0
-margin_bottom = 18.0
+offset_left = 162.0
+offset_top = 18.0
+offset_right = 162.0
+offset_bottom = 18.0
 size_flags_horizontal = 6
 columns = 10
 Max = 10
@@ -101,105 +101,105 @@ Value = 7
 EnableToggling = false
 
 [node name="Column2" type="VBoxContainer" parent="Row"]
-margin_left = 349.0
-margin_right = 674.0
-margin_bottom = 101.0
+offset_left = 349.0
+offset_right = 674.0
+offset_bottom = 101.0
 size_flags_horizontal = 3
 
 [node name="Row1" type="HBoxContainer" parent="Row/Column2"]
-margin_right = 325.0
-margin_bottom = 14.0
+offset_right = 325.0
+offset_bottom = 14.0
 
 [node name="Label" type="Label" parent="Row/Column2/Row1"]
-margin_right = 160.0
-margin_bottom = 14.0
+offset_right = 160.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Armor:"
 align = 2
 
 [node name="Armor" type="Label" parent="Row/Column2/Row1"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 14.0
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "0"
 
 [node name="Row2" type="HBoxContainer" parent="Row/Column2"]
-margin_top = 18.0
-margin_right = 325.0
-margin_bottom = 32.0
+offset_top = 18.0
+offset_right = 325.0
+offset_bottom = 32.0
 
 [node name="Label" type="Label" parent="Row/Column2/Row2"]
-margin_right = 160.0
-margin_bottom = 14.0
+offset_right = 160.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Defense:"
 align = 2
 
 [node name="Defense" type="Label" parent="Row/Column2/Row2"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 14.0
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "1"
 
 [node name="Row3" type="HBoxContainer" parent="Row/Column2"]
-margin_top = 36.0
-margin_right = 325.0
-margin_bottom = 50.0
+offset_top = 36.0
+offset_right = 325.0
+offset_bottom = 50.0
 
 [node name="Label" type="Label" parent="Row/Column2/Row3"]
-margin_right = 160.0
-margin_bottom = 14.0
+offset_right = 160.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Initiative:"
 align = 2
 
 [node name="Initiative" type="Label" parent="Row/Column2/Row3"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 14.0
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "2"
 
 [node name="Row4" type="HBoxContainer" parent="Row/Column2"]
-margin_top = 54.0
-margin_right = 325.0
-margin_bottom = 68.0
+offset_top = 54.0
+offset_right = 325.0
+offset_bottom = 68.0
 
 [node name="Label" type="Label" parent="Row/Column2/Row4"]
-margin_right = 160.0
-margin_bottom = 14.0
+offset_right = 160.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "Speed:"
 align = 2
 
 [node name="Speed" type="Label" parent="Row/Column2/Row4"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 14.0
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 text = "7"
 
 [node name="Column3" type="VBoxContainer" parent="Row"]
-margin_left = 699.0
-margin_right = 1024.0
-margin_bottom = 101.0
+offset_left = 699.0
+offset_right = 1024.0
+offset_bottom = 101.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Row1" type="HBoxContainer" parent="Row/Column3"]
-margin_right = 325.0
-margin_bottom = 14.0
+offset_right = 325.0
+offset_bottom = 14.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Column3/Row1"]
-margin_right = 160.0
-margin_bottom = 14.0
+offset_right = 160.0
+offset_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Beats:"
@@ -209,21 +209,21 @@ align = 2
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 14.0
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 14.0
 UseCircles = false
 
 [node name="Row2" type="HBoxContainer" parent="Row/Column3"]
-margin_top = 18.0
-margin_right = 325.0
-margin_bottom = 43.0
+offset_top = 18.0
+offset_right = 325.0
+offset_bottom = 43.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Column3/Row2"]
-margin_top = 5.0
-margin_right = 160.0
-margin_bottom = 19.0
+offset_top = 5.0
+offset_right = 160.0
+offset_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Experience:"
@@ -232,22 +232,22 @@ valign = 1
 
 [node name="Experience" type="SpinBox" parent="Row/Column3/Row2"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 25.0
+custom_minimum_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Row/Column3"]
-margin_top = 47.0
-margin_right = 325.0
-margin_bottom = 72.0
+offset_top = 47.0
+offset_right = 325.0
+offset_bottom = 72.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Column3/Row3"]
-margin_top = 5.0
-margin_right = 160.0
-margin_bottom = 19.0
+offset_top = 5.0
+offset_right = 160.0
+offset_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Virtue:"
@@ -256,24 +256,24 @@ valign = 1
 
 [node name="Virtue" type="Label" parent="Row/Column3/Row3"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 25.0
+custom_minimum_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
 valign = 1
 
 [node name="Row4" type="HBoxContainer" parent="Row/Column3"]
-margin_top = 76.0
-margin_right = 325.0
-margin_bottom = 101.0
+offset_top = 76.0
+offset_right = 325.0
+offset_bottom = 101.0
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Column3/Row4"]
-margin_top = 5.0
-margin_right = 160.0
-margin_bottom = 19.0
+offset_top = 5.0
+offset_right = 160.0
+offset_bottom = 19.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Vice:"
@@ -282,60 +282,60 @@ valign = 1
 
 [node name="Vice" type="Label" parent="Row/Column3/Row4"]
 unique_name_in_owner = true
-margin_left = 164.0
-margin_right = 325.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
+offset_left = 164.0
+offset_right = 325.0
+offset_bottom = 25.0
+custom_minimum_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
 valign = 1
 
 [node name="Row2" type="HBoxContainer" parent="."]
-margin_top = 105.0
-margin_right = 1024.0
-margin_bottom = 133.0
+offset_top = 105.0
+offset_right = 1024.0
+offset_bottom = 133.0
 size_flags_horizontal = 3
 
 [node name="Column" type="VBoxContainer" parent="Row2"]
-margin_right = 510.0
-margin_bottom = 28.0
+offset_right = 510.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="AspirationsLabel" type="Label" parent="Row2/Column"]
-margin_right = 510.0
-margin_bottom = 24.0
+offset_right = 510.0
+offset_bottom = 24.0
 custom_fonts/font = ExtResource( 2 )
 text = "Aspirations"
 align = 1
 
 [node name="Aspirations" type="VBoxContainer" parent="Row2/Column"]
 unique_name_in_owner = true
-margin_top = 28.0
-margin_right = 510.0
-margin_bottom = 28.0
+offset_top = 28.0
+offset_right = 510.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 script = ExtResource( 1 )
 
 [node name="Column2" type="VBoxContainer" parent="Row2"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 28.0
+offset_left = 514.0
+offset_right = 1024.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ConditionsLabel" type="Label" parent="Row2/Column2"]
-margin_right = 510.0
-margin_bottom = 24.0
+offset_right = 510.0
+offset_bottom = 24.0
 custom_fonts/font = ExtResource( 2 )
 text = "Conditions"
 align = 1
 
 [node name="Conditions" type="VBoxContainer" parent="Row2/Column2"]
 unique_name_in_owner = true
-margin_top = 28.0
-margin_right = 510.0
-margin_bottom = 28.0
+offset_top = 28.0
+offset_right = 510.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )

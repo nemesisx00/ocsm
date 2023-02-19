@@ -3,7 +3,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class NewSheet : ScrollContainer
+	public partial class NewSheet : ScrollContainer
 	{
 		private const string Dnd5thPath = "D&D5E";
 		private const string CodMortal2e = "Mortal2e";
@@ -29,9 +29,9 @@ namespace OCSM.Nodes
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			tabContainer = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newCoDMortal2e)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newCoDChangeling2e)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newDnd5e)));
 		}
 		
 		private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }

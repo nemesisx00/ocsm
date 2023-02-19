@@ -5,7 +5,7 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class ContractTypeEntry : BasicMetadataEntry
+	public partial class ContractTypeEntry : BasicMetadataEntry
 	{
 		protected override void entrySelected(int index)
 		{

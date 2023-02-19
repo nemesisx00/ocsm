@@ -6,14 +6,14 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class FeaturefulMetadataEntry : BasicMetadataEntry
+	public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	{
 		protected const string ExistingFeaturesName = "ExistingFeatures";
 		protected const string FeaturesName = "Features";
 		protected const string SectionsName = "Sections";
 		
 		[Signal]
-		public new delegate void SaveClicked(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features);
+		public new delegate void SaveClickedEventHandler(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features);
 		
 		protected List<OCSM.DnD.Fifth.Feature> Features;
 		
@@ -22,7 +22,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			Features = new List<OCSM.DnD.Fifth.Feature>();
 			
 			base._Ready();
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName)).Connect(Constants.Signal.ItemSelected, this, nameof(featureSelected));
+			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(featureSelected)));
 		}
 		
 		protected void renderFeatures()
@@ -36,11 +36,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
 			foreach(var feature in Features)
 			{
-				var instance = resource.Instance<Feature>();
+				var instance = resource.Instantiate<Feature>();
 				var button = new Button();
 				button.Text = "Remove";
-				button.SizeFlagsHorizontal = (int)Control.SizeFlags.ShrinkCenter;
-				button.Connect(Constants.Signal.Pressed, this, nameof(removeFeature), new Godot.Collections.Array(new Transport<OCSM.DnD.Fifth.Feature>(feature)));
+				button.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
+				button.Pressed += () => removeFeature(new Transport<OCSM.DnD.Fifth.Feature>(feature));
 				instance.AddChild(button);
 				featureContainer.AddChild(instance);
 				
@@ -70,19 +70,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
 			var sections = GetNode<SectionList>(NodePathBuilder.SceneUnique(SectionsName)).Values;
 			
-			var sectionTransports = new List<Transport<OCSM.DnD.Fifth.FeatureSection>>();
-			foreach(var section in sections)
-			{
-				sectionTransports.Add(new Transport<OCSM.DnD.Fifth.FeatureSection>(section));
-			}
-			
-			var featureTransports = new List<Transport<OCSM.DnD.Fifth.Feature>>();
-			foreach(var feature in Features)
-			{
-				featureTransports.Add(new Transport<OCSM.DnD.Fifth.Feature>(feature));
-			}
-			
-			EmitSignal(nameof(SaveClicked), name, description, sectionTransports, featureTransports);
+			EmitSignal(nameof(SaveClicked), name, description, new Transport<List<OCSM.DnD.Fifth.FeatureSection>>(sections), new Transport<List<OCSM.DnD.Fifth.Feature>>(Features));
 			clearInputs();
 		}
 		

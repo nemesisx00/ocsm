@@ -10,24 +10,24 @@ script = ExtResource( 2 )
 
 [node name="Proficiency" parent="." instance=ExtResource( 1 )]
 unique_name_in_owner = true
-margin_right = 0.0
-margin_bottom = 768.0
+offset_right = 0.0
+offset_bottom = 768.0
 UseCircles = true
 
 [node name="Value" type="Label" parent="."]
 unique_name_in_owner = true
-margin_left = 4.0
-margin_top = 377.0
-margin_right = 31.0
-margin_bottom = 391.0
-rect_min_size = Vector2( 27, 0 )
+offset_left = 4.0
+offset_top = 377.0
+offset_right = 31.0
+offset_bottom = 391.0
+custom_minimum_size = Vector2( 27, 0 )
 align = 2
 valign = 1
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
-margin_left = 35.0
-margin_top = 377.0
-margin_right = 35.0
-margin_bottom = 391.0
+offset_left = 35.0
+offset_top = 377.0
+offset_right = 35.0
+offset_bottom = 391.0
 valign = 1

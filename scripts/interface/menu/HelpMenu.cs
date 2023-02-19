@@ -2,7 +2,7 @@ using Godot;
 
 namespace OCSM.Nodes
 {
-	public class HelpMenu : MenuButton
+	public partial class HelpMenu : MenuButton
 	{
 		private const string PopupName = "GameSystemLicenses";
 		
@@ -10,11 +10,11 @@ namespace OCSM.Nodes
 		
 		public override void _Ready()
 		{
-			GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-			GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.HelpMenuTriggered), this, nameof(handleMenuItem));
+			GetPopup().IdPressed += handleMenuItem;
+			GetNode<AppRoot>(Constants.NodePath.AppRoot).HelpMenuTriggered += handleMenuItem;
 		}
 		
-		private void handleMenuItem(int id)
+		private void handleMenuItem(long id)
 		{
 			switch((MenuItem)id)
 			{
@@ -30,17 +30,16 @@ namespace OCSM.Nodes
 		private void showGameSystemLicenses()
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
-			var instance = resource.Instance<WindowDialog>();
+			var instance = resource.Instantiate<Window>();
 			instance.Name = PopupName;
 			GetTree().CurrentScene.AddChild(instance);
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideGameSystemLicenses));
-			instance.Popup_();
+			instance.CloseRequested += hideGameSystemLicenses;
+			instance.PopupCentered();
 		}
 		
 		private void hideGameSystemLicenses()
 		{
-			GetTree().CurrentScene.GetNode<WindowDialog>(PopupName).QueueFree();
+			GetTree().CurrentScene.GetNode<Window>(PopupName).QueueFree();
 		}
 	}
 }

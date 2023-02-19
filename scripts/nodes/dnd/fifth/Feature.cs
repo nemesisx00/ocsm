@@ -3,7 +3,7 @@ using System;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class Feature : Container
+	public partial class Feature : Container
 	{
 		public sealed class Names
 		{
@@ -25,7 +25,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Connect(Constants.Signal.Pressed, this, nameof(toggleSections));
+			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleSections)));
 			
 			nameNode = GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name));
 			descriptionNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Description));
@@ -54,7 +54,7 @@ namespace OCSM.Nodes.DnD.Fifth
 				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
 				foreach(var section in feature.Sections)
 				{
-					var instance = resource.Instance<VBoxContainer>();
+					var instance = resource.Instantiate<VBoxContainer>();
 					instance.GetChild<Label>(0).Text = section.Section;
 					instance.GetChild<RichTextLabel>(1).Text = section.Text;
 					sectionsNode.AddChild(instance);

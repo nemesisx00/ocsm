@@ -7,7 +7,7 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class ContractEntry : Container
+	public partial class ContractEntry : Container
 	{
 		public const string ContractInput = "ContractInputs";
 		private const string ClearButton = "Clear";
@@ -19,23 +19,23 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		private const string ContractNameFormatTwo = "{0} ({1} {2})";
 		
 		[Signal]
-		public delegate void SaveClicked();
+		public delegate void SaveClickedEventHandler();
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
 			GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput)).toggleDetails();
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Pressed += clearInputs;
+			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Pressed += doSave;
+			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Pressed += handleDelete;
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).ItemSelected += entrySelected;
 			
 			refreshMetadata();
 		}
@@ -68,12 +68,11 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		private void handleDelete()
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
-			var instance = resource.Instance<ConfirmDeleteEntry>();
+			var instance = resource.Instantiate<ConfirmDeleteEntry>();
 			instance.EntryTypeName = "Contract";
 			GetTree().CurrentScene.AddChild(instance);
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.Connect(Constants.Signal.Confirmed, this, nameof(doDelete));
-			instance.Popup_();
+			instance.Confirmed += doDelete;
+			instance.PopupCentered();
 		}
 		
 		private void doDelete()
@@ -87,10 +86,10 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			//TODO: Display error message if name is empty
 		}
 		
-		private void entrySelected(int index)
+		private void entrySelected(long index)
 		{
 			var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionButton.GetItemText(index);
+			var name = optionButton.GetItemText((int)index);
 			if(name.Contains(" ("))
 				name = name.Substring(0, name.IndexOf(" ("));
 			

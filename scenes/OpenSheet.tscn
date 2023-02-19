@@ -5,12 +5,12 @@
 [node name="OpenSheet" type="FileDialog"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -384.0
-margin_bottom = -288.0
-popup_exclusive = true
+offset_right = -384.0
+offset_bottom = -288.0
+exclusive = true
 window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-filters = PoolStringArray( "*.ocsd ; Open Character Sheet Data" )
+filters = PackedStringArray( "*.ocsd ; Open Character Sheet Data" )
 script = ExtResource( 1 )

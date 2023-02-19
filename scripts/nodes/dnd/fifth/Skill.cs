@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class Skill : Container
+	public partial class Skill : Container
 	{
 		private sealed class Names
 		{
@@ -16,7 +16,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		private const string PositiveFormat = "+{0}";
 		
 		[Signal]
-		public delegate void ProficiencyChanged(string currentState);
+		public delegate void ProficiencyChangedEventHandler(string currentState);
 		
 		[Export]
 		public string Label { get; set; } = String.Empty;
@@ -30,7 +30,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		public override void _Ready()
 		{
 			proficiency = GetNode<StatefulButton>(Names.Proficiency);
-			proficiency.Connect(nameof(StatefulButton.StateChanged), this, nameof(proficiencyUpdated));
+			proficiency.StateChanged += proficiencyUpdated;
 			
 			update();
 		}
@@ -44,7 +44,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public void trackAbility(AbilityNode ability)
 		{
-			ability.Connect(nameof(AbilityNode.AbilityChanged), this, nameof(scoreChanged));
+			ability.AbilityChanged += scoreChanged;
 		}
 		
 		private void proficiencyUpdated(StatefulButton button)

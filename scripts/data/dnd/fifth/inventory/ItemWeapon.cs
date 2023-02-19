@@ -40,7 +40,7 @@ namespace OCSM.DnD.Fifth.Inventory
 			Ammunition,
 			Finesse,
 			Heavy,
-			Light,
+			Light3D,
 			Loading,
 			Range,
 			Reach,

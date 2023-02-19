@@ -2,7 +2,7 @@ using Godot;
 
 namespace OCSM.Nodes
 {
-	public class StatefulButton : TextureButton
+	public partial class StatefulButton : TextureButton
 	{
 		public sealed class State
 		{
@@ -19,12 +19,12 @@ namespace OCSM.Nodes
 		public bool UseCircles { get; set; } = false;
 		
 		[Signal]
-		public delegate void StateChanged(StatefulButton box);
+		public delegate void StateChangedEventHandler(StatefulButton box);
 		
 		public override void _Ready()
 		{
 			updateTexture();
-			Connect(Constants.Signal.GuiInput, this, nameof(handleClick));
+			GuiInput += handleClick;
 		}
 		
 		public void nextState(bool reverse = false)
@@ -35,9 +35,9 @@ namespace OCSM.Nodes
 		public void updateTexture()
 		{
 			if(UseCircles)
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackCircle);
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
 			else
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<StreamTexture>(Constants.Texture.TrackBoxBorder);
+				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
 			
 			var tex = Constants.Texture.FullTransparent;
 			switch(CurrentState)
@@ -65,21 +65,21 @@ namespace OCSM.Nodes
 					break;
 			}
 			
-			TextureNormal = ResourceLoader.Load<StreamTexture>(tex);
+			TextureNormal = ResourceLoader.Load<CompressedTexture2D>(tex);
 		}
 		
 		private void handleClick(InputEvent e)
 		{
 			if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
 			{
-				switch((ButtonList)buttonEvent.ButtonIndex)
+				switch(buttonEvent.ButtonIndex)
 				{
-					case ButtonList.Left:
+					case MouseButton.Left:
 						CurrentState = nextState(CurrentState);
 						updateTexture();
 						EmitSignal(nameof(StateChanged), this);
 						break;
-					case ButtonList.Right:
+					case MouseButton.Right:
 						CurrentState = nextState(CurrentState, true);
 						updateTexture();
 						EmitSignal(nameof(StateChanged), this);

@@ -1,18 +1,19 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace OCSM.Nodes
 {
-	public class OpenSheet : FileDialog
+	public partial class OpenSheet : FileDialog
 	{
 		[Signal]
-		public delegate void JsonLoaded(string json);
+		public delegate void JsonLoadedEventHandler(string json);
 		
 		public override void _Ready()
 		{
 			var path = FileSystemUtilities.DefaultSheetDirectory;
 			CurrentDir = path;
-			Connect(Constants.Signal.FileSelected, this, nameof(doOpen));
+			Connect(Constants.Signal.FileSelected,new Callable(this,nameof(doOpen)));
 		}
 		
 		private void doOpen(string filePath)
@@ -20,7 +21,7 @@ namespace OCSM.Nodes
 			var path = filePath;
 			if(String.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
 			{
-				var extensionIndex = path.FindLast(Constants.SheetFileExtension);
+				var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
 				path = path.Insert(extensionIndex, Constants.NewSheetFileName);
 			}
 			else if(!path.EndsWith(Constants.SheetFileExtension))

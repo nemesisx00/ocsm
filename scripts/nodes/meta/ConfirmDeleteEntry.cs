@@ -3,7 +3,7 @@ using System;
 
 namespace OCSM.Nodes.Meta
 {
-	public class ConfirmDeleteEntry : ConfirmationDialog
+	public partial class ConfirmDeleteEntry : ConfirmationDialog
 	{
 		private const string TextFormat = "Are you sure you want to delete this {0}?";
 		
@@ -13,9 +13,8 @@ namespace OCSM.Nodes.Meta
 		{
 			DialogText = String.Format(TextFormat, EntryTypeName);
 			
-			Connect(Constants.Signal.Confirmed, this, nameof(close));
-			GetCancel().Connect(Constants.Signal.Pressed, this, nameof(close));
-			GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(close));
+			Confirmed += close;
+			Canceled += close;
 		}
 		
 		private void close()

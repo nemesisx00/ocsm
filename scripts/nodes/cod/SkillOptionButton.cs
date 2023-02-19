@@ -3,7 +3,7 @@ using OCSM.CoD;
 
 namespace OCSM.Nodes.CoD
 {
-	public class SkillOptionButton : OptionButton
+	public partial class SkillOptionButton : OptionButton
 	{
 		[Export]
 		public bool emptyOption = true;

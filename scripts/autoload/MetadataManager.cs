@@ -9,14 +9,14 @@ using OCSM.Nodes.DnD.Sheets;
 
 namespace OCSM.Nodes.Autoload
 {
-	public class MetadataManager : Node
+	public partial class MetadataManager : Node
 	{
 		[Signal]
-		public delegate void GameSystemChanged(string gameSystem);
+		public delegate void GameSystemChangedEventHandler(string gameSystem);
 		[Signal]
-		public delegate void MetadataLoaded();
+		public delegate void MetadataLoadedEventHandler();
 		[Signal]
-		public delegate void MetadataSaved();
+		public delegate void MetadataSavedEventHandler();
 		
 		private const string FileNameFormat = "{0}.ocmd";
 		
@@ -27,7 +27,7 @@ namespace OCSM.Nodes.Autoload
 			set
 			{
 				gameSystem = value;
-				EmitSignal(nameof(GameSystemChanged), gameSystem);
+				EmitSignal(nameof(GameSystemChangedEventHandler), gameSystem);
 				
 				switch(gameSystem)
 				{
@@ -55,7 +55,7 @@ namespace OCSM.Nodes.Autoload
 		public override void _Ready()
 		{
 			CurrentGameSystem = String.Empty;
-			GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).Connect(Constants.Signal.TabSelected, this, nameof(sheetTabSelected));
+			GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).Connect(Constants.Signal.TabSelected,new Callable(this,nameof(sheetTabSelected)));
 		}
 		
 		private void sheetTabSelected(int tabIndex)

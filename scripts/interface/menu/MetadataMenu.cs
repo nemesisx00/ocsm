@@ -2,10 +2,11 @@ using Godot;
 using OCSM.Nodes.Autoload;
 using OCSM.Nodes.CoD.CtL.Meta;
 using OCSM.Nodes.DnD.Fifth.Meta;
+using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes
 {
-	public class MetadataMenu : MenuButton
+	public partial class MetadataMenu : MenuButton
 	{
 		public enum MetadataItem { ManageMetadata }
 		
@@ -15,7 +16,7 @@ namespace OCSM.Nodes
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
+			GetPopup().Connect(Constants.Signal.IdPressed,new Callable(this,nameof(handleMenuItem)));
 		}
 		
 		private void handleMenuItem(int id)
@@ -35,30 +36,25 @@ namespace OCSM.Nodes
 			switch(metadataManager.CurrentGameSystem)
 			{
 				case GameSystem.CoD.Changeling:
-					generatePopup<CodChangelingAddEditMetadata>(
-						ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata),
-						nameof(CodChangelingAddEditMetadata.MetadataChanged)
-					);
+					generatePopup<CodChangelingAddEditMetadata>(ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata));
 					break;
 				case GameSystem.DnD.Fifth:
-					generatePopup<DndFifthAddEditMetadata>(
-						ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata),
-						nameof(DndFifthAddEditMetadata.MetadataChanged)
-					);
+					generatePopup<DndFifthAddEditMetadata>(ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata));
 					break;
 				default:
 					break;
 			}
 		}
 		
-		private void generatePopup<T>(PackedScene resource, string signal)
-			where T: WindowDialog
+		private T generatePopup<T>(PackedScene resource)
+			where T: BaseAddEditMetadata
 		{
-			var instance = resource.Instance<T>();
+			var instance = resource.Instantiate<T>();
 			GetTree().CurrentScene.AddChild(instance);
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.Popup_();
-			instance.Connect(signal, metadataManager, nameof(MetadataManager.saveGameSystemMetadata));
+			instance.PopupCentered();
+			instance.MetadataChanged += metadataManager.saveGameSystemMetadata;
+			
+			return instance;
 		}
 	}
 }

@@ -5,10 +5,10 @@ using OCSM.CoD;
 
 namespace OCSM.Nodes.CoD
 {
-	public class MeritList : ItemDotsList
+	public partial class MeritList : ItemDotsList
 	{
 		[Signal]
-		public new delegate void ValueChanged(List<Transport<Merit>> values);
+		public new delegate void ValueChangedEventHandler(Transport<List<Merit>> transport);
 		
 		public new List<Merit> Values { get; set; } = new List<Merit>();
 		
@@ -33,20 +33,20 @@ namespace OCSM.Nodes.CoD
 			addInput();
 		}
 		
-		protected override void addInput(string text = "", int dots = 0)
+		protected override void addInput(string text = "", long dots = 0)
 		{
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
-			var node = resource.Instance();
+			var node = resource.Instantiate();
 			var lineEdit = node.GetChild<LineEdit>(0);
 			lineEdit.Text = text;
-			lineEdit.HintTooltip = "Enter a new Merit";
+			lineEdit.TooltipText = "Enter a new Merit";
 			
 			var track = node.GetChild<TrackSimple>(1);
 			track.updateValue(dots);
 			
 			AddChild(node);
-			lineEdit.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-			track.Connect(Constants.Signal.NodeChanged, this, nameof(dotsChanged));
+			lineEdit.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
+			track.Connect(Constants.Signal.NodeChanged,new Callable(this,nameof(dotsChanged)));
 		}
 		
 		protected override void updateValues()
@@ -64,23 +64,12 @@ namespace OCSM.Nodes.CoD
 			}
 			
 			Values = values;
-			
-			doEmitSignal();
+			EmitSignal(nameof(ValueChanged), new Transport<List<Merit>>(Values));
 			
 			if(children.Count <= Values.Count)
 			{
 				addInput();
 			}
-		}
-		
-		private void doEmitSignal()
-		{
-			var list = new List<Transport<Merit>>();
-			foreach(var merit in Values)
-			{
-				list.Add(new Transport<Merit>(merit));
-			}
-			EmitSignal(nameof(ValueChanged), list);
 		}
 	}
 }

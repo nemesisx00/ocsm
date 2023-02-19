@@ -8,7 +8,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public class Contract : VBoxContainer
+	public partial class Contract : VBoxContainer
 	{
 		public const string ActionInput = "Action";
 		private const int ActionContestedIndex = 4;
@@ -48,10 +48,10 @@ namespace OCSM.Nodes.CoD.CtL
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Connect(Constants.Signal.ItemSelected, this, nameof(actionChanged));
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed, this, nameof(toggleDetails));
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Connect(Constants.Signal.ItemSelected, this, nameof(attributeChanged));
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Connect(Constants.Signal.ItemSelected, this, nameof(contestedAttributeChanged));
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(actionChanged)));
+			GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleDetails)));
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(attributeChanged)));
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(contestedAttributeChanged)));
 			
 			refreshSeemingBenefits();
 		}
@@ -323,7 +323,7 @@ namespace OCSM.Nodes.CoD.CtL
 		{
 			var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
-			var instance = resource.Instance<HBoxContainer>();
+			var instance = resource.Instantiate<HBoxContainer>();
 			row.AddChild(instance);
 			
 			//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
@@ -337,8 +337,8 @@ namespace OCSM.Nodes.CoD.CtL
 				text.Text = benefit;
 				NodeUtilities.autoSize(text, Constants.TextInputMinHeight);
 			}
-			instance.GetChild<SeemingOptionButton>(0).Connect(Constants.Signal.ItemSelected, this, nameof(seemingChanged));
-			instance.GetChild<TextEdit>(1).Connect(Constants.Signal.TextChanged, this, nameof(benefitChanged));
+			instance.GetChild<SeemingOptionButton>(0).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(seemingChanged)));
+			instance.GetChild<TextEdit>(1).Connect(Constants.Signal.TextChanged,new Callable(this,nameof(benefitChanged)));
 		}
 		
 		private void seemingChanged(int index) { updateSeemingBenefits(); }

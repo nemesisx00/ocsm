@@ -4,7 +4,7 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class BackgroundEntry : FeaturefulMetadataEntry
+	public partial class BackgroundEntry : FeaturefulMetadataEntry
 	{
 		protected override void entrySelected(int index)
 		{

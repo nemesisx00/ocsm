@@ -5,22 +5,22 @@
 [node name="FeatureSection" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -668.0
+offset_bottom = -668.0
 size_flags_horizontal = 3
 custom_constants/separation = 5
 
 [node name="Section" type="LineEdit" parent="."]
-margin_top = 38.0
-margin_right = 254.0
-margin_bottom = 62.0
+offset_top = 38.0
+offset_right = 254.0
+offset_bottom = 62.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 2.0
 
 [node name="Text" type="TextEdit" parent="."]
-margin_left = 259.0
-margin_right = 1024.0
-margin_bottom = 100.0
+offset_left = 259.0
+offset_right = 1024.0
+offset_bottom = 100.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 6.0
 wrap_enabled = true

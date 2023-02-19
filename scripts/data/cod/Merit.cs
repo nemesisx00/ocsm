@@ -5,7 +5,7 @@ namespace OCSM.CoD
 {
 	public class Merit : Metadata, IEquatable<Merit>
 	{
-		public int Value { get; set; }
+		public long Value { get; set; }
 		
 		public Merit() : base()
 		{
