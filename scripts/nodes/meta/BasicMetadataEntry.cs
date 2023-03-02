@@ -34,14 +34,14 @@ namespace OCSM.Nodes.Meta
 			metadataManager.MetadataLoaded += refreshMetadata;
 			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Pressed += clearInputs;
+			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Pressed += doSave;
+			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Pressed += handleDelete;
 			
 			GetNode<Label>(NodePathBuilder.SceneUnique(ExistingLabelName)).Text = String.Format(ExistingLabelFormat, MetadataTypeLabel);
 			
 			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			optionsButton.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
+			optionsButton.ItemSelected += entrySelected;
 			if(OptionsButtonScript is Script)
 				optionsButton.SetScript(OptionsButtonScript);
 			
@@ -93,7 +93,7 @@ namespace OCSM.Nodes.Meta
 			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
-		protected virtual void entrySelected(int index)
+		protected virtual void entrySelected(long index)
 		{
 			throw new NotImplementedException();
 		}

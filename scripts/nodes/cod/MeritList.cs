@@ -45,8 +45,8 @@ namespace OCSM.Nodes.CoD
 			track.updateValue(dots);
 			
 			AddChild(node);
-			lineEdit.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
-			track.Connect(Constants.Signal.NodeChanged,new Callable(this,nameof(dotsChanged)));
+			lineEdit.TextChanged += textChanged;
+			track.NodeChanged += dotsChanged;
 		}
 		
 		protected override void updateValues()

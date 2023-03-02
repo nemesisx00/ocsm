@@ -15,10 +15,10 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded),new Callable(this,nameof(refreshMerits)));
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved),new Callable(this,nameof(refreshMerits)));
+			metadataManager.MetadataLoaded += refreshMerits;
+			metadataManager.MetadataSaved += refreshMerits;
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(meritSelected)));
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).ItemSelected += meritSelected;
 			
 			refreshMerits();
 		}
@@ -37,12 +37,12 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			}
 		}
 		
-		private void meritSelected(int index)
+		private void meritSelected(long index)
 		{
 			if(index > 0)
 			{
 				var node = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
-				EmitSignal(nameof(AddMerit), node.GetItemText(index));
+				EmitSignal(nameof(AddMerit), node.GetItemText((int)index));
 				node.Selected = 0;
 			}
 		}

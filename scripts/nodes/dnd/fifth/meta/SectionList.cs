@@ -68,9 +68,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			AddChild(instance);
 			
 			var sectionNode = instance.GetChild<LineEdit>(0);
-			sectionNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(lineChanged)));
+			sectionNode.TextChanged += lineChanged;
 			var textNode = instance.GetChild<TextEdit>(1);
-			textNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
+			textNode.TextChanged += textChanged;
 			
 			if(section is FeatureSection)
 			{

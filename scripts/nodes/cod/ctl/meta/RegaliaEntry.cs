@@ -7,10 +7,10 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 {
 	public partial class RegaliaEntry : BasicMetadataEntry
 	{
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
 			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				if(ccc.Regalias.Find(c => c.Name.Equals(name)) is Regalia regalia)

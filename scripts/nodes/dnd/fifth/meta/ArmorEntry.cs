@@ -42,23 +42,23 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			metadataManager.MetadataLoaded += refreshMetadata;
 			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
+			GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).ItemSelected += entrySelected;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Pressed += clearInputs;
+			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Pressed += doSave;
+			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Pressed += handleDelete;
 			
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleLimitDexterity)));
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleDexterityLimit)));
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleMinimumStrengthInput)));
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(AllowDexterityBonus)).Pressed += toggleLimitDexterity;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(LimitDexterityBonus)).Pressed += toggleDexterityLimit;
+			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).Pressed += toggleMinimumStrengthInput;
 			
 			refreshMetadata();
 		}
 		
-		private void entrySelected(int index)
+		private void entrySelected(long index)
 		{
 			var optionsButton = GetNode<ArmorOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)

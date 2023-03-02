@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using System.Text.Json;
 using OCSM.Nodes.Meta;
 using OCSM.DnD.Fifth.Meta;
 
@@ -17,12 +16,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected List<OCSM.DnD.Fifth.Feature> Features;
 		
-		public override void _Ready()
+		public new void _Ready()
 		{
 			Features = new List<OCSM.DnD.Fifth.Feature>();
 			
 			base._Ready();
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(featureSelected)));
+			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName)).ItemSelected += featureSelected;
 		}
 		
 		protected void renderFeatures()
@@ -74,12 +73,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			clearInputs();
 		}
 		
-		private void featureSelected(int index)
+		private void featureSelected(long index)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				var optionsButton = GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName));
-				var name = optionsButton.GetItemText(index);
+				var name = optionsButton.GetItemText((int)index);
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature && !Features.Contains(feature))
 				{
 					Features.Add(feature);

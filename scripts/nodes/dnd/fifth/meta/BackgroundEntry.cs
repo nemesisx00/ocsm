@@ -6,10 +6,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 {
 	public partial class BackgroundEntry : FeaturefulMetadataEntry
 	{
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
 			var optionsButton = GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)

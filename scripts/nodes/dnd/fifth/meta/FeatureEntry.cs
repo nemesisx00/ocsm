@@ -68,20 +68,20 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			textNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Text));
 			typeNode = GetNode<FeatureTypeOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
 			
-			classNode.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(classChanged)));
-			descriptionNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(descriptionChanged)));
-			nameNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(nameChanged)));
-			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged),new Callable(this,nameof(numericBonusesChanged)));
-			requiredLevel.Connect(Constants.Signal.ValueChanged,new Callable(this,nameof(requiredLevelChanged)));
-			sectionsNode.Connect(nameof(SectionList.ValuesChanged),new Callable(this,nameof(sectionsChanged)));
-			sourceNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(sourceChanged)));
-			textNode.Connect(Constants.Signal.TextChanged,new Callable(this,nameof(textChanged)));
-			typeNode.Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(typeChanged)));
+			classNode.ItemSelected += classChanged;
+			descriptionNode.TextChanged += descriptionChanged;
+			nameNode.TextChanged += nameChanged;
+			numericBonusesNode.ValuesChanged += numericBonusesChanged;
+			requiredLevel.ValueChanged += requiredLevelChanged;
+			sectionsNode.ValuesChanged += sectionsChanged;
+			sourceNode.TextChanged += sourceChanged;
+			textNode.TextChanged += textChanged;
+			typeNode.ItemSelected += typeChanged;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.ClearButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(clearInputs)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.SaveButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(doSave)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.DeleteButton)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(handleDelete)));
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(entrySelected)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.ClearButton)).Pressed += clearInputs;
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.SaveButton)).Pressed += doSave;
+			GetNode<Button>(NodePathBuilder.SceneUnique(Names.DeleteButton)).Pressed += handleDelete;
+			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName)).ItemSelected += entrySelected;
 			
 			refreshValues();
 		}
@@ -135,10 +135,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			);
 		}
 		
-		private void entrySelected(int index)
+		private void entrySelected(long index)
 		{
 			var optionsButton = GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
@@ -173,38 +173,38 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		private void classChanged(int index) { Feature.ClassName = classNode.GetItemText(index); }
+		private void classChanged(long index) { Feature.ClassName = classNode.GetItemText((int)index); }
 		private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 		private void nameChanged(string text) { Feature.Name = text; }
 		
-		private void numericBonusesChanged(List<Transport<NumericBonus>> values)
+		private void numericBonusesChanged(Transport<List<NumericBonus>> transport)
 		{
 			var list = new List<NumericBonus>();
-			foreach(var t in values)
+			foreach(var nb in transport.Value)
 			{
-				list.Add(t.Value);
+				list.Add(nb);
 			}
 			list.Sort();
 			Feature.NumericBonuses = list;
 		}
 		
-		private void requiredLevelChanged(float value) { Feature.RequiredLevel = (int)value; }
+		private void requiredLevelChanged(double value) { Feature.RequiredLevel = (int)value; }
 		
-		private void sectionsChanged(List<Transport<FeatureSection>> values)
+		private void sectionsChanged(Transport<List<FeatureSection>> transport)
 		{
 			var list = new List<FeatureSection>();
-			foreach(var t in values)
+			foreach(var fs in transport.Value)
 			{
-				list.Add(t.Value);
+				list.Add(fs);
 			}
 			Feature.Sections = list;
 		}
 		private void sourceChanged(string text) { Feature.Source = text; }
 		private void textChanged() { Feature.Text = textNode.Text; }
 		
-		private void typeChanged(int index)
+		private void typeChanged(long index)
 		{
-			Feature.Type = typeNode.GetItemText(index);
+			Feature.Type = typeNode.GetItemText((int)index);
 			
 			if(!Feature.Type.Equals(FeatureType.Class))
 				classNode.Selected = 0;

@@ -65,7 +65,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(bonus is NumericBonus)
 				instance.setValue(bonus);
 			
-			instance.Connect(nameof(NumericBonusEdit.ValueChanged),new Callable(this,nameof(numericBonusChanged)));
+			instance.ValueChanged += numericBonusChanged;
 		}
 	}
 }

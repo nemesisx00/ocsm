@@ -29,9 +29,9 @@ namespace OCSM.Nodes
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			tabContainer = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newCoDMortal2e)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newCoDChangeling2e)));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(newDnd5e)));
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Pressed += newCoDMortal2e;
+			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Pressed += newCoDChangeling2e;
+			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Pressed += newDnd5e;
 		}
 		
 		private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }

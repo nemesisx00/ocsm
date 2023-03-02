@@ -48,10 +48,10 @@ namespace OCSM.Nodes.CoD.Meta
 			//TODO: Display error message if name is empty
 		}
 		
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
 			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDCoreContainer ccc)
 			{
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)

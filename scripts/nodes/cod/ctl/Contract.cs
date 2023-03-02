@@ -48,10 +48,10 @@ namespace OCSM.Nodes.CoD.CtL
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(actionChanged)));
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleDetails)));
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(attributeChanged)));
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(contestedAttributeChanged)));
+			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).ItemSelected += actionChanged;
+			GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Pressed += toggleDetails;
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).ItemSelected += attributeChanged;
+			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).ItemSelected += contestedAttributeChanged;
 			
 			refreshSeemingBenefits();
 		}
@@ -221,12 +221,12 @@ namespace OCSM.Nodes.CoD.CtL
 				node.Show();
 		}
 		
-		public void actionChanged(int index)
+		public void actionChanged(long index)
 		{
 			actionChanged(index, true);
 		}
 		
-		public void actionChanged(int index, bool reset = true)
+		public void actionChanged(long index, bool reset = true)
 		{
 			var attr3 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input));
 			if(ActionContestedIndex.Equals(index))
@@ -258,7 +258,7 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 		}
 		
-		public void attributeChanged(int index)
+		public void attributeChanged(long index)
 		{
 			var skill = GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput));
 			
@@ -277,7 +277,7 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 		}
 		
-		public void contestedAttributeChanged(int index)
+		public void contestedAttributeChanged(long index)
 		{
 			if(index > 0)
 			{
@@ -337,11 +337,11 @@ namespace OCSM.Nodes.CoD.CtL
 				text.Text = benefit;
 				NodeUtilities.autoSize(text, Constants.TextInputMinHeight);
 			}
-			instance.GetChild<SeemingOptionButton>(0).Connect(Constants.Signal.ItemSelected,new Callable(this,nameof(seemingChanged)));
-			instance.GetChild<TextEdit>(1).Connect(Constants.Signal.TextChanged,new Callable(this,nameof(benefitChanged)));
+			instance.GetChild<SeemingOptionButton>(0).ItemSelected += seemingChanged;
+			instance.GetChild<TextEdit>(1).TextChanged += benefitChanged;
 		}
 		
-		private void seemingChanged(int index) { updateSeemingBenefits(); }
+		private void seemingChanged(long index) { updateSeemingBenefits(); }
 		private void benefitChanged() { updateSeemingBenefits(); }
 	}
 }
