@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using EnumsNET;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
 
@@ -102,7 +101,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			{
 				if(damage.Length > 0)
 					damage += " + ";
-				damage += entry.Key.ToString(entry.Value) + " " + Enums.GetName(entry.Key.Type);
+				damage += entry.Key.ToString(entry.Value) + " " + entry.Key.Type.GetLabel();
 			}
 			nodes.Add(NodeUtilities.createCenteredLabel(damage));
 			

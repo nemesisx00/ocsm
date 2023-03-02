@@ -1,30 +1,20 @@
 using System;
 using System.Collections.Generic;
-using EnumsNET;
 
 namespace OCSM.DnD.Fifth.Inventory
 {
 	public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<ItemWeapon>
 	{
-		[AttributeUsage(AttributeTargets.Field)]
-		public class LabelAttribute : Attribute
-		{
-			public string Label { get; }
-
-			public LabelAttribute(string label)
-			{
-				Label = label;
-			}
-		}
-		
 		public enum WeaponType
 		{
 			None = 0,
+			[Label("Simple")]
 			Simple = SimpleMelee | SimpleRanged,
 			[Label("Simple Melee")]
 			SimpleMelee = 1,
 			[Label("Simple Ranged")]
 			SimpleRanged = 2,
+			[Label("Martial")]
 			Martial = MartialMelee | MartialRanged,
 			[Label("Martial Melee")]
 			MartialMelee = 4,
@@ -34,24 +24,36 @@ namespace OCSM.DnD.Fifth.Inventory
 			Improvised = 16,
 		}
 		
-		public enum WeaponProperties
+		public enum WeaponProperty
 		{
 			None = 0,
+			[Label("Ammunition")]
 			Ammunition,
+			[Label("Finesse")]
 			Finesse,
+			[Label("Heavy")]
 			Heavy,
-			Light3D,
+			[Label("Light")]
+			Light,
+			[Label("Loading")]
 			Loading,
+			[Label("Range")]
 			Range,
+			[Label("Reach")]
 			Reach,
+			[Label("Silvered")]
 			Silvered,
+			[Label("Special")]
 			Special,
+			[Label("Thrown")]
 			Thrown,
+			[Label("TwoHanded")]
 			TwoHanded,
+			[Label("Versatile")]
 			Versatile,
 		}
 		
-		public static string FormatProperties(List<WeaponProperties> properties)
+		public static string FormatProperties(List<WeaponProperty> properties)
 		{
 			var str = "";
 			
@@ -60,21 +62,21 @@ namespace OCSM.DnD.Fifth.Inventory
 			{
 				if(str.Length > 0)
 					str += ", ";
-				str += Enums.GetName(prop);
+				str += prop.GetLabel();
 			}
 			
 			return str;
 		}
 		
 		public Dictionary<DamageDie, int> DamageDice { get; set; }
-		public List<WeaponProperties> Properties { get; set; }
+		public List<WeaponProperty> Properties { get; set; }
 		public Range Range { get; set; }
 		public WeaponType Type { get; set; }
 		
 		public ItemWeapon() : base()
 		{
 			DamageDice = new Dictionary<DamageDie, int>();
-			Properties = new List<WeaponProperties>();
+			Properties = new List<WeaponProperty>();
 			Range = Range.Melee;
 			Type = WeaponType.None;
 		}

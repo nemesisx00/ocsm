@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://hyx8nnliaktu"]
+[gd_scene load_steps=6 format=3 uid="uid://hyx8nnliaktu"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_3cf65"]
 [ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ArmorOptionsButton.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/ArmorEntry.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ArmorTypeOptions.cs" id="4_gcrxs"]
 
 [node name="ArmorEntry" type="VBoxContainer"]
 anchors_preset = 15
@@ -88,6 +89,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
+script = ExtResource("4_gcrxs")
 
 [node name="HBox2" type="HBoxContainer" parent="Row4"]
 layout_mode = 2

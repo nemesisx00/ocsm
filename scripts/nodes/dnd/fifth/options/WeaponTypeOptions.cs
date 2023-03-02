@@ -1,30 +1,19 @@
 using System;
-using EnumsNET;
+using Godot;
 using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public partial class WeaponTypeOptions : CustomOption
+	public partial class WeaponTypeOptions : OptionButton
 	{
-		public override void _Ready()
+		public new void _Ready()
 		{
-			refreshMetadata();
-		}
-		
-		protected override void refreshMetadata()
-		{
-			var index = Selected;
-			
 			Clear();
 			AddItem(String.Empty);
-			
-			foreach(var member in Enums.GetMembers<ItemWeapon.WeaponType>())
-			{
-				if(member.Attributes.Get<ItemWeapon.LabelAttribute>() is ItemWeapon.LabelAttribute attr)
-					AddItem(attr.Label);
-			}
-			
-			Selected = index;
+			AddItem(ItemWeapon.WeaponType.SimpleMelee.GetLabel());
+			AddItem(ItemWeapon.WeaponType.SimpleRanged.GetLabel());
+			AddItem(ItemWeapon.WeaponType.MartialMelee.GetLabel());
+			AddItem(ItemWeapon.WeaponType.MartialRanged.GetLabel());
 		}
 	}
 }
