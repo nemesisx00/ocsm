@@ -1,31 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://ckptjuemy6uty"]
 
-[ext_resource path="res://scenes/cod/nodes/Attributes.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/cod/nodes/Skills.tscn" type="PackedScene" id=2]
+[ext_resource type="PackedScene" path="res://scenes/cod/nodes/Attributes.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_h3ey3"]
+[ext_resource type="PackedScene" path="res://scenes/cod/nodes/Skills.tscn" id="2"]
 
 [node name="Traits" type="VBoxContainer"]
 offset_right = 1024.0
 offset_bottom = 768.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_h3ey3")
 
-[node name="Attributes" parent="." instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 1024.0
-offset_bottom = 96.0
+[node name="Attributes" parent="." instance=ExtResource("1")]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
 
 [node name="HSeparator3" type="HSeparator" parent="."]
-offset_top = 100.0
-offset_right = 1024.0
-offset_bottom = 120.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
-[node name="Skills" parent="." instance=ExtResource( 2 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 124.0
-offset_right = 1024.0
-offset_bottom = 768.0
+[node name="Skills" parent="." instance=ExtResource("2")]
+layout_mode = 2

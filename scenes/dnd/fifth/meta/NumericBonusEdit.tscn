@@ -1,106 +1,74 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://h62ncskqhntf"]
 
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/AbilityOptionsButton.cs" type="Script" id=1]
-[ext_resource path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEdit.cs" type="Script" id=2]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/NumericStatOptionsButton.cs" type="Script" id=3]
-
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/AbilityOptionsButton.cs" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_c7drb"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEdit.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/NumericStatOptionsButton.cs" id="3"]
 
 [node name="NumericBonusEdit" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
-custom_constants/separation = 15
-script = ExtResource( 2 )
+theme = ExtResource("1_c7drb")
+script = ExtResource("2")
 
 [node name="Row" type="HBoxContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_constants/separation = 15
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row"]
-offset_top = 5.0
-offset_right = 50.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 text = "Name:"
-align = 2
 
 [node name="Name" type="LineEdit" parent="Row"]
 unique_name_in_owner = true
-offset_left = 65.0
-offset_right = 407.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="Row"]
-offset_left = 422.0
-offset_top = 5.0
-offset_right = 472.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 text = "Type:"
-align = 2
 
 [node name="Type" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-offset_left = 487.0
-offset_right = 687.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 200, 0 )
-script = ExtResource( 3 )
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+script = ExtResource("3")
 
 [node name="AbilityLabel" type="Label" parent="Row"]
 unique_name_in_owner = true
 visible = false
-offset_left = 637.0
-offset_top = 5.0
-offset_right = 687.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 text = "Ability:"
 
 [node name="Ability" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
 visible = false
-offset_left = 512.0
-offset_right = 687.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 200, 0 )
-script = ExtResource( 1 )
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+script = ExtResource("1")
 
 [node name="Label3" type="Label" parent="Row"]
-offset_left = 702.0
-offset_top = 5.0
-offset_right = 752.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 text = "Value:"
-align = 2
 
 [node name="Value" type="SpinBox" parent="Row"]
 unique_name_in_owner = true
-offset_left = 767.0
-offset_right = 841.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
 allow_lesser = true
 
 [node name="Label4" type="Label" parent="Row"]
-offset_left = 856.0
-offset_top = 5.0
-offset_right = 909.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 50, 0 )
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
 text = "Method:"
-align = 2
 
 [node name="Method" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-offset_left = 924.0
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 100, 0 )
-text = "Set Base"
-items = [ "Set Base", null, false, 0, null, "Add", null, false, 1, null ]
-selected = 0
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2

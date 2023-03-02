@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cqy1xvx4n32ts"]
 
-[ext_resource path="res://scripts/nodes/cod/ItemDotsList.cs" type="Script" id=1]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ItemDotsList.cs" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_81fn7"]
 
 [node name="Merits" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
@@ -11,16 +13,16 @@ offset_right = -4.0
 offset_bottom = -4.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_81fn7")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-offset_right = 1016.0
-offset_bottom = 732.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Merits" type="GridContainer" parent="ScrollContainer"]
 unique_name_in_owner = true
-offset_right = 1016.0
+layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
-script = ExtResource( 1 )
+script = ExtResource("1")

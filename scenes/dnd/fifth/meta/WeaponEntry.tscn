@@ -1,186 +1,126 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://dbgolm1a7kgox"]
 
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=1]
-[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/WeaponOptions.cs" type="Script" id=3]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/WeaponTypeOptions.cs" type="Script" id=4]
-[ext_resource path="res://scripts/nodes/dnd/fifth/meta/WeaponEntry.cs" type="Script" id=5]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_onwmm"]
+[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/WeaponOptions.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/WeaponTypeOptions.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/WeaponEntry.cs" id="5"]
 
 [node name="WeaponEntry" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/separation = 10
-script = ExtResource( 5 )
+theme = ExtResource("1_onwmm")
+script = ExtResource("5")
 
 [node name="Row" type="HBoxContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 20.0
+layout_mode = 2
 
 [node name="ExistingLabel" type="Label" parent="Row"]
-offset_top = 3.0
-offset_right = 510.0
-offset_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Weapon:"
-align = 2
-valign = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-offset_left = 514.0
-offset_right = 614.0
-offset_bottom = 20.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="Row2" type="HBoxContainer" parent="."]
-offset_top = 30.0
-offset_right = 1024.0
-offset_bottom = 50.0
-custom_constants/separation = 25
+layout_mode = 2
 alignment = 1
 
 [node name="Save" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 407.0
-offset_right = 448.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "Save"
 
 [node name="Clear" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 473.0
-offset_right = 517.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "Clear"
 
 [node name="Delete" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 542.0
-offset_right = 617.0
-offset_bottom = 20.0
-custom_minimum_size = Vector2( 75, 0 )
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
 text = "Delete"
 
 [node name="Row3" type="HBoxContainer" parent="."]
-offset_top = 60.0
-offset_right = 1024.0
-offset_bottom = 84.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row3"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Name:"
-align = 2
-valign = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="."]
-offset_top = 94.0
-offset_right = 1024.0
-offset_bottom = 118.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
 [node name="HBox" type="HBoxContainer" parent="Row4"]
-offset_left = 284.0
-offset_right = 472.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row4/HBox"]
-offset_top = 5.0
-offset_right = 34.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Type:"
-align = 2
-valign = 1
 
 [node name="WeaponType" type="OptionButton" parent="Row4/HBox"]
 unique_name_in_owner = true
-offset_left = 38.0
-offset_right = 188.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 150, 0 )
-script = ExtResource( 4 )
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+script = ExtResource("4")
 
 [node name="HBox2" type="HBoxContainer" parent="Row4"]
-offset_left = 487.0
-offset_right = 597.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row4/HBox2"]
-offset_top = 5.0
-offset_right = 32.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Cost:"
-align = 2
-valign = 1
 
 [node name="Cost" type="SpinBox" parent="Row4/HBox2"]
 unique_name_in_owner = true
-offset_left = 36.0
-offset_right = 110.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
 suffix = "gp"
 
 [node name="HBox3" type="HBoxContainer" parent="Row4"]
-offset_left = 612.0
-offset_right = 739.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row4/HBox3"]
-offset_top = 5.0
-offset_right = 49.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Weight:"
-align = 2
-valign = 1
 
 [node name="Weight" type="SpinBox" parent="Row4/HBox3"]
 unique_name_in_owner = true
-offset_left = 53.0
-offset_right = 127.0
-offset_bottom = 24.0
+layout_mode = 2
 suffix = "lbs"
 
 [node name="Row5" type="HBoxContainer" parent="."]
-offset_top = 128.0
-offset_right = 1024.0
-offset_bottom = 152.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
 [node name="HBox" type="HBoxContainer" parent="Row5"]
-offset_left = 432.0
-offset_right = 591.0
-offset_bottom = 24.0
-custom_constants/separation = 10
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="Row5/HBox"]
-offset_top = 5.0
-offset_right = 75.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Short Range"
 
 [node name="RangeShort" type="SpinBox" parent="Row5/HBox"]
 unique_name_in_owner = true
-offset_left = 85.0
-offset_right = 159.0
-offset_bottom = 24.0
+layout_mode = 2
 min_value = 5.0
 value = 5.0
 rounded = true
@@ -188,99 +128,59 @@ allow_greater = true
 
 [node name="HBox2" type="HBoxContainer" parent="Row5"]
 visible = false
-offset_left = 482.0
-offset_right = 638.0
-offset_bottom = 24.0
-custom_constants/separation = 10
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="Row5/HBox2"]
-offset_top = 5.0
-offset_right = 72.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Long Range"
 
 [node name="RangeLong" type="SpinBox" parent="Row5/HBox2"]
 unique_name_in_owner = true
-offset_left = 82.0
-offset_right = 156.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Row6" type="VBoxContainer" parent="."]
-offset_top = 162.0
-offset_right = 1024.0
-offset_bottom = 210.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row6"]
-offset_right = 1024.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
 text = "Properties"
-align = 1
-valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Row6"]
-offset_top = 28.0
-offset_right = 1024.0
-offset_bottom = 48.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
 [node name="Properties1" type="OptionButton" parent="Row6/HBoxContainer"]
-offset_left = 497.0
-offset_right = 526.0
-offset_bottom = 20.0
+layout_mode = 2
 
 [node name="Row7" type="VBoxContainer" parent="."]
-offset_top = 220.0
-offset_right = 1024.0
-offset_bottom = 244.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Row7"]
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="Row7/HBoxContainer"]
-offset_left = 417.0
-offset_top = 5.0
-offset_right = 473.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Damage:"
-align = 2
-valign = 1
 
 [node name="DiceQuantity" type="SpinBox" parent="Row7/HBoxContainer"]
-offset_left = 488.0
-offset_right = 562.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Die" type="OptionButton" parent="Row7/HBoxContainer"]
-offset_left = 577.0
-offset_right = 606.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Row8" type="VBoxContainer" parent="."]
-offset_top = 254.0
-offset_right = 1024.0
-offset_bottom = 305.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row8"]
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_fonts/font = ExtResource( 1 )
+layout_mode = 2
 text = "Description"
-align = 1
-valign = 1
 
 [node name="Description" type="TextEdit" parent="Row8"]
 unique_name_in_owner = true
-offset_top = 28.0
-offset_right = 1024.0
-offset_bottom = 51.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 2 )
+script = ExtResource("2")

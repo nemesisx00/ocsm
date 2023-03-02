@@ -1,270 +1,217 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://hyx8nnliaktu"]
 
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=1]
-[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=2]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/ArmorOptionsButton.cs" type="Script" id=3]
-[ext_resource path="res://scripts/nodes/dnd/fifth/meta/ArmorEntry.cs" type="Script" id=4]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_3cf65"]
+[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ArmorOptionsButton.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/ArmorEntry.cs" id="4"]
 
 [node name="ArmorEntry" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-pivot_offset = Vector2( 112, -192 )
-custom_constants/separation = 10
-script = ExtResource( 4 )
+pivot_offset = Vector2(112, -192)
+theme = ExtResource("1_3cf65")
+script = ExtResource("4")
 
 [node name="Row" type="HBoxContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 20.0
+layout_mode = 2
 
 [node name="ExistingLabel" type="Label" parent="Row"]
-offset_top = 3.0
-offset_right = 510.0
-offset_bottom = 17.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Armor:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
-offset_left = 514.0
-offset_right = 614.0
-offset_bottom = 20.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 2
-script = ExtResource( 3 )
+script = ExtResource("3")
 
 [node name="Row2" type="HBoxContainer" parent="."]
-offset_top = 30.0
-offset_right = 1024.0
-offset_bottom = 50.0
-custom_constants/separation = 25
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Save" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 407.0
-offset_right = 448.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "Save"
 
 [node name="Clear" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 473.0
-offset_right = 517.0
-offset_bottom = 20.0
+layout_mode = 2
 text = "Clear"
 
 [node name="Delete" type="Button" parent="Row2"]
 unique_name_in_owner = true
-offset_left = 542.0
-offset_right = 617.0
-offset_bottom = 20.0
-custom_minimum_size = Vector2( 75, 0 )
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
 text = "Delete"
 
 [node name="Row3" type="HBoxContainer" parent="."]
-offset_top = 60.0
-offset_right = 1024.0
-offset_bottom = 84.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row3"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Name:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="."]
-offset_top = 94.0
-offset_right = 1024.0
-offset_bottom = 118.0
+layout_mode = 2
+alignment = 1
 
 [node name="HBox" type="HBoxContainer" parent="Row4"]
-offset_left = 56.0
-offset_right = 244.0
-offset_bottom = 24.0
-size_flags_horizontal = 6
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
 
 [node name="Label" type="Label" parent="Row4/HBox"]
-offset_top = 5.0
-offset_right = 34.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Type:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Type" type="OptionButton" parent="Row4/HBox"]
 unique_name_in_owner = true
-offset_left = 38.0
-offset_right = 188.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 150, 0 )
-items = [ "", null, false, 0, null, "Light3D Armor", null, false, 1, null, "Medium Armor", null, false, 2, null, "Heavy Armor", null, false, 3, null ]
-selected = 0
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
 
 [node name="HBox2" type="HBoxContainer" parent="Row4"]
-offset_left = 365.0
-offset_right = 543.0
-offset_bottom = 24.0
-size_flags_horizontal = 6
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Row4/HBox2"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Armor Class:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ArmorClass" type="SpinBox" parent="Row4/HBox2"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 178.0
-offset_bottom = 24.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 rounded = true
+alignment = 1
 
 [node name="HBox3" type="HBoxContainer" parent="Row4"]
-offset_left = 609.0
-offset_right = 719.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row4/HBox3"]
-offset_top = 5.0
-offset_right = 32.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Cost:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Cost" type="SpinBox" parent="Row4/HBox3"]
 unique_name_in_owner = true
-offset_left = 36.0
-offset_right = 110.0
-offset_bottom = 24.0
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
 rounded = true
 allow_greater = true
+alignment = 1
 suffix = "gp"
 
 [node name="HBox4" type="HBoxContainer" parent="Row4"]
-offset_left = 810.0
-offset_right = 937.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 6
 
 [node name="Label2" type="Label" parent="Row4/HBox4"]
-offset_top = 5.0
-offset_right = 49.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "Weight:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Weight" type="SpinBox" parent="Row4/HBox4"]
 unique_name_in_owner = true
-offset_left = 53.0
-offset_right = 127.0
-offset_bottom = 24.0
+layout_mode = 2
+alignment = 1
 suffix = "lbs"
 
 [node name="Row5" type="HBoxContainer" parent="."]
-offset_top = 128.0
-offset_right = 1024.0
-offset_bottom = 152.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="AllowDexterityBonus" type="CheckBox" parent="Row5"]
 unique_name_in_owner = true
-offset_left = 427.0
-offset_right = 597.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 6
 text = "Allow Dexterity Bonus"
 
 [node name="HBox3" type="HBoxContainer" parent="Row5"]
 visible = false
-offset_left = 682.0
-offset_right = 856.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 6
+alignment = 1
 
 [node name="LimitDexterityBonus" type="CheckBox" parent="Row5/HBox3"]
 unique_name_in_owner = true
-offset_right = 174.0
-offset_bottom = 24.0
+layout_mode = 2
 text = "Limit Dexterity Bonus?"
 
 [node name="DexterityBonusLimit" type="SpinBox" parent="Row5/HBox3"]
 unique_name_in_owner = true
 visible = false
-offset_left = 178.0
-offset_right = 252.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 prefix = "+"
 
 [node name="Row6" type="HBoxContainer" parent="."]
-offset_top = 162.0
-offset_right = 1024.0
-offset_bottom = 186.0
+layout_mode = 2
 alignment = 1
 
 [node name="StealthDisadvantage" type="CheckBox" parent="Row6"]
 unique_name_in_owner = true
-offset_left = 140.0
-offset_right = 370.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 6
-text = "Disadvantage checked Stealth Checks"
+text = "Disadvantage on Stealth Checks"
 
 [node name="HBox" type="HBoxContainer" parent="Row6"]
-offset_left = 662.0
-offset_right = 876.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 6
+alignment = 1
 
 [node name="ShowStrength" type="CheckBox" parent="Row6/HBox"]
 unique_name_in_owner = true
-offset_right = 214.0
-offset_bottom = 24.0
+layout_mode = 2
 text = "Minimum Strength Required?"
 
 [node name="MinimumStrength" type="SpinBox" parent="Row6/HBox"]
 unique_name_in_owner = true
 visible = false
-offset_left = 218.0
-offset_right = 292.0
-offset_bottom = 24.0
+layout_mode = 2
 max_value = 30.0
 rounded = true
 
 [node name="Row7" type="VBoxContainer" parent="."]
-offset_top = 196.0
-offset_right = 1024.0
-offset_bottom = 247.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Row7"]
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_fonts/font = ExtResource( 1 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Description"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Row7"]
 unique_name_in_owner = true
-offset_top = 28.0
-offset_right = 1024.0
-offset_bottom = 51.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 2 )
+size_flags_vertical = 3
+wrap_mode = 1
+script = ExtResource("2")

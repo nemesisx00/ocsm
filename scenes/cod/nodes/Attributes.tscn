@@ -1,280 +1,190 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://0urptism2d4q"]
 
-[ext_resource path="res://scenes/nodes/TrackSimple.tscn" type="PackedScene" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=2]
+[ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_c8ix3"]
 
 [node name="Attributes" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("1_c8ix3")
 
 [node name="Label" type="Label" parent="."]
-offset_right = 1024.0
-offset_bottom = 24.0
-custom_fonts/font = ExtResource( 2 )
+layout_mode = 2
 text = "Attributes"
-align = 1
-valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="."]
-offset_top = 28.0
-offset_right = 1024.0
-offset_bottom = 768.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Column1" type="VBoxContainer" parent="Row1"]
-offset_right = 338.0
-offset_bottom = 740.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Column1"]
-offset_right = 338.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Mental"
-align = 1
-valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Column1"]
-offset_top = 18.0
-offset_right = 338.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row1"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Intelligence"
-align = 2
 
-[node name="Intelligence" parent="Row1/Column1/Row1" instance=ExtResource( 1 )]
+[node name="Intelligence" parent="Row1/Column1/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 338.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
-offset_top = 36.0
-offset_right = 338.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row2"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Wits"
-align = 2
 
-[node name="Wits" parent="Row1/Column1/Row2" instance=ExtResource( 1 )]
+[node name="Wits" parent="Row1/Column1/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 338.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
-offset_top = 54.0
-offset_right = 338.0
-offset_bottom = 68.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Column1/Row3"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Resolve"
-align = 2
 
-[node name="Resolve" parent="Row1/Column1/Row3" instance=ExtResource( 1 )]
+[node name="Resolve" parent="Row1/Column1/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 338.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Physical" type="VBoxContainer" parent="Row1"]
-offset_left = 342.0
-offset_right = 681.0
-offset_bottom = 740.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Physical"]
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Physical"
-align = 1
-valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Physical"]
-offset_top = 18.0
-offset_right = 339.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row1"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Strength"
-align = 2
 
-[node name="Strength" parent="Row1/Physical/Row1" instance=ExtResource( 1 )]
+[node name="Strength" parent="Row1/Physical/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Physical"]
-offset_top = 36.0
-offset_right = 339.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row2"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Dexterity"
-align = 2
 
-[node name="Dexterity" parent="Row1/Physical/Row2" instance=ExtResource( 1 )]
+[node name="Dexterity" parent="Row1/Physical/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Physical"]
-offset_top = 54.0
-offset_right = 339.0
-offset_bottom = 68.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row3"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Stamina"
-align = 2
 
-[node name="Stamina" parent="Row1/Physical/Row3" instance=ExtResource( 1 )]
+[node name="Stamina" parent="Row1/Physical/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Social" type="VBoxContainer" parent="Row1"]
-offset_left = 685.0
-offset_right = 1024.0
-offset_bottom = 740.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Social"]
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Social"
-align = 1
-valign = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Social"]
-offset_top = 18.0
-offset_right = 339.0
-offset_bottom = 32.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row1"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Presence"
-align = 2
 
-[node name="Presence" parent="Row1/Social/Row1" instance=ExtResource( 1 )]
+[node name="Presence" parent="Row1/Social/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Social"]
-offset_top = 36.0
-offset_right = 339.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row2"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Manipulation"
-align = 2
 
-[node name="Manipulation" parent="Row1/Social/Row2" instance=ExtResource( 1 )]
+[node name="Manipulation" parent="Row1/Social/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Social"]
-offset_top = 54.0
-offset_right = 339.0
-offset_bottom = 68.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row3"]
-offset_right = 167.0
-offset_bottom = 14.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Composure"
-align = 2
 
-[node name="Composure" parent="Row1/Social/Row3" instance=ExtResource( 1 )]
+[node name="Composure" parent="Row1/Social/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 171.0
-offset_right = 339.0
-offset_bottom = 14.0
+layout_mode = 2
 Value = 1
 EnableToggling = false

@@ -1,333 +1,262 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dipgl2l1ptdw0"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_s0vy2"]
 
 [node name="Details" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 7.0
-custom_constants/separation = 25
+theme = ExtResource("1_s0vy2")
 
 [node name="Grid" type="GridContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 141.0
+layout_mode = 2
 columns = 2
 
 [node name="Row1" type="HBoxContainer" parent="Grid"]
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row1"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Player:"
-align = 2
-valign = 1
 
 [node name="Player" type="LineEdit" parent="Grid/Row1"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the player's name here."
 focus_neighbor_right = NodePath("../../Row6/Concept")
 focus_neighbor_bottom = NodePath("../../Row2/Chronicle")
 focus_next = NodePath("../../Row2/Chronicle")
 focus_previous = NodePath("../../Row10/GroupName")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row6" type="HBoxContainer" parent="Grid"]
-offset_left = 514.0
-offset_right = 1024.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row6"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Concept:"
-align = 2
-valign = 1
 
 [node name="Concept" type="LineEdit" parent="Grid/Row6"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's core concept here."
 focus_neighbor_left = NodePath("../../Row1/Player")
 focus_neighbor_bottom = NodePath("../../Row7/Virtue")
 focus_next = NodePath("../../Row7/Virtue")
 focus_previous = NodePath("../../Row5/Size")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row2" type="HBoxContainer" parent="Grid"]
-offset_top = 29.0
-offset_right = 510.0
-offset_bottom = 54.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row2"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Chronicle:"
-align = 2
-valign = 1
 
 [node name="Chronicle" type="LineEdit" parent="Grid/Row2"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the Chronicle name here."
 focus_neighbor_top = NodePath("../../Row1/Player")
 focus_neighbor_right = NodePath("../../Row7/Virtue")
 focus_neighbor_bottom = NodePath("../../Row3/Name")
 focus_next = NodePath("../../Row3/Name")
 focus_previous = NodePath("../../Row1/Player")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row7" type="HBoxContainer" parent="Grid"]
-offset_left = 514.0
-offset_top = 29.0
-offset_right = 1024.0
-offset_bottom = 54.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row7"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Virtue:"
-align = 2
-valign = 1
 
 [node name="Virtue" type="LineEdit" parent="Grid/Row7"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's Virtue here."
 focus_neighbor_left = NodePath("../../Row2/Chronicle")
 focus_neighbor_top = NodePath("../../Row6/Concept")
 focus_neighbor_bottom = NodePath("../../Row8/Vice")
 focus_next = NodePath("../../Row8/Vice")
 focus_previous = NodePath("../../Row6/Concept")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row3" type="HBoxContainer" parent="Grid"]
-offset_top = 58.0
-offset_right = 510.0
-offset_bottom = 83.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row3"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Name:"
-align = 2
-valign = 1
 
 [node name="Name" type="LineEdit" parent="Grid/Row3"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's name here."
 focus_neighbor_top = NodePath("../../Row2/Chronicle")
 focus_neighbor_right = NodePath("../../Row8/Vice")
 focus_neighbor_bottom = NodePath("../../Row4/Age")
 focus_next = NodePath("../../Row4/Age")
 focus_previous = NodePath("../../Row2/Chronicle")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row8" type="HBoxContainer" parent="Grid"]
-offset_left = 514.0
-offset_top = 58.0
-offset_right = 1024.0
-offset_bottom = 83.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row8"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Vice:"
-align = 2
-valign = 1
 
 [node name="Vice" type="LineEdit" parent="Grid/Row8"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's Vice here."
 focus_neighbor_left = NodePath("../../Row3/Name")
 focus_neighbor_top = NodePath("../../Row7/Virtue")
 focus_neighbor_bottom = NodePath("../../Row9/Faction")
 focus_next = NodePath("../../Row9/Faction")
 focus_previous = NodePath("../../Row7/Virtue")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row4" type="HBoxContainer" parent="Grid"]
-offset_top = 87.0
-offset_right = 510.0
-offset_bottom = 112.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row4"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Age:"
-align = 2
-valign = 1
 
 [node name="Age" type="SpinBox" parent="Grid/Row4"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's age here."
 focus_neighbor_top = NodePath("../../Row3/Name")
 focus_neighbor_right = NodePath("../../Row9/Faction")
 focus_neighbor_bottom = NodePath("../../Row5/Size")
 focus_next = NodePath("../../Row5/Size")
 focus_previous = NodePath("../../Row3/Name")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row9" type="HBoxContainer" parent="Grid"]
-offset_left = 514.0
-offset_top = 87.0
-offset_right = 1024.0
-offset_bottom = 112.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row9"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Faction:"
-align = 2
-valign = 1
 
 [node name="Faction" type="LineEdit" parent="Grid/Row9"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "If the character is a part of a Faction, enter that Faction here."
 focus_neighbor_left = NodePath("../../Row4/Age")
 focus_neighbor_top = NodePath("../../Row8/Vice")
 focus_neighbor_bottom = NodePath("../../Row10/GroupName")
 focus_next = NodePath("../../Row10/GroupName")
 focus_previous = NodePath("../../Row8/Vice")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="Row5" type="HBoxContainer" parent="Grid"]
-offset_top = 116.0
-offset_right = 510.0
-offset_bottom = 141.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row5"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Size:"
-align = 2
-valign = 1
 
 [node name="Size" type="SpinBox" parent="Grid/Row5"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "Enter the character's size here."
 focus_neighbor_top = NodePath("../../Row4/Age")
 focus_neighbor_right = NodePath("../../Row10/GroupName")
 focus_next = NodePath("../../Row6/Concept")
 focus_previous = NodePath("../../Row4/Age")
-size_flags_horizontal = 3
-size_flags_vertical = 3
 min_value = 1.0
 value = 5.0
 
 [node name="Row10" type="HBoxContainer" parent="Grid"]
-offset_left = 514.0
-offset_top = 116.0
-offset_right = 1024.0
-offset_bottom = 141.0
-custom_minimum_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Grid/Row10"]
-offset_right = 100.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Group Name:"
-align = 2
-valign = 1
 
 [node name="GroupName" type="LineEdit" parent="Grid/Row10"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 510.0
-offset_bottom = 25.0
-custom_minimum_size = Vector2( 0, 25 )
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tooltip_text = "If the character is a part of a group, enter the Group Name here."
 focus_neighbor_left = NodePath("../../Row5/Size")
 focus_previous = NodePath("../../Row9/Faction")
-size_flags_horizontal = 3
-size_flags_vertical = 3

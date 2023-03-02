@@ -1,774 +1,574 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://do2n200fvn5xi"]
 
-[ext_resource path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" type="Script" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="FontFile" id=2]
-[ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="FontFile" id=3]
-[ext_resource path="res://scenes/dnd/fifth/Ability.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=5]
-[ext_resource path="res://scenes/nodes/ToggleButton.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" type="Script" id=7]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" type="Script" id=8]
-[ext_resource path="res://scripts/nodes/dnd/fifth/options/DieOptionsButton.cs" type="Script" id=9]
-[ext_resource path="res://scenes/dnd/fifth/Inventory.tscn" type="PackedScene" id=11]
-
-[sub_resource type="StyleBoxEmpty" id=1]
-
-[sub_resource type="StyleBoxEmpty" id=2]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
+[ext_resource type="PackedScene" uid="uid://deu3qx5cs2s01" path="res://scenes/dnd/fifth/Ability.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="5"]
+[ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/nodes/ToggleButton.tscn" id="6"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" id="8"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/DieOptionsButton.cs" id="9"]
+[ext_resource type="PackedScene" uid="uid://qfhjanw2gycp" path="res://scenes/dnd/fifth/Inventory.tscn" id="11"]
 
 [node name="5E" type="ScrollContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_03ki6")
+script = ExtResource("1")
 
 [node name="Column" type="VBoxContainer" parent="."]
-offset_right = 1024.0
-offset_bottom = 768.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 15
 
 [node name="Label" type="Label" parent="Column"]
-offset_right = 1024.0
-offset_bottom = 46.0
-custom_fonts/font = ExtResource( 3 )
+layout_mode = 2
 text = "Dungeons & Dragons"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Column"]
-offset_top = 61.0
-offset_right = 1024.0
-offset_bottom = 85.0
-custom_fonts/font = ExtResource( 2 )
+layout_mode = 2
 text = "Fifth Edition"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Column"]
-offset_top = 100.0
-offset_right = 1024.0
-offset_bottom = 104.0
+layout_mode = 2
 
 [node name="Row" type="HBoxContainer" parent="Column"]
-offset_top = 119.0
-offset_right = 1024.0
-offset_bottom = 314.0
-custom_constants/separation = 15
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
 
 [node name="Details" type="VBoxContainer" parent="Column/Row"]
-offset_right = 304.0
-offset_bottom = 195.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 15
 
 [node name="Row" type="HBoxContainer" parent="Column/Row/Details"]
-offset_right = 304.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Player:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="PlayerName" type="LineEdit" parent="Column/Row/Details/Row"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 304.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Column/Row/Details"]
-offset_top = 39.0
-offset_right = 304.0
-offset_bottom = 63.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row2"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Name: "
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="CharacterName" type="LineEdit" parent="Column/Row/Details/Row2"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 304.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Column/Row/Details"]
-offset_top = 78.0
-offset_right = 304.0
-offset_bottom = 102.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row3"]
-offset_top = 5.0
-offset_right = 100.0
-offset_bottom = 19.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Alignment:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Alignment" type="LineEdit" parent="Column/Row/Details/Row3"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 304.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row4" type="HBoxContainer" parent="Column/Row/Details"]
-offset_top = 117.0
-offset_right = 304.0
-offset_bottom = 137.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row4"]
-offset_top = 3.0
-offset_right = 100.0
-offset_bottom = 17.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Race:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Race" type="OptionButton" parent="Column/Row/Details/Row4"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 304.0
-offset_bottom = 20.0
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 8 )
+script = ExtResource("8")
 
 [node name="Row5" type="HBoxContainer" parent="Column/Row/Details"]
-offset_top = 152.0
-offset_right = 304.0
-offset_bottom = 172.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Details/Row5"]
-offset_top = 3.0
-offset_right = 100.0
-offset_bottom = 17.0
-custom_minimum_size = Vector2( 100, 0 )
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
 text = "Background:"
-align = 2
-valign = 1
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Background" type="OptionButton" parent="Column/Row/Details/Row5"]
 unique_name_in_owner = true
-offset_left = 104.0
-offset_right = 304.0
-offset_bottom = 20.0
+layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource( 7 )
+script = ExtResource("7")
 
 [node name="Traits" type="VBoxContainer" parent="Column/Row"]
-offset_left = 319.0
-offset_right = 705.0
-offset_bottom = 195.0
+layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Column/Row/Traits"]
-offset_right = 386.0
-offset_bottom = 42.0
+layout_mode = 2
 alignment = 1
 
 [node name="Col" type="VBoxContainer" parent="Column/Row/Traits/Row1"]
-offset_right = 161.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Row" type="HBoxContainer" parent="Column/Row/Traits/Row1/Col"]
-offset_right = 161.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="CurrentHP" type="SpinBox" parent="Column/Row/Traits/Row1/Col/Row"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row1/Col/Row"]
-offset_left = 78.0
-offset_top = 5.0
-offset_right = 83.0
-offset_bottom = 19.0
+layout_mode = 2
 text = "/"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MaxHP" type="SpinBox" parent="Column/Row/Traits/Row1/Col/Row"]
 unique_name_in_owner = true
-offset_left = 87.0
-offset_right = 161.0
-offset_bottom = 24.0
+layout_mode = 2
 min_value = 1.0
 value = 1.0
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row1/Col"]
-offset_top = 28.0
-offset_right = 161.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "Hit Points"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col2" type="VBoxContainer" parent="Column/Row/Traits/Row1"]
-offset_left = 165.0
-offset_right = 273.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="TempHP" type="SpinBox" parent="Column/Row/Traits/Row1/Col2"]
 unique_name_in_owner = true
-offset_right = 108.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row1/Col2"]
-offset_top = 28.0
-offset_right = 108.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "Temp HP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col3" type="VBoxContainer" parent="Column/Row/Traits/Row1"]
-offset_left = 277.0
-offset_right = 386.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HitDice" type="SpinBox" parent="Column/Row/Traits/Row1/Col3"]
 unique_name_in_owner = true
-offset_right = 109.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row1/Col3"]
-offset_top = 28.0
-offset_right = 109.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "Hit Dice"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Column/Row/Traits"]
-offset_top = 46.0
-offset_right = 386.0
-offset_bottom = 56.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_styles/separator = SubResource( 1 )
 
 [node name="Row2" type="HBoxContainer" parent="Column/Row/Traits"]
-offset_top = 60.0
-offset_right = 386.0
-offset_bottom = 102.0
+layout_mode = 2
 alignment = 1
 
 [node name="Col" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-offset_right = 126.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ArmorClass" type="SpinBox" parent="Column/Row/Traits/Row2/Col"]
 unique_name_in_owner = true
-offset_right = 126.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
 allow_lesser = true
-align = 1
+alignment = 1
 editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col"]
-offset_top = 28.0
-offset_right = 126.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "AC"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col2" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-offset_left = 130.0
-offset_right = 256.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="InitiativeBonus" type="SpinBox" parent="Column/Row/Traits/Row2/Col2"]
 unique_name_in_owner = true
-offset_right = 126.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
 allow_lesser = true
-align = 1
+alignment = 1
 editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col2"]
-offset_top = 28.0
-offset_right = 126.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "Initiative"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col3" type="VBoxContainer" parent="Column/Row/Traits/Row2"]
-offset_left = 260.0
-offset_right = 386.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Speed" type="SpinBox" parent="Column/Row/Traits/Row2/Col3"]
 unique_name_in_owner = true
-offset_right = 126.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
 allow_lesser = true
-align = 1
+alignment = 1
 editable = false
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row2/Col3"]
-offset_top = 28.0
-offset_right = 126.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_vertical = 1
 text = "Speed"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator2" type="HSeparator" parent="Column/Row/Traits"]
-offset_top = 106.0
-offset_right = 386.0
-offset_bottom = 116.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_styles/separator = SubResource( 2 )
 
 [node name="Row3" type="HBoxContainer" parent="Column/Row/Traits"]
-offset_top = 120.0
-offset_right = 386.0
-offset_bottom = 162.0
+layout_mode = 2
 alignment = 1
 
 [node name="Col" type="VBoxContainer" parent="Column/Row/Traits/Row3"]
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Copper" type="SpinBox" parent="Column/Row/Traits/Row3/Col"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row3/Col"]
-offset_top = 28.0
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
+size_flags_vertical = 1
 tooltip_text = "Copper Pieces"
 mouse_filter = 1
-size_flags_vertical = 1
 text = "CP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col2" type="VBoxContainer" parent="Column/Row/Traits/Row3"]
-offset_left = 78.0
-offset_right = 152.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Silver" type="SpinBox" parent="Column/Row/Traits/Row3/Col2"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row3/Col2"]
-offset_top = 28.0
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
+size_flags_vertical = 1
 tooltip_text = "Silver Pieces
 1 SP <-> 10 CP"
 mouse_filter = 1
-size_flags_vertical = 1
 text = "SP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col3" type="VBoxContainer" parent="Column/Row/Traits/Row3"]
-offset_left = 156.0
-offset_right = 230.0
-offset_bottom = 42.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Electrum" type="SpinBox" parent="Column/Row/Traits/Row3/Col3"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row3/Col3"]
-offset_top = 28.0
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
+size_flags_vertical = 1
 tooltip_text = "Electrum Pieces
 1 EP <-> 5 SP"
 mouse_filter = 1
-size_flags_vertical = 1
 text = "EP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col4" type="VBoxContainer" parent="Column/Row/Traits/Row3"]
-offset_left = 234.0
-offset_right = 308.0
-offset_bottom = 42.0
+layout_mode = 2
 
 [node name="Gold" type="SpinBox" parent="Column/Row/Traits/Row3/Col4"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row3/Col4"]
-offset_top = 28.0
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
+size_flags_vertical = 0
 tooltip_text = "Gold Pieces
 1 GP <-> 10 SP"
 mouse_filter = 1
-size_flags_vertical = 0
 text = "GP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Col5" type="VBoxContainer" parent="Column/Row/Traits/Row3"]
-offset_left = 312.0
-offset_right = 386.0
-offset_bottom = 42.0
+layout_mode = 2
 
 [node name="Platinum" type="SpinBox" parent="Column/Row/Traits/Row3/Col5"]
 unique_name_in_owner = true
-offset_right = 74.0
-offset_bottom = 24.0
+layout_mode = 2
 rounded = true
 allow_greater = true
-align = 1
+alignment = 1
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row3/Col5"]
-offset_top = 28.0
-offset_right = 74.0
-offset_bottom = 42.0
+layout_mode = 2
+size_flags_vertical = 0
 tooltip_text = "Platinum Pieces
 1 PP <-> 10 GP"
 mouse_filter = 1
-size_flags_vertical = 0
 text = "PP"
-align = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator3" type="HSeparator" parent="Column/Row/Traits"]
-offset_top = 166.0
-offset_right = 386.0
-offset_bottom = 176.0
+layout_mode = 2
 size_flags_vertical = 3
-custom_styles/separator = SubResource( 1 )
 
 [node name="Row4" type="HBoxContainer" parent="Column/Row/Traits"]
-offset_top = 180.0
-offset_right = 386.0
-offset_bottom = 194.0
+layout_mode = 2
 alignment = 1
 
-[node name="Inspiration" parent="Column/Row/Traits/Row4" instance=ExtResource( 6 )]
+[node name="Inspiration" parent="Column/Row/Traits/Row4" instance=ExtResource("6")]
 unique_name_in_owner = true
-offset_left = 92.0
-offset_top = 7.0
-offset_right = 92.0
-offset_bottom = 7.0
+layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="Column/Row/Traits/Row4"]
-offset_left = 96.0
-offset_right = 165.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Inspiration"
-align = 2
-valign = 1
+vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="Column/Row/Traits/Row4"]
-offset_left = 169.0
-offset_right = 173.0
-offset_bottom = 14.0
+layout_mode = 2
 
-[node name="BardicInspiration" parent="Column/Row/Traits/Row4" instance=ExtResource( 6 )]
+[node name="BardicInspiration" parent="Column/Row/Traits/Row4" instance=ExtResource("6")]
 unique_name_in_owner = true
-offset_left = 177.0
-offset_top = 7.0
-offset_right = 177.0
-offset_bottom = 7.0
+layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Label2" type="Label" parent="Column/Row/Traits/Row4"]
-offset_left = 181.0
-offset_right = 294.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Bardic Inspiration"
-valign = 1
+vertical_alignment = 1
 
 [node name="BardicInspirationDie" type="OptionButton" parent="Column/Row/Traits/Row4"]
 unique_name_in_owner = true
 visible = false
-offset_left = 266.0
-offset_right = 326.0
-offset_bottom = 20.0
-custom_minimum_size = Vector2( 60, 0 )
-script = ExtResource( 9 )
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+script = ExtResource("9")
 BardicInspiration = true
 
 [node name="Personality" type="VBoxContainer" parent="Column/Row"]
-offset_left = 720.0
-offset_right = 1024.0
-offset_bottom = 195.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Column/Row/Personality"]
-offset_right = 304.0
-offset_bottom = 39.0
-custom_constants/separation = 2
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Column/Row/Personality/VBoxContainer"]
-offset_right = 304.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Personality Traits"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PersonalityTraits" type="TextEdit" parent="Column/Row/Personality/VBoxContainer"]
 unique_name_in_owner = true
-offset_top = 16.0
-offset_right = 304.0
-offset_bottom = 39.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 5 )
+wrap_mode = 1
+script = ExtResource("5")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Column/Row/Personality"]
-offset_top = 54.0
-offset_right = 304.0
-offset_bottom = 91.0
-custom_constants/separation = 0
+layout_mode = 2
 
 [node name="Label2" type="Label" parent="Column/Row/Personality/VBoxContainer2"]
-offset_right = 304.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Ideals"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Ideals" type="TextEdit" parent="Column/Row/Personality/VBoxContainer2"]
 unique_name_in_owner = true
-offset_top = 14.0
-offset_right = 304.0
-offset_bottom = 37.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 5 )
+wrap_mode = 1
+script = ExtResource("5")
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Column/Row/Personality"]
-offset_top = 106.0
-offset_right = 304.0
-offset_bottom = 143.0
-custom_constants/separation = 0
+layout_mode = 2
 
 [node name="Label3" type="Label" parent="Column/Row/Personality/VBoxContainer3"]
-offset_right = 304.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Bonds"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Bonds" type="TextEdit" parent="Column/Row/Personality/VBoxContainer3"]
 unique_name_in_owner = true
-offset_top = 14.0
-offset_right = 304.0
-offset_bottom = 37.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 5 )
+wrap_mode = 1
+script = ExtResource("5")
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="Column/Row/Personality"]
-offset_top = 158.0
-offset_right = 304.0
-offset_bottom = 195.0
-custom_constants/separation = 0
+layout_mode = 2
 
 [node name="Label4" type="Label" parent="Column/Row/Personality/VBoxContainer4"]
-offset_right = 304.0
-offset_bottom = 14.0
+layout_mode = 2
 text = "Flaws"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Flaws" type="TextEdit" parent="Column/Row/Personality/VBoxContainer4"]
 unique_name_in_owner = true
-offset_top = 14.0
-offset_right = 304.0
-offset_bottom = 37.0
-custom_minimum_size = Vector2( 0, 23 )
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
 size_flags_horizontal = 3
-wrap_enabled = true
-script = ExtResource( 5 )
+wrap_mode = 1
+script = ExtResource("5")
 
 [node name="HSeparator2" type="HSeparator" parent="Column"]
-offset_top = 329.0
-offset_right = 1024.0
-offset_bottom = 333.0
+layout_mode = 2
 
 [node name="TabBar" type="TabContainer" parent="Column"]
 unique_name_in_owner = true
-offset_top = 348.0
-offset_right = 1024.0
-offset_bottom = 608.0
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
 
 [node name="Ability Scores" type="VBoxContainer" parent="Column/TabBar"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 32.0
-offset_right = -4.0
-offset_bottom = -4.0
+layout_mode = 2
 
 [node name="Row" type="HBoxContainer" parent="Column/TabBar/Ability Scores"]
-offset_right = 1016.0
-offset_bottom = 110.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
-[node name="Strength" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource( 4 )]
+[node name="Strength" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 223.0
-offset_right = 403.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
-[node name="Dexterity" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource( 4 )]
+[node name="Dexterity" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 418.0
-offset_right = 598.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
-[node name="Constitution" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource( 4 )]
+[node name="Constitution" parent="Column/TabBar/Ability Scores/Row" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 613.0
-offset_right = 793.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
 [node name="Row2" type="HBoxContainer" parent="Column/TabBar/Ability Scores"]
-offset_top = 114.0
-offset_right = 1016.0
-offset_bottom = 224.0
-custom_constants/separation = 15
+layout_mode = 2
 alignment = 1
 
-[node name="Wisdom" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource( 4 )]
+[node name="Wisdom" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 223.0
-offset_right = 403.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
-[node name="Intelligence" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource( 4 )]
+[node name="Intelligence" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 418.0
-offset_right = 598.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
-[node name="Charisma" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource( 4 )]
+[node name="Charisma" parent="Column/TabBar/Ability Scores/Row2" instance=ExtResource("4")]
 unique_name_in_owner = true
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 613.0
-offset_right = 793.0
-offset_bottom = 110.0
-custom_minimum_size = Vector2( 180, 0 )
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
 
 [node name="Actions" type="VBoxContainer" parent="Column/TabBar"]
 visible = false
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 
 [node name="Classes" type="VBoxContainer" parent="Column/TabBar"]
 unique_name_in_owner = true
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 32.0
-offset_right = -4.0
-offset_bottom = -4.0
+layout_mode = 2
 
 [node name="Freatures & Traits" type="TabContainer" parent="Column/TabBar"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 32.0
-offset_right = -4.0
-offset_bottom = -4.0
+layout_mode = 2
+tab_alignment = 1
 
 [node name="Background Features" type="VBoxContainer" parent="Column/TabBar/Freatures & Traits"]
 unique_name_in_owner = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 32.0
-offset_right = -4.0
-offset_bottom = -4.0
-custom_constants/separation = 25
+layout_mode = 2
 
 [node name="Racial Features" type="VBoxContainer" parent="Column/TabBar/Freatures & Traits"]
 unique_name_in_owner = true
 visible = false
-offset_top = 68.0
-offset_right = 1016.0
-offset_bottom = 68.0
-custom_constants/separation = 25
+layout_mode = 2
 
-[node name="Inventory" parent="Column/TabBar" instance=ExtResource( 11 )]
+[node name="Inventory" parent="Column/TabBar" instance=ExtResource("11")]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2

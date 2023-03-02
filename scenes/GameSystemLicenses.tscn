@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://vprlpi1oxhnn"]
+[gd_scene load_steps=3 format=3 uid="uid://vprlpi1oxhnn"]
 
 [ext_resource type="Texture2D" uid="uid://crydytnk55536" path="res://assets/textures/darkpack_logo2-160.png" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rgn14"]
 
 [node name="GameSystemLicenses" type="Window"]
 initial_position = 2
@@ -9,6 +10,7 @@ size = Vector2i(720, 200)
 transient = true
 exclusive = true
 popup_window = true
+theme = ExtResource("1_rgn14")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchors_preset = 15

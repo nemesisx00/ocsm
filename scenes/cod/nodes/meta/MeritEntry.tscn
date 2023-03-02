@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1mq7osydydws"]
+[gd_scene load_steps=5 format=3 uid="uid://d1mq7osydydws"]
 
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_u8wcu"]
 [ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/meta/MeritEntry.cs" id="4"]
@@ -8,16 +9,20 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("1_u8wcu")
 script = ExtResource("4")
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2
+alignment = 1
 
 [node name="ExistingLabel" type="Label" parent="Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Merits:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
@@ -53,6 +58,8 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Name:"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
@@ -68,6 +75,8 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Value:"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Dots" type="GridContainer" parent="Row4"]
 unique_name_in_owner = true
@@ -81,6 +90,8 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Row5"]
 layout_mode = 2
 text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Row5"]
 unique_name_in_owner = true

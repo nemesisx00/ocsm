@@ -25,13 +25,14 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Connect(Constants.Signal.Pressed,new Callable(this,nameof(toggleSections)));
-			
 			nameNode = GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name));
 			descriptionNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Description));
 			detailsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Details));
 			textNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Text));
 			sectionsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Sections));
+			
+			//nameNode.GuiInput += toggleSections;
+			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Pressed += toggleSections;
 		}
 		
 		public void update(OCSM.DnD.Fifth.Feature feature)
@@ -51,7 +52,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			if(feature.Sections.Count > 0)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
+				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
 				foreach(var section in feature.Sections)
 				{
 					var instance = resource.Instantiate<VBoxContainer>();
