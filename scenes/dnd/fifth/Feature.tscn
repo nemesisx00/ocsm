@@ -22,6 +22,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 20
 vertical_alignment = 1
 
 [node name="ShowHide" type="TextureButton" parent="Row"]
@@ -39,20 +40,26 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+fit_content = true
+scroll_active = false
 
 [node name="Details" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 25
 
 [node name="Text" type="RichTextLabel" parent="Details"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+fit_content = true
+scroll_active = false
 
 [node name="Sections" type="VBoxContainer" parent="Details"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 25

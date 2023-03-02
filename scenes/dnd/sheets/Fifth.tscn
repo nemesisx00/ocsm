@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://do2n200fvn5xi"]
+[gd_scene load_steps=9 format=3 uid="uid://do2n200fvn5xi"]
 
 [ext_resource type="Script" path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
@@ -551,11 +551,13 @@ layout_mode = 2
 [node name="Actions" type="VBoxContainer" parent="Column/TabBar"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Classes" type="VBoxContainer" parent="Column/TabBar"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Freatures & Traits" type="TabContainer" parent="Column/TabBar"]
 visible = false
@@ -565,11 +567,13 @@ tab_alignment = 1
 [node name="Background Features" type="VBoxContainer" parent="Column/TabBar/Freatures & Traits"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Racial Features" type="VBoxContainer" parent="Column/TabBar/Freatures & Traits"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Inventory" parent="Column/TabBar" instance=ExtResource("11")]
 unique_name_in_owner = true
