@@ -1,6 +1,5 @@
 [gd_scene load_steps=10 format=3 uid="uid://dxwj6f5njwhkp"]
 
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_uc06f"]
 [ext_resource type="Texture2D" uid="uid://dsjw2xaw7s3xu" path="res://assets/textures/up-arrow.svg" id="2"]
 [ext_resource type="Texture2D" uid="uid://cmyj8elt13equ" path="res://assets/textures/down-arrow.svg" id="3"]
@@ -173,11 +172,12 @@ text = "Description"
 
 [node name="Description" type="TextEdit" parent="Details/Row4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1")
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row5" type="VBoxContainer" parent="Details"]
 layout_mode = 2
@@ -190,11 +190,12 @@ text = "Effects"
 
 [node name="Effects" type="TextEdit" parent="Details/Row5"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1")
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row6" type="VBoxContainer" parent="Details"]
 layout_mode = 2
@@ -214,10 +215,12 @@ text = "Success:"
 
 [node name="Success" type="TextEdit" parent="Details/Row6/Row"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row2" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
@@ -229,10 +232,12 @@ text = "Exceptional Success:"
 
 [node name="ExceptionalSuccess" type="TextEdit" parent="Details/Row6/Row2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row3" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
@@ -244,10 +249,12 @@ text = "Failure:"
 
 [node name="Failure" type="TextEdit" parent="Details/Row6/Row3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row4" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
@@ -259,10 +266,12 @@ text = "Dramatic Failure:"
 
 [node name="DramaticFailure" type="TextEdit" parent="Details/Row6/Row4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="SeemingBenefitsRow" type="VBoxContainer" parent="Details"]
 unique_name_in_owner = true
@@ -284,7 +293,9 @@ text = "Loophole"
 
 [node name="Loophole" type="TextEdit" parent="Details/Row7"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true

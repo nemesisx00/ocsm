@@ -82,12 +82,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed = entry.StealthDisadvantage;
 			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).ButtonPressed = entry.MinimumStrength > 0;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value = entry.MinimumStrength;
-			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
+			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
 			
 			toggleLimitDexterity();
 			toggleDexterityLimit();
 			toggleMinimumStrengthInput();
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		public void refreshMetadata()
@@ -114,12 +113,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed = false;
 			GetNode<CheckBox>(NodePathBuilder.SceneUnique(ShowStrengthCheck)).ButtonPressed = false;
 			GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value = 0;
-			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
+			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
 			
 			toggleLimitDexterity();
 			toggleDexterityLimit();
 			toggleMinimumStrengthInput();
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		public void doDelete()
@@ -145,7 +143,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			var dexLimit = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(DexterityBonusLimit)).Value;
 			var stealth = GetNode<CheckBox>(NodePathBuilder.SceneUnique(StealthDisadvantageInput)).ButtonPressed;
 			var minStr = (int)GetNode<SpinBox>(NodePathBuilder.SceneUnique(MinimumStrengthInput)).Value;
-			var description = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
+			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
 			
 			var armor = new ItemArmor()
 			{

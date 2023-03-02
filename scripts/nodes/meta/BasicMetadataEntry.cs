@@ -51,8 +51,7 @@ namespace OCSM.Nodes.Meta
 		protected virtual void clearInputs()
 		{
 			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = String.Empty;
-			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
+			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
 		}
 		
 		protected virtual void doSave()
@@ -90,7 +89,6 @@ namespace OCSM.Nodes.Meta
 		{
 			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = entry.Name;
 			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		protected virtual void entrySelected(long index)

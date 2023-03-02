@@ -7,7 +7,6 @@ namespace OCSM
 	/// </summary>
 	public class Constants
 	{
-		public const int TextInputMinHeight = 23;
 		public const string NewSheetFileName = "New Sheet";
 		public const string SheetFileExtension = ".ocsd";
 		

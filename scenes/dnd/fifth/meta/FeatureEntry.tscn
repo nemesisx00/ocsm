@@ -2,7 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_60b6o"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureTypeOptionsButton.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeatureEntry.cs" id="5"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" id="6"]
@@ -124,13 +123,12 @@ text = "Description:"
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Column/Row4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 9.0
-caret_blink = true
-caret_blink_interval = 0.5
-script = ExtResource("3")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="Row5" type="HBoxContainer" parent="ScrollContainer/Column"]
 layout_mode = 2
@@ -158,10 +156,12 @@ text = "Text:"
 
 [node name="Text" type="TextEdit" parent="ScrollContainer/Column/Row6"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("3")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/Column"]
 layout_mode = 2

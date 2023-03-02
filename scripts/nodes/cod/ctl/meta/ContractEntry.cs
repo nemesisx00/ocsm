@@ -44,14 +44,12 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			var contractInput = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput));
 			contractInput.setData(contract);
-			NodeUtilities.autoSizeChildren(contractInput, Constants.TextInputMinHeight);
 		}
 		
 		private void clearInputs()
 		{
 			var contractInput = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput));
 			contractInput.clearInputs();
-			NodeUtilities.autoSizeChildren(contractInput, Constants.TextInputMinHeight);
 		}
 		
 		private void doSave()

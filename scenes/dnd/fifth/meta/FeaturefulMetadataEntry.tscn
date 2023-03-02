@@ -1,7 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ddr6vv5vktghs"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_k1ow7"]
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeaturefulMetadataEntry.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" id="5"]
@@ -72,10 +71,12 @@ text = "Description"
 
 [node name="Description" type="TextEdit" parent="Row4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("2")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="SectionsSection" type="VBoxContainer" parent="."]
 layout_mode = 2

@@ -1,6 +1,5 @@
 [gd_scene load_steps=3 format=3 uid="uid://4cdwnptfelxe"]
 
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_hioeu"]
 
 [node name="FeatureSection" type="HBoxContainer"]
@@ -18,7 +17,9 @@ size_flags_vertical = 4
 size_flags_stretch_ratio = 2.0
 
 [node name="Text" type="TextEdit" parent="."]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 6.0
-script = ExtResource("1")
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true

@@ -11,59 +11,6 @@ namespace OCSM
 	public class NodeUtilities
 	{
 		/// <summary>
-		/// Automatically resize a <c>Godot.TextEdit</c> node according to its
-		/// current content.
-		/// </summary>
-		/// <param name="node">The node to be resized.</param>
-		/// <param name="absoluteMinimumHeight">The minimum allowed height for the node.</param>
-		public static void autoSize(TextEdit node, int absoluteMinimumHeight = 0)
-		{
-			var lineHeight = node.GetLineHeight();
-			var offset = absoluteMinimumHeight - lineHeight;
-			if(offset < 0)
-				offset = 0;
-			
-			var minY = (lineHeight * NodeUtilities.getLineCount(node)) + offset;
-			node.CustomMinimumSize = new Vector2(node.CustomMinimumSize.X, minY);
-		}
-		
-		/// <summary>
-		/// Automatically resize all <c>Godot.TextEdit</c> nodes which are children
-		/// of the given <c>node</c>.
-		/// </summary>
-		/// <remarks>
-		/// Recurses through the children of every <c>Godot.Control</c> node.
-		/// </remarks>
-		/// <param name="node">The node whose child nodes will be resized.</param>
-		/// <param name="absoluteMinimumHeight">The minimum allowed height for the nodes.</param>
-		public static void autoSizeChildren(Control node, int absoluteMinimumHeight = 0)
-		{
-			foreach(var c in node.GetChildren())
-			{
-				if(c is TextEdit te)
-					NodeUtilities.autoSize(te, absoluteMinimumHeight);
-				
-				if(c is Control cc)
-					NodeUtilities.autoSizeChildren(cc, absoluteMinimumHeight);
-			}
-		}
-		
-		/// <summary>
-		/// Reposition a <c>Godot.Control</c> to the center of the viewport,
-		/// based on the given <c>center</c> coordinates and the current <c>Size</c>
-		///  of the given <c>control</c>.
-		/// </summary>
-		/// <param name="control">The control being repositioned.</param>
-		/// <param name="center">
-		/// The <c>Godot.Vector2</c> defining the coordinates of the center to which
-		/// <c>control</c> is being repositioned.
-		/// </param>
-		public static void centerControl(Control control, Vector2 center)
-		{
-			control.Position = new Vector2(center.X - (control.Size.X / 2), center.Y - (control.Size.Y / 2));
-		}
-		
-		/// <summary>
 		/// Create a new <c>Godot.Label</c> instance with its <c>Align</c> and
 		/// <c>VAlign</c> properties set to <c>Center</c>.
 		/// </summary>

@@ -76,9 +76,6 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				sectionNode.Text = section.Section;
 				textNode.Text = section.Text;
-				
-				if(!String.IsNullOrEmpty(section.Text))
-					NodeUtilities.autoSize(textNode, Constants.TextInputMinHeight);
 			}
 		}
 	}

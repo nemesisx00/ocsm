@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
 [ext_resource type="PackedScene" uid="uid://deu3qx5cs2s01" path="res://scenes/dnd/fifth/Ability.tscn" id="4"]
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="5"]
 [ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/nodes/ToggleButton.tscn" id="6"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" id="7"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" id="8"]
@@ -438,11 +437,12 @@ vertical_alignment = 1
 
 [node name="PersonalityTraits" type="TextEdit" parent="Column/Row/Personality/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("5")
+scroll_fit_content_height = true
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Column/Row/Personality"]
 layout_mode = 2
@@ -455,11 +455,12 @@ vertical_alignment = 1
 
 [node name="Ideals" type="TextEdit" parent="Column/Row/Personality/VBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("5")
+scroll_fit_content_height = true
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Column/Row/Personality"]
 layout_mode = 2
@@ -472,11 +473,12 @@ vertical_alignment = 1
 
 [node name="Bonds" type="TextEdit" parent="Column/Row/Personality/VBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("5")
+scroll_fit_content_height = true
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="Column/Row/Personality"]
 layout_mode = 2
@@ -489,11 +491,12 @@ vertical_alignment = 1
 
 [node name="Flaws" type="TextEdit" parent="Column/Row/Personality/VBoxContainer4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("5")
+scroll_fit_content_height = true
 
 [node name="HSeparator2" type="HSeparator" parent="Column"]
 layout_mode = 2

@@ -1,6 +1,5 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxsbfbdwx26pw"]
 
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_iffss"]
 [ext_resource type="Script" path="res://scripts/nodes/meta/BasicMetadataEntry.cs" id="2"]
 
@@ -84,8 +83,9 @@ vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Row4"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("1")
+scroll_fit_content_height = true

@@ -17,7 +17,6 @@ namespace OCSM.Nodes.Sheets
 		
 		public override void _Ready()
 		{
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		public string GetJsonData() { return JsonSerializer.Serialize(SheetData); }

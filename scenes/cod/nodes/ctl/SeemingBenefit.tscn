@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/SeemingOptionButton.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_onpgx"]
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
 
 [node name="SeemingBenefit" type="HBoxContainer"]
 anchors_preset = 15
@@ -20,7 +19,10 @@ script = ExtResource("1")
 
 [node name="Benefit" type="TextEdit" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true
 size_flags_stretch_ratio = 9.0
-script = ExtResource("2")

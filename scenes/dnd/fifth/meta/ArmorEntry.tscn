@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://hyx8nnliaktu"]
+[gd_scene load_steps=5 format=3 uid="uid://hyx8nnliaktu"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_3cf65"]
-[ext_resource type="Script" path="res://scripts/nodes/AutosizeTextEdit.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ArmorOptionsButton.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/ArmorEntry.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ArmorTypeOptions.cs" id="4_gcrxs"]
@@ -211,9 +210,9 @@ vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Row7"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 23)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 wrap_mode = 1
-script = ExtResource("2")
+scroll_fit_content_height = true

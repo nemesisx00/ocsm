@@ -335,7 +335,6 @@ namespace OCSM.Nodes.CoD.CtL
 				}
 				var text = instance.GetChild<TextEdit>(1);
 				text.Text = benefit;
-				NodeUtilities.autoSize(text, Constants.TextInputMinHeight);
 			}
 			instance.GetChild<SeemingOptionButton>(0).ItemSelected += seemingChanged;
 			instance.GetChild<TextEdit>(1).TextChanged += benefitChanged;

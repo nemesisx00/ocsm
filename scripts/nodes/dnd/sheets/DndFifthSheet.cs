@@ -72,10 +72,10 @@ namespace OCSM.Nodes.DnD.Sheets
 			InitToggleButton(GetNode<ToggleButton>(NodePathBuilder.SceneUnique(Names.BardicInspiration)), SheetData.BardicInspiration, changed_BardicInspiration);
 			InitDieOptionsButton(GetNode<DieOptionsButton>(NodePathBuilder.SceneUnique(Names.BardicInspirationDie)), SheetData.BardicInspirationDie, changed_BardicInspirationDie);
 			
-			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)), SheetData.PersonalityTraits, changed_PersonalityTraits);
-			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)), SheetData.Ideals, changed_Ideals);
-			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)), SheetData.Bonds, changed_Bonds);
-			InitTextEdit(GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)), SheetData.Flaws, changed_Flaws);
+			InitTextEdit(GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)), SheetData.PersonalityTraits, changed_PersonalityTraits);
+			InitTextEdit(GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)), SheetData.Ideals, changed_Ideals);
+			InitTextEdit(GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)), SheetData.Bonds, changed_Bonds);
+			InitTextEdit(GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)), SheetData.Flaws, changed_Flaws);
 			
 			foreach(var ability in SheetData.Abilities)
 			{
@@ -331,7 +331,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Bonds()
 		{
-			var text = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)).Text;
+			var text = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Bonds)).Text;
 			SheetData.Bonds = text;
 		}
 		
@@ -348,7 +348,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Flaws()
 		{
-			var text = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)).Text;
+			var text = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Flaws)).Text;
 			SheetData.Flaws = text;
 		}
 		
@@ -356,7 +356,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Ideals()
 		{
-			var text = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)).Text;
+			var text = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Ideals)).Text;
 			SheetData.Ideals = text;
 		}
 		
@@ -373,7 +373,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_PersonalityTraits()
 		{
-			var text = GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)).Text;
+			var text = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.PersonalityTraits)).Text;
 			SheetData.PersonalityTraits = text;
 		}
 		
