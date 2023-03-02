@@ -6,7 +6,7 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public partial class WeaponTypeOptions : OptionButton
 	{
-		public new void _Ready()
+		public override void _Ready()
 		{
 			Clear();
 			AddItem(String.Empty);
