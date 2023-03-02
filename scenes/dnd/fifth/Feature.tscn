@@ -9,6 +9,8 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_6xuws")
 script = ExtResource("2")
 
@@ -20,6 +22,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+vertical_alignment = 1
 
 [node name="ShowHide" type="TextureButton" parent="Row"]
 unique_name_in_owner = true
@@ -29,6 +32,7 @@ mouse_default_cursor_shape = 2
 toggle_mode = true
 texture_normal = ExtResource("4")
 texture_pressed = ExtResource("3")
+stretch_mode = 5
 
 [node name="Description" type="RichTextLabel" parent="."]
 unique_name_in_owner = true

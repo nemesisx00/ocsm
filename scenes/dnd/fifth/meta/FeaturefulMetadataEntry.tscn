@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddr6vv5vktghs"]
+[gd_scene load_steps=5 format=3 uid="uid://ddr6vv5vktghs"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_k1ow7"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeaturefulMetadataEntry.cs" id="3"]
@@ -11,15 +11,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 pivot_offset = Vector2(512, -136)
 theme = ExtResource("1_k1ow7")
+theme_override_constants/separation = 15
 script = ExtResource("3")
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2
+alignment = 1
 
 [node name="ExistingLabel" type="Label" parent="Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
@@ -55,6 +59,8 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="Row3"]
 unique_name_in_owner = true
@@ -67,7 +73,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Row4"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Row4"]
 unique_name_in_owner = true
@@ -83,20 +92,27 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="SectionsSection"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Sections"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sections" type="VBoxContainer" parent="SectionsSection"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 15
 script = ExtResource("5")
 
 [node name="Row5" type="HBoxContainer" parent="."]
 layout_mode = 2
+alignment = 1
 
 [node name="Label" type="Label" parent="Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Features:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExistingFeatures" type="OptionButton" parent="Row5"]
 unique_name_in_owner = true
@@ -110,8 +126,12 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Row6"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Features"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Features" type="VBoxContainer" parent="Row6"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 15

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://civ425frlttp6"]
+[gd_scene load_steps=8 format=3 uid="uid://civ425frlttp6"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_60b6o"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" id="2"]
@@ -26,12 +26,15 @@ size_flags_horizontal = 3
 
 [node name="Row" type="HBoxContainer" parent="ScrollContainer/Column"]
 layout_mode = 2
+alignment = 1
 
 [node name="ExistingLabel" type="Label" parent="ScrollContainer/Column/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Existing Features:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExistingEntry" type="OptionButton" parent="ScrollContainer/Column/Row"]
 unique_name_in_owner = true
@@ -67,6 +70,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Name:"
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
@@ -81,6 +85,7 @@ caret_blink_interval = 0.5
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "Type:"
+vertical_alignment = 1
 
 [node name="Type" type="OptionButton" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
@@ -94,6 +99,7 @@ visible = false
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "Class:"
+vertical_alignment = 1
 
 [node name="Class" type="OptionButton" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
@@ -106,12 +112,14 @@ script = ExtResource("8")
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 text = "Required Level:"
+vertical_alignment = 1
 
 [node name="RequiredLevel" type="SpinBox" parent="ScrollContainer/Column/Row3"]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 20.0
 rounded = true
+alignment = 1
 
 [node name="Row4" type="HBoxContainer" parent="ScrollContainer/Column"]
 layout_mode = 2
@@ -120,6 +128,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Description:"
+vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="ScrollContainer/Column/Row4"]
 unique_name_in_owner = true
@@ -137,6 +146,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Source:"
+vertical_alignment = 1
 
 [node name="Source" type="LineEdit" parent="ScrollContainer/Column/Row5"]
 unique_name_in_owner = true
@@ -153,6 +163,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Text:"
+vertical_alignment = 1
 
 [node name="Text" type="TextEdit" parent="ScrollContainer/Column/Row6"]
 unique_name_in_owner = true
@@ -171,7 +182,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/NumericBonusSection"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Numeric Bonuses"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="NumericBonuses" type="VBoxContainer" parent="ScrollContainer/Column/NumericBonusSection"]
 unique_name_in_owner = true
@@ -186,7 +200,10 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/Column/SectionsSection"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Sections"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Sections" type="VBoxContainer" parent="ScrollContainer/Column/SectionsSection"]
 unique_name_in_owner = true
