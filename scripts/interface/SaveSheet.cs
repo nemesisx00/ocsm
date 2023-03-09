@@ -11,7 +11,7 @@ namespace OCSM.Nodes
 		{
 			var path = FileSystemUtilities.DefaultSheetDirectory;
 			CurrentDir = path;
-			Connect(Constants.Signal.FileSelected,new Callable(this,nameof(doSave)));
+			FileSelected += doSave;
 		}
 		
 		private void doSave(string filePath)

@@ -13,7 +13,7 @@ namespace OCSM.Nodes
 		{
 			var path = FileSystemUtilities.DefaultSheetDirectory;
 			CurrentDir = path;
-			Connect(Constants.Signal.FileSelected,new Callable(this,nameof(doOpen)));
+			FileSelected += doOpen;
 		}
 		
 		private void doOpen(string filePath)

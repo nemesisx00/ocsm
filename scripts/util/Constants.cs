@@ -7,6 +7,7 @@ namespace OCSM
 	/// </summary>
 	public class Constants
 	{
+		public const string AppVersion = "0.5.0";
 		public const string NewSheetFileName = "New Sheet";
 		public const string SheetFileExtension = ".ocsd";
 		
@@ -103,22 +104,6 @@ namespace OCSM
 					}
 				}
 			}
-		}
-		
-		public sealed class Signal
-		{
-			public const string Confirmed = "confirmed";
-			public const string FileSelected = "file_selected";
-			public const string GuiInput = "gui_input";
-			public const string IdPressed = "id_pressed";
-			public const string ItemSelected = "item_selected";
-			public const string NodeChanged = "NodeChanged";
-			public const string Pressed = "pressed";
-			public const string Released = "released";
-			public const string TabChanged = "tab_changed";
-			public const string TabSelected = "tab_selected";
-			public const string TextChanged = "text_changed";
-			public const string ValueChanged = "value_changed";
 		}
 		
 		public sealed class Texture
