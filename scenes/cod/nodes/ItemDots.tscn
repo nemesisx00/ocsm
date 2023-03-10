@@ -8,6 +8,7 @@ offset_right = 1016.0
 offset_bottom = 24.0
 size_flags_horizontal = 3
 theme = ExtResource("1_6y57e")
+theme_override_constants/separation = 15
 
 [node name="LineEdit" type="LineEdit" parent="."]
 custom_minimum_size = Vector2(0, 25)
