@@ -179,21 +179,29 @@ size_flags_vertical = 2
 
 [node name="Label" type="Label" parent="Row/Physical"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Physical"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Label2" type="Label" parent="Row/Physical"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.501961, 0.509804, 0.529412, 1)
+theme_override_font_sizes/font_size = 12
 text = "(-1 unskilled)"
+horizontal_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Athletics"
+horizontal_alignment = 2
 
 [node name="Athletics" parent="Row/Physical/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -202,12 +210,14 @@ layout_mode = 2
 [node name="Row2" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Brawl"
+horizontal_alignment = 2
 
 [node name="Brawl" parent="Row/Physical/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -216,12 +226,14 @@ layout_mode = 2
 [node name="Row3" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Drive"
+horizontal_alignment = 2
 
 [node name="Drive" parent="Row/Physical/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -230,12 +242,14 @@ layout_mode = 2
 [node name="Row4" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row4"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Firearms"
+horizontal_alignment = 2
 
 [node name="Firearms" parent="Row/Physical/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -244,12 +258,14 @@ layout_mode = 2
 [node name="Row5" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Larceny"
+horizontal_alignment = 2
 
 [node name="Larceny" parent="Row/Physical/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -258,12 +274,14 @@ layout_mode = 2
 [node name="Row6" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row6"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Stealth"
+horizontal_alignment = 2
 
 [node name="Stealth" parent="Row/Physical/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -272,12 +290,14 @@ layout_mode = 2
 [node name="Row7" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row7"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Survival"
+horizontal_alignment = 2
 
 [node name="Survival" parent="Row/Physical/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -286,12 +306,14 @@ layout_mode = 2
 [node name="Row8" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Physical/Row8"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Weaponry"
+horizontal_alignment = 2
 
 [node name="Weaponry" parent="Row/Physical/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -304,21 +326,29 @@ size_flags_vertical = 2
 
 [node name="Label" type="Label" parent="Row/Social"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Social"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Label2" type="Label" parent="Row/Social"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.501961, 0.509804, 0.529412, 1)
+theme_override_font_sizes/font_size = 12
 text = "(-1 unskilled)"
+horizontal_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Animal Ken"
+horizontal_alignment = 2
 
 [node name="Animal Ken" parent="Row/Social/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -327,12 +357,14 @@ layout_mode = 2
 [node name="Row2" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Empathy"
+horizontal_alignment = 2
 
 [node name="Empathy" parent="Row/Social/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -341,12 +373,14 @@ layout_mode = 2
 [node name="Row3" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Expression"
+horizontal_alignment = 2
 
 [node name="Expression" parent="Row/Social/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -355,12 +389,14 @@ layout_mode = 2
 [node name="Row4" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row4"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Intimidation"
+horizontal_alignment = 2
 
 [node name="Intimidation" parent="Row/Social/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -369,12 +405,14 @@ layout_mode = 2
 [node name="Row5" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Persuasion"
+horizontal_alignment = 2
 
 [node name="Persuasion" parent="Row/Social/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -383,12 +421,14 @@ layout_mode = 2
 [node name="Row6" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row6"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Socialize"
+horizontal_alignment = 2
 
 [node name="Socialize" parent="Row/Social/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -397,12 +437,14 @@ layout_mode = 2
 [node name="Row7" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row7"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Streetwise"
+horizontal_alignment = 2
 
 [node name="Streetwise" parent="Row/Social/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -411,12 +453,14 @@ layout_mode = 2
 [node name="Row8" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Social/Row8"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Subterfuge"
+horizontal_alignment = 2
 
 [node name="Subterfuge" parent="Row/Social/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true

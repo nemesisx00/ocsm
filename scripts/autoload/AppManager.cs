@@ -26,7 +26,7 @@ namespace OCSM.Nodes.Autoload
 		{
 			if(!IsQuitting)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.ConfirmQuit);
+				var resource = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
 				var confirmQuit = resource.Instantiate<ConfirmQuit>();
 				GetTree().CurrentScene.AddChild(confirmQuit);
 				confirmQuit.PopupCentered();

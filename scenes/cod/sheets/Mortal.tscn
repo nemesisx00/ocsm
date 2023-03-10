@@ -83,13 +83,17 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
 columns = 2
 script = ExtResource("7_aq4x6")
 
 [node name="Inventory" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Game Notes" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 15
