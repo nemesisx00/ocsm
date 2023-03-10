@@ -126,7 +126,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 script = ExtResource("7")
-emptyOption = false
 
 [node name="SkillPlus" type="Label" parent="Details/Row3"]
 unique_name_in_owner = true

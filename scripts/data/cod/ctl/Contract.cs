@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using OCSM.API;
 using OCSM.Meta;
 
 namespace OCSM.CoD.CtL
 {
-	public class Contract : Metadata, IEquatable<Contract>
+	public class Contract : Metadata, IEmptiable, IEquatable<Contract>
 	{
 		public int Action { get; set; }
 		public Attribute Attribute { get; set; }
@@ -22,6 +24,29 @@ namespace OCSM.CoD.CtL
 		public string RollFailureDramatic { get; set; }
 		public Dictionary<string, string> SeemingBenefits { get; set; }
 		public Skill Skill { get; set; }
+		
+		[JsonIgnore]
+		public bool Empty
+		{
+			get
+			{
+				return Action < 1
+					&& !(Attribute is OCSM.CoD.Attribute)
+					&& !(AttributeContested is OCSM.CoD.Attribute)
+					&& !(AttributeResisted is OCSM.CoD.Attribute)
+					&& !(ContractType is ContractType)
+					&& String.IsNullOrEmpty(Description)
+					&& String.IsNullOrEmpty(Effects)
+					&& String.IsNullOrEmpty(Loophole)
+					&& String.IsNullOrEmpty(Name)
+					&& !(Regalia is Regalia)
+					&& String.IsNullOrEmpty(RollFailure)
+					&& String.IsNullOrEmpty(RollFailureDramatic)
+					&& String.IsNullOrEmpty(RollSuccess)
+					&& String.IsNullOrEmpty(RollSuccessExceptional)
+					&& SeemingBenefits.Count < 1;
+			}
+		}
 		
 		public Contract() : base()
 		{

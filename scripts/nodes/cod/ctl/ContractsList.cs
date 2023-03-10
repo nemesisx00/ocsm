@@ -45,19 +45,13 @@ namespace OCSM.Nodes.CoD.CtL
 		{
 			var values = new List<OCSM.CoD.CtL.Contract>();
 			var children = GetChildren();
+			var lastIndex = children.Count - 1;
 			foreach(Contract contract in children)
 			{
 				var data = contract.getData();
-				
-				var shouldRemove = String.IsNullOrEmpty(data.Name) && data.Action < 1 && String.IsNullOrEmpty(data.Description)
-					&& String.IsNullOrEmpty(data.Effects) && !(data.Attribute is OCSM.CoD.Attribute) && !(data.AttributeResisted is OCSM.CoD.Attribute) && !(data.AttributeContested is OCSM.CoD.Attribute)
-					&& data.SeemingBenefits.Count < 1 && String.IsNullOrEmpty(data.RollFailure) && String.IsNullOrEmpty(data.RollFailureDramatic)
-					&& !(data.Regalia is Regalia) && !(data.ContractType is ContractType)
-					&& String.IsNullOrEmpty(data.RollSuccess) && String.IsNullOrEmpty(data.RollSuccessExceptional) && String.IsNullOrEmpty(data.Loophole);
-				
-				if(!shouldRemove)
+				if(!data.Empty)
 					values.Add(data);
-				else if(children.IndexOf(contract) != children.Count - 1)
+				else if(!children.IndexOf(contract).Equals(lastIndex))
 					contract.QueueFree();
 			}
 			
