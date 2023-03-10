@@ -96,7 +96,7 @@ namespace OCSM.Nodes
 			var children = GetChildren();
 			if(children.Count < Max)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.StatefulButton);
+				var resource = GD.Load<PackedScene>(Constants.Scene.StatefulButton);
 				for(var i = children.Count; i < Max; i++)
 				{
 					var instance = resource.Instantiate<StatefulButton>();

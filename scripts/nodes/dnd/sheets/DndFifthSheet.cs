@@ -413,7 +413,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			foreach(Node child in raceFeatures.GetChildren())
 				child.QueueFree();
 			
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
 			if(SheetData.Background is Background background && background.Features.Count > 0)
 				renderFeatures(backgroundFeatures, background.Features, resource);
 			if(SheetData.Race is Race race && race.Features.Count > 0)

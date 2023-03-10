@@ -63,7 +63,7 @@ namespace OCSM.Nodes.CoD
 		
 		private void addInput(Skill skill = null, string specialty = "")
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Specialty);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Specialty);
 			var instance = resource.Instantiate<HBoxContainer>();
 			AddChild(instance);
 			

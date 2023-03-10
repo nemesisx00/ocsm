@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u0aefmolb52o"
-path="res://.godot/imported/circle-fill-red.svg-dd014b8dd64849ce8a4c515e5eda234a.ctex"
+uid="uid://jke2tyut3etf"
+path="res://.godot/imported/circle-fill-half.svg-262d0ede2b8e187d7d8d11ea9d011e57.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/circle-fill-red.svg"
-dest_files=["res://.godot/imported/circle-fill-red.svg-dd014b8dd64849ce8a4c515e5eda234a.ctex"]
+source_file="res://assets/textures/svg/circle-fill-half.svg"
+dest_files=["res://.godot/imported/circle-fill-half.svg-262d0ede2b8e187d7d8d11ea9d011e57.ctex"]
 
 [params]
 

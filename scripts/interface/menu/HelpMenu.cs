@@ -41,7 +41,7 @@ namespace OCSM.Nodes
 		{
 			if(!(licensePopup is Window))
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
+				var resource = GD.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
 				licensePopup = resource.Instantiate<Window>();
 				
 				GetTree().CurrentScene.AddChild(licensePopup);

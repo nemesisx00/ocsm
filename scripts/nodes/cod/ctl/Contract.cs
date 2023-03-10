@@ -322,7 +322,7 @@ namespace OCSM.Nodes.CoD.CtL
 		private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 		{
 			var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
 			var instance = resource.Instantiate<HBoxContainer>();
 			row.AddChild(instance);
 			

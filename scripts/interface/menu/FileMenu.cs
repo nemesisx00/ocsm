@@ -60,7 +60,7 @@ namespace OCSM.Nodes
 		
 		private void doOpen()
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.OpenSheet);
+			var resource = GD.Load<PackedScene>(Constants.Scene.OpenSheet);
 			var instance = resource.Instantiate<OpenSheet>();
 			GetTree().CurrentScene.AddChild(instance);
 			instance.PopupCentered();
@@ -77,7 +77,7 @@ namespace OCSM.Nodes
 			var data = sheetManager.getActiveSheetJsonData();
 			if(data != null)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.SaveSheet);
+				var resource = GD.Load<PackedScene>(Constants.Scene.SaveSheet);
 				var instance = resource.Instantiate<SaveSheet>();
 				instance.SheetData = data;
 				GetTree().CurrentScene.AddChild(instance);

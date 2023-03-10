@@ -35,9 +35,9 @@ namespace OCSM.Nodes
 		public void updateTexture()
 		{
 			if(UseCircles)
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
+				GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
 			else
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
+				GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
 			
 			var tex = Constants.Texture.FullTransparent;
 			switch(CurrentState)
@@ -65,7 +65,7 @@ namespace OCSM.Nodes
 					break;
 			}
 			
-			TextureNormal = ResourceLoader.Load<CompressedTexture2D>(tex);
+			TextureNormal = GD.Load<CompressedTexture2D>(tex);
 		}
 		
 		private void handleClick(InputEvent e)

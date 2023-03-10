@@ -35,7 +35,7 @@ namespace OCSM.Nodes.CoD
 		
 		protected override void addInput(string text = "", long dots = 0)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
 			var node = resource.Instantiate();
 			var lineEdit = node.GetChild<LineEdit>(0);
 			lineEdit.Text = text;

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cehotdar31nq8"
-path="res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"
+uid="uid://d2mc500cxhbry"
+path="res://.godot/imported/down-arrow.png-63b82b7a49c2e845746ce1417d31dd79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/box-border-16.png"
-dest_files=["res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"]
+source_file="res://assets/textures/down-arrow.png"
+dest_files=["res://.godot/imported/down-arrow.png-63b82b7a49c2e845746ce1417d31dd79.ctex"]
 
 [params]
 

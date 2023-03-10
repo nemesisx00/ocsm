@@ -10,7 +10,7 @@ namespace OCSM.Nodes.Autoload
 		{
 			if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
 			{
-				var resource = ResourceLoader.Load<PackedScene>(scenePath);
+				var resource = GD.Load<PackedScene>(scenePath);
 				var instance = resource.Instantiate();
 				instance.Name = name;
 				
@@ -115,7 +115,7 @@ namespace OCSM.Nodes.Autoload
 				var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
 				sheetTabsNode.Hide();
 				
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.NewSheet);
+				var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
 				var instance = resource.Instantiate<NewSheet>();
 				GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
 				

@@ -65,7 +65,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void handleDelete()
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
 			var instance = resource.Instantiate<ConfirmDeleteEntry>();
 			instance.EntryTypeName = "Contract";
 			GetTree().CurrentScene.AddChild(instance);

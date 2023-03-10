@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cehotdar31nq8"
-path="res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"
+uid="uid://u0aefmolb52o"
+path="res://.godot/imported/circle-fill-red.svg-ae77df859a6d26e3cb4a1b368df1ac1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/box-border-16.png"
-dest_files=["res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"]
+source_file="res://assets/textures/svg/circle-fill-red.svg"
+dest_files=["res://.godot/imported/circle-fill-red.svg-ae77df859a6d26e3cb4a1b368df1ac1d.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

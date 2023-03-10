@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2v7qf13knw2i"]
+[gd_scene load_steps=5 format=3 uid="uid://dy8xp8fxdha3x"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6xuws"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/Feature.cs" id="2"]
-[ext_resource type="Texture2D" uid="uid://cmyj8elt13equ" path="res://assets/textures/down-arrow.svg" id="3"]
-[ext_resource type="Texture2D" uid="uid://dsjw2xaw7s3xu" path="res://assets/textures/up-arrow.svg" id="4"]
+[ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="3_llhfb"]
+[ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="4_3hj6k"]
 
 [node name="Feature" type="VBoxContainer"]
 anchors_preset = 15
@@ -31,8 +31,8 @@ layout_mode = 2
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
 toggle_mode = true
-texture_normal = ExtResource("4")
-texture_pressed = ExtResource("3")
+texture_normal = ExtResource("3_llhfb")
+texture_pressed = ExtResource("4_3hj6k")
 stretch_mode = 5
 
 [node name="Description" type="RichTextLabel" parent="."]

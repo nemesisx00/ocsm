@@ -32,7 +32,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				c.QueueFree();
 			}
 			
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
 			foreach(var feature in Features)
 			{
 				var instance = resource.Instantiate<Feature>();

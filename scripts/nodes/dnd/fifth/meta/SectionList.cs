@@ -62,7 +62,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void addInput(FeatureSection section = null)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.FeatureSectionEntry);
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.FeatureSectionEntry);
 			var instance = resource.Instantiate<HBoxContainer>();
 			
 			AddChild(instance);

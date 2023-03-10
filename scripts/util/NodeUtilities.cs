@@ -57,7 +57,7 @@ namespace OCSM
 		/// </param>
 		public static void displayDeleteConfirmation(string label, Node parent, Vector2 center, ICanDelete handler, string doDelete)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
 			var instance = resource.Instantiate<ConfirmDeleteEntry>();
 			instance.EntryTypeName = label;
 			parent.AddChild(instance);

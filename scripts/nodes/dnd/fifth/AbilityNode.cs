@@ -71,7 +71,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			if(Ability is Ability)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Skill);
+				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Skill);
 				foreach(var skill in Ability.Skills)
 				{
 					var instance = resource.Instantiate<Skill>();

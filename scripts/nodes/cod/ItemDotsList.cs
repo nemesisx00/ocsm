@@ -36,7 +36,7 @@ namespace OCSM.Nodes.CoD
 		{
 			var stringName = Name.ToString();
 			
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
 			var node = resource.Instantiate();
 			var lineEdit = node.GetChild<LineEdit>(0);
 			lineEdit.Text = text;

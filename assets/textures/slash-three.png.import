@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cehotdar31nq8"
-path="res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"
+uid="uid://0nhkrt25ios4"
+path="res://.godot/imported/slash-three.png-3ee9be30522d224cc66014b2dea53575.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/box-border-16.png"
-dest_files=["res://.godot/imported/box-border-16.png-dae866700f0ac5bc57c4d4016cd42f51.ctex"]
+source_file="res://assets/textures/slash-three.png"
+dest_files=["res://.godot/imported/slash-three.png-3ee9be30522d224cc66014b2dea53575.ctex"]
 
 [params]
 

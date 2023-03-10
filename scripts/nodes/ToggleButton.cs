@@ -19,16 +19,16 @@ namespace OCSM.Nodes
 		{
 			if(UseCircles)
 			{
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
-				ToggledTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackCircleFill);
+				GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
+				ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircleFill);
 			}
 			else
 			{
-				GetChild<TextureRect>(0).Texture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
-				ToggledTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.TrackBox2);
+				GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
+				ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBox2);
 			}
 			
-			EmptyTexture = ResourceLoader.Load<CompressedTexture2D>(Constants.Texture.FullTransparent);
+			EmptyTexture = GD.Load<CompressedTexture2D>(Constants.Texture.FullTransparent);
 			
 			GuiInput += handleClick;
 			MouseDefaultCursorShape = CursorShape.PointingHand;

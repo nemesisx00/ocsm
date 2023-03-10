@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2vbsrkj7u30r"
-path="res://.godot/imported/slash-three.svg-9856043c082be6939c658c836a82c259.ctex"
+uid="uid://dp6tiol2fvlyo"
+path="res://.godot/imported/32-down-arrow.svg-52974cebe3240deefebe89f066149c95.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/slash-three.svg"
-dest_files=["res://.godot/imported/slash-three.svg-9856043c082be6939c658c836a82c259.ctex"]
+source_file="res://assets/textures/svg/32-down-arrow.svg"
+dest_files=["res://.godot/imported/32-down-arrow.svg-52974cebe3240deefebe89f066149c95.ctex"]
 
 [params]
 

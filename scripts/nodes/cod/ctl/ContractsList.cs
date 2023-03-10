@@ -72,7 +72,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void addInput(OCSM.CoD.CtL.Contract value = null)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
 			var instance = resource.Instantiate<Contract>();
 			
 			AddChild(instance);

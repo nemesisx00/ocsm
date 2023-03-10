@@ -58,7 +58,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void addInput(NumericBonus bonus = null)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.NumericBonusEdit);
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.NumericBonusEdit);
 			var instance = resource.Instantiate<NumericBonusEdit>();
 			
 			AddChild(instance);
