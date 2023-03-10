@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://ckptjuemy6uty"]
 
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/Attributes.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://0urptism2d4q" path="res://scenes/cod/nodes/Attributes.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_h3ey3"]
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/Skills.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bxllwevkln3ib" path="res://scenes/cod/nodes/Skills.tscn" id="2"]
 
 [node name="Traits" type="VBoxContainer"]
 offset_right = 1024.0

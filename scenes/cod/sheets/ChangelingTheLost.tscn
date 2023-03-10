@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://dx22yt2ygrwk2"]
 
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/ctl/ChangelingAdvantages.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://dpifivu3e3epa" path="res://scenes/cod/nodes/ctl/ChangelingAdvantages.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_uvsun"]
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/Traits.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/ctl/ChangelingDetails.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://ckptjuemy6uty" path="res://scenes/cod/nodes/Traits.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://cpx3houvmjqt3" path="res://scenes/cod/nodes/ctl/ChangelingDetails.tscn" id="5"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/MeritList.cs" id="6"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/sheets/ChangelingSheet.cs" id="7"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/ContractsList.cs" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/cod/nodes/ctl/meta/MeritsFromMetadata.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://bboa30b5nlic0" path="res://scenes/cod/nodes/ctl/meta/MeritsFromMetadata.tscn" id="9"]
 
 [node name="ChangelingSheet" type="ScrollContainer"]
 anchors_preset = 15

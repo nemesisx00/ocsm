@@ -13,6 +13,8 @@ theme = ExtResource("1_s0vy2")
 
 [node name="Grid" type="GridContainer" parent="."]
 layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
 columns = 2
 
 [node name="Row1" type="HBoxContainer" parent="Grid"]
@@ -26,6 +28,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Player:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Player" type="LineEdit" parent="Grid/Row1"]
 unique_name_in_owner = true
@@ -50,6 +54,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Concept:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Concept" type="LineEdit" parent="Grid/Row6"]
 unique_name_in_owner = true
@@ -74,6 +80,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Chronicle:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Chronicle" type="LineEdit" parent="Grid/Row2"]
 unique_name_in_owner = true
@@ -99,6 +107,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Virtue:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Virtue" type="LineEdit" parent="Grid/Row7"]
 unique_name_in_owner = true
@@ -124,6 +134,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="Grid/Row3"]
 unique_name_in_owner = true
@@ -149,6 +161,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Vice:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Vice" type="LineEdit" parent="Grid/Row8"]
 unique_name_in_owner = true
@@ -174,6 +188,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Age:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Age" type="SpinBox" parent="Grid/Row4"]
 unique_name_in_owner = true
@@ -199,6 +215,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Faction:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Faction" type="LineEdit" parent="Grid/Row9"]
 unique_name_in_owner = true
@@ -224,6 +242,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Size:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Size" type="SpinBox" parent="Grid/Row5"]
 unique_name_in_owner = true
@@ -250,6 +270,8 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 text = "Group Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="GroupName" type="LineEdit" parent="Grid/Row10"]
 unique_name_in_owner = true

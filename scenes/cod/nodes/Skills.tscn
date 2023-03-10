@@ -1,25 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxllwevkln3ib"]
+[gd_scene load_steps=4 format=3 uid="uid://bxllwevkln3ib"]
 
-[ext_resource type="FontFile" uid="uid://cfbvedyxevy1" path="res://assets/fonts/a-area-kilometer-50-font/AreaKilometer50-ow3xB.ttf" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rhekd"]
 [ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/SpecialtyList.cs" id="5"]
-
-[sub_resource type="FontFile" id="1"]
-fallbacks = Array[Font]([ExtResource("1")])
-face_index = null
-embolden = null
-transform = null
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="Theme" id="2"]
-Label/colors/font_color = Color(0.662745, 0.670588, 0.690196, 1)
-Label/fonts/font = SubResource("1")
 
 [node name="Skills" type="VBoxContainer"]
 anchors_preset = 15
@@ -31,12 +14,15 @@ theme = ExtResource("1_rhekd")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-theme = SubResource("2")
+theme_override_font_sizes/font_size = 30
 text = "Skills"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Mental" type="VBoxContainer" parent="Row"]
@@ -46,21 +32,29 @@ size_flags_vertical = 2
 
 [node name="Label" type="Label" parent="Row/Mental"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Mental"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Label2" type="Label" parent="Row/Mental"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.501961, 0.509804, 0.529412, 1)
+theme_override_font_sizes/font_size = 12
 text = "(-3 unskilled)"
+horizontal_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Academics"
+horizontal_alignment = 2
 
 [node name="Academics" parent="Row/Mental/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -69,12 +63,14 @@ layout_mode = 2
 [node name="Row2" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Computer"
+horizontal_alignment = 2
 
 [node name="Computer" parent="Row/Mental/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -83,12 +79,14 @@ layout_mode = 2
 [node name="Row3" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Crafts"
+horizontal_alignment = 2
 
 [node name="Crafts" parent="Row/Mental/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -97,12 +95,14 @@ layout_mode = 2
 [node name="Row4" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row4"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Investigation"
+horizontal_alignment = 2
 
 [node name="Investigation" parent="Row/Mental/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -111,12 +111,14 @@ layout_mode = 2
 [node name="Row5" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Medicine"
+horizontal_alignment = 2
 
 [node name="Medicine" parent="Row/Mental/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -125,12 +127,14 @@ layout_mode = 2
 [node name="Row6" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row6"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Occult"
+horizontal_alignment = 2
 
 [node name="Occult" parent="Row/Mental/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -139,12 +143,14 @@ layout_mode = 2
 [node name="Row7" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row7"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Politics"
+horizontal_alignment = 2
 
 [node name="Politics" parent="Row/Mental/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -153,12 +159,14 @@ layout_mode = 2
 [node name="Row8" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row/Mental/Row8"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Science"
+horizontal_alignment = 2
 
 [node name="Science" parent="Row/Mental/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true
@@ -421,7 +429,10 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Column"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Specialties"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Column"]
 layout_mode = 2

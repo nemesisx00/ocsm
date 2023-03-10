@@ -11,65 +11,78 @@ theme = ExtResource("1_c8ix3")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "Attributes"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 15
 
-[node name="Column1" type="VBoxContainer" parent="Row1"]
+[node name="Mental" type="VBoxContainer" parent="Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Row1/Column1"]
+[node name="Label" type="Label" parent="Row1/Mental"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Mental"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Row1" type="HBoxContainer" parent="Row1/Column1"]
+[node name="Row1" type="HBoxContainer" parent="Row1/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Label" type="Label" parent="Row1/Column1/Row1"]
+[node name="Label" type="Label" parent="Row1/Mental/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Intelligence"
+horizontal_alignment = 2
 
-[node name="Intelligence" parent="Row1/Column1/Row1" instance=ExtResource("1")]
+[node name="Intelligence" parent="Row1/Mental/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
 layout_mode = 2
 Value = 1
 EnableToggling = false
 
-[node name="Row2" type="HBoxContainer" parent="Row1/Column1"]
+[node name="Row2" type="HBoxContainer" parent="Row1/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Label" type="Label" parent="Row1/Column1/Row2"]
+[node name="Label" type="Label" parent="Row1/Mental/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Wits"
+horizontal_alignment = 2
 
-[node name="Wits" parent="Row1/Column1/Row2" instance=ExtResource("1")]
+[node name="Wits" parent="Row1/Mental/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
 layout_mode = 2
 Value = 1
 EnableToggling = false
 
-[node name="Row3" type="HBoxContainer" parent="Row1/Column1"]
+[node name="Row3" type="HBoxContainer" parent="Row1/Mental"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Label" type="Label" parent="Row1/Column1/Row3"]
+[node name="Label" type="Label" parent="Row1/Mental/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Resolve"
+horizontal_alignment = 2
 
-[node name="Resolve" parent="Row1/Column1/Row3" instance=ExtResource("1")]
+[node name="Resolve" parent="Row1/Mental/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
 layout_mode = 2
 Value = 1
@@ -82,17 +95,22 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Physical"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Physical"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Strength"
+horizontal_alignment = 2
 
 [node name="Strength" parent="Row1/Physical/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -103,12 +121,14 @@ EnableToggling = false
 [node name="Row2" type="HBoxContainer" parent="Row1/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Dexterity"
+horizontal_alignment = 2
 
 [node name="Dexterity" parent="Row1/Physical/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -119,12 +139,14 @@ EnableToggling = false
 [node name="Row3" type="HBoxContainer" parent="Row1/Physical"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Physical/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Stamina"
+horizontal_alignment = 2
 
 [node name="Stamina" parent="Row1/Physical/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -139,17 +161,22 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Row1/Social"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Social"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row1" type="HBoxContainer" parent="Row1/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row1"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Presence"
+horizontal_alignment = 2
 
 [node name="Presence" parent="Row1/Social/Row1" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -160,12 +187,14 @@ EnableToggling = false
 [node name="Row2" type="HBoxContainer" parent="Row1/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Manipulation"
+horizontal_alignment = 2
 
 [node name="Manipulation" parent="Row1/Social/Row2" instance=ExtResource("1")]
 unique_name_in_owner = true
@@ -176,12 +205,14 @@ EnableToggling = false
 [node name="Row3" type="HBoxContainer" parent="Row1/Social"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 alignment = 1
 
 [node name="Label" type="Label" parent="Row1/Social/Row3"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Composure"
+horizontal_alignment = 2
 
 [node name="Composure" parent="Row1/Social/Row3" instance=ExtResource("1")]
 unique_name_in_owner = true
