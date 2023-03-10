@@ -18,7 +18,7 @@ namespace OCSM.Nodes.Autoload
 		[Signal]
 		public delegate void MetadataSavedEventHandler();
 		
-		private const string FileNameFormat = "{0}.ocmd";
+		private const string FileNameFormat = "{0}" + Constants.MetadataFileExtension;
 		
 		private string gameSystem;
 		public string CurrentGameSystem
@@ -26,26 +26,29 @@ namespace OCSM.Nodes.Autoload
 			get { return gameSystem; }
 			set
 			{
-				gameSystem = value;
-				EmitSignal(nameof(GameSystemChanged), gameSystem);
-				
-				switch(gameSystem)
+				if(!gameSystem.Equals(value))
 				{
-					case GameSystem.CoD.Changeling:
-						Container = new CoDChangelingContainer();
-						loadGameSystemMetadata();
-						break;
-					case GameSystem.CoD.Mortal:
-						Container = new CoDCoreContainer();
-						loadGameSystemMetadata();
-						break;
-					case GameSystem.DnD.Fifth:
-						Container = new DnDFifthContainer();
-						loadGameSystemMetadata();
-						break;
-					default:
-						Container = null;
-						break;
+					gameSystem = value;
+					EmitSignal(nameof(GameSystemChanged), gameSystem);
+					
+					switch(gameSystem)
+					{
+						case GameSystem.CoD.Changeling:
+							Container = new CoDChangelingContainer();
+							loadGameSystemMetadata();
+							break;
+						case GameSystem.CoD.Mortal:
+							Container = new CoDCoreContainer();
+							loadGameSystemMetadata();
+							break;
+						case GameSystem.DnD.Fifth:
+							Container = new DnDFifthContainer();
+							loadGameSystemMetadata();
+							break;
+						default:
+							Container = null;
+							break;
+					}
 				}
 			}
 		}
