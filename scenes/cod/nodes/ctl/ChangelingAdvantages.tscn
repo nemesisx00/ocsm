@@ -20,7 +20,6 @@ theme_override_constants/separation = 15
 [node name="Column1" type="VBoxContainer" parent="Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
 
 [node name="Row1" type="VBoxContainer" parent="Row/Column1"]
 layout_mode = 2

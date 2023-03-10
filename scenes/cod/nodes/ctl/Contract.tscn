@@ -15,14 +15,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 theme = ExtResource("1_uc06f")
+theme_override_constants/separation = 15
 script = ExtResource("8")
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Row"]
 layout_mode = 2
 text = "Name:"
+vertical_alignment = 1
 
 [node name="Name" type="LineEdit" parent="Row"]
 unique_name_in_owner = true
@@ -32,6 +35,7 @@ size_flags_horizontal = 3
 [node name="Label2" type="Label" parent="Row"]
 layout_mode = 2
 text = "Regalia:"
+vertical_alignment = 1
 
 [node name="Regalia" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
@@ -61,13 +65,16 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 
 [node name="Row" type="HBoxContainer" parent="Details"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label3" type="Label" parent="Details/Row"]
 layout_mode = 2
 text = "Action:"
+vertical_alignment = 1
 
 [node name="Action" type="OptionButton" parent="Details/Row"]
 unique_name_in_owner = true
@@ -77,6 +84,7 @@ layout_mode = 2
 [node name="Label2" type="Label" parent="Details/Row"]
 layout_mode = 2
 text = "Cost:"
+vertical_alignment = 1
 
 [node name="Cost" type="LineEdit" parent="Details/Row"]
 unique_name_in_owner = true
@@ -85,10 +93,12 @@ size_flags_horizontal = 3
 
 [node name="Row2" type="HBoxContainer" parent="Details"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label4" type="Label" parent="Details/Row2"]
 layout_mode = 2
 text = "Duration:"
+vertical_alignment = 1
 
 [node name="Duration" type="LineEdit" parent="Details/Row2"]
 unique_name_in_owner = true
@@ -97,16 +107,19 @@ size_flags_horizontal = 3
 
 [node name="Row3" type="HBoxContainer" parent="Details"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row3"]
 layout_mode = 2
 text = "Dice Pool:"
+vertical_alignment = 1
 
 [node name="Wyrd" type="Label" parent="Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Wyrd +"
+vertical_alignment = 1
 
 [node name="Attribute" type="OptionButton" parent="Details/Row3"]
 unique_name_in_owner = true
@@ -120,6 +133,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "+"
+vertical_alignment = 1
 
 [node name="Skill" type="OptionButton" parent="Details/Row3"]
 unique_name_in_owner = true
@@ -147,12 +161,15 @@ visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "vs."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Wyrd2" type="Label" parent="Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Wyrd +"
+vertical_alignment = 1
 
 [node name="Attribute3" type="OptionButton" parent="Details/Row3"]
 unique_name_in_owner = true
@@ -169,6 +186,8 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Description" type="TextEdit" parent="Details/Row4"]
 unique_name_in_owner = true
@@ -187,6 +206,8 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Effects"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Effects" type="TextEdit" parent="Details/Row5"]
 unique_name_in_owner = true
@@ -203,15 +224,21 @@ size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Details/Row6"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Roll Results"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row6/Row"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Success:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Success" type="TextEdit" parent="Details/Row6/Row"]
 unique_name_in_owner = true
@@ -224,11 +251,14 @@ scroll_fit_content_height = true
 
 [node name="Row2" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row6/Row2"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Exceptional Success:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="ExceptionalSuccess" type="TextEdit" parent="Details/Row6/Row2"]
 unique_name_in_owner = true
@@ -241,11 +271,14 @@ scroll_fit_content_height = true
 
 [node name="Row3" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row6/Row3"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Failure:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="Failure" type="TextEdit" parent="Details/Row6/Row3"]
 unique_name_in_owner = true
@@ -258,11 +291,14 @@ scroll_fit_content_height = true
 
 [node name="Row4" type="HBoxContainer" parent="Details/Row6"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row6/Row4"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Dramatic Failure:"
+horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="DramaticFailure" type="TextEdit" parent="Details/Row6/Row4"]
 unique_name_in_owner = true
@@ -277,19 +313,27 @@ scroll_fit_content_height = true
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/SeemingBenefitsRow"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
 text = "Seeming Benefits"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Row7" type="VBoxContainer" parent="Details"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Label" type="Label" parent="Details/Row7"]
 custom_minimum_size = Vector2(135, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Loophole"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Loophole" type="TextEdit" parent="Details/Row7"]
 unique_name_in_owner = true
