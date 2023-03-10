@@ -20,7 +20,8 @@ namespace OCSM.Nodes.Autoload
 		
 		private const string FileNameFormat = "{0}" + Constants.MetadataFileExtension;
 		
-		private string gameSystem;
+		private string gameSystem = String.Empty;
+		
 		public string CurrentGameSystem
 		{
 			get { return gameSystem; }
