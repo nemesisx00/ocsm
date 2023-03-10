@@ -6,6 +6,13 @@ namespace OCSM.Nodes.Autoload
 {
 	public partial class SheetManager : Node
 	{
+		private TabContainer sheetTabs;
+		
+		public override void _Ready()
+		{
+			sheetTabs = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
+		}
+		
 		public void addNewSheet(string scenePath, string name, string json = null)
 		{
 			if(!String.IsNullOrEmpty(scenePath) && !String.IsNullOrEmpty(name))
@@ -14,7 +21,7 @@ namespace OCSM.Nodes.Autoload
 				var instance = resource.Instantiate();
 				instance.Name = name;
 				
-				var target = GetNode(Constants.NodePath.SheetTabs);
+				var target = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
 				if(target is TabContainer tc)
 				{
 					var dupeCount = 0;
@@ -38,13 +45,12 @@ namespace OCSM.Nodes.Autoload
 		
 		public void closeActiveSheet()
 		{
-			var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
-			if(tc is TabContainer)
+			if(sheetTabs is TabContainer)
 			{
-				var tab = tc.GetCurrentTabControl();
+				var tab = sheetTabs.GetCurrentTabControl();
 				if(tab is Node)
 				{
-					if(tc.GetTabCount() <= 1)
+					if(sheetTabs.GetTabCount() <= 1)
 						showNewSheetUI();
 					tab.QueueFree();
 				}
@@ -54,10 +60,9 @@ namespace OCSM.Nodes.Autoload
 		public string getActiveSheetJsonData()
 		{
 			string data = null;
-			var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
-			if(tc is TabContainer)
+			if(sheetTabs is TabContainer)
 			{
-				var tab = tc.GetCurrentTabControl();
+				var tab = sheetTabs.GetCurrentTabControl();
 				if(tab is ICharacterSheet sheet)
 				{
 					data = sheet.GetJsonData();
@@ -68,9 +73,9 @@ namespace OCSM.Nodes.Autoload
 		
 		public void hideNewSheetUI()
 		{
-			if(GetNode<Control>(Constants.NodePath.SheetTabs) is Control sheetTabs && !sheetTabs.Visible)
+			if(sheetTabs is Control && !sheetTabs.Visible)
 				sheetTabs.Show();
-			if(GetNodeOrNull<Control>(Constants.NodePath.NewSheet) is Control newSheet)
+			if(GetNodeOrNull<Control>(AppRoot.NodePath.NewSheet) is Control newSheet)
 				newSheet.QueueFree();
 		}
 		
@@ -78,8 +83,7 @@ namespace OCSM.Nodes.Autoload
 		{
 			if(!String.IsNullOrEmpty(json))
 			{
-				var tc = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot));
-				if(tc is TabContainer)
+				if(sheetTabs is TabContainer)
 				{
 					var loaded = false;
 					if(json.Contains(GameSystem.CoD.Changeling))
@@ -109,11 +113,10 @@ namespace OCSM.Nodes.Autoload
 		
 		public void showNewSheetUI()
 		{
-			var existingNode = GetNodeOrNull<NewSheet>(Constants.NodePath.NewSheet);
+			var existingNode = GetNodeOrNull<NewSheet>(AppRoot.NodePath.NewSheet);
 			if(!(existingNode is NewSheet))
 			{
-				var sheetTabsNode = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
-				sheetTabsNode.Hide();
+				sheetTabs.Hide();
 				
 				var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
 				var instance = resource.Instantiate<NewSheet>();

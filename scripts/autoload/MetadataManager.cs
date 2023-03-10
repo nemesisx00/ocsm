@@ -52,15 +52,19 @@ namespace OCSM.Nodes.Autoload
 		
 		public IMetadataContainer Container { get; private set; }
 		
+		private TabContainer sheetTabs;
+		
 		public override void _Ready()
 		{
+			sheetTabs = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
+			
 			CurrentGameSystem = String.Empty;
-			GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).TabSelected += sheetTabSelected;
+			sheetTabs.TabSelected += sheetTabSelected;
 		}
 		
 		private void sheetTabSelected(long tabIndex)
 		{
-			var tab = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).GetTabControl((int)tabIndex);
+			var tab = sheetTabs.GetTabControl((int)tabIndex);
 			if(tab is ChangelingSheet)
 				CurrentGameSystem = GameSystem.CoD.Changeling;
 			else if (tab is MortalSheet)

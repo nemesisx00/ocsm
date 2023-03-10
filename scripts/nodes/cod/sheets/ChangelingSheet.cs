@@ -13,32 +13,30 @@ namespace OCSM.Nodes.CoD.Sheets
 {
 	public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	{
-		private sealed new class Advantage : CoreSheet<Mortal>.Advantage
+		private sealed new class NodePath : CoreSheet<Changeling>.NodePath
 		{
-			public const string Clarity = "Clarity";
-			public const string Glamour = "Glamour";
-			public const string Needle = "Needle";
-			public const string Thread = "Thread";
-			public const string Wyrd = "Wyrd";
+			public const string Clarity = NodePath.Advantages + "/%Clarity";
+			public const string ContractsList = "%Contracts";
+			public const string Court = NodePath.Details + "/%Court";
+			public const string Frailties = NodePath.Details + "/%Frailties";
+			public const string Glamour = NodePath.Advantages + "/%Glamour";
+			public const string Kith = NodePath.Details + "/%Kith";
+			public const string Needle = NodePath.Details + "/%Needle";
+			public const string NeedleLabel = NodePath.Advantages + "/%NeedleLabel";
+			public const string Regalia1 = NodePath.Details + "/%Regalia1";
+			public const string Regalia2 = NodePath.Details + "/%Regalia2";
+			public const string Seeming = NodePath.Details + "/%Seeming";
+			public const string Thread = NodePath.Details + "/%Thread";
+			public const string ThreadLabel = NodePath.Advantages + "/%ThreadLabel";
+			public const string Touchstones = NodePath.Details + "/%Touchstones";
+			public const string Wyrd = NodePath.Advantages + "/%Wyrd";
 		}
-		
-		private sealed new class Detail : CoreSheet<Mortal>.Detail
-		{
-			public const string Court = "Court";
-			public const string Frailties = "Frailties";
-			public const string Kith = "Kith";
-			public const string Needle = "Needle";
-			public const string Regalia1 = "Regalia1";
-			public const string Regalia2 = "Regalia2";
-			public const string Seeming = "Seeming";
-			public const string Thread = "Thread";
-			public const string Touchstones = "Touchstones";
-		}
-		
-		private const string ContractsListName = "Contracts";
-		private const string MeritsFromMetadataName = "MeritsFromMetadata";
 		
 		private MetadataManager metadataManager;
+		
+		private MeritList merits;
+		private RegaliaOptionButton regalia1;
+		private RegaliaOptionButton regalia2;
 		
 		public override void _Ready()
 		{
@@ -47,26 +45,30 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(!(SheetData is Changeling))
 				SheetData = new Changeling();
 			
-			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Clarity, AdvantagesPath)), SheetData.Clarity, changed_Clarity);
-			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Wyrd, AdvantagesPath)), SheetData.Wyrd, changed_Wyrd);
-			InitTrackSimple(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Glamour, AdvantagesPath)), SheetData.GlamourSpent, changed_Glamour);
+			merits = GetNode<MeritList>(NodePath.Merits);
+			regalia1 = GetNode<RegaliaOptionButton>(NodePath.Regalia1);
+			regalia2 = GetNode<RegaliaOptionButton>(NodePath.Regalia2);
 			
-			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Needle, AdvantagesPath)).Text = SheetData.Needle;
-			GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Thread, AdvantagesPath)).Text = SheetData.Thread;
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Clarity, changed_Clarity);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Wyrd, changed_Wyrd);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Glamour), SheetData.GlamourSpent, changed_Glamour);
 			
-			InitCourtOptionButton(GetNode<CourtOptionButton>(NodePathBuilder.SceneUnique(Detail.Court, DetailsPath)), SheetData.Court, changed_Court);
-			InitEntryList(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Frailties, DetailsPath)), SheetData.Frailties, changed_Frailties);
-			InitKithOptionButton(GetNode<KithOptionButton>(NodePathBuilder.SceneUnique(Detail.Kith, DetailsPath)), SheetData.Kith, changed_Kith);
-			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Needle, DetailsPath)), SheetData.Needle, changed_Needle);
-			InitRegaliaOptionButton(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath)), SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, changed_FavoredRegalia);
-			InitRegaliaOptionButton(GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath)), SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, changed_FavoredRegalia);
-			InitSeemingOptionButton(GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(Detail.Seeming, DetailsPath)), SheetData.Seeming, changed_Seeming);
-			InitLineEdit(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Thread, DetailsPath)), SheetData.Thread, changed_Thread);
-			InitEntryList(GetNode<EntryList>(NodePathBuilder.SceneUnique(Detail.Touchstones, DetailsPath)), SheetData.Touchstones, changed_Touchstones);
+			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Needle;
+			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Thread;
 			
-			InitContractsList(GetNode<ContractsList>(NodePathBuilder.SceneUnique(ContractsListName)), SheetData.Contracts, changed_Contracts);
+			InitCourtOptionButton(GetNode<CourtOptionButton>(NodePath.Court), SheetData.Court, changed_Court);
+			InitEntryList(GetNode<EntryList>(NodePath.Frailties), SheetData.Frailties, changed_Frailties);
+			InitKithOptionButton(GetNode<KithOptionButton>(NodePath.Kith), SheetData.Kith, changed_Kith);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Needle), SheetData.Needle, changed_Needle);
+			InitRegaliaOptionButton(regalia1, SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, changed_FavoredRegalia);
+			InitRegaliaOptionButton(regalia2, SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, changed_FavoredRegalia);
+			InitSeemingOptionButton(GetNode<SeemingOptionButton>(NodePath.Seeming), SheetData.Seeming, changed_Seeming);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Thread), SheetData.Thread, changed_Thread);
+			InitEntryList(GetNode<EntryList>(NodePath.Touchstones), SheetData.Touchstones, changed_Touchstones);
 			
-			GetNode<MeritsFromMetadata>(NodePathBuilder.SceneUnique(MeritsFromMetadataName)).AddMerit += addExistingMerit;
+			InitContractsList(GetNode<ContractsList>(NodePath.ContractsList), SheetData.Contracts, changed_Contracts);
+			
+			GetNode<MeritsFromMetadata>(NodePath.MeritsFromMetadata).AddMerit += addExistingMerit;
 			
 			base._Ready();
 		}
@@ -145,7 +147,6 @@ namespace OCSM.Nodes.CoD.Sheets
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 				{
 					SheetData.Merits.Add(merit);
-					var merits = GetNode<MeritList>(NodePathBuilder.SceneUnique(Merits));
 					merits.Values = SheetData.Merits;
 					merits.refresh();
 				}
@@ -181,13 +182,11 @@ namespace OCSM.Nodes.CoD.Sheets
 			SheetData.FavoredRegalia = new List<Regalia>(2);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var r1 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia1, DetailsPath));
-				if(r1.Selected > 0 && ccc.Regalias[r1.Selected - 1] is Regalia regalia1)
-					SheetData.FavoredRegalia.Add(regalia1);
+				if(regalia1.Selected > 0 && ccc.Regalias[regalia1.Selected - 1] is Regalia r1)
+					SheetData.FavoredRegalia.Add(r1);
 				
-				var r2 = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(Detail.Regalia2, DetailsPath));
-				if(r2.Selected > 0 && ccc.Regalias[r2.Selected - 1] is Regalia regalia2)
-					SheetData.FavoredRegalia.Add(regalia2);
+				if(regalia2.Selected > 0 && ccc.Regalias[regalia2.Selected - 1] is Regalia r2)
+					SheetData.FavoredRegalia.Add(r2);
 			}
 		}
 		

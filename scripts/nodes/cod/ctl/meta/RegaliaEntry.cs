@@ -9,7 +9,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 	{
 		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
@@ -25,7 +25,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var c in ccc.Regalias)

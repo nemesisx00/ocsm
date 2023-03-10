@@ -9,11 +9,11 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public partial class Inventory : VBoxContainer
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string AddItem = "AddItem";
-			public const string ItemList = "ItemList";
-			public const string SelectedItem = "SelectedItem";
+			public const string AddItem = "%AddItem";
+			public const string ItemList = "%ItemList";
+			public const string SelectedItem = "%SelectedItem";
 		}
 		
 		[Signal]
@@ -23,19 +23,24 @@ namespace OCSM.Nodes.DnD.Fifth
 		public Ability Strength { get; set; }
 		public Ability Dexterity { get; set; }
 		
+		private VBoxContainer itemList;
+		private InventoryItemOptions options;
+		
 		public override void _Ready()
 		{
 			if(!(Items is List<Item>))
 				Items = new List<Item>();
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.AddItem)).Pressed += addItemHandler;
+			itemList = GetNode<VBoxContainer>(NodePath.ItemList);
+			options = GetNode<InventoryItemOptions>(NodePath.SelectedItem);
+			
+			GetNode<Button>(NodePath.AddItem).Pressed += addItemHandler;
 			
 			regenerateItems();
 		}
 		
 		public void regenerateItems()
 		{
-			var itemList = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Names.ItemList));
 			foreach(Node c in itemList.GetChildren())
 			{
 				c.QueueFree();
@@ -63,7 +68,6 @@ namespace OCSM.Nodes.DnD.Fifth
 			var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var options = GetNode<InventoryItemOptions>(NodePathBuilder.SceneUnique(Names.SelectedItem));
 				if(options.Selected > 0 && dfc.AllItems.Find(i => i.Name.Equals(options.GetItemText(options.Selected))) is Item item)
 				{
 					Items.Add(item);

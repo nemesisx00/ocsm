@@ -8,7 +8,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 	{
 		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var optionsButton = GetNode<BackgroundOptionsButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -24,7 +24,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var optionButton = GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<BackgroundOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var b in dfc.Backgrounds)

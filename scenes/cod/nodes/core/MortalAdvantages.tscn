@@ -201,7 +201,7 @@ text = "Virtue:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Virtue" type="Label" parent="Row/Column3/Row3"]
+[node name="VirtueLabel" type="Label" parent="Row/Column3/Row3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
@@ -221,7 +221,7 @@ text = "Vice:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Vice" type="Label" parent="Row/Column3/Row4"]
+[node name="ViceLabel" type="Label" parent="Row/Column3/Row4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2

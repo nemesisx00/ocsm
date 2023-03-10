@@ -10,11 +10,14 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 {
 	public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 	{
-		private const string ArmorName = "Armor";
-		private const string BackgroundsName = "Backgrounds";
-		private const string ClassesName = "Classes";
-		private const string FeaturesName = "FeatureEntry";
-		private const string RacesName = "Races";
+		private sealed class NodePath
+		{
+			public const string ArmorName = "%Armor";
+			public const string BackgroundsName = "%Backgrounds";
+			public const string ClassesName = "%Classes";
+			public const string FeaturesName = "%FeatureEntry";
+			public const string RacesName = "%Races";
+		}
 		
 		private MetadataManager metadataManager;
 		
@@ -24,23 +27,23 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			
 			CloseRequested += closeHandler;
 			
-			var armorEntry = GetNode<ArmorEntry>(NodePathBuilder.SceneUnique(ArmorName));
+			var armorEntry = GetNode<ArmorEntry>(NodePath.ArmorName);
 			armorEntry.SaveClicked += saveArmor;
 			armorEntry.DeleteConfirmed += deleteArmor;
 			
-			var backgroundEntry = GetNode<BackgroundEntry>(NodePathBuilder.SceneUnique(BackgroundsName));
+			var backgroundEntry = GetNode<BackgroundEntry>(NodePath.BackgroundsName);
 			backgroundEntry.SaveClicked += saveBackground;
 			backgroundEntry.DeleteConfirmed += deleteBackground;
 			
-			var classEntry = GetNode<ClassEntry>(NodePathBuilder.SceneUnique(ClassesName));
+			var classEntry = GetNode<ClassEntry>(NodePath.ClassesName);
 			classEntry.SaveClicked += saveClass;
 			classEntry.DeleteConfirmed += deleteClass;
 			
-			var featureEntry = GetNode<FeatureEntry>(NodePathBuilder.SceneUnique(FeaturesName));
+			var featureEntry = GetNode<FeatureEntry>(NodePath.FeaturesName);
 			featureEntry.SaveClicked += saveFeature;
 			featureEntry.DeleteConfirmed += deleteFeature;
 			
-			var raceEntry = GetNode<RaceEntry>(NodePathBuilder.SceneUnique(RacesName));
+			var raceEntry = GetNode<RaceEntry>(NodePath.RacesName);
 			raceEntry.SaveClicked += saveRace;
 			raceEntry.DeleteConfirmed += deleteRace;
 		}

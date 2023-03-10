@@ -7,12 +7,12 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public partial class InventoryItem : HBoxContainer
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string Details = "Details";
-			public const string Equipped = "Equipped";
-			public const string Name = "Name";
-			public const string Weight = "Weight";
+			public const string Details = "%Details";
+			public const string Equipped = "%Equipped";
+			public const string Name = "%Name";
+			public const string Weight = "%Weight";
 		}
 		
 		[Signal]
@@ -24,17 +24,17 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped)).Pressed += toggleEquipped;
+			GetNode<CheckBox>(NodePath.Equipped).Pressed += toggleEquipped;
 			
 			refresh();
 		}
 		
 		public void refresh()
 		{
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name)).Text = Item.Name;
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.Weight)).Text = Item.Weight + " lbs";
+			GetNode<Label>(NodePath.Name).Text = Item.Name;
+			GetNode<Label>(NodePath.Weight).Text = Item.Weight + " lbs";
 			
-			var details = GetNode<HBoxContainer>(NodePathBuilder.SceneUnique(Names.Details));
+			var details = GetNode<HBoxContainer>(NodePath.Details);
 			foreach(Node node in details.GetChildren())
 			{
 				node.QueueFree();
@@ -45,7 +45,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			else if(Item is ItemWeapon iw)
 				generateDetails(iw).ForEach(n => details.AddChild(n));
 			
-			var equipped = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
+			var equipped = GetNode<CheckBox>(NodePath.Equipped);
 			if(Item is ItemEquippable ie)
 			{
 				equipped.ButtonPressed = ie.Equipped;
@@ -57,7 +57,7 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		private void toggleEquipped()
 		{
-			var checkbox = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
+			var checkbox = GetNode<CheckBox>(NodePath.Equipped);
 			if(Item is ItemEquippable ie)
 			{
 				ie.Equipped = checkbox.ButtonPressed;

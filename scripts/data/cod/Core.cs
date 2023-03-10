@@ -21,7 +21,7 @@ namespace OCSM.CoD
 		public Dictionary<string, long> HealthCurrent { get; set; }
 		public List<Merit> Merits { get; set; }
 		public List<Skill> Skills { get; set; }
-		public Dictionary<string, string> Specialties { get; set; }
+		public List<Specialty> Specialties { get; set; }
 		
 		public CodCore() : base()
 		{
@@ -44,7 +44,7 @@ namespace OCSM.CoD
 			HealthCurrent.Add(StatefulButton.State.One, 0);
 			Merits = new List<Merit>();
 			Skills = Skill.asList();
-			Specialties = new Dictionary<string, string>();
+			Specialties = new List<Specialty>();
 		}
 		
 		public CodCore(string gameSystem) : this()

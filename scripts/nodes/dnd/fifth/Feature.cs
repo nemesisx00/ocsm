@@ -5,13 +5,14 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public partial class Feature : Container
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string Name = "Name";
-			public const string Description = "Description";
-			public const string Details = "Details";
-			public const string Text = "Text";
-			public const string Sections = "Sections";
+			public const string Name = "%Name";
+			public const string Description = "%Description";
+			public const string Details = "%Details";
+			public const string Text = "%Text";
+			public const string Sections = "%Sections";
+			public const string ShowHide = "%ShowHide";
 		}
 		
 		private const string FormatType = " ({0} Feature)";
@@ -25,14 +26,14 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			nameNode = GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name));
-			descriptionNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Description));
-			detailsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Details));
-			textNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Text));
-			sectionsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Sections));
+			nameNode = GetNode<Label>(NodePath.Name);
+			descriptionNode = GetNode<RichTextLabel>(NodePath.Description);
+			detailsNode = GetNode<Container>(NodePath.Details);
+			textNode = GetNode<RichTextLabel>(NodePath.Text);
+			sectionsNode = GetNode<Container>(NodePath.Sections);
 			
 			//nameNode.GuiInput += toggleSections;
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Pressed += toggleSections;
+			GetNode<TextureButton>(NodePath.ShowHide).Pressed += toggleSections;
 		}
 		
 		public void update(OCSM.DnD.Fifth.Feature feature)

@@ -10,73 +10,99 @@ namespace OCSM.Nodes.CoD.CtL
 {
 	public partial class Contract : VBoxContainer
 	{
-		public const string ActionInput = "Action";
+		public sealed class NodePath
+		{
+			public const string ActionInput = "%Action";
+			public const string AttributeInput = "%Attribute";
+			public const string Attribute2Input = "%Attribute2";
+			public const string Attribute3Input = "%Attribute3";
+			public const string Attribute2Minus = "%Attribute2Minus";
+			public const string BenefitInput = "%Benefit";
+			public const string ContractTypeInput = "%ContractType";
+			public const string CostInput = "%Cost";
+			public const string DetailsInput = "%Details";
+			public const string DescriptionInput = "%Description";
+			public const string DurationInput = "%Duration";
+			public const string EffectsInput = "%Effects";
+			public const string FailureInput = "%Failure";
+			public const string FailureDramaticInput = "%DramaticFailure";
+			public const string LoopholeInput = "%Loophole";
+			public const string NameInput = "%Name";
+			public const string RegaliaInput = "%Regalia";
+			public const string SeemingInput = "%Seeming";
+			public const string SeemingBenefitsRow = "%SeemingBenefitsRow";
+			public const string SkillInput = "%Skill";
+			public const string SkillPlus = "%SkillPlus";
+			public const string SuccessInput = "%Success";
+			public const string SuccessExceptionalInput = "%ExceptionalSuccess";
+			public const string ToggleDetails = "%ToggleDetails";
+			public const string Versus = "%Vs";
+			public const string Wyrd = "%Wyrd";
+			public const string Wyrd2 = "%Wyrd2";
+		}
+		
 		private const int ActionContestedIndex = 4;
 		private const int ActionResistedIndex = 5;
-		public const string AttributeInput = "Attribute";
-		public const string Attribute2Input = "Attribute2";
-		public const string Attribute3Input = "Attribute3";
-		private const string Attribute2Minus = "Attribute2Minus";
-		private const string BenefitInput = "Benefit";
-		public const string ContractTypeInput = "ContractType";
-		public const string CostInput = "Cost";
-		public const string DetailsInput = "Details";
-		public const string DescriptionInput = "Description";
-		public const string DurationInput = "Duration";
-		public const string EffectsInput = "Effects";
-		public const string FailureInput = "Failure";
-		public const string FailureDramaticInput = "DramaticFailure";
-		public const string LoopholeInput = "Loophole";
-		public const string NameInput = "Name";
-		public const string RegaliaInput = "Regalia";
-		private const string SeemingInput = "Seeming";
-		private const string SeemingBenefitsRow = "SeemingBenefitsRow";
-		public const string SkillInput = "Skill";
-		private const string SkillPlus = "SkillPlus";
-		public const string SuccessInput = "Success";
-		public const string SuccessExceptionalInput = "ExceptionalSuccess";
-		private const string ToggleDetails = "ToggleDetails";
-		private const string Versus = "Vs";
-		private const string Wyrd = "Wyrd";
-		private const string Wyrd2 = "Wyrd2";
 		
 		public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
 		
 		private MetadataManager metadataManager;
 		
+		private AttributeOptionButton attribute2Input;
+		private Control attribute2Minus;
+		private AttributeOptionButton attribute3Input;
+		private VBoxContainer detailsInput;
+		private VBoxContainer seemingBenefitsRow;
+		private SkillOptionButton skillInput;
+		private Control skillPlus;
+		private Label versus;
+		private Control wyrd1;
+		private Control wyrd2;
+		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).ItemSelected += actionChanged;
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique(ToggleDetails)).Pressed += toggleDetails;
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).ItemSelected += attributeChanged;
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).ItemSelected += contestedAttributeChanged;
+			attribute2Input = GetNode<AttributeOptionButton>(NodePath.Attribute2Input);
+			attribute2Minus = GetNode<Control>(NodePath.Attribute2Minus);
+			attribute3Input = GetNode<AttributeOptionButton>(NodePath.Attribute3Input);
+			detailsInput = GetNode<VBoxContainer>(NodePath.DetailsInput);
+			seemingBenefitsRow = GetNode<VBoxContainer>(NodePath.SeemingBenefitsRow);
+			skillInput = GetNode<SkillOptionButton>(NodePath.SkillInput);
+			skillPlus = GetNode<Control>(NodePath.SkillPlus);
+			versus = GetNode<Label>(NodePath.Versus);
+			wyrd1 = GetNode<Control>(NodePath.Wyrd);
+			wyrd2 = GetNode<Control>(NodePath.Wyrd2);
+			
+			GetNode<OptionButton>(NodePath.ActionInput).ItemSelected += actionChanged;
+			GetNode<TextureButton>(NodePath.ToggleDetails).Pressed += toggleDetails;
+			GetNode<AttributeOptionButton>(NodePath.AttributeInput).ItemSelected += attributeChanged;
+			GetNode<AttributeOptionButton>(NodePath.Attribute3Input).ItemSelected += contestedAttributeChanged;
 			
 			refreshSeemingBenefits();
 		}
 		
 		public void clearInputs()
 		{
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Selected = 0;
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input)).Selected = 0;
-			GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Selected = 0;
-			GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput)).Selected = 0;
-			GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(RegaliaInput)).Selected = 0;
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ContractTypeInput)).Selected = 0;
+			GetNode<AttributeOptionButton>(NodePath.AttributeInput).Selected = 0;
+			GetNode<AttributeOptionButton>(NodePath.Attribute2Input).Selected = 0;
+			GetNode<AttributeOptionButton>(NodePath.Attribute3Input).Selected = 0;
+			GetNode<SkillOptionButton>(NodePath.SkillInput).Selected = 0;
+			GetNode<RegaliaOptionButton>(NodePath.RegaliaInput).Selected = 0;
+			GetNode<OptionButton>(NodePath.ContractTypeInput).Selected = 0;
 			
-			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = String.Empty;
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Selected = 0;
-			GetNode<LineEdit>(NodePathBuilder.SceneUnique(CostInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
-			GetNode<LineEdit>(NodePathBuilder.SceneUnique(DurationInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(EffectsInput)).Text = String.Empty;
+			GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
+			GetNode<OptionButton>(NodePath.ActionInput).Selected = 0;
+			GetNode<LineEdit>(NodePath.CostInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.DescriptionInput).Text = String.Empty;
+			GetNode<LineEdit>(NodePath.DurationInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.EffectsInput).Text = String.Empty;
 			SeemingBenefits = new Dictionary<string, string>();
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureDramaticInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessExceptionalInput)).Text = String.Empty;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(LoopholeInput)).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.FailureInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.FailureDramaticInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.SuccessInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.LoopholeInput).Text = String.Empty;
 			
 			actionChanged(0);
 			attributeChanged(0);
@@ -86,25 +112,25 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public OCSM.CoD.CtL.Contract getData()
 		{
-			var attr1Node = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput));
-			var attr2Node = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input));
-			var attr3Node = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input));
-			var skillNode = GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput));
-			var regaliaNode = GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(RegaliaInput));
-			var contractTypeNode = GetNode<ContractTypeButton>(NodePathBuilder.SceneUnique(ContractTypeInput));
+			var attr1Node = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
+			var attr2Node = GetNode<AttributeOptionButton>(NodePath.Attribute2Input);
+			var attr3Node = GetNode<AttributeOptionButton>(NodePath.Attribute3Input);
+			var skillNode = GetNode<SkillOptionButton>(NodePath.SkillInput);
+			var regaliaNode = GetNode<RegaliaOptionButton>(NodePath.RegaliaInput);
+			var contractTypeNode = GetNode<ContractTypeButton>(NodePath.ContractTypeInput);
 			
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-			var action = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Selected;
-			var cost = GetNode<LineEdit>(NodePathBuilder.SceneUnique(CostInput)).Text;
-			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
-			var duration = GetNode<LineEdit>(NodePathBuilder.SceneUnique(DurationInput)).Text;
-			var effects = GetNode<TextEdit>(NodePathBuilder.SceneUnique(EffectsInput)).Text;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
+			var action = GetNode<OptionButton>(NodePath.ActionInput).Selected;
+			var cost = GetNode<LineEdit>(NodePath.CostInput).Text;
+			var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
+			var duration = GetNode<LineEdit>(NodePath.DurationInput).Text;
+			var effects = GetNode<TextEdit>(NodePath.EffectsInput).Text;
 			var seemingBenefits = SeemingBenefits;
-			var failure = GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureInput)).Text;
-			var FailureDramatic = GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureDramaticInput)).Text;
-			var success = GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessInput)).Text;
-			var successExceptional = GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessExceptionalInput)).Text;
-			var loophole = GetNode<TextEdit>(NodePathBuilder.SceneUnique(LoopholeInput)).Text;
+			var failure = GetNode<TextEdit>(NodePath.FailureInput).Text;
+			var FailureDramatic = GetNode<TextEdit>(NodePath.FailureDramaticInput).Text;
+			var success = GetNode<TextEdit>(NodePath.SuccessInput).Text;
+			var successExceptional = GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text;
+			var loophole = GetNode<TextEdit>(NodePath.LoopholeInput).Text;
 			
 			var attribute = OCSM.CoD.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
 			var attributeResisted = OCSM.CoD.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
@@ -167,24 +193,24 @@ namespace OCSM.Nodes.CoD.CtL
 				if(contract.AttributeContested is OCSM.CoD.Attribute)
 					contestedIndex = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(contract.AttributeContested.Name)) + 1;
 				
-				GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(AttributeInput)).Selected = attributeIndex;
-				GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input)).Selected = contestedIndex;
-				GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input)).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeResisted) + 1;
-				GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput)).Selected = OCSM.CoD.Skill.asList().IndexOf(contract.Skill) + 1;
-				GetNode<RegaliaOptionButton>(NodePathBuilder.SceneUnique(RegaliaInput)).Selected = ccc.Regalias.IndexOf(contract.Regalia) + 1;
-				GetNode<ContractTypeButton>(NodePathBuilder.SceneUnique(ContractTypeInput)).Selected = ccc.ContractTypes.IndexOf(contract.ContractType) + 1;
+				GetNode<AttributeOptionButton>(NodePath.AttributeInput).Selected = attributeIndex;
+				GetNode<AttributeOptionButton>(NodePath.Attribute2Input).Selected = contestedIndex;
+				GetNode<AttributeOptionButton>(NodePath.Attribute3Input).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeResisted) + 1;
+				GetNode<SkillOptionButton>(NodePath.SkillInput).Selected = OCSM.CoD.Skill.asList().IndexOf(contract.Skill) + 1;
+				GetNode<RegaliaOptionButton>(NodePath.RegaliaInput).Selected = ccc.Regalias.IndexOf(contract.Regalia) + 1;
+				GetNode<ContractTypeButton>(NodePath.ContractTypeInput).Selected = ccc.ContractTypes.IndexOf(contract.ContractType) + 1;
 				
-				GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = contract.Name;
-				GetNode<OptionButton>(NodePathBuilder.SceneUnique(ActionInput)).Selected = contract.Action;
-				GetNode<LineEdit>(NodePathBuilder.SceneUnique(CostInput)).Text = contract.Cost;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = contract.Description;
-				GetNode<LineEdit>(NodePathBuilder.SceneUnique(DurationInput)).Text = contract.Duration;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(EffectsInput)).Text = contract.Effects;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureInput)).Text = contract.RollFailure;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(FailureDramaticInput)).Text = contract.RollFailureDramatic;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessInput)).Text = contract.RollSuccess;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(SuccessExceptionalInput)).Text = contract.RollSuccessExceptional;
-				GetNode<TextEdit>(NodePathBuilder.SceneUnique(LoopholeInput)).Text = contract.Loophole;
+				GetNode<LineEdit>(NodePath.NameInput).Text = contract.Name;
+				GetNode<OptionButton>(NodePath.ActionInput).Selected = contract.Action;
+				GetNode<LineEdit>(NodePath.CostInput).Text = contract.Cost;
+				GetNode<TextEdit>(NodePath.DescriptionInput).Text = contract.Description;
+				GetNode<LineEdit>(NodePath.DurationInput).Text = contract.Duration;
+				GetNode<TextEdit>(NodePath.EffectsInput).Text = contract.Effects;
+				GetNode<TextEdit>(NodePath.FailureInput).Text = contract.RollFailure;
+				GetNode<TextEdit>(NodePath.FailureDramaticInput).Text = contract.RollFailureDramatic;
+				GetNode<TextEdit>(NodePath.SuccessInput).Text = contract.RollSuccess;
+				GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = contract.RollSuccessExceptional;
+				GetNode<TextEdit>(NodePath.LoopholeInput).Text = contract.Loophole;
 				
 				SeemingBenefits = contract.SeemingBenefits;
 				
@@ -197,8 +223,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void refreshSeemingBenefits()
 		{
-			var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
-			foreach(Node c in row.GetChildren())
+			foreach(Node c in seemingBenefitsRow.GetChildren())
 			{
 				if(c is HBoxContainer)
 					c.QueueFree();
@@ -214,11 +239,10 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void toggleDetails()
 		{
-			var node = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(DetailsInput));
-			if(node.Visible)
-				node.Hide();
+			if(detailsInput.Visible)
+				detailsInput.Hide();
 			else
-				node.Show();
+				detailsInput.Show();
 		}
 		
 		public void actionChanged(long index)
@@ -228,81 +252,72 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void actionChanged(long index, bool reset = true)
 		{
-			var attr3 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute3Input));
 			if(ActionContestedIndex.Equals(index))
 			{
-				GetNode<Label>(NodePathBuilder.SceneUnique(Versus)).Show();
-				attr3.Show();
+				versus.Show();
+				attribute3Input.Show();
 			}
 			else
 			{
-				GetNode<Label>(NodePathBuilder.SceneUnique(Versus)).Hide();
-				attr3.Hide();
+				versus.Hide();
+				attribute3Input.Hide();
 				if(reset)
-					attr3.Selected = 0;
-				GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Hide();
+					attribute3Input.Selected = 0;
+				wyrd2.Hide();
 			}
 			
-			var attr2 = GetNode<AttributeOptionButton>(NodePathBuilder.SceneUnique(Attribute2Input));
 			if(ActionResistedIndex.Equals(index))
 			{
-				attr2.Show();
-				GetNode<Control>(NodePathBuilder.SceneUnique(Attribute2Minus)).Show();
+				attribute2Input.Show();
+				attribute2Minus.Show();
 			}
 			else
 			{
-				attr2.Hide();
+				attribute2Input.Hide();
 				if(reset)
-					attr2.Selected = 0;
-				GetNode<Control>(NodePathBuilder.SceneUnique(Attribute2Minus)).Hide();
+					attribute2Input.Selected = 0;
+				attribute2Minus.Hide();
 			}
 		}
 		
 		public void attributeChanged(long index)
 		{
-			var skill = GetNode<SkillOptionButton>(NodePathBuilder.SceneUnique(SkillInput));
-			
 			if(index > 0)
 			{
-				skill.Show();
-				GetNode<Control>(NodePathBuilder.SceneUnique(SkillPlus)).Show();
-				GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd)).Show();
+				skillInput.Show();
+				skillPlus.Show();
+				wyrd1.Show();
 			}
 			else
 			{
-				skill.Hide();
-				skill.Selected = 0;
-				GetNode<Control>(NodePathBuilder.SceneUnique(SkillPlus)).Hide();
-				GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd)).Hide();
+				skillInput.Hide();
+				skillInput.Selected = 0;
+				skillPlus.Hide();
+				wyrd1.Hide();
 			}
 		}
 		
 		public void contestedAttributeChanged(long index)
 		{
 			if(index > 0)
-			{
-				GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Show();
-			}
+				wyrd2.Show();
 			else
-			{
-				GetNode<Control>(NodePathBuilder.SceneUnique(Wyrd2)).Hide();
-			}
+				wyrd2.Hide();
 		}
 		
 		private void updateSeemingBenefits()
 		{
-			var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 			var benefits = new Dictionary<string, string>();
-			var children = row.GetChildren();
+			var children = seemingBenefitsRow.GetChildren();
 			foreach(Node c in children)
 			{
 				if(c is HBoxContainer)
 				{
-					var seemingNode = c.GetNode<SeemingOptionButton>(NodePathBuilder.SceneUnique(SeemingInput));
+					var seemingNode = c.GetNode<SeemingOptionButton>(NodePath.SeemingInput);
 					var seeming = String.Empty;
 					if(seemingNode.Selected > -1)
 						seeming = seemingNode.GetItemText(seemingNode.Selected);
-					var benefit = c.GetNode<TextEdit>(NodePathBuilder.SceneUnique(BenefitInput)).Text;
+					var benefit = c.GetNode<TextEdit>(NodePath.BenefitInput).Text;
 					
 					if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit) && !benefits.ContainsKey(seeming))
 						benefits.Add(seeming, benefit);
@@ -321,10 +336,9 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 		{
-			var row = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(SeemingBenefitsRow));
 			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
 			var instance = resource.Instantiate<HBoxContainer>();
-			row.AddChild(instance);
+			seemingBenefitsRow.AddChild(instance);
 			
 			//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
 			if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))

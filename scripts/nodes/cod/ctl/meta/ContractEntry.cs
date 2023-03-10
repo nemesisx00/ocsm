@@ -9,12 +9,16 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 {
 	public partial class ContractEntry : Container
 	{
-		public const string ContractInput = "ContractInputs";
-		private const string ClearButton = "Clear";
-		private const string DeleteButton = "Delete";
-		private const string SaveButton = "Save";
-		private const string ExistingEntryName = "ExistingEntry";
-		private const string ContractsName = "Contracts";
+		public sealed class NodePath
+		{
+			public const string ContractInput = "ContractInputs";
+			public const string ClearButton = "Clear";
+			public const string DeleteButton = "Delete";
+			public const string SaveButton = "Save";
+			public const string ExistingEntryName = "ExistingEntry";
+			public const string ContractsName = "Contracts";
+		}
+		
 		private const string ContractNameFormatOne = "{0} ({1})";
 		private const string ContractNameFormatTwo = "{0} ({1} {2})";
 		
@@ -31,30 +35,30 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			metadataManager.MetadataLoaded += refreshMetadata;
 			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput)).toggleDetails();
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Pressed += clearInputs;
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Pressed += doSave;
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Pressed += handleDelete;
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName)).ItemSelected += entrySelected;
+			GetNode<Contract>(NodePath.ContractInput).toggleDetails();
+			GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
+			GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
+			GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
+			GetNode<OptionButton>(NodePath.ExistingEntryName).ItemSelected += entrySelected;
 			
 			refreshMetadata();
 		}
 		
 		public void loadContract(OCSM.CoD.CtL.Contract contract)
 		{
-			var contractInput = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput));
+			var contractInput = GetNode<Contract>(NodePath.ContractInput);
 			contractInput.setData(contract);
 		}
 		
 		private void clearInputs()
 		{
-			var contractInput = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput));
+			var contractInput = GetNode<Contract>(NodePath.ContractInput);
 			contractInput.clearInputs();
 		}
 		
 		private void doSave()
 		{
-			var data = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput)).getData();
+			var data = GetNode<Contract>(NodePath.ContractInput).getData();
 			if(!String.IsNullOrEmpty(data.Name))
 			{
 				EmitSignal(nameof(SaveClicked));
@@ -75,7 +79,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void doDelete()
 		{
-			var data = GetNode<Contract>(NodePathBuilder.SceneUnique(ContractInput)).getData();
+			var data = GetNode<Contract>(NodePath.ContractInput).getData();
 			if(!String.IsNullOrEmpty(data.Name))
 			{
 				EmitSignal(nameof(DeleteConfirmed), data.Name);
@@ -86,7 +90,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void entrySelected(long index)
 		{
-			var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 			var name = optionButton.GetItemText((int)index);
 			if(name.Contains(" ("))
 				name = name.Substring(0, name.IndexOf(" ("));
@@ -105,7 +109,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var c in ccc.Contracts)

@@ -5,6 +5,13 @@ namespace OCSM.Nodes
 {
 	public partial class AppRoot : Control
 	{
+		public sealed class NodePath
+		{
+			public const string Self = "/root/AppRoot";
+			public const string SheetTabs = NodePath.Self + "/%SheetTabs";
+			public const string NewSheet = NodePath.Self + "/%NewSheet";
+		}
+		
 		public const string SheetTabsName = "SheetTabs";
 		private const string FileMenuName = "FileMenu";
 		private const string HelpMenuName = "HelpMenu";

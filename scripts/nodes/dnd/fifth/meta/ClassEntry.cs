@@ -8,7 +8,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 	{
 		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<ClassOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var optionsButton = GetNode<ClassOptionsButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -24,7 +24,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var optionButton = GetNode<ClassOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<ClassOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var c in dfc.Classes)

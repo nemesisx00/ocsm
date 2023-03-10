@@ -164,7 +164,7 @@ text = "Needle:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Needle" type="Label" parent="Row/Column2/Row3"]
+[node name="NeedleLabel" type="Label" parent="Row/Column2/Row3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
@@ -185,7 +185,7 @@ text = "Thread:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Thread" type="Label" parent="Row/Column2/Row4"]
+[node name="ThreadLabel" type="Label" parent="Row/Column2/Row4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2

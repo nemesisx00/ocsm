@@ -10,13 +10,13 @@ namespace OCSM.Nodes.DnD.Fifth
 		[Signal]
 		public delegate void AbilityChangedEventHandler(Transport<Ability> transport);
 		
-		private sealed class Names
+		private sealed class NodePath
 		{
-			public const string Name = "Name";
-			public const string Score = "Score";
-			public const string Modifier = "Modifier";
-			public const string SavingThrow = "SavingThrow";
-			public const string Skills = "Skills";
+			public const string Name = "%Name";
+			public const string Score = "%Score";
+			public const string Modifier = "%Modifier";
+			public const string SavingThrow = "%SavingThrow";
+			public const string Skills = "%Skills";
 		}
 		
 		public Ability Ability { get; set; }
@@ -30,11 +30,11 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			label = GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name));
-			score = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Score));
-			modifier = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Modifier));
-			skillsContainer = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Skills));
-			savingThrow = GetNode<Skill>(NodePathBuilder.SceneUnique(Names.SavingThrow));
+			label = GetNode<Label>(NodePath.Name);
+			score = GetNode<SpinBox>(NodePath.Score);
+			modifier = GetNode<SpinBox>(NodePath.Modifier);
+			skillsContainer = GetNode<Container>(NodePath.Skills);
+			savingThrow = GetNode<Skill>(NodePath.SavingThrow);
 			savingThrow.trackAbility(this);
 			savingThrow.ProficiencyChanged += savingThrowChanged;
 			

@@ -50,6 +50,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Advantages" parent="Column" instance=ExtResource("1")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 
@@ -65,9 +66,11 @@ tab_alignment = 1
 drag_to_rearrange_enabled = true
 
 [node name="Details" parent="Column/TabContainer" instance=ExtResource("5")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Traits" parent="Column/TabContainer" instance=ExtResource("4")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 

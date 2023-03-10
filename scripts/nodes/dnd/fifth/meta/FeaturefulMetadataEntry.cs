@@ -7,9 +7,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 {
 	public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	{
-		protected const string ExistingFeaturesName = "ExistingFeatures";
-		protected const string FeaturesName = "Features";
-		protected const string SectionsName = "Sections";
+		protected new class NodePath : BasicMetadataEntry.NodePath
+		{
+			public const string ExistingFeaturesName = "%ExistingFeatures";
+			public const string FeaturesName = "%Features";
+			public const string SectionsName = "%Sections";
+		}
 		
 		[Signal]
 		public new delegate void SaveClickedEventHandler(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features);
@@ -21,12 +24,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			Features = new List<OCSM.DnD.Fifth.Feature>();
 			
 			base._Ready();
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName)).ItemSelected += featureSelected;
+			GetNode<FeatureOptionsButton>(NodePath.ExistingFeaturesName).ItemSelected += featureSelected;
 		}
 		
 		protected void renderFeatures()
 		{
-			var featureContainer = GetNode<Container>(NodePathBuilder.SceneUnique(FeaturesName));
+			var featureContainer = GetNode<Container>(NodePath.FeaturesName);
 			foreach(Node c in featureContainer.GetChildren())
 			{
 				c.QueueFree();
@@ -56,7 +59,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		protected override void clearInputs()
 		{
 			base.clearInputs();
-			var sections = GetNode<SectionList>(NodePathBuilder.SceneUnique(SectionsName));
+			var sections = GetNode<SectionList>(NodePath.SectionsName);
 			sections.Values = new List<OCSM.DnD.Fifth.FeatureSection>();
 			sections.refresh();
 			Features = new List<OCSM.DnD.Fifth.Feature>();
@@ -65,9 +68,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected override void doSave()
 		{
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
-			var sections = GetNode<SectionList>(NodePathBuilder.SceneUnique(SectionsName)).Values;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
+			var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
+			var sections = GetNode<SectionList>(NodePath.SectionsName).Values;
 			
 			EmitSignal(nameof(SaveClicked), name, description, new Transport<List<OCSM.DnD.Fifth.FeatureSection>>(sections), new Transport<List<OCSM.DnD.Fifth.Feature>>(Features));
 			clearInputs();
@@ -77,7 +80,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var optionsButton = GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(ExistingFeaturesName));
+				var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingFeaturesName);
 				var name = optionsButton.GetItemText((int)index);
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature && !Features.Contains(feature))
 				{
@@ -92,7 +95,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		public virtual void loadEntry(Featureful entry)
 		{
 			base.loadEntry(entry);
-			var sections = GetNode<SectionList>(NodePathBuilder.SceneUnique(SectionsName));
+			var sections = GetNode<SectionList>(NodePath.SectionsName);
 			sections.Values = entry.Sections;
 			sections.refresh();
 			Features = entry.Features;

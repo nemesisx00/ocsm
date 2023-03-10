@@ -6,9 +6,14 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 {
 	public partial class MeritsFromMetadata : Container
 	{
+		private sealed class NodePath
+		{
+			public const string MeritsName = "%ExistingMerits";
+		}
+		
 		[Signal]
 		public delegate void AddMeritEventHandler(string name);
-		private const string MeritsName = "ExistingMerits";
+		
 		
 		private MetadataManager metadataManager;
 		
@@ -18,7 +23,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			metadataManager.MetadataLoaded += refreshMerits;
 			metadataManager.MetadataSaved += refreshMerits;
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).ItemSelected += meritSelected;
+			GetNode<OptionButton>(NodePath.MeritsName).ItemSelected += meritSelected;
 			
 			refreshMerits();
 		}
@@ -27,7 +32,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
+				var optionButton = GetNode<OptionButton>(NodePath.MeritsName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var m in ccc.Merits)
@@ -41,7 +46,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(index > 0)
 			{
-				var node = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
+				var node = GetNode<OptionButton>(NodePath.MeritsName);
 				EmitSignal(nameof(AddMerit), node.GetItemText((int)index));
 				node.Selected = 0;
 			}

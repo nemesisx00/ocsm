@@ -6,14 +6,14 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 {
 	public partial class NumericBonusEdit : Container
 	{
-		private sealed class Names
+		private sealed class NodePath
 		{
-			public const string Ability = "Ability";
-			public const string AbilityLabel = "AbilityLabel";
-			public const string Method = "Method";
-			public const string Name = "Name";
-			public const string Type = "Type";
-			public const string Value = "Value";
+			public const string Ability = "%Ability";
+			public const string AbilityLabel = "%AbilityLabel";
+			public const string Method = "%Method";
+			public const string Name = "%Name";
+			public const string Type = "%Type";
+			public const string Value = "%Value";
 		}
 		
 		[Signal]
@@ -33,12 +33,12 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(!(Value is NumericBonus))
 				Value = new NumericBonus();
 			
-			abilityInput = GetNode<AbilityOptionsButton>(NodePathBuilder.SceneUnique(Names.Ability));
-			abilityLabel = GetNode<Label>(NodePathBuilder.SceneUnique(Names.AbilityLabel));
-			methodInput = GetNode<OptionButton>(NodePathBuilder.SceneUnique(Names.Method));
-			nameInput = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Name));
-			typeInput = GetNode<NumericStatOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
-			valueInput = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.Value));
+			abilityInput = GetNode<AbilityOptionsButton>(NodePath.Ability);
+			abilityLabel = GetNode<Label>(NodePath.AbilityLabel);
+			methodInput = GetNode<OptionButton>(NodePath.Method);
+			nameInput = GetNode<LineEdit>(NodePath.Name);
+			typeInput = GetNode<NumericStatOptionsButton>(NodePath.Type);
+			valueInput = GetNode<SpinBox>(NodePath.Value);
 			
 			abilityInput.ItemSelected += abilityChanged;
 			methodInput.ItemSelected += methodChanged;

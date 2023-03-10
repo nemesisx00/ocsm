@@ -10,15 +10,18 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 {
 	public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	{
-		private const string ContractName = "Contract";
-		private const string ContractTypeName = "Contract Type";
-		private const string CourtName = "Court";
-		private const string KithName = "Kith";
-		private const string MeritName = "Merit";
-		private const string MetadataSelectorName = "MetadataSelector";
-		private const string RegaliaName = "Regalia";
-		private const string SeemingName = "Seeming";
-		private const string TabContainer = "TabContainer";
+		private sealed class NodePath
+		{
+			public const string ContractName = "%Contract";
+			public const string ContractTypeName = "%Contract Type";
+			public const string CourtName = "%Court";
+			public const string KithName = "%Kith";
+			public const string MeritName = "%Merit";
+			public const string MetadataSelectorName = "%MetadataSelector";
+			public const string RegaliaName = "%Regalia";
+			public const string SeemingName = "%Seeming";
+			public const string TabContainer = "%TabContainer";
+		}
 		
 		private MetadataManager metadataManager;
 		
@@ -28,31 +31,31 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			
 			CloseRequested += closeHandler;
 			
-			var contractEntry = GetNode<ContractEntry>(NodePathBuilder.SceneUnique(ContractName));
+			var contractEntry = GetNode<ContractEntry>(NodePath.ContractName);
 			contractEntry.SaveClicked += saveContract;
 			contractEntry.DeleteConfirmed += deleteContract;
 			
-			var contractTypeEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(ContractTypeName));
+			var contractTypeEntry = GetNode<BasicMetadataEntry>(NodePath.ContractTypeName);
 			contractTypeEntry.SaveClicked += saveContractType;
 			contractTypeEntry.DeleteConfirmed += deleteContractType;
 			
-			var courtEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(CourtName));
+			var courtEntry = GetNode<BasicMetadataEntry>(NodePath.CourtName);
 			courtEntry.SaveClicked += saveCourt;
 			courtEntry.DeleteConfirmed += deleteCourt;
 			
-			var kithEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(KithName));
+			var kithEntry = GetNode<BasicMetadataEntry>(NodePath.KithName);
 			kithEntry.SaveClicked += saveKith;
 			kithEntry.DeleteConfirmed += deleteKith;
 			
-			var meritEntry = GetNode<MeritEntry>(NodePathBuilder.SceneUnique(MeritName));
+			var meritEntry = GetNode<MeritEntry>(NodePath.MeritName);
 			meritEntry.SaveClicked += saveMerit;
 			meritEntry.DeleteConfirmed += deleteMerit;
 			
-			var regaliaEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(RegaliaName));
+			var regaliaEntry = GetNode<BasicMetadataEntry>(NodePath.RegaliaName);
 			regaliaEntry.SaveClicked += saveRegalia;
 			regaliaEntry.DeleteConfirmed += deleteRegalia;
 			
-			var seemingEntry = GetNode<BasicMetadataEntry>(NodePathBuilder.SceneUnique(SeemingName));
+			var seemingEntry = GetNode<BasicMetadataEntry>(NodePath.SeemingName);
 			seemingEntry.SaveClicked += saveSeeming;
 			seemingEntry.DeleteConfirmed += deleteSeeming;
 		}
@@ -150,8 +153,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var entry = GetNode<ContractEntry>(NodePathBuilder.SceneUnique(ContractName));
-				var contract = entry.GetNode<Contract>(NodePathBuilder.SceneUnique(ContractEntry.ContractInput)).getData();
+				var entry = GetNode<ContractEntry>(NodePath.ContractName);
+				var contract = entry.GetNode<Contract>(ContractEntry.NodePath.ContractInput).getData();
 				
 				if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is OCSM.CoD.CtL.Contract existingContract)
 					ccc.Contracts.Remove(existingContract);

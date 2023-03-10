@@ -8,30 +8,33 @@ namespace OCSM.Nodes.CoD.Meta
 {
 	public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	{
+		private sealed new class NodePath : BasicMetadataEntry.NodePath
+		{
+			public const string DotsName = "%Dots";
+		}
+		
 		[Signal]
 		public new delegate void SaveClickedEventHandler(string name, string description, int value);
-		
-		private const string DotsName = "Dots";
 		
 		public void loadMerit(Merit merit)
 		{
 			base.loadEntry(merit);
 			
-			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(merit.Value);
+			GetNode<TrackSimple>(NodePath.DotsName).updateValue(merit.Value);
 		}
 		
 		protected override void clearInputs()
 		{
 			base.clearInputs();
 			
-			GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).updateValue(0);
+			GetNode<TrackSimple>(NodePath.DotsName).updateValue(0);
 		}
 		
 		protected override void doSave()
 		{
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
-			var value = GetNode<TrackSimple>(NodePathBuilder.SceneUnique(DotsName)).Value;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
+			var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
+			var value = GetNode<TrackSimple>(NodePath.DotsName).Value;
 			
 			EmitSignal(nameof(SaveClicked), name, description, value);
 			clearInputs();
@@ -39,7 +42,7 @@ namespace OCSM.Nodes.CoD.Meta
 		
 		public new void doDelete()
 		{
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
 			if(!String.IsNullOrEmpty(name))
 			{
 				EmitSignal(nameof(DeleteConfirmed), name);
@@ -50,7 +53,7 @@ namespace OCSM.Nodes.CoD.Meta
 		
 		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDCoreContainer ccc)
 			{
@@ -66,7 +69,7 @@ namespace OCSM.Nodes.CoD.Meta
 		{
 			if(metadataManager.Container is CoDCoreContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var m in ccc.Merits)
