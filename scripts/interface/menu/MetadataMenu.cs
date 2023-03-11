@@ -42,10 +42,10 @@ namespace OCSM.Nodes
 		{
 			switch(metadataManager.CurrentGameSystem)
 			{
-				case GameSystem.CoD.Changeling:
+				case Constants.GameSystem.CoD.Changeling:
 					generatePopup<CodChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata));
 					break;
-				case GameSystem.DnD.Fifth:
+				case Constants.GameSystem.DnD.Fifth:
 					generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata));
 					break;
 				default:

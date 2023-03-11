@@ -122,11 +122,11 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		protected void InitSpecialtyList(SpecialtyList node, List<Specialty> initialValue, SpecialtyList.ValueChangedEventHandler handler)
+		protected void InitSpecialtyList(SpecialtyList node, List<Pair> initialValue, SpecialtyList.ValueChangedEventHandler handler)
 		{
 			if(node is SpecialtyList)
 			{
-				if(initialValue is List<Specialty>)
+				if(initialValue is List<Pair>)
 					node.Values = initialValue;
 				node.refresh();
 				node.ValueChanged += handler;
@@ -268,7 +268,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_SkillSpecialty(Transport<List<Specialty>> transport) { SheetData.Specialties = transport.Value; }
+		private void changed_SkillSpecialty(Transport<List<Pair>> transport) { SheetData.Specialties = transport.Value; }
 		
 		private void changed_Size(double number)
 		{

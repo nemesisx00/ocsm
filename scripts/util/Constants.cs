@@ -22,6 +22,20 @@ namespace OCSM
 			public const string FileCloseSheet = "fileCloseSheet";
 		}
 		
+		public sealed class GameSystem
+		{
+			public sealed class CoD
+			{
+				public const string Mortal = "CodMortal";
+				public const string Changeling = "CodChangeling";
+			}
+			
+			public sealed class DnD
+			{
+				public const string Fifth = "Dnd5e";
+			}
+		}
+		
 		public sealed class Json
 		{
 			public const string SheetType = "type";

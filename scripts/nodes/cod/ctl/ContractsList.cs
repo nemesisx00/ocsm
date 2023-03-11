@@ -21,6 +21,7 @@ namespace OCSM.Nodes.CoD.CtL
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+			metadataManager.MetadataLoaded += refresh;
 			
 			refresh();
 		}
@@ -32,6 +33,7 @@ namespace OCSM.Nodes.CoD.CtL
 				c.QueueFree();
 			}
 			
+			Values.Sort();
 			foreach(var v in Values)
 			{
 				if(v is OCSM.CoD.CtL.Contract)
@@ -56,6 +58,7 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 			
 			Values = values;
+			Values.Sort();
 			EmitSignal(nameof(ValueChanged), new Transport<List<OCSM.CoD.CtL.Contract>>(Values));
 			
 			if(GetChildren().Count <= Values.Count)
@@ -73,10 +76,11 @@ namespace OCSM.Nodes.CoD.CtL
 			
 			if(value is OCSM.CoD.CtL.Contract)
 			{
-				if(value.Action > -1)
+				var actionIndex = ActionOptionButton.GetActionIndex(value.Action);
+				if(actionIndex > -1)
 				{
-					instance.GetNode<OptionButton>(Contract.NodePath.ActionInput).Selected = value.Action;
-					instance.actionChanged(value.Action);
+					instance.GetNode<ActionOptionButton>(Contract.NodePath.ActionInput).Selected = actionIndex;
+					instance.actionChanged(actionIndex);
 				}
 				
 				if(value.Attribute is OCSM.CoD.Attribute)
@@ -109,7 +113,7 @@ namespace OCSM.Nodes.CoD.CtL
 				if(!String.IsNullOrEmpty(value.Name))
 					instance.GetNode<LineEdit>(Contract.NodePath.NameInput).Text = value.Name;
 				
-				if(value.SeemingBenefits is System.Collections.Generic.Dictionary<string, string>)
+				if(value.SeemingBenefits is System.Collections.Generic.List<Pair>)
 				{
 					instance.SeemingBenefits = value.SeemingBenefits;
 					instance.refreshSeemingBenefits();
@@ -120,8 +124,15 @@ namespace OCSM.Nodes.CoD.CtL
 				
 				if(metadataManager.Container is CoDChangelingContainer ccc)
 				{
-					if(value.Regalia is Regalia)
-						instance.GetNode<RegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.FindIndex(r => r.Equals(value.Regalia)) + 1;
+					if(value.Regalia is ContractRegalia)
+					{
+						if(value.Regalia.Equals(ContractRegalia.Goblin))
+							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.Count + ccc.Courts.Count + 1;
+						else if(ccc.Regalias.Find(r => r.Name.Equals(value.Regalia.Name)) is Regalia r)
+							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.IndexOf(r) + 1;
+						else if(ccc.Courts.Find(c => c.Name.Equals(value.Regalia.Name)) is Court c)
+							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.Count + ccc.Courts.IndexOf(c) + 1;
+					}
 					if(value.ContractType is ContractType)
 						instance.GetNode<OptionButton>(Contract.NodePath.ContractTypeInput).Selected = ccc.ContractTypes.FindIndex(r => r.Equals(value.ContractType)) + 1;
 				}
@@ -141,7 +152,7 @@ namespace OCSM.Nodes.CoD.CtL
 			instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute2Input).ItemSelected += optionSelected;
 			instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute3Input).ItemSelected += optionSelected;
 			instance.GetNode<SkillOptionButton>(Contract.NodePath.SkillInput).ItemSelected += optionSelected;
-			instance.GetNode<RegaliaOptionButton>(Contract.NodePath.RegaliaInput).ItemSelected += optionSelected;
+			instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).ItemSelected += optionSelected;
 			instance.GetNode<ContractTypeButton>(Contract.NodePath.ContractTypeInput).ItemSelected += optionSelected;
 			instance.GetNode<LineEdit>(Contract.NodePath.CostInput).TextChanged += textChanged;
 			instance.GetNode<LineEdit>(Contract.NodePath.DurationInput).TextChanged += textChanged;

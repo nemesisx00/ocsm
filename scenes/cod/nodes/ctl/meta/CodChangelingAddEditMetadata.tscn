@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bwpyunuo5yk11"]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/CourtEntry.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_v1gtx"]
@@ -10,11 +10,11 @@
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/SeemingEntry.cs" id="7"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/ContractTypeEntry.cs" id="8"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/RegaliaEntry.cs" id="9"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/KithOptionButton.cs" id="10"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" id="11"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/ContractTypeButton.cs" id="12"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/SeemingOptionButton.cs" id="13"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/CourtOptionButton.cs" id="14"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/KithOptionButton.cs" id="10"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/RegaliaOptionButton.cs" id="11"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="12"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/SeemingOptionButton.cs" id="13"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/CourtOptionButton.cs" id="14"]
 
 [node name="AddEditMetadata" type="Window"]
 initial_position = 2

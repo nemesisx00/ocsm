@@ -6,10 +6,12 @@ namespace OCSM.Nodes.Autoload
 {
 	public partial class SheetManager : Node
 	{
+		private MetadataManager metadataManager;
 		private TabContainer sheetTabs;
 		
 		public override void _Ready()
 		{
+			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			sheetTabs = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
 		}
 		
@@ -86,21 +88,21 @@ namespace OCSM.Nodes.Autoload
 				if(sheetTabs is TabContainer)
 				{
 					var loaded = false;
-					if(json.Contains(GameSystem.CoD.Changeling))
+					if(json.Contains(Constants.GameSystem.CoD.Changeling))
 					{
-						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Changeling;
+						metadataManager.CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
 						addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
 						loaded = true;
 					}
-					else if(json.Contains(GameSystem.CoD.Mortal))
+					else if(json.Contains(Constants.GameSystem.CoD.Mortal))
 					{
-						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.CoD.Mortal;
+						metadataManager.CurrentGameSystem = Constants.GameSystem.CoD.Mortal;
 						addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
 						loaded = true;
 					}
-					else if(json.Contains(GameSystem.DnD.Fifth))
+					else if(json.Contains(Constants.GameSystem.DnD.Fifth))
 					{
-						GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = GameSystem.DnD.Fifth;
+						metadataManager.CurrentGameSystem = Constants.GameSystem.DnD.Fifth;
 						addNewSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName, json);
 						loaded = true;
 					}
@@ -120,6 +122,7 @@ namespace OCSM.Nodes.Autoload
 				
 				var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
 				var instance = resource.Instantiate<NewSheet>();
+				instance.UniqueNameInOwner = true;
 				GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
 				
 				GetNode<MetadataManager>(Constants.NodePath.MetadataManager).CurrentGameSystem = String.Empty;

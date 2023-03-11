@@ -65,7 +65,6 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
-mouse_default_cursor_shape = 2
 drag_to_rearrange_enabled = true
 
 [node name="NewSheet" parent="." instance=ExtResource("4")]

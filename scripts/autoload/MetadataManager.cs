@@ -34,15 +34,15 @@ namespace OCSM.Nodes.Autoload
 					
 					switch(gameSystem)
 					{
-						case GameSystem.CoD.Changeling:
+						case Constants.GameSystem.CoD.Changeling:
 							Container = new CoDChangelingContainer();
 							loadGameSystemMetadata();
 							break;
-						case GameSystem.CoD.Mortal:
+						case Constants.GameSystem.CoD.Mortal:
 							Container = new CoDCoreContainer();
 							loadGameSystemMetadata();
 							break;
-						case GameSystem.DnD.Fifth:
+						case Constants.GameSystem.DnD.Fifth:
 							Container = new DnDFifthContainer();
 							loadGameSystemMetadata();
 							break;
@@ -70,11 +70,11 @@ namespace OCSM.Nodes.Autoload
 		{
 			var tab = sheetTabs.GetTabControl((int)tabIndex);
 			if(tab is ChangelingSheet)
-				CurrentGameSystem = GameSystem.CoD.Changeling;
+				CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
 			else if (tab is MortalSheet)
-				CurrentGameSystem = GameSystem.CoD.Mortal;
+				CurrentGameSystem = Constants.GameSystem.CoD.Mortal;
 			else if (tab is DndFifthSheet)
-				CurrentGameSystem = GameSystem.DnD.Fifth;
+				CurrentGameSystem = Constants.GameSystem.DnD.Fifth;
 			else
 				CurrentGameSystem = String.Empty;
 		}
@@ -109,7 +109,7 @@ namespace OCSM.Nodes.Autoload
 		
 		public void initializeGameSystems()
 		{
-			CurrentGameSystem = GameSystem.CoD.Changeling;
+			CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
 			if(Container.IsEmpty())
 			{
 				Container = CoDChangelingContainer.initializeWithDefaultValues();

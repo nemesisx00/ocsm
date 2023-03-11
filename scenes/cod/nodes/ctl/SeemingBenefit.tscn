@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdad2nj3w4wa0"]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/SeemingOptionButton.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/SeemingOptionButton.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_onpgx"]
 
 [node name="SeemingBenefit" type="HBoxContainer"]

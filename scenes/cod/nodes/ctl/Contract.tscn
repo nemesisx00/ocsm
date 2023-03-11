@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://djv7nb0q43a08"]
+[gd_scene load_steps=10 format=3 uid="uid://dyrgsiv8fop51"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_uc06f"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/RegaliaOptionButton.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/ContractTypeButton.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractRegaliaOptionButton.cs" id="3_xgpms"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="4_kkamd"]
 [ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="5_cx8mn"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/SkillOptionButton.cs" id="6"]
 [ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="6_m8wrj"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/AttributeOptionButton.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ActionOptionButton.cs" id="7_ic6ho"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/Contract.cs" id="8"]
 
 [node name="Contract" type="VBoxContainer"]
@@ -41,14 +42,13 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("4")
-includeNonRegalia = true
+script = ExtResource("3_xgpms")
 
 [node name="ContractType" type="OptionButton" parent="Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("5")
+script = ExtResource("4_kkamd")
 
 [node name="ToggleDetails" type="TextureButton" parent="Row"]
 unique_name_in_owner = true
@@ -80,6 +80,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+script = ExtResource("7_ic6ho")
 
 [node name="Label2" type="Label" parent="Details/Row"]
 layout_mode = 2

@@ -11,7 +11,7 @@ namespace OCSM.CoD
 		public string Vice { get; set; }
 		public string Virtue { get; set; }
 		
-		public Mortal() : base(OCSM.GameSystem.CoD.Mortal)
+		public Mortal() : base(Constants.GameSystem.CoD.Mortal)
 		{
 			Age = -1;
 			Integrity = 7;

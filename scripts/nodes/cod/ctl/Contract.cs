@@ -41,10 +41,7 @@ namespace OCSM.Nodes.CoD.CtL
 			public const string Wyrd2 = "%Wyrd2";
 		}
 		
-		private const int ActionContestedIndex = 4;
-		private const int ActionResistedIndex = 5;
-		
-		public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
+		public List<Pair> SeemingBenefits { get; set; } = new List<Pair>();
 		
 		private MetadataManager metadataManager;
 		
@@ -77,7 +74,7 @@ namespace OCSM.Nodes.CoD.CtL
 			GetNode<OptionButton>(NodePath.ActionInput).ItemSelected += actionChanged;
 			GetNode<TextureButton>(NodePath.ToggleDetails).Pressed += toggleDetails;
 			GetNode<AttributeOptionButton>(NodePath.AttributeInput).ItemSelected += attributeChanged;
-			GetNode<AttributeOptionButton>(NodePath.Attribute3Input).ItemSelected += contestedAttributeChanged;
+			attribute3Input.ItemSelected += contestedAttributeChanged;
 			
 			refreshSeemingBenefits();
 		}
@@ -85,10 +82,10 @@ namespace OCSM.Nodes.CoD.CtL
 		public void clearInputs()
 		{
 			GetNode<AttributeOptionButton>(NodePath.AttributeInput).Selected = 0;
-			GetNode<AttributeOptionButton>(NodePath.Attribute2Input).Selected = 0;
-			GetNode<AttributeOptionButton>(NodePath.Attribute3Input).Selected = 0;
-			GetNode<SkillOptionButton>(NodePath.SkillInput).Selected = 0;
-			GetNode<RegaliaOptionButton>(NodePath.RegaliaInput).Selected = 0;
+			attribute2Input.Selected = 0;
+			attribute3Input.Selected = 0;
+			skillInput.Selected = 0;
+			GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).Selected = 0;
 			GetNode<OptionButton>(NodePath.ContractTypeInput).Selected = 0;
 			
 			GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
@@ -97,12 +94,13 @@ namespace OCSM.Nodes.CoD.CtL
 			GetNode<TextEdit>(NodePath.DescriptionInput).Text = String.Empty;
 			GetNode<LineEdit>(NodePath.DurationInput).Text = String.Empty;
 			GetNode<TextEdit>(NodePath.EffectsInput).Text = String.Empty;
-			SeemingBenefits = new Dictionary<string, string>();
 			GetNode<TextEdit>(NodePath.FailureInput).Text = String.Empty;
 			GetNode<TextEdit>(NodePath.FailureDramaticInput).Text = String.Empty;
 			GetNode<TextEdit>(NodePath.SuccessInput).Text = String.Empty;
 			GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = String.Empty;
 			GetNode<TextEdit>(NodePath.LoopholeInput).Text = String.Empty;
+			
+			SeemingBenefits.Clear();
 			
 			actionChanged(0);
 			attributeChanged(0);
@@ -113,29 +111,27 @@ namespace OCSM.Nodes.CoD.CtL
 		public OCSM.CoD.CtL.Contract getData()
 		{
 			var attr1Node = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
-			var attr2Node = GetNode<AttributeOptionButton>(NodePath.Attribute2Input);
-			var attr3Node = GetNode<AttributeOptionButton>(NodePath.Attribute3Input);
-			var skillNode = GetNode<SkillOptionButton>(NodePath.SkillInput);
-			var regaliaNode = GetNode<RegaliaOptionButton>(NodePath.RegaliaInput);
+			var regaliaNode = GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput);
 			var contractTypeNode = GetNode<ContractTypeButton>(NodePath.ContractTypeInput);
 			
 			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-			var action = GetNode<OptionButton>(NodePath.ActionInput).Selected;
 			var cost = GetNode<LineEdit>(NodePath.CostInput).Text;
 			var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
 			var duration = GetNode<LineEdit>(NodePath.DurationInput).Text;
 			var effects = GetNode<TextEdit>(NodePath.EffectsInput).Text;
-			var seemingBenefits = SeemingBenefits;
 			var failure = GetNode<TextEdit>(NodePath.FailureInput).Text;
 			var FailureDramatic = GetNode<TextEdit>(NodePath.FailureDramaticInput).Text;
 			var success = GetNode<TextEdit>(NodePath.SuccessInput).Text;
 			var successExceptional = GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text;
 			var loophole = GetNode<TextEdit>(NodePath.LoopholeInput).Text;
 			
+			var actionNode = GetNode<OptionButton>(NodePath.ActionInput);
+			var action = actionNode.GetItemText(actionNode.Selected);
+			
 			var attribute = OCSM.CoD.Attribute.byName(attr1Node.GetItemText(attr1Node.Selected));
-			var attributeResisted = OCSM.CoD.Attribute.byName(attr2Node.GetItemText(attr2Node.Selected));
-			var attributeContested = OCSM.CoD.Attribute.byName(attr3Node.GetItemText(attr3Node.Selected));
-			var skill = Skill.byName(skillNode.GetItemText(skillNode.Selected));
+			var attributeResisted = OCSM.CoD.Attribute.byName(attribute2Input.GetItemText(attribute2Input.Selected));
+			var attributeContested = OCSM.CoD.Attribute.byName(attribute3Input.GetItemText(attribute3Input.Selected));
+			var skill = Skill.byName(skillInput.GetItemText(skillInput.Selected));
 			var regalia = String.Empty;
 			if(regaliaNode.Selected >= 0)
 				regalia = regaliaNode.GetItemText(regaliaNode.Selected);
@@ -144,20 +140,23 @@ namespace OCSM.Nodes.CoD.CtL
 				contractType = contractTypeNode.GetItemText(contractTypeNode.Selected);
 			
 			var container = metadataManager.Container;
-			var regaliaAndContractTypeExist = true;
-			if(container is CoDChangelingContainer ccc)
-			{
-				regaliaAndContractTypeExist = ccc.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia
-					&& ccc.ContractTypes.Find(ct => ct.Name.Equals(contractType)) is ContractType;
-			}
 			
-			Regalia regaliaObj = null;
+			ContractRegalia regaliaObj = null;
 			ContractType contractTypeObj = null;
 			if(metadataManager.Container is CoDChangelingContainer ccc2)
 			{
-				regaliaObj = ccc2.Regalias.Find(r => r.Name.Equals(regalia));
+				if(ccc2.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia r)
+					regaliaObj = ContractRegalia.From(r);
+				else if(ccc2.Courts.Find(c => c.Name.Equals(regalia)) is Court c)
+					regaliaObj = ContractRegalia.From(c);
+				
 				contractTypeObj = ccc2.ContractTypes.Find(ct => ct.Name.Equals(contractType));
 			}
+			
+			if(!(regaliaObj is ContractRegalia) && regalia.Equals(ContractRegalia.Goblin.Name))
+				regaliaObj = ContractRegalia.Goblin;
+			
+			SeemingBenefits.Sort();
 			
 			return new OCSM.CoD.CtL.Contract()
 			{
@@ -177,7 +176,7 @@ namespace OCSM.Nodes.CoD.CtL
 				RollFailureDramatic = FailureDramatic,
 				RollSuccess = success,
 				RollSuccessExceptional = successExceptional,
-				SeemingBenefits = seemingBenefits,
+				SeemingBenefits = SeemingBenefits,
 				Skill = skill,
 			};
 		}
@@ -187,21 +186,43 @@ namespace OCSM.Nodes.CoD.CtL
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				var attributeIndex = 0;
-				var contestedIndex = 0;
 				if(contract.Attribute is OCSM.CoD.Attribute)
 					attributeIndex = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(contract.Attribute.Name)) + 1;
+				
+				var contestedIndex = 0;
 				if(contract.AttributeContested is OCSM.CoD.Attribute)
 					contestedIndex = OCSM.CoD.Attribute.asList().FindIndex(a => a.Name.Equals(contract.AttributeContested.Name)) + 1;
 				
+				var regaliaIndex = 0;
+				if(contract.Regalia is ContractRegalia)
+				{
+					if(contract.Regalia.Equals(ContractRegalia.Goblin))
+						regaliaIndex = ccc.Regalias.Count + ccc.Courts.Count;
+					else
+					{
+						regaliaIndex = ccc.Regalias.IndexOf(contract.Regalia.toRegalia());
+						if(regaliaIndex < 0)
+						{
+							regaliaIndex = ccc.Courts.IndexOf(contract.Regalia.toCourt());
+							if(regaliaIndex >= 0)
+								regaliaIndex = ccc.Regalias.Count + regaliaIndex;
+						}
+					}
+					
+					regaliaIndex++;
+				}
+				
 				GetNode<AttributeOptionButton>(NodePath.AttributeInput).Selected = attributeIndex;
-				GetNode<AttributeOptionButton>(NodePath.Attribute2Input).Selected = contestedIndex;
-				GetNode<AttributeOptionButton>(NodePath.Attribute3Input).Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeResisted) + 1;
-				GetNode<SkillOptionButton>(NodePath.SkillInput).Selected = OCSM.CoD.Skill.asList().IndexOf(contract.Skill) + 1;
-				GetNode<RegaliaOptionButton>(NodePath.RegaliaInput).Selected = ccc.Regalias.IndexOf(contract.Regalia) + 1;
+				attribute2Input.Selected = contestedIndex;
+				attribute3Input.Selected = OCSM.CoD.Attribute.asList().IndexOf(contract.AttributeResisted) + 1;
+				skillInput.Selected = OCSM.CoD.Skill.asList().IndexOf(contract.Skill) + 1;
+				GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).Selected = regaliaIndex;
 				GetNode<ContractTypeButton>(NodePath.ContractTypeInput).Selected = ccc.ContractTypes.IndexOf(contract.ContractType) + 1;
 				
+				var actionIndex = ActionOptionButton.GetActionIndex(contract.Action);
+				
 				GetNode<LineEdit>(NodePath.NameInput).Text = contract.Name;
-				GetNode<OptionButton>(NodePath.ActionInput).Selected = contract.Action;
+				GetNode<ActionOptionButton>(NodePath.ActionInput).Selected = actionIndex;
 				GetNode<LineEdit>(NodePath.CostInput).Text = contract.Cost;
 				GetNode<TextEdit>(NodePath.DescriptionInput).Text = contract.Description;
 				GetNode<LineEdit>(NodePath.DurationInput).Text = contract.Duration;
@@ -215,7 +236,7 @@ namespace OCSM.Nodes.CoD.CtL
 				SeemingBenefits = contract.SeemingBenefits;
 				
 				refreshSeemingBenefits();
-				actionChanged(contract.Action, false);
+				actionChanged(actionIndex, false);
 				attributeChanged(attributeIndex);
 				contestedAttributeChanged(contestedIndex);
 			}
@@ -229,9 +250,10 @@ namespace OCSM.Nodes.CoD.CtL
 					c.QueueFree();
 			}
 			
-			foreach(var seeming in SeemingBenefits.Keys)
+			SeemingBenefits.Sort();
+			foreach(var pair in SeemingBenefits)
 			{
-				addSeemingBenefitInput(seeming, SeemingBenefits[seeming]);
+				addSeemingBenefitInput(pair.Key, pair.Value);
 			}
 			
 			addSeemingBenefitInput();
@@ -252,7 +274,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void actionChanged(long index, bool reset = true)
 		{
-			if(ActionContestedIndex.Equals(index))
+			if(index.Equals((long)ActionOptionButton.Action.Contested))
 			{
 				versus.Show();
 				attribute3Input.Show();
@@ -266,7 +288,7 @@ namespace OCSM.Nodes.CoD.CtL
 				wyrd2.Hide();
 			}
 			
-			if(ActionResistedIndex.Equals(index))
+			if(index.Equals((long)ActionOptionButton.Action.Resisted))
 			{
 				attribute2Input.Show();
 				attribute2Minus.Show();
@@ -307,8 +329,9 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void updateSeemingBenefits()
 		{
-			var benefits = new Dictionary<string, string>();
+			var benefits = new List<Pair>();
 			var children = seemingBenefitsRow.GetChildren();
+			var lastIndex = children.Count - 1;
 			foreach(Node c in children)
 			{
 				if(c is HBoxContainer)
@@ -319,14 +342,15 @@ namespace OCSM.Nodes.CoD.CtL
 						seeming = seemingNode.GetItemText(seemingNode.Selected);
 					var benefit = c.GetNode<TextEdit>(NodePath.BenefitInput).Text;
 					
-					if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit) && !benefits.ContainsKey(seeming))
-						benefits.Add(seeming, benefit);
-					else if(String.IsNullOrEmpty(seeming) && String.IsNullOrEmpty(benefit) && children.IndexOf(c) != children.Count - 1)
+					if(!children.IndexOf(c).Equals(lastIndex) && String.IsNullOrEmpty(seeming) && String.IsNullOrEmpty(benefit))
 						c.QueueFree();
+					else if(!String.IsNullOrEmpty(seeming) || !String.IsNullOrEmpty(benefit))
+						benefits.Add(new Pair() { Key = seeming, Value = benefit });
 				}
 			}
 			
 			SeemingBenefits = benefits;
+			SeemingBenefits.Sort();
 			
 			if(children.Count <= SeemingBenefits.Count + 1)
 			{
