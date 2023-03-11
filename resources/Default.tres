@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://djnv70tbq0knw"]
 
-[ext_resource type="FontFile" path="res://resources/fonts/SalmaPro-Default.tres" id="1"]
+[ext_resource type="FontFile" uid="uid://d3g1tsbqwfn1n" path="res://resources/fonts/SalmaPro-Default.tres" id="1"]
 [ext_resource type="StyleBox" uid="uid://c86jl0cqsgurp" path="res://resources/styles/AppBackground.tres" id="2"]
 [ext_resource type="StyleBox" uid="uid://b1oce86wjd6t7" path="res://resources/styles/TabSubBodyBackground.tres" id="2_3jdsw"]
 [ext_resource type="StyleBox" path="res://resources/styles/BorderLine.tres" id="4"]
