@@ -61,7 +61,6 @@ namespace OCSM.Nodes
 			if(!(godotPopup is Window))
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.AboutGodot);
-				GD.Print("resource");
 				godotPopup = resource.Instantiate<Window>();
 				godotPopup.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
 				godotPopup.CloseRequested += () => NodeUtilities.queueFree(ref godotPopup);
