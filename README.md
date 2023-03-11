@@ -49,7 +49,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is created using [Godot](https://godotengine.org) with scripts written in C#.
+OCSM was created using [Godot](https://godotengine.org) with scripts written in C#.
 
 ## Getting Started
 
