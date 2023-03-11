@@ -38,7 +38,7 @@ namespace OCSM.DnD.Fifth
 			}
 		}
 		
-		public FifthAdventurer() : base(OCSM.GameSystem.DnD.Fifth)
+		public FifthAdventurer() : base(Constants.GameSystem.DnD.Fifth)
 		{
 			Abilities = Ability.generateBaseAbilityScores();
 			Alignment = String.Empty;

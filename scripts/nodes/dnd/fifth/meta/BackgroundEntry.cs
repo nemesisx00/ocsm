@@ -4,12 +4,12 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class BackgroundEntry : FeaturefulMetadataEntry
+	public partial class BackgroundEntry : FeaturefulMetadataEntry
 	{
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var optionsButton = GetNode<BackgroundOptionsButton>(NodePath.ExistingEntryName);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
@@ -24,7 +24,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var optionButton = GetNode<BackgroundOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<BackgroundOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var b in dfc.Backgrounds)

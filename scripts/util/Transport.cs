@@ -1,3 +1,4 @@
+using Godot;
 
 namespace OCSM
 {
@@ -6,7 +7,7 @@ namespace OCSM
 	/// Godot.Object via Godot's Signal system.
 	/// </summary>
 	/// <typeparam name="T">Any type that extends <c>System.Object</c>.</typeparam>
-	public class Transport<T> : Godot.Object
+	public partial class Transport<T> : GodotObject
 	{
 		public T Value { get; set; }
 		

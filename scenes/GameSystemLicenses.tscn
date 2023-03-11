@@ -1,46 +1,35 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://vprlpi1oxhnn"]
 
-[ext_resource path="res://assets/textures/darkpack_logo2-160.png" type="Texture" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-Default.tres" type="DynamicFont" id=2]
+[ext_resource type="Texture2D" uid="uid://crydytnk55536" path="res://assets/textures/darkpack_logo2-160.png" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rgn14"]
 
-[node name="GameSystemLicenses" type="WindowDialog"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -304.0
-margin_bottom = -528.0
-popup_exclusive = true
-window_title = "Game System Licenses"
-resizable = true
+[node name="GameSystemLicenses" type="Window"]
+initial_position = 2
+title = "Game System Licenses"
+size = Vector2i(720, 200)
+transient = true
+exclusive = true
+popup_window = true
+theme = ExtResource("1_rgn14")
 
 [node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-tab_align = 0
 
 [node name="Dark Pack" type="HBoxContainer" parent="TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
 
 [node name="DarkPackLogo" type="TextureRect" parent="TabContainer/Dark Pack"]
-margin_top = 22.0
-margin_right = 160.0
-margin_bottom = 182.0
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 
 [node name="Label" type="Label" parent="TabContainer/Dark Pack"]
-margin_left = 164.0
-margin_top = 70.0
-margin_right = 712.0
-margin_bottom = 133.0
+layout_mode = 2
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 2 )
 text = "Portions of the materials are the copyrights and trademarks of Paradox Interactive AB, and are used with permission. All rights reserved. For more information please visit worldofdarkness.com."
-align = 1
-valign = 1
-autowrap = true
+horizontal_alignment = 3
+vertical_alignment = 1
+autowrap_mode = 2

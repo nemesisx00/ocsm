@@ -5,12 +5,12 @@ using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class RegaliaEntry : BasicMetadataEntry
+	public partial class RegaliaEntry : BasicMetadataEntry
 	{
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				if(ccc.Regalias.Find(c => c.Name.Equals(name)) is Regalia regalia)
@@ -25,7 +25,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var c in ccc.Regalias)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace OCSM.DnD.Fifth
 {
 	public enum NumericStat { None, AbilityScore, ArmorClass, Initiative, MaxHP, Speed, TempHP }
+	
 	public sealed class NumericStatNames
 	{
 		public const string AbilityScore = "Ability Score";

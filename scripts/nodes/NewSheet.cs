@@ -3,14 +3,17 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class NewSheet : ScrollContainer
+	public partial class NewSheet : ScrollContainer
 	{
-		private const string Dnd5thPath = "D&D5E";
-		private const string CodMortal2e = "Mortal2e";
-		private const string CodChangeling2e = "Changeling2e";
-		private const string CodMage2e = "Mage2e";
-		private const string CodVampire2e = "Vampire2e";
-		private const string WodVampireV5 = "VampireV5";
+		private sealed class NodePath
+		{
+			public const string Dnd5thPath = "%D&D5E";
+			public const string CodMortal2e = "%Mortal2e";
+			public const string CodChangeling2e = "%Changeling2e";
+			public const string CodMage2e = "%Mage2e";
+			public const string CodVampire2e = "%Vampire2e";
+			public const string WodVampireV5 = "%VampireV5";
+		}
 		
 		private SheetManager sheetManager;
 		private TabContainer tabContainer;
@@ -27,11 +30,11 @@ namespace OCSM.Nodes
 		public override void _Ready()
 		{
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
-			tabContainer = GetNode<TabContainer>(Constants.NodePath.SheetTabs);
+			tabContainer = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodMortal2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDMortal2e));
-			GetNode<Button>(NodePathBuilder.SceneUnique(CodChangeling2e)).Connect(Constants.Signal.Pressed, this, nameof(newCoDChangeling2e));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Dnd5thPath)).Connect(Constants.Signal.Pressed, this, nameof(newDnd5e));
+			GetNode<Button>(NodePath.CodMortal2e).Pressed += newCoDMortal2e;
+			GetNode<Button>(NodePath.CodChangeling2e).Pressed += newCoDChangeling2e;
+			GetNode<Button>(NodePath.Dnd5thPath).Pressed += newDnd5e;
 		}
 		
 		private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }

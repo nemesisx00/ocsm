@@ -1,155 +1,132 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://2shcam2dbwr4"]
 
-[ext_resource path="res://scripts/nodes/NewSheet.cs" type="Script" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=2]
+[ext_resource type="Script" path="res://scripts/nodes/NewSheet.cs" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_824il"]
 
 [node name="NewSheet" type="ScrollContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 37.0
+offset_top = 37.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 1 )
+theme = ExtResource("1_824il")
+script = ExtResource("1")
 
 [node name="Grid" type="GridContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 731.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/vseparation = 25
+theme_override_constants/v_separation = 25
 columns = 2
 
-[node name="D&D" type="VBoxContainer" parent="Grid"]
-margin_right = 510.0
-margin_bottom = 144.0
+[node name="D&D" type="HBoxContainer" parent="Grid"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 10
+alignment = 1
 
-[node name="Label" type="Label" parent="Grid/D&D"]
-margin_right = 510.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 2 )
+[node name="VBoxContainer" type="VBoxContainer" parent="Grid/D&D"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Grid/D&D/VBoxContainer"]
+layout_mode = 2
 text = "Dungeons & Dragons"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="D&D5E" type="Button" parent="Grid/D&D"]
+[node name="D&D5E" type="Button" parent="Grid/D&D/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 141.0
-margin_top = 34.0
-margin_right = 369.0
-margin_bottom = 54.0
-mouse_default_cursor_shape = 2
+layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 text = "Dungeons & Dragons - 5th Edition"
 
-[node name="CoD" type="VBoxContainer" parent="Grid"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 144.0
+[node name="CoD" type="HBoxContainer" parent="Grid"]
+layout_mode = 2
 size_flags_horizontal = 3
-custom_constants/separation = 10
+alignment = 1
 
-[node name="Label" type="Label" parent="Grid/CoD"]
-margin_right = 510.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 2 )
+[node name="VBoxContainer" type="VBoxContainer" parent="Grid/CoD"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Grid/CoD/VBoxContainer"]
+layout_mode = 2
 text = "Chronicles of Darkness"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Mortal2e" type="Button" parent="Grid/CoD"]
+[node name="Mortal2e" type="Button" parent="Grid/CoD/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 165.0
-margin_top = 34.0
-margin_right = 345.0
-margin_bottom = 54.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
+layout_mode = 2
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 text = "Core / Mortal - 2nd Edition"
 
-[node name="Changeling2e" type="Button" parent="Grid/CoD"]
+[node name="Changeling2e" type="Button" parent="Grid/CoD/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 141.0
-margin_top = 64.0
-margin_right = 369.0
-margin_bottom = 84.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
+layout_mode = 2
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 text = "Changeling: The Lost - 2nd Edition"
 
-[node name="Mage2e" type="Button" parent="Grid/CoD"]
+[node name="Mage2e" type="Button" parent="Grid/CoD/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 138.0
-margin_top = 94.0
-margin_right = 372.0
-margin_bottom = 114.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
+layout_mode = 2
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 disabled = true
 text = "Mage: The Awakening - 2nd Edition"
 
-[node name="Vampire2e" type="Button" parent="Grid/CoD"]
+[node name="Vampire2e" type="Button" parent="Grid/CoD/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 134.0
-margin_top = 124.0
-margin_right = 376.0
-margin_bottom = 144.0
-mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
+layout_mode = 2
 size_flags_vertical = 2
+mouse_default_cursor_shape = 2
 disabled = true
 text = "Vampire: The Requiem - 2nd Edition"
 
-[node name="PF" type="VBoxContainer" parent="Grid"]
-margin_top = 169.0
-margin_right = 510.0
-margin_bottom = 217.0
+[node name="PF" type="HBoxContainer" parent="Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
 
-[node name="Label" type="Label" parent="Grid/PF"]
-margin_right = 510.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 2 )
+[node name="VBoxContainer" type="VBoxContainer" parent="Grid/PF"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Grid/PF/VBoxContainer"]
+layout_mode = 2
 text = "Pathfinder"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Pf2e" type="Button" parent="Grid/PF"]
+[node name="Pf2e" type="Button" parent="Grid/PF/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 165.0
-margin_top = 28.0
-margin_right = 344.0
-margin_bottom = 48.0
-size_flags_horizontal = 6
+layout_mode = 2
 disabled = true
 text = "Pathfinder: Second Edition"
 
-[node name="WoD" type="VBoxContainer" parent="Grid"]
-margin_left = 514.0
-margin_top = 169.0
-margin_right = 1024.0
-margin_bottom = 217.0
+[node name="WoD" type="HBoxContainer" parent="Grid"]
+layout_mode = 2
 size_flags_horizontal = 3
+alignment = 1
 
-[node name="Label" type="Label" parent="Grid/WoD"]
-margin_right = 510.0
-margin_bottom = 24.0
-custom_fonts/font = ExtResource( 2 )
+[node name="VBoxContainer" type="VBoxContainer" parent="Grid/WoD"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Grid/WoD/VBoxContainer"]
+layout_mode = 2
 text = "World of Darkness"
-align = 1
-valign = 1
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="VampireV5" type="Button" parent="Grid/WoD"]
+[node name="VampireV5" type="Button" parent="Grid/WoD/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 151.0
-margin_top = 28.0
-margin_right = 358.0
-margin_bottom = 48.0
+layout_mode = 2
 mouse_default_cursor_shape = 2
-size_flags_horizontal = 6
 disabled = true
 text = "Vampire: The Masquerade - V5"

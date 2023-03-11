@@ -1,23 +1,22 @@
 using Godot;
 using System.Collections.Generic;
-using EnumsNET;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class InventoryItem : HBoxContainer
+	public partial class InventoryItem : HBoxContainer
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string Details = "Details";
-			public const string Equipped = "Equipped";
-			public const string Name = "Name";
-			public const string Weight = "Weight";
+			public const string Details = "%Details";
+			public const string Equipped = "%Equipped";
+			public const string Name = "%Name";
+			public const string Weight = "%Weight";
 		}
 		
 		[Signal]
-		public delegate void Equipped(Transport<Item> transport);
+		public delegate void EquippedEventHandler(Transport<Item> transport);
 		
 		public Item Item { get; set; }
 		public Ability Strength { get; set; }
@@ -25,17 +24,17 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped)).Connect(Constants.Signal.Pressed, this, nameof(toggleEquipped));
+			GetNode<CheckBox>(NodePath.Equipped).Pressed += toggleEquipped;
 			
 			refresh();
 		}
 		
 		public void refresh()
 		{
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name)).Text = Item.Name;
-			GetNode<Label>(NodePathBuilder.SceneUnique(Names.Weight)).Text = Item.Weight + " lbs";
+			GetNode<Label>(NodePath.Name).Text = Item.Name;
+			GetNode<Label>(NodePath.Weight).Text = Item.Weight + " lbs";
 			
-			var details = GetNode<HBoxContainer>(NodePathBuilder.SceneUnique(Names.Details));
+			var details = GetNode<HBoxContainer>(NodePath.Details);
 			foreach(Node node in details.GetChildren())
 			{
 				node.QueueFree();
@@ -46,10 +45,10 @@ namespace OCSM.Nodes.DnD.Fifth
 			else if(Item is ItemWeapon iw)
 				generateDetails(iw).ForEach(n => details.AddChild(n));
 			
-			var equipped = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
+			var equipped = GetNode<CheckBox>(NodePath.Equipped);
 			if(Item is ItemEquippable ie)
 			{
-				equipped.Pressed = ie.Equipped;
+				equipped.ButtonPressed = ie.Equipped;
 				equipped.Visible = true;
 			}
 			else
@@ -58,10 +57,10 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		private void toggleEquipped()
 		{
-			var checkbox = GetNode<CheckBox>(NodePathBuilder.SceneUnique(Names.Equipped));
+			var checkbox = GetNode<CheckBox>(NodePath.Equipped);
 			if(Item is ItemEquippable ie)
 			{
-				ie.Equipped = checkbox.Pressed;
+				ie.Equipped = checkbox.ButtonPressed;
 				EmitSignal(nameof(Equipped), new Transport<Item>(ie));
 			}
 		}
@@ -102,7 +101,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			{
 				if(damage.Length > 0)
 					damage += " + ";
-				damage += entry.Key.ToString(entry.Value) + " " + Enums.GetName(entry.Key.Type);
+				damage += entry.Key.ToString(entry.Value) + " " + entry.Key.Type.GetLabel();
 			}
 			nodes.Add(NodeUtilities.createCenteredLabel(damage));
 			

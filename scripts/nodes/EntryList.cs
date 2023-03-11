@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace OCSM.Nodes
 {
-	public class EntryList : Container
+	public partial class EntryList : Container
 	{
 		[Signal]
-		public delegate void ValueChanged(List<string> values);
+		public delegate void ValueChangedEventHandler(Transport<List<string>> values);
 		
 		public List<string> Values { get; set; } = new List<string>();
 		
@@ -44,7 +44,7 @@ namespace OCSM.Nodes
 					c.QueueFree();
 			}
 			
-			EmitSignal(nameof(ValueChanged), values);
+			EmitSignal(nameof(ValueChanged), new Transport<List<string>>(values));
 			
 			if(children.Count <= values.Count)
 			{
@@ -54,14 +54,16 @@ namespace OCSM.Nodes
 		
 		private void addInput(string value = "")
 		{
+			var stringName = Name.ToString();
+			
 			var node = new LineEdit();
 			node.Text = value;
-			node.SizeFlagsHorizontal = (int)Control.SizeFlags.ExpandFill;
-			node.SizeFlagsVertical = (int)Control.SizeFlags.ExpandFill;
-			node.RectMinSize = new Vector2(0, 25);
-			node.HintTooltip = "Enter a new " + Name.Substring(0, Name.Length - 1);
+			node.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+			node.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+			node.CustomMinimumSize = new Vector2(0, 25);
+			node.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
 			AddChild(node);
-			node.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
+			node.TextChanged += textChanged;
 		}
 	}
 }

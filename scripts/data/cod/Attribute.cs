@@ -71,7 +71,7 @@ namespace OCSM.CoD
 			return list;
 		}
 		
-		public Attribute(string name, string type, int value = 1)
+		public Attribute(string name, string type, long value = 1)
 		{
 			Name = name;
 			Type = type;
@@ -80,7 +80,7 @@ namespace OCSM.CoD
 		
 		public string Name { get; private set; }
 		public string Type { get; private set; }
-		public int Value { get; set; }
+		public long Value { get; set; }
 		
 		public bool Equals(Attribute attr)
 		{

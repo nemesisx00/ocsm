@@ -7,33 +7,34 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class FeatureEntry : Container
+	public partial class FeatureEntry : Container, ICanDelete
 	{
-		private sealed class Names
+		private sealed class NodePath
 		{
-			public const string MetadataTypeLabel = "Feature";
-			public const string Class = "Class";
-			public const string ClassLabel = "ClassLabel";
-			public const string Description = "Description";
-			public const string Name = "Name";
-			public const string Sections = "Sections";
-			public const string Source = "Source";
-			public const string Text = "Text";
-			public const string Type = "Type";
-			public const string ClearButton = "Clear";
-			public const string DeleteButton = "Delete";
-			public const string ExistingEntryName = "ExistingEntry";
-			public const string ExistingLabelFormat = "Existing {0}";
-			public const string ExistingLabelName = "ExistingLabel";
-			public const string NumericBonusEditListName = "NumericBonuses";
-			public const string RequiredLevel = "RequiredLevel";
-			public const string SaveButton = "Save";
+			public const string Class = "%Class";
+			public const string ClassLabel = "%ClassLabel";
+			public const string Description = "%Description";
+			public const string Name = "%Name";
+			public const string Sections = "%Sections";
+			public const string Source = "%Source";
+			public const string Text = "%Text";
+			public const string Type = "%Type";
+			public const string ClearButton = "%Clear";
+			public const string DeleteButton = "%Delete";
+			public const string ExistingEntryName = "%ExistingEntry";
+			public const string ExistingLabelName = "%ExistingLabel";
+			public const string NumericBonusEditListName = "%NumericBonuses";
+			public const string RequiredLevel = "%RequiredLevel";
+			public const string SaveButton = "%Save";
 		}
 		
+		public const string MetadataTypeLabel = "Feature";
+		public const string ExistingLabelFormat = "Existing {0}";
+		
 		[Signal]
-		public delegate void SaveClicked(Transport<OCSM.DnD.Fifth.Feature> feature);
+		public delegate void SaveClickedEventHandler(Transport<OCSM.DnD.Fifth.Feature> feature);
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		public OCSM.DnD.Fifth.Feature Feature { get; set; }
 		
@@ -57,31 +58,31 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(!(Feature is OCSM.DnD.Fifth.Feature))
 				Feature = new OCSM.DnD.Fifth.Feature();
 			
-			classLabel = GetNode<Label>(NodePathBuilder.SceneUnique(Names.ClassLabel));
-			classNode = GetNode<ClassOptionsButton>(NodePathBuilder.SceneUnique(Names.Class));
-			descriptionNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Description));
-			nameNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Name));
-			numericBonusesNode = GetNode<NumericBonusEditList>(NodePathBuilder.SceneUnique(Names.NumericBonusEditListName));
-			requiredLevel = GetNode<SpinBox>(NodePathBuilder.SceneUnique(Names.RequiredLevel));
-			sectionsNode = GetNode<SectionList>(NodePathBuilder.SceneUnique(Names.Sections));
-			sourceNode = GetNode<LineEdit>(NodePathBuilder.SceneUnique(Names.Source));
-			textNode = GetNode<TextEdit>(NodePathBuilder.SceneUnique(Names.Text));
-			typeNode = GetNode<FeatureTypeOptionsButton>(NodePathBuilder.SceneUnique(Names.Type));
+			classLabel = GetNode<Label>(NodePath.ClassLabel);
+			classNode = GetNode<ClassOptionsButton>(NodePath.Class);
+			descriptionNode = GetNode<TextEdit>(NodePath.Description);
+			nameNode = GetNode<LineEdit>(NodePath.Name);
+			numericBonusesNode = GetNode<NumericBonusEditList>(NodePath.NumericBonusEditListName);
+			requiredLevel = GetNode<SpinBox>(NodePath.RequiredLevel);
+			sectionsNode = GetNode<SectionList>(NodePath.Sections);
+			sourceNode = GetNode<LineEdit>(NodePath.Source);
+			textNode = GetNode<TextEdit>(NodePath.Text);
+			typeNode = GetNode<FeatureTypeOptionsButton>(NodePath.Type);
 			
-			classNode.Connect(Constants.Signal.ItemSelected, this, nameof(classChanged));
-			descriptionNode.Connect(Constants.Signal.TextChanged, this, nameof(descriptionChanged));
-			nameNode.Connect(Constants.Signal.TextChanged, this, nameof(nameChanged));
-			numericBonusesNode.Connect(nameof(NumericBonusEditList.ValuesChanged), this, nameof(numericBonusesChanged));
-			requiredLevel.Connect(Constants.Signal.ValueChanged, this, nameof(requiredLevelChanged));
-			sectionsNode.Connect(nameof(SectionList.ValuesChanged), this, nameof(sectionsChanged));
-			sourceNode.Connect(Constants.Signal.TextChanged, this, nameof(sourceChanged));
-			textNode.Connect(Constants.Signal.TextChanged, this, nameof(textChanged));
-			typeNode.Connect(Constants.Signal.ItemSelected, this, nameof(typeChanged));
+			classNode.ItemSelected += classChanged;
+			descriptionNode.TextChanged += descriptionChanged;
+			nameNode.TextChanged += nameChanged;
+			numericBonusesNode.ValuesChanged += numericBonusesChanged;
+			requiredLevel.ValueChanged += requiredLevelChanged;
+			sectionsNode.ValuesChanged += sectionsChanged;
+			sourceNode.TextChanged += sourceChanged;
+			textNode.TextChanged += textChanged;
+			typeNode.ItemSelected += typeChanged;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
-			GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName)).Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
+			GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
+			GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
+			GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName).ItemSelected += entrySelected;
 			
 			refreshValues();
 		}
@@ -118,7 +119,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			clearInputs();
 		}
 		
-		private void doDelete()
+		public void doDelete()
 		{
 			EmitSignal(nameof(DeleteConfirmed), Feature.Name);
 			clearInputs();
@@ -127,7 +128,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private void handleDelete()
 		{
 			NodeUtilities.displayDeleteConfirmation(
-				Names.MetadataTypeLabel,
+				MetadataTypeLabel,
 				GetTree().CurrentScene,
 				GetViewportRect().GetCenter(),
 				this,
@@ -135,10 +136,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			);
 		}
 		
-		private void entrySelected(int index)
+		private void entrySelected(long index)
 		{
-			var optionsButton = GetNode<FeatureOptionsButton>(NodePathBuilder.SceneUnique(Names.ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
@@ -173,38 +174,38 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		private void classChanged(int index) { Feature.ClassName = classNode.GetItemText(index); }
+		private void classChanged(long index) { Feature.ClassName = classNode.GetItemText((int)index); }
 		private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 		private void nameChanged(string text) { Feature.Name = text; }
 		
-		private void numericBonusesChanged(List<Transport<NumericBonus>> values)
+		private void numericBonusesChanged(Transport<List<NumericBonus>> transport)
 		{
 			var list = new List<NumericBonus>();
-			foreach(var t in values)
+			foreach(var nb in transport.Value)
 			{
-				list.Add(t.Value);
+				list.Add(nb);
 			}
 			list.Sort();
 			Feature.NumericBonuses = list;
 		}
 		
-		private void requiredLevelChanged(float value) { Feature.RequiredLevel = (int)value; }
+		private void requiredLevelChanged(double value) { Feature.RequiredLevel = (int)value; }
 		
-		private void sectionsChanged(List<Transport<FeatureSection>> values)
+		private void sectionsChanged(Transport<List<FeatureSection>> transport)
 		{
 			var list = new List<FeatureSection>();
-			foreach(var t in values)
+			foreach(var fs in transport.Value)
 			{
-				list.Add(t.Value);
+				list.Add(fs);
 			}
 			Feature.Sections = list;
 		}
 		private void sourceChanged(string text) { Feature.Source = text; }
 		private void textChanged() { Feature.Text = textNode.Text; }
 		
-		private void typeChanged(int index)
+		private void typeChanged(long index)
 		{
-			Feature.Type = typeNode.GetItemText(index);
+			Feature.Type = typeNode.GetItemText((int)index);
 			
 			if(!Feature.Type.Equals(FeatureType.Class))
 				classNode.Selected = 0;

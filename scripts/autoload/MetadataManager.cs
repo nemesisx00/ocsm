@@ -9,64 +9,72 @@ using OCSM.Nodes.DnD.Sheets;
 
 namespace OCSM.Nodes.Autoload
 {
-	public class MetadataManager : Node
+	public partial class MetadataManager : Node
 	{
 		[Signal]
-		public delegate void GameSystemChanged(string gameSystem);
+		public delegate void GameSystemChangedEventHandler(string gameSystem);
 		[Signal]
-		public delegate void MetadataLoaded();
+		public delegate void MetadataLoadedEventHandler();
 		[Signal]
-		public delegate void MetadataSaved();
+		public delegate void MetadataSavedEventHandler();
 		
-		private const string FileNameFormat = "{0}.ocmd";
+		private const string FileNameFormat = "{0}" + Constants.MetadataFileExtension;
 		
-		private string gameSystem;
+		private string gameSystem = String.Empty;
+		
 		public string CurrentGameSystem
 		{
 			get { return gameSystem; }
 			set
 			{
-				gameSystem = value;
-				EmitSignal(nameof(GameSystemChanged), gameSystem);
-				
-				switch(gameSystem)
+				if(!gameSystem.Equals(value))
 				{
-					case GameSystem.CoD.Changeling:
-						Container = new CoDChangelingContainer();
-						loadGameSystemMetadata();
-						break;
-					case GameSystem.CoD.Mortal:
-						Container = new CoDCoreContainer();
-						loadGameSystemMetadata();
-						break;
-					case GameSystem.DnD.Fifth:
-						Container = new DnDFifthContainer();
-						loadGameSystemMetadata();
-						break;
-					default:
-						Container = null;
-						break;
+					gameSystem = value;
+					EmitSignal(nameof(GameSystemChanged), gameSystem);
+					
+					switch(gameSystem)
+					{
+						case Constants.GameSystem.CoD.Changeling:
+							Container = new CoDChangelingContainer();
+							loadGameSystemMetadata();
+							break;
+						case Constants.GameSystem.CoD.Mortal:
+							Container = new CoDCoreContainer();
+							loadGameSystemMetadata();
+							break;
+						case Constants.GameSystem.DnD.Fifth:
+							Container = new DnDFifthContainer();
+							loadGameSystemMetadata();
+							break;
+						default:
+							Container = null;
+							break;
+					}
 				}
 			}
 		}
 		
 		public IMetadataContainer Container { get; private set; }
 		
+		private TabContainer sheetTabs;
+		
 		public override void _Ready()
 		{
+			sheetTabs = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
+			
 			CurrentGameSystem = String.Empty;
-			GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).Connect(Constants.Signal.TabSelected, this, nameof(sheetTabSelected));
+			sheetTabs.TabSelected += sheetTabSelected;
 		}
 		
-		private void sheetTabSelected(int tabIndex)
+		private void sheetTabSelected(long tabIndex)
 		{
-			var tab = GetNode<TabContainer>(NodePathBuilder.SceneUnique(AppRoot.SheetTabsName, Constants.NodePath.AppRoot)).GetTabControl(tabIndex);
+			var tab = sheetTabs.GetTabControl((int)tabIndex);
 			if(tab is ChangelingSheet)
-				CurrentGameSystem = GameSystem.CoD.Changeling;
+				CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
 			else if (tab is MortalSheet)
-				CurrentGameSystem = GameSystem.CoD.Mortal;
+				CurrentGameSystem = Constants.GameSystem.CoD.Mortal;
 			else if (tab is DndFifthSheet)
-				CurrentGameSystem = GameSystem.DnD.Fifth;
+				CurrentGameSystem = Constants.GameSystem.DnD.Fifth;
 			else
 				CurrentGameSystem = String.Empty;
 		}
@@ -101,7 +109,7 @@ namespace OCSM.Nodes.Autoload
 		
 		public void initializeGameSystems()
 		{
-			CurrentGameSystem = GameSystem.CoD.Changeling;
+			CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
 			if(Container.IsEmpty())
 			{
 				Container = CoDChangelingContainer.initializeWithDefaultValues();

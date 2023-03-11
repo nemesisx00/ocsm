@@ -2,19 +2,29 @@ using Godot;
 
 namespace OCSM.Nodes
 {
-	public class HelpMenu : MenuButton
+	public partial class HelpMenu : MenuButton
 	{
-		private const string PopupName = "GameSystemLicenses";
+		private sealed class ItemNames
+		{
+			public const string About = "About";
+			public const string GameSystemLicenses = "Game System Licences";
+		}
 		
-		public enum MenuItem { About, GameSystemLicenses }
+		public enum MenuItem : long { About, GameSystemLicenses }
+		
+		private Window licensePopup;
 		
 		public override void _Ready()
 		{
-			GetPopup().Connect(Constants.Signal.IdPressed, this, nameof(handleMenuItem));
-			GetNode<AppRoot>(Constants.NodePath.AppRoot).Connect(nameof(AppRoot.HelpMenuTriggered), this, nameof(handleMenuItem));
+			var popup = GetPopup();
+			popup.AddItem(ItemNames.About, (int)MenuItem.About);
+			popup.AddItem(ItemNames.GameSystemLicenses, (int)MenuItem.GameSystemLicenses);
+			popup.IdPressed += handleMenuItem;
+			
+			GetNode<AppRoot>(Constants.NodePath.AppRoot).HelpMenuTriggered += handleMenuItem;
 		}
 		
-		private void handleMenuItem(int id)
+		private void handleMenuItem(long id)
 		{
 			switch((MenuItem)id)
 			{
@@ -29,18 +39,24 @@ namespace OCSM.Nodes
 		
 		private void showGameSystemLicenses()
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
-			var instance = resource.Instance<WindowDialog>();
-			instance.Name = PopupName;
-			GetTree().CurrentScene.AddChild(instance);
-			NodeUtilities.centerControl(instance, GetViewportRect().GetCenter());
-			instance.GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(hideGameSystemLicenses));
-			instance.Popup_();
+			if(!(licensePopup is Window))
+			{
+				var resource = GD.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
+				licensePopup = resource.Instantiate<Window>();
+				
+				GetTree().CurrentScene.AddChild(licensePopup);
+				licensePopup.CloseRequested += hideGameSystemLicenses;
+				licensePopup.PopupCentered();
+			}
 		}
 		
 		private void hideGameSystemLicenses()
 		{
-			GetTree().CurrentScene.GetNode<WindowDialog>(PopupName).QueueFree();
+			if(licensePopup is Window)
+			{
+				licensePopup.QueueFree();
+				licensePopup = null;
+			}
 		}
 	}
 }

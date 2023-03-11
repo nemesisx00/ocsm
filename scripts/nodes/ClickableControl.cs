@@ -3,10 +3,10 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class ClickableControl : Control
+	public partial class ClickableControl : Control
 	{
 		[Signal]
-		public delegate void Clicked();
+		public delegate void ClickedEventHandler();
 		
 		private AppManager appManager;
 		
@@ -16,7 +16,7 @@ namespace OCSM.Nodes
 		{
 			if(!appManager.IsQuitting)
 			{
-				if(e is InputEventMouseButton iemb && iemb.ButtonIndex.Equals((int)ButtonList.Left))
+				if(e is InputEventMouseButton iemb && iemb.ButtonIndex.Equals((int)MouseButton.Left))
 				{
 					if(!pressed)
 					{

@@ -3,7 +3,7 @@ using System;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class DieOptionsButton : CustomOption
+	public partial class DieOptionsButton : CustomOption
 	{
 		private const string DFormat = "d{0}";
 		

@@ -3,15 +3,16 @@ using System;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class Feature : Container
+	public partial class Feature : Container
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string Name = "Name";
-			public const string Description = "Description";
-			public const string Details = "Details";
-			public const string Text = "Text";
-			public const string Sections = "Sections";
+			public const string Name = "%Name";
+			public const string Description = "%Description";
+			public const string Details = "%Details";
+			public const string Text = "%Text";
+			public const string Sections = "%Sections";
+			public const string ShowHide = "%ShowHide";
 		}
 		
 		private const string FormatType = " ({0} Feature)";
@@ -25,13 +26,14 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		public override void _Ready()
 		{
-			GetNode<TextureButton>(NodePathBuilder.SceneUnique("ShowHide")).Connect(Constants.Signal.Pressed, this, nameof(toggleSections));
+			nameNode = GetNode<Label>(NodePath.Name);
+			descriptionNode = GetNode<RichTextLabel>(NodePath.Description);
+			detailsNode = GetNode<Container>(NodePath.Details);
+			textNode = GetNode<RichTextLabel>(NodePath.Text);
+			sectionsNode = GetNode<Container>(NodePath.Sections);
 			
-			nameNode = GetNode<Label>(NodePathBuilder.SceneUnique(Names.Name));
-			descriptionNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Description));
-			detailsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Details));
-			textNode = GetNode<RichTextLabel>(NodePathBuilder.SceneUnique(Names.Text));
-			sectionsNode = GetNode<Container>(NodePathBuilder.SceneUnique(Names.Sections));
+			//nameNode.GuiInput += toggleSections;
+			GetNode<TextureButton>(NodePath.ShowHide).Pressed += toggleSections;
 		}
 		
 		public void update(OCSM.DnD.Fifth.Feature feature)
@@ -51,10 +53,10 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			if(feature.Sections.Count > 0)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
+				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
 				foreach(var section in feature.Sections)
 				{
-					var instance = resource.Instance<VBoxContainer>();
+					var instance = resource.Instantiate<VBoxContainer>();
 					instance.GetChild<Label>(0).Text = section.Section;
 					instance.GetChild<RichTextLabel>(1).Text = section.Text;
 					sectionsNode.AddChild(instance);

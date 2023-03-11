@@ -4,12 +4,12 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class RaceEntry : FeaturefulMetadataEntry
+	public partial class RaceEntry : FeaturefulMetadataEntry
 	{
-		protected override void entrySelected(int index)
+		protected override void entrySelected(long index)
 		{
-			var optionsButton = GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			var name = optionsButton.GetItemText(index);
+			var optionsButton = GetNode<RaceOptionsButton>(NodePath.ExistingEntryName);
+			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
 				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
@@ -24,7 +24,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var optionButton = GetNode<RaceOptionsButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
+				var optionButton = GetNode<RaceOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var r in dfc.Races)

@@ -1,12 +1,6 @@
-# Open Character Sheet Manager
+# Open Character Sheet Manager ![GitHub](https://img.shields.io/github/license/nemesisx00/ocsm)
 
 Open Character Sheet Manager (OCSM) is an open source cross-platform desktop application for conveniently managing TableTop RolePlaying Game (TTRPG) character sheets for a wide variety of game systems.
-
-<!-- non-functional while the project is private
-![GitHub](https://img.shields.io/github/license/nemesisx00/ocsm)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/nemesisx00/ocsm)
-![GitLab Release (latest by SemVer)](https://img.shields.io/gitlab/v/release/nemesisx00/ocsm)
--->
 
 ## Table of Contents
 
@@ -55,7 +49,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is created using [Godot 3.5 Mono](https://godotengine.org) with scripts written in C#.
+OCSM is created using [Godot](https://godotengine.org) with scripts written in C#.
 
 ## Getting Started
 
@@ -64,9 +58,7 @@ OCSM isn't ready for release as an installable application just yet but you are 
 #### Requirements
 
 - [.NET SDK](https://dotnet.microsoft.com/download)
-- [Godot 3.5 Mono](https://godotengine.org)
-
-Currently, I'm using Godot 3.5 but I'll be sticking to the latest stable Mono version.
+- [Godot - .NET](https://godotengine.org)
 
 #### Compiling, Running, and Testing
 

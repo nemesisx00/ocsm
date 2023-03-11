@@ -3,7 +3,7 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class AbilityOptionsButton : CustomOption
+	public partial class AbilityOptionsButton : CustomOption
 	{
 		public override void _Ready()
 		{

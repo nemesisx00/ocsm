@@ -1,49 +1,51 @@
 using Godot;
 using System.Collections.Generic;
-using OCSM.Nodes.Autoload;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
 using OCSM.DnD.Fifth.Inventory;
+using OCSM.Nodes.Autoload;
+using OCSM.Nodes.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class DndFifthAddEditMetadata : WindowDialog
+	public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 	{
-		private const string ArmorName = "Armor";
-		private const string BackgroundsName = "Backgrounds";
-		private const string ClassesName = "Classes";
-		private const string FeaturesName = "FeatureEntry";
-		private const string RacesName = "Races";
-		
-		[Signal]
-		public delegate void MetadataChanged();
+		private sealed class NodePath
+		{
+			public const string ArmorName = "%Armor";
+			public const string BackgroundsName = "%Backgrounds";
+			public const string ClassesName = "%Classes";
+			public const string FeaturesName = "%FeatureEntry";
+			public const string RacesName = "%Races";
+		}
 		
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			GetCloseButton().Connect(Constants.Signal.Pressed, this, nameof(closeHandler));
 			
-			var armorEntry = GetNode<ArmorEntry>(NodePathBuilder.SceneUnique(ArmorName));
-			armorEntry.Connect(nameof(ArmorEntry.SaveClicked), this, nameof(saveArmor));
-			armorEntry.Connect(nameof(ArmorEntry.DeleteConfirmed), this, nameof(deleteArmor));
+			CloseRequested += closeHandler;
 			
-			var backgroundEntry = GetNode<BackgroundEntry>(NodePathBuilder.SceneUnique(BackgroundsName));
-			backgroundEntry.Connect(nameof(BackgroundEntry.SaveClicked), this, nameof(saveBackground));
-			backgroundEntry.Connect(nameof(BackgroundEntry.DeleteConfirmed), this, nameof(deleteBackground));
+			var armorEntry = GetNode<ArmorEntry>(NodePath.ArmorName);
+			armorEntry.SaveClicked += saveArmor;
+			armorEntry.DeleteConfirmed += deleteArmor;
 			
-			var classEntry = GetNode<ClassEntry>(NodePathBuilder.SceneUnique(ClassesName));
-			classEntry.Connect(nameof(ClassEntry.SaveClicked), this, nameof(saveClass));
-			classEntry.Connect(nameof(ClassEntry.DeleteConfirmed), this, nameof(deleteClass));
+			var backgroundEntry = GetNode<BackgroundEntry>(NodePath.BackgroundsName);
+			backgroundEntry.SaveClicked += saveBackground;
+			backgroundEntry.DeleteConfirmed += deleteBackground;
 			
-			var featureEntry = GetNode<FeatureEntry>(NodePathBuilder.SceneUnique(FeaturesName));
-			featureEntry.Connect(nameof(FeatureEntry.SaveClicked), this, nameof(saveFeature));
-			featureEntry.Connect(nameof(FeatureEntry.DeleteConfirmed), this, nameof(deleteFeature));
+			var classEntry = GetNode<ClassEntry>(NodePath.ClassesName);
+			classEntry.SaveClicked += saveClass;
+			classEntry.DeleteConfirmed += deleteClass;
 			
-			var raceEntry = GetNode<RaceEntry>(NodePathBuilder.SceneUnique(RacesName));
-			raceEntry.Connect(nameof(RaceEntry.SaveClicked), this, nameof(saveRace));
-			raceEntry.Connect(nameof(RaceEntry.DeleteConfirmed), this, nameof(deleteRace));
+			var featureEntry = GetNode<FeatureEntry>(NodePath.FeaturesName);
+			featureEntry.SaveClicked += saveFeature;
+			featureEntry.DeleteConfirmed += deleteFeature;
+			
+			var raceEntry = GetNode<RaceEntry>(NodePath.RacesName);
+			raceEntry.SaveClicked += saveRace;
+			raceEntry.DeleteConfirmed += deleteRace;
 		}
 		
 		private void closeHandler()
@@ -126,7 +128,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveBackground(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveBackground(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -134,10 +136,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Backgrounds.Remove(background);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				sections.ForEach(t => sectionList.Add(t.Value));
+				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				features.ForEach(t => featureList.Add(t.Value));
+				features.Value.ForEach(f => featureList.Add(f));
 				
 				dfc.Backgrounds.Add(new Background() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
 				dfc.Backgrounds.Sort();
@@ -145,7 +147,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveClass(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveClass(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -153,10 +155,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Classes.Remove(clazz);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				sections.ForEach(t => sectionList.Add(t.Value));
+				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				features.ForEach(t => featureList.Add(t.Value));
+				features.Value.ForEach(f => featureList.Add(f));
 				
 				dfc.Classes.Add(new Class() { Description = description, Features = featureList, HitDie = OCSM.DnD.Fifth.Die.d10, Name = name, Sections = sectionList, });
 				dfc.Classes.Sort();
@@ -177,7 +179,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveRace(string name, string description, List<Transport<OCSM.DnD.Fifth.FeatureSection>> sections, List<Transport<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveRace(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
 		{
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
@@ -185,10 +187,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					dfc.Races.Remove(race);
 				
 				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
-				sections.ForEach(t => sectionList.Add(t.Value));
+				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
 				var featureList = new List<OCSM.DnD.Fifth.Feature>();
-				features.ForEach(t => featureList.Add(t.Value));
+				features.Value.ForEach(f => featureList.Add(f));
 				
 				dfc.Races.Add(new Race() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
 				dfc.Races.Sort();

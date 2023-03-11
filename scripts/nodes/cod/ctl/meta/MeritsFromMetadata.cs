@@ -4,21 +4,26 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL.Meta
 {
-	public class MeritsFromMetadata : Container
+	public partial class MeritsFromMetadata : Container
 	{
+		private sealed class NodePath
+		{
+			public const string MeritsName = "%ExistingMerits";
+		}
+		
 		[Signal]
-		public delegate void AddMerit(string name);
-		private const string MeritsName = "ExistingMerits";
+		public delegate void AddMeritEventHandler(string name);
+		
 		
 		private MetadataManager metadataManager;
 		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMerits));
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMerits));
+			metadataManager.MetadataLoaded += refreshMerits;
+			metadataManager.MetadataSaved += refreshMerits;
 			
-			GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName)).Connect(Constants.Signal.ItemSelected, this, nameof(meritSelected));
+			GetNode<OptionButton>(NodePath.MeritsName).ItemSelected += meritSelected;
 			
 			refreshMerits();
 		}
@@ -27,7 +32,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var optionButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
+				var optionButton = GetNode<OptionButton>(NodePath.MeritsName);
 				optionButton.Clear();
 				optionButton.AddItem("");
 				foreach(var m in ccc.Merits)
@@ -37,12 +42,12 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			}
 		}
 		
-		private void meritSelected(int index)
+		private void meritSelected(long index)
 		{
 			if(index > 0)
 			{
-				var node = GetNode<OptionButton>(NodePathBuilder.SceneUnique(MeritsName));
-				EmitSignal(nameof(AddMerit), node.GetItemText(index));
+				var node = GetNode<OptionButton>(NodePath.MeritsName);
+				EmitSignal(nameof(AddMerit), node.GetItemText((int)index));
 				node.Selected = 0;
 			}
 		}

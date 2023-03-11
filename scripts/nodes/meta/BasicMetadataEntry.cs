@@ -5,21 +5,25 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.Meta
 {
-	public class BasicMetadataEntry : Container
+	public partial class BasicMetadataEntry : Container, ICanDelete
 	{
-		protected const string ClearButton = "Clear";
-		protected const string DescriptionInput = "Description";
-		protected const string DeleteButton = "Delete";
-		protected const string ExistingEntryName = "ExistingEntry";
+		protected class NodePath
+		{
+			public const string ClearButton = "%Clear";
+			public const string DescriptionInput = "%Description";
+			public const string DeleteButton = "%Delete";
+			public const string ExistingEntryName = "%ExistingEntry";
+			public const string ExistingLabelName = "%ExistingLabel";
+			public const string NameInput = "%Name";
+			public const string SaveButton = "%Save";
+		}
+		
 		protected const string ExistingLabelFormat = "Existing {0}";
-		protected const string ExistingLabelName = "ExistingLabel";
-		protected const string NameInput = "Name";
-		protected const string SaveButton = "Save";
 		
 		[Signal]
-		public delegate void SaveClicked(string name, string description);
+		public delegate void SaveClickedEventHandler(string name, string description);
 		[Signal]
-		public delegate void DeleteConfirmed(string name);
+		public delegate void DeleteConfirmedEventHandler(string name);
 		
 		[Export]
 		public string MetadataTypeLabel { get; set; } = String.Empty;
@@ -31,17 +35,17 @@ namespace OCSM.Nodes.Meta
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.Connect(nameof(MetadataManager.MetadataSaved), this, nameof(refreshMetadata));
-			metadataManager.Connect(nameof(MetadataManager.MetadataLoaded), this, nameof(refreshMetadata));
+			metadataManager.MetadataLoaded += refreshMetadata;
+			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(ClearButton)).Connect(Constants.Signal.Pressed, this, nameof(clearInputs));
-			GetNode<Button>(NodePathBuilder.SceneUnique(SaveButton)).Connect(Constants.Signal.Pressed, this, nameof(doSave));
-			GetNode<Button>(NodePathBuilder.SceneUnique(DeleteButton)).Connect(Constants.Signal.Pressed, this, nameof(handleDelete));
+			GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
+			GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
+			GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
 			
-			GetNode<Label>(NodePathBuilder.SceneUnique(ExistingLabelName)).Text = String.Format(ExistingLabelFormat, MetadataTypeLabel);
+			GetNode<Label>(NodePath.ExistingLabelName).Text = String.Format(ExistingLabelFormat, MetadataTypeLabel);
 			
-			var optionsButton = GetNode<OptionButton>(NodePathBuilder.SceneUnique(ExistingEntryName));
-			optionsButton.Connect(Constants.Signal.ItemSelected, this, nameof(entrySelected));
+			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+			optionsButton.ItemSelected += entrySelected;
 			if(OptionsButtonScript is Script)
 				optionsButton.SetScript(OptionsButtonScript);
 			
@@ -50,15 +54,14 @@ namespace OCSM.Nodes.Meta
 		
 		protected virtual void clearInputs()
 		{
-			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = String.Empty;
-			GetNode<AutosizeTextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = String.Empty;
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
+			GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
+			GetNode<TextEdit>(NodePath.DescriptionInput).Text = String.Empty;
 		}
 		
 		protected virtual void doSave()
 		{
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
-			var description = GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
+			var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
 			
 			EmitSignal(nameof(SaveClicked), name, description);
 			clearInputs();
@@ -75,9 +78,9 @@ namespace OCSM.Nodes.Meta
 			);
 		}
 		
-		protected virtual void doDelete()
+		public void doDelete()
 		{
-			var name = GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text;
+			var name = GetNode<LineEdit>(NodePath.NameInput).Text;
 			if(!String.IsNullOrEmpty(name))
 			{
 				EmitSignal(nameof(DeleteConfirmed), name);
@@ -88,12 +91,11 @@ namespace OCSM.Nodes.Meta
 		
 		public virtual void loadEntry(Metadata entry)
 		{
-			GetNode<LineEdit>(NodePathBuilder.SceneUnique(NameInput)).Text = entry.Name;
-			GetNode<TextEdit>(NodePathBuilder.SceneUnique(DescriptionInput)).Text = entry.Description;
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
+			GetNode<LineEdit>(NodePath.NameInput).Text = entry.Name;
+			GetNode<TextEdit>(NodePath.DescriptionInput).Text = entry.Description;
 		}
 		
-		protected virtual void entrySelected(int index)
+		protected virtual void entrySelected(long index)
 		{
 			throw new NotImplementedException();
 		}

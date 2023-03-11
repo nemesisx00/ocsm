@@ -3,7 +3,7 @@ using System;
 
 namespace OCSM.Nodes
 {
-	public class SaveSheet : FileDialog
+	public partial class SaveSheet : FileDialog
 	{
 		public string SheetData { get; set; }
 		
@@ -11,7 +11,7 @@ namespace OCSM.Nodes
 		{
 			var path = FileSystemUtilities.DefaultSheetDirectory;
 			CurrentDir = path;
-			Connect(Constants.Signal.FileSelected, this, nameof(doSave));
+			FileSelected += doSave;
 		}
 		
 		private void doSave(string filePath)
@@ -19,7 +19,7 @@ namespace OCSM.Nodes
 			var path = filePath;
 			if(String.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
 			{
-				var extensionIndex = path.FindLast(Constants.SheetFileExtension);
+				var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
 				path = path.Insert(extensionIndex, Constants.NewSheetFileName);
 			}
 			else if(!path.EndsWith(Constants.SheetFileExtension))

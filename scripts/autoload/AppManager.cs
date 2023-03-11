@@ -2,15 +2,15 @@ using Godot;
 
 namespace OCSM.Nodes.Autoload
 {
-	public class AppManager : Node
+	public partial class AppManager : Node
 	{
 		public bool IsQuitting { get; set; } = false;
 		
 		public override void _Notification(int notificationCode)
 		{
-			switch(notificationCode)
+			switch((long)notificationCode)
 			{
-				case MainLoop.NotificationWmQuitRequest:
+				case NotificationWMCloseRequest:
 					showQuitConfirm();
 					break;
 			}
@@ -26,10 +26,10 @@ namespace OCSM.Nodes.Autoload
 		{
 			if(!IsQuitting)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.ConfirmQuit);
-				var confirmQuit = resource.Instance<ConfirmQuit>();
+				var resource = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
+				var confirmQuit = resource.Instantiate<ConfirmQuit>();
 				GetTree().CurrentScene.AddChild(confirmQuit);
-				confirmQuit.Show();
+				confirmQuit.PopupCentered();
 				IsQuitting = true;
 			}
 		}

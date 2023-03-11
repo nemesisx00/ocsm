@@ -5,10 +5,10 @@ using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth.Meta
 {
-	public class NumericBonusEditList : Container
+	public partial class NumericBonusEditList : Container
 	{
 		[Signal]
-		public delegate void ValuesChanged(List<Transport<NumericBonus>> values);
+		public delegate void ValuesChangedEventHandler(Transport<List<NumericBonus>> values);
 		
 		public List<NumericBonus> Values { get; set; } = new List<NumericBonus>();
 		
@@ -50,32 +50,22 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 			
 			Values = values;
-			doEmitSignal();
+			EmitSignal(nameof(ValuesChanged), new Transport<List<NumericBonus>>(Values));
 			
 			if(children.Count <= values.Count)
 				addInput();
 		}
 		
-		private void doEmitSignal()
-		{
-			var list = new List<Transport<NumericBonus>>();
-			foreach(var fs in Values)
-			{
-				list.Add(new Transport<NumericBonus>(fs));
-			}
-			EmitSignal(nameof(ValuesChanged), list);
-		}
-		
 		private void addInput(NumericBonus bonus = null)
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.NumericBonusEdit);
-			var instance = resource.Instance<NumericBonusEdit>();
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.NumericBonusEdit);
+			var instance = resource.Instantiate<NumericBonusEdit>();
 			
 			AddChild(instance);
 			if(bonus is NumericBonus)
 				instance.setValue(bonus);
 			
-			instance.Connect(nameof(NumericBonusEdit.ValueChanged), this, nameof(numericBonusChanged));
+			instance.ValueChanged += numericBonusChanged;
 		}
 	}
 }

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace OCSM.Nodes
 {
-	public class TrackComplex : GridContainer
+	public partial class TrackComplex : GridContainer
 	{
 		[Signal]
-		public delegate void ValueChanged(Dictionary<string, int> values);
+		public delegate void ValueChangedEventHandler(Transport<Dictionary<string, long>> values);
 		
 		[Export]
-		public int Max { get; set; } = 5;
+		public long Max { get; set; } = 5;
 		
-		public Dictionary<string, int> Values
+		public Dictionary<string, long> Values
 		{
 			get
 			{
-				var values = new Dictionary<string, int>();
+				var values = new Dictionary<string, long>();
 				values.Add(StatefulButton.State.One, 0);
 				values.Add(StatefulButton.State.Two, 0);
 				values.Add(StatefulButton.State.Three, 0);
@@ -65,7 +65,7 @@ namespace OCSM.Nodes
 		private void handleStatefulButton(StatefulButton box)
 		{
 			updateBoxes();
-			EmitSignal(nameof(ValueChanged), Values);
+			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<string, long>>(Values));
 		}
 		
 		public void updateBoxes()
@@ -87,7 +87,7 @@ namespace OCSM.Nodes
 			}
 		}
 		
-		public void updateMax(int max = 1)
+		public void updateMax(long max = 1)
 		{
 			Max = max;
 			if(Max < 1)
@@ -96,12 +96,12 @@ namespace OCSM.Nodes
 			var children = GetChildren();
 			if(children.Count < Max)
 			{
-				var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.StatefulButton);
+				var resource = GD.Load<PackedScene>(Constants.Scene.StatefulButton);
 				for(var i = children.Count; i < Max; i++)
 				{
-					var instance = resource.Instance<StatefulButton>();
+					var instance = resource.Instantiate<StatefulButton>();
 					AddChild(instance);
-					instance.Connect(nameof(StatefulButton.StateChanged), this, nameof(handleStatefulButton));
+					instance.StateChanged += handleStatefulButton;
 				}
 			}
 			else

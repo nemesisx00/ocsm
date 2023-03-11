@@ -1,24 +1,25 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://djnv70tbq0knw"]
 
-[ext_resource path="res://resources/fonts/SalmaPro-Default.tres" type="DynamicFont" id=1]
-[ext_resource path="res://resources/styles/AppBackground.tres" type="StyleBox" id=2]
-[ext_resource path="res://resources/styles/BodyBackground.tres" type="StyleBox" id=3]
-[ext_resource path="res://resources/styles/BorderLine.tres" type="StyleBox" id=4]
-[ext_resource path="res://resources/styles/TabBackground.tres" type="StyleBox" id=5]
+[ext_resource type="FontFile" path="res://resources/fonts/SalmaPro-Default.tres" id="1"]
+[ext_resource type="StyleBox" uid="uid://c86jl0cqsgurp" path="res://resources/styles/AppBackground.tres" id="2"]
+[ext_resource type="StyleBox" uid="uid://b1oce86wjd6t7" path="res://resources/styles/TabSubBodyBackground.tres" id="2_3jdsw"]
+[ext_resource type="StyleBox" path="res://resources/styles/BorderLine.tres" id="4"]
+[ext_resource type="StyleBox" uid="uid://dbiwd5ihbsd76" path="res://resources/styles/TabBackground.tres" id="5"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.152941, 0.168627, 0.196078, 1 )
+[sub_resource type="StyleBoxFlat" id="1"]
+bg_color = Color(0.152941, 0.168627, 0.196078, 1)
+border_color = Color(0.501961, 0.509804, 0.529412, 1)
 
 [resource]
-default_font = ExtResource( 1 )
-HSeparator/styles/separator = ExtResource( 4 )
-Label/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-MenuButton/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-Panel/styles/panel = ExtResource( 2 )
-RichTextLabel/colors/default_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-TabContainer/colors/font_color_fg = Color( 0.662745, 0.670588, 0.690196, 1 )
+default_font = ExtResource("1")
+HSeparator/styles/separator = ExtResource("4")
+Label/colors/font_color = Color(0.662745, 0.670588, 0.690196, 1)
+MenuButton/colors/font_color = Color(0.662745, 0.670588, 0.690196, 1)
+Panel/styles/panel = ExtResource("2")
+RichTextLabel/colors/default_color = Color(0.662745, 0.670588, 0.690196, 1)
+TabContainer/colors/font_color_fg = Color(0.662745, 0.670588, 0.690196, 1)
 TabContainer/constants/side_margin = 15
-TabContainer/styles/panel = ExtResource( 3 )
-TabContainer/styles/tab_fg = ExtResource( 5 )
-TooltipLabel/colors/font_color = Color( 0.662745, 0.670588, 0.690196, 1 )
-TooltipPanel/styles/panel = SubResource( 1 )
+TabContainer/styles/panel = ExtResource("2_3jdsw")
+TabContainer/styles/tab_fg = ExtResource("5")
+TooltipLabel/colors/font_color = Color(0.662745, 0.670588, 0.690196, 1)
+TooltipPanel/styles/panel = SubResource("1")

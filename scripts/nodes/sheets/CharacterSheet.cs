@@ -10,14 +10,13 @@ namespace OCSM.Nodes.Sheets
 		void SetJsonData(string json);
 	}
 
-	public abstract class CharacterSheet<T> : Container, ICharacterSheet
+	public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		where T: Character
 	{
 		protected virtual T SheetData { get; set; }
 		
 		public override void _Ready()
 		{
-			NodeUtilities.autoSizeChildren(this, Constants.TextInputMinHeight);
 		}
 		
 		public string GetJsonData() { return JsonSerializer.Serialize(SheetData); }
@@ -29,56 +28,79 @@ namespace OCSM.Nodes.Sheets
 				SheetData = typedData;
 		}
 		
-		protected virtual void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
-			where T1: Control
+		protected void InitEntryList(EntryList node, List<string> initialValue, EntryList.ValueChangedEventHandler handler)
 		{
-			if(node is EntryList el)
+			if(node is EntryList)
 			{
-				if(initialValue is List<string> entries)
-					el.Values = entries;
-				el.refresh();
-				el.Connect(nameof(EntryList.ValueChanged), this, handlerName);
+				if(initialValue is List<string>)
+					node.Values = initialValue;
+				node.refresh();
+				node.ValueChanged += handler;
 			}
-			else if(node is LineEdit le)
+		}
+		
+		protected void InitLineEdit(LineEdit node, string initialValue, LineEdit.TextChangedEventHandler handler)
+		{
+			if(node is LineEdit)
 			{
-				le.Text = initialValue as string;
-				le.Connect(Constants.Signal.TextChanged, this, handlerName);
+				node.Text = initialValue;
+				node.TextChanged += handler;
 			}
-			else if(node is TextEdit te)
+		}
+		
+		protected void InitTextEdit(TextEdit node, string initialValue, System.Action handler)
+		{
+			if(node is TextEdit)
 			{
-				te.Text = initialValue as string;
-				te.Connect(Constants.Signal.TextChanged, this, handlerName);
+				node.Text = initialValue;
+				node.TextChanged += handler;
 			}
-			else if(node is ToggleButton tb)
+		}
+		
+		protected void InitToggleButton(ToggleButton node, bool initialValue, ToggleButton.StateToggledEventHandler handler)
+		{
+			if(node is ToggleButton)
 			{
-				if(initialValue is bool state)
-				{
-					tb.CurrentState = state;
-					tb.updateTexture();
-				}
-				tb.Connect(nameof(ToggleButton.StateToggled), this, handlerName);
+				node.CurrentState = initialValue;
+				node.updateTexture();
+				node.StateToggled += handler;
 			}
-			else if(node is TrackSimple ts)
+		}
+		
+		protected void InitTrackComplex(TrackComplex node, Dictionary<string, long> initialValue, TrackComplex.ValueChangedEventHandler handler)
+		{
+			if(node is TrackComplex)
 			{
-				if(initialValue is int number)
-					ts.updateValue(number > 0 ? number : 0);
-				
-				if(nodeChanged)
-					ts.Connect(Constants.Signal.NodeChanged, this, handlerName);
-				else
-					ts.Connect(nameof(TrackSimple.ValueChanged), this, handlerName);
+				if(initialValue is Dictionary<string, long>)
+					node.Values = initialValue;
+				node.ValueChanged += handler;
 			}
-			else if(node is TrackComplex tc)
+		}
+		
+		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.NodeChangedEventHandler handler)
+		{
+			if(node is TrackSimple)
 			{
-				if(initialValue is Dictionary<string, int> entries)
-					tc.Values = entries;
-				tc.Connect(nameof(TrackComplex.ValueChanged), this, handlerName);
+				node.updateValue(initialValue > 0 ? initialValue : 0);
+				node.NodeChanged += handler;
 			}
-			else if(node is SpinBox sb)
+		}
+		
+		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.ValueChangedEventHandler handler)
+		{
+			if(node is TrackSimple)
 			{
-				if(initialValue is int number)
-					sb.Value = number;
-				sb.Connect(Constants.Signal.ValueChanged, this, handlerName);
+				node.updateValue(initialValue > 0 ? initialValue : 0);
+				node.ValueChanged += handler;
+			}
+		}
+		
+		protected void InitSpinBox(SpinBox node, long initialValue, SpinBox.ValueChangedEventHandler handler)
+		{
+			if(node is SpinBox)
+			{
+				node.Value = initialValue;
+				node.ValueChanged += handler;
 			}
 		}
 	}

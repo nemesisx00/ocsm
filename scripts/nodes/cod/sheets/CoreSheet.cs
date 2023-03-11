@@ -7,76 +7,89 @@ using OCSM.Nodes.Sheets;
 
 namespace OCSM.Nodes.CoD.Sheets
 {
-	public abstract class CoreSheet<T> : CharacterSheet<T>
+	public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		where T: CodCore
 	{
-		protected const string AdvantagesPath = "Column/Advantages/";
-		protected const string TabContainerPath = "Column/TabContainer/";
-		protected const string DetailsPath = TabContainerPath + "Details/";
-		protected const string TraitsPath = TabContainerPath + "Traits/";
-		protected const string AttributesPath = TraitsPath + "Attributes/";
-		protected const string SkillsPath = TraitsPath + "Skills/";
-		protected const string InventoryPath = TabContainerPath + "Inventory/";
-		protected const string GameNotesPath = TabContainerPath + "Game Notes/";
-		
-		protected const string Merits = "Merits";
-		protected const string SkillSpecialties = "Specialties";
-		
-		protected class Advantage
+		protected class NodePath
 		{
-			public const string Armor = "Armor";
-			public const string Aspirations = "Aspirations";
-			public const string Beats = "Beats";
-			public const string Defense = "Defense";
-			public const string Conditions = "Conditions";
-			public const string Experience = "Experience";
-			public const string Health = "Health";
-			public const string Initiative = "Initiative";
-			public const string Speed = "Speed";
-			public const string Willpower = "Willpower";
+			public const string Advantages = "%Advantages";
+			public const string Attributes = NodePath.Traits + "/%Attributes";
+			public const string Details = "%Details";
+			public const string GameNotes = "%Game Notes";
+			public const string Inventory = "%Inventory";
+			public const string Merits = "%Merits";
+			public const string MeritsFromMetadata = "%MeritsFromMetadata";
+			public const string Skills = NodePath.Traits + "/%Skills";
+			public const string SkillSpecialties = NodePath.Skills + "/%Specialties";
+			public const string Traits = "%Traits";
+			
+			// Advantages
+			public const string Armor = NodePath.Advantages + "/%Armor";
+			public const string Aspirations = NodePath.Advantages + "/%Aspirations";
+			public const string Beats = NodePath.Advantages + "/%Beats";
+			public const string Defense = NodePath.Advantages + "/%Defense";
+			public const string Conditions = NodePath.Advantages + "/%Conditions";
+			public const string Experience = NodePath.Advantages + "/%Experience";
+			public const string Health = NodePath.Advantages + "/%Health";
+			public const string Initiative = NodePath.Advantages + "/%Initiative";
+			public const string Speed = NodePath.Advantages + "/%Speed";
+			public const string Willpower = NodePath.Advantages + "/%Willpower";
+			
+			// Details
+			public const string Chronicle = NodePath.Details + "/%Chronicle";
+			public const string Concept = NodePath.Details + "/%Concept";
+			public const string Name = NodePath.Details + "/%Name";
+			public const string Player = NodePath.Details + "/%Player";
+			public const string Size = NodePath.Details + "/%Size";
 		}
 		
-		protected class Detail
-		{
-			public const string Chronicle = "Chronicle";
-			public const string Concept = "Concept";
-			public const string Name = "Name";
-			public const string Player = "Player";
-			public const string Size = "Size";
-		}
+		protected TrackSimple beats;
+		protected Label defense;
+		protected SpinBox experience;
+		protected TrackComplex health;
+		protected Label initiative;
+		protected Label speed;
+		protected TrackSimple willpower;
 		
 		public override void _Ready()
 		{
-			InitAndConnect(GetNode<EntryList>(NodePathBuilder.SceneUnique(Advantage.Aspirations, AdvantagesPath)), SheetData.Aspirations, nameof(changed_Aspirations));
-			InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)), SheetData.Beats, nameof(changed_Beats));
-			InitAndConnect(GetNode<EntryList>(NodePathBuilder.SceneUnique(Advantage.Conditions, AdvantagesPath)), SheetData.Conditions, nameof(changed_Conditions));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)), SheetData.Experience, nameof(changed_Experience));
-			InitAndConnect(GetNode<TrackComplex>(NodePathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)), SheetData.HealthCurrent, nameof(changed_Health));
-			InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)), SheetData.WillpowerSpent, nameof(changed_Willpower));
+			beats = GetNode<TrackSimple>(NodePath.Beats);
+			defense = GetNode<Label>(NodePath.Defense);
+			experience = GetNode<SpinBox>(NodePath.Experience);
+			health = GetNode<TrackComplex>(NodePath.Health);
+			initiative = GetNode<Label>(NodePath.Initiative);
+			speed = GetNode<Label>(NodePath.Speed);
+			willpower = GetNode<TrackSimple>(NodePath.Willpower);
 			
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Chronicle, DetailsPath)), SheetData.Chronicle, nameof(changed_Chronicle));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Concept, DetailsPath)), SheetData.Concept, nameof(changed_Concept));
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Name, DetailsPath)), SheetData.Name, nameof(changed_Name));
+			InitEntryList(GetNode<EntryList>(NodePath.Aspirations), SheetData.Aspirations, changed_Aspirations);
+			InitTrackSimple(beats, SheetData.Beats, changed_Beats);
+			InitEntryList(GetNode<EntryList>(NodePath.Conditions), SheetData.Conditions, changed_Conditions);
+			InitSpinBox(experience, SheetData.Experience, changed_Experience);
+			InitTrackComplex(health, SheetData.HealthCurrent, changed_Health);
+			InitTrackSimple(willpower, SheetData.WillpowerSpent, changed_Willpower);
+			
+			InitLineEdit(GetNode<LineEdit>(NodePath.Chronicle), SheetData.Chronicle, changed_Chronicle);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Concept), SheetData.Concept, changed_Concept);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Name), SheetData.Name, changed_Name);
 			if(!String.IsNullOrEmpty(SheetData.Name))
 				Name = SheetData.Name;
-			InitAndConnect(GetNode<LineEdit>(NodePathBuilder.SceneUnique(Detail.Player, DetailsPath)), SheetData.Player, nameof(changed_Player));
-			InitAndConnect(GetNode<SpinBox>(NodePathBuilder.SceneUnique(Detail.Size, DetailsPath)), SheetData.Size, nameof(changed_Size));
+			InitLineEdit(GetNode<LineEdit>(NodePath.Player), SheetData.Player, changed_Player);
+			InitSpinBox(GetNode<SpinBox>(NodePath.Size), SheetData.Size, changed_Size);
 			
 			foreach(var a in SheetData.Attributes)
 			{
 				if(!String.IsNullOrEmpty(a.Name))
-					InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(a.Name, AttributesPath)), a.Value, nameof(changed_Attribute), true);
+					InitTrackSimple(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name), a.Value, changed_Attribute);
 			}
 			
 			foreach(var s in SheetData.Skills)
 			{
 				if(!String.IsNullOrEmpty(s.Name))
-					InitAndConnect(GetNode<TrackSimple>(NodePathBuilder.SceneUnique(s.Name, SkillsPath)), s.Value, nameof(changed_Skill), true);
+					InitTrackSimple(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name), s.Value, changed_Skill);
 			}
 			
-			InitAndConnect(GetNode<SpecialtyList>(NodePathBuilder.SceneUnique(SkillSpecialties, SkillsPath)), SheetData.Specialties, nameof(changed_SkillSpecialty));
-			
-			InitAndConnect(GetNode<ItemDotsList>(NodePathBuilder.SceneUnique(Merits)), SheetData.Merits, nameof(changed_Merits));
+			InitSpecialtyList(GetNode<SpecialtyList>(NodePath.SkillSpecialties), SheetData.Specialties, changed_SkillSpecialty);
+			InitMeritList(GetNode<MeritList>(NodePath.Merits), SheetData.Merits, changed_Merits);
 			
 			updateDefense();
 			updateInitiative();
@@ -87,32 +100,37 @@ namespace OCSM.Nodes.CoD.Sheets
 			base._Ready();
 		}
 		
-		protected new void InitAndConnect<T1, T2>(T1 node, T2 initialValue, string handlerName, bool nodeChanged = false)
-			where T1: Control
+		protected void InitMeritList(MeritList node, List<Merit> initialValue, MeritList.ValueChangedEventHandler handler)
 		{
-			if(node is MeritList ml)
+			if(node is MeritList)
 			{
-				if(initialValue is List<Merit> merits)
-					ml.Values = merits;
-				ml.refresh();
-				ml.Connect(nameof(MeritList.ValueChanged), this, handlerName);
+				if(initialValue is List<Merit>)
+					node.Values = initialValue;
+				node.refresh();
+				node.ValueChanged += handler;
 			}
-			else if(node is ItemDotsList idl)
+		}
+		
+		protected void InitItemDotsList(ItemDotsList node, Dictionary<string, long> initialValue, ItemDotsList.ValueChangedEventHandler handler)
+		{
+			if(node is ItemDotsList)
 			{
-				if(initialValue is Dictionary<string, int> entries)
-					idl.Values = entries;
-				idl.refresh();
-				idl.Connect(nameof(ItemDotsList.ValueChanged), this, handlerName);
+				if(initialValue is Dictionary<string, long>)
+					node.Values = initialValue;
+				node.refresh();
+				node.ValueChanged += handler;
 			}
-			else if(node is SpecialtyList sl)
+		}
+		
+		protected void InitSpecialtyList(SpecialtyList node, List<Pair> initialValue, SpecialtyList.ValueChangedEventHandler handler)
+		{
+			if(node is SpecialtyList)
 			{
-				if(initialValue is Dictionary<string, string> entries)
-					sl.Values = entries;
-				sl.refresh();
-				sl.Connect(nameof(SpecialtyList.ValueChanged), this, handlerName);
+				if(initialValue is List<Pair>)
+					node.Values = initialValue;
+				node.refresh();
+				node.ValueChanged += handler;
 			}
-			else
-				base.InitAndConnect<T1, T2>(node, initialValue, handlerName, nodeChanged);
 		}
 		
 		protected void updateDefense()
@@ -124,9 +142,9 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(dex is OCSM.CoD.Attribute && wits is OCSM.CoD.Attribute && athl is Skill)
 			{
 				if(dex.Value < wits.Value)
-					GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (dex.Value + athl.Value).ToString();
+					defense.Text = (dex.Value + athl.Value).ToString();
 				else
-					GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Defense, AdvantagesPath)).Text = (wits.Value + athl.Value).ToString();
+					defense.Text = (wits.Value + athl.Value).ToString();
 			}
 		}
 		
@@ -137,7 +155,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			if(dex is OCSM.CoD.Attribute && comp is OCSM.CoD.Attribute)
 			{
-				GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Initiative, AdvantagesPath)).Text = (dex.Value + comp.Value).ToString();
+				initiative.Text = (dex.Value + comp.Value).ToString();
 			}
 		}
 		
@@ -148,7 +166,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(stam is OCSM.CoD.Attribute)
 			{
 				SheetData.HealthMax = SheetData.Size + stam.Value;
-				GetNode<TrackComplex>(NodePathBuilder.SceneUnique(Advantage.Health, AdvantagesPath)).updateMax(SheetData.HealthMax);
+				health.updateMax(SheetData.HealthMax);
 			}
 		}
 		
@@ -160,7 +178,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(comp is OCSM.CoD.Attribute && res is OCSM.CoD.Attribute)
 			{
 				SheetData.WillpowerMax = comp.Value + res.Value;
-				GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Willpower, AdvantagesPath)).updateMax(SheetData.WillpowerMax);
+				willpower.updateMax(SheetData.WillpowerMax);
 			}
 		}
 		
@@ -171,9 +189,9 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			if(str is OCSM.CoD.Attribute && dex is OCSM.CoD.Attribute)
 			{
-				GetNode<Label>(NodePathBuilder.SceneUnique(Advantage.Speed, AdvantagesPath)).Text = (str.Value + dex.Value + SheetData.Size).ToString();
+				speed.Text = (str.Value + dex.Value + SheetData.Size).ToString();
 			}
-		}private void changed_Aspirations(List<string> values) { SheetData.Aspirations = values; }
+		}private void changed_Aspirations(Transport<List<string>> transport) { SheetData.Aspirations = transport.Value; }
 		
 		private void changed_Attribute(TrackSimple node)
 		{
@@ -207,14 +225,14 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_Beats(int value)
+		private void changed_Beats(long value)
 		{
 			if(value >= 5)
 			{
 				SheetData.Beats = 0;
-				GetNode<TrackSimple>(NodePathBuilder.SceneUnique(Advantage.Beats, AdvantagesPath)).updateValue(SheetData.Beats);
+				beats.updateValue(SheetData.Beats);
 				SheetData.Experience++;
-				GetNode<SpinBox>(NodePathBuilder.SceneUnique(Advantage.Experience, AdvantagesPath)).Value = SheetData.Experience;
+				experience.Value = SheetData.Experience;
 			}
 			else
 				SheetData.Beats = value;
@@ -222,19 +240,10 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		private void changed_Chronicle(string newText) { SheetData.Chronicle = newText; }
 		private void changed_Concept(string newText) { SheetData.Concept = newText; }
-		private void changed_Conditions(List<string> values) { SheetData.Conditions = values; }
-		private void changed_Experience(float number) { SheetData.Experience = (int)number; }
-		private void changed_Health(Dictionary<string, int> values) { SheetData.HealthCurrent = values; }
-		private void changed_Merits(List<Transport<Merit>> values)
-		{
-			var list = new List<Merit>();
-			foreach(var mt in values)
-			{
-				list.Add(mt.Value);
-			}
-			
-			SheetData.Merits = list;
-		}
+		private void changed_Conditions(Transport<List<string>> transport) { SheetData.Conditions = transport.Value; }
+		private void changed_Experience(double number) { SheetData.Experience = (long)number; }
+		private void changed_Health(Transport<Dictionary<string, long>> transport) { SheetData.HealthCurrent = transport.Value; }
+		private void changed_Merits(Transport<List<Merit>> transport) { SheetData.Merits = transport.Value; }
 		
 		private void changed_Name(string newText)
 		{
@@ -259,15 +268,15 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_SkillSpecialty(Dictionary<string, string> values) { SheetData.Specialties = values; }
+		private void changed_SkillSpecialty(Transport<List<Pair>> transport) { SheetData.Specialties = transport.Value; }
 		
-		private void changed_Size(float number)
+		private void changed_Size(double number)
 		{
-			SheetData.Size = (int)number;
+			SheetData.Size = (long)number;
 			updateMaxHealth();
 			updateSpeed();
 		}
 		
-		private void changed_Willpower(int value) { SheetData.WillpowerSpent = value; }
+		private void changed_Willpower(long value) { SheetData.WillpowerSpent = value; }
 	}
 }

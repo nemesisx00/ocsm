@@ -3,7 +3,7 @@ using OCSM.DnD.Fifth.Meta;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class FeatureOptionsButton : CustomOption
+	public partial class FeatureOptionsButton : CustomOption
 	{
 		protected override void refreshMetadata()
 		{

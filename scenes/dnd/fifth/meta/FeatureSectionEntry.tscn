@@ -1,27 +1,26 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://4cdwnptfelxe"]
 
-[ext_resource path="res://scripts/nodes/AutosizeTextEdit.cs" type="Script" id=1]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_hioeu"]
 
 [node name="FeatureSection" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -668.0
+offset_bottom = -668.0
 size_flags_horizontal = 3
-custom_constants/separation = 5
+theme = ExtResource("1_hioeu")
+theme_override_constants/separation = 15
 
 [node name="Section" type="LineEdit" parent="."]
-margin_top = 38.0
-margin_right = 254.0
-margin_bottom = 62.0
+layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
-size_flags_stretch_ratio = 2.0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.3
 
 [node name="Text" type="TextEdit" parent="."]
-margin_left = 259.0
-margin_right = 1024.0
-margin_bottom = 100.0
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 6.0
-wrap_enabled = true
-script = ExtResource( 1 )
+size_flags_vertical = 0
+wrap_mode = 1
+scroll_fit_content_height = true

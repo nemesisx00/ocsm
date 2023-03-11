@@ -5,12 +5,13 @@ using OCSM.CoD;
 
 namespace OCSM.Nodes.CoD
 {
-	public class SpecialtyList : Container
+	public partial class SpecialtyList : Container
 	{
-		[Signal]
-		public delegate void ValueChanged(Dictionary<string, string> values);
 		
-		public Dictionary<string, string> Values { get; set; } = new Dictionary<string, string>();
+		[Signal]
+		public delegate void ValueChangedEventHandler(Transport<List<Pair>> values);
+		
+		public List<Pair> Values { get; set; } = new List<Pair>();
 		
 		public override void _Ready()
 		{
@@ -24,22 +25,22 @@ namespace OCSM.Nodes.CoD
 				c.QueueFree();
 			}
 			
-			foreach(var key in Values.Keys)
+			foreach(var specialty in Values)
 			{
-				var skill = Skill.byName(key);
+				var skill = Skill.byName(specialty.Key);
 				if(skill is Skill)
-					addInput(skill, Values[key]);
+					addInput(skill, specialty.Value);
 			}
 			
 			addInput();
 		}
 		
-		private void skillChanged(int index) { updateValues(); }
+		private void skillChanged(long index) { updateValues(); }
 		private void valueChanged(string text) { updateValues(); }
 		
 		private void updateValues()
 		{
-			var values = new Dictionary<string, string>();
+			var values = new List<Pair>();
 			var children = GetChildren();
 			foreach(HBoxContainer row in children)
 			{
@@ -47,13 +48,22 @@ namespace OCSM.Nodes.CoD
 				var skill = Skill.byName(optButton.GetItemText(optButton.Selected));
 				var value = row.GetChild<LineEdit>(1).Text;
 				
-				if(!String.IsNullOrEmpty(value))
-					values.Add(skill.Name, value);
-				else if(children.IndexOf(row) != children.Count - 1)
+				if(children.IndexOf(row) != children.Count - 1 && !(skill is Skill) && String.IsNullOrEmpty(value))
 					row.QueueFree();
+				else
+				{
+					var sp = new Pair();
+					if(skill is Skill)
+						sp.Key = skill.Name;
+					if(!String.IsNullOrEmpty(value))
+						sp.Value = value;
+					
+					if(!sp.Empty)
+						values.Add(sp);
+				}
 			}
 			
-			EmitSignal(nameof(ValueChanged), values);
+			EmitSignal(nameof(ValueChanged), new Transport<List<Pair>>(values));
 			
 			if(children.Count <= values.Count)
 			{
@@ -63,18 +73,21 @@ namespace OCSM.Nodes.CoD
 		
 		private void addInput(Skill skill = null, string specialty = "")
 		{
-			var resource = ResourceLoader.Load<PackedScene>(Constants.Scene.CoD.Specialty);
-			var instance = resource.Instance<HBoxContainer>();
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Specialty);
+			var instance = resource.Instantiate<HBoxContainer>();
 			AddChild(instance);
+			
+			var option = instance.GetChild<SkillOptionButton>(0);
+			var value = instance.GetChild<LineEdit>(1);
 			
 			if(skill is Skill && !String.IsNullOrEmpty(specialty))
 			{
-				instance.GetChild<SkillOptionButton>(0).Selected = Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
-				instance.GetChild<LineEdit>(1).Text = specialty;
+				option.Selected = Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
+				value.Text = specialty;
 			}
 			
-			instance.GetChild<SkillOptionButton>(0).Connect(Constants.Signal.ItemSelected, this, nameof(skillChanged));
-			instance.GetChild<LineEdit>(1).Connect(Constants.Signal.TextChanged, this, nameof(valueChanged));
+			option.ItemSelected += skillChanged;
+			value.TextChanged += valueChanged;
 		}
 	}
 }

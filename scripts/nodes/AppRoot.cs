@@ -3,16 +3,23 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
 {
-	public class AppRoot : Control
+	public partial class AppRoot : Control
 	{
+		public sealed class NodePath
+		{
+			public const string Self = "/root/AppRoot";
+			public const string SheetTabs = NodePath.Self + "/%SheetTabs";
+			public const string NewSheet = NodePath.Self + "/%NewSheet";
+		}
+		
 		public const string SheetTabsName = "SheetTabs";
 		private const string FileMenuName = "FileMenu";
 		private const string HelpMenuName = "HelpMenu";
 		
 		[Signal]
-		public delegate void FileMenuTriggered(int menuItem);
+		public delegate void FileMenuTriggeredEventHandler(long menuItem);
 		[Signal]
-		public delegate void HelpMenuTriggered(int menuItem);
+		public delegate void HelpMenuTriggeredEventHandler(long menuItem);
 		
 		private AppManager appManager;
 		
@@ -23,13 +30,13 @@ namespace OCSM.Nodes
 				if(e is InputEventKey iek && iek.Pressed)
 				{
 					if(e.IsActionPressed(Constants.Action.FileNew))
-						EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.New);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.New);
 					else if(e.IsActionPressed(Constants.Action.FileOpen))
-						EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.Open);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Open);
 					else if(e.IsActionPressed(Constants.Action.FileSave))
-						EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.Save);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Save);
 					else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
-						EmitSignal(nameof(FileMenuTriggered), FileMenu.MenuItem.CloseSheet);
+						EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.CloseSheet);
 				}
 			}
 		}

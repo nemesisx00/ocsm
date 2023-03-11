@@ -7,35 +7,40 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
-	public class Inventory : VBoxContainer
+	public partial class Inventory : VBoxContainer
 	{
-		public sealed class Names
+		public sealed class NodePath
 		{
-			public const string AddItem = "AddItem";
-			public const string ItemList = "ItemList";
-			public const string SelectedItem = "SelectedItem";
+			public const string AddItem = "%AddItem";
+			public const string ItemList = "%ItemList";
+			public const string SelectedItem = "%SelectedItem";
 		}
 		
 		[Signal]
-		public delegate void ItemsChanged(Transport<List<Item>> items);
+		public delegate void ItemsChangedEventHandler(Transport<List<Item>> items);
 		
 		public List<Item> Items { get; set; }
 		public Ability Strength { get; set; }
 		public Ability Dexterity { get; set; }
+		
+		private VBoxContainer itemList;
+		private InventoryItemOptions options;
 		
 		public override void _Ready()
 		{
 			if(!(Items is List<Item>))
 				Items = new List<Item>();
 			
-			GetNode<Button>(NodePathBuilder.SceneUnique(Names.AddItem)).Connect(Constants.Signal.Pressed, this, nameof(addItemHandler));
+			itemList = GetNode<VBoxContainer>(NodePath.ItemList);
+			options = GetNode<InventoryItemOptions>(NodePath.SelectedItem);
+			
+			GetNode<Button>(NodePath.AddItem).Pressed += addItemHandler;
 			
 			regenerateItems();
 		}
 		
 		public void regenerateItems()
 		{
-			var itemList = GetNode<VBoxContainer>(NodePathBuilder.SceneUnique(Names.ItemList));
 			foreach(Node c in itemList.GetChildren())
 			{
 				c.QueueFree();
@@ -44,11 +49,11 @@ namespace OCSM.Nodes.DnD.Fifth
 			var itemScene = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.InventoryItem);
 			foreach(Item i in Items)
 			{
-				var instance = itemScene.Instance<InventoryItem>();
+				var instance = itemScene.Instantiate<InventoryItem>();
 				instance.Item = i;
 				instance.Strength = Strength;
 				instance.Dexterity = Dexterity;
-				instance.Connect(nameof(InventoryItem.Equipped), this, nameof(itemEquipped));
+				instance.Equipped += itemEquipped;
 				
 				itemList.AddChild(instance);
 				instance.refresh();
@@ -63,7 +68,6 @@ namespace OCSM.Nodes.DnD.Fifth
 			var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				var options = GetNode<InventoryItemOptions>(NodePathBuilder.SceneUnique(Names.SelectedItem));
 				if(options.Selected > 0 && dfc.AllItems.Find(i => i.Name.Equals(options.GetItemText(options.Selected))) is Item item)
 				{
 					Items.Add(item);

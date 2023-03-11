@@ -1,129 +1,102 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://dnk76nvuj6lbi"]
 
-[ext_resource path="res://scenes/cod/nodes/core/MortalAdvantages.tscn" type="PackedScene" id=1]
-[ext_resource path="res://resources/fonts/SalmaPro-40px.tres" type="DynamicFont" id=2]
-[ext_resource path="res://resources/fonts/SalmaPro-20px.tres" type="DynamicFont" id=3]
-[ext_resource path="res://scenes/cod/nodes/Traits.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/cod/nodes/core/MortalDetails.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scripts/nodes/cod/sheets/MortalSheet.cs" type="Script" id=6]
-[ext_resource path="res://scripts/nodes/cod/ItemDotsList.cs" type="Script" id=7]
-[ext_resource path="res://scenes/cod/nodes/ctl/meta/MeritsFromMetadata.tscn" type="PackedScene" id=8]
+[ext_resource type="PackedScene" uid="uid://bwttlfflu2lyi" path="res://scenes/cod/nodes/core/MortalAdvantages.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_17734"]
+[ext_resource type="PackedScene" uid="uid://ckptjuemy6uty" path="res://scenes/cod/nodes/Traits.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dipgl2l1ptdw0" path="res://scenes/cod/nodes/core/MortalDetails.tscn" id="5"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/sheets/MortalSheet.cs" id="6"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/MeritList.cs" id="7_aq4x6"]
+[ext_resource type="PackedScene" uid="uid://bboa30b5nlic0" path="res://scenes/cod/nodes/ctl/meta/MeritsFromMetadata.tscn" id="8"]
 
 [node name="MortalSheet" type="ScrollContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("1_17734")
 follow_focus = true
-scroll_horizontal_enabled = false
-script = ExtResource( 6 )
+script = ExtResource("6")
 
 [node name="Column" type="VBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 768.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 9.0
 
 [node name="Title" type="Label" parent="Column"]
-margin_right = 1024.0
-margin_bottom = 46.0
+layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 1
 size_flags_stretch_ratio = 0.0
-custom_fonts/font = ExtResource( 2 )
+theme_override_font_sizes/font_size = 40
 text = "Chronicles of Darkness"
-align = 1
-valign = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SubTitle" type="Label" parent="Column"]
-margin_top = 50.0
-margin_right = 1024.0
-margin_bottom = 74.0
+layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 1
 size_flags_stretch_ratio = 0.0
-custom_fonts/font = ExtResource( 3 )
+theme_override_font_sizes/font_size = 20
 text = "2nd Edition"
-align = 1
-valign = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Column"]
-margin_top = 78.0
-margin_right = 1024.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 0, 10 )
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Advantages" parent="Column" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 92.0
-margin_right = 1024.0
-margin_bottom = 225.0
+[node name="Advantages" parent="Column" instance=ExtResource("1")]
+unique_name_in_owner = true
+layout_mode = 2
 size_flags_vertical = 1
 
 [node name="HSeparator2" type="HSeparator" parent="Column"]
-margin_top = 229.0
-margin_right = 1024.0
-margin_bottom = 249.0
-rect_min_size = Vector2( 0, 20 )
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="Column"]
-margin_top = 253.0
-margin_right = 1024.0
-margin_bottom = 768.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tab_align = 0
+tab_alignment = 1
 drag_to_rearrange_enabled = true
 
-[node name="Details" parent="Column/TabContainer" instance=ExtResource( 5 )]
-visible = false
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+[node name="Details" parent="Column/TabContainer" instance=ExtResource("5")]
+unique_name_in_owner = true
+layout_mode = 2
 
-[node name="Traits" parent="Column/TabContainer" instance=ExtResource( 4 )]
+[node name="Traits" parent="Column/TabContainer" instance=ExtResource("4")]
+unique_name_in_owner = true
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
 
 [node name="Merits" type="VBoxContainer" parent="Column/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+visible = false
+layout_mode = 2
 
-[node name="MeritsFromMetadata" parent="Column/TabContainer/Merits" instance=ExtResource( 8 )]
+[node name="MeritsFromMetadata" parent="Column/TabContainer/Merits" instance=ExtResource("8")]
 unique_name_in_owner = true
+layout_mode = 2
 
 [node name="Merits" type="GridContainer" parent="Column/TabContainer/Merits"]
 unique_name_in_owner = true
-margin_top = 24.0
-margin_right = 1016.0
-margin_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
 columns = 2
-script = ExtResource( 7 )
+script = ExtResource("7_aq4x6")
 
 [node name="Inventory" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="Game Notes" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false
-margin_right = 40.0
-margin_bottom = 40.0
+layout_mode = 2
+theme_override_constants/separation = 15

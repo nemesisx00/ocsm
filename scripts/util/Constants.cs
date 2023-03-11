@@ -7,7 +7,8 @@ namespace OCSM
 	/// </summary>
 	public class Constants
 	{
-		public const int TextInputMinHeight = 23;
+		public const string AppVersion = "0.5.0";
+		public const string MetadataFileExtension = ".ocmd";
 		public const string NewSheetFileName = "New Sheet";
 		public const string SheetFileExtension = ".ocsd";
 		
@@ -19,6 +20,20 @@ namespace OCSM
 			public const string FileSave = "fileSave";
 			public const string FileSaveAs = "fileSaveAs";
 			public const string FileCloseSheet = "fileCloseSheet";
+		}
+		
+		public sealed class GameSystem
+		{
+			public sealed class CoD
+			{
+				public const string Mortal = "CodMortal";
+				public const string Changeling = "CodChangeling";
+			}
+			
+			public sealed class DnD
+			{
+				public const string Fifth = "Dnd5e";
+			}
 		}
 		
 		public sealed class Json
@@ -106,29 +121,13 @@ namespace OCSM
 			}
 		}
 		
-		public sealed class Signal
-		{
-			public const string Confirmed = "confirmed";
-			public const string FileSelected = "file_selected";
-			public const string GuiInput = "gui_input";
-			public const string IdPressed = "id_pressed";
-			public const string ItemSelected = "item_selected";
-			public const string NodeChanged = "NodeChanged";
-			public const string Pressed = "pressed";
-			public const string Released = "released";
-			public const string TabChanged = "tab_changed";
-			public const string TabSelected = "tab_selected";
-			public const string TextChanged = "text_changed";
-			public const string ValueChanged = "value_changed";
-		}
-		
 		public sealed class Texture
 		{
-			public const string FullTransparent = "res://assets/textures/box-transparent-16.svg";
+			public const string FullTransparent = "res://assets/textures/box-transparent-16.png";
 			public const string TrackBoxBorder = "res://assets/textures/box-border-16.png";
-			public const string TrackBox1 = "res://assets/textures/slash-one.svg";
-			public const string TrackBox2 = "res://assets/textures/slash-two.svg";
-			public const string TrackBox3 = "res://assets/textures/slash-three.svg";
+			public const string TrackBox1 = "res://assets/textures/slash-one.png";
+			public const string TrackBox2 = "res://assets/textures/slash-two.png";
+			public const string TrackBox3 = "res://assets/textures/slash-three.png";
 			public const string TrackCircle = "res://assets/textures/circle-empty.png";
 			public const string TrackCircleFill = "res://assets/textures/circle-fill.png";
 			public const string TrackCircleHalf = "res://assets/textures/circle-fill-half.png";
