@@ -70,13 +70,23 @@ namespace OCSM.CoD.CtL
 		
 		public int CompareTo(Contract contract)
 		{
-			var ret = base.CompareTo(contract);
+			var ret = 0;
 			if(contract is Contract)
 			{
-				if(ret.Equals(0) && ContractType is ContractType)
-					ret = ContractType.CompareTo(contract.ContractType);
-				if(ret.Equals(0) && Regalia is ContractRegalia)
-					ret = Regalia.CompareTo(contract.Regalia);
+				if(ret.Equals(0))
+				{
+					if(Regalia is ContractRegalia)
+						ret = Regalia.CompareTo(contract.Regalia);
+					else
+						ret = contract.Regalia is ContractRegalia ? 1 : 0;
+				}
+				if(ret.Equals(0))
+				{
+					if(ContractType is ContractType)
+						ret = ContractType.CompareTo(contract.ContractType);
+					else if(contract.ContractType is ContractType)
+						ret = 1;
+				}
 				if(ret.Equals(0))
 					ret = Name.Replace("The", String.Empty).Trim().CompareTo(contract.Name.Replace("The", String.Empty).Trim());
 				if(ret.Equals(0))

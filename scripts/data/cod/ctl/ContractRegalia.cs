@@ -17,20 +17,26 @@ namespace OCSM.CoD.CtL
 		
 		public ContractRegalia() : base() { }
 		
-		public int CompareTo(ContractRegalia contractRegalia)
+		public int CompareTo(ContractRegalia other)
 		{
 			var ret = 0;
-			if(contractRegalia is ContractRegalia)
+			
+			if(other is ContractRegalia)
 			{
 				if(Name.Equals(Goblin.Name))
-					ret = contractRegalia.Name.Equals(Goblin.Name) ? 0 : -1;
+					ret = other.Name.Equals(Goblin.Name) ? 0 : 1;
+				else if(other.Name.Equals(Goblin.Name))
+					ret = -1;
 				else
-					ret = contractRegalia.Name.Equals(Goblin.Name) ? 1 : 0;
+					ret = Name.CompareTo(other.Name);
 			}
+			else
+				ret = -1;
+			
 			return ret;
 		}
 		
-		public bool Equals(ContractRegalia contractRegalia) { return base.Equals(contractRegalia); }
+		public bool Equals(ContractRegalia other) { return base.Equals(other); }
 		public Regalia toRegalia() { return new Regalia() { Description = Description, Icon = Icon, Name = Name }; }
 		public Court toCourt() { return new Court() { Description = Description, Icon = Icon, Name = Name }; }
 	}

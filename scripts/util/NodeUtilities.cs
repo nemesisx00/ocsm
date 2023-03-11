@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 using OCSM.Nodes;
 using OCSM.Nodes.Meta;
 
@@ -19,26 +20,6 @@ namespace OCSM
 		public static Label createCenteredLabel(string text)
 		{
 			return new Label() { Text = text, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, };
-		}
-		
-		/// <summary>
-		/// Calculate the total number actual lines, compensating for line wrapping,
-		/// contained in the <c>Godot.TextEdit</c>'s content.
-		/// </summary>
-		/// <param name="node">The node whose content is being measured.</param>
-		/// <returns>The total line count as an integer.</returns>
-		public static int getLineCount(TextEdit node)
-		{
-			var lines = node.GetLineCount();
-			for(var i = 0; i < node.GetLineCount(); i++)
-			{
-				lines += node.GetLineWrapCount(i);
-			}
-			
-			if(lines < 1)
-				lines = 1;
-			
-			return lines;
 		}
 		
 		/// <summary>
@@ -63,6 +44,41 @@ namespace OCSM
 			parent.AddChild(instance);
 			instance.Confirmed += handler.doDelete;
 			instance.PopupCentered();
+		}
+		
+		/// <summary>
+		/// Calculate the total number actual lines, compensating for line wrapping,
+		/// contained in the <c>Godot.TextEdit</c>'s content.
+		/// </summary>
+		/// <param name="node">The node whose content is being measured.</param>
+		/// <returns>The total line count as an integer.</returns>
+		public static int getLineCount(TextEdit node)
+		{
+			var lines = node.GetLineCount();
+			for(var i = 0; i < node.GetLineCount(); i++)
+			{
+				lines += node.GetLineWrapCount(i);
+			}
+			
+			if(lines < 1)
+				lines = 1;
+			
+			return lines;
+		}
+		
+		/// <summary>
+		/// Move the child nodes of a given parent <c>Godot.Node</c> to match the
+		/// order as represented by the list <c>orderedChildren</c>.
+		/// </summary>
+		/// <param name="parent">The node containing the child nodes to be rearranged.</param>
+		/// <param name="orderedChildren">The list of nodes to be rearranged.</param>
+		public static void rearrangeNodes(Node parent, List<Node> orderedChildren)
+		{
+			if(parent is Node && orderedChildren is List<Node>)
+			{
+				var i = 0;
+				orderedChildren.ForEach(c => parent.MoveChild(c, i++));
+			}
 		}
 	}
 }

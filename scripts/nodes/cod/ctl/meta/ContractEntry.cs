@@ -117,7 +117,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 					var ct = String.Empty;
 					var r = String.Empty;
 					
-					if(String.IsNullOrEmpty(r) && c.Regalia is Regalia)
+					if(String.IsNullOrEmpty(r) && c.Regalia is ContractRegalia)
 						r = c.Regalia.Name;
 					
 					if(c.ContractType is ContractType)

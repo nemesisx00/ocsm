@@ -1,7 +1,7 @@
 using Godot;
-using Godot.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OCSM.CoD;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
@@ -60,6 +60,9 @@ namespace OCSM.Nodes.CoD.CtL
 			Values = values;
 			Values.Sort();
 			EmitSignal(nameof(ValueChanged), new Transport<List<OCSM.CoD.CtL.Contract>>(Values));
+			NodeUtilities.rearrangeNodes(this, children.Where(n => !(n as Contract).getData().Empty)
+														.OrderBy(n => (n as Contract).getData())
+														.ToList());
 			
 			if(GetChildren().Count <= Values.Count)
 			{
