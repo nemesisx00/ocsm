@@ -53,7 +53,11 @@ namespace OCSM.Nodes
 					sheetManager.closeActiveSheet();
 					break;
 				case MenuItem.Quit:
-					GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+					//FIXME: GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+					//Determine why firing the notification doesn't work here.
+					//The window is created but then its Canceled signal is triggered before it's even finished drawing.
+					//Calling AppManager's showQuitConfirm manually is good enough for now.
+					GetNode<AppManager>(AppManager.NodePath).showQuitConfirm();
 					break;
 			}
 		}

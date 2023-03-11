@@ -4,7 +4,10 @@ namespace OCSM.Nodes.Autoload
 {
 	public partial class AppManager : Node
 	{
+		public const string NodePath = "/root/AppManager";
 		public bool IsQuitting { get; set; } = false;
+		
+		private ConfirmationDialog confirmQuit;
 		
 		public override void _Notification(int notificationCode)
 		{
@@ -18,16 +21,20 @@ namespace OCSM.Nodes.Autoload
 		
 		public override void _Ready()
 		{
-			//Prevent the game from simply ending so that we have a chance to free memory in QuitGame()
+			//Prevent the game from simply ending so that we have a chance to free memory in QuitGame() if necessary
 			GetTree().AutoAcceptQuit = false;
 		}
 		
-		private void showQuitConfirm()
+		public void showQuitConfirm()
 		{
-			if(!IsQuitting)
+			if(confirmQuit is ConfirmationDialog && Node.IsInstanceValid(confirmQuit))
+				confirmQuit.PopupCentered();
+			else if(!IsQuitting)
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
-				var confirmQuit = resource.Instantiate<ConfirmQuit>();
+				confirmQuit = resource.Instantiate<ConfirmQuit>();
+				confirmQuit.CloseRequested += () => NodeUtilities.queueFree(ref confirmQuit);
+				
 				GetTree().CurrentScene.AddChild(confirmQuit);
 				confirmQuit.PopupCentered();
 				IsQuitting = true;

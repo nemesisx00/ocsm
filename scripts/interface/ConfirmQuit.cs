@@ -25,7 +25,7 @@ namespace OCSM.Nodes
 		
 		private void hideConfirmQuit()
 		{
-			GetNode<AppManager>(Constants.NodePath.AppManager).IsQuitting = false;
+			GetNode<AppManager>(AppManager.NodePath).IsQuitting = false;
 			QueueFree();
 		}
 	}

@@ -46,7 +46,7 @@ namespace OCSM.Nodes
 		
 		private void showAbout()
 		{
-			if(aboutOcsm is Window)
+			if(aboutOcsm is Window && Node.IsInstanceValid(aboutOcsm))
 				aboutOcsm.PopupCentered();
 			else
 			{
@@ -61,7 +61,7 @@ namespace OCSM.Nodes
 		
 		private void showGameSystemLicenses()
 		{
-			if(gameLicenses is Window)
+			if(gameLicenses is Window && Node.IsInstanceValid(gameLicenses))
 				gameLicenses.PopupCentered();
 			else
 			{
@@ -76,7 +76,7 @@ namespace OCSM.Nodes
 		
 		private void showGodot()
 		{
-			if(aboutGodot is Window)
+			if(aboutGodot is Window && Node.IsInstanceValid(aboutGodot))
 				aboutGodot.PopupCentered();
 			else
 			{
