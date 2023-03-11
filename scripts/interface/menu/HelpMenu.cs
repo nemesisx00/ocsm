@@ -6,15 +6,16 @@ namespace OCSM.Nodes
 	{
 		private sealed class ItemNames
 		{
-			public const string About = "About";
+			public const string About = "About OCSM";
 			public const string GameSystemLicenses = "Game System Licences";
 			public const string Godot = "About Godot Engine";
 		}
 		
 		public enum MenuItem : long { About, GameSystemLicenses, Godot }
 		
-		private Window licensePopup;
-		private Window godotPopup;
+		private Window aboutGodot;
+		private Window aboutOcsm;
+		private Window gameLicenses;
 		
 		public override void _Ready()
 		{
@@ -32,7 +33,7 @@ namespace OCSM.Nodes
 			switch((MenuItem)id)
 			{
 				case MenuItem.About:
-					GD.Print("Show About Popup");
+					showAbout();
 					break;
 				case MenuItem.GameSystemLicenses:
 					showGameSystemLicenses();
@@ -43,30 +44,49 @@ namespace OCSM.Nodes
 			}
 		}
 		
+		private void showAbout()
+		{
+			if(aboutOcsm is Window)
+				aboutOcsm.PopupCentered();
+			else
+			{
+				var resource = GD.Load<PackedScene>(Constants.Scene.AboutOCSM);
+				aboutOcsm = resource.Instantiate<Window>();
+				aboutOcsm.CloseRequested += () => NodeUtilities.queueFree(ref aboutOcsm);
+				
+				GetTree().CurrentScene.AddChild(aboutOcsm);
+				aboutOcsm.PopupCentered();
+			}
+		}
+		
 		private void showGameSystemLicenses()
 		{
-			if(!(licensePopup is Window))
+			if(gameLicenses is Window)
+				gameLicenses.PopupCentered();
+			else
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
-				licensePopup = resource.Instantiate<Window>();
-				licensePopup.CloseRequested += () => NodeUtilities.queueFree(ref licensePopup);
+				gameLicenses = resource.Instantiate<Window>();
+				gameLicenses.CloseRequested += () => NodeUtilities.queueFree(ref gameLicenses);
 				
-				GetTree().CurrentScene.AddChild(licensePopup);
-				licensePopup.PopupCentered();
+				GetTree().CurrentScene.AddChild(gameLicenses);
+				gameLicenses.PopupCentered();
 			}
 		}
 		
 		private void showGodot()
 		{
-			if(!(godotPopup is Window))
+			if(aboutGodot is Window)
+				aboutGodot.PopupCentered();
+			else
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.AboutGodot);
-				godotPopup = resource.Instantiate<Window>();
-				godotPopup.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
-				godotPopup.CloseRequested += () => NodeUtilities.queueFree(ref godotPopup);
+				aboutGodot = resource.Instantiate<Window>();
+				aboutGodot.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
+				aboutGodot.CloseRequested += () => NodeUtilities.queueFree(ref aboutGodot);
 				
-				GetTree().CurrentScene.AddChild(godotPopup);
-				godotPopup.PopupCentered();
+				GetTree().CurrentScene.AddChild(aboutGodot);
+				aboutGodot.PopupCentered();
 			}
 		}
 	}
