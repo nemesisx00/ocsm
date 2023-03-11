@@ -58,7 +58,7 @@ OCSM isn't ready for release as an installable application just yet but you are 
 #### Requirements
 
 - [.NET SDK](https://dotnet.microsoft.com/download)
-- [Godot - .NET](https://godotengine.org)
+- [Godot 4 - .NET](https://godotengine.org)
 
 #### Compiling, Running, and Testing
 
