@@ -47,6 +47,20 @@ namespace OCSM
 		}
 		
 		/// <summary>
+		/// Queue a <c>Godot.Node</c> to be freed and then null out the reference to it.
+		/// </summary>
+		/// <param name="node">The node to be freed.</param>
+		public static void queueFree<T>(ref T node)
+			where T: Node
+		{
+			if(node is T)
+			{
+				node.QueueFree();
+				node = null;
+			}
+		}
+		
+		/// <summary>
 		/// Calculate the total number actual lines, compensating for line wrapping,
 		/// contained in the <c>Godot.TextEdit</c>'s content.
 		/// </summary>

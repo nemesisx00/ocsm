@@ -60,6 +60,7 @@ namespace OCSM
 		
 		public sealed class Scene
 		{
+			public const string AboutGodot = "res://scenes/AboutGodot.tscn";
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
 			public const string DarkPack = "res://scenes/DarkPack.tscn";
 			public const string GameSystemLicenses = "res://scenes/GameSystemLicenses.tscn";

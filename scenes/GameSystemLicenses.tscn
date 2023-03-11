@@ -8,14 +8,15 @@ initial_position = 2
 title = "Game System Licenses"
 size = Vector2i(720, 200)
 transient = true
-exclusive = true
-popup_window = true
+min_size = Vector2i(720, 200)
 theme = ExtResource("1_rgn14")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Dark Pack" type="HBoxContainer" parent="TabContainer"]
 layout_mode = 2
@@ -26,10 +27,15 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = ExtResource("1")
 
-[node name="Label" type="Label" parent="TabContainer/Dark Pack"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Dark Pack"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="Label" type="Label" parent="TabContainer/Dark Pack/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Portions of the materials are the copyrights and trademarks of Paradox Interactive AB, and are used with permission. All rights reserved. For more information please visit worldofdarkness.com."
-horizontal_alignment = 3
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3

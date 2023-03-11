@@ -24,6 +24,7 @@ SheetManager="*res://scripts/autoload/SheetManager.cs"
 [display]
 
 window/size/viewport_height=768
+window/subwindows/embed_subwindows=false
 
 [dotnet]
 

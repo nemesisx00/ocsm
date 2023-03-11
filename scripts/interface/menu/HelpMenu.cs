@@ -8,17 +8,20 @@ namespace OCSM.Nodes
 		{
 			public const string About = "About";
 			public const string GameSystemLicenses = "Game System Licences";
+			public const string Godot = "About Godot Engine";
 		}
 		
-		public enum MenuItem : long { About, GameSystemLicenses }
+		public enum MenuItem : long { About, GameSystemLicenses, Godot }
 		
 		private Window licensePopup;
+		private Window godotPopup;
 		
 		public override void _Ready()
 		{
 			var popup = GetPopup();
 			popup.AddItem(ItemNames.About, (int)MenuItem.About);
 			popup.AddItem(ItemNames.GameSystemLicenses, (int)MenuItem.GameSystemLicenses);
+			popup.AddItem(ItemNames.Godot, (int)MenuItem.Godot);
 			popup.IdPressed += handleMenuItem;
 			
 			GetNode<AppRoot>(Constants.NodePath.AppRoot).HelpMenuTriggered += handleMenuItem;
@@ -34,6 +37,9 @@ namespace OCSM.Nodes
 				case MenuItem.GameSystemLicenses:
 					showGameSystemLicenses();
 					break;
+				case MenuItem.Godot:
+					showGodot();
+					break;
 			}
 		}
 		
@@ -43,19 +49,25 @@ namespace OCSM.Nodes
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
 				licensePopup = resource.Instantiate<Window>();
+				licensePopup.CloseRequested += () => NodeUtilities.queueFree(ref licensePopup);
 				
 				GetTree().CurrentScene.AddChild(licensePopup);
-				licensePopup.CloseRequested += hideGameSystemLicenses;
 				licensePopup.PopupCentered();
 			}
 		}
 		
-		private void hideGameSystemLicenses()
+		private void showGodot()
 		{
-			if(licensePopup is Window)
+			if(!(godotPopup is Window))
 			{
-				licensePopup.QueueFree();
-				licensePopup = null;
+				var resource = GD.Load<PackedScene>(Constants.Scene.AboutGodot);
+				GD.Print("resource");
+				godotPopup = resource.Instantiate<Window>();
+				godotPopup.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
+				godotPopup.CloseRequested += () => NodeUtilities.queueFree(ref godotPopup);
+				
+				GetTree().CurrentScene.AddChild(godotPopup);
+				godotPopup.PopupCentered();
 			}
 		}
 	}
