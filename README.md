@@ -1,4 +1,8 @@
-# Open Character Sheet Manager ![GitHub](https://img.shields.io/github/license/nemesisx00/ocsm)
+# Open Character Sheet Manager
+
+<div align="center">
+	<img src="https://img.shields.io/github/license/nemesisx00/ocsm" alt="license: AGPL-3.0" />
+</div>
 
 Open Character Sheet Manager (OCSM) is an open source cross-platform desktop application for conveniently managing TableTop RolePlaying Game (TTRPG) character sheets for a wide variety of game systems.
 
