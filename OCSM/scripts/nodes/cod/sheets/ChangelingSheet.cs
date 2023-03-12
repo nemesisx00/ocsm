@@ -48,10 +48,6 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(!(SheetData is Changeling))
 				SheetData = new Changeling();
 			
-			var dotMax = AttributeMax;
-			if(SheetData.Advantages.Power > 5)
-				dotMax = SheetData.Advantages.Power;
-			
 			glamour = GetNode<TrackSimple>(NodePath.Glamour);
 			merits = GetNode<MeritList>(NodePath.Merits);
 			regalia1 = GetNode<RegaliaOptionButton>(NodePath.Regalia1);
@@ -93,10 +89,14 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			base._Ready();
 			
+			//Now that CoDCore sets a default maximum on attributes/skills we need to update after base._Ready()
+			var dotMax = AttributeMax;
+			if(SheetData.Advantages.Power > 5)
+				dotMax = SheetData.Advantages.Power;
+			
 			SheetData.Attributes.ForEach(a => {
-				if(!String.IsNullOrEmpty(a.Name))
+				if(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name) is TrackSimple node)
 				{
-					var node = GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name);
 					node.updateMax(dotMax);
 					node.updateValue(a.Value);
 					attributes.Add(node);
@@ -104,9 +104,8 @@ namespace OCSM.Nodes.CoD.Sheets
 			});
 			
 			SheetData.Skills.ForEach(s => {
-				if(!String.IsNullOrEmpty(s.Name))
+				if(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name) is TrackSimple node)
 				{
-					var node = GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name);
 					node.updateMax(dotMax);
 					node.updateValue(s.Value);
 					skills.Add(node);
