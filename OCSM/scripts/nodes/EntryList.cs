@@ -57,15 +57,15 @@ namespace OCSM.Nodes
 			var stringName = Name.ToString();
 			
 			var node = new TextEdit();
-			node.Text = value;
+			node.CustomMinimumSize = new Vector2(0, 25);
 			node.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
 			node.SizeFlagsVertical = Control.SizeFlags.Fill;
-			node.CustomMinimumSize = new Vector2(0, 25);
 			node.ScrollFitContentHeight = true;
+			node.Text = value;
+			node.TextChanged += textChanged;
 			node.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
 			node.WrapMode = TextEdit.LineWrappingMode.Boundary;
 			AddChild(node);
-			node.TextChanged += textChanged;
 		}
 	}
 }
