@@ -116,7 +116,7 @@ namespace OCSM.Nodes.CoD.CtL
 				if(!String.IsNullOrEmpty(value.Name))
 					instance.GetNode<LineEdit>(Contract.NodePath.NameInput).Text = value.Name;
 				
-				if(value.SeemingBenefits is System.Collections.Generic.List<Pair>)
+				if(value.SeemingBenefits is System.Collections.Generic.List<Pair<string, string>>)
 				{
 					instance.SeemingBenefits = value.SeemingBenefits;
 					instance.refreshSeemingBenefits();

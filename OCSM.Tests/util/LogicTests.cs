@@ -9,7 +9,7 @@ namespace OCSM.Tests.util
 				new object[] { "Hi", "Hi" },
 				new object[] { 5, 5 },
 				new object[] { null!, null! },
-				new object[] { new Pair() { Key = "fun", Value = "times" } , new Pair() { Key = "fun", Value = "times" } },
+				new object[] { new Pair<string, string>() { Key = "fun", Value = "times" } , new Pair<string, string>() { Key = "fun", Value = "times" } },
 			};
 		
 		public static IEnumerable<object[]> GetFalseData()
@@ -18,8 +18,8 @@ namespace OCSM.Tests.util
 				new object[] { "Hi", "Bye" },
 				new object[] { 5, 10 },
 				new object[] { null!, true },
-				new object[] { new Pair() { Key = "fun", Value = "times" } , new Pair() { Key = "fail", Value = "times" } },
-				new object[] { new Pair() { Key = "fun", Value = "times" } , new Pair() { Key = "fun", Value = "again" } },
+				new object[] { new Pair<string, string>() { Key = "fun", Value = "times" } , new Pair<string, string>() { Key = "fail", Value = "times" } },
+				new object[] { new Pair<string, string>() { Key = "fun", Value = "times" } , new Pair<string, string>() { Key = "fun", Value = "again" } },
 			};
 		
 		[Theory]

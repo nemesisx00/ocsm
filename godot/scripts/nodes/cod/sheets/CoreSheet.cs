@@ -10,6 +10,8 @@ namespace OCSM.Nodes.CoD.Sheets
 	public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		where T: CodCore
 	{
+		protected const long AttributeMax = 5;
+		
 		protected class NodePath
 		{
 			public const string Advantages = "%Advantages";
@@ -65,16 +67,16 @@ namespace OCSM.Nodes.CoD.Sheets
 			InitTrackSimple(beats, SheetData.Beats, changed_Beats);
 			InitEntryList(GetNode<EntryList>(NodePath.Conditions), SheetData.Conditions, changed_Conditions);
 			InitSpinBox(experience, SheetData.Experience, changed_Experience);
-			InitTrackComplex(health, SheetData.HealthCurrent, changed_Health);
-			InitTrackSimple(willpower, SheetData.WillpowerSpent, changed_Willpower);
+			InitTrackComplex(health, SheetData.Advantages.Health.toTrackComplex(), changed_Health);
+			InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower);
 			
-			InitLineEdit(GetNode<LineEdit>(NodePath.Chronicle), SheetData.Chronicle, changed_Chronicle);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Concept), SheetData.Concept, changed_Concept);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Concept), SheetData.Details.Concept, changed_Concept);
 			InitLineEdit(GetNode<LineEdit>(NodePath.Name), SheetData.Name, changed_Name);
 			if(!String.IsNullOrEmpty(SheetData.Name))
 				Name = SheetData.Name;
 			InitLineEdit(GetNode<LineEdit>(NodePath.Player), SheetData.Player, changed_Player);
-			InitSpinBox(GetNode<SpinBox>(NodePath.Size), SheetData.Size, changed_Size);
+			InitSpinBox(GetNode<SpinBox>(NodePath.Size), SheetData.Advantages.Size, changed_Size);
 			
 			foreach(var a in SheetData.Attributes)
 			{
@@ -122,11 +124,11 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		protected void InitSpecialtyList(SpecialtyList node, List<Pair> initialValue, SpecialtyList.ValueChangedEventHandler handler)
+		protected void InitSpecialtyList(SpecialtyList node, List<Pair<string, string>> initialValue, SpecialtyList.ValueChangedEventHandler handler)
 		{
 			if(node is SpecialtyList)
 			{
-				if(initialValue is List<Pair>)
+				if(initialValue is List<Pair<string, string>>)
 					node.Values = initialValue;
 				node.refresh();
 				node.ValueChanged += handler;
@@ -165,8 +167,8 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			if(stam is OCSM.CoD.Attribute)
 			{
-				SheetData.HealthMax = SheetData.Size + stam.Value;
-				health.updateMax(SheetData.HealthMax);
+				SheetData.Advantages.Health.Max = SheetData.Advantages.Size + stam.Value;
+				health.updateMax(SheetData.Advantages.Health.Max);
 			}
 		}
 		
@@ -177,8 +179,8 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			if(comp is OCSM.CoD.Attribute && res is OCSM.CoD.Attribute)
 			{
-				SheetData.WillpowerMax = comp.Value + res.Value;
-				willpower.updateMax(SheetData.WillpowerMax);
+				SheetData.Advantages.WillpowerMax = comp.Value + res.Value;
+				willpower.updateMax(SheetData.Advantages.WillpowerMax);
 			}
 		}
 		
@@ -189,7 +191,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			if(str is OCSM.CoD.Attribute && dex is OCSM.CoD.Attribute)
 			{
-				speed.Text = (str.Value + dex.Value + SheetData.Size).ToString();
+				speed.Text = (str.Value + dex.Value + SheetData.Advantages.Size).ToString();
 			}
 		}private void changed_Aspirations(Transport<List<string>> transport) { SheetData.Aspirations = transport.Value; }
 		
@@ -238,11 +240,11 @@ namespace OCSM.Nodes.CoD.Sheets
 				SheetData.Beats = value;
 		}
 		
-		private void changed_Chronicle(string newText) { SheetData.Chronicle = newText; }
-		private void changed_Concept(string newText) { SheetData.Concept = newText; }
+		private void changed_Chronicle(string newText) { SheetData.Details.Chronicle = newText; }
+		private void changed_Concept(string newText) { SheetData.Details.Concept = newText; }
 		private void changed_Conditions(Transport<List<string>> transport) { SheetData.Conditions = transport.Value; }
 		private void changed_Experience(double number) { SheetData.Experience = (long)number; }
-		private void changed_Health(Transport<Dictionary<string, long>> transport) { SheetData.HealthCurrent = transport.Value; }
+		private void changed_Health(Transport<Dictionary<string, long>> transport) { SheetData.Advantages.Health.fromTrackComplex(transport.Value); }
 		private void changed_Merits(Transport<List<Merit>> transport) { SheetData.Merits = transport.Value; }
 		
 		private void changed_Name(string newText)
@@ -268,15 +270,15 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_SkillSpecialty(Transport<List<Pair>> transport) { SheetData.Specialties = transport.Value; }
+		private void changed_SkillSpecialty(Transport<List<Pair<string, string>>> transport) { SheetData.Specialties = transport.Value; }
 		
 		private void changed_Size(double number)
 		{
-			SheetData.Size = (long)number;
+			SheetData.Advantages.Size = (long)number;
 			updateMaxHealth();
 			updateSpeed();
 		}
 		
-		private void changed_Willpower(long value) { SheetData.WillpowerSpent = value; }
+		private void changed_Willpower(long value) { SheetData.Advantages.WillpowerSpent = value; }
 	}
 }

@@ -1,37 +1,34 @@
-using System;
 using System.Collections.Generic;
 
 namespace OCSM.CoD.CtL
 {
 	public class Changeling : CodCore
 	{
-		public long Clarity { get; set; }
+		public static Dictionary<long, long> WyrdGlamour = new Dictionary<long, long>(10)
+		{
+			{ 1, 10 },
+			{ 2, 11 },
+			{ 3, 12 },
+			{ 4, 13 },
+			{ 5, 15 },
+			{ 6, 20 },
+			{ 7, 25 },
+			{ 8, 30 },
+			{ 9, 50 },
+			{ 10, 75 }
+		};
+		
 		public List<Contract> Contracts { get; set; }
-		public Court Court { get; set; }
-		public List<Regalia> FavoredRegalia { get; set; }
+		public Pair<Regalia, Regalia> FavoredRegalia { get; set; }
 		public List<string> Frailties { get; set; }
-		public long GlamourSpent { get; set; }
-		public Kith Kith { get; set; }
-		public string Needle { get; set; }
-		public Seeming Seeming { get; set; }
-		public string Thread { get; set; }
 		public List<string> Touchstones { get; set; }
-		public long Wyrd { get; set; }
 		
 		public Changeling() : base(Constants.GameSystem.CoD.Changeling)
 		{
-			Clarity = 7;
 			Contracts = new List<Contract>();
-			Court = null;
-			FavoredRegalia = new List<Regalia>();
+			FavoredRegalia = new Pair<Regalia, Regalia>();
 			Frailties = new List<string>();
-			GlamourSpent = 0;
-			Kith = null;
-			Needle = String.Empty;
-			Seeming = null;
-			Thread = String.Empty;
 			Touchstones = new List<string>();
-			Wyrd = 1;
 		}
 	}
 }

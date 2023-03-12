@@ -29,34 +29,34 @@ namespace OCSM.Nodes.CoD.Sheets
 			viceLabel = GetNode<Label>(NodePath.ViceLabel);
 			virtueLabel = GetNode<Label>(NodePath.VirtueLabel);
 			
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Integrity), SheetData.Integrity, changed_Integrity);
-			viceLabel.Text = SheetData.Vice;
-			virtueLabel.Text = SheetData.Virtue;
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Integrity), SheetData.Advantages.Integrity, changed_Integrity);
+			viceLabel.Text = SheetData.Details.Vice;
+			virtueLabel.Text = SheetData.Details.Virtue;
 			
 			InitSpinBox(GetNode<SpinBox>(NodePath.Age), SheetData.Age, changed_Age);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Faction), SheetData.Faction, changed_Faction);
-			InitLineEdit(GetNode<LineEdit>(NodePath.GroupName), SheetData.GroupName, changed_GroupName);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Vice), SheetData.Vice, changed_Vice);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Virtue), SheetData.Virtue, changed_Virtue);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Faction), SheetData.Details.Faction, changed_Faction);
+			InitLineEdit(GetNode<LineEdit>(NodePath.GroupName), SheetData.Details.TypePrimary, changed_GroupName);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Vice), SheetData.Details.Vice, changed_Vice);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Virtue), SheetData.Details.Virtue, changed_Virtue);
 			
 			base._Ready();
 		}
 		
 		private void changed_Age(double number) { SheetData.Age = (int)number; }
-		private void changed_Faction(string newText) { SheetData.Faction = newText; }
-		private void changed_GroupName(string newText) { SheetData.GroupName = newText; }
-		private void changed_Integrity(long value) { SheetData.Integrity = value; }
+		private void changed_Faction(string newText) { SheetData.Details.Faction = newText; }
+		private void changed_GroupName(string newText) { SheetData.Details.TypePrimary = newText; }
+		private void changed_Integrity(long value) { SheetData.Advantages.Integrity = value; }
 		
 		private void changed_Vice(string newText)
 		{
-			SheetData.Vice = newText;
-			viceLabel.Text = SheetData.Vice;
+			SheetData.Details.Vice = newText;
+			viceLabel.Text = SheetData.Details.Vice;
 		}
 		
 		private void changed_Virtue(string newText)
 		{
-			SheetData.Virtue = newText;
-			virtueLabel.Text = SheetData.Virtue;
+			SheetData.Details.Virtue = newText;
+			virtueLabel.Text = SheetData.Details.Virtue;
 		}
 	}
 }

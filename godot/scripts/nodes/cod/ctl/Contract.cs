@@ -41,7 +41,7 @@ namespace OCSM.Nodes.CoD.CtL
 			public const string Wyrd2 = "%Wyrd2";
 		}
 		
-		public List<Pair> SeemingBenefits { get; set; } = new List<Pair>();
+		public List<Pair<string, string>> SeemingBenefits { get; set; } = new List<Pair<string, string>>();
 		
 		private MetadataManager metadataManager;
 		
@@ -329,7 +329,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void updateSeemingBenefits()
 		{
-			var benefits = new List<Pair>();
+			var benefits = new List<Pair<string, string>>();
 			var children = seemingBenefitsRow.GetChildren();
 			var lastIndex = children.Count - 1;
 			foreach(Node c in children)
@@ -345,7 +345,7 @@ namespace OCSM.Nodes.CoD.CtL
 					if(!children.IndexOf(c).Equals(lastIndex) && String.IsNullOrEmpty(seeming) && String.IsNullOrEmpty(benefit))
 						c.QueueFree();
 					else if(!String.IsNullOrEmpty(seeming) || !String.IsNullOrEmpty(benefit))
-						benefits.Add(new Pair() { Key = seeming, Value = benefit });
+						benefits.Add(new Pair<string, string>() { Key = seeming, Value = benefit });
 				}
 			}
 			

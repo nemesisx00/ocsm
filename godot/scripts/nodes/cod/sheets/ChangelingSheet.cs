@@ -34,9 +34,12 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		private MetadataManager metadataManager;
 		
+		private List<TrackSimple> attributes = new List<TrackSimple>();
+		private TrackSimple glamour;
 		private MeritList merits;
 		private RegaliaOptionButton regalia1;
 		private RegaliaOptionButton regalia2;
+		private List<TrackSimple> skills = new List<TrackSimple>();
 		
 		public override void _Ready()
 		{
@@ -45,25 +48,49 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(!(SheetData is Changeling))
 				SheetData = new Changeling();
 			
+			glamour = GetNode<TrackSimple>(NodePath.Glamour);
 			merits = GetNode<MeritList>(NodePath.Merits);
 			regalia1 = GetNode<RegaliaOptionButton>(NodePath.Regalia1);
 			regalia2 = GetNode<RegaliaOptionButton>(NodePath.Regalia2);
 			
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Clarity, changed_Clarity);
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Wyrd, changed_Wyrd);
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Glamour), SheetData.GlamourSpent, changed_Glamour);
+			SheetData.Attributes.ForEach(a => {
+				if(!String.IsNullOrEmpty(a.Name))
+					attributes.Add(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name));
+			});
 			
-			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Needle;
-			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Thread;
+			SheetData.Skills.ForEach(s => {
+				if(!String.IsNullOrEmpty(s.Name))
+					skills.Add(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name));
+			});
 			
-			InitCourtOptionButton(GetNode<CourtOptionButton>(NodePath.Court), SheetData.Court, changed_Court);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Advantages.Integrity, changed_Clarity);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Advantages.Power, changed_Wyrd);
+			InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour);
+			
+			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Details.Virtue;
+			GetNode<Label>(NodePath.ThreadLabel).Text = SheetData.Details.Vice;
+			
+			Court court = null;
+			Seeming seeming = null;
+			Kith kith = null;
+			if(metadataManager.Container is CoDChangelingContainer ccc)
+			{
+				if(ccc.Courts.Find(c => c.Name.Equals(SheetData.Details.Faction)) is Court c)
+					court = c;
+				if(ccc.Seemings.Find(s => s.Name.Equals(SheetData.Details.TypePrimary)) is Seeming s)
+					seeming = s;
+				if(ccc.Kiths.Find(k => k.Name.Equals(SheetData.Details.TypeSecondary)) is Kith k)
+					kith = k;
+			}
+			
+			InitCourtOptionButton(GetNode<CourtOptionButton>(NodePath.Court), court, changed_Court);
 			InitEntryList(GetNode<EntryList>(NodePath.Frailties), SheetData.Frailties, changed_Frailties);
-			InitKithOptionButton(GetNode<KithOptionButton>(NodePath.Kith), SheetData.Kith, changed_Kith);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Needle), SheetData.Needle, changed_Needle);
-			InitRegaliaOptionButton(regalia1, SheetData.FavoredRegalia.Count > 0 ? SheetData.FavoredRegalia[0] : null, changed_FavoredRegalia);
-			InitRegaliaOptionButton(regalia2, SheetData.FavoredRegalia.Count > 1 ? SheetData.FavoredRegalia[1] : null, changed_FavoredRegalia);
-			InitSeemingOptionButton(GetNode<SeemingOptionButton>(NodePath.Seeming), SheetData.Seeming, changed_Seeming);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Thread), SheetData.Thread, changed_Thread);
+			InitKithOptionButton(GetNode<KithOptionButton>(NodePath.Kith), kith, changed_Kith);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Needle), SheetData.Details.Virtue, changed_Needle);
+			InitRegaliaOptionButton(regalia1, SheetData.FavoredRegalia.Key, changed_FavoredRegalia);
+			InitRegaliaOptionButton(regalia2, SheetData.FavoredRegalia.Value, changed_FavoredRegalia);
+			InitSeemingOptionButton(GetNode<SeemingOptionButton>(NodePath.Seeming), seeming, changed_Seeming);
+			InitLineEdit(GetNode<LineEdit>(NodePath.Thread), SheetData.Details.Vice, changed_Thread);
 			InitEntryList(GetNode<EntryList>(NodePath.Touchstones), SheetData.Touchstones, changed_Touchstones);
 			
 			InitContractsList(GetNode<ContractsList>(NodePath.ContractsList), SheetData.Contracts, changed_Contracts);
@@ -153,53 +180,73 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		private void changed_Clarity(long value) { SheetData.Clarity = value; }
+		private void changed_Clarity(long value) { SheetData.Advantages.Integrity = value; }
 		private void changed_Contracts(Transport<List<OCSM.CoD.CtL.Contract>> transport) { SheetData.Contracts = transport.Value; }
 		
 		private void changed_Court(long index)
 		{
+			var name = String.Empty;
 			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Courts[(int)index - 1] is Court court)
-				SheetData.Court = court;
-			else
-				SheetData.Court = null;
+				name = court.Name;
+			
+			SheetData.Details.Faction = name;
 		}
 		
 		private void changed_Frailties(Transport<List<string>> transport) { SheetData.Frailties = transport.Value; }
-		private void changed_Glamour(long value) { SheetData.GlamourSpent = value; }
+		private void changed_Glamour(long value) { SheetData.Advantages.ResourceSpent = value; }
 		
 		private void changed_Kith(long index)
 		{
+			var name = String.Empty;
 			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Kiths[(int)index - 1] is Kith kith)
-				SheetData.Kith = kith;
-			else
-				SheetData.Kith = null;
+				name = kith.Name;
+			
+			SheetData.Details.TypeSecondary = name;
 		}
 		
-		private void changed_Needle(string value) { SheetData.Needle = value; }
+		private void changed_Needle(string value) { SheetData.Details.Virtue = value; }
 		
 		private void changed_FavoredRegalia(long item)
 		{
-			SheetData.FavoredRegalia = new List<Regalia>(2);
+			var pair = new Pair<Regalia, Regalia>();
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				if(regalia1.Selected > 0 && ccc.Regalias[regalia1.Selected - 1] is Regalia r1)
-					SheetData.FavoredRegalia.Add(r1);
+					pair.Key = r1;
 				
 				if(regalia2.Selected > 0 && ccc.Regalias[regalia2.Selected - 1] is Regalia r2)
-					SheetData.FavoredRegalia.Add(r2);
+					pair.Value = r2;
 			}
+			
+			SheetData.FavoredRegalia = pair;
 		}
 		
 		private void changed_Seeming(long index)
 		{
+			var name = String.Empty;
 			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Seemings[(int)index - 1] is Seeming seeming)
-				SheetData.Seeming = seeming;
-			else
-				SheetData.Seeming = null;
+				name = seeming.Name;
+			
+			SheetData.Details.TypePrimary = name;
 		}
 		
-		private void changed_Thread(string value) { SheetData.Thread = value; }
+		private void changed_Thread(string value) { SheetData.Details.Vice = value; }
 		private void changed_Touchstones(Transport<List<string>> transport) { SheetData.Touchstones = transport.Value; }
-		private void changed_Wyrd(long value) { SheetData.Wyrd = value; }
+		private void changed_Wyrd(long value)
+		{
+			SheetData.Advantages.Power = value;
+			if(Changeling.WyrdGlamour.ContainsKey(value))
+			{
+				SheetData.Advantages.ResourceMax = Changeling.WyrdGlamour[value];
+				glamour.updateMax(SheetData.Advantages.ResourceMax);
+			}
+			
+			var dotMax = AttributeMax;
+			if(SheetData.Advantages.Power > 5)
+				dotMax = SheetData.Advantages.Power;
+			
+			attributes.ForEach(n => n.updateMax(dotMax));
+			skills.ForEach(n => n.updateMax(dotMax));
+		}
 	}
 }

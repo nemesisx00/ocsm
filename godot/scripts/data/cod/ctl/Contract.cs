@@ -22,7 +22,7 @@ namespace OCSM.CoD.CtL
 		public string RollSuccessExceptional { get; set; }
 		public string RollFailure { get; set; }
 		public string RollFailureDramatic { get; set; }
-		public List<Pair> SeemingBenefits { get; set; }
+		public List<Pair<string, string>> SeemingBenefits { get; set; }
 		public Skill Skill { get; set; }
 		
 		[JsonIgnore]
@@ -64,7 +64,7 @@ namespace OCSM.CoD.CtL
 			RollSuccessExceptional = String.Empty;
 			RollFailure = String.Empty;
 			RollFailureDramatic = String.Empty;
-			SeemingBenefits = new List<Pair>();
+			SeemingBenefits = new List<Pair<string, string>>();
 			Skill = null;
 		}
 		

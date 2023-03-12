@@ -9,9 +9,9 @@ namespace OCSM.Nodes.CoD
 	{
 		
 		[Signal]
-		public delegate void ValueChangedEventHandler(Transport<List<Pair>> values);
+		public delegate void ValueChangedEventHandler(Transport<List<Pair<string, string>>> values);
 		
-		public List<Pair> Values { get; set; } = new List<Pair>();
+		public List<Pair<string, string>> Values { get; set; } = new List<Pair<string, string>>();
 		
 		public override void _Ready()
 		{
@@ -40,7 +40,7 @@ namespace OCSM.Nodes.CoD
 		
 		private void updateValues()
 		{
-			var values = new List<Pair>();
+			var values = new List<Pair<string, string>>();
 			var children = GetChildren();
 			foreach(HBoxContainer row in children)
 			{
@@ -52,7 +52,7 @@ namespace OCSM.Nodes.CoD
 					row.QueueFree();
 				else
 				{
-					var sp = new Pair();
+					var sp = new Pair<string, string>();
 					if(skill is Skill)
 						sp.Key = skill.Name;
 					if(!String.IsNullOrEmpty(value))
@@ -63,7 +63,7 @@ namespace OCSM.Nodes.CoD
 				}
 			}
 			
-			EmitSignal(nameof(ValueChanged), new Transport<List<Pair>>(values));
+			EmitSignal(nameof(ValueChanged), new Transport<List<Pair<string, string>>>(values));
 			
 			if(children.Count <= values.Count)
 			{
