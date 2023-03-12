@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using OCSM.DnD.Fifth;
 
 namespace OCSM.Nodes.DnD.Fifth
@@ -11,12 +13,10 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		protected override void refreshMetadata()
 		{
-			var index = Selected;
-			
-			Clear();
-			NumericStatNames.asList().ForEach(label => AddItem(label));
-			
-			Selected = index;
+			replaceItems(Enum.GetValues<NumericStat>()
+				.Where(ns => !String.IsNullOrEmpty(ns.GetLabel()))
+				.Select(ns => ns.GetLabel())
+				.ToList());
 		}
 	}
 }

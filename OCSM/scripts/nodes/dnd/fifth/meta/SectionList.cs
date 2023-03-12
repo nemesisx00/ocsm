@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using OCSM.DnD.Fifth;
 
@@ -24,11 +25,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				c.QueueFree();
 			}
 			
-			foreach(var v in Values)
-			{
-				if(v is FeatureSection)
-					addInput(v);
-			}
+			Values.Where(v => v is FeatureSection)
+				.ToList()
+				.ForEach(v => addInput(v));
 			
 			addInput();
 		}

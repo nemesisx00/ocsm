@@ -13,10 +13,8 @@ namespace OCSM.Nodes.CoD
 			if(emptyOption)
 				AddItem("");
 			
-			foreach(var skill in Skill.asList())
-			{
-				AddItem(skill.Name);
-			}
+			Skill.asList()
+				.ForEach(s => AddItem(s.Name));
 		}
 	}
 }

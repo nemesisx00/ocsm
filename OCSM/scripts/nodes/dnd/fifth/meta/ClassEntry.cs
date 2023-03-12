@@ -1,4 +1,4 @@
-using Godot;
+using System;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
 
@@ -15,7 +15,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
 				{
 					loadEntry(clazz);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -26,11 +26,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				var optionButton = GetNode<ClassOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var c in dfc.Classes)
-				{
-					optionButton.AddItem(c.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				dfc.Classes.ForEach(c => optionButton.AddItem(c.Name));
 			}
 		}
 	}

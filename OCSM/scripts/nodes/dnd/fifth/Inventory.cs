@@ -46,21 +46,8 @@ namespace OCSM.Nodes.DnD.Fifth
 				c.QueueFree();
 			}
 			
-			var itemScene = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.InventoryItem);
-			foreach(Item i in Items)
-			{
-				var instance = itemScene.Instantiate<InventoryItem>();
-				instance.Item = i;
-				instance.Strength = Strength;
-				instance.Dexterity = Dexterity;
-				instance.Equipped += itemEquipped;
-				
-				itemList.AddChild(instance);
-				instance.refresh();
-				instance.Visible = true;
-			}
-			
-			//Dynamically update rect.min_x for everything here, based on largest values
+			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.InventoryItem);
+			Items.ForEach(i => instantiateItem(i, resource));
 		}
 		
 		private void addItemHandler()
@@ -68,15 +55,29 @@ namespace OCSM.Nodes.DnD.Fifth
 			var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			if(metadataManager.Container is DnDFifthContainer dfc)
 			{
-				if(options.Selected > 0 && dfc.AllItems.Find(i => i.Name.Equals(options.GetItemText(options.Selected))) is Item item)
+				var itemName = options.GetSelectedItemText();
+				if(dfc.AllItems.Find(i => i.Name.Equals(itemName)) is Item item)
 				{
 					Items.Add(item);
 					EmitSignal(nameof(ItemsChanged), new Transport<List<Item>>(Items));
 					
 					regenerateItems();
 				}
-				options.Selected = 0;
+				options.Deselect();
 			}
+		}
+		
+		private void instantiateItem(Item item, PackedScene resource)
+		{
+			var instance = resource.Instantiate<InventoryItem>();
+			instance.Item = item;
+			instance.Strength = Strength;
+			instance.Dexterity = Dexterity;
+			instance.Equipped += itemEquipped;
+			
+			itemList.AddChild(instance);
+			instance.refresh();
+			instance.Visible = true;
 		}
 		
 		private void itemEquipped(Transport<Item> transport)

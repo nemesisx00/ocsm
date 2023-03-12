@@ -1,18 +1,12 @@
-using Godot;
+using System.Linq;
+using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public partial class ContractRegaliaOptionButton : OptionButton
+	public partial class ContractRegaliaOptionButton : CustomOption
 	{
-		[Export]
-		public bool emptyOption = true;
-		[Export]
-		private bool includeNonRegalia = false;
-		
-		private MetadataManager metadataManager;
-		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
@@ -22,22 +16,15 @@ namespace OCSM.Nodes.CoD.CtL
 			refreshMetadata();
 		}
 		
-		private void refreshMetadata()
+		protected override void refreshMetadata()
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				var index = Selected;
-				
-				Clear();
-				
-				if(emptyOption)
-					AddItem("");
-				
-				ccc.Regalias.ForEach(r => AddItem(r.Name));
-				ccc.Courts.ForEach(c => AddItem(c.Name));
-				AddItem("Goblin");
-				
-				Selected = index;
+				var list = ccc.Regalias.Select(r => r.Name)
+					.Union(ccc.Courts.Select(c => c.Name))
+					.ToList();
+				list.Add(ContractRegalia.Goblin.Name);
+				replaceItems(list);
 			}
 		}
 	}

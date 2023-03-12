@@ -56,33 +56,23 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			contractInput.clearInputs();
 		}
 		
-		private void doSave()
-		{
-			var data = GetNode<Contract>(NodePath.ContractInput).getData();
-			if(!String.IsNullOrEmpty(data.Name))
-			{
-				EmitSignal(nameof(SaveClicked));
-				clearInputs();
-			}
-			//TODO: Display error message if name is empty
-		}
-		
-		private void handleDelete()
-		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
-			var instance = resource.Instantiate<ConfirmDeleteEntry>();
-			instance.EntryTypeName = "Contract";
-			GetTree().CurrentScene.AddChild(instance);
-			instance.Confirmed += doDelete;
-			instance.PopupCentered();
-		}
-		
 		private void doDelete()
 		{
 			var data = GetNode<Contract>(NodePath.ContractInput).getData();
 			if(!String.IsNullOrEmpty(data.Name))
 			{
 				EmitSignal(nameof(DeleteConfirmed), data.Name);
+				clearInputs();
+			}
+			//TODO: Display error message if name is empty
+		}
+		
+		private void doSave()
+		{
+			var data = GetNode<Contract>(NodePath.ContractInput).getData();
+			if(!String.IsNullOrEmpty(data.Name))
+			{
+				EmitSignal(nameof(SaveClicked));
 				clearInputs();
 			}
 			//TODO: Display error message if name is empty
@@ -100,9 +90,45 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is OCSM.CoD.CtL.Contract contract)
 				{
 					loadContract(contract);
-					optionButton.Selected = 0;
+					optionButton.Deselect();
 				}
 			}
+		}
+		
+		private string generateEntryName(OCSM.CoD.CtL.Contract contract)
+		{
+			var ct = String.Empty;
+			var r = String.Empty;
+			
+			if(String.IsNullOrEmpty(r) && contract.Regalia is ContractRegalia)
+				r = contract.Regalia.Name;
+			
+			if(contract.ContractType is ContractType contractType)
+			{
+				ct = contractType.Name;
+				if(contractType.Name.Equals(ContractType.Goblin))
+					r = String.Empty;
+			}
+			
+			var itemName = contract.Name;
+			if(!String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
+				itemName = String.Format(ContractNameFormatTwo, contract.Name, ct, r);
+			if(!String.IsNullOrEmpty(ct) && String.IsNullOrEmpty(r))
+				itemName = String.Format(ContractNameFormatOne, contract.Name, ct);
+			if(String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
+				itemName = String.Format(ContractNameFormatOne, contract.Name, r);
+			
+			return itemName;
+		}
+		
+		private void handleDelete()
+		{
+			var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+			var instance = resource.Instantiate<ConfirmDeleteEntry>();
+			instance.EntryTypeName = "Contract";
+			GetTree().CurrentScene.AddChild(instance);
+			instance.Confirmed += doDelete;
+			instance.PopupCentered();
 		}
 		
 		private void refreshMetadata()
@@ -111,32 +137,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var c in ccc.Contracts)
-				{
-					var ct = String.Empty;
-					var r = String.Empty;
-					
-					if(String.IsNullOrEmpty(r) && c.Regalia is ContractRegalia)
-						r = c.Regalia.Name;
-					
-					if(c.ContractType is ContractType)
-					{
-						ct = c.ContractType.Name;
-						if(c.ContractType.Name.Equals("Goblin"))
-							r = String.Empty;
-					}
-					
-					var itemName = c.Name;
-					if(!String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
-						itemName = String.Format(ContractNameFormatTwo, c.Name, ct, r);
-					if(!String.IsNullOrEmpty(ct) && String.IsNullOrEmpty(r))
-						itemName = String.Format(ContractNameFormatOne, c.Name, ct);
-					if(String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
-						itemName = String.Format(ContractNameFormatOne, c.Name, r);
-					
-					optionButton.AddItem(itemName);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.Contracts.ForEach(c => optionButton.AddItem(generateEntryName(c)));
 			}
 		}
 	}

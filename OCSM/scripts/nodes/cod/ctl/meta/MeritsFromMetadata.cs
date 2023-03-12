@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Autoload;
 
@@ -34,11 +35,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.MeritsName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var m in ccc.Merits)
-				{
-					optionButton.AddItem(m.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.Merits.ForEach(m => optionButton.AddItem(m.Name));
 			}
 		}
 		
@@ -48,7 +46,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var node = GetNode<OptionButton>(NodePath.MeritsName);
 				EmitSignal(nameof(AddMerit), node.GetItemText((int)index));
-				node.Selected = 0;
+				node.Deselect();
 			}
 		}
 	}

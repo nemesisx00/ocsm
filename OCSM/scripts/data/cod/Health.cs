@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 using OCSM.API;
 using OCSM.Nodes;
@@ -68,19 +69,18 @@ namespace OCSM.CoD
 		
 		public void fromTrackComplex(Dictionary<string, long> values)
 		{
-			foreach(var key in values.Keys)
-			{
-				setValue(key, values[key]);
-			}
+			values.ToList()
+				.ForEach(pair => setValue(pair.Key, pair.Value));
 		}
 		
 		public Dictionary<string, long> toTrackComplex()
 		{
-			var dict = new Dictionary<string, long>();
-			dict.Add(StatefulButton.State.One, Bashing);
-			dict.Add(StatefulButton.State.Two, Lethal);
-			dict.Add(StatefulButton.State.Three, Aggravated);
-			return dict;
+			return new Dictionary<string, long>()
+			{
+				{ StatefulButton.State.One, Bashing },
+				{ StatefulButton.State.Two, Lethal },
+				{ StatefulButton.State.Three, Aggravated }
+			};
 		}
 	}
 }

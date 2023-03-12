@@ -1,4 +1,4 @@
-using Godot;
+using System;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
 
@@ -15,7 +15,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
 				{
 					loadEntry(race);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -26,11 +26,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				var optionButton = GetNode<RaceOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var r in dfc.Races)
-				{
-					optionButton.AddItem(r.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				dfc.Races.ForEach(r => optionButton.AddItem(r.Name));
 			}
 		}
 	}

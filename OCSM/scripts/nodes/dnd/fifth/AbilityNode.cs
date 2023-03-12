@@ -72,19 +72,21 @@ namespace OCSM.Nodes.DnD.Fifth
 			if(Ability is Ability)
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Skill);
-				foreach(var skill in Ability.Skills)
-				{
-					var instance = resource.Instantiate<Skill>();
-					instance.AbilityModifier = Ability.Modifier;
-					instance.ProficiencyBonus = ProficiencyBonus;
-					instance.Label = skill.Name;
-					instance.Name = skill.Name;
-					instance.trackAbility(this);
-					instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
-					skillsContainer.AddChild(instance);
-					instance.setProficiency(skill.Proficient);
-				}
+				Ability.Skills.ForEach(s => instantiateSkill(s, resource));
 			}
+		}
+		
+		private void instantiateSkill(OCSM.DnD.Fifth.Skill skill, PackedScene resource)
+		{
+			var instance = resource.Instantiate<Skill>();
+			instance.AbilityModifier = Ability.Modifier;
+			instance.ProficiencyBonus = ProficiencyBonus;
+			instance.Label = skill.Name;
+			instance.Name = skill.Name;
+			instance.trackAbility(this);
+			instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
+			skillsContainer.AddChild(instance);
+			instance.setProficiency(skill.Proficient);
 		}
 		
 		private void proficiencyChanged(string currentState, OCSM.DnD.Fifth.Skill boundSkill)

@@ -1,4 +1,6 @@
 using Godot;
+using System;
+using System.Collections.Generic;
 using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes
@@ -7,6 +9,9 @@ namespace OCSM.Nodes
 	{
 		[Signal]
 		public delegate void ItemsChangedEventHandler();
+		
+		[Export]
+		public bool EmptyOption { get; protected set; } = false;
 		
 		protected MetadataManager metadataManager;
 		
@@ -29,6 +34,16 @@ namespace OCSM.Nodes
 					break;
 				}
 			}
+		}
+		
+		protected void replaceItems(List<string> items)
+		{
+			var index = Selected;
+			Clear();
+			if(EmptyOption)
+				AddItem(String.Empty);
+			items.ForEach(i => AddItem(i));
+			Selected = index;
 		}
 		
 		protected virtual void refreshMetadata() { }

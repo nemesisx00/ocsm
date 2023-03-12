@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace OCSM.Nodes.CoD
@@ -23,11 +24,8 @@ namespace OCSM.Nodes.CoD
 				c.QueueFree();
 			}
 			
-			foreach(var key in Values.Keys)
-			{
-				if(!String.IsNullOrEmpty(key))
-					addInput(key, Values[key]);
-			}
+			Values.ToList()
+				.ForEach(pair => addInput(pair.Key, pair.Value));
 			
 			addInput();
 		}

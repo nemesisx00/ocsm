@@ -51,10 +51,10 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			Value = numericBonus;
 			
-			abilityInput.Selected = Ability.Names.asList().IndexOf(Value.AbilityName) + 1;
+			abilityInput.SelectItemByText(Value.AbilityName);
 			methodInput.Selected = Value.Add ? 1 : 0;
 			nameInput.Text = Value.Name;
-			typeInput.Selected = (int)Value.Type;
+			typeInput.SelectItemByText(Value.Type.GetLabel());
 			valueInput.Value = Value.Value;
 			
 			toggleAbilityNodes();
@@ -103,7 +103,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			if(!Value.Type.Equals(NumericStat.AbilityScore))
 			{
 				Value.AbilityName = String.Empty;
-				abilityInput.Selected = 0;
+				abilityInput.Deselect();
 			}
 			toggleAbilityNodes();
 			doEmitSignal();

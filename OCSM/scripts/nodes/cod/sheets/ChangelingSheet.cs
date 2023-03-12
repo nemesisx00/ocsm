@@ -1,6 +1,7 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Godot;
 using OCSM.CoD;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
@@ -128,12 +129,8 @@ namespace OCSM.Nodes.CoD.Sheets
 		{
 			if(node is CourtOptionButton)
 			{
-				if(initialValue is Court && metadataManager.Container is CoDChangelingContainer ccc)
-				{
-					var index = ccc.Courts.FindIndex(c => c.Equals(initialValue)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Court)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -142,12 +139,8 @@ namespace OCSM.Nodes.CoD.Sheets
 		{
 			if(node is KithOptionButton)
 			{
-				if(initialValue is Kith && metadataManager.Container is CoDChangelingContainer ccc)
-				{
-					var index = ccc.Kiths.FindIndex(k => k.Equals(initialValue)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Kith)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -156,12 +149,8 @@ namespace OCSM.Nodes.CoD.Sheets
 		{
 			if(node is RegaliaOptionButton)
 			{
-				if(initialValue is Regalia && metadataManager.Container is CoDChangelingContainer ccc)
-				{
-					var index = ccc.Regalias.FindIndex(r => r.Equals(initialValue)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Regalia)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -170,12 +159,8 @@ namespace OCSM.Nodes.CoD.Sheets
 		{
 			if(node is SeemingOptionButton)
 			{
-				if(initialValue is Seeming && metadataManager.Container is CoDChangelingContainer ccc)
-				{
-					var index = ccc.Seemings.FindIndex(s => s.Equals(initialValue)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Seeming)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -224,11 +209,12 @@ namespace OCSM.Nodes.CoD.Sheets
 			var pair = new Pair<Regalia, Regalia>();
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				if(regalia1.Selected > 0 && ccc.Regalias[regalia1.Selected - 1] is Regalia r1)
-					pair.Key = r1;
-				
-				if(regalia2.Selected > 0 && ccc.Regalias[regalia2.Selected - 1] is Regalia r2)
-					pair.Value = r2;
+				var r1 = regalia1.GetSelectedItemText();
+				var r2 = regalia2.GetSelectedItemText();
+				pair.Key = ccc.Regalias.Where(r => r.Name.Equals(r1))
+					.FirstOrDefault();
+				pair.Value = ccc.Regalias.Where(r => r.Name.Equals(r2))
+					.FirstOrDefault();
 			}
 			
 			SheetData.FavoredRegalia = pair;

@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Meta;
@@ -16,7 +17,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 				{
 					loadEntry(court);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -27,11 +28,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var c in ccc.Courts)
-				{
-					optionButton.AddItem(c.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.Courts.ForEach(c => optionButton.AddItem(c.Name));
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-using Godot;
+using System;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
 
@@ -15,7 +15,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
 				{
 					loadEntry(background);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -26,11 +26,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			{
 				var optionButton = GetNode<BackgroundOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var b in dfc.Backgrounds)
-				{
-					optionButton.AddItem(b.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				dfc.Backgrounds.ForEach(b => optionButton.AddItem(b.Name));
 			}
 		}
 	}

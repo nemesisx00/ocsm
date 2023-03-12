@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace OCSM.DnD.Fifth.Inventory
@@ -55,17 +56,16 @@ namespace OCSM.DnD.Fifth.Inventory
 		
 		public static string FormatProperties(List<WeaponProperty> properties)
 		{
-			var str = "";
+			var str = new StringBuilder();
 			
 			properties.Sort();
-			foreach(var prop in properties)
-			{
+			properties.ForEach(prop => {
 				if(str.Length > 0)
-					str += ", ";
-				str += prop.GetLabel();
-			}
+					str.Append(", ");
+				str.Append(prop.GetLabel());
+			});
 			
-			return str;
+			return str.ToString();
 		}
 		
 		public Dictionary<DamageDie, int> DamageDice { get; set; }

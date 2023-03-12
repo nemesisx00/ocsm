@@ -36,6 +36,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 script = ExtResource("3")
+EmptyOption = true
 
 [node name="AbilityLabel" type="Label" parent="Row"]
 unique_name_in_owner = true

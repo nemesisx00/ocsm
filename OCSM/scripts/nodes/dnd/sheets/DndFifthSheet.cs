@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OCSM.DnD.Fifth;
 using OCSM.Nodes.Autoload;
 using OCSM.Nodes.DnD.Fifth;
@@ -101,10 +102,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			InitTextEdit(bonds, SheetData.Bonds, changed_Bonds);
 			InitTextEdit(flaws, SheetData.Flaws, changed_Flaws);
 			
-			foreach(var ability in SheetData.Abilities)
-			{
-				InitAbilityNode(GetNode<AbilityNode>("%" + ability.Name), ability, changed_Ability);
-			}
+			SheetData.Abilities.ForEach(a => InitAbilityNode(GetNode<AbilityNode>("%" + a.Name), a, changed_Ability));
 			
 			InitInventory(inventory, SheetData.Inventory, changed_Inventory);
 			
@@ -131,12 +129,8 @@ namespace OCSM.Nodes.DnD.Sheets
 		{
 			if(node is BackgroundOptionsButton)
 			{
-				if(initialValue is Background && metadataManager.Container is DnDFifthContainer dfc)
-				{
-					var index = dfc.Backgrounds.FindIndex(b => b.Name.Equals(initialValue.Name)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Background)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -145,12 +139,8 @@ namespace OCSM.Nodes.DnD.Sheets
 		{
 			if(node is ClassOptionsButton)
 			{
-				if(initialValue is Class && metadataManager.Container is DnDFifthContainer dfc)
-				{
-					var index = dfc.Classes.FindIndex(c => c.Name.Equals(initialValue.Name)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Class)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -160,16 +150,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			if(node is DieOptionsButton)
 			{
 				if(initialValue is OCSM.DnD.Fifth.Die)
-				{
-					for(var i = 0; i < node.ItemCount; i++)
-					{
-						if(node.GetItemText(i).Contains(initialValue.Sides.ToString()))
-						{
-							node.Selected = i;
-							break;
-						}
-					}
-				}
+					node.SelectItemByText(initialValue.ToString());
 				node.ItemSelected += handler;
 			}
 		}
@@ -186,14 +167,12 @@ namespace OCSM.Nodes.DnD.Sheets
 				if(initialValue is List<Item>)
 					node.Items = initialValue;
 				//validate each item before adding
+				
 				/*
-				foreach(var item in items)
-				{
-					if(dfc.Items.Find(i => i.Name.Equals(item.Name)) is Item it)
-					{
-						i.Items.Add(it);
-					}
-				}
+				if(metadataManager.Container is DnDFifthContainer dfc)
+					dfc.Items.Where(item => items.Find(i => i.Name.Equals(item.Name)).Any())
+						.ToList()
+						.ForEach(item => node.Items.Add(item));
 				*/
 				node.regenerateItems();
 				node.ItemsChanged += handler;
@@ -204,12 +183,8 @@ namespace OCSM.Nodes.DnD.Sheets
 		{
 			if(node is RaceOptionsButton)
 			{
-				if(initialValue is Race && metadataManager.Container is DnDFifthContainer dfc)
-				{
-					var index = dfc.Races.FindIndex(r => r.Name.Equals(initialValue.Name)) + 1;
-					if(index > 0)
-						node.Selected = index;
-				}
+				if(initialValue is Race)
+					node.SelectItemByText(initialValue.Name);
 				node.ItemSelected += handler;
 			}
 		}
@@ -245,16 +220,15 @@ namespace OCSM.Nodes.DnD.Sheets
 					ac += dexterity.Modifier;
 			}
 			
-			foreach(var feature in collectAllFeatures())
-			{
-				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.ArmorClass)))
-				{
-					if(!nb.Add)
-						ac = nb.Value;
-					else
-						ac += nb.Value;
-				}
-			}
+			collectAllFeatures().ForEach(f => {
+				f.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.ArmorClass))
+					.ForEach(nb => {
+						if(!nb.Add)
+							ac = nb.Value;
+						else
+							ac += nb.Value;
+					});
+			});
 			
 			return ac;
 		}
@@ -265,16 +239,15 @@ namespace OCSM.Nodes.DnD.Sheets
 			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
 				bonus += dexterity.Modifier;
 			
-			foreach(var feature in collectAllFeatures())
-			{
-				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Initiative)))
-				{
-					if(!nb.Add)
-						bonus = nb.Value;
-					else
-						bonus += nb.Value;
-				}
-			}
+			collectAllFeatures().ForEach(f => {
+				f.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Initiative))
+					.ForEach(nb => {
+						if(!nb.Add)
+							bonus = nb.Value;
+						else
+							bonus += nb.Value;
+					});
+			});
 			
 			return bonus;
 		}
@@ -283,16 +256,15 @@ namespace OCSM.Nodes.DnD.Sheets
 		{
 			var speed = 0;
 			
-			foreach(var feature in collectAllFeatures())
-			{
-				foreach(var nb in feature.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Speed)))
-				{
-					if(!nb.Add)
-						speed = nb.Value;
-					else
-						speed += nb.Value;
-				}
-			}
+			collectAllFeatures().ForEach(f => {
+				f.NumericBonuses.FindAll(nb => nb.Type.Equals(NumericStat.Speed))
+					.ForEach(nb => {
+						if(!nb.Add)
+							speed = nb.Value;
+						else
+							speed += nb.Value;
+					});
+			});
 			
 			return speed;
 		}
@@ -347,7 +319,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			else
 			{
 				SheetData.BardicInspirationDie = null;
-				bardicInspirationDie.Selected = 0;
+				bardicInspirationDie.Deselect();
 			}
 		}
 		
@@ -412,26 +384,22 @@ namespace OCSM.Nodes.DnD.Sheets
 				child.QueueFree();
 			
 			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
-			if(SheetData.Background is Background background && background.Features.Count > 0)
-				renderFeatures(backgroundFeatures, background.Features, resource);
-			if(SheetData.Race is Race race && race.Features.Count > 0)
-				renderFeatures(raceFeatures, race.Features, resource);
+			if(SheetData.Background is Background background && background.Features.Any())
+				background.Features.ForEach(f => renderFeature(backgroundFeatures, f, resource, f.Equals(background.Features.Last())));
+			if(SheetData.Race is Race race && race.Features.Any())
+				race.Features.ForEach(f => renderFeature(raceFeatures, f, resource, f.Equals(race.Features.Last())));
 			
 			updateCalculatedTraits();
 		}
 		
-		private void renderFeatures(Container node, List<OCSM.DnD.Fifth.Feature> features, PackedScene resource)
+		private void renderFeature(Container node, OCSM.DnD.Fifth.Feature feature, PackedScene resource, bool separator = false)
 		{
-			features.Sort();
-			foreach(var feature in features)
-			{
-				var instance = resource.Instantiate<OCSM.Nodes.DnD.Fifth.Feature>();
-				node.AddChild(instance);
-				instance.update(feature);
-				
-				if(features.IndexOf(feature) < features.Count - 1)
-					node.AddChild(new HSeparator());
-			}
+			var instance = resource.Instantiate<OCSM.Nodes.DnD.Fifth.Feature>();
+			node.AddChild(instance);
+			instance.update(feature);
+			
+			if(separator)
+				node.AddChild(new HSeparator());
 		}
 		
 		private void toggleBardicInspirationDie()

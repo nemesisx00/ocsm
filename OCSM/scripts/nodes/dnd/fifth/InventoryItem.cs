@@ -1,5 +1,7 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Inventory;
 
@@ -94,18 +96,20 @@ namespace OCSM.Nodes.DnD.Fifth
 		
 		private List<Node> generateDetails(ItemWeapon weapon)
 		{
-			var nodes = new List<Node>();
+			var damage = new StringBuilder();
+			weapon.DamageDice.ToList()
+				.ForEach(d => {
+					if(damage.Length > 0)
+						damage.Append(" + ");
+					damage.Append(d.Key.ToString(d.Value));
+					damage.Append(" ");
+					damage.Append(d.Key.Type.GetLabel());
+				});
 			
-			var damage = "";
-			foreach(var entry in weapon.DamageDice)
+			return new List<Node>()
 			{
-				if(damage.Length > 0)
-					damage += " + ";
-				damage += entry.Key.ToString(entry.Value) + " " + entry.Key.Type.GetLabel();
-			}
-			nodes.Add(NodeUtilities.createCenteredLabel(damage));
-			
-			return nodes;
+				NodeUtilities.createCenteredLabel(damage.ToString())
+			};
 		}
 	}
 }

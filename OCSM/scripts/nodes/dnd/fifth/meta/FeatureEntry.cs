@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 using OCSM.DnD.Fifth;
 using OCSM.DnD.Fifth.Meta;
@@ -101,7 +101,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				sectionsNode.refresh();
 				sourceNode.Text = Feature.Source;
 				textNode.Text = Feature.Text;
-				typeNode.Selected = FeatureType.asList().FindIndex(ft => ft.Equals(Feature.Type)) + 1;
+				typeNode.SelectItemByText(Feature.Type);
 			}
 			
 			toggleClassInput();
@@ -145,7 +145,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
 				{
 					loadEntry(feature);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -177,29 +177,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private void classChanged(long index) { Feature.ClassName = classNode.GetItemText((int)index); }
 		private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
 		private void nameChanged(string text) { Feature.Name = text; }
-		
-		private void numericBonusesChanged(Transport<List<NumericBonus>> transport)
-		{
-			var list = new List<NumericBonus>();
-			foreach(var nb in transport.Value)
-			{
-				list.Add(nb);
-			}
-			list.Sort();
-			Feature.NumericBonuses = list;
-		}
-		
+		private void numericBonusesChanged(Transport<List<NumericBonus>> transport) { Feature.NumericBonuses = transport.Value.OrderBy(nb => nb).ToList(); }
 		private void requiredLevelChanged(double value) { Feature.RequiredLevel = (int)value; }
-		
-		private void sectionsChanged(Transport<List<FeatureSection>> transport)
-		{
-			var list = new List<FeatureSection>();
-			foreach(var fs in transport.Value)
-			{
-				list.Add(fs);
-			}
-			Feature.Sections = list;
-		}
+		private void sectionsChanged(Transport<List<FeatureSection>> transport) { Feature.Sections = transport.Value; }
 		private void sourceChanged(string text) { Feature.Source = text; }
 		private void textChanged() { Feature.Text = textNode.Text; }
 		
@@ -208,7 +188,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			Feature.Type = typeNode.GetItemText((int)index);
 			
 			if(!Feature.Type.Equals(FeatureType.Class))
-				classNode.Selected = 0;
+				classNode.Deselect();
 			toggleClassInput();
 		}
 	}

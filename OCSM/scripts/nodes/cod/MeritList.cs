@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using OCSM.CoD;
 
@@ -24,11 +25,9 @@ namespace OCSM.Nodes.CoD
 				c.QueueFree();
 			}
 			
-			foreach(var merit in Values)
-			{
-				if(merit is Merit)
-					addInput(merit.Name, merit.Value);
-			}
+			Values.Where(m => m is Merit)
+				.ToList()
+				.ForEach(m => addInput(m.Name, m.Value));
 			
 			addInput();
 		}

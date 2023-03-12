@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Meta;
@@ -13,10 +14,10 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			var name = optionsButton.GetItemText((int)index);
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
-				if(ccc.Regalias.Find(c => c.Name.Equals(name)) is Regalia regalia)
+				if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
 				{
 					loadEntry(regalia);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -27,11 +28,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var c in ccc.Regalias)
-				{
-					optionButton.AddItem(c.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.Regalias.ForEach(r => optionButton.AddItem(r.Name));
 			}
 		}
 	}

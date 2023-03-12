@@ -34,11 +34,9 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 			
 			Values.Sort();
-			foreach(var v in Values)
-			{
-				if(v is OCSM.CoD.CtL.Contract)
-					addInput(v);
-			}
+			Values.Where(v => v is OCSM.CoD.CtL.Contract)
+				.ToList()
+				.ForEach(v => addInput(v));
 			
 			addInput();
 		}
@@ -79,28 +77,25 @@ namespace OCSM.Nodes.CoD.CtL
 			
 			if(value is OCSM.CoD.CtL.Contract)
 			{
-				var actionIndex = ActionOptionButton.GetActionIndex(value.Action);
-				if(actionIndex > -1)
-				{
-					instance.GetNode<ActionOptionButton>(Contract.NodePath.ActionInput).Selected = actionIndex;
-					instance.actionChanged(actionIndex);
-				}
+				var actionNode = instance.GetNode<ActionOptionButton>(Contract.NodePath.ActionInput);
+				actionNode.SelectItemByText(value.Action);
+				instance.actionChanged(actionNode.Selected);
 				
 				if(value.Attribute is OCSM.CoD.Attribute)
 				{
-					var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.Attribute)) + 1;
-					instance.GetNode<AttributeOptionButton>(Contract.NodePath.AttributeInput).Selected = index;
-					instance.attributeChanged(index);
+					var node = instance.GetNode<AttributeOptionButton>(Contract.NodePath.AttributeInput);
+					node.SelectItemByText(value.Attribute.Name);
+					instance.attributeChanged(node.Selected);
 				}
 				
 				if(value.AttributeResisted is OCSM.CoD.Attribute)
-					instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute2Input).Selected = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeResisted)) + 1;
+					instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute2Input).SelectItemByText(value.AttributeResisted.Name);
 				
 				if(value.AttributeContested is OCSM.CoD.Attribute)
 				{
-					var index = OCSM.CoD.Attribute.asList().FindIndex(a => a.Equals(value.AttributeContested)) + 1;
-					instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute3Input).Selected = index;
-					instance.contestedAttributeChanged(index);
+					var node = instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute3Input);
+					node.SelectItemByText(value.AttributeContested.Name);
+					instance.contestedAttributeChanged(node.Selected);
 				}
 				
 				if(!String.IsNullOrEmpty(value.Cost))
@@ -123,21 +118,14 @@ namespace OCSM.Nodes.CoD.CtL
 				}
 				
 				if(value.Skill is Skill)
-					instance.GetNode<SkillOptionButton>(Contract.NodePath.SkillInput).Selected = Skill.asList().IndexOf(value.Skill) + 1;
+					instance.GetNode<SkillOptionButton>(Contract.NodePath.SkillInput).SelectItemByText(value.Skill.Name);
 				
 				if(metadataManager.Container is CoDChangelingContainer ccc)
 				{
 					if(value.Regalia is ContractRegalia)
-					{
-						if(value.Regalia.Equals(ContractRegalia.Goblin))
-							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.Count + ccc.Courts.Count + 1;
-						else if(ccc.Regalias.Find(r => r.Name.Equals(value.Regalia.Name)) is Regalia r)
-							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.IndexOf(r) + 1;
-						else if(ccc.Courts.Find(c => c.Name.Equals(value.Regalia.Name)) is Court c)
-							instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).Selected = ccc.Regalias.Count + ccc.Courts.IndexOf(c) + 1;
-					}
+						instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).SelectItemByText(value.Regalia.Name);
 					if(value.ContractType is ContractType)
-						instance.GetNode<OptionButton>(Contract.NodePath.ContractTypeInput).Selected = ccc.ContractTypes.FindIndex(r => r.Equals(value.ContractType)) + 1;
+						instance.GetNode<OptionButton>(Contract.NodePath.ContractTypeInput).SelectItemByText(value.ContractType.Name);
 				}
 				
 				if(!String.IsNullOrEmpty(value.RollFailure))

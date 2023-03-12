@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Meta;
@@ -16,7 +17,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
 				{
 					loadEntry(contractType);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -27,11 +28,8 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var ct in ccc.ContractTypes)
-				{
-					optionButton.AddItem(ct.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.ContractTypes.ForEach(ct => optionButton.AddItem(ct.Name));
 			}
 		}
 	}

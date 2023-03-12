@@ -5,8 +5,6 @@ namespace OCSM.Nodes.DnD.Fifth
 {
 	public partial class DieOptionsButton : CustomOption
 	{
-		private const string DFormat = "d{0}";
-		
 		[Export]
 		public bool BardicInspiration { get; set; } = false;
 		[Export]
@@ -17,17 +15,17 @@ namespace OCSM.Nodes.DnD.Fifth
 			AddItem(String.Empty);
 			
 			if(!BardicInspiration)
-				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d4.Sides));
+				AddItem(OCSM.DnD.Fifth.Die.d4.ToString());
 			
-			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d6.Sides));
-			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d8.Sides));
-			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d10.Sides));
-			AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d12.Sides));
+			AddItem(OCSM.DnD.Fifth.Die.d6.ToString());
+			AddItem(OCSM.DnD.Fifth.Die.d8.ToString());
+			AddItem(OCSM.DnD.Fifth.Die.d10.ToString());
+			AddItem(OCSM.DnD.Fifth.Die.d12.ToString());
 			
 			if(!BardicInspiration && !DamageDie)
 			{
-				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d20.Sides));
-				AddItem(String.Format(DFormat, OCSM.DnD.Fifth.Die.d100.Sides));
+				AddItem(OCSM.DnD.Fifth.Die.d20.ToString());
+				AddItem(OCSM.DnD.Fifth.Die.d100.ToString());
 			}
 		}
 	}

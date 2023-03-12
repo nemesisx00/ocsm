@@ -1,13 +1,11 @@
 using Godot;
 using System;
+using System.Linq;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public partial class ActionOptionButton : OptionButton
+	public partial class ActionOptionButton : CustomOption
 	{
-		[Export]
-		public bool EmptyOption { get; private set; } = true;
-		
 		public enum Action
 		{
 			Reflexive = 1,
@@ -18,26 +16,17 @@ namespace OCSM.Nodes.CoD.CtL
 			Resisted
 		}
 		
-		public static int GetActionIndex(string action)
-		{
-			var index = 0;
-			Action value;
-			if(Enum.TryParse<Action>(action, true, out value))
-				index = (int)value;
-			return index;
-		}
-		
 		public override void _Ready()
 		{
-			if(EmptyOption)
-				AddItem("");
-			
-			AddItem("Reflexive");
-			AddItem("Instant");
-			AddItem("Extended");
-			AddItem("Simple");
-			AddItem("Contested");
-			AddItem("Resisted");
+			refreshMetadata();
+		}
+		
+		protected override void refreshMetadata()
+		{
+			replaceItems(Enum.GetValues<Action>()
+				.ToList()
+				.Select(a => Enum.GetName<Action>(a))
+				.ToList());
 		}
 	}
 }

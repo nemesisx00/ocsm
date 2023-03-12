@@ -19,9 +19,13 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected List<OCSM.DnD.Fifth.Feature> Features;
 		
+		protected Container featureContainer;
+		
 		public new void _Ready()
 		{
 			Features = new List<OCSM.DnD.Fifth.Feature>();
+			
+			featureContainer = GetNode<Container>(NodePath.FeaturesName);
 			
 			base._Ready();
 			GetNode<FeatureOptionsButton>(NodePath.ExistingFeaturesName).ItemSelected += featureSelected;
@@ -29,25 +33,26 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void renderFeatures()
 		{
-			var featureContainer = GetNode<Container>(NodePath.FeaturesName);
 			foreach(Node c in featureContainer.GetChildren())
 			{
 				c.QueueFree();
 			}
 			
 			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
-			foreach(var feature in Features)
-			{
-				var instance = resource.Instantiate<Feature>();
-				var button = new Button();
-				button.Text = "Remove";
-				button.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
-				button.Pressed += () => removeFeature(new Transport<OCSM.DnD.Fifth.Feature>(feature));
-				instance.AddChild(button);
-				featureContainer.AddChild(instance);
-				
-				instance.update(feature);
-			}
+			Features.ForEach(f => instantiateFeature(f, resource));
+		}
+		
+		protected void instantiateFeature(OCSM.DnD.Fifth.Feature feature, PackedScene resource)
+		{
+			var instance = resource.Instantiate<Feature>();
+			var button = new Button();
+			button.Text = "Remove";
+			button.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
+			button.Pressed += () => removeFeature(new Transport<OCSM.DnD.Fifth.Feature>(feature));
+			instance.AddChild(button);
+			featureContainer.AddChild(instance);
+			
+			instance.update(feature);
 		}
 		
 		protected void removeFeature(Transport<OCSM.DnD.Fifth.Feature> transport)
@@ -88,7 +93,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 					Features.Sort();
 					renderFeatures();
 				}
-				optionsButton.Selected = 0;
+				optionsButton.Deselect();
 			}
 		}
 		

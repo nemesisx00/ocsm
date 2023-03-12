@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 namespace OCSM.Nodes.DnD.Fifth
 {
@@ -51,17 +52,19 @@ namespace OCSM.Nodes.DnD.Fifth
 			descriptionNode.Text = feature.Description;
 			textNode.Text = feature.Text;
 			
-			if(feature.Sections.Count > 0)
+			if(feature.Sections.Any())
 			{
 				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
-				foreach(var section in feature.Sections)
-				{
-					var instance = resource.Instantiate<VBoxContainer>();
-					instance.GetChild<Label>(0).Text = section.Section;
-					instance.GetChild<RichTextLabel>(1).Text = section.Text;
-					sectionsNode.AddChild(instance);
-				}
+				feature.Sections.ForEach(s => instantiateSection(s, resource));
 			}
+		}
+		
+		private void instantiateSection(OCSM.DnD.Fifth.FeatureSection section, PackedScene resource)
+		{
+			var instance = resource.Instantiate<VBoxContainer>();
+			instance.GetChild<Label>(0).Text = section.Section;
+			instance.GetChild<RichTextLabel>(1).Text = section.Text;
+			sectionsNode.AddChild(instance);
 		}
 		
 		private void toggleSections()

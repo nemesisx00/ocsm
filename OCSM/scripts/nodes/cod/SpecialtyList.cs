@@ -25,12 +25,10 @@ namespace OCSM.Nodes.CoD
 				c.QueueFree();
 			}
 			
-			foreach(var specialty in Values)
-			{
-				var skill = Skill.byName(specialty.Key);
-				if(skill is Skill)
-					addInput(skill, specialty.Value);
-			}
+			Values.ForEach(s => {
+				if(Skill.byName(s.Key) is Skill skill)
+					addInput(skill, s.Value);
+			});
 			
 			addInput();
 		}
@@ -45,7 +43,7 @@ namespace OCSM.Nodes.CoD
 			foreach(HBoxContainer row in children)
 			{
 				var optButton = row.GetChild<OptionButton>(0);
-				var skill = Skill.byName(optButton.GetItemText(optButton.Selected));
+				var skill = Skill.byName(optButton.GetSelectedItemText());
 				var value = row.GetChild<LineEdit>(1).Text;
 				
 				if(children.IndexOf(row) != children.Count - 1 && !(skill is Skill) && String.IsNullOrEmpty(value))
@@ -82,7 +80,7 @@ namespace OCSM.Nodes.CoD
 			
 			if(skill is Skill && !String.IsNullOrEmpty(specialty))
 			{
-				option.Selected = Skill.asList().FindIndex(s => s.Equals(skill)) + 1;
+				option.SelectItemByText(skill.Name);
 				value.Text = specialty;
 			}
 			

@@ -79,17 +79,13 @@ namespace OCSM.Nodes.CoD.Sheets
 			InitLineEdit(GetNode<LineEdit>(NodePath.Player), SheetData.Player, changed_Player);
 			InitSpinBox(GetNode<SpinBox>(NodePath.Size), SheetData.Advantages.Size, changed_Size);
 			
-			foreach(var a in SheetData.Attributes)
-			{
-				if(!String.IsNullOrEmpty(a.Name))
-					InitTrackSimple(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name), a.Value, changed_Attribute);
-			}
+			SheetData.Attributes.Where(a => !String.IsNullOrEmpty(a.Name))
+				.ToList()
+				.ForEach(a => InitTrackSimple(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name), a.Value, changed_Attribute));
 			
-			foreach(var s in SheetData.Skills)
-			{
-				if(!String.IsNullOrEmpty(s.Name))
-					InitTrackSimple(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name), s.Value, changed_Skill);
-			}
+			SheetData.Skills.Where(s => !String.IsNullOrEmpty(s.Name))
+				.ToList()
+				.ForEach(s => InitTrackSimple(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name), s.Value, changed_Skill));
 			
 			InitSpecialtyList(GetNode<SpecialtyList>(NodePath.SkillSpecialties), SheetData.Specialties, changed_SkillSpecialty);
 			InitMeritList(GetNode<MeritList>(NodePath.Merits), SheetData.Merits, changed_Merits);

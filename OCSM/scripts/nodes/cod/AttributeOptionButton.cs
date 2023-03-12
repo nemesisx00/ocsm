@@ -11,12 +11,10 @@ namespace OCSM.Nodes.CoD
 		public override void _Ready()
 		{
 			if(emptyOption)
-				AddItem("");
+				AddItem(System.String.Empty);
 			
-			foreach(var attr in Attribute.asList())
-			{
-				AddItem(attr.Name);
-			}
+			Attribute.asList()
+				.ForEach(a => AddItem(a.Name));
 		}
 	}
 }

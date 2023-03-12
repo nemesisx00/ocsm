@@ -68,7 +68,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
 					loadEntry(armor);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -76,7 +76,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		public void loadEntry(ItemArmor entry)
 		{
 			GetNode<LineEdit>(NodePath.NameInput).Text = entry.Name;
-			GetNode<OptionButton>(NodePath.TypeInput).Selected = (int)entry.Type;
+			GetNode<OptionButton>(NodePath.TypeInput).SelectItemByText(entry.Type.GetLabel());
 			GetNode<SpinBox>(NodePath.ArmorClassInput).Value = entry.BaseArmorClass;
 			GetNode<SpinBox>(NodePath.CostInput).Value = entry.Cost;
 			GetNode<SpinBox>(NodePath.WeightInput).Value = entry.Weight;
@@ -107,7 +107,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		private void clearInputs()
 		{
 			GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
-			GetNode<OptionButton>(NodePath.TypeInput).Selected = 0;
+			GetNode<OptionButton>(NodePath.TypeInput).Deselect();
 			GetNode<SpinBox>(NodePath.ArmorClassInput).Value = 0;
 			GetNode<SpinBox>(NodePath.CostInput).Value = 0;
 			GetNode<SpinBox>(NodePath.WeightInput).Value = 0.0;

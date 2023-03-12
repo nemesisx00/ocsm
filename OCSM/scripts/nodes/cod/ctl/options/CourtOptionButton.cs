@@ -1,16 +1,11 @@
-using Godot;
+using System.Linq;
 using OCSM.CoD.CtL.Meta;
 using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public partial class CourtOptionButton : OptionButton
+	public partial class CourtOptionButton : CustomOption
 	{
-		[Export]
-		public bool emptyOption = true;
-		
-		private MetadataManager metadataManager;
-		
 		public override void _Ready()
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
@@ -20,24 +15,10 @@ namespace OCSM.Nodes.CoD.CtL
 			refreshMetadata();
 		}
 		
-		private void refreshMetadata()
+		protected override void refreshMetadata()
 		{
 			if(metadataManager.Container is CoDChangelingContainer ccc)
-			{
-				var index = Selected;
-				
-				Clear();
-				
-				if(emptyOption)
-					AddItem("");
-				
-				foreach(var court in ccc.Courts)
-				{
-					AddItem(court.Name);
-				}
-				
-				Selected = index;
-			}
+				replaceItems(ccc.Courts.Select(c => c.Name).ToList());
 		}
 	}
 }

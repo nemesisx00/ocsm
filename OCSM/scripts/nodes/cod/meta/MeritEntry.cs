@@ -60,7 +60,7 @@ namespace OCSM.Nodes.CoD.Meta
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 				{
 					loadMerit(merit);
-					optionsButton.Selected = 0;
+					optionsButton.Deselect();
 				}
 			}
 		}
@@ -71,11 +71,8 @@ namespace OCSM.Nodes.CoD.Meta
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
-				optionButton.AddItem("");
-				foreach(var m in ccc.Merits)
-				{
-					optionButton.AddItem(m.Name);
-				}
+				optionButton.AddItem(String.Empty);
+				ccc.Merits.ForEach(m => optionButton.AddItem(m.Name));
 			}
 		}
 	}
