@@ -5,6 +5,7 @@
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nemesisx00/ocsm?color=4cc61e" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/nemesisx00/ocsm" />
 	<!-- <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/nemesisx00/ocsm" /> -->
+	<img alt="Discord" src="https://img.shields.io/discord/1084182068965158912">
 </div>
 
 <p align="center">
