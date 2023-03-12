@@ -11,6 +11,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		where T: CodCore
 	{
 		protected const long AttributeMax = 5;
+		protected const long IntegrityMax = 10;
 		
 		protected class NodePath
 		{
@@ -67,8 +68,8 @@ namespace OCSM.Nodes.CoD.Sheets
 			InitTrackSimple(beats, SheetData.Beats, changed_Beats);
 			InitEntryList(GetNode<EntryList>(NodePath.Conditions), SheetData.Conditions, changed_Conditions);
 			InitSpinBox(experience, SheetData.Experience, changed_Experience);
-			InitTrackComplex(health, SheetData.Advantages.Health.toTrackComplex(), changed_Health);
-			InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower);
+			InitTrackComplex(health, SheetData.Advantages.Health.toTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
+			InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower, SheetData.Advantages.WillpowerMax);
 			
 			InitLineEdit(GetNode<LineEdit>(NodePath.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
 			InitLineEdit(GetNode<LineEdit>(NodePath.Concept), SheetData.Details.Concept, changed_Concept);

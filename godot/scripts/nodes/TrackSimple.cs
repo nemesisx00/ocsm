@@ -4,13 +4,15 @@ namespace OCSM.Nodes
 {
 	public partial class TrackSimple : GridContainer
 	{
+		public const long DefaultMax = 5;
+		
 		[Signal]
 		public delegate void NodeChangedEventHandler(TrackSimple node);
 		[Signal]
 		public delegate void ValueChangedEventHandler(long value);
 		
 		[Export]
-		public long Max { get; set; } = 5;
+		public long Max { get; set; } = DefaultMax;
 		[Export]
 		public long Value { get; set; } = 0;
 		[Export]

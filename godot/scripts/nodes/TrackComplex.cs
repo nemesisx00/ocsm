@@ -5,11 +5,13 @@ namespace OCSM.Nodes
 {
 	public partial class TrackComplex : GridContainer
 	{
+		public const long DefaultMax = 5;
+		
 		[Signal]
 		public delegate void ValueChangedEventHandler(Transport<Dictionary<string, long>> values);
 		
 		[Export]
-		public long Max { get; set; } = 5;
+		public long Max { get; set; } = DefaultMax;
 		
 		public Dictionary<string, long> Values
 		{

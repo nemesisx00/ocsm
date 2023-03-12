@@ -67,29 +67,32 @@ namespace OCSM.Nodes.Sheets
 			}
 		}
 		
-		protected void InitTrackComplex(TrackComplex node, Dictionary<string, long> initialValue, TrackComplex.ValueChangedEventHandler handler)
+		protected void InitTrackComplex(TrackComplex node, Dictionary<string, long> initialValue, TrackComplex.ValueChangedEventHandler handler, long initialMax = TrackComplex.DefaultMax)
 		{
 			if(node is TrackComplex)
 			{
+				node.updateMax(initialMax > 1 ? initialMax : TrackComplex.DefaultMax);
 				if(initialValue is Dictionary<string, long>)
 					node.Values = initialValue;
 				node.ValueChanged += handler;
 			}
 		}
 		
-		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.NodeChangedEventHandler handler)
+		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.NodeChangedEventHandler handler, long initialMax = TrackSimple.DefaultMax)
 		{
 			if(node is TrackSimple)
 			{
+				node.updateMax(initialMax > 1 ? initialMax : TrackSimple.DefaultMax);
 				node.updateValue(initialValue > 0 ? initialValue : 0);
 				node.NodeChanged += handler;
 			}
 		}
 		
-		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.ValueChangedEventHandler handler)
+		protected void InitTrackSimple(TrackSimple node, long initialValue, TrackSimple.ValueChangedEventHandler handler, long initialMax = TrackSimple.DefaultMax)
 		{
 			if(node is TrackSimple)
 			{
+				node.updateMax(initialMax > 1 ? initialMax : TrackSimple.DefaultMax);
 				node.updateValue(initialValue > 0 ? initialValue : 0);
 				node.ValueChanged += handler;
 			}

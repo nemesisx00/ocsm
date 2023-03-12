@@ -48,24 +48,18 @@ namespace OCSM.Nodes.CoD.Sheets
 			if(!(SheetData is Changeling))
 				SheetData = new Changeling();
 			
+			var dotMax = AttributeMax;
+			if(SheetData.Advantages.Power > 5)
+				dotMax = SheetData.Advantages.Power;
+			
 			glamour = GetNode<TrackSimple>(NodePath.Glamour);
 			merits = GetNode<MeritList>(NodePath.Merits);
 			regalia1 = GetNode<RegaliaOptionButton>(NodePath.Regalia1);
 			regalia2 = GetNode<RegaliaOptionButton>(NodePath.Regalia2);
 			
-			SheetData.Attributes.ForEach(a => {
-				if(!String.IsNullOrEmpty(a.Name))
-					attributes.Add(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name));
-			});
-			
-			SheetData.Skills.ForEach(s => {
-				if(!String.IsNullOrEmpty(s.Name))
-					skills.Add(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name));
-			});
-			
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Advantages.Integrity, changed_Clarity);
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Advantages.Power, changed_Wyrd);
-			InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Advantages.Integrity, changed_Clarity, IntegrityMax);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Advantages.Power, changed_Wyrd, IntegrityMax);
+			InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour, SheetData.Advantages.ResourceMax);
 			
 			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Details.Virtue;
 			GetNode<Label>(NodePath.ThreadLabel).Text = SheetData.Details.Vice;
@@ -98,6 +92,26 @@ namespace OCSM.Nodes.CoD.Sheets
 			GetNode<MeritsFromMetadata>(NodePath.MeritsFromMetadata).AddMerit += addExistingMerit;
 			
 			base._Ready();
+			
+			SheetData.Attributes.ForEach(a => {
+				if(!String.IsNullOrEmpty(a.Name))
+				{
+					var node = GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name);
+					node.updateMax(dotMax);
+					node.updateValue(a.Value);
+					attributes.Add(node);
+				}
+			});
+			
+			SheetData.Skills.ForEach(s => {
+				if(!String.IsNullOrEmpty(s.Name))
+				{
+					var node = GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name);
+					node.updateMax(dotMax);
+					node.updateValue(s.Value);
+					skills.Add(node);
+				}
+			});
 		}
 		
 		protected void InitContractsList(ContractsList node, List<OCSM.CoD.CtL.Contract> initialValue, ContractsList.ValueChangedEventHandler handler)
