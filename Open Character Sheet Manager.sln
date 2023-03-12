@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Open Character Sheet Manager", "godot\Open Character Sheet Manager.csproj", "{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Open Character Sheet Manager", "OCSM\Open Character Sheet Manager.csproj", "{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCSM.Tests", "OCSM.Tests\OCSM.Tests.csproj", "{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCSM.Tests", "OCSM.Test\OCSM.Test.csproj", "{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111} = {FD16A77A-C4CA-4F29-B6B6-49694D7DB111}
 	EndProjectSection

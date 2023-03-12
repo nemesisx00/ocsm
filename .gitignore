@@ -1,5 +1,5 @@
 **/.godot
 .vs/
 .vscode/
-OCSM.Tests/obj
-OCSM.Tests/bin
+OCSM.Test/obj
+OCSM.Test/bin

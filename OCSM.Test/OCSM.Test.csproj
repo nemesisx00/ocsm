@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\godot\Open Character Sheet Manager.csproj" />
+    <ProjectReference Include="..\OCSM\Open Character Sheet Manager.csproj" />
   </ItemGroup>
 
 </Project>
