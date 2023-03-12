@@ -16,7 +16,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		private sealed new class NodePath : CoreSheet<Changeling>.NodePath
 		{
 			public const string Clarity = NodePath.Advantages + "/%Clarity";
-			public const string ContractsList = "%Contracts";
+			public const string ContractsList = "%ContractsList";
 			public const string Court = NodePath.Details + "/%Court";
 			public const string Frailties = NodePath.Details + "/%Frailties";
 			public const string Glamour = NodePath.Advantages + "/%Glamour";

@@ -8,7 +8,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public partial class Contract : VBoxContainer
+	public partial class Contract : MarginContainer
 	{
 		public sealed class NodePath
 		{

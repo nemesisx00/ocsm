@@ -269,37 +269,43 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 1.75
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Row/Column3"]
+[node name="MarginContainer" type="MarginContainer" parent="Row/Column3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_right = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Row/Column3/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Row/Column3/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Row/Column3/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="AspirationsLabel" type="Label" parent="Row/Column3/ScrollContainer/VBoxContainer"]
+[node name="AspirationsLabel" type="Label" parent="Row/Column3/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Aspirations"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Aspirations" type="VBoxContainer" parent="Row/Column3/ScrollContainer/VBoxContainer"]
+[node name="Aspirations" type="VBoxContainer" parent="Row/Column3/MarginContainer/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 5
 script = ExtResource("1")
 
-[node name="ConditionsLabel" type="Label" parent="Row/Column3/ScrollContainer/VBoxContainer"]
+[node name="ConditionsLabel" type="Label" parent="Row/Column3/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Conditions"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Conditions" type="VBoxContainer" parent="Row/Column3/ScrollContainer/VBoxContainer"]
+[node name="Conditions" type="VBoxContainer" parent="Row/Column3/MarginContainer/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

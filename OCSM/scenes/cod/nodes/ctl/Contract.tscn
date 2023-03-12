@@ -10,56 +10,54 @@
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ActionOptionButton.cs" id="7_ic6ho"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/Contract.cs" id="8"]
 
-[node name="MarginContainer" type="MarginContainer"]
+[node name="Contract" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("8")
 
-[node name="Contract" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_uc06f")
 theme_override_constants/separation = 15
-script = ExtResource("8")
 
-[node name="Row" type="HBoxContainer" parent="Contract"]
+[node name="Row" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Row"]
+[node name="Label" type="Label" parent="VBoxContainer/Row"]
 layout_mode = 2
 text = "Name:"
 vertical_alignment = 1
 
-[node name="Name" type="LineEdit" parent="Contract/Row"]
+[node name="Name" type="LineEdit" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label2" type="Label" parent="Contract/Row"]
+[node name="Label2" type="Label" parent="VBoxContainer/Row"]
 layout_mode = 2
 text = "Regalia:"
 vertical_alignment = 1
 
-[node name="Regalia" type="OptionButton" parent="Contract/Row"]
+[node name="Regalia" type="OptionButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("3_xgpms")
 
-[node name="ContractType" type="OptionButton" parent="Contract/Row"]
+[node name="ContractType" type="OptionButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("4_kkamd")
 
-[node name="ToggleDetails" type="TextureButton" parent="Contract/Row"]
+[node name="ToggleDetails" type="TextureButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -69,102 +67,102 @@ toggle_mode = true
 texture_normal = ExtResource("5_cx8mn")
 texture_pressed = ExtResource("6_m8wrj")
 
-[node name="Details" type="VBoxContainer" parent="Contract"]
+[node name="Details" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Row" type="HBoxContainer" parent="Contract/Details"]
+[node name="Row" type="HBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label3" type="Label" parent="Contract/Details/Row"]
+[node name="Label3" type="Label" parent="VBoxContainer/Details/Row"]
 layout_mode = 2
 text = "Action:"
 vertical_alignment = 1
 
-[node name="Action" type="OptionButton" parent="Contract/Details/Row"]
+[node name="Action" type="OptionButton" parent="VBoxContainer/Details/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("7_ic6ho")
 
-[node name="Label2" type="Label" parent="Contract/Details/Row"]
+[node name="Label2" type="Label" parent="VBoxContainer/Details/Row"]
 layout_mode = 2
 text = "Cost:"
 vertical_alignment = 1
 
-[node name="Cost" type="LineEdit" parent="Contract/Details/Row"]
+[node name="Cost" type="LineEdit" parent="VBoxContainer/Details/Row"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Row2" type="HBoxContainer" parent="Contract/Details"]
+[node name="Row2" type="HBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label4" type="Label" parent="Contract/Details/Row2"]
+[node name="Label4" type="Label" parent="VBoxContainer/Details/Row2"]
 layout_mode = 2
 text = "Duration:"
 vertical_alignment = 1
 
-[node name="Duration" type="LineEdit" parent="Contract/Details/Row2"]
+[node name="Duration" type="LineEdit" parent="VBoxContainer/Details/Row2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Row3" type="HBoxContainer" parent="Contract/Details"]
+[node name="Row3" type="HBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row3"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row3"]
 layout_mode = 2
 text = "Dice Pool:"
 vertical_alignment = 1
 
-[node name="Wyrd" type="Label" parent="Contract/Details/Row3"]
+[node name="Wyrd" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Wyrd +"
 vertical_alignment = 1
 
-[node name="Attribute" type="OptionButton" parent="Contract/Details/Row3"]
+[node name="Attribute" type="OptionButton" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 script = ExtResource("7")
 
-[node name="SkillPlus" type="Label" parent="Contract/Details/Row3"]
+[node name="SkillPlus" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "+"
 vertical_alignment = 1
 
-[node name="Skill" type="OptionButton" parent="Contract/Details/Row3"]
+[node name="Skill" type="OptionButton" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 script = ExtResource("6")
 
-[node name="Attribute2Minus" type="Label" parent="Contract/Details/Row3"]
+[node name="Attribute2Minus" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "-"
 
-[node name="Attribute2" type="OptionButton" parent="Contract/Details/Row3"]
+[node name="Attribute2" type="OptionButton" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("7")
 
-[node name="Vs" type="Label" parent="Contract/Details/Row3"]
+[node name="Vs" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -173,32 +171,32 @@ text = "vs."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Wyrd2" type="Label" parent="Contract/Details/Row3"]
+[node name="Wyrd2" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Wyrd +"
 vertical_alignment = 1
 
-[node name="Attribute3" type="OptionButton" parent="Contract/Details/Row3"]
+[node name="Attribute3" type="OptionButton" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 script = ExtResource("7")
 
-[node name="Row4" type="VBoxContainer" parent="Contract/Details"]
+[node name="Row4" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Contract/Details/Row4"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row4"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Description"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Description" type="TextEdit" parent="Contract/Details/Row4"]
+[node name="Description" type="TextEdit" parent="VBoxContainer/Details/Row4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -207,18 +205,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row5" type="VBoxContainer" parent="Contract/Details"]
+[node name="Row5" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Contract/Details/Row5"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row5"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Effects"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Effects" type="TextEdit" parent="Contract/Details/Row5"]
+[node name="Effects" type="TextEdit" parent="VBoxContainer/Details/Row5"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -227,29 +225,29 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row6" type="VBoxContainer" parent="Contract/Details"]
+[node name="Row6" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Contract/Details/Row6"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row6"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Roll Results"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Row" type="HBoxContainer" parent="Contract/Details/Row6"]
+[node name="Row" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row6/Row"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Success:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Success" type="TextEdit" parent="Contract/Details/Row6/Row"]
+[node name="Success" type="TextEdit" parent="VBoxContainer/Details/Row6/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -258,18 +256,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row2" type="HBoxContainer" parent="Contract/Details/Row6"]
+[node name="Row2" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row6/Row2"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row2"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Exceptional Success:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ExceptionalSuccess" type="TextEdit" parent="Contract/Details/Row6/Row2"]
+[node name="ExceptionalSuccess" type="TextEdit" parent="VBoxContainer/Details/Row6/Row2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -278,18 +276,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row3" type="HBoxContainer" parent="Contract/Details/Row6"]
+[node name="Row3" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row6/Row3"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row3"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Failure:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Failure" type="TextEdit" parent="Contract/Details/Row6/Row3"]
+[node name="Failure" type="TextEdit" parent="VBoxContainer/Details/Row6/Row3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -298,18 +296,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row4" type="HBoxContainer" parent="Contract/Details/Row6"]
+[node name="Row4" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row6/Row4"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row4"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Dramatic Failure:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="DramaticFailure" type="TextEdit" parent="Contract/Details/Row6/Row4"]
+[node name="DramaticFailure" type="TextEdit" parent="VBoxContainer/Details/Row6/Row4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -318,13 +316,13 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="SeemingBenefitsRow" type="VBoxContainer" parent="Contract/Details"]
+[node name="SeemingBenefitsRow" type="VBoxContainer" parent="VBoxContainer/Details"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/SeemingBenefitsRow"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/SeemingBenefitsRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
@@ -332,11 +330,11 @@ text = "Seeming Benefits"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Row7" type="VBoxContainer" parent="Contract/Details"]
+[node name="Row7" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Contract/Details/Row7"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/Row7"]
 custom_minimum_size = Vector2(135, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
@@ -344,7 +342,7 @@ text = "Loophole"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Loophole" type="TextEdit" parent="Contract/Details/Row7"]
+[node name="Loophole" type="TextEdit" parent="VBoxContainer/Details/Row7"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
