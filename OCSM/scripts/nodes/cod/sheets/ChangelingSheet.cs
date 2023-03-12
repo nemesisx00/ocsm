@@ -246,6 +246,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		private void changed_Thread(string value) { SheetData.Details.Vice = value; }
 		private void changed_Touchstones(Transport<List<string>> transport) { SheetData.Touchstones = transport.Value; }
+		
 		private void changed_Wyrd(long value)
 		{
 			SheetData.Advantages.Power = value;
