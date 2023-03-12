@@ -2,7 +2,7 @@
 
 <div align="center" width="100%">
 	<img alt="GitHub" src="https://img.shields.io/github/license/nemesisx00/ocsm" />
-	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nemesisx00/ocsm?color=4cc61e" />
+	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nemesisx00/ocsm" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/nemesisx00/ocsm" />
 	<!-- <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/nemesisx00/ocsm" /> -->
 	<img alt="Discord" src="https://img.shields.io/discord/1084182068965158912">
@@ -91,3 +91,5 @@ In searching for [Rust](https://www.rust-lang.org/) GUI implementations, I happe
 More searching lead me to discover [Dioxus](https://dioxuslabs.com/) which provides most of the same functionality I was getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://www.rust-lang.org/) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
 
 After making considerable progress building the application with [Rust](https://www.rust-lang.org/) & [Dioxus](https://dioxuslabs.com/), I started realizing that, while it was a very educational experience, it was also just a lot of work to create & maintain new sheets. At the same time, I had started exploring game development using [Godot](https://godotengine.org) and realized [Godot](https://godotengine.org)'s UI scenes would be an acceptable replacement which would be less hassle in the long run.
+
+I'm sure I can find a way to work [Rust](https://www.rust-lang.org/) back into the project at some point using [Godot 4](https://godotengine.org)'s GDExtension API. But regardless, thank you for making it all the way through my rambling!
