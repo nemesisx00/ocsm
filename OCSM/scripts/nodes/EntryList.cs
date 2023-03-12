@@ -32,11 +32,11 @@ namespace OCSM.Nodes
 			addInput();
 		}
 		
-		private void textChanged(string text)
+		private void textChanged()
 		{
 			var values = new List<string>();
 			var children = GetChildren();
-			foreach(LineEdit c in children)
+			foreach(TextEdit c in children)
 			{
 				if(!String.IsNullOrEmpty(c.Text))
 					values.Add(c.Text);
@@ -56,12 +56,14 @@ namespace OCSM.Nodes
 		{
 			var stringName = Name.ToString();
 			
-			var node = new LineEdit();
+			var node = new TextEdit();
 			node.Text = value;
 			node.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-			node.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+			node.SizeFlagsVertical = Control.SizeFlags.Fill;
 			node.CustomMinimumSize = new Vector2(0, 25);
+			node.ScrollFitContentHeight = true;
 			node.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
+			node.WrapMode = TextEdit.LineWrappingMode.Boundary;
 			AddChild(node);
 			node.TextChanged += textChanged;
 		}
