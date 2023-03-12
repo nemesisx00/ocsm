@@ -1,19 +1,44 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Open Character Sheet Manager", "Open Character Sheet Manager.csproj", "{E165AEB7-D0DC-4807-B513-85390EC3C60B}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Open Character Sheet Manager", "godot\Open Character Sheet Manager.csproj", "{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OCSM.Tests", "OCSM.Tests\OCSM.Tests.csproj", "{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111} = {FD16A77A-C4CA-4F29-B6B6-49694D7DB111}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{E165AEB7-D0DC-4807-B513-85390EC3C60B}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{FD16A77A-C4CA-4F29-B6B6-49694D7DB111}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA6A3FD0-2ADE-4D81-AAF1-A4AA46A9349E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76A5C271-8A99-4699-9A2D-2DE599A6EAB7}
 	EndGlobalSection
 EndGlobal
