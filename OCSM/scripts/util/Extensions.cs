@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Godot;
 
@@ -31,6 +32,17 @@ namespace OCSM
 		public static void Deselect(this OptionButton node)
 		{
 			node.Selected = -1;
+		}
+		
+		public static void SetDisabled(this OptionButton node, List<string> strings, bool disabled = false, List<string> exclusions = null)
+		{
+			var skip = new List<string>();
+			if(exclusions is List<string>)
+				skip.AddRange(exclusions);
+			
+			node.SetDisabledAll(false);
+			strings.ForEach(s => node.SetDisabledByText(s, disabled));
+			skip.ForEach(s => node.SetDisabledByText(s, !disabled));
 		}
 		
 		public static void SetDisabledAll(this OptionButton node, bool disabled = false)

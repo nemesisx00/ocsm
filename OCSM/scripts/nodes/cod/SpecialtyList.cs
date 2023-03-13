@@ -74,14 +74,13 @@ namespace OCSM.Nodes.CoD
 			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<Skill.Enum, string>>(values));
 			
 			// Update the option buttons' disabled items
-			list.ForEach(o => {
-				o.option.SetDisabledAll(false);
-				Values.Keys.ToList()
-					.ForEach(sk => o.option.SetDisabledByText(sk.GetLabelOrName(), true));
-				
-				if(o.skill is Skill.Enum s)
-					o.option.SetDisabledByText(s.GetLabelOrName(), false);
-			});
+			list.ForEach(o => o.option
+				.SetDisabled(
+					Values.Keys.Select(s => s.GetLabelOrName()).ToList(),
+					true,
+					new List<string>() { o.skill.GetLabelOrName() }
+				)
+			);
 			
 			sortChildren();
 			// Make sure we always have one empty available
