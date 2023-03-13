@@ -27,61 +27,64 @@ namespace OCSM.Nodes.CoD
 			}
 			
 			Values.ToList().ForEach(entry => {
-				if(entry.Key is Skill.Enum skill)
+				if(entry.Key is Skill.Enum skill && !String.IsNullOrEmpty(entry.Value))
 					addInput(skill, entry.Value);
 			});
 			
 			addInput();
 		}
 		
-		private void skillChanged(long index) { updateValues(); }
-		private void valueChanged(string text) { updateValues(); }
+		private void removeEmpties() => GetChildren()
+											.Where(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()) is null
+												&& String.IsNullOrEmpty(row.GetChild<TextEdit>(1).Text))
+											.ToList()
+											.ForEach(row => row.QueueFree());
+		
+		private void sortChildren() => NodeUtilities.rearrangeNodes(
+											this,
+											GetChildren()
+												.OrderBy(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()))
+												.ToList()
+										);
 		
 		private void updateValues()
 		{
+			removeEmpties();
+			
 			var values = new Dictionary<Skill.Enum, string>();
-			var list = GetChildren().Select(n => n as HBoxContainer)
-				.Select(row => new { option = row.GetChild<OptionButton>(0), skill = Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()), text = row.GetChild<LineEdit>(1).Text })
-				.Where(o => o.skill is Skill.Enum)
-				.OrderBy(o => o.skill)
-				.ThenBy(o => o.text)
-				.ToList();
+			// Get all skill/text pairs, even if text is empty
+			var list = GetChildren()
+						.Select(row => new {
+							option = row.GetChild<OptionButton>(0),
+							skill = Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()),
+							text = row.GetChild<TextEdit>(1).Text
+						})
+						.Where(o => o.skill is Skill.Enum)
+						.OrderBy(o => o.skill)
+						.ThenBy(o => o.text)
+						.ToList();
 			
 			// Update the values
 			list.ForEach(o => {
-					if(o.skill is Skill.Enum s)
-					{
-						if(values.ContainsKey(s))
-							values[s] = o.text;
-						else
-							values.Add(s, o.text);
-					}
-				});
+				if(o.skill is Skill.Enum s)
+					values.Add(s, o.text);
+			});
 			
 			Values = values;
 			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<Skill.Enum, string>>(values));
 			
 			// Update the option buttons' disabled items
 			list.ForEach(o => {
-					o.option.SetDisabledAll(false);
-					Values.Keys.ToList()
-						.ForEach(sk => o.option.SetDisabledByText(sk.GetLabelOrName(), true));
-					
-					if(o.skill is Skill.Enum s)
-						o.option.SetDisabledByText(s.GetLabelOrName(), false);
-				});
+				o.option.SetDisabledAll(false);
+				Values.Keys.ToList()
+					.ForEach(sk => o.option.SetDisabledByText(sk.GetLabelOrName(), true));
+				
+				if(o.skill is Skill.Enum s)
+					o.option.SetDisabledByText(s.GetLabelOrName(), false);
+			});
 			
-			// Clean up excess empties
-			GetChildren().Select(n => n as HBoxContainer)
-				.Where(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()) is null
-								&& String.IsNullOrEmpty(row.GetChild<LineEdit>(1).Text))
-				.ToList()
-				.ForEach(row => row.QueueFree());
-			
-			NodeUtilities.rearrangeNodes(this, GetChildren()
-												.OrderBy(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()))
-												.ToList());
-			
+			sortChildren();
+			// Make sure we always have one empty available
 			addInput();
 		}
 		
@@ -92,7 +95,7 @@ namespace OCSM.Nodes.CoD
 			AddChild(instance);
 			
 			var option = instance.GetChild<SkillOptionButton>(0);
-			var value = instance.GetChild<LineEdit>(1);
+			var value = instance.GetChild<TextEdit>(1);
 			
 			Values.Keys.ToList()
 				.ForEach(s => option.SetDisabledByText(s.GetLabelOrName(), true));
@@ -105,8 +108,8 @@ namespace OCSM.Nodes.CoD
 				value.Text = specialty;
 			}
 			
-			option.ItemSelected += skillChanged;
-			value.TextChanged += valueChanged;
+			option.ItemSelected += (i) => updateValues();
+			value.TextChanged += () => updateValues();
 		}
 	}
 }

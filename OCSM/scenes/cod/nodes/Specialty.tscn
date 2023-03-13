@@ -18,7 +18,10 @@ size_flags_vertical = 4
 script = ExtResource("1")
 EmptyOption = true
 
-[node name="Specialty" type="LineEdit" parent="."]
+[node name="Specialty" type="TextEdit" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 4
+wrap_mode = 1
+scroll_fit_content_height = true
