@@ -89,7 +89,7 @@ namespace OCSM
 				
 				public sealed class Changeling
 				{
-					public const string Contract = "res://scenes/cod/nodes/ctl/Contract.tscn";
+					public const string ContractNode = "res://scenes/cod/nodes/ctl/ContractNode.tscn";
 					public const string NewSheetName = "New Changeling";
 					public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
 					public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";

@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://dyrgsiv8fop51"]
 
-[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_uc06f"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractRegaliaOptionButton.cs" id="3_xgpms"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="4_kkamd"]
-[ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="5_cx8mn"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/SkillOptionButton.cs" id="6"]
-[ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="6_m8wrj"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/AttributeOptionButton.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ActionOptionButton.cs" id="7_ic6ho"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/Contract.cs" id="8"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/ContractNode.cs" id="1_l6lsg"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="2_rk7r5"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractRegaliaOptionButton.cs" id="3_h8tv6"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="4_px6nx"]
+[ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="5_d0xoq"]
+[ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="6_eo8c3"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ActionOptionButton.cs" id="7_hvqwi"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/AttributeOptionButton.cs" id="8_oph02"]
+[ext_resource type="Script" path="res://scripts/nodes/cod/SkillOptionButton.cs" id="9_32lkc"]
 
 [node name="Contract" type="MarginContainer"]
 anchors_preset = 15
@@ -18,12 +18,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_bottom = 5
-script = ExtResource("8")
+script = ExtResource("1_l6lsg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_uc06f")
+theme = ExtResource("2_rk7r5")
 theme_override_constants/separation = 15
 
 [node name="Row" type="HBoxContainer" parent="VBoxContainer"]
@@ -49,13 +49,15 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("3_xgpms")
+script = ExtResource("3_h8tv6")
+EmptyOption = true
 
 [node name="ContractType" type="OptionButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("4_kkamd")
+script = ExtResource("4_px6nx")
+EmptyOption = true
 
 [node name="ToggleDetails" type="TextureButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
@@ -64,8 +66,8 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_default_cursor_shape = 2
 toggle_mode = true
-texture_normal = ExtResource("5_cx8mn")
-texture_pressed = ExtResource("6_m8wrj")
+texture_normal = ExtResource("5_d0xoq")
+texture_pressed = ExtResource("6_eo8c3")
 
 [node name="Details" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -87,7 +89,8 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("7_ic6ho")
+script = ExtResource("7_hvqwi")
+EmptyOption = true
 
 [node name="Label2" type="Label" parent="VBoxContainer/Details/Row"]
 layout_mode = 2
@@ -133,7 +136,8 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
-script = ExtResource("7")
+script = ExtResource("8_oph02")
+EmptyOption = true
 
 [node name="SkillPlus" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
@@ -147,7 +151,8 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
-script = ExtResource("6")
+script = ExtResource("9_32lkc")
+EmptyOption = true
 
 [node name="Attribute2Minus" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
@@ -160,7 +165,8 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("7")
+script = ExtResource("8_oph02")
+EmptyOption = true
 
 [node name="Vs" type="Label" parent="VBoxContainer/Details/Row3"]
 unique_name_in_owner = true
@@ -183,7 +189,8 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
-script = ExtResource("7")
+script = ExtResource("8_oph02")
+EmptyOption = true
 
 [node name="Row4" type="VBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2

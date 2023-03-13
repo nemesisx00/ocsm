@@ -12,9 +12,9 @@ namespace OCSM.Nodes.CoD.CtL
 	public partial class ContractsList : Container
 	{
 		[Signal]
-		public delegate void ValueChangedEventHandler(Transport<List<OCSM.CoD.CtL.Contract>> values);
+		public delegate void ValueChangedEventHandler(Transport<List<Contract>> values);
 		
-		public List<OCSM.CoD.CtL.Contract> Values { get; set; } = new List<OCSM.CoD.CtL.Contract>();
+		public List<Contract> Values { get; set; } = new List<Contract>();
 		
 		private MetadataManager metadataManager;
 		
@@ -34,7 +34,7 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 			
 			Values.Sort();
-			Values.Where(v => v is OCSM.CoD.CtL.Contract)
+			Values.Where(v => v is Contract)
 				.ToList()
 				.ForEach(v => addInput(v));
 			
@@ -43,24 +43,20 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void updateValues()
 		{
-			var values = new List<OCSM.CoD.CtL.Contract>();
-			var children = GetChildren();
-			var lastIndex = children.Count - 1;
-			foreach(Contract contract in children)
-			{
-				var data = contract.getData();
-				if(!data.Empty)
-					values.Add(data);
-				else if(!children.IndexOf(contract).Equals(lastIndex))
-					contract.QueueFree();
-			}
+			var values = new List<Contract>();
+			
+			GetChildren().Select(n => (n as ContractNode).getData())
+				.Where(c => !c.Empty)
+				.OrderBy(c => c)
+				.ToList()
+				.ForEach(c => values.Add(c));
+			
+			GetChildren().Where(n => (n as ContractNode).getData().Empty && !GetChildren().IndexOf(n).Equals(GetChildren().Count - 1))
+				.ToList()
+				.ForEach(n => n.QueueFree());
 			
 			Values = values;
-			Values.Sort();
-			EmitSignal(nameof(ValueChanged), new Transport<List<OCSM.CoD.CtL.Contract>>(Values));
-			NodeUtilities.rearrangeNodes(this, children.Where(n => !(n as Contract).getData().Empty)
-														.OrderBy(n => (n as Contract).getData())
-														.ToList());
+			EmitSignal(nameof(ValueChanged), new Transport<List<Contract>>(Values));
 			
 			if(GetChildren().Count <= Values.Count)
 			{
@@ -68,93 +64,93 @@ namespace OCSM.Nodes.CoD.CtL
 			}
 		}
 		
-		private void addInput(OCSM.CoD.CtL.Contract value = null)
+		private void addInput(Contract value = null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.Contract);
-			var instance = resource.Instantiate<Contract>();
+			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.ContractNode);
+			var instance = resource.Instantiate<ContractNode>();
 			
 			AddChild(instance);
 			
-			if(value is OCSM.CoD.CtL.Contract)
+			if(value is Contract)
 			{
-				var actionNode = instance.GetNode<ActionOptionButton>(Contract.NodePath.ActionInput);
+				var actionNode = instance.GetNode<ActionOptionButton>(ContractNode.NodePath.ActionInput);
 				actionNode.SelectItemByText(value.Action);
 				instance.actionChanged(actionNode.Selected);
 				
-				if(value.Attribute is OCSM.CoD.Attribute)
+				if(value.Attribute is OCSM.CoD.Attribute.Enum attribute)
 				{
-					var node = instance.GetNode<AttributeOptionButton>(Contract.NodePath.AttributeInput);
-					node.SelectItemByText(value.Attribute.Name);
+					var node = instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.AttributeInput);
+					node.SelectItemByText(attribute.ToString());
 					instance.attributeChanged(node.Selected);
 				}
 				
-				if(value.AttributeResisted is OCSM.CoD.Attribute)
-					instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute2Input).SelectItemByText(value.AttributeResisted.Name);
+				if(value.AttributeResisted is OCSM.CoD.Attribute.Enum attributeResisted)
+					instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute2Input).SelectItemByText(attributeResisted.ToString());
 				
-				if(value.AttributeContested is OCSM.CoD.Attribute)
+				if(value.AttributeContested is OCSM.CoD.Attribute.Enum attributeContested)
 				{
-					var node = instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute3Input);
-					node.SelectItemByText(value.AttributeContested.Name);
+					var node = instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute3Input);
+					node.SelectItemByText(attributeContested.ToString());
 					instance.contestedAttributeChanged(node.Selected);
 				}
 				
 				if(!String.IsNullOrEmpty(value.Cost))
-					instance.GetNode<LineEdit>(Contract.NodePath.CostInput).Text = value.Cost;
+					instance.GetNode<LineEdit>(ContractNode.NodePath.CostInput).Text = value.Cost;
 				if(!String.IsNullOrEmpty(value.Description))
-					instance.GetNode<TextEdit>(Contract.NodePath.DescriptionInput).Text = value.Description;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.DescriptionInput).Text = value.Description;
 				if(!String.IsNullOrEmpty(value.Duration))
-					instance.GetNode<LineEdit>(Contract.NodePath.DurationInput).Text = value.Duration;
+					instance.GetNode<LineEdit>(ContractNode.NodePath.DurationInput).Text = value.Duration;
 				if(!String.IsNullOrEmpty(value.Effects))
-					instance.GetNode<TextEdit>(Contract.NodePath.EffectsInput).Text = value.Effects;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.EffectsInput).Text = value.Effects;
 				if(!String.IsNullOrEmpty(value.Loophole))
-					instance.GetNode<TextEdit>(Contract.NodePath.LoopholeInput).Text = value.Loophole;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.LoopholeInput).Text = value.Loophole;
 				if(!String.IsNullOrEmpty(value.Name))
-					instance.GetNode<LineEdit>(Contract.NodePath.NameInput).Text = value.Name;
+					instance.GetNode<LineEdit>(ContractNode.NodePath.NameInput).Text = value.Name;
 				
-				if(value.SeemingBenefits is System.Collections.Generic.List<Pair<string, string>>)
+				if(value.SeemingBenefits is System.Collections.Generic.Dictionary<string, string>)
 				{
 					instance.SeemingBenefits = value.SeemingBenefits;
 					instance.refreshSeemingBenefits();
 				}
 				
-				if(value.Skill is Skill)
-					instance.GetNode<SkillOptionButton>(Contract.NodePath.SkillInput).SelectItemByText(value.Skill.Name);
+				if(value.Skill is Skill.Enum skill)
+					instance.GetNode<SkillOptionButton>(ContractNode.NodePath.SkillInput).SelectItemByText(skill.GetLabelOrName());
 				
 				if(metadataManager.Container is CoDChangelingContainer ccc)
 				{
 					if(value.Regalia is ContractRegalia)
-						instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).SelectItemByText(value.Regalia.Name);
+						instance.GetNode<ContractRegaliaOptionButton>(ContractNode.NodePath.RegaliaInput).SelectItemByText(value.Regalia.Name);
 					if(value.ContractType is ContractType)
-						instance.GetNode<OptionButton>(Contract.NodePath.ContractTypeInput).SelectItemByText(value.ContractType.Name);
+						instance.GetNode<OptionButton>(ContractNode.NodePath.ContractTypeInput).SelectItemByText(value.ContractType.Name);
 				}
 				
 				if(!String.IsNullOrEmpty(value.RollFailure))
-					instance.GetNode<TextEdit>(Contract.NodePath.FailureInput).Text = value.RollFailure;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.FailureInput).Text = value.RollFailure;
 				if(!String.IsNullOrEmpty(value.RollFailureDramatic))
-					instance.GetNode<TextEdit>(Contract.NodePath.FailureDramaticInput).Text = value.RollFailureDramatic;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.FailureDramaticInput).Text = value.RollFailureDramatic;
 				if(!String.IsNullOrEmpty(value.RollSuccess))
-					instance.GetNode<TextEdit>(Contract.NodePath.SuccessInput).Text = value.RollSuccess;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.SuccessInput).Text = value.RollSuccess;
 				if(!String.IsNullOrEmpty(value.RollSuccessExceptional))
-					instance.GetNode<TextEdit>(Contract.NodePath.SuccessExceptionalInput).Text = value.RollSuccessExceptional;
+					instance.GetNode<TextEdit>(ContractNode.NodePath.SuccessExceptionalInput).Text = value.RollSuccessExceptional;
 			}
 			
-			instance.GetNode<OptionButton>(Contract.NodePath.ActionInput).ItemSelected += optionSelected;
-			instance.GetNode<AttributeOptionButton>(Contract.NodePath.AttributeInput).ItemSelected += optionSelected;
-			instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute2Input).ItemSelected += optionSelected;
-			instance.GetNode<AttributeOptionButton>(Contract.NodePath.Attribute3Input).ItemSelected += optionSelected;
-			instance.GetNode<SkillOptionButton>(Contract.NodePath.SkillInput).ItemSelected += optionSelected;
-			instance.GetNode<ContractRegaliaOptionButton>(Contract.NodePath.RegaliaInput).ItemSelected += optionSelected;
-			instance.GetNode<ContractTypeButton>(Contract.NodePath.ContractTypeInput).ItemSelected += optionSelected;
-			instance.GetNode<LineEdit>(Contract.NodePath.CostInput).TextChanged += textChanged;
-			instance.GetNode<LineEdit>(Contract.NodePath.DurationInput).TextChanged += textChanged;
-			instance.GetNode<LineEdit>(Contract.NodePath.NameInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.DescriptionInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.EffectsInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.LoopholeInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.FailureInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.FailureDramaticInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.SuccessInput).TextChanged += textChanged;
-			instance.GetNode<TextEdit>(Contract.NodePath.SuccessExceptionalInput).TextChanged += textChanged;
+			instance.GetNode<OptionButton>(ContractNode.NodePath.ActionInput).ItemSelected += optionSelected;
+			instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.AttributeInput).ItemSelected += optionSelected;
+			instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute2Input).ItemSelected += optionSelected;
+			instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute3Input).ItemSelected += optionSelected;
+			instance.GetNode<SkillOptionButton>(ContractNode.NodePath.SkillInput).ItemSelected += optionSelected;
+			instance.GetNode<ContractRegaliaOptionButton>(ContractNode.NodePath.RegaliaInput).ItemSelected += optionSelected;
+			instance.GetNode<ContractTypeButton>(ContractNode.NodePath.ContractTypeInput).ItemSelected += optionSelected;
+			instance.GetNode<LineEdit>(ContractNode.NodePath.CostInput).TextChanged += textChanged;
+			instance.GetNode<LineEdit>(ContractNode.NodePath.DurationInput).TextChanged += textChanged;
+			instance.GetNode<LineEdit>(ContractNode.NodePath.NameInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.DescriptionInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.EffectsInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.LoopholeInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.FailureInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.FailureDramaticInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.SuccessInput).TextChanged += textChanged;
+			instance.GetNode<TextEdit>(ContractNode.NodePath.SuccessExceptionalInput).TextChanged += textChanged;
 		}
 		
 		private void optionSelected(long index) { updateValues(); }

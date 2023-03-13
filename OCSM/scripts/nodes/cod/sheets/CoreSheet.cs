@@ -10,8 +10,8 @@ namespace OCSM.Nodes.CoD.Sheets
 	public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		where T: CodCore
 	{
-		protected const long AttributeMax = 5;
-		protected const long IntegrityMax = 10;
+		protected const long DefaultAttributeMax = 5;
+		protected const long DefaultIntegrityMax = 10;
 		
 		protected class NodePath
 		{
@@ -121,11 +121,11 @@ namespace OCSM.Nodes.CoD.Sheets
 			}
 		}
 		
-		protected void InitSpecialtyList(SpecialtyList node, List<Pair<string, string>> initialValue, SpecialtyList.ValueChangedEventHandler handler)
+		protected void InitSpecialtyList(SpecialtyList node, Dictionary<Skill.Enum, string> initialValue, SpecialtyList.ValueChangedEventHandler handler)
 		{
 			if(node is SpecialtyList)
 			{
-				if(initialValue is List<Pair<string, string>>)
+				if(initialValue is Dictionary<Skill.Enum, string>)
 					node.Values = initialValue;
 				node.refresh();
 				node.ValueChanged += handler;
@@ -134,35 +134,34 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		protected void updateDefense()
 		{
-			var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
-			var wits = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Wits.Name));
-			var athl = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(Skill.Athletics.Name));
+			long newValue = 0;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+				newValue = dex.Value;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Wits)) is OCSM.CoD.Attribute wits
+					&& newValue < wits.Value)
+				newValue = wits.Value;
+			if(SheetData.Skills.FirstOrDefault(s => s.Kind.Equals(Skill.Enum.Athletics)) is Skill athl)
+				newValue += athl.Value;
 			
-			if(dex is OCSM.CoD.Attribute && wits is OCSM.CoD.Attribute && athl is Skill)
-			{
-				if(dex.Value < wits.Value)
-					defense.Text = (dex.Value + athl.Value).ToString();
-				else
-					defense.Text = (wits.Value + athl.Value).ToString();
-			}
+			if(newValue > 0)
+				defense.Text = newValue.ToString();
 		}
 		
 		protected void updateInitiative()
 		{
-			var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
-			var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Composure.Name));
+			long newValue = 0;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+				newValue += dex.Value;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Composure)) is OCSM.CoD.Attribute comp)
+				newValue += comp.Value;
 			
-			if(dex is OCSM.CoD.Attribute && comp is OCSM.CoD.Attribute)
-			{
-				initiative.Text = (dex.Value + comp.Value).ToString();
-			}
+			if(newValue > 0)
+				initiative.Text = newValue.ToString();
 		}
 		
 		protected void updateMaxHealth()
 		{
-			var stam = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Stamina.Name));
-			
-			if(stam is OCSM.CoD.Attribute)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Stamina)) is OCSM.CoD.Attribute stam)
 			{
 				SheetData.Advantages.Health.Max = SheetData.Advantages.Size + stam.Value;
 				health.updateMax(SheetData.Advantages.Health.Max);
@@ -171,56 +170,63 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		protected void updateMaxWillpower()
 		{
-			var comp = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Composure.Name));
-			var res = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Resolve.Name));
+			long newValue = 0;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Composure)) is OCSM.CoD.Attribute comp)
+				newValue += comp.Value;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Resolve)) is OCSM.CoD.Attribute res)
+				newValue += res.Value;
 			
-			if(comp is OCSM.CoD.Attribute && res is OCSM.CoD.Attribute)
+			if(newValue > 0)
 			{
-				SheetData.Advantages.WillpowerMax = comp.Value + res.Value;
+				SheetData.Advantages.WillpowerMax = newValue;
 				willpower.updateMax(SheetData.Advantages.WillpowerMax);
 			}
 		}
 		
 		protected void updateSpeed()
 		{
-			var str = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Strength.Name));
-			var dex = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(OCSM.CoD.Attribute.Dexterity.Name));
+			var newValue = SheetData.Advantages.Size;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+				newValue += dex.Value;
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Strength)) is OCSM.CoD.Attribute str)
+				newValue += str.Value;
 			
-			if(str is OCSM.CoD.Attribute && dex is OCSM.CoD.Attribute)
-			{
-				speed.Text = (str.Value + dex.Value + SheetData.Advantages.Size).ToString();
-			}
-		}private void changed_Aspirations(Transport<List<string>> transport) { SheetData.Aspirations = transport.Value; }
+			speed.Text = newValue.ToString();
+		}
+		
+		private void changed_Aspirations(Transport<List<string>> transport) { SheetData.Aspirations = transport.Value; }
 		
 		private void changed_Attribute(TrackSimple node)
 		{
 			var attr = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(node.Name));
 			if(attr is OCSM.CoD.Attribute)
-				attr.Value = node.Value;
-			
-			switch(node.Name)
 			{
-				case OCSM.CoD.Attribute.Names.Composure:
-					updateMaxWillpower();
-					updateInitiative();
-					break;
-				case OCSM.CoD.Attribute.Names.Dexterity:
-					updateDefense();
-					updateInitiative();
-					updateSpeed();
-					break;
-				case OCSM.CoD.Attribute.Names.Resolve:
-					updateMaxWillpower();
-					break;
-				case OCSM.CoD.Attribute.Names.Stamina:
-					updateMaxHealth();
-					break;
-				case OCSM.CoD.Attribute.Names.Strength:
-					updateSpeed();
-					break;
-				case OCSM.CoD.Attribute.Names.Wits:
-					updateDefense();
-					break;
+				attr.Value = node.Value;
+				
+				switch(attr.Kind)
+				{
+					case OCSM.CoD.Attribute.Enum.Composure:
+						updateMaxWillpower();
+						updateInitiative();
+						break;
+					case OCSM.CoD.Attribute.Enum.Dexterity:
+						updateDefense();
+						updateInitiative();
+						updateSpeed();
+						break;
+					case OCSM.CoD.Attribute.Enum.Resolve:
+						updateMaxWillpower();
+						break;
+					case OCSM.CoD.Attribute.Enum.Stamina:
+						updateMaxHealth();
+						break;
+					case OCSM.CoD.Attribute.Enum.Strength:
+						updateSpeed();
+						break;
+					case OCSM.CoD.Attribute.Enum.Wits:
+						updateDefense();
+						break;
+				}
 			}
 		}
 		
@@ -257,17 +263,18 @@ namespace OCSM.Nodes.CoD.Sheets
 		{
 			var skill = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(node.Name));
 			if(skill is Skill)
-				skill.Value = node.Value;
-			
-			switch(node.Name)
 			{
-				case Skill.Names.Athletics:
-					updateDefense();
-					break;
+				skill.Value = node.Value;
+				switch(skill.Kind)
+				{
+					case Skill.Enum.Athletics:
+						updateDefense();
+						break;
+				}
 			}
 		}
 		
-		private void changed_SkillSpecialty(Transport<List<Pair<string, string>>> transport) { SheetData.Specialties = transport.Value; }
+		private void changed_SkillSpecialty(Transport<Dictionary<Skill.Enum, string>> transport) { SheetData.Specialties = transport.Value; }
 		
 		private void changed_Size(double number)
 		{

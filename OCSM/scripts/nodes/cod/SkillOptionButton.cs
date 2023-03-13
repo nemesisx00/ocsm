@@ -1,20 +1,20 @@
-using Godot;
-using OCSM.CoD;
+using System;
+using System.Linq;
 
 namespace OCSM.Nodes.CoD
 {
-	public partial class SkillOptionButton : OptionButton
+	public partial class SkillOptionButton : CustomOption
 	{
-		[Export]
-		public bool emptyOption = true;
-		
 		public override void _Ready()
 		{
-			if(emptyOption)
-				AddItem("");
-			
-			Skill.asList()
-				.ForEach(s => AddItem(s.Name));
+			refreshMetadata();
+		}
+		
+		protected override void refreshMetadata()
+		{
+			replaceItems(Enum.GetValues<OCSM.CoD.Skill.Enum>()
+				.Select(s => s.GetLabelOrName())
+				.ToList());
 		}
 	}
 }

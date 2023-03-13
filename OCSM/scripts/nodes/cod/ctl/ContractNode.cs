@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OCSM.CoD;
 using OCSM.CoD.CtL;
 using OCSM.CoD.CtL.Meta;
@@ -8,7 +9,7 @@ using OCSM.Nodes.Autoload;
 
 namespace OCSM.Nodes.CoD.CtL
 {
-	public partial class Contract : MarginContainer
+	public partial class ContractNode : MarginContainer
 	{
 		public sealed class NodePath
 		{
@@ -41,7 +42,7 @@ namespace OCSM.Nodes.CoD.CtL
 			public const string Wyrd2 = "%Wyrd2";
 		}
 		
-		public List<Pair<string, string>> SeemingBenefits { get; set; } = new List<Pair<string, string>>();
+		public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
 		
 		private MetadataManager metadataManager;
 		
@@ -128,10 +129,10 @@ namespace OCSM.Nodes.CoD.CtL
 			var actionNode = GetNode<OptionButton>(NodePath.ActionInput);
 			var action = actionNode.GetSelectedItemText();
 			
-			var attribute = OCSM.CoD.Attribute.byName(attr1Node.GetSelectedItemText());
-			var attributeResisted = OCSM.CoD.Attribute.byName(attribute2Input.GetSelectedItemText());
-			var attributeContested = OCSM.CoD.Attribute.byName(attribute3Input.GetSelectedItemText());
-			var skill = Skill.byName(skillInput.GetSelectedItemText());
+			var attribute = OCSM.CoD.Attribute.KindFromString(attr1Node.GetSelectedItemText());
+			var attributeContested = OCSM.CoD.Attribute.KindFromString(attribute3Input.GetSelectedItemText());
+			var attributeResisted = OCSM.CoD.Attribute.KindFromString(attribute2Input.GetSelectedItemText());
+			var skill = Skill.KindFromString(skillInput.GetSelectedItemText());
 			var regalia = regaliaNode.GetSelectedItemText();
 			var contractType = contractTypeNode.GetSelectedItemText();
 			
@@ -151,8 +152,6 @@ namespace OCSM.Nodes.CoD.CtL
 			
 			if(!(regaliaObj is ContractRegalia) && regalia.Equals(ContractRegalia.Goblin.Name))
 				regaliaObj = ContractRegalia.Goblin;
-			
-			SeemingBenefits.Sort();
 			
 			return new OCSM.CoD.CtL.Contract()
 			{
@@ -182,14 +181,14 @@ namespace OCSM.Nodes.CoD.CtL
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				var attribute1 = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
-				if(contract.Attribute is OCSM.CoD.Attribute)
-					attribute1.SelectItemByText(contract.Attribute.Name);
-				if(contract.AttributeContested is OCSM.CoD.Attribute)
-					attribute2Input.SelectItemByText(contract.AttributeContested.Name);
-				if(contract.AttributeResisted is OCSM.CoD.Attribute)
-					attribute3Input.SelectItemByText(contract.AttributeResisted.Name);
-				if(contract.Skill is OCSM.CoD.Skill)
-					skillInput.SelectItemByText(contract.Skill.Name);
+				if(contract.Attribute is OCSM.CoD.Attribute.Enum)
+					attribute1.SelectItemByText(contract.Attribute.ToString());
+				if(contract.AttributeContested is OCSM.CoD.Attribute.Enum)
+					attribute2Input.SelectItemByText(contract.AttributeContested.ToString());
+				if(contract.AttributeResisted is OCSM.CoD.Attribute.Enum)
+					attribute3Input.SelectItemByText(contract.AttributeResisted.ToString());
+				if(contract.Skill is OCSM.CoD.Skill.Enum)
+					skillInput.SelectItemByText(contract.Skill.GetLabelOrName());
 				if(contract.Regalia is ContractRegalia)
 					GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).SelectItemByText(contract.Regalia.Name);
 				if(contract.ContractType is ContractType)
@@ -225,8 +224,9 @@ namespace OCSM.Nodes.CoD.CtL
 					c.QueueFree();
 			}
 			
-			SeemingBenefits.Sort();
-			SeemingBenefits.ForEach(sb => addSeemingBenefitInput(sb.Key, sb.Value));
+			SeemingBenefits.OrderBy(e => e.Key)
+				.ToList()
+				.ForEach(e => addSeemingBenefitInput(e.Key, e.Value));
 			addSeemingBenefitInput();
 		}
 		
@@ -300,7 +300,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void updateSeemingBenefits()
 		{
-			var benefits = new List<Pair<string, string>>();
+			var benefits = new Dictionary<string, string>();
 			var children = seemingBenefitsRow.GetChildren();
 			var lastIndex = children.Count - 1;
 			foreach(Node c in children)
@@ -314,12 +314,12 @@ namespace OCSM.Nodes.CoD.CtL
 					if(!children.IndexOf(c).Equals(lastIndex) && String.IsNullOrEmpty(seeming) && String.IsNullOrEmpty(benefit))
 						c.QueueFree();
 					else if(!String.IsNullOrEmpty(seeming) || !String.IsNullOrEmpty(benefit))
-						benefits.Add(new Pair<string, string>() { Key = seeming, Value = benefit });
+						benefits.Add(seeming, benefit);
 				}
 			}
 			
-			SeemingBenefits = benefits;
-			SeemingBenefits.Sort();
+			SeemingBenefits = benefits.OrderBy(e => e.Key)
+								.ToDictionary(e => e.Key, e => e.Value);
 			
 			if(children.Count <= SeemingBenefits.Count + 1)
 			{

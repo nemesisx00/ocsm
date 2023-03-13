@@ -54,8 +54,8 @@ namespace OCSM.Nodes.CoD.Sheets
 			regalia1 = GetNode<RegaliaOptionButton>(NodePath.Regalia1);
 			regalia2 = GetNode<RegaliaOptionButton>(NodePath.Regalia2);
 			
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Advantages.Integrity, changed_Clarity, IntegrityMax);
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Advantages.Power, changed_Wyrd, IntegrityMax);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Clarity), SheetData.Advantages.Integrity, changed_Clarity, DefaultIntegrityMax);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Wyrd), SheetData.Advantages.Power, changed_Wyrd, DefaultIntegrityMax);
 			InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour, SheetData.Advantages.ResourceMax);
 			
 			GetNode<Label>(NodePath.NeedleLabel).Text = SheetData.Details.Virtue;
@@ -91,7 +91,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			base._Ready();
 			
 			//Now that CoDCore sets a default maximum on attributes/skills we need to update after base._Ready()
-			var dotMax = AttributeMax;
+			var dotMax = DefaultAttributeMax;
 			if(SheetData.Advantages.Power > 5)
 				dotMax = SheetData.Advantages.Power;
 			
@@ -241,7 +241,7 @@ namespace OCSM.Nodes.CoD.Sheets
 				glamour.updateMax(SheetData.Advantages.ResourceMax);
 			}
 			
-			var dotMax = AttributeMax;
+			var dotMax = DefaultAttributeMax;
 			if(SheetData.Advantages.Power > 5)
 				dotMax = SheetData.Advantages.Power;
 			

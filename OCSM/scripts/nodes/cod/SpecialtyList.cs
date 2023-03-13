@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OCSM.CoD;
 
 namespace OCSM.Nodes.CoD
@@ -9,9 +10,9 @@ namespace OCSM.Nodes.CoD
 	{
 		
 		[Signal]
-		public delegate void ValueChangedEventHandler(Transport<List<Pair<string, string>>> values);
+		public delegate void ValueChangedEventHandler(Transport<Dictionary<Skill.Enum, string>> values);
 		
-		public List<Pair<string, string>> Values { get; set; } = new List<Pair<string, string>>();
+		public Dictionary<Skill.Enum, string> Values { get; set; } = new Dictionary<Skill.Enum, string>();
 		
 		public override void _Ready()
 		{
@@ -25,9 +26,9 @@ namespace OCSM.Nodes.CoD
 				c.QueueFree();
 			}
 			
-			Values.ForEach(s => {
-				if(Skill.byName(s.Key) is Skill skill)
-					addInput(skill, s.Value);
+			Values.ToList().ForEach(entry => {
+				if(entry.Key is Skill.Enum skill)
+					addInput(skill, entry.Value);
 			});
 			
 			addInput();
@@ -38,38 +39,53 @@ namespace OCSM.Nodes.CoD
 		
 		private void updateValues()
 		{
-			var values = new List<Pair<string, string>>();
-			var children = GetChildren();
-			foreach(HBoxContainer row in children)
-			{
-				var optButton = row.GetChild<OptionButton>(0);
-				var skill = Skill.byName(optButton.GetSelectedItemText());
-				var value = row.GetChild<LineEdit>(1).Text;
-				
-				if(children.IndexOf(row) != children.Count - 1 && !(skill is Skill) && String.IsNullOrEmpty(value))
-					row.QueueFree();
-				else
-				{
-					var sp = new Pair<string, string>();
-					if(skill is Skill)
-						sp.Key = skill.Name;
-					if(!String.IsNullOrEmpty(value))
-						sp.Value = value;
+			var values = new Dictionary<Skill.Enum, string>();
+			var list = GetChildren().Select(n => n as HBoxContainer)
+				.Select(row => new { option = row.GetChild<OptionButton>(0), skill = Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()), text = row.GetChild<LineEdit>(1).Text })
+				.Where(o => o.skill is Skill.Enum)
+				.OrderBy(o => o.skill)
+				.ThenBy(o => o.text)
+				.ToList();
+			
+			// Update the values
+			list.ForEach(o => {
+					if(o.skill is Skill.Enum s)
+					{
+						if(values.ContainsKey(s))
+							values[s] = o.text;
+						else
+							values.Add(s, o.text);
+					}
+				});
+			
+			Values = values;
+			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<Skill.Enum, string>>(values));
+			
+			// Update the option buttons' disabled items
+			list.ForEach(o => {
+					o.option.SetDisabledAll(false);
+					Values.Keys.ToList()
+						.ForEach(sk => o.option.SetDisabledByText(sk.GetLabelOrName(), true));
 					
-					if(!sp.Empty)
-						values.Add(sp);
-				}
-			}
+					if(o.skill is Skill.Enum s)
+						o.option.SetDisabledByText(s.GetLabelOrName(), false);
+				});
 			
-			EmitSignal(nameof(ValueChanged), new Transport<List<Pair<string, string>>>(values));
+			// Clean up excess empties
+			GetChildren().Select(n => n as HBoxContainer)
+				.Where(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()) is null
+								&& String.IsNullOrEmpty(row.GetChild<LineEdit>(1).Text))
+				.ToList()
+				.ForEach(row => row.QueueFree());
 			
-			if(children.Count <= values.Count)
-			{
-				addInput();
-			}
+			NodeUtilities.rearrangeNodes(this, GetChildren()
+												.OrderBy(row => Skill.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()))
+												.ToList());
+			
+			addInput();
 		}
 		
-		private void addInput(Skill skill = null, string specialty = "")
+		private void addInput(Skill.Enum? skill = null, string specialty = "")
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Specialty);
 			var instance = resource.Instantiate<HBoxContainer>();
@@ -78,9 +94,14 @@ namespace OCSM.Nodes.CoD
 			var option = instance.GetChild<SkillOptionButton>(0);
 			var value = instance.GetChild<LineEdit>(1);
 			
-			if(skill is Skill && !String.IsNullOrEmpty(specialty))
+			Values.Keys.ToList()
+				.ForEach(s => option.SetDisabledByText(s.GetLabelOrName(), true));
+			
+			if(skill is Skill.Enum s && !String.IsNullOrEmpty(specialty))
 			{
-				option.SelectItemByText(skill.Name);
+				var text = s.GetLabelOrName();
+				option.SetDisabledByText(text, false);
+				option.SelectItemByText(text);
 				value.Text = specialty;
 			}
 			

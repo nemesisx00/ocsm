@@ -16,6 +16,7 @@ custom_minimum_size = Vector2(115, 0)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("1")
+EmptyOption = true
 
 [node name="Specialty" type="LineEdit" parent="."]
 unique_name_in_owner = true

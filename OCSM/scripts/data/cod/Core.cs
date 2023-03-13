@@ -4,31 +4,18 @@ namespace OCSM.CoD
 {
 	public class CodCore : Character
 	{
-		public long Beats { get; set; }
-		public long Experience { get; set; }
-		public Advantages Advantages { get; set; }
-		public List<string> Aspirations { get; set; }
-		public List<Attribute> Attributes { get; set; }
-		public List<string> Conditions { get; set; }
-		public Details Details { get; set; }
-		public List<Merit> Merits { get; set; }
-		public List<Skill> Skills { get; set; }
-		public List<Pair<string, string>> Specialties { get; set; }
+		public long Beats { get; set; } = 0;
+		public long Experience { get; set; } = 0;
+		public Advantages Advantages { get; set; } = new Advantages();
+		public List<string> Aspirations { get; set; } = new List<string>();
+		public List<Attribute> Attributes { get; set; } = Attribute.Attributes;
+		public List<string> Conditions { get; set; } = new List<string>();
+		public Details Details { get; set; } = new Details();
+		public List<Merit> Merits { get; set; } = new List<Merit>();
+		public List<Skill> Skills { get; set; } = Skill.Skills;
+		public Dictionary<Skill.Enum, string> Specialties { get; set; } = new Dictionary<Skill.Enum, string>();
 		
-		public CodCore() : base()
-		{
-			Beats = 0;
-			Experience = 0;
-			
-			Advantages = new Advantages();
-			Aspirations = new List<string>();
-			Attributes = Attribute.asList();
-			Conditions = new List<string>();
-			Details = new Details();
-			Merits = new List<Merit>();
-			Skills = Skill.asList();
-			Specialties = new List<Pair<string, string>>();
-		}
+		public CodCore() : base() {}
 		
 		public CodCore(string gameSystem) : this()
 		{

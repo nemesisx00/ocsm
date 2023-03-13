@@ -154,7 +154,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			if(metadataManager.Container is CoDChangelingContainer ccc)
 			{
 				var entry = GetNode<ContractEntry>(NodePath.ContractName);
-				var contract = entry.GetNode<Contract>(ContractEntry.NodePath.ContractInput).getData();
+				var contract = entry.GetNode<ContractNode>(ContractEntry.NodePath.ContractInput).getData();
 				
 				if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is OCSM.CoD.CtL.Contract existingContract)
 					ccc.Contracts.Remove(existingContract);

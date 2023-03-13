@@ -1,92 +1,86 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OCSM.CoD
 {
-	public sealed class Attribute : IEquatable<Attribute>
+	public sealed class Attribute : IComparable<Attribute>, IEquatable<Attribute>
 	{
-		public sealed class Names
+		public enum Enum
 		{
-			public const string Composure = "Composure";
-			public const string Dexterity = "Dexterity";
-			public const string Intelligence = "Intelligence";
-			public const string Manipulation = "Manipulation";
-			public const string Presence = "Presence";
-			public const string Resolve = "Resolve";
-			public const string Stamina = "Stamina";
-			public const string Strength = "Strength";
-			public const string Wits = "Wits";
+			[Trait(Trait.Category.Social)]
+			Composure,
+			[Trait(Trait.Category.Physical)]
+			Dexterity,
+			[Trait(Trait.Category.Mental)]
+			Intelligence,
+			[Trait(Trait.Category.Social)]
+			Manipulation,
+			[Trait(Trait.Category.Social)]
+			Presence,
+			[Trait(Trait.Category.Mental)]
+			Resolve,
+			[Trait(Trait.Category.Physical)]
+			Stamina,
+			[Trait(Trait.Category.Physical)]
+			Strength,
+			[Trait(Trait.Category.Mental)]
+			Wits,
 		}
 		
-		public static Attribute Composure = new Attribute(Names.Composure, TraitType.Social, 1);
-		public static Attribute Dexterity = new Attribute(Names.Dexterity, TraitType.Physical, 1);
-		public static Attribute Intelligence = new Attribute(Names.Intelligence, TraitType.Mental, 1);
-		public static Attribute Manipulation = new Attribute(Names.Manipulation, TraitType.Social, 1);
-		public static Attribute Presence = new Attribute(Names.Presence, TraitType.Social, 1);
-		public static Attribute Resolve = new Attribute(Names.Resolve, TraitType.Mental, 1);
-		public static Attribute Stamina = new Attribute(Names.Stamina, TraitType.Physical, 1);
-		public static Attribute Strength = new Attribute(Names.Strength, TraitType.Physical, 1);
-		public static Attribute Wits = new Attribute(Names.Wits, TraitType.Mental, 1);
+		public const long DefaultValue = 1;
 		
-		public static Attribute byName(string name)
+		public static List<Attribute> Attributes { get { return System.Enum.GetValues<Enum>().Select(a => new Attribute(a)).ToList(); }}
+		
+		public static Enum? KindFromString(string text)
 		{
-			switch(name)
-			{
-				case Names.Composure:
-					return Composure;
-				case Names.Dexterity:
-					return Dexterity;
-				case Names.Intelligence:
-					return Intelligence;
-				case Names.Manipulation:
-					return Manipulation;
-				case Names.Presence:
-					return Presence;
-				case Names.Resolve:
-					return Resolve;
-				case Names.Stamina:
-					return Stamina;
-				case Names.Strength:
-					return Strength;
-				case Names.Wits:
-					return Wits;
-				default:
-					return null;
-			}
+			Enum? ret = null;
+			System.Enum.GetValues<Enum>()
+				.Where(a => a.ToString().Equals(text))
+				.ToList()
+				.ForEach(a => ret = a);
+			
+			return ret;
 		}
 		
-		public static List<Attribute> asList()
+		public Trait.Category Category { get; set; }
+		public Enum Kind { get; set; }
+		public long Value { get; set; }
+		public string Name { get { return Kind.GetLabelOrName(); } }
+		
+		public Attribute() {}
+		
+		public Attribute(Enum attribute)
 		{
-			var list = new List<Attribute>();
-			list.Add(Composure);
-			list.Add(Dexterity);
-			list.Add(Intelligence);
-			list.Add(Manipulation);
-			list.Add(Presence);
-			list.Add(Resolve);
-			list.Add(Stamina);
-			list.Add(Strength);
-			list.Add(Wits);
-			return list;
+			Category = attribute.GetCategory();
+			Kind = attribute;
+			Value = DefaultValue;
 		}
 		
-		public Attribute(string name, string type, long value = 1)
+		public Attribute(Enum attribute, long value = 1) : this(attribute)
 		{
-			Name = name;
-			Type = type;
 			Value = value;
 		}
 		
-		public string Name { get; private set; }
-		public string Type { get; private set; }
-		public long Value { get; set; }
-		
-		public bool Equals(Attribute attr)
+		public int CompareTo(Attribute other)
 		{
-			return attr.Name.Equals(Name)
-				&& attr.Type.Equals(Type)
-				&& attr.Value.Equals(Value);
+			var ret = -1;
+			if(other is Attribute)
+			{
+				ret = Category.CompareTo(other.Category);
+				if(ret.Equals(0))
+					ret = Kind.CompareTo(other.Kind);
+				if(ret.Equals(0))
+					ret = Value.CompareTo(other.Value);
+			}
+			return ret;
+		}
+		
+		public bool Equals(Attribute other)
+		{
+			return Category.Equals(other.Category)
+				&& Kind.Equals(other.Kind)
+				&& Value.Equals(other.Value);
 		}
 	}
 }

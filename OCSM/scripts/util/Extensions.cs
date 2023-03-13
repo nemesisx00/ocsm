@@ -16,6 +16,14 @@ namespace OCSM
 				.Label ?? String.Empty;
 		}
 		
+		public static string GetLabelOrName(this Enum value)
+		{
+			var ret = value.GetLabel();
+			if(String.IsNullOrEmpty(ret))
+				ret = value.ToString();
+			return ret;
+		}
+		
 		// --------------------------------------------------
 		
 		// OptionButton extensions
@@ -23,6 +31,20 @@ namespace OCSM
 		public static void Deselect(this OptionButton node)
 		{
 			node.Selected = -1;
+		}
+		
+		public static void SetDisabledAll(this OptionButton node, bool disabled = false)
+		{
+			var count = node.ItemCount;
+			for(var i = 0; i < count; i++)
+			{
+				node.SetItemDisabled(i, false);
+			}
+		}
+		
+		public static void SetDisabledByText(this OptionButton node, string text, bool disabled = false)
+		{
+			node.SetItemDisabled(node.GetFirstItemIndexByText(text), disabled);
 		}
 		
 		public static int GetFirstItemIndexByText(this OptionButton node, string text)

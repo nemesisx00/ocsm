@@ -332,12 +332,14 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("5_75anv")
+EmptyOption = true
 
 [node name="Regalia2" type="OptionButton" parent="Details/Column/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("5_75anv")
+EmptyOption = true
 
 [node name="Label2" type="Label" parent="Details/Column"]
 layout_mode = 2

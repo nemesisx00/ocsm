@@ -1,166 +1,118 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OCSM.CoD
 {
-	public sealed class Skill : IEquatable<Skill>
+	public sealed class Skill : IComparable<Skill>, IEquatable<Skill>
 	{
-		public sealed class Names
+		public enum Enum
 		{
-			public const string Academics = "Academics";
-			public const string Athletics = "Athletics";
-			public const string AnimalKen = "Animal Ken";
-			public const string Brawl = "Brawl";
-			public const string Computer = "Computer";
-			public const string Crafts = "Crafts";
-			public const string Drive = "Drive";
-			public const string Empathy = "Empathy";
-			public const string Expression = "Expression";
-			public const string Firearms = "Firearms";
-			public const string Intimidation = "Intimidation";
-			public const string Investigation = "Investigation";
-			public const string Larceny = "Larceny";
-			public const string Medicine = "Medicine";
-			public const string Occult = "Occult";
-			public const string Persuasion = "Persuasion";
-			public const string Politics = "Politics";
-			public const string Science = "Science";
-			public const string Socialize = "Socialize";
-			public const string Stealth = "Stealth";
-			public const string Streetwise = "Streetwise";
-			public const string Subterfuge = "Subterfuge";
-			public const string Survival = "Survival";
-			public const string Weaponry = "Weaponry";
+			[Trait(Trait.Category.Mental)]
+			Academics,
+			[Trait(Trait.Category.Physical)]
+			Athletics,
+			[Label("Animal Ken")]
+			[Trait(Trait.Category.Social)]
+			AnimalKen,
+			[Trait(Trait.Category.Physical)]
+			Brawl,
+			[Trait(Trait.Category.Mental)]
+			Computer,
+			[Trait(Trait.Category.Mental)]
+			Crafts,
+			[Trait(Trait.Category.Physical)]
+			Drive,
+			[Trait(Trait.Category.Social)]
+			Empathy,
+			[Trait(Trait.Category.Social)]
+			Expression,
+			[Trait(Trait.Category.Physical)]
+			Firearms,
+			[Trait(Trait.Category.Social)]
+			Intimidation,
+			[Trait(Trait.Category.Mental)]
+			Investigation,
+			[Trait(Trait.Category.Physical)]
+			Larceny,
+			[Trait(Trait.Category.Mental)]
+			Medicine,
+			[Trait(Trait.Category.Mental)]
+			Occult,
+			[Trait(Trait.Category.Social)]
+			Persuasion,
+			[Trait(Trait.Category.Mental)]
+			Politics,
+			[Trait(Trait.Category.Mental)]
+			Science,
+			[Trait(Trait.Category.Social)]
+			Socialize,
+			[Trait(Trait.Category.Physical)]
+			Stealth,
+			[Trait(Trait.Category.Social)]
+			Streetwise,
+			[Trait(Trait.Category.Social)]
+			Subterfuge,
+			[Trait(Trait.Category.Physical)]
+			Survival,
+			[Trait(Trait.Category.Physical)]
+			Weaponry,
 		}
 		
-		public static Skill Academics = new Skill(Names.Academics, TraitType.Mental, 0);
-		public static Skill Athletics = new Skill(Names.Athletics, TraitType.Physical, 0);
-		public static Skill AnimalKen = new Skill(Names.AnimalKen, TraitType.Social, 0);
-		public static Skill Brawl = new Skill(Names.Brawl, TraitType.Physical, 0);
-		public static Skill Computer = new Skill(Names.Computer, TraitType.Mental, 0);
-		public static Skill Crafts = new Skill(Names.Crafts, TraitType.Mental, 0);
-		public static Skill Drive = new Skill(Names.Drive, TraitType.Physical, 0);
-		public static Skill Empathy = new Skill(Names.Empathy, TraitType.Social, 0);
-		public static Skill Expression = new Skill(Names.Expression, TraitType.Social, 0);
-		public static Skill Firearms = new Skill(Names.Firearms, TraitType.Physical, 0);
-		public static Skill Intimidation = new Skill(Names.Intimidation, TraitType.Social, 0);
-		public static Skill Investigation = new Skill(Names.Investigation, TraitType.Mental, 0);
-		public static Skill Larceny = new Skill(Names.Larceny, TraitType.Physical, 0);
-		public static Skill Medicine = new Skill(Names.Medicine, TraitType.Mental, 0);
-		public static Skill Occult = new Skill(Names.Occult, TraitType.Mental, 0);
-		public static Skill Persuasion = new Skill(Names.Persuasion, TraitType.Social, 0);
-		public static Skill Politics = new Skill(Names.Politics, TraitType.Mental, 0);
-		public static Skill Science = new Skill(Names.Science, TraitType.Mental, 0);
-		public static Skill Socialize = new Skill(Names.Socialize, TraitType.Social, 0);
-		public static Skill Stealth = new Skill(Names.Stealth, TraitType.Physical, 0);
-		public static Skill Streetwise = new Skill(Names.Streetwise, TraitType.Social, 0);
-		public static Skill Subterfuge = new Skill(Names.Subterfuge, TraitType.Social, 0);
-		public static Skill Survival = new Skill(Names.Survival, TraitType.Physical, 0);
-		public static Skill Weaponry = new Skill(Names.Weaponry, TraitType.Physical, 0);
+		public const long DefaultValue = 0;
 		
-		public static Skill byName(string name)
+		/// <returns>Returns a new list Skill instances based on Skill.Enum.</returns>
+		public static List<Skill> Skills { get { return System.Enum.GetValues<Enum>().Select(s => new Skill(s)).ToList(); } }
+		
+		public static Enum? KindFromString(string text)
 		{
-			switch(name)
-			{
-				case Names.Academics:
-					return Academics;
-				case Names.Athletics:
-					return Athletics;
-				case Names.AnimalKen:
-					return AnimalKen;
-				case Names.Brawl:
-					return Brawl;
-				case Names.Computer:
-					return Computer;
-				case Names.Crafts:
-					return Crafts;
-				case Names.Drive:
-					return Drive;
-				case Names.Empathy:
-					return Empathy;
-				case Names.Expression:
-					return Expression;
-				case Names.Firearms:
-					return Firearms;
-				case Names.Intimidation:
-					return Intimidation;
-				case Names.Investigation:
-					return Investigation;
-				case Names.Larceny:
-					return Larceny;
-				case Names.Medicine:
-					return Medicine;
-				case Names.Occult:
-					return Occult;
-				case Names.Persuasion:
-					return Persuasion;
-				case Names.Politics:
-					return Politics;
-				case Names.Science:
-					return Science;
-				case Names.Socialize:
-					return Socialize;
-				case Names.Stealth:
-					return Stealth;
-				case Names.Streetwise:
-					return Streetwise;
-				case Names.Subterfuge:
-					return Subterfuge;
-				case Names.Survival:
-					return Survival;
-				case Names.Weaponry:
-					return Weaponry;
-				default:
-					return null;
-			}
+			Enum? ret = null;
+			System.Enum.GetValues<Enum>()
+				.Where(s => s.ToString().Equals(text) || (!String.IsNullOrEmpty(s.GetLabel()) && s.GetLabel().Equals(text)))
+				.ToList()
+				.ForEach(s => ret = s);
+			
+			return ret;
 		}
 		
-		public static List<Skill> asList()
+		public Trait.Category Category { get; set; }
+		public Enum Kind { get; set; }
+		public long Value { get; set; }
+		public string Name { get { return Kind.GetLabelOrName(); } }
+		
+		public Skill() {}
+		
+		public Skill(Enum skill)
 		{
-			var list = new List<Skill>();
-			list.Add(Academics);
-			list.Add(Athletics);
-			list.Add(AnimalKen);
-			list.Add(Brawl);
-			list.Add(Computer);
-			list.Add(Crafts);
-			list.Add(Drive);
-			list.Add(Empathy);
-			list.Add(Expression);
-			list.Add(Firearms);
-			list.Add(Intimidation);
-			list.Add(Investigation);
-			list.Add(Larceny);
-			list.Add(Medicine);
-			list.Add(Occult);
-			list.Add(Persuasion);
-			list.Add(Politics);
-			list.Add(Science);
-			list.Add(Socialize);
-			list.Add(Stealth);
-			list.Add(Streetwise);
-			list.Add(Subterfuge);
-			list.Add(Survival);
-			list.Add(Weaponry);
-			return list;
+			Category = skill.GetCategory();
+			Kind = skill;
+			Value = DefaultValue;
 		}
 		
-		public Skill(string name, string type, long value)
+		public Skill(Enum skill, long value) : this(skill)
 		{
-			Name = name;
-			Type = type;
 			Value = value;
 		}
 		
-		public string Name { get; private set; }
-		public string Type { get; private set; }
-		public long Value { get; set; }
+		public int CompareTo(Skill other)
+		{
+			var ret = -1;
+			if(other is Skill)
+			{
+				ret = Category.CompareTo(other.Category);
+				if(ret.Equals(0))
+					ret = Kind.CompareTo(other.Kind);
+				if(ret.Equals(0))
+					ret = Value.CompareTo(other.Value);
+			}
+			return ret;
+		}
 		
 		public bool Equals(Skill skill)
 		{
-			return skill.Name.Equals(Name)
-				&& skill.Type.Equals(Type)
-				&& skill.Value.Equals(Value);
+			return Category.Equals(skill.Category)
+				&& Kind.Equals(skill.Kind)
+				&& Value.Equals(skill.Value);
 		}
 	}
 }

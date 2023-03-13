@@ -29,7 +29,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			viceLabel = GetNode<Label>(NodePath.ViceLabel);
 			virtueLabel = GetNode<Label>(NodePath.VirtueLabel);
 			
-			InitTrackSimple(GetNode<TrackSimple>(NodePath.Integrity), SheetData.Advantages.Integrity, changed_Integrity, IntegrityMax);
+			InitTrackSimple(GetNode<TrackSimple>(NodePath.Integrity), SheetData.Advantages.Integrity, changed_Integrity, DefaultIntegrityMax);
 			viceLabel.Text = SheetData.Details.Vice;
 			virtueLabel.Text = SheetData.Details.Virtue;
 			

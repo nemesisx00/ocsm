@@ -35,7 +35,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			metadataManager.MetadataLoaded += refreshMetadata;
 			metadataManager.MetadataSaved += refreshMetadata;
 			
-			GetNode<Contract>(NodePath.ContractInput).toggleDetails();
+			GetNode<ContractNode>(NodePath.ContractInput).toggleDetails();
 			GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
 			GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
 			GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
@@ -46,19 +46,19 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		public void loadContract(OCSM.CoD.CtL.Contract contract)
 		{
-			var contractInput = GetNode<Contract>(NodePath.ContractInput);
+			var contractInput = GetNode<ContractNode>(NodePath.ContractInput);
 			contractInput.setData(contract);
 		}
 		
 		private void clearInputs()
 		{
-			var contractInput = GetNode<Contract>(NodePath.ContractInput);
+			var contractInput = GetNode<ContractNode>(NodePath.ContractInput);
 			contractInput.clearInputs();
 		}
 		
 		private void doDelete()
 		{
-			var data = GetNode<Contract>(NodePath.ContractInput).getData();
+			var data = GetNode<ContractNode>(NodePath.ContractInput).getData();
 			if(!String.IsNullOrEmpty(data.Name))
 			{
 				EmitSignal(nameof(DeleteConfirmed), data.Name);
@@ -69,7 +69,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void doSave()
 		{
-			var data = GetNode<Contract>(NodePath.ContractInput).getData();
+			var data = GetNode<ContractNode>(NodePath.ContractInput).getData();
 			if(!String.IsNullOrEmpty(data.Name))
 			{
 				EmitSignal(nameof(SaveClicked));
