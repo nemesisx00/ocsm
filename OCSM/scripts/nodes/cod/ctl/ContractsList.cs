@@ -28,13 +28,11 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void refresh()
 		{
-			foreach(Node c in GetChildren())
-			{
-				c.QueueFree();
-			}
+			GetChildren().ToList()
+				.ForEach(n => n.QueueFree());
 			
-			Values.Sort();
 			Values.Where(v => v is Contract)
+				.OrderBy(v => v)
 				.ToList()
 				.ForEach(v => addInput(v));
 			
@@ -156,7 +154,7 @@ namespace OCSM.Nodes.CoD.CtL
 		}
 		
 		private void optionSelected(long index) { updateValues(); }
-		private void textChanged(string newText) { textChanged(); }
+		private void textChanged(string newText) { updateValues(); }
 		private void textChanged() { updateValues(); }
 	}
 }
