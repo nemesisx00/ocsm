@@ -9,22 +9,22 @@ namespace OCSM.CoD.CtL
 {
 	public class Contract : Metadata, IComparable<Contract>, IEmptiable, IEquatable<Contract>
 	{
-		public string Action { get; set; }
-		public Attribute.Enum? Attribute { get; set; }
-		public Attribute.Enum? AttributeResisted { get; set; }
-		public Attribute.Enum? AttributeContested { get; set; }
-		public ContractType ContractType { get; set; }
-		public string Cost { get; set; }
-		public string Duration { get; set; }
-		public string Effects { get; set; }
-		public string Loophole { get; set; }
-		public ContractRegalia Regalia { get; set; }
-		public string RollSuccess { get; set; }
-		public string RollSuccessExceptional { get; set; }
-		public string RollFailure { get; set; }
-		public string RollFailureDramatic { get; set; }
+		public string Action { get; set; } = String.Empty;
+		public Attribute.Enum? Attribute { get; set; } = null;
+		public Attribute.Enum? AttributeResisted { get; set; } = null;
+		public Attribute.Enum? AttributeContested { get; set; } = null;
+		public ContractType ContractType { get; set; } = null;
+		public string Cost { get; set; } = String.Empty;
+		public string Duration { get; set; } = String.Empty;
+		public string Effects { get; set; } = String.Empty;
+		public string Loophole { get; set; } = String.Empty;
+		public ContractRegalia Regalia { get; set; } = null;
+		public string RollSuccess { get; set; } = String.Empty;
+		public string RollSuccessExceptional { get; set; } = String.Empty;
+		public string RollFailure { get; set; } = String.Empty;
+		public string RollFailureDramatic { get; set; } = String.Empty;
 		public Dictionary<string, string> SeemingBenefits { get; set; }
-		public Skill.Enum? Skill { get; set; }
+		public Skill.Enum? Skill { get; set; } = null;
 		
 		[JsonIgnore]
 		public bool Empty
@@ -50,25 +50,18 @@ namespace OCSM.CoD.CtL
 			}
 		}
 		
-		public Contract() : base()
+		[JsonIgnore]
+		public bool ShowResults
 		{
-			Action = String.Empty;
-			Attribute = null;
-			AttributeResisted = null;
-			AttributeContested = null;
-			ContractType = null;
-			Cost = String.Empty;
-			Duration = String.Empty;
-			Effects = String.Empty;
-			Loophole = String.Empty;
-			Regalia = null;
-			RollSuccess = String.Empty;
-			RollSuccessExceptional = String.Empty;
-			RollFailure = String.Empty;
-			RollFailureDramatic = String.Empty;
-			SeemingBenefits = new Dictionary<string, string>();
-			Skill = null;
+			get {
+				return !String.IsNullOrEmpty(RollFailure)
+					|| !String.IsNullOrEmpty(RollFailureDramatic)
+					|| !String.IsNullOrEmpty(RollSuccess)
+					|| !String.IsNullOrEmpty(RollSuccessExceptional);
+			}
 		}
+		
+		public Contract() : base() {}
 		
 		public int CompareTo(Contract contract)
 		{

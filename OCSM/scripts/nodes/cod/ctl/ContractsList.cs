@@ -124,6 +124,8 @@ namespace OCSM.Nodes.CoD.CtL
 						instance.GetNode<OptionButton>(ContractNode.NodePath.ContractTypeInput).SelectItemByText(value.ContractType.Name);
 				}
 				
+				instance.GetNode<TextureButton>(ContractNode.NodePath.ToggleResults).ButtonPressed = value.ShowResults;
+				instance.GetNode<VBoxContainer>(ContractNode.NodePath.RollResultsRow).Visible = value.ShowResults;
 				if(!String.IsNullOrEmpty(value.RollFailure))
 					instance.GetNode<TextEdit>(ContractNode.NodePath.FailureInput).Text = value.RollFailure;
 				if(!String.IsNullOrEmpty(value.RollFailureDramatic))

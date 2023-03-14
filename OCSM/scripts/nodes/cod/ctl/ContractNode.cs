@@ -30,6 +30,7 @@ namespace OCSM.Nodes.CoD.CtL
 			public const string LoopholeInput = "%Loophole";
 			public const string NameInput = "%Name";
 			public const string RegaliaInput = "%Regalia";
+			public const string RollResultsRow = "%RollResultsRow";
 			public const string SeemingInput = "%Seeming";
 			public const string SeemingBenefitsRow = "%SeemingBenefitsRow";
 			public const string SkillInput = "%Skill";
@@ -37,6 +38,7 @@ namespace OCSM.Nodes.CoD.CtL
 			public const string SuccessInput = "%Success";
 			public const string SuccessExceptionalInput = "%ExceptionalSuccess";
 			public const string ToggleDetails = "%ToggleDetails";
+			public const string ToggleResults = "%ToggleResults";
 			public const string Versus = "%Vs";
 			public const string Wyrd = "%Wyrd";
 			public const string Wyrd2 = "%Wyrd2";
@@ -50,9 +52,11 @@ namespace OCSM.Nodes.CoD.CtL
 		private Control attribute2Minus;
 		private AttributeOptionButton attribute3Input;
 		private VBoxContainer detailsInput;
+		private VBoxContainer rollResultsRow;
 		private VBoxContainer seemingBenefitsRow;
 		private SkillOptionButton skillInput;
 		private Control skillPlus;
+		private TextureButton toggleResultsNode;
 		private Label versus;
 		private Control wyrd1;
 		private Control wyrd2;
@@ -65,13 +69,16 @@ namespace OCSM.Nodes.CoD.CtL
 			attribute2Minus = GetNode<Control>(NodePath.Attribute2Minus);
 			attribute3Input = GetNode<AttributeOptionButton>(NodePath.Attribute3Input);
 			detailsInput = GetNode<VBoxContainer>(NodePath.DetailsInput);
+			rollResultsRow = GetNode<VBoxContainer>(NodePath.RollResultsRow);
 			seemingBenefitsRow = GetNode<VBoxContainer>(NodePath.SeemingBenefitsRow);
 			skillInput = GetNode<SkillOptionButton>(NodePath.SkillInput);
 			skillPlus = GetNode<Control>(NodePath.SkillPlus);
+			toggleResultsNode = GetNode<TextureButton>(NodePath.ToggleResults);
 			versus = GetNode<Label>(NodePath.Versus);
 			wyrd1 = GetNode<Control>(NodePath.Wyrd);
 			wyrd2 = GetNode<Control>(NodePath.Wyrd2);
 			
+			toggleResultsNode.Pressed += toggleResults;
 			GetNode<OptionButton>(NodePath.ActionInput).ItemSelected += actionChanged;
 			GetNode<TextureButton>(NodePath.ToggleDetails).Pressed += toggleDetails;
 			GetNode<AttributeOptionButton>(NodePath.AttributeInput).ItemSelected += attributeChanged;
@@ -207,6 +214,8 @@ namespace OCSM.Nodes.CoD.CtL
 				GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = contract.RollSuccessExceptional;
 				GetNode<TextEdit>(NodePath.LoopholeInput).Text = contract.Loophole;
 				
+				toggleResultsNode.ButtonPressed = contract.ShowResults;
+				rollResultsRow.Visible = contract.ShowResults;
 				SeemingBenefits = contract.SeemingBenefits;
 				
 				refreshSeemingBenefits();
@@ -218,15 +227,15 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		public void refreshSeemingBenefits()
 		{
-			foreach(Node c in seemingBenefitsRow.GetChildren())
-			{
-				if(c is HBoxContainer)
-					c.QueueFree();
-			}
+			seemingBenefitsRow.GetChildren()
+				.Where(n => n is HBoxContainer)
+				.ToList()
+				.ForEach(n => n.QueueFree());
 			
 			SeemingBenefits.OrderBy(e => e.Key)
 				.ToList()
 				.ForEach(e => addSeemingBenefitInput(e.Key, e.Value));
+			
 			addSeemingBenefitInput();
 		}
 		
@@ -238,7 +247,15 @@ namespace OCSM.Nodes.CoD.CtL
 				detailsInput.Show();
 		}
 		
-		public void actionChanged(long index)
+		public void toggleResults()
+		{
+			if(rollResultsRow.Visible)
+				rollResultsRow.Hide();
+			else
+				rollResultsRow.Show();
+		}
+		
+		private void actionChanged(long index)
 		{
 			actionChanged(index, true);
 		}
@@ -300,31 +317,22 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void updateSeemingBenefits()
 		{
-			var benefits = new Dictionary<string, string>();
-			var children = seemingBenefitsRow.GetChildren();
-			var lastIndex = children.Count - 1;
-			foreach(Node c in children)
-			{
-				if(c is HBoxContainer)
-				{
-					var seemingNode = c.GetNode<SeemingOptionButton>(NodePath.SeemingInput);
-					var seeming = seemingNode.GetSelectedItemText();
-					var benefit = c.GetNode<TextEdit>(NodePath.BenefitInput).Text;
-					
-					if(!children.IndexOf(c).Equals(lastIndex) && String.IsNullOrEmpty(seeming) && String.IsNullOrEmpty(benefit))
-						c.QueueFree();
-					else if(!String.IsNullOrEmpty(seeming) || !String.IsNullOrEmpty(benefit))
-						benefits.Add(seeming, benefit);
-				}
-			}
+			GetChildren()
+				.Where(node => String.IsNullOrEmpty(node.GetNode<SeemingOptionButton>(NodePath.SeemingInput).GetSelectedItemText())
+					&& String.IsNullOrEmpty(node.GetNode<TextEdit>(NodePath.BenefitInput).Text))
+				.ToList()
+				.ForEach(node => node.QueueFree());
 			
-			SeemingBenefits = benefits.OrderBy(e => e.Key)
-								.ToDictionary(e => e.Key, e => e.Value);
+			SeemingBenefits = GetChildren()
+						.Where(node => node is HBoxContainer)
+						.Select(node => new {
+							seeming = node.GetNode<SeemingOptionButton>(NodePath.SeemingInput).GetSelectedItemText(),
+							benefit = node.GetNode<TextEdit>(NodePath.BenefitInput).Text
+						})
+						.OrderBy(o => o.seeming)
+						.ToDictionary(o => o.seeming, o => o.benefit);
 			
-			if(children.Count <= SeemingBenefits.Count + 1)
-			{
-				addSeemingBenefitInput();
-			}
+			addSeemingBenefitInput();
 		}
 		
 		private void addSeemingBenefitInput(string seeming = null, string benefit = "")
@@ -341,11 +349,8 @@ namespace OCSM.Nodes.CoD.CtL
 				text.Text = benefit;
 			}
 			
-			instance.GetChild<SeemingOptionButton>(0).ItemSelected += seemingChanged;
-			instance.GetChild<TextEdit>(1).TextChanged += benefitChanged;
+			instance.GetChild<SeemingOptionButton>(0).ItemSelected += i => updateSeemingBenefits();
+			instance.GetChild<TextEdit>(1).TextChanged += () => updateSeemingBenefits();
 		}
-		
-		private void seemingChanged(long index) { updateSeemingBenefits(); }
-		private void benefitChanged() { updateSeemingBenefits(); }
 	}
 }

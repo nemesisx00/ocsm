@@ -232,29 +232,47 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row6" type="VBoxContainer" parent="VBoxContainer/Details"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Details"]
 layout_mode = 2
-size_flags_horizontal = 3
+alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/Row6"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Roll Results"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Row" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
+[node name="ToggleResults" type="TextureButton" parent="VBoxContainer/Details/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+toggle_mode = true
+texture_normal = ExtResource("5_d0xoq")
+texture_pressed = ExtResource("6_eo8c3")
+stretch_mode = 5
+
+[node name="RollResultsRow" type="VBoxContainer" parent="VBoxContainer/Details"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Row" type="HBoxContainer" parent="VBoxContainer/Details/RollResultsRow"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/RollResultsRow/Row"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Success:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Success" type="TextEdit" parent="VBoxContainer/Details/Row6/Row"]
+[node name="Success" type="TextEdit" parent="VBoxContainer/Details/RollResultsRow/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -263,18 +281,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row2" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
+[node name="Row2" type="HBoxContainer" parent="VBoxContainer/Details/RollResultsRow"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row2"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/RollResultsRow/Row2"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Exceptional Success:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ExceptionalSuccess" type="TextEdit" parent="VBoxContainer/Details/Row6/Row2"]
+[node name="ExceptionalSuccess" type="TextEdit" parent="VBoxContainer/Details/RollResultsRow/Row2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -283,18 +301,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row3" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
+[node name="Row3" type="HBoxContainer" parent="VBoxContainer/Details/RollResultsRow"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row3"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/RollResultsRow/Row3"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Failure:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Failure" type="TextEdit" parent="VBoxContainer/Details/Row6/Row3"]
+[node name="Failure" type="TextEdit" parent="VBoxContainer/Details/RollResultsRow/Row3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -303,18 +321,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="Row4" type="HBoxContainer" parent="VBoxContainer/Details/Row6"]
+[node name="Row4" type="HBoxContainer" parent="VBoxContainer/Details/RollResultsRow"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="VBoxContainer/Details/Row6/Row4"]
+[node name="Label" type="Label" parent="VBoxContainer/Details/RollResultsRow/Row4"]
 custom_minimum_size = Vector2(165, 0)
 layout_mode = 2
 text = "Dramatic Failure:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="DramaticFailure" type="TextEdit" parent="VBoxContainer/Details/Row6/Row4"]
+[node name="DramaticFailure" type="TextEdit" parent="VBoxContainer/Details/RollResultsRow/Row4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
