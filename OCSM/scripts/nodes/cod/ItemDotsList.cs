@@ -7,79 +7,83 @@ namespace OCSM.Nodes.CoD
 {
 	public partial class ItemDotsList : Container
 	{
+		[Export]
+		protected bool SortItems = true;
+		
 		[Signal]
 		public delegate void ValueChangedEventHandler(Transport<Dictionary<string, long>> transport);
 		
+		protected const string TooltipFormat = "Enter a new {0}";
+		
 		public Dictionary<string, long> Values { get; set; } = new Dictionary<string, long>();
+		
+		protected string ItemLabel { get; set; }
 		
 		public override void _Ready()
 		{
+			ItemLabel = Name;
 			refresh();
 		}
 		
 		public virtual void refresh()
 		{
-			foreach(Node c in GetChildren())
-			{
-				c.QueueFree();
-			}
+			GetChildren().ToList()
+				.ForEach(n => n.QueueFree());
 			
 			Values.ToList()
 				.ForEach(pair => addInput(pair.Key, pair.Value));
 			
+			if(SortItems)
+				sortChildren();
 			addInput();
 		}
 		
+		protected void removeEmpties() => GetChildren()
+											.Where(node => String.IsNullOrEmpty(node.GetChild<TextEdit>(0).Text))
+											.ToList()
+											.ForEach(node => node.QueueFree());
+		
+		protected void sortChildren() => NodeUtilities.rearrangeNodes(
+											this,
+											GetChildren()
+												.OrderBy(node => node.GetChild<TextEdit>(0).Text)
+												.ThenBy(node => node.GetChild<TrackSimple>(1).Value)
+												.ToList()
+										);
+		
 		protected virtual void addInput(string text = "", long dots = 0)
 		{
-			var stringName = Name.ToString();
-			
 			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
 			var node = resource.Instantiate();
-			var lineEdit = node.GetChild<LineEdit>(0);
-			lineEdit.Text = text;
-			lineEdit.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
+			var textEdit = node.GetChild<TextEdit>(0);
+			textEdit.Text = text;
+			textEdit.TooltipText = String.Format(TooltipFormat, ItemLabel);
 			
 			var track = node.GetChild<TrackSimple>(1);
 			track.Value = dots;
 			
 			AddChild(node);
-			lineEdit.TextChanged += textChanged;
-			track.NodeChanged += dotsChanged;
-		}
-		
-		protected void textChanged(string newText)
-		{
-			updateValues();
-		}
-		
-		protected void dotsChanged(TrackSimple node)
-		{
-			updateValues();
+			textEdit.TextChanged += () => updateValues();
+			track.NodeChanged += n => updateValues();
 		}
 		
 		protected virtual void updateValues()
 		{
+			removeEmpties();
+			
 			var values = new Dictionary<string, long>();
-			var children = GetChildren();
-			foreach(Node c in children)
-			{
-				var le = c.GetChild<LineEdit>(0);
-				var dots = c.GetChild<TrackSimple>(1).Value;
-				
-				if(!String.IsNullOrEmpty(le.Text))
-					values.Add(le.Text, dots);
-				else if(children.IndexOf(c) != children.Count - 1)
-					c.QueueFree();
-			}
+			GetChildren()
+				.Select(node => new { text = node.GetChild<TextEdit>(0).Text, dots = node.GetChild<TrackSimple>(1).Value })
+				.OrderBy(o => o.text)
+				.ToList()
+				.ForEach(o => values.Add(o.text, o.dots));
 			
 			Values = values;
 			EmitSignal(nameof(ValueChanged), new Transport<Dictionary<string, long>>(Values));
 			
-			if(children.Count <= Values.Count)
-			{
-				addInput();
-			}
+			if(SortItems)
+				sortChildren();
+			addInput();
 		}
 	}
 }

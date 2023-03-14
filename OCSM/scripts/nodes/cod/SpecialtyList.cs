@@ -8,6 +8,11 @@ namespace OCSM.Nodes.CoD
 {
 	public partial class SpecialtyList : Container
 	{
+		private sealed class NodePath
+		{
+			public const string Skill = "%Skill";
+			public const string Specialty = "%Specialty";
+		}
 		
 		[Signal]
 		public delegate void ValueChangedEventHandler(Transport<Dictionary<Skill.Enum, string>> values);
@@ -107,7 +112,7 @@ namespace OCSM.Nodes.CoD
 				value.Text = specialty;
 			}
 			
-			option.ItemSelected += (i) => updateValues();
+			option.ItemSelected += i => updateValues();
 			value.TextChanged += () => updateValues();
 		}
 	}

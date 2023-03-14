@@ -15,60 +15,43 @@ namespace OCSM.Nodes.CoD
 		
 		public override void _Ready()
 		{
+			ItemLabel = "Merit";
+			
 			refresh();
 		}
 		
 		public override void refresh()
 		{
-			foreach(Node c in GetChildren())
-			{
-				c.QueueFree();
-			}
+			GetChildren().ToList()
+				.ForEach(n => n.QueueFree());
 			
 			Values.Where(m => m is Merit)
 				.ToList()
 				.ForEach(m => addInput(m.Name, m.Value));
 			
+			if(SortItems)
+				sortChildren();
 			addInput();
-		}
-		
-		protected override void addInput(string text = "", long dots = 0)
-		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
-			var node = resource.Instantiate();
-			var lineEdit = node.GetChild<LineEdit>(0);
-			lineEdit.Text = text;
-			lineEdit.TooltipText = "Enter a new Merit";
-			
-			var track = node.GetChild<TrackSimple>(1);
-			track.updateValue(dots);
-			
-			AddChild(node);
-			lineEdit.TextChanged += textChanged;
-			track.NodeChanged += dotsChanged;
 		}
 		
 		protected override void updateValues()
 		{
+			removeEmpties();
+			
 			var values = new List<Merit>();
-			var children = GetChildren();
-			foreach(Node c in children)
-			{
-				var le = c.GetChild<LineEdit>(0);
-				var dots = c.GetChild<TrackSimple>(1).Value;
-				if(!String.IsNullOrEmpty(le.Text))
-					values.Add(new Merit() { Name = le.Text, Value = dots });
-				else if(children.IndexOf(c) != children.Count - 1)
-					c.QueueFree();
-			}
+			var list = GetChildren()
+				.Select(node => new Merit() { Name = node.GetChild<TextEdit>(0).Text, Value = node.GetChild<TrackSimple>(1).Value })
+				.OrderBy(m => m)
+				.ToList();
+			
+			list.ForEach(m => values.Add(m));
 			
 			Values = values;
 			EmitSignal(nameof(ValueChanged), new Transport<List<Merit>>(Values));
 			
-			if(children.Count <= Values.Count)
-			{
-				addInput();
-			}
+			if(SortItems)
+				sortChildren();
+			addInput();
 		}
 	}
 }
