@@ -2,6 +2,7 @@
 
 <div align="center" width="100%">
 	<img alt="GitHub" src="https://img.shields.io/github/license/nemesisx00/ocsm" />
+	<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/nemesisx00/ocsm/dotnet.yml" />
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nemesisx00/ocsm" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/nemesisx00/ocsm" />
 	<!-- <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/nemesisx00/ocsm" /> -->
@@ -11,6 +12,8 @@
 <p align="center">
 Open Character Sheet Manager (OCSM) is an open source cross-platform desktop application for conveniently managing TableTop RolePlaying Game (TTRPG) character sheets for a wide variety of game systems.
 </p>
+
+&nbsp;
 
 ## Table of Contents
 
@@ -24,15 +27,29 @@ Open Character Sheet Manager (OCSM) is an open source cross-platform desktop app
 	- [Compiling, Running, and Testing](https://github.com/nemesisx00/ocsm#compiling-running-and-testing)
 - [What Inspired Me to Create OCSM?](https://github.com/nemesisx00/ocsm#what-inspired-me-to-create-ocsm)
 
+&nbsp;
+
+----
+
+&nbsp;
+
 ## What Is OCSM?
 
 OCSM is an application intended to facilitate players' ability to enjoy playing their game of choice by taking (most) of the hassle out of managing their character information. Rather than dealing with bulky PDFs or difficult-to-organize plain text files, you can enter all of the most important information into meticulously organized and clearly labeled sections on a Sheet specifically designed for your favorite game system. OCSM will handle updating as many of the calculated traits as it can so you can focus on developing the character of your dreams.
 
 It also can facilitate sharing characters, either between players or to keep your GM up to date. The character sheet files generated when you save your character are incredibly small, especially when compared to PDF alternatives. They are also essentially plain text documents so they are less likely to be blocked by spam filters or other security mechanisms.
 
+&nbsp;
+
 ## What OCSM Is Not
 
 This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter most, if not all, of the information you want in your sheet yourself. Thankfully, you can paste into most of the input fields. Also, with the addition of a Metadata layer, you only need to enter new information once at which point you will be able to reuse it across all your character sheets in that particular game system.
+
+&nbsp;
+
+----
+
+&nbsp;
 
 ## Supported & Planned Game Systems
 
@@ -51,15 +68,25 @@ This application is not intended to be a replacement for official game system so
 
 ...and more to come in the future!
 
+&nbsp;
+
 ## Why a Character Sheet Manager?
 
 In my experience, finding a high quality digital character sheet, regardless of format, for any game system is very difficult. Especially if you're looking for a free option. If you are lucky enough to find one for your chosen game system, most of the time they end up being PDFs which, while they can be of exceedingly high visual quality, suffer from the fact that interactive PDFs are clunky at the best of times. Not to mention that PDF is one of the least portable document formats in existence...
 
 Since online communication tools like Discord, among many others, provide access to a much wider range of available games and players, I am very interested in digital resources for supporting this style of playing TTRPGs. I am also a huge proponent of free, open source software. So if I'm going to build something for myself, I also want to build it such that everyone else can use it too.
 
+&nbsp;
+
+----
+
+&nbsp;
+
 ## Inside OCSM
 
 OCSM was created using [Godot](https://godotengine.org) with scripts written in C#.
+
+&nbsp;
 
 ## Getting Started
 
@@ -79,6 +106,12 @@ Now you're ready to get to it! All you need to do at this point is open up [Godo
 Once it's open in [Godot](https://godotengine.org), you can press F5 to run the application.
 
 That's it! You may run into errors and you will definitely run into missing features. Unfortunately, that is inevitable at this stage of development.
+
+&nbsp;
+
+----
+
+&nbsp;
 
 ## What Inspired Me to Create OCSM?
 
