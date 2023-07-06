@@ -25,12 +25,14 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Column"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 40
 text = "Dungeons & Dragons"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Column"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Fifth Edition"
 horizontal_alignment = 1
 vertical_alignment = 1
