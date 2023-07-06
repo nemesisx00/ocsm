@@ -4,20 +4,44 @@ using Ocsm.Dnd.Fifth;
 
 namespace Ocsm.Nodes.Dnd.Fifth
 {
-	public partial class AbilityScores : HBoxContainer
+	public partial class AbilityScores : Container
 	{
-		private sealed class NodePaths
+		public void initialize<T>(List<Ability> abilities, AbilityColumn.AbilityChangedEventHandler handler)
+			where T: AbilityColumn
 		{
-			public const string Names = "%Names";
-			public const string Scores = "%Scores";
-			public const string SavingThrows = "%SavingThrows";
-			public const string Skills = "%Skills";
+			abilities.ForEach(a => InitAbilityColumn(GetNode<AbilityColumn>("%" + a.Name), a, handler));
 		}
 		
-		public List<Ability> Abilities { get; set; }
-		
-		public override void _Ready()
+		public void initialize<T>(List<Ability> abilities, AbilityRow.AbilityChangedEventHandler handler)
+			where T: AbilityRow
 		{
+			abilities.ForEach(a => InitAbilityRow(GetNode<AbilityRow>("%" + a.Name), a, handler));
+		}
+		
+		protected void InitAbilityColumn(AbilityColumn node, Ability initialValue, AbilityColumn.AbilityChangedEventHandler handler)
+		{
+			if(node is AbilityColumn)
+			{
+				if(initialValue is Ability)
+				{
+					node.Ability = initialValue;
+					node.refresh();
+				}
+				node.AbilityChanged += handler;
+			}
+		}
+		
+		protected void InitAbilityRow(AbilityRow node, Ability initialValue, AbilityRow.AbilityChangedEventHandler handler)
+		{
+			if(node is AbilityRow)
+			{
+				if(initialValue is Ability)
+				{
+					node.Ability = initialValue;
+					node.refresh();
+				}
+				node.AbilityChanged += handler;
+			}
 		}
 	}
 }
