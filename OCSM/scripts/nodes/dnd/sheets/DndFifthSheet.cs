@@ -13,8 +13,9 @@ namespace Ocsm.Nodes.Dnd.Sheets
 {
 	public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	{
-		private sealed class NodePath
+		private sealed class NodePaths
 		{
+			public const string AbilityScores = "%Ability Scores";
 			public const string Alignment = "%Alignment";
 			public const string ArmorClass = "%ArmorClass";
 			public const string Background = "%Background";
@@ -65,36 +66,36 @@ namespace Ocsm.Nodes.Dnd.Sheets
 			if(!(SheetData is FifthAdventurer))
 				SheetData = new FifthAdventurer();
 			
-			inventory = GetNode<Inventory>(NodePath.Inventory);
-			bardicInspirationDie = GetNode<DieOptionsButton>(NodePath.BardicInspirationDie);
-			bonds = GetNode<TextEdit>(NodePath.Bonds);
-			flaws = GetNode<TextEdit>(NodePath.Flaws);
-			ideals = GetNode<TextEdit>(NodePath.Ideals);
-			personalityTraits = GetNode<TextEdit>(NodePath.PersonalityTraits);
-			backgroundFeatures = GetNode<VBoxContainer>(NodePath.BackgroundFeatures);
-			raceFeatures = GetNode<VBoxContainer>(NodePath.RaceFeatures);
-			armorClass = GetNode<SpinBox>(NodePath.ArmorClass);
-			initiativeBonus = GetNode<SpinBox>(NodePath.InitiativeBonus);
-			speed = GetNode<SpinBox>(NodePath.Speed);
+			inventory = GetNode<Inventory>(NodePaths.Inventory);
+			bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
+			bonds = GetNode<TextEdit>(NodePaths.Bonds);
+			flaws = GetNode<TextEdit>(NodePaths.Flaws);
+			ideals = GetNode<TextEdit>(NodePaths.Ideals);
+			personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
+			backgroundFeatures = GetNode<VBoxContainer>(NodePaths.BackgroundFeatures);
+			raceFeatures = GetNode<VBoxContainer>(NodePaths.RaceFeatures);
+			armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
+			initiativeBonus = GetNode<SpinBox>(NodePaths.InitiativeBonus);
+			speed = GetNode<SpinBox>(NodePaths.Speed);
 			
-			InitLineEdit(GetNode<LineEdit>(NodePath.CharacterName), SheetData.Name, changed_CharacterName);
-			InitLineEdit(GetNode<LineEdit>(NodePath.PlayerName), SheetData.Player, changed_PlayerName);
-			InitLineEdit(GetNode<LineEdit>(NodePath.Alignment), SheetData.Alignment, changed_Alignment);
-			InitRaceOptionsButton(GetNode<RaceOptionsButton>(NodePath.Race), SheetData.Race, changed_Race);
-			InitBackgroundOptionsButton(GetNode<BackgroundOptionsButton>(NodePath.Background), SheetData.Background, changed_Background);
+			InitLineEdit(GetNode<LineEdit>(NodePaths.CharacterName), SheetData.Name, changed_CharacterName);
+			InitLineEdit(GetNode<LineEdit>(NodePaths.PlayerName), SheetData.Player, changed_PlayerName);
+			InitLineEdit(GetNode<LineEdit>(NodePaths.Alignment), SheetData.Alignment, changed_Alignment);
+			InitRaceOptionsButton(GetNode<RaceOptionsButton>(NodePaths.Race), SheetData.Race, changed_Race);
+			InitBackgroundOptionsButton(GetNode<BackgroundOptionsButton>(NodePaths.Background), SheetData.Background, changed_Background);
 			
-			InitSpinBox(GetNode<SpinBox>(NodePath.CurrentHP), SheetData.HP.Current, changed_CurrentHP);
-			InitSpinBox(GetNode<SpinBox>(NodePath.MaxHP), SheetData.HP.Max, changed_MaxHP);
-			InitSpinBox(GetNode<SpinBox>(NodePath.TempHP), SheetData.HP.Temp, changed_TempHP);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.CurrentHP), SheetData.HP.Current, changed_CurrentHP);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.MaxHP), SheetData.HP.Max, changed_MaxHP);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.TempHP), SheetData.HP.Temp, changed_TempHP);
 			
-			InitSpinBox(GetNode<SpinBox>(NodePath.Copper), SheetData.CoinPurse.Copper, changed_Copper);
-			InitSpinBox(GetNode<SpinBox>(NodePath.Silver), SheetData.CoinPurse.Silver, changed_Silver);
-			InitSpinBox(GetNode<SpinBox>(NodePath.Electrum), SheetData.CoinPurse.Electrum, changed_Electrum);
-			InitSpinBox(GetNode<SpinBox>(NodePath.Gold), SheetData.CoinPurse.Gold, changed_Gold);
-			InitSpinBox(GetNode<SpinBox>(NodePath.Platinum), SheetData.CoinPurse.Platinum, changed_Platinum);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.Copper), SheetData.CoinPurse.Copper, changed_Copper);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.Silver), SheetData.CoinPurse.Silver, changed_Silver);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.Electrum), SheetData.CoinPurse.Electrum, changed_Electrum);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.Gold), SheetData.CoinPurse.Gold, changed_Gold);
+			InitSpinBox(GetNode<SpinBox>(NodePaths.Platinum), SheetData.CoinPurse.Platinum, changed_Platinum);
 			
-			InitToggleButton(GetNode<ToggleButton>(NodePath.Inspiration), SheetData.Inspiration, changed_Inspiration);
-			InitToggleButton(GetNode<ToggleButton>(NodePath.BardicInspiration), SheetData.BardicInspiration, changed_BardicInspiration);
+			InitToggleButton(GetNode<ToggleButton>(NodePaths.Inspiration), SheetData.Inspiration, changed_Inspiration);
+			InitToggleButton(GetNode<ToggleButton>(NodePaths.BardicInspiration), SheetData.BardicInspiration, changed_BardicInspiration);
 			InitDieOptionsButton(bardicInspirationDie, SheetData.BardicInspirationDie, changed_BardicInspirationDie);
 			
 			InitTextEdit(personalityTraits, SheetData.PersonalityTraits, changed_PersonalityTraits);
@@ -102,7 +103,8 @@ namespace Ocsm.Nodes.Dnd.Sheets
 			InitTextEdit(bonds, SheetData.Bonds, changed_Bonds);
 			InitTextEdit(flaws, SheetData.Flaws, changed_Flaws);
 			
-			SheetData.Abilities.ForEach(a => InitAbilityNode(GetNode<AbilityNode>("%" + a.Name), a, changed_Ability));
+			GetNode<AbilityScores>(NodePaths.AbilityScores)
+				.initialize<AbilityRow>(SheetData.Abilities, changed_Ability);
 			
 			InitInventory(inventory, SheetData.Inventory, changed_Inventory);
 			
@@ -110,19 +112,6 @@ namespace Ocsm.Nodes.Dnd.Sheets
 			refreshFeatures();
 			toggleBardicInspirationDie();
 			updateCalculatedTraits();
-		}
-		
-		protected void InitAbilityNode(AbilityNode node, Ability initialValue, AbilityNode.AbilityChangedEventHandler handler)
-		{
-			if(node is AbilityNode)
-			{
-				if(initialValue is Ability)
-				{
-					node.Ability = initialValue;
-					node.refresh();
-				}
-				node.AbilityChanged += handler;
-			}
 		}
 		
 		protected void InitBackgroundOptionsButton(BackgroundOptionsButton node, Background initialValue, BackgroundOptionsButton.ItemSelectedEventHandler handler)
