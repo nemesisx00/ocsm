@@ -5,7 +5,7 @@ using Ocsm.Dnd.Fifth;
 
 namespace Ocsm.Nodes.Dnd.Fifth
 {
-	public partial class AbilityNode : Container
+	public partial class AbilityColumn : Container
 	{
 		[Signal]
 		public delegate void AbilityChangedEventHandler(Transport<Ability> transport);
