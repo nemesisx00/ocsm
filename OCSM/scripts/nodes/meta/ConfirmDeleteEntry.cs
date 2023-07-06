@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace OCSM.Nodes.Meta
+namespace Ocsm.Nodes.Meta
 {
 	public partial class ConfirmDeleteEntry : ConfirmationDialog
 	{

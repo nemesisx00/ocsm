@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using OCSM.Meta;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Meta;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.DnD.Fifth.Meta
+namespace Ocsm.Dnd.Fifth.Meta
 {
-	public class DnDFifthContainer : IMetadataContainer, IEquatable<DnDFifthContainer>
+	public class DndFifthContainer : IMetadataContainer, IEquatable<DndFifthContainer>
 	{
 		[JsonIgnore]
 		public List<Item> AllItems
@@ -35,8 +35,8 @@ namespace OCSM.DnD.Fifth.Meta
 		
 		public void Deserialize(string json)
 		{
-			var result = JsonSerializer.Deserialize<DnDFifthContainer>(json);
-			if(result is DnDFifthContainer dfc)
+			var result = JsonSerializer.Deserialize<DndFifthContainer>(json);
+			if(result is DndFifthContainer dfc)
 			{
 				dfc.Sort();
 				
@@ -80,7 +80,7 @@ namespace OCSM.DnD.Fifth.Meta
 			Weapons.Sort();
 		}
 		
-		public bool Equals(DnDFifthContainer container)
+		public bool Equals(DndFifthContainer container)
 		{
 			return Armors.Equals(container.Armors)
 				&& Backgrounds.Equals(container.Backgrounds)

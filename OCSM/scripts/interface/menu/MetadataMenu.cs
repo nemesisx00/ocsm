@@ -1,10 +1,10 @@
 using Godot;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.CoD.CtL.Meta;
-using OCSM.Nodes.DnD.Fifth.Meta;
-using OCSM.Nodes.Meta;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Dnd.Fifth.Meta;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class MetadataMenu : MenuButton
 	{
@@ -42,11 +42,11 @@ namespace OCSM.Nodes
 		{
 			switch(metadataManager.CurrentGameSystem)
 			{
-				case Constants.GameSystem.CoD.Changeling:
-					generatePopup<CodChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.Meta.AddEditMetadata));
+				case Constants.GameSystem.Cofd.Changeling:
+					generatePopup<CodChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
 					break;
-				case Constants.GameSystem.DnD.Fifth:
-					generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.AddEditMetadata));
+				case Constants.GameSystem.Dnd.Fifth:
+					generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.AddEditMetadata));
 					break;
 				default:
 					break;

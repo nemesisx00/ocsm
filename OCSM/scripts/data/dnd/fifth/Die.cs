@@ -1,8 +1,8 @@
 using System;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
-	public class Die : OCSM.Die, IComparable<Die>, IEquatable<Die>
+	public class Die : Ocsm.Die, IComparable<Die>, IEquatable<Die>
 	{
 		public static Die d4 = new Die() { Sides = 4 };
 		public static Die d6 = new Die() { Sides = 6 };

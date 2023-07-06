@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OCSM.DnD.Fifth.Meta
+namespace Ocsm.Dnd.Fifth.Meta
 {
 	public sealed class SpellSlots
 	{

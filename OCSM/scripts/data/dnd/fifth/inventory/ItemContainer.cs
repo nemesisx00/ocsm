@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OCSM.DnD.Fifth.Inventory
+namespace Ocsm.Dnd.Fifth.Inventory
 {
 	public class ItemContainer : ItemEquippable, IComparable<ItemContainer>, IEquatable<ItemContainer>
 	{

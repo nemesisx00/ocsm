@@ -1,7 +1,7 @@
 using System;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.CoD.CtL
+namespace Ocsm.Cofd.Ctl
 {
 	public class ContractRegalia : Metadata, IComparable<ContractRegalia>, IEquatable<ContractRegalia>
 	{

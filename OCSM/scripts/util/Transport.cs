@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OCSM
+namespace Ocsm
 {
 	/// <summary>
 	/// Generic container for transferring an object which does not extend

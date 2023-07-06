@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using OCSM.Nodes.Autoload;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public abstract partial class CustomOption : OptionButton
 	{

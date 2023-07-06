@@ -2,10 +2,10 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OCSM.DnD.Fifth;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Dnd.Fifth;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class InventoryItem : HBoxContainer
 	{

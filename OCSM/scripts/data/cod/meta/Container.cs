@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.CoD.Meta
+namespace Ocsm.Cofd.Meta
 {
-	public class CoDCoreContainer : IMetadataContainer, IEquatable<CoDCoreContainer>
+	public class CofdCoreContainer : IMetadataContainer, IEquatable<CofdCoreContainer>
 	{
 		public List<Merit> Merits { get; set; } = new List<Merit>();
 		
 		public virtual void Deserialize(string json)
 		{
-			var result = JsonSerializer.Deserialize<CoDCoreContainer>(json);
-			if(result is CoDCoreContainer ccc)
+			var result = JsonSerializer.Deserialize<CofdCoreContainer>(json);
+			if(result is CofdCoreContainer ccc)
 			{
 				Merits = ccc.Merits;
 			}
@@ -28,7 +28,7 @@ namespace OCSM.CoD.Meta
 			return JsonSerializer.Serialize(this);
 		}
 		
-		public bool Equals(CoDCoreContainer container)
+		public bool Equals(CofdCoreContainer container)
 		{
 			return container.Merits.Equals(Merits);
 		}

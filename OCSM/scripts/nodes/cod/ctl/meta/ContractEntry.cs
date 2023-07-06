@@ -1,11 +1,11 @@
 using Godot;
 using System;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.Meta;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes.CoD.CtL.Meta
+namespace Ocsm.Nodes.Cofd.Ctl.Meta
 {
 	public partial class ContractEntry : Container
 	{
@@ -44,7 +44,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			refreshMetadata();
 		}
 		
-		public void loadContract(OCSM.CoD.CtL.Contract contract)
+		public void loadContract(Ocsm.Cofd.Ctl.Contract contract)
 		{
 			var contractInput = GetNode<ContractNode>(NodePath.ContractInput);
 			contractInput.setData(contract);
@@ -85,9 +85,9 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			if(name.Contains(" ("))
 				name = name.Substring(0, name.IndexOf(" ("));
 			
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
-				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is OCSM.CoD.CtL.Contract contract)
+				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is Ocsm.Cofd.Ctl.Contract contract)
 				{
 					loadContract(contract);
 					optionButton.Deselect();
@@ -95,7 +95,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 			}
 		}
 		
-		private string generateEntryName(OCSM.CoD.CtL.Contract contract)
+		private string generateEntryName(Ocsm.Cofd.Ctl.Contract contract)
 		{
 			var ct = String.Empty;
 			var r = String.Empty;
@@ -133,7 +133,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void refreshMetadata()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();

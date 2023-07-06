@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public class FifthAdventurer : Character
 	{
@@ -38,7 +38,7 @@ namespace OCSM.DnD.Fifth
 			}
 		}
 		
-		public FifthAdventurer() : base(Constants.GameSystem.DnD.Fifth)
+		public FifthAdventurer() : base(Constants.GameSystem.Dnd.Fifth)
 		{
 			Abilities = Ability.generateBaseAbilityScores();
 			Alignment = String.Empty;

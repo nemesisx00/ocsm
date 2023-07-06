@@ -1,9 +1,9 @@
 using Godot;
 using System;
-using OCSM.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.Meta
+namespace Ocsm.Nodes.Meta
 {
 	public partial class BasicMetadataEntry : Container, ICanDelete
 	{

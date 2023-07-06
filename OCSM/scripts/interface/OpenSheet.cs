@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class OpenSheet : FileDialog
 	{

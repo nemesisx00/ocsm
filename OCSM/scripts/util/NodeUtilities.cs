@@ -1,9 +1,9 @@
 using Godot;
 using System.Collections.Generic;
-using OCSM.Nodes;
-using OCSM.Nodes.Meta;
+using Ocsm.Nodes;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM
+namespace Ocsm
 {
 	/// <summary>
 	/// A collection of utility methods for creating or modifying one or more
@@ -23,7 +23,7 @@ namespace OCSM
 		}
 		
 		/// <summary>
-		/// Instantiate and display the <c>OCSM.Nodes.Meta.ConfirmDeleteEntry</c> node.
+		/// Instantiate and display the <c>Ocsm.Nodes.Meta.ConfirmDeleteEntry</c> node.
 		/// </summary>
 		/// <param name="label">The text denoting what is being deleted.</param>
 		/// <param name="parent">The <c>Godot.Node</c> to which to add the instance.</param>

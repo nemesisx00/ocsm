@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class AbilityNode : Container
 	{
@@ -71,12 +71,12 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			if(Ability is Ability)
 			{
-				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Skill);
+				var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Skill);
 				Ability.Skills.ForEach(s => instantiateSkill(s, resource));
 			}
 		}
 		
-		private void instantiateSkill(OCSM.DnD.Fifth.Skill skill, PackedScene resource)
+		private void instantiateSkill(Ocsm.Dnd.Fifth.Skill skill, PackedScene resource)
 		{
 			var instance = resource.Instantiate<Skill>();
 			instance.AbilityModifier = Ability.Modifier;
@@ -89,11 +89,11 @@ namespace OCSM.Nodes.DnD.Fifth
 			instance.setProficiency(skill.Proficient);
 		}
 		
-		private void proficiencyChanged(string currentState, OCSM.DnD.Fifth.Skill boundSkill)
+		private void proficiencyChanged(string currentState, Ocsm.Dnd.Fifth.Skill boundSkill)
 		{
 			var proficiency = ProficiencyUtility.fromStatefulButtonState(currentState);
 			boundSkill.Proficient = proficiency;
-			if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is OCSM.DnD.Fifth.Skill skill)
+			if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is Ocsm.Dnd.Fifth.Skill skill)
 				skill.Proficient = proficiency;
 			EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
 		}

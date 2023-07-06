@@ -1,5 +1,5 @@
 
-namespace OCSM.DnD.Fifth.Inventory
+namespace Ocsm.Dnd.Fifth.Inventory
 {
 	public class Equipment
 	{

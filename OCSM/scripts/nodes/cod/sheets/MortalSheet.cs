@@ -1,8 +1,8 @@
 using Godot;
-using OCSM.CoD;
-using OCSM.Nodes.Sheets;
+using Ocsm.Cofd;
+using Ocsm.Nodes.Sheets;
 
-namespace OCSM.Nodes.CoD.Sheets
+namespace Ocsm.Nodes.Cofd.Sheets
 {
 	public partial class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 	{

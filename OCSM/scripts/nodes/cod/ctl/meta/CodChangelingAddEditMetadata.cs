@@ -1,12 +1,12 @@
 using Godot;
-using OCSM.CoD;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.CoD.Meta;
-using OCSM.Nodes.Meta;
+using Ocsm.Cofd;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Cofd.Meta;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes.CoD.CtL.Meta
+namespace Ocsm.Nodes.Cofd.Ctl.Meta
 {
 	public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	{
@@ -67,9 +67,9 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteContract(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
-				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is OCSM.CoD.CtL.Contract contract)
+				if(ccc.Contracts.Find(c => c.Name.Equals(name)) is Ocsm.Cofd.Ctl.Contract contract)
 				{
 					ccc.Contracts.Remove(contract);
 					EmitSignal(nameof(MetadataChanged));
@@ -79,7 +79,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteContractType(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
 				{
@@ -91,7 +91,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteCourt(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 				{
@@ -103,7 +103,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteKith(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
 				{
@@ -115,7 +115,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteMerit(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 				{
@@ -127,7 +127,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteRegalia(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
 				{
@@ -139,7 +139,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void deleteSeeming(string name)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
 				{
@@ -151,12 +151,12 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveContract()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var entry = GetNode<ContractEntry>(NodePath.ContractName);
 				var contract = entry.GetNode<ContractNode>(ContractEntry.NodePath.ContractInput).getData();
 				
-				if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is OCSM.CoD.CtL.Contract existingContract)
+				if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is Ocsm.Cofd.Ctl.Contract existingContract)
 					ccc.Contracts.Remove(existingContract);
 				
 				ccc.Contracts.Add(contract);
@@ -166,7 +166,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveContractType(string name, string description)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
 					ccc.ContractTypes.Remove(contractType);
@@ -178,7 +178,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveCourt(string name, string description)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
 					ccc.Courts.Remove(court);
@@ -190,7 +190,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveKith(string name, string description)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
 					ccc.Kiths.Remove(kith);
@@ -202,7 +202,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveMerit(string name, string description, int value)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 					ccc.Merits.Remove(merit);
@@ -214,7 +214,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveRegalia(string name, string description)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
 					ccc.Regalias.Remove(regalia);
@@ -226,7 +226,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void saveSeeming(string name, string description)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
 					ccc.Seemings.Remove(seeming);

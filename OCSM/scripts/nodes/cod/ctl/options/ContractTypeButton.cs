@@ -1,8 +1,8 @@
 using System.Linq;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.CoD.CtL
+namespace Ocsm.Nodes.Cofd.Ctl
 {
 	public partial class ContractTypeButton : CustomOption
 	{
@@ -17,7 +17,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		protected override void refreshMetadata()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 				replaceItems(ccc.ContractTypes.Select(ct => ct.Name).ToList());
 		}
 	}

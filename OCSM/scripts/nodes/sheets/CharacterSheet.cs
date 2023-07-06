@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace OCSM.Nodes.Sheets
+namespace Ocsm.Nodes.Sheets
 {
 	public interface ICharacterSheet
 	{

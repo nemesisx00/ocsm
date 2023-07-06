@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM.DnD.Fifth.Inventory
+namespace Ocsm.Dnd.Fifth.Inventory
 {
 	public class ItemArmor : ItemEquippable, IComparable<ItemArmor>, IEquatable<ItemArmor>
 	{

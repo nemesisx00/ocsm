@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
-using OCSM.API;
+using Ocsm.API;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public class Weapon : IEmptiable, IEquatable<Weapon>, IComparable<Weapon>
 	{

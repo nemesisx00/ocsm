@@ -2,10 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OCSM.CoD;
-using OCSM.Nodes.Sheets;
+using Ocsm.Cofd;
+using Ocsm.Nodes.Sheets;
 
-namespace OCSM.Nodes.CoD.Sheets
+namespace Ocsm.Nodes.Cofd.Sheets
 {
 	public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		where T: CodCore
@@ -135,9 +135,9 @@ namespace OCSM.Nodes.CoD.Sheets
 		protected void updateDefense()
 		{
 			long newValue = 0;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
 				newValue = dex.Value;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Wits)) is OCSM.CoD.Attribute wits
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Wits)) is Ocsm.Cofd.Attribute wits
 					&& newValue < wits.Value)
 				newValue = wits.Value;
 			if(SheetData.Skills.FirstOrDefault(s => s.Kind.Equals(Skill.Enum.Athletics)) is Skill athl)
@@ -150,9 +150,9 @@ namespace OCSM.Nodes.CoD.Sheets
 		protected void updateInitiative()
 		{
 			long newValue = 0;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
 				newValue += dex.Value;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Composure)) is OCSM.CoD.Attribute comp)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Composure)) is Ocsm.Cofd.Attribute comp)
 				newValue += comp.Value;
 			
 			if(newValue > 0)
@@ -161,7 +161,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		protected void updateMaxHealth()
 		{
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Stamina)) is OCSM.CoD.Attribute stam)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Stamina)) is Ocsm.Cofd.Attribute stam)
 			{
 				SheetData.Advantages.Health.Max = SheetData.Advantages.Size + stam.Value;
 				health.updateMax(SheetData.Advantages.Health.Max);
@@ -171,9 +171,9 @@ namespace OCSM.Nodes.CoD.Sheets
 		protected void updateMaxWillpower()
 		{
 			long newValue = 0;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Composure)) is OCSM.CoD.Attribute comp)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Composure)) is Ocsm.Cofd.Attribute comp)
 				newValue += comp.Value;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Resolve)) is OCSM.CoD.Attribute res)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Resolve)) is Ocsm.Cofd.Attribute res)
 				newValue += res.Value;
 			
 			if(newValue > 0)
@@ -186,9 +186,9 @@ namespace OCSM.Nodes.CoD.Sheets
 		protected void updateSpeed()
 		{
 			var newValue = SheetData.Advantages.Size;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Dexterity)) is OCSM.CoD.Attribute dex)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
 				newValue += dex.Value;
-			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(OCSM.CoD.Attribute.Enum.Strength)) is OCSM.CoD.Attribute str)
+			if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Strength)) is Ocsm.Cofd.Attribute str)
 				newValue += str.Value;
 			
 			speed.Text = newValue.ToString();
@@ -199,31 +199,31 @@ namespace OCSM.Nodes.CoD.Sheets
 		private void changed_Attribute(TrackSimple node)
 		{
 			var attr = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(node.Name));
-			if(attr is OCSM.CoD.Attribute)
+			if(attr is Ocsm.Cofd.Attribute)
 			{
 				attr.Value = node.Value;
 				
 				switch(attr.Kind)
 				{
-					case OCSM.CoD.Attribute.Enum.Composure:
+					case Ocsm.Cofd.Attribute.Enum.Composure:
 						updateMaxWillpower();
 						updateInitiative();
 						break;
-					case OCSM.CoD.Attribute.Enum.Dexterity:
+					case Ocsm.Cofd.Attribute.Enum.Dexterity:
 						updateDefense();
 						updateInitiative();
 						updateSpeed();
 						break;
-					case OCSM.CoD.Attribute.Enum.Resolve:
+					case Ocsm.Cofd.Attribute.Enum.Resolve:
 						updateMaxWillpower();
 						break;
-					case OCSM.CoD.Attribute.Enum.Stamina:
+					case Ocsm.Cofd.Attribute.Enum.Stamina:
 						updateMaxHealth();
 						break;
-					case OCSM.CoD.Attribute.Enum.Strength:
+					case Ocsm.Cofd.Attribute.Enum.Strength:
 						updateSpeed();
 						break;
-					case OCSM.CoD.Attribute.Enum.Wits:
+					case Ocsm.Cofd.Attribute.Enum.Wits:
 						updateDefense();
 						break;
 				}

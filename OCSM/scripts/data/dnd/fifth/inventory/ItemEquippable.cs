@@ -1,7 +1,7 @@
 using System;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.DnD.Fifth.Inventory
+namespace Ocsm.Dnd.Fifth.Inventory
 {
 	public class ItemEquippable : Item, IComparable<ItemEquippable>, IEquatable<ItemEquippable>
 	{

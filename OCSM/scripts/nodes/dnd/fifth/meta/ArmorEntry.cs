@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using OCSM.Nodes.Autoload;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public sealed partial class ArmorEntry : Container, ICanDelete
 	{
@@ -63,7 +63,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			var optionsButton = GetNode<ArmorOptionsButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
@@ -95,7 +95,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		public void refreshMetadata()
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				var optionButton = GetNode<ArmorOptionsButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();

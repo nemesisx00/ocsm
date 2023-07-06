@@ -1,13 +1,13 @@
 using System;
-using OCSM.DnD.Fifth.Meta;
+using Ocsm.Dnd.Fifth.Meta;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class FeatureOptionsButton : CustomOption
 	{
 		protected override void refreshMetadata()
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				var index = Selected;
 				

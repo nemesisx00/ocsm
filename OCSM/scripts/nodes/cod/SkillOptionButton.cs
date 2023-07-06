@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace OCSM.Nodes.CoD
+namespace Ocsm.Nodes.Cofd
 {
 	public partial class SkillOptionButton : CustomOption
 	{
@@ -12,7 +12,7 @@ namespace OCSM.Nodes.CoD
 		
 		protected override void refreshMetadata()
 		{
-			replaceItems(Enum.GetValues<OCSM.CoD.Skill.Enum>()
+			replaceItems(Enum.GetValues<Ocsm.Cofd.Skill.Enum>()
 				.Select(s => s.GetLabelOrName())
 				.ToList());
 		}

@@ -2,14 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OCSM.DnD.Fifth;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.DnD.Fifth;
-using OCSM.Nodes.Sheets;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Dnd.Fifth;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Dnd.Fifth;
+using Ocsm.Nodes.Sheets;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.Nodes.DnD.Sheets
+namespace Ocsm.Nodes.Dnd.Sheets
 {
 	public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	{
@@ -145,11 +145,11 @@ namespace OCSM.Nodes.DnD.Sheets
 			}
 		}
 		
-		protected void InitDieOptionsButton(DieOptionsButton node, OCSM.DnD.Fifth.Die initialValue, DieOptionsButton.ItemSelectedEventHandler handler)
+		protected void InitDieOptionsButton(DieOptionsButton node, Ocsm.Dnd.Fifth.Die initialValue, DieOptionsButton.ItemSelectedEventHandler handler)
 		{
 			if(node is DieOptionsButton)
 			{
-				if(initialValue is OCSM.DnD.Fifth.Die)
+				if(initialValue is Ocsm.Dnd.Fifth.Die)
 					node.SelectItemByText(initialValue.ToString());
 				node.ItemSelected += handler;
 			}
@@ -169,7 +169,7 @@ namespace OCSM.Nodes.DnD.Sheets
 				//validate each item before adding
 				
 				/*
-				if(metadataManager.Container is DnDFifthContainer dfc)
+				if(metadataManager.Container is DndFifthContainer dfc)
 					dfc.Items.Where(item => items.Find(i => i.Name.Equals(item.Name)).Any())
 						.ToList()
 						.ForEach(item => node.Items.Add(item));
@@ -294,7 +294,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Background(long index)
 		{
-			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Backgrounds[(int)index - 1] is Background background)
+			if(index > 0 && metadataManager.Container is DndFifthContainer dfc && dfc.Backgrounds[(int)index - 1] is Background background)
 				SheetData.Background = background;
 			else
 				SheetData.Background = null;
@@ -313,7 +313,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			var text = bardicInspirationDie.GetItemText((int)index);
 			if(!String.IsNullOrEmpty(text))
 			{
-				var die = new OCSM.DnD.Fifth.Die() { Sides = int.Parse(text.Substring(1)) };
+				var die = new Ocsm.Dnd.Fifth.Die() { Sides = int.Parse(text.Substring(1)) };
 				SheetData.BardicInspirationDie = die;
 			}
 			else
@@ -354,7 +354,7 @@ namespace OCSM.Nodes.DnD.Sheets
 		
 		private void changed_Race(long index)
 		{
-			if(index > 0 && metadataManager.Container is DnDFifthContainer dfc && dfc.Races[(int)index - 1] is Race race)
+			if(index > 0 && metadataManager.Container is DndFifthContainer dfc && dfc.Races[(int)index - 1] is Race race)
 				SheetData.Race = race;
 			else
 				SheetData.Race = null;
@@ -365,9 +365,9 @@ namespace OCSM.Nodes.DnD.Sheets
 		private void changed_Silver(double value) { SheetData.CoinPurse.Silver = (int)value; }
 		private void changed_TempHP(double value) { SheetData.HP.Temp = (int)value; }
 		
-		private List<OCSM.DnD.Fifth.Feature> collectAllFeatures()
+		private List<Ocsm.Dnd.Fifth.Feature> collectAllFeatures()
 		{
-			var allFeatures = new List<OCSM.DnD.Fifth.Feature>();
+			var allFeatures = new List<Ocsm.Dnd.Fifth.Feature>();
 			if(SheetData.Background is Background background && background.Features.Count > 0)
 				allFeatures.AddRange(background.Features);
 			if(SheetData.Race is Race race && race.Features.Count > 0)
@@ -383,7 +383,7 @@ namespace OCSM.Nodes.DnD.Sheets
 			foreach(Node child in raceFeatures.GetChildren())
 				child.QueueFree();
 			
-			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Feature);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
 			if(SheetData.Background is Background background && background.Features.Any())
 				background.Features.ForEach(f => renderFeature(backgroundFeatures, f, resource, f.Equals(background.Features.Last())));
 			if(SheetData.Race is Race race && race.Features.Any())
@@ -392,9 +392,9 @@ namespace OCSM.Nodes.DnD.Sheets
 			updateCalculatedTraits();
 		}
 		
-		private void renderFeature(Container node, OCSM.DnD.Fifth.Feature feature, PackedScene resource, bool separator = false)
+		private void renderFeature(Container node, Ocsm.Dnd.Fifth.Feature feature, PackedScene resource, bool separator = false)
 		{
-			var instance = resource.Instantiate<OCSM.Nodes.DnD.Fifth.Feature>();
+			var instance = resource.Instantiate<Ocsm.Nodes.Dnd.Fifth.Feature>();
 			node.AddChild(instance);
 			instance.update(feature);
 			

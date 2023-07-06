@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public partial class SectionList : Container
 	{
@@ -61,7 +61,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void addInput(FeatureSection section = null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.FeatureSectionEntry);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.FeatureSectionEntry);
 			var instance = resource.Instantiate<HBoxContainer>();
 			
 			AddChild(instance);

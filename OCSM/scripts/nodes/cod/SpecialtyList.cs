@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OCSM.CoD;
+using Ocsm.Cofd;
 
-namespace OCSM.Nodes.CoD
+namespace Ocsm.Nodes.Cofd
 {
 	public partial class SpecialtyList : Container
 	{
@@ -94,7 +94,7 @@ namespace OCSM.Nodes.CoD
 		
 		private void addInput(Skill.Enum? skill = null, string specialty = "")
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Specialty);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Specialty);
 			var instance = resource.Instantiate<HBoxContainer>();
 			AddChild(instance);
 			

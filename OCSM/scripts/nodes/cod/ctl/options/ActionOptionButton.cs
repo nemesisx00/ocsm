@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 
-namespace OCSM.Nodes.CoD.CtL
+namespace Ocsm.Nodes.Cofd.Ctl
 {
 	public partial class ActionOptionButton : CustomOption
 	{

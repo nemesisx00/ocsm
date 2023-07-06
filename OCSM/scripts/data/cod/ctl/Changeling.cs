@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OCSM.CoD.CtL
+namespace Ocsm.Cofd.Ctl
 {
 	public class Changeling : CodCore
 	{
@@ -23,7 +23,7 @@ namespace OCSM.CoD.CtL
 		public List<string> Frailties { get; set; }
 		public List<string> Touchstones { get; set; }
 		
-		public Changeling() : base(Constants.GameSystem.CoD.Changeling)
+		public Changeling() : base(Constants.GameSystem.Cofd.Changeling)
 		{
 			Contracts = new List<Contract>();
 			FavoredRegalia = new Pair<Regalia, Regalia>();

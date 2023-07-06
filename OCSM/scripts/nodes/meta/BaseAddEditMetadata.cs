@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OCSM.Nodes.Meta
+namespace Ocsm.Nodes.Meta
 {
 	public abstract partial class BaseAddEditMetadata : Window
 	{

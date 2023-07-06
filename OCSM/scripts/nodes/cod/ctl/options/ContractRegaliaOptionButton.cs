@@ -1,9 +1,9 @@
 using System.Linq;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.CoD.CtL
+namespace Ocsm.Nodes.Cofd.Ctl
 {
 	public partial class ContractRegaliaOptionButton : CustomOption
 	{
@@ -18,7 +18,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		protected override void refreshMetadata()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var list = ccc.Regalias.Select(r => r.Name)
 					.Union(ccc.Courts.Select(c => c.Name))

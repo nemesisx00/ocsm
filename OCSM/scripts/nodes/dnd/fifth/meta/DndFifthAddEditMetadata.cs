@@ -1,12 +1,12 @@
 using Godot;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.DnD.Fifth.Inventory;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.Meta;
+using Ocsm.Dnd.Fifth;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Dnd.Fifth.Inventory;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 	{
@@ -55,7 +55,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void deleteArmor(string name)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
 				{
@@ -67,7 +67,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void deleteBackground(string name)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
 				{
@@ -79,7 +79,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void deleteClass(string name)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
 				{
@@ -91,9 +91,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void deleteFeature(string name)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
-				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
+				if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature)
 				{
 					dfc.Features.Remove(feature);
 					EmitSignal(nameof(MetadataChanged));
@@ -103,7 +103,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void deleteRace(string name)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
 				{
@@ -115,7 +115,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		protected void saveArmor(Transport<ItemArmor> transport)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				var armor = transport.Value;
 				
@@ -128,17 +128,17 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveBackground(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveBackground(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
 					dfc.Backgrounds.Remove(background);
 				
-				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
 				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
-				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
 				features.Value.ForEach(f => featureList.Add(f));
 				
 				dfc.Backgrounds.Add(new Background() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
@@ -147,30 +147,30 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveClass(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveClass(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
 					dfc.Classes.Remove(clazz);
 				
-				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
 				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
-				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
 				features.Value.ForEach(f => featureList.Add(f));
 				
-				dfc.Classes.Add(new Class() { Description = description, Features = featureList, HitDie = OCSM.DnD.Fifth.Die.d10, Name = name, Sections = sectionList, });
+				dfc.Classes.Add(new Class() { Description = description, Features = featureList, HitDie = Ocsm.Dnd.Fifth.Die.d10, Name = name, Sections = sectionList, });
 				dfc.Classes.Sort();
 				EmitSignal(nameof(MetadataChanged));
 			}
 		}
 		
-		protected void saveFeature(Transport<OCSM.DnD.Fifth.Feature> transport)
+		protected void saveFeature(Transport<Ocsm.Dnd.Fifth.Feature> transport)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
-				if(dfc.Features.Find(f => f.Name.Equals(transport.Value.Name)) is OCSM.DnD.Fifth.Feature feature)
+				if(dfc.Features.Find(f => f.Name.Equals(transport.Value.Name)) is Ocsm.Dnd.Fifth.Feature feature)
 					dfc.Features.Remove(feature);
 				
 				dfc.Features.Add(transport.Value);
@@ -179,17 +179,17 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		protected void saveRace(string name, string description, Transport<List<OCSM.DnD.Fifth.FeatureSection>> sections, Transport<List<OCSM.DnD.Fifth.Feature>> features)
+		protected void saveRace(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
 		{
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
 					dfc.Races.Remove(race);
 				
-				var sectionList = new List<OCSM.DnD.Fifth.FeatureSection>();
+				var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
 				sections.Value.ForEach(fs => sectionList.Add(fs));
 				
-				var featureList = new List<OCSM.DnD.Fifth.Feature>();
+				var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
 				features.Value.ForEach(f => featureList.Add(f));
 				
 				dfc.Races.Add(new Race() { Description = description, Features = featureList, Name = name, Sections = sectionList, });

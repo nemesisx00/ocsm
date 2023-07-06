@@ -1,5 +1,5 @@
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public class HitPoints
 	{

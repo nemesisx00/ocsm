@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
-using OCSM.API;
-using OCSM.Meta;
+using Ocsm.API;
+using Ocsm.Meta;
 
-namespace OCSM.CoD.CtL
+namespace Ocsm.Cofd.Ctl
 {
 	public class Contract : Metadata, IComparable<Contract>, IEmptiable, IEquatable<Contract>
 	{

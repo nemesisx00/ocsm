@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace OCSM.Nodes.CoD
+namespace Ocsm.Nodes.Cofd
 {
 	public partial class AttributeOptionButton : CustomOption
 	{
@@ -12,7 +12,7 @@ namespace OCSM.Nodes.CoD
 		
 		protected override void refreshMetadata()
 		{
-			replaceItems(Enum.GetValues<OCSM.CoD.Attribute.Enum>()
+			replaceItems(Enum.GetValues<Ocsm.Cofd.Attribute.Enum>()
 				.Select(a => a.GetLabelOrName())
 				.ToList());
 		}

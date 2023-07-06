@@ -1,8 +1,8 @@
 using System;
 using Godot;
-using OCSM.DnD.Fifth.Inventory;
+using Ocsm.Dnd.Fifth.Inventory;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class WeaponTypeOptions : OptionButton
 	{

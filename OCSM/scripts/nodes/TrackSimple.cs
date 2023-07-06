@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class TrackSimple : GridContainer
 	{
