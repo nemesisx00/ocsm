@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://deu3qx5cs2s01"]
 
-[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_gig77"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/AbilityNode.cs" id="2"]
-[ext_resource type="PackedScene" uid="uid://6xlybs5ki0j" path="res://scenes/dnd/fifth/Skill.tscn" id="3"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_hf763"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/AbilityColumn.cs" id="2_y5s86"]
+[ext_resource type="PackedScene" uid="uid://6xlybs5ki0j" path="res://scenes/dnd/fifth/Skill.tscn" id="3_mfvte"]
 
 [node name="Ability" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource("1_gig77")
-script = ExtResource("2")
+theme = ExtResource("1_hf763")
+script = ExtResource("2_y5s86")
 
 [node name="Name" type="Label" parent="."]
 unique_name_in_owner = true
@@ -21,6 +21,7 @@ vertical_alignment = 1
 [node name="Score" type="SpinBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Ability Score"
 max_value = 30.0
 value = 10.0
 rounded = true
@@ -29,15 +30,17 @@ alignment = 1
 [node name="Modifier" type="SpinBox" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Ability Modifier"
 min_value = -5.0
 max_value = 10.0
 rounded = true
 alignment = 1
 editable = false
 
-[node name="SavingThrow" parent="." instance=ExtResource("3")]
+[node name="SavingThrow" parent="." instance=ExtResource("3_mfvte")]
 unique_name_in_owner = true
 layout_mode = 2
+tooltip_text = "Saving Throw"
 Label = "Saving Throw"
 
 [node name="HSeparator" type="HSeparator" parent="."]
