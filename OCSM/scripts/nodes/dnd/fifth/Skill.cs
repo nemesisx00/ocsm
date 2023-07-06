@@ -42,7 +42,12 @@ namespace Ocsm.Nodes.Dnd.Fifth
 			update();
 		}
 		
-		public void trackAbility(AbilityNode ability)
+		public void trackAbility(AbilityColumn ability)
+		{
+			ability.AbilityChanged += scoreChanged;
+		}
+		
+		public void trackAbility(AbilityRow ability)
 		{
 			ability.AbilityChanged += scoreChanged;
 		}
