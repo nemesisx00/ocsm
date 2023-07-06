@@ -31,6 +31,12 @@ window/subwindows/embed_subwindows=false
 project/assembly_name="Open Character Sheet Manager"
 project/solution_directory="../"
 
+[editor]
+
+naming/default_signal_callback_name="handle{node_name}_{signal_name}"
+naming/default_signal_callback_to_self_name="handle{signal_name}"
+naming/scene_name_casing=1
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
