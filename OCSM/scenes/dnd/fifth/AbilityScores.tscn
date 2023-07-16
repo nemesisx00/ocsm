@@ -24,7 +24,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-custom_minimum_size = Vector2(600, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
@@ -33,7 +33,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
-custom_minimum_size = Vector2(600, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
@@ -42,7 +42,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
-custom_minimum_size = Vector2(600, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
@@ -51,7 +51,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer"]
-custom_minimum_size = Vector2(600, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
@@ -60,7 +60,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HSeparator5" type="HSeparator" parent="VBoxContainer"]
-custom_minimum_size = Vector2(600, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
