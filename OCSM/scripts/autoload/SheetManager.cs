@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using OCSM.Nodes.Sheets;
+using Ocsm.Nodes.Sheets;
 
-namespace OCSM.Nodes.Autoload
+namespace Ocsm.Nodes.Autoload
 {
 	public partial class SheetManager : Node
 	{
@@ -88,22 +88,22 @@ namespace OCSM.Nodes.Autoload
 				if(sheetTabs is TabContainer)
 				{
 					var loaded = false;
-					if(json.Contains(Constants.GameSystem.CoD.Changeling))
+					if(json.Contains(Constants.GameSystem.Cofd.Changeling))
 					{
-						metadataManager.CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
-						addNewSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName, json);
+						metadataManager.CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
+						addNewSheet(Constants.Scene.Cofd.Changeling.Sheet, Constants.Scene.Cofd.Changeling.NewSheetName, json);
 						loaded = true;
 					}
-					else if(json.Contains(Constants.GameSystem.CoD.Mortal))
+					else if(json.Contains(Constants.GameSystem.Cofd.Mortal))
 					{
-						metadataManager.CurrentGameSystem = Constants.GameSystem.CoD.Mortal;
-						addNewSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName, json);
+						metadataManager.CurrentGameSystem = Constants.GameSystem.Cofd.Mortal;
+						addNewSheet(Constants.Scene.Cofd.Mortal.Sheet, Constants.Scene.Cofd.Mortal.NewSheetName, json);
 						loaded = true;
 					}
-					else if(json.Contains(Constants.GameSystem.DnD.Fifth))
+					else if(json.Contains(Constants.GameSystem.Dnd.Fifth))
 					{
-						metadataManager.CurrentGameSystem = Constants.GameSystem.DnD.Fifth;
-						addNewSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName, json);
+						metadataManager.CurrentGameSystem = Constants.GameSystem.Dnd.Fifth;
+						addNewSheet(Constants.Scene.Dnd.Fifth.Sheet, Constants.Scene.Dnd.Fifth.NewSheetName, json);
 						loaded = true;
 					}
 					

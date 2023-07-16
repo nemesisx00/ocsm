@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class Skill : Container
 	{
@@ -42,7 +42,12 @@ namespace OCSM.Nodes.DnD.Fifth
 			update();
 		}
 		
-		public void trackAbility(AbilityNode ability)
+		public void trackAbility(AbilityColumn ability)
+		{
+			ability.AbilityChanged += scoreChanged;
+		}
+		
+		public void trackAbility(AbilityRow ability)
 		{
 			ability.AbilityChanged += scoreChanged;
 		}

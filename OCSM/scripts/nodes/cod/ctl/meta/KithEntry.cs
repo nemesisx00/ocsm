@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Meta;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes.CoD.CtL.Meta
+namespace Ocsm.Nodes.Cofd.Ctl.Meta
 {
 	public partial class KithEntry : BasicMetadataEntry
 	{
@@ -12,7 +12,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		{
 			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
 				{
@@ -24,7 +24,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		public override void refreshMetadata()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();

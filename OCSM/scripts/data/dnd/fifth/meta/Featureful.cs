@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.DnD.Fifth.Meta
+namespace Ocsm.Dnd.Fifth.Meta
 {
 	public abstract class Featureful : Metadata,  IComparable<Featureful>, IEquatable<Featureful>
 	{

@@ -1,7 +1,7 @@
 using System;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class AbilityOptionsButton : CustomOption
 	{

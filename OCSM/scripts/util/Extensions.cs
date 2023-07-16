@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Godot;
 
-namespace OCSM
+namespace Ocsm
 {
 	public static class Extensions
 	{

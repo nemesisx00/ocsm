@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public class Range : IComparable<Range>, IEquatable<Range>
 	{

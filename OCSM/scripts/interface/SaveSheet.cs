@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class SaveSheet : FileDialog
 	{

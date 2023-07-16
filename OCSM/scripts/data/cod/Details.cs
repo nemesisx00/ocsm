@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public class Details
 	{

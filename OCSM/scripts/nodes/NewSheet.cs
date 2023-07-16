@@ -1,7 +1,7 @@
 using Godot;
-using OCSM.Nodes.Autoload;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class NewSheet : ScrollContainer
 	{
@@ -32,14 +32,14 @@ namespace OCSM.Nodes
 			sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 			tabContainer = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
 			
-			GetNode<Button>(NodePath.CodMortal2e).Pressed += newCoDMortal2e;
-			GetNode<Button>(NodePath.CodChangeling2e).Pressed += newCoDChangeling2e;
+			GetNode<Button>(NodePath.CodMortal2e).Pressed += newCofdMortal2e;
+			GetNode<Button>(NodePath.CodChangeling2e).Pressed += newCofdChangeling2e;
 			GetNode<Button>(NodePath.Dnd5thPath).Pressed += newDnd5e;
 		}
 		
-		private void newCoDMortal2e() { addSheet(Constants.Scene.CoD.Mortal.Sheet, Constants.Scene.CoD.Mortal.NewSheetName); }
-		private void newCoDChangeling2e() { addSheet(Constants.Scene.CoD.Changeling.Sheet, Constants.Scene.CoD.Changeling.NewSheetName); }
-		private void newDnd5e() { addSheet(Constants.Scene.DnD.Fifth.Sheet, Constants.Scene.DnD.Fifth.NewSheetName); }
+		private void newCofdMortal2e() { addSheet(Constants.Scene.Cofd.Mortal.Sheet, Constants.Scene.Cofd.Mortal.NewSheetName); }
+		private void newCofdChangeling2e() { addSheet(Constants.Scene.Cofd.Changeling.Sheet, Constants.Scene.Cofd.Changeling.NewSheetName); }
+		private void newDnd5e() { addSheet(Constants.Scene.Dnd.Fifth.Sheet, Constants.Scene.Dnd.Fifth.NewSheetName); }
 		
 		private void addSheet(string sheetPath, string name)
 		{

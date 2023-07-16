@@ -1,7 +1,7 @@
 using Godot;
-using OCSM.CoD;
+using Ocsm.Cofd;
 
-namespace OCSM.Nodes.CoD
+namespace Ocsm.Nodes.Cofd
 {
 	public partial class Weapon : VBoxContainer
 	{

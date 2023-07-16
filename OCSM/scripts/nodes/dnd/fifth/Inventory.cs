@@ -1,11 +1,11 @@
 using Godot;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
-using OCSM.DnD.Fifth.Inventory;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Dnd.Fifth;
+using Ocsm.Dnd.Fifth.Inventory;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class Inventory : VBoxContainer
 	{
@@ -46,14 +46,14 @@ namespace OCSM.Nodes.DnD.Fifth
 				c.QueueFree();
 			}
 			
-			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.InventoryItem);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.InventoryItem);
 			Items.ForEach(i => instantiateItem(i, resource));
 		}
 		
 		private void addItemHandler()
 		{
 			var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
 				var itemName = options.GetSelectedItemText();
 				if(dfc.AllItems.Find(i => i.Name.Equals(itemName)) is Item item)

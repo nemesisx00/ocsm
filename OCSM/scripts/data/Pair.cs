@@ -1,8 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
-using OCSM.API;
+using Ocsm.API;
 
-namespace OCSM
+namespace Ocsm
 {
 	public struct Pair<K, V> : IComparable<Pair<K, V>>, IEmptiable, IEquatable<Pair<K, V>>
 		where K: IComparable<K>, IEquatable<K>

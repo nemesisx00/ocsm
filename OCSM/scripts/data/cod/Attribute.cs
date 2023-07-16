@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public sealed class Attribute : IComparable<Attribute>, IEquatable<Attribute>
 	{

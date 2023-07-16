@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class EntryList : Container
 	{

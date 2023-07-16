@@ -1,9 +1,9 @@
 
-namespace OCSM
+namespace Ocsm
 {
 	/// <summary>
 	/// Class containing all constant values which need to be universally
-	/// accessible within OCSM.
+	/// accessible within Ocsm.
 	/// </summary>
 	public class Constants
 	{
@@ -24,13 +24,13 @@ namespace OCSM
 		
 		public sealed class GameSystem
 		{
-			public sealed class CoD
+			public sealed class Cofd
 			{
 				public const string Mortal = "CodMortal";
 				public const string Changeling = "CodChangeling";
 			}
 			
-			public sealed class DnD
+			public sealed class Dnd
 			{
 				public const string Fifth = "Dnd5e";
 			}
@@ -43,8 +43,8 @@ namespace OCSM
 			
 			public sealed class DataType
 			{
-				public const string CodMortal = "OCSM.Mortal";
-				public const string CodChangeling = "OCSM.Changeling";
+				public const string CodMortal = "Ocsm.Mortal";
+				public const string CodChangeling = "Ocsm.Changeling";
 			}
 		}
 		
@@ -61,7 +61,7 @@ namespace OCSM
 		public sealed class Scene
 		{
 			public const string AboutGodot = "res://scenes/AboutGodot.tscn";
-			public const string AboutOCSM = "res://scenes/AboutOCSM.tscn";
+			public const string AboutOcsm = "res://scenes/AboutOcsm.tscn";
 			public const string ConfirmQuit = "res://scenes/ConfirmQuit.tscn";
 			public const string DarkPack = "res://scenes/DarkPack.tscn";
 			public const string GameSystemLicenses = "res://scenes/GameSystemLicenses.tscn";
@@ -76,7 +76,7 @@ namespace OCSM
 				public const string ConfirmDeleteEntry = "res://scenes/meta/ConfirmDeleteEntry.tscn";
 			}
 			
-			public sealed class CoD
+			public sealed class Cofd
 			{
 				public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
 				public const string Specialty = "res://scenes/cod/nodes/Specialty.tscn";
@@ -101,23 +101,23 @@ namespace OCSM
 				}
 			}
 			
-			public sealed class DnD
+			public sealed class Dnd
 			{
 				public sealed class Fifth
 				{
-					public const string Skill = "res://scenes/dnd/fifth/Skill.tscn";
-					public const string Sheet = "res://scenes/dnd/sheets/Fifth.tscn";
+					public const string Skill = "res://scenes/Dnd/Fifth/Skill.tscn";
+					public const string Sheet = "res://scenes/Dnd/sheets/Fifth.tscn";
 					public const string NewSheetName = "New Adventurer";
-					public const string Feature = "res://scenes/dnd/fifth/Feature.tscn";
-					public const string FeatureSection = "res://scenes/dnd/fifth/FeatureSection.tscn";
-					public const string InventoryItem = "res://scenes/dnd/fifth/InventoryItem.tscn";
+					public const string Feature = "res://scenes/Dnd/Fifth/Feature.tscn";
+					public const string FeatureSection = "res://scenes/Dnd/Fifth/FeatureSection.tscn";
+					public const string InventoryItem = "res://scenes/Dnd/Fifth/InventoryItem.tscn";
 					
 					public sealed class Meta
 					{
-						public const string AddEditMetadata = "res://scenes/dnd/fifth/meta/DndFifthAddEditMetadata.tscn";
-						public const string FeatureSectionEntry = "res://scenes/dnd/fifth/meta/FeatureSectionEntry.tscn";
-						public const string FeatureEntry = "res://scenes/dnd/fifth/meta/FeatureEntry.tscn";
-						public const string NumericBonusEdit = "res://scenes/dnd/fifth/meta/NumericBonusEdit.tscn";
+						public const string AddEditMetadata = "res://scenes/Dnd/Fifth/meta/DndFifthAddEditMetadata.tscn";
+						public const string FeatureSectionEntry = "res://scenes/Dnd/Fifth/meta/FeatureSectionEntry.tscn";
+						public const string FeatureEntry = "res://scenes/Dnd/Fifth/meta/FeatureEntry.tscn";
+						public const string NumericBonusEdit = "res://scenes/Dnd/Fifth/meta/NumericBonusEdit.tscn";
 					}
 				}
 			}

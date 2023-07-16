@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public partial class NumericBonusEdit : Container
 	{

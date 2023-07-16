@@ -1,6 +1,6 @@
 using Godot;
 
-namespace OCSM.Nodes.Autoload
+namespace Ocsm.Nodes.Autoload
 {
 	public partial class AppManager : Node
 	{

@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using OCSM.Meta;
-using OCSM.CoD.Meta;
+using Ocsm.Meta;
+using Ocsm.Cofd.Meta;
 
-namespace OCSM.CoD.CtL.Meta
+namespace Ocsm.Cofd.Ctl.Meta
 {
-	public class CoDChangelingContainer : CoDCoreContainer, IMetadataContainer, IEquatable<CoDChangelingContainer>
+	public class CofdChangelingContainer : CofdCoreContainer, IMetadataContainer, IEquatable<CofdChangelingContainer>
 	{
-		public static CoDChangelingContainer initializeWithDefaultValues()
+		public static CofdChangelingContainer initializeWithDefaultValues()
 		{
-			var container = new CoDChangelingContainer();
+			var container = new CofdChangelingContainer();
 			
 			container.ContractTypes.Add(new ContractType() { Name = "Common" });
 			container.ContractTypes.Add(new ContractType() { Name = "Royal" });
@@ -58,7 +58,7 @@ namespace OCSM.CoD.CtL.Meta
 		public List<Regalia> Regalias { get; set; }
 		public List<Seeming> Seemings { get; set; }
 		
-		public CoDChangelingContainer() : base()
+		public CofdChangelingContainer() : base()
 		{
 			Contracts = new List<Contract>();
 			ContractTypes = new List<ContractType>();
@@ -70,8 +70,8 @@ namespace OCSM.CoD.CtL.Meta
 		
 		public override void Deserialize(string json)
 		{
-			var result = JsonSerializer.Deserialize<CoDChangelingContainer>(json);
-			if(result is CoDChangelingContainer ccc)
+			var result = JsonSerializer.Deserialize<CofdChangelingContainer>(json);
+			if(result is CofdChangelingContainer ccc)
 			{
 				Contracts = ccc.Contracts;
 				ContractTypes = ccc.ContractTypes;
@@ -99,7 +99,7 @@ namespace OCSM.CoD.CtL.Meta
 			return JsonSerializer.Serialize(this);
 		}
 		
-		public bool Equals(CoDChangelingContainer container)
+		public bool Equals(CofdChangelingContainer container)
 		{
 			return base.Equals(container);
 		}

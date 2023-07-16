@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM
+namespace Ocsm
 {
 	public class Die : IComparable<Die>, IEquatable<Die>
 	{

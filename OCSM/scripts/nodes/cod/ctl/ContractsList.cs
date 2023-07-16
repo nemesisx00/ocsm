@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OCSM.CoD;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Cofd;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.CoD.CtL
+namespace Ocsm.Nodes.Cofd.Ctl
 {
 	public partial class ContractsList : Container
 	{
@@ -64,7 +64,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void addInput(Contract value = null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.ContractNode);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.ContractNode);
 			var instance = resource.Instantiate<ContractNode>();
 			
 			AddChild(instance);
@@ -75,17 +75,17 @@ namespace OCSM.Nodes.CoD.CtL
 				actionNode.SelectItemByText(value.Action);
 				instance.actionChanged(actionNode.Selected);
 				
-				if(value.Attribute is OCSM.CoD.Attribute.Enum attribute)
+				if(value.Attribute is Ocsm.Cofd.Attribute.Enum attribute)
 				{
 					var node = instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.AttributeInput);
 					node.SelectItemByText(attribute.ToString());
 					instance.attributeChanged(node.Selected);
 				}
 				
-				if(value.AttributeResisted is OCSM.CoD.Attribute.Enum attributeResisted)
+				if(value.AttributeResisted is Ocsm.Cofd.Attribute.Enum attributeResisted)
 					instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute2Input).SelectItemByText(attributeResisted.ToString());
 				
-				if(value.AttributeContested is OCSM.CoD.Attribute.Enum attributeContested)
+				if(value.AttributeContested is Ocsm.Cofd.Attribute.Enum attributeContested)
 				{
 					var node = instance.GetNode<AttributeOptionButton>(ContractNode.NodePath.Attribute3Input);
 					node.SelectItemByText(attributeContested.ToString());
@@ -114,7 +114,7 @@ namespace OCSM.Nodes.CoD.CtL
 				if(value.Skill is Skill.Enum skill)
 					instance.GetNode<SkillOptionButton>(ContractNode.NodePath.SkillInput).SelectItemByText(skill.GetLabelOrName());
 				
-				if(metadataManager.Container is CoDChangelingContainer ccc)
+				if(metadataManager.Container is CofdChangelingContainer ccc)
 				{
 					if(value.Regalia is ContractRegalia)
 						instance.GetNode<ContractRegaliaOptionButton>(ContractNode.NodePath.RegaliaInput).SelectItemByText(value.Regalia.Name);

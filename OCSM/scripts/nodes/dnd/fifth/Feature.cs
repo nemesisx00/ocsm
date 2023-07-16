@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class Feature : Container
 	{
@@ -37,7 +37,7 @@ namespace OCSM.Nodes.DnD.Fifth
 			GetNode<TextureButton>(NodePath.ShowHide).Pressed += toggleSections;
 		}
 		
-		public void update(OCSM.DnD.Fifth.Feature feature)
+		public void update(Ocsm.Dnd.Fifth.Feature feature)
 		{
 			var name = feature.Name;
 			if(!String.IsNullOrEmpty(feature.Type))
@@ -54,12 +54,12 @@ namespace OCSM.Nodes.DnD.Fifth
 			
 			if(feature.Sections.Any())
 			{
-				var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.FeatureSection);
+				var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.FeatureSection);
 				feature.Sections.ForEach(s => instantiateSection(s, resource));
 			}
 		}
 		
-		private void instantiateSection(OCSM.DnD.Fifth.FeatureSection section, PackedScene resource)
+		private void instantiateSection(Ocsm.Dnd.Fifth.FeatureSection section, PackedScene resource)
 		{
 			var instance = resource.Instantiate<VBoxContainer>();
 			instance.GetChild<Label>(0).Text = section.Section;

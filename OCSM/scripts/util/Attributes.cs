@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM
+namespace Ocsm
 {
 	[AttributeUsage(AttributeTargets.Field)]
 	public class LabelAttribute : Attribute

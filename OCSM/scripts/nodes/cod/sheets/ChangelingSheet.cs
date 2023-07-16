@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using OCSM.CoD;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
-using OCSM.Nodes.CoD.CtL;
-using OCSM.Nodes.CoD.CtL.Meta;
-using OCSM.Nodes.Sheets;
+using Ocsm.Cofd;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
+using Ocsm.Nodes.Cofd.Ctl;
+using Ocsm.Nodes.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Sheets;
 
-namespace OCSM.Nodes.CoD.Sheets
+namespace Ocsm.Nodes.Cofd.Sheets
 {
 	public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	{
@@ -64,7 +64,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			Court court = null;
 			Seeming seeming = null;
 			Kith kith = null;
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Courts.Find(c => c.Name.Equals(SheetData.Details.Faction)) is Court c)
 					court = c;
@@ -90,7 +90,7 @@ namespace OCSM.Nodes.CoD.Sheets
 			
 			base._Ready();
 			
-			//Now that CoDCore sets a default maximum on attributes/skills we need to update after base._Ready()
+			//Now that CofdCore sets a default maximum on attributes/skills we need to update after base._Ready()
 			var dotMax = DefaultAttributeMax;
 			if(SheetData.Advantages.Power > 5)
 				dotMax = SheetData.Advantages.Power;
@@ -114,11 +114,11 @@ namespace OCSM.Nodes.CoD.Sheets
 			});
 		}
 		
-		protected void InitContractsList(ContractsList node, List<OCSM.CoD.CtL.Contract> initialValue, ContractsList.ValueChangedEventHandler handler)
+		protected void InitContractsList(ContractsList node, List<Ocsm.Cofd.Ctl.Contract> initialValue, ContractsList.ValueChangedEventHandler handler)
 		{
 			if(node is ContractsList)
 			{
-				if(initialValue is List<OCSM.CoD.CtL.Contract>)
+				if(initialValue is List<Ocsm.Cofd.Ctl.Contract>)
 					node.Values = initialValue;
 				node.refresh();
 				node.ValueChanged += handler;
@@ -167,7 +167,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		
 		private void addExistingMerit(string name)
 		{
-			if(!String.IsNullOrEmpty(name) && metadataManager.Container is CoDChangelingContainer ccc)
+			if(!String.IsNullOrEmpty(name) && metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 				{
@@ -179,12 +179,12 @@ namespace OCSM.Nodes.CoD.Sheets
 		}
 		
 		private void changed_Clarity(long value) { SheetData.Advantages.Integrity = value; }
-		private void changed_Contracts(Transport<List<OCSM.CoD.CtL.Contract>> transport) { SheetData.Contracts = transport.Value; }
+		private void changed_Contracts(Transport<List<Ocsm.Cofd.Ctl.Contract>> transport) { SheetData.Contracts = transport.Value; }
 		
 		private void changed_Court(long index)
 		{
 			var name = String.Empty;
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Courts[(int)index - 1] is Court court)
+			if(index > 0 && metadataManager.Container is CofdChangelingContainer ccc && ccc.Courts[(int)index - 1] is Court court)
 				name = court.Name;
 			
 			SheetData.Details.Faction = name;
@@ -196,7 +196,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		private void changed_Kith(long index)
 		{
 			var name = String.Empty;
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Kiths[(int)index - 1] is Kith kith)
+			if(index > 0 && metadataManager.Container is CofdChangelingContainer ccc && ccc.Kiths[(int)index - 1] is Kith kith)
 				name = kith.Name;
 			
 			SheetData.Details.TypeSecondary = name;
@@ -207,7 +207,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		private void changed_FavoredRegalia(long item)
 		{
 			var pair = new Pair<Regalia, Regalia>();
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var r1 = regalia1.GetSelectedItemText();
 				var r2 = regalia2.GetSelectedItemText();
@@ -223,7 +223,7 @@ namespace OCSM.Nodes.CoD.Sheets
 		private void changed_Seeming(long index)
 		{
 			var name = String.Empty;
-			if(index > 0 && metadataManager.Container is CoDChangelingContainer ccc && ccc.Seemings[(int)index - 1] is Seeming seeming)
+			if(index > 0 && metadataManager.Container is CofdChangelingContainer ccc && ccc.Seemings[(int)index - 1] is Seeming seeming)
 				name = seeming.Name;
 			
 			SheetData.Details.TypePrimary = name;

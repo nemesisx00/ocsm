@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace OCSM.Meta
+namespace Ocsm.Meta
 {
 	public interface IMetadataContainer
 	{

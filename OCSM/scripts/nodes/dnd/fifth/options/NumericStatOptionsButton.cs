@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth
+namespace Ocsm.Nodes.Dnd.Fifth
 {
 	public partial class NumericStatOptionsButton : CustomOption
 	{

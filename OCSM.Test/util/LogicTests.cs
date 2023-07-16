@@ -1,5 +1,5 @@
 ﻿
-namespace OCSM.Tests.util
+namespace Ocsm.Tests.util
 {
 	public class LogicTests
 	{

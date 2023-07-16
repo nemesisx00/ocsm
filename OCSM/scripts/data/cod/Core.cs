@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public class CodCore : Character
 	{

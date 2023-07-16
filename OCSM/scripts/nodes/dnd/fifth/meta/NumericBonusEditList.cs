@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
+using Ocsm.Dnd.Fifth;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public partial class NumericBonusEditList : Container
 	{
@@ -57,7 +57,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void addInput(NumericBonus bonus = null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.DnD.Fifth.Meta.NumericBonusEdit);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.NumericBonusEdit);
 			var instance = resource.Instantiate<NumericBonusEdit>();
 			
 			AddChild(instance);

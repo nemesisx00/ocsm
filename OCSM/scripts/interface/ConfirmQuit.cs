@@ -1,7 +1,7 @@
 using Godot;
-using OCSM.Nodes.Autoload;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class ConfirmQuit : ConfirmationDialog
 	{

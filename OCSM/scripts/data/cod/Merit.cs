@@ -1,7 +1,7 @@
 using System;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public class Merit : Metadata, IEquatable<Merit>
 	{

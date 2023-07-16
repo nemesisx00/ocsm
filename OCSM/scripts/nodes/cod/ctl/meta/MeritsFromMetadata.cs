@@ -1,9 +1,9 @@
 using Godot;
 using System;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.CoD.CtL.Meta
+namespace Ocsm.Nodes.Cofd.Ctl.Meta
 {
 	public partial class MeritsFromMetadata : Container
 	{
@@ -31,7 +31,7 @@ namespace OCSM.Nodes.CoD.CtL.Meta
 		
 		private void refreshMerits()
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.MeritsName);
 				optionButton.Clear();

@@ -1,12 +1,12 @@
 using Godot;
 
-namespace OCSM.Nodes
+namespace Ocsm.Nodes
 {
 	public partial class HelpMenu : MenuButton
 	{
 		private sealed class ItemNames
 		{
-			public const string About = "About OCSM";
+			public const string About = "About Ocsm";
 			public const string GameSystemLicenses = "Game System Licences";
 			public const string Godot = "About Godot Engine";
 		}
@@ -50,7 +50,7 @@ namespace OCSM.Nodes
 				aboutOcsm.PopupCentered();
 			else
 			{
-				var resource = GD.Load<PackedScene>(Constants.Scene.AboutOCSM);
+				var resource = GD.Load<PackedScene>(Constants.Scene.AboutOcsm);
 				aboutOcsm = resource.Instantiate<Window>();
 				aboutOcsm.CloseRequested += () => NodeUtilities.queueFree(ref aboutOcsm);
 				

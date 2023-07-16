@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 
-namespace OCSM
+namespace Ocsm
 {
 	/// <summary>
 	/// Class providing convenience methods for interacting with the file system in an OS-agnostic fashion.
 	/// </summary>
 	public class FileSystemUtilities
 	{
-		private const string App = "/OCSM/";
+		private const string App = "/Ocsm/";
 		private const string Sheets = App + "sheets/";
 		private const string Metadata = App + "metadata/";
 		

@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OCSM.CoD;
-using OCSM.CoD.CtL;
-using OCSM.CoD.CtL.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Cofd;
+using Ocsm.Cofd.Ctl;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.CoD.CtL
+namespace Ocsm.Nodes.Cofd.Ctl
 {
 	public partial class ContractNode : MarginContainer
 	{
@@ -116,7 +116,7 @@ namespace OCSM.Nodes.CoD.CtL
 			refreshSeemingBenefits();
 		}
 		
-		public OCSM.CoD.CtL.Contract getData()
+		public Ocsm.Cofd.Ctl.Contract getData()
 		{
 			var attr1Node = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
 			var regaliaNode = GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput);
@@ -136,9 +136,9 @@ namespace OCSM.Nodes.CoD.CtL
 			var actionNode = GetNode<OptionButton>(NodePath.ActionInput);
 			var action = actionNode.GetSelectedItemText();
 			
-			var attribute = OCSM.CoD.Attribute.KindFromString(attr1Node.GetSelectedItemText());
-			var attributeContested = OCSM.CoD.Attribute.KindFromString(attribute3Input.GetSelectedItemText());
-			var attributeResisted = OCSM.CoD.Attribute.KindFromString(attribute2Input.GetSelectedItemText());
+			var attribute = Ocsm.Cofd.Attribute.KindFromString(attr1Node.GetSelectedItemText());
+			var attributeContested = Ocsm.Cofd.Attribute.KindFromString(attribute3Input.GetSelectedItemText());
+			var attributeResisted = Ocsm.Cofd.Attribute.KindFromString(attribute2Input.GetSelectedItemText());
 			var skill = Skill.KindFromString(skillInput.GetSelectedItemText());
 			var regalia = regaliaNode.GetSelectedItemText();
 			var contractType = contractTypeNode.GetSelectedItemText();
@@ -147,7 +147,7 @@ namespace OCSM.Nodes.CoD.CtL
 			
 			ContractRegalia regaliaObj = null;
 			ContractType contractTypeObj = null;
-			if(metadataManager.Container is CoDChangelingContainer ccc2)
+			if(metadataManager.Container is CofdChangelingContainer ccc2)
 			{
 				if(ccc2.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia r)
 					regaliaObj = ContractRegalia.From(r);
@@ -160,7 +160,7 @@ namespace OCSM.Nodes.CoD.CtL
 			if(!(regaliaObj is ContractRegalia) && regalia.Equals(ContractRegalia.Goblin.Name))
 				regaliaObj = ContractRegalia.Goblin;
 			
-			return new OCSM.CoD.CtL.Contract()
+			return new Ocsm.Cofd.Ctl.Contract()
 			{
 				Action = action,
 				Attribute = attribute,
@@ -183,18 +183,18 @@ namespace OCSM.Nodes.CoD.CtL
 			};
 		}
 		
-		public void setData(OCSM.CoD.CtL.Contract contract)
+		public void setData(Ocsm.Cofd.Ctl.Contract contract)
 		{
-			if(metadataManager.Container is CoDChangelingContainer ccc)
+			if(metadataManager.Container is CofdChangelingContainer ccc)
 			{
 				var attribute1 = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
-				if(contract.Attribute is OCSM.CoD.Attribute.Enum)
+				if(contract.Attribute is Ocsm.Cofd.Attribute.Enum)
 					attribute1.SelectItemByText(contract.Attribute.ToString());
-				if(contract.AttributeContested is OCSM.CoD.Attribute.Enum)
+				if(contract.AttributeContested is Ocsm.Cofd.Attribute.Enum)
 					attribute2Input.SelectItemByText(contract.AttributeContested.ToString());
-				if(contract.AttributeResisted is OCSM.CoD.Attribute.Enum)
+				if(contract.AttributeResisted is Ocsm.Cofd.Attribute.Enum)
 					attribute3Input.SelectItemByText(contract.AttributeResisted.ToString());
-				if(contract.Skill is OCSM.CoD.Skill.Enum)
+				if(contract.Skill is Ocsm.Cofd.Skill.Enum)
 					skillInput.SelectItemByText(contract.Skill.GetLabelOrName());
 				if(contract.Regalia is ContractRegalia)
 					GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).SelectItemByText(contract.Regalia.Name);
@@ -337,7 +337,7 @@ namespace OCSM.Nodes.CoD.CtL
 		
 		private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.Changeling.SeemingBenefit);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.SeemingBenefit);
 			var instance = resource.Instantiate<HBoxContainer>();
 			seemingBenefitsRow.AddChild(instance);
 			

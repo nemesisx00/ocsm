@@ -1,11 +1,11 @@
 using Godot;
 using System.Linq;
 using System.Collections.Generic;
-using OCSM.DnD.Fifth;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.Nodes.Autoload;
+using Ocsm.Dnd.Fifth;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Nodes.Autoload;
 
-namespace OCSM.Nodes.DnD.Fifth.Meta
+namespace Ocsm.Nodes.Dnd.Fifth.Meta
 {
 	public partial class FeatureEntry : Container, ICanDelete
 	{
@@ -32,11 +32,11 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		public const string ExistingLabelFormat = "Existing {0}";
 		
 		[Signal]
-		public delegate void SaveClickedEventHandler(Transport<OCSM.DnD.Fifth.Feature> feature);
+		public delegate void SaveClickedEventHandler(Transport<Ocsm.Dnd.Fifth.Feature> feature);
 		[Signal]
 		public delegate void DeleteConfirmedEventHandler(string name);
 		
-		public OCSM.DnD.Fifth.Feature Feature { get; set; }
+		public Ocsm.Dnd.Fifth.Feature Feature { get; set; }
 		
 		private Label classLabel;
 		private ClassOptionsButton classNode;
@@ -55,8 +55,8 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 			
-			if(!(Feature is OCSM.DnD.Fifth.Feature))
-				Feature = new OCSM.DnD.Fifth.Feature();
+			if(!(Feature is Ocsm.Dnd.Fifth.Feature))
+				Feature = new Ocsm.Dnd.Fifth.Feature();
 			
 			classLabel = GetNode<Label>(NodePath.ClassLabel);
 			classNode = GetNode<ClassOptionsButton>(NodePath.Class);
@@ -89,7 +89,7 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void refreshValues()
 		{
-			if(Feature is OCSM.DnD.Fifth.Feature)
+			if(Feature is Ocsm.Dnd.Fifth.Feature)
 			{
 				classNode.select(Feature.ClassName);
 				descriptionNode.Text = Feature.Description;
@@ -109,13 +109,13 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		
 		private void clearInputs()
 		{
-			Feature = new OCSM.DnD.Fifth.Feature();
+			Feature = new Ocsm.Dnd.Fifth.Feature();
 			refreshValues();
 		}
 		
 		private void doSave()
 		{
-			EmitSignal(nameof(SaveClicked), new Transport<OCSM.DnD.Fifth.Feature>(Feature));
+			EmitSignal(nameof(SaveClicked), new Transport<Ocsm.Dnd.Fifth.Feature>(Feature));
 			clearInputs();
 		}
 		
@@ -140,9 +140,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 		{
 			var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
-			if(metadataManager.Container is DnDFifthContainer dfc)
+			if(metadataManager.Container is DndFifthContainer dfc)
 			{
-				if(dfc.Features.Find(f => f.Name.Equals(name)) is OCSM.DnD.Fifth.Feature feature)
+				if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature)
 				{
 					loadEntry(feature);
 					optionsButton.Deselect();
@@ -150,9 +150,9 @@ namespace OCSM.Nodes.DnD.Fifth.Meta
 			}
 		}
 		
-		public void loadEntry(OCSM.DnD.Fifth.Feature feature)
+		public void loadEntry(Ocsm.Dnd.Fifth.Feature feature)
 		{
-			if(feature is OCSM.DnD.Fifth.Feature)
+			if(feature is Ocsm.Dnd.Fifth.Feature)
 			{
 				Feature = feature;
 				Feature.NumericBonuses.Sort();

@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	[AttributeUsage(AttributeTargets.Field)]
 	public class TraitAttribute : System.Attribute

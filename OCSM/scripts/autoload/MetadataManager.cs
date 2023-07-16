@@ -1,13 +1,13 @@
 using Godot;
 using System;
-using OCSM.Meta;
-using OCSM.CoD.Meta;
-using OCSM.CoD.CtL.Meta;
-using OCSM.DnD.Fifth.Meta;
-using OCSM.Nodes.CoD.Sheets;
-using OCSM.Nodes.DnD.Sheets;
+using Ocsm.Meta;
+using Ocsm.Cofd.Meta;
+using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Nodes.Cofd.Sheets;
+using Ocsm.Nodes.Dnd.Sheets;
 
-namespace OCSM.Nodes.Autoload
+namespace Ocsm.Nodes.Autoload
 {
 	public partial class MetadataManager : Node
 	{
@@ -34,16 +34,16 @@ namespace OCSM.Nodes.Autoload
 					
 					switch(gameSystem)
 					{
-						case Constants.GameSystem.CoD.Changeling:
-							Container = new CoDChangelingContainer();
+						case Constants.GameSystem.Cofd.Changeling:
+							Container = new CofdChangelingContainer();
 							loadGameSystemMetadata();
 							break;
-						case Constants.GameSystem.CoD.Mortal:
-							Container = new CoDCoreContainer();
+						case Constants.GameSystem.Cofd.Mortal:
+							Container = new CofdCoreContainer();
 							loadGameSystemMetadata();
 							break;
-						case Constants.GameSystem.DnD.Fifth:
-							Container = new DnDFifthContainer();
+						case Constants.GameSystem.Dnd.Fifth:
+							Container = new DndFifthContainer();
 							loadGameSystemMetadata();
 							break;
 						default:
@@ -70,11 +70,11 @@ namespace OCSM.Nodes.Autoload
 		{
 			var tab = sheetTabs.GetTabControl((int)tabIndex);
 			if(tab is ChangelingSheet)
-				CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
+				CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
 			else if (tab is MortalSheet)
-				CurrentGameSystem = Constants.GameSystem.CoD.Mortal;
+				CurrentGameSystem = Constants.GameSystem.Cofd.Mortal;
 			else if (tab is DndFifthSheet)
-				CurrentGameSystem = Constants.GameSystem.DnD.Fifth;
+				CurrentGameSystem = Constants.GameSystem.Dnd.Fifth;
 			else
 				CurrentGameSystem = String.Empty;
 		}
@@ -109,10 +109,10 @@ namespace OCSM.Nodes.Autoload
 		
 		public void initializeGameSystems()
 		{
-			CurrentGameSystem = Constants.GameSystem.CoD.Changeling;
+			CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
 			if(Container.IsEmpty())
 			{
-				Container = CoDChangelingContainer.initializeWithDefaultValues();
+				Container = CofdChangelingContainer.initializeWithDefaultValues();
 				saveGameSystemMetadata();
 			}
 			

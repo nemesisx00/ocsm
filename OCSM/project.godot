@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Open Character Sheet Manager"
 run/main_scene="res://App.tscn"
-config/features=PackedStringArray("4.0", "C#")
+config/features=PackedStringArray("4.1", "C#")
 config/icon="res://icon.png"
 
 [autoload]
@@ -24,12 +24,19 @@ SheetManager="*res://scripts/autoload/SheetManager.cs"
 [display]
 
 window/size/viewport_height=768
+window/energy_saving/keep_screen_on=false
 window/subwindows/embed_subwindows=false
 
 [dotnet]
 
 project/assembly_name="Open Character Sheet Manager"
 project/solution_directory="../"
+
+[editor]
+
+naming/default_signal_callback_name="handle{node_name}_{signal_name}"
+naming/default_signal_callback_to_self_name="handle{signal_name}"
+naming/scene_name_casing=1
 
 [gui]
 

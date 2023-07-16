@@ -1,6 +1,6 @@
 using System;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public class DamageDie : Die, IComparable<DamageDie>, IEquatable<DamageDie>
 	{

@@ -1,6 +1,6 @@
-using OCSM.Nodes;
+using Ocsm.Nodes;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public enum Proficiency { NoProficiency, HalfProficiency, Proficiency, DoubleProficiency }
 	

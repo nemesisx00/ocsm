@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using OCSM.Meta;
+using Ocsm.Meta;
 
-namespace OCSM.DnD.Fifth
+namespace Ocsm.Dnd.Fifth
 {
 	public sealed class FeatureType
 	{

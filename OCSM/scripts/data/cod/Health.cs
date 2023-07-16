@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
-using OCSM.API;
-using OCSM.Nodes;
+using Ocsm.API;
+using Ocsm.Nodes;
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public class Health : IComparable<Health>, IEmptiable, IEquatable<Health>
 	{

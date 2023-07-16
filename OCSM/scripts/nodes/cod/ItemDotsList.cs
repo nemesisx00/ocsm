@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace OCSM.Nodes.CoD
+namespace Ocsm.Nodes.Cofd
 {
 	public partial class ItemDotsList : Container
 	{
@@ -53,7 +53,7 @@ namespace OCSM.Nodes.CoD
 		
 		protected virtual void addInput(string text = "", long dots = 0)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.CoD.ItemDots);
+			var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.ItemDots);
 			var node = resource.Instantiate();
 			var textEdit = node.GetChild<TextEdit>(0);
 			textEdit.Text = text;

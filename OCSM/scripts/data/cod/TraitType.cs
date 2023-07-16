@@ -1,5 +1,5 @@
 
-namespace OCSM.CoD
+namespace Ocsm.Cofd
 {
 	public static class Trait
 	{

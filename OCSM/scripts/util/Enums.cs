@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace OCSM
+namespace Ocsm
 {
 	/// <summary>
 	/// Class providing convenience methods for evaluating logic.

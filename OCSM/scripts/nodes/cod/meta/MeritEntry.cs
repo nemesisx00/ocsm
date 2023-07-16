@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using OCSM.CoD;
-using OCSM.CoD.Meta;
-using OCSM.Nodes.Meta;
+using Ocsm.Cofd;
+using Ocsm.Cofd.Meta;
+using Ocsm.Nodes.Meta;
 
-namespace OCSM.Nodes.CoD.Meta
+namespace Ocsm.Nodes.Cofd.Meta
 {
 	public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	{
@@ -55,7 +55,7 @@ namespace OCSM.Nodes.CoD.Meta
 		{
 			var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 			var name = optionsButton.GetItemText((int)index);
-			if(metadataManager.Container is CoDCoreContainer ccc)
+			if(metadataManager.Container is CofdCoreContainer ccc)
 			{
 				if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 				{
@@ -67,7 +67,7 @@ namespace OCSM.Nodes.CoD.Meta
 		
 		public override void refreshMetadata()
 		{
-			if(metadataManager.Container is CoDCoreContainer ccc)
+			if(metadataManager.Container is CofdCoreContainer ccc)
 			{
 				var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
 				optionButton.Clear();
