@@ -1,9 +1,8 @@
 
-namespace Ocsm.Cofd
+namespace Ocsm.Cofd;
+
+public enum WeaponType
 {
-	public enum WeaponType
-	{
-		Melee,
-		Ranged,
-	}
+	Melee,
+	Ranged,
 }

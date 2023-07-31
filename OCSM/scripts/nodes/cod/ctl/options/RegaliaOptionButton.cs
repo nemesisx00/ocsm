@@ -2,23 +2,22 @@ using System.Linq;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes.Cofd.Ctl
+namespace Ocsm.Nodes.Cofd.Ctl;
+
+public partial class RegaliaOptionButton : CustomOption
 {
-	public partial class RegaliaOptionButton : CustomOption
+	public override void _Ready()
 	{
-		public override void _Ready()
-		{
-			metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-			metadataManager.MetadataLoaded += refreshMetadata;
-			metadataManager.MetadataSaved += refreshMetadata;
-			
-			refreshMetadata();
-		}
+		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager.MetadataLoaded += refreshMetadata;
+		metadataManager.MetadataSaved += refreshMetadata;
 		
-		protected override void refreshMetadata()
-		{
-			if(metadataManager.Container is CofdChangelingContainer ccc)
-				replaceItems(ccc.Regalias.Select(r => r.Name).ToList());
-		}
+		refreshMetadata();
+	}
+	
+	protected override void refreshMetadata()
+	{
+		if(metadataManager.Container is CofdChangelingContainer ccc)
+			replaceItems(ccc.Regalias.Select(r => r.Name).ToList());
 	}
 }

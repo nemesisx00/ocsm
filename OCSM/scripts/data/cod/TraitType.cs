@@ -1,13 +1,12 @@
 
-namespace Ocsm.Cofd
+namespace Ocsm.Cofd;
+
+public static class Trait
 {
-	public static class Trait
+	public enum Category
 	{
-		public enum Category
-		{
-			Mental,
-			Physical,
-			Social,
-		}
+		Mental,
+		Physical,
+		Social,
 	}
 }

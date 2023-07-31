@@ -1,10 +1,9 @@
 
-namespace Ocsm.Dnd.Fifth.Inventory
+namespace Ocsm.Dnd.Fifth.Inventory;
+
+public class Equipment
 {
-	public class Equipment
-	{
-		public ItemArmor Armor { get; set; }
-		
-		public Equipment() { }
-	}
+	public ItemArmor Armor { get; set; }
+	
+	public Equipment() { }
 }
