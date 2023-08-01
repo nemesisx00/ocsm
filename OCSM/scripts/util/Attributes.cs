@@ -1,15 +1,14 @@
 using System;
 
-namespace Ocsm
-{
-	[AttributeUsage(AttributeTargets.Field)]
-	public class LabelAttribute : Attribute
-	{
-		public string Label { get; }
+namespace Ocsm;
 
-		public LabelAttribute(string label)
-		{
-			Label = label;
-		}
+[AttributeUsage(AttributeTargets.Field)]
+public class LabelAttribute : Attribute
+{
+	public string Label { get; }
+
+	public LabelAttribute(string label)
+	{
+		Label = label;
 	}
 }

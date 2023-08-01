@@ -1,37 +1,36 @@
 using Godot;
 using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes
+namespace Ocsm.Nodes;
+
+public partial class ClickableControl : Control
 {
-	public partial class ClickableControl : Control
+	[Signal]
+	public delegate void ClickedEventHandler();
+	
+	private AppManager appManager;
+	
+	private bool pressed;
+	
+	public override void _Input(InputEvent e)
 	{
-		[Signal]
-		public delegate void ClickedEventHandler();
-		
-		private AppManager appManager;
-		
-		private bool pressed;
-		
-		public override void _Input(InputEvent e)
+		if(!appManager.IsQuitting)
 		{
-			if(!appManager.IsQuitting)
+			if(e is InputEventMouseButton iemb && iemb.ButtonIndex.Equals((int)MouseButton.Left))
 			{
-				if(e is InputEventMouseButton iemb && iemb.ButtonIndex.Equals((int)MouseButton.Left))
+				if(!pressed)
 				{
-					if(!pressed)
-					{
-						//First press, send the signal
-						EmitSignal(nameof(Clicked));
-					}
-					pressed = iemb.Pressed;
+					//First press, send the signal
+					EmitSignal(nameof(Clicked));
 				}
+				pressed = iemb.Pressed;
 			}
 		}
-		
-		public override void _Ready()
-		{
-			appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
-			pressed = false;
-		}
+	}
+	
+	public override void _Ready()
+	{
+		appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
+		pressed = false;
 	}
 }

@@ -1,27 +1,26 @@
 using System;
 using System.Reflection;
 
-namespace Ocsm.Cofd
+namespace Ocsm.Cofd;
+
+[AttributeUsage(AttributeTargets.Field)]
+public class TraitAttribute : System.Attribute
 {
-	[AttributeUsage(AttributeTargets.Field)]
-	public class TraitAttribute : System.Attribute
-	{
-		public Trait.Category Category { get; }
-		
-		public TraitAttribute(Trait.Category type)
-		{
-			Category = type;
-		}
-	}
+	public Trait.Category Category { get; }
 	
-	public static class TraitExtension
+	public TraitAttribute(Trait.Category type)
 	{
-		public static Trait.Category GetCategory(this Enum value)
-		{
-			return value.GetType()
-				.GetField(value.ToString())
-				.GetCustomAttribute<TraitAttribute>(false)?
-				.Category ?? Trait.Category.Mental;
-		}
+		Category = type;
+	}
+}
+
+public static class TraitExtension
+{
+	public static Trait.Category GetCategory(this Enum value)
+	{
+		return value.GetType()
+			.GetField(value.ToString())
+			.GetCustomAttribute<TraitAttribute>(false)?
+			.Category ?? Trait.Category.Mental;
 	}
 }

@@ -1,29 +1,28 @@
 using System;
 using Ocsm.Meta;
 
-namespace Ocsm.Cofd.Ctl
+namespace Ocsm.Cofd.Ctl;
+
+public class ContractType : Metadata, IComparable<ContractType>, IEquatable<ContractType>
 {
-	public class ContractType : Metadata, IComparable<ContractType>, IEquatable<ContractType>
+	public const string Goblin = "Goblin";
+	
+	public ContractType() : base() { }
+	
+	public int CompareTo(ContractType other)
 	{
-		public const string Goblin = "Goblin";
+		var ret = 0;
 		
-		public ContractType() : base() { }
-		
-		public int CompareTo(ContractType other)
+		if(other is ContractType)
 		{
-			var ret = 0;
-			
-			if(other is ContractType)
-			{
-				if(Name.Equals(Goblin))
-					ret = other.Name.Equals(Goblin) ? 0 : 1;
-				else
-					ret = other.Name.Equals(Goblin) ? -1 : Name.CompareTo(other.Name);
-			}
-			
-			return ret;
+			if(Name.Equals(Goblin))
+				ret = other.Name.Equals(Goblin) ? 0 : 1;
+			else
+				ret = other.Name.Equals(Goblin) ? -1 : Name.CompareTo(other.Name);
 		}
 		
-		public bool Equals(ContractType other) { return base.Equals(other); }
+		return ret;
 	}
+	
+	public bool Equals(ContractType other) { return base.Equals(other); }
 }

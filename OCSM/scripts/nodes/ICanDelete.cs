@@ -1,9 +1,8 @@
 using Godot;
 
-namespace Ocsm.Nodes
+namespace Ocsm.Nodes;
+
+public interface ICanDelete
 {
-	public interface ICanDelete
-	{
-		void doDelete();
-	}
+	void doDelete();
 }
