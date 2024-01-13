@@ -3,4 +3,4 @@
 .vscode/
 OCSM.Test/obj
 OCSM.Test/bin
-OCSM/**/*.old
+OCSM/**/*.old*
