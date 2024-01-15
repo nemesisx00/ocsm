@@ -30,14 +30,14 @@ public partial class StatefulButton : TextureButton
 	
 	public void UpdateTexture()
 	{
-		GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(UseCircles ? Constants.Texture.TrackCircle : Constants.Texture.TrackBoxBorder);
+		GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(UseCircles ? TexturePaths.TrackCircle : TexturePaths.TrackBoxBorder);
 		
 		var tex = State switch
 		{
-			States.One => UseCircles ? Constants.Texture.TrackCircleHalf : Constants.Texture.TrackBox1,
-			States.Two => UseCircles ? Constants.Texture.TrackCircleFill : Constants.Texture.TrackBox2,
-			States.Three => UseCircles ? Constants.Texture.TrackCircleRed : Constants.Texture.TrackBox3,
-			_ => Constants.Texture.FullTransparent,
+			States.One => UseCircles ? TexturePaths.TrackCircleHalf : TexturePaths.TrackBox1,
+			States.Two => UseCircles ? TexturePaths.TrackCircleFill : TexturePaths.TrackBox2,
+			States.Three => UseCircles ? TexturePaths.TrackCircleRed : TexturePaths.TrackBox3,
+			_ => TexturePaths.FullTransparent,
 		};
 		
 		TextureNormal = GD.Load<CompressedTexture2D>(tex);

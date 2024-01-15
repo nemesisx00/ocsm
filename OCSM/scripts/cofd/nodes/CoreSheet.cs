@@ -13,6 +13,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected class NodePaths
 	{
+		public static readonly NodePath Traits = new("%Traits");
 		public static readonly NodePath Advantages = new("%Advantages");
 		public static readonly NodePath Attributes = new($"{Traits}/%Attributes");
 		public static readonly NodePath Details = new("%Details");
@@ -22,7 +23,6 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		public static readonly NodePath MeritsFromMetadata = new("%MeritsFromMetadata");
 		public static readonly NodePath Skills = new($"{Traits}/%Skills");
 		public static readonly NodePath SkillSpecialties = new($"{Skills}/%Specialties");
-		public static readonly NodePath Traits = new("%Traits");
 		
 		// Advantages
 		public static readonly NodePath Armor = new($"{Advantages}/%Armor");

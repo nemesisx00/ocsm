@@ -346,7 +346,7 @@ public partial class ContractNode : MarginContainer
 	
 	private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.SeemingBenefit);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.SeemingBenefit);
 		var instance = resource.Instantiate<HBoxContainer>();
 		seemingBenefitsRow.AddChild(instance);
 		

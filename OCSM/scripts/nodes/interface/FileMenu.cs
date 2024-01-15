@@ -40,7 +40,7 @@ public partial class FileMenu : MenuButton
 		popup.AddItem(ItemNames.Quit, (int)MenuItem.Quit);
 		popup.IdPressed += handleMenuItem;
 		
-		GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
+		GetNode<AppRoot>(AppRoot.NodePaths.Self).FileMenuTriggered += handleMenuItem;
 	}
 	
 	private void handleMenuItem(long id)
@@ -75,7 +75,7 @@ public partial class FileMenu : MenuButton
 	
 	private void doOpen()
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.OpenSheet);
+		var resource = GD.Load<PackedScene>(ScenePaths.OpenSheet);
 		var instance = resource.Instantiate<OpenSheet>();
 		GetTree().CurrentScene.AddChild(instance);
 		instance.PopupCentered();
@@ -90,7 +90,7 @@ public partial class FileMenu : MenuButton
 		
 		if(data != null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.SaveSheet);
+			var resource = GD.Load<PackedScene>(ScenePaths.SaveSheet);
 			var instance = resource.Instantiate<SaveSheet>();
 			instance.SheetData = data;
 			GetTree().CurrentScene.AddChild(instance);

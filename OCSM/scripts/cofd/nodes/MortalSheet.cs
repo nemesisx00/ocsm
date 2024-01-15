@@ -5,7 +5,7 @@ namespace Ocsm.Cofd.Nodes;
 
 public partial class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 {
-	private sealed new class NodePaths : CoreSheet<Mortal>.NodePaths
+	private sealed new class NodePaths
 	{
 		public static readonly NodePath Integrity = new("%Advantages/%Integrity");
 		public static readonly NodePath Age = new("%Details/%Age");

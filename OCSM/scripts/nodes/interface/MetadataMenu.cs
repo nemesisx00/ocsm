@@ -45,15 +45,12 @@ public partial class MetadataMenu : MenuButton
 	{
 		switch(metadataManager.CurrentGameSystem)
 		{
-			case Constants.GameSystem.Cofd.Changeling:
-				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
+			case GameSystems.CofdChangeling:
+				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.Meta.AddEditMetadata));
 				break;
 			
-			case Constants.GameSystem.Dnd.Fifth:
-				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.AddEditMetadata));
-				break;
-			
-			default:
+			case GameSystems.Dnd5e:
+				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Meta.AddEditMetadata));
 				break;
 		}
 	}

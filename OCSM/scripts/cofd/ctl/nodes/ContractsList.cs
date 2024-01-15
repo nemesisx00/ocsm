@@ -63,7 +63,7 @@ public partial class ContractsList : Container
 	
 	private void addInput(Contract value = null)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.ContractNode);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.ContractNode);
 		var instance = resource.Instantiate<ContractNode>();
 		
 		AddChild(instance);

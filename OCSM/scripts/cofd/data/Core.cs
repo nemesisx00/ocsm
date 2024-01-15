@@ -15,5 +15,5 @@ public class CofdCore() : Character()
 	public List<Skill> Skills { get; set; } = Skill.Skills;
 	public Dictionary<Skill.EnumValues, string> Specialties { get; set; } = [];
 	
-	public CofdCore(string gameSystem) : this() => GameSystem = gameSystem;
+	public CofdCore(GameSystems gameSystem) : this() => GameSystem = gameSystem;
 }

@@ -16,13 +16,13 @@ public partial class SaveSheet : FileDialog
 	private void doSave(string filePath)
 	{
 		var path = filePath;
-		if(string.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
+		if(string.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(AppConstants.SheetFileExtension))
 		{
-			var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
-			path = path.Insert(extensionIndex, Constants.NewSheetFileName);
+			var extensionIndex = path.LastIndexOf(AppConstants.SheetFileExtension);
+			path = path.Insert(extensionIndex, AppConstants.NewSheetFileName);
 		}
-		else if(!path.EndsWith(Constants.SheetFileExtension))
-			path += Constants.SheetFileExtension;
+		else if(!path.EndsWith(AppConstants.SheetFileExtension))
+			path += AppConstants.SheetFileExtension;
 		
 		if(!string.IsNullOrEmpty(SheetData))
 			FileSystemUtilities.WriteString(path, SheetData);

@@ -11,23 +11,23 @@ namespace Ocsm.Cofd.Ctl.Nodes;
 
 public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 {
-	private sealed new class NodePaths : CoreSheet<Changeling>.NodePaths
+	private sealed new class NodePaths
 	{
-		public static readonly NodePath Clarity = new($"{Advantages}/%Clarity");
+		public static readonly NodePath Clarity = new($"{CoreSheet<Changeling>.NodePaths.Advantages}/%Clarity");
 		public static readonly NodePath ContractsList = new("%ContractsList");
-		public static readonly NodePath Court = new($"{Details}/%Court");
-		public static readonly NodePath Frailties = new($"{Details}/%Frailties");
-		public static readonly NodePath Glamour = new($"{Advantages}/%Glamour");
-		public static readonly NodePath Kith = new($"{Details}/%Kith");
-		public static readonly NodePath Needle = new($"{Details}/%Needle");
-		public static readonly NodePath NeedleLabel = new($"{Advantages}/%NeedleLabel");
-		public static readonly NodePath Regalia1 = new($"{Details}/%Regalia1");
-		public static readonly NodePath Regalia2 = new($"{Details}/%Regalia2");
-		public static readonly NodePath Seeming = new($"{Details}/%Seeming");
-		public static readonly NodePath Thread = new($"{Details}/%Thread");
-		public static readonly NodePath ThreadLabel = new($"{Advantages}/%ThreadLabel");
-		public static readonly NodePath Touchstones = new($"{Details}/%Touchstones");
-		public static readonly NodePath Wyrd = new($"{Advantages}/%Wyrd");
+		public static readonly NodePath Court = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Court");
+		public static readonly NodePath Frailties = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Frailties");
+		public static readonly NodePath Glamour = new($"{CoreSheet<Changeling>.NodePaths.Advantages}/%Glamour");
+		public static readonly NodePath Kith = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Kith");
+		public static readonly NodePath Needle = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Needle");
+		public static readonly NodePath NeedleLabel = new($"{CoreSheet<Changeling>.NodePaths.Advantages}/%NeedleLabel");
+		public static readonly NodePath Regalia1 = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Regalia1");
+		public static readonly NodePath Regalia2 = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Regalia2");
+		public static readonly NodePath Seeming = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Seeming");
+		public static readonly NodePath Thread = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Thread");
+		public static readonly NodePath ThreadLabel = new($"{CoreSheet<Changeling>.NodePaths.Advantages}/%ThreadLabel");
+		public static readonly NodePath Touchstones = new($"{CoreSheet<Changeling>.NodePaths.Details}/%Touchstones");
+		public static readonly NodePath Wyrd = new($"{CoreSheet<Changeling>.NodePaths.Advantages}/%Wyrd");
 	}
 	
 	private MetadataManager metadataManager;

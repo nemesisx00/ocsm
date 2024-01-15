@@ -52,7 +52,7 @@ public partial class Feature : Container
 		
 		if(feature.Sections.Count != 0)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.FeatureSection);
+			var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.FeatureSection);
 			feature.Sections.ForEach(s => instantiateSection(s, resource));
 		}
 	}

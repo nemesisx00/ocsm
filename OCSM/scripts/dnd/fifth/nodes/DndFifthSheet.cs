@@ -395,7 +395,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		foreach(Node child in raceFeatures.GetChildren())
 			child.QueueFree();
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
 		
 		if(SheetData.Background is Background background && background.Features.Count != 0)
 			background.Features.ForEach(f => renderFeature(backgroundFeatures, f, resource, f.Equals(background.Features.Last())));

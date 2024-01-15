@@ -126,7 +126,7 @@ public partial class ContractEntry : Container
 	
 	private void handleDelete()
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+		var resource = GD.Load<PackedScene>(ScenePaths.Meta.ConfirmDeleteEntry);
 		var instance = resource.Instantiate<ConfirmDeleteEntry>();
 		instance.EntryTypeName = EntryTypeName;
 		GetTree().CurrentScene.AddChild(instance);

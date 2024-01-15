@@ -25,13 +25,13 @@ public partial class AppRoot : Control
 		{
 			if(e is InputEventKey iek && iek.Pressed)
 			{
-				if(e.IsActionPressed(Constants.Action.FileNew))
+				if(e.IsActionPressed(Actions.FileNew))
 					_ = EmitSignal(SignalName.FileMenuTriggered, (long)FileMenu.MenuItem.New);
-				else if(e.IsActionPressed(Constants.Action.FileOpen))
+				else if(e.IsActionPressed(Actions.FileOpen))
 					_ = EmitSignal(SignalName.FileMenuTriggered, (long)FileMenu.MenuItem.Open);
-				else if(e.IsActionPressed(Constants.Action.FileSave))
+				else if(e.IsActionPressed(Actions.FileSave))
 					_ = EmitSignal(SignalName.FileMenuTriggered, (long)FileMenu.MenuItem.Save);
-				else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
+				else if(e.IsActionPressed(Actions.FileCloseSheet))
 					_ = EmitSignal(SignalName.FileMenuTriggered, (long)FileMenu.MenuItem.CloseSheet);
 			}
 		}

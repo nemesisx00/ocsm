@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Ocsm.Cofd.Ctl;
 
-public class Changeling() : CofdCore(Constants.GameSystem.Cofd.Changeling)
+public class Changeling() : CofdCore(GameSystems.CofdChangeling)
 {
 	public static readonly Dictionary<int, int> WyrdGlamour = new(10)
 	{

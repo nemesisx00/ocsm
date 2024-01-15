@@ -40,7 +40,7 @@ public partial class Inventory : VBoxContainer
 		foreach(Node c in itemList.GetChildren())
 			c.QueueFree();
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.InventoryItem);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.InventoryItem);
 		Items.ForEach(i => instantiateItem(i, resource));
 	}
 	

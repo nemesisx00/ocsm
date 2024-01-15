@@ -90,22 +90,22 @@ public partial class SheetManager : Node
 			if(sheetTabs is not null)
 			{
 				var loaded = false;
-				if(json.Contains(Constants.GameSystem.Cofd.Changeling))
+				if(json.Contains(GameSystems.CofdChangeling.ToString()))
 				{
-					metadataManager.CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
-					AddNewSheet(Constants.Scene.Cofd.Changeling.Sheet, Constants.Scene.Cofd.Changeling.NewSheetName, json);
+					metadataManager.CurrentGameSystem = GameSystems.CofdChangeling;
+					AddNewSheet(ScenePaths.Cofd.Changeling.Sheet, ScenePaths.Cofd.Changeling.NewSheetName, json);
 					loaded = true;
 				}
-				else if(json.Contains(Constants.GameSystem.Cofd.Mortal))
+				else if(json.Contains(GameSystems.CofdMortal.ToString()))
 				{
-					metadataManager.CurrentGameSystem = Constants.GameSystem.Cofd.Mortal;
-					AddNewSheet(Constants.Scene.Cofd.Mortal.Sheet, Constants.Scene.Cofd.Mortal.NewSheetName, json);
+					metadataManager.CurrentGameSystem = GameSystems.CofdMortal;
+					AddNewSheet(ScenePaths.Cofd.Mortal.Sheet, ScenePaths.Cofd.Mortal.NewSheetName, json);
 					loaded = true;
 				}
-				else if(json.Contains(Constants.GameSystem.Dnd.Fifth))
+				else if(json.Contains(GameSystems.Dnd5e.ToString()))
 				{
-					metadataManager.CurrentGameSystem = Constants.GameSystem.Dnd.Fifth;
-					AddNewSheet(Constants.Scene.Dnd.Fifth.Sheet, Constants.Scene.Dnd.Fifth.NewSheetName, json);
+					metadataManager.CurrentGameSystem = GameSystems.Dnd5e;
+					AddNewSheet(ScenePaths.Dnd.Fifth.Sheet, ScenePaths.Dnd.Fifth.NewSheetName, json);
 					loaded = true;
 				}
 				
@@ -122,12 +122,12 @@ public partial class SheetManager : Node
 		{
 			sheetTabs.Hide();
 			
-			var resource = GD.Load<PackedScene>(Constants.Scene.NewSheet);
+			var resource = GD.Load<PackedScene>(ScenePaths.NewSheet);
 			var instance = resource.Instantiate<NewSheet>();
 			instance.UniqueNameInOwner = true;
-			GetNode<Control>(Constants.NodePath.AppRoot).AddChild(instance);
+			GetNode<Control>(AppRoot.NodePaths.Self).AddChild(instance);
 			
-			GetNode<MetadataManager>(MetadataManager.NodePath).CurrentGameSystem = string.Empty;
+			GetNode<MetadataManager>(MetadataManager.NodePath).CurrentGameSystem = GameSystems.None;
 		}
 	}
 }

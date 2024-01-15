@@ -4,7 +4,7 @@ using Ocsm.Dnd.Fifth.Inventory;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class FifthAdventurer() : Character(Constants.GameSystem.Dnd.Fifth)
+public class FifthAdventurer() : Character(GameSystems.Dnd5e)
 {
 	public List<Ability> Abilities { get; set; } = Ability.GenerateBaseAbilityScores();
 	public string Alignment { get; set; }

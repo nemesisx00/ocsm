@@ -12,38 +12,38 @@ namespace Ocsm.Nodes.Autoload;
 public partial class MetadataManager : Node
 {
 	[Signal]
-	public delegate void GameSystemChangedEventHandler(string gameSystem);
+	public delegate void GameSystemChangedEventHandler(int gameSystem);
 	[Signal]
 	public delegate void MetadataLoadedEventHandler();
 	[Signal]
 	public delegate void MetadataSavedEventHandler();
 	
 	public static readonly NodePath NodePath = new("/root/MetadataManager");
-	private const string FileNameFormat = $"{{0}}{Constants.MetadataFileExtension}";
+	private const string FileNameFormat = $"{{0}}{AppConstants.MetadataFileExtension}";
 	
-	public string CurrentGameSystem
+	public GameSystems CurrentGameSystem
 	{
 		get { return gameSystem; }
 		set
 		{
-			if(gameSystem is null || !gameSystem.Equals(value))
+			if(gameSystem == GameSystems.None || !gameSystem.Equals(value))
 			{
 				gameSystem = value;
-				_ = EmitSignal(SignalName.GameSystemChanged, gameSystem);
+				_ = EmitSignal(SignalName.GameSystemChanged, (int)gameSystem);
 				
 				switch(gameSystem)
 				{
-					case Constants.GameSystem.Cofd.Changeling:
+					case GameSystems.CofdChangeling:
 						Container = new CofdChangelingContainer();
 						LoadGameSystemMetadata();
 						break;
 					
-					case Constants.GameSystem.Cofd.Mortal:
+					case GameSystems.CofdMortal:
 						Container = new CofdCoreContainer();
 						LoadGameSystemMetadata();
 						break;
 					
-					case Constants.GameSystem.Dnd.Fifth:
+					case GameSystems.Dnd5e:
 						Container = new DndFifthContainer();
 						LoadGameSystemMetadata();
 						break;
@@ -58,14 +58,14 @@ public partial class MetadataManager : Node
 	
 	public IMetadataContainer Container { get; private set; }
 	
-	private string gameSystem;	
+	private GameSystems gameSystem;	
 	private TabContainer sheetTabs;
 	
 	public override void _Ready()
 	{
 		sheetTabs = GetNode<TabContainer>(AppRoot.NodePaths.SheetTabs);
 		
-		CurrentGameSystem = string.Empty;
+		CurrentGameSystem = GameSystems.None;
 		sheetTabs.TabSelected += sheetTabSelected;
 	}
 	
@@ -73,20 +73,20 @@ public partial class MetadataManager : Node
 	{
 		var tab = sheetTabs.GetTabControl((int)tabIndex);
 		if(tab is ChangelingSheet)
-			CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
+			CurrentGameSystem = GameSystems.CofdChangeling;
 		else if (tab is MortalSheet)
-			CurrentGameSystem = Constants.GameSystem.Cofd.Mortal;
+			CurrentGameSystem = GameSystems.CofdMortal;
 		else if (tab is DndFifthSheet)
-			CurrentGameSystem = Constants.GameSystem.Dnd.Fifth;
+			CurrentGameSystem = GameSystems.Dnd5e;
 		else
-			CurrentGameSystem = string.Empty;
+			CurrentGameSystem = GameSystems.None;
 	}
 	
 	public void LoadGameSystemMetadata()
 	{
-		if(!string.IsNullOrEmpty(CurrentGameSystem))
+		if(CurrentGameSystem != GameSystems.None)
 		{
-			var filename = string.Format(FileNameFormat, CurrentGameSystem);
+			var filename = string.Format(FileNameFormat, CurrentGameSystem.ToString());
 			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
 			var json = FileSystemUtilities.ReadString(path);
 			
@@ -113,7 +113,7 @@ public partial class MetadataManager : Node
 	
 	public void InitializeGameSystems()
 	{
-		CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
+		CurrentGameSystem = GameSystems.CofdChangeling;
 		
 		if(Container.IsEmpty())
 		{
@@ -121,7 +121,7 @@ public partial class MetadataManager : Node
 			SaveGameSystemMetadata();
 		}
 		
-		gameSystem = string.Empty;
+		gameSystem = GameSystems.None;
 		Container = null;
 	}
 }

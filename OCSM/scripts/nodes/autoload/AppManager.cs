@@ -28,7 +28,7 @@ public partial class AppManager : Node
 			confirmQuit.PopupCentered();
 		else if(!IsQuitting)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
+			var resource = GD.Load<PackedScene>(ScenePaths.ConfirmQuit);
 			confirmQuit = resource.Instantiate<ConfirmQuit>();
 			confirmQuit.CloseRequested += () => NodeUtilities.QueueFree(ref confirmQuit);
 			
