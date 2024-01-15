@@ -49,7 +49,7 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		}
 	}
 	
-	protected void InitToggleButton(ToggleButton node, bool initialValue, ToggleButton.ToggleEventHandler handler)
+	protected static void InitToggleButton(ToggleButton node, bool initialValue, ToggleButton.ToggleEventHandler handler)
 	{
 		if(node is not null)
 		{
@@ -69,7 +69,7 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		}
 	}
 	
-	protected void InitTrackSimple(TrackSimple node, int initialValue, TrackSimple.ValueChangedEventHandler handler, int initialMax = TrackSimple.DefaultMax)
+	protected static void InitTrackSimple(TrackSimple node, int initialValue, TrackSimple.ValueChangedEventHandler handler, int initialMax = TrackSimple.DefaultMax)
 	{
 		if(node is not null)
 		{

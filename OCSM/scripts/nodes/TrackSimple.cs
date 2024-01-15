@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Ocsm.Nodes;
@@ -17,13 +16,26 @@ public partial class TrackSimple : GridContainer
 	[Export]
 	public bool EnableToggling { get; set; } = true;
 	[Export]
-	public int Max { get; set; } = DefaultMax;
+	public int Max
+	{
+		get => max;
+		set
+		{
+			max = value;
+			refreshChildren();
+			toggleChildren(sanitizeValue(Value, true));
+		}
+	}
+	
 	[Export]
 	public int Min { get; set; } = DefaultMin;
+	
 	[Export]
-	public int Value { get; set; } = DefaultMin;
-	[Export]
-	private int allowedMax = DefaultMax;
+	public int Value
+	{
+		get => value;
+		set => toggleChildren(sanitizeValue(value, true));
+	}
 	
 	[ExportGroup("Textures")]
 	[Export]
@@ -37,39 +49,20 @@ public partial class TrackSimple : GridContainer
 	[Export]
 	public Texture2D boxInactive;
 	
-	private readonly List<bool> allowedValues = [];
+	private int max = DefaultMax;
+	private int min = DefaultMin;
+	private int value = DefaultMin;
 	
-	public override void _Ready()
-	{
-		if(Max > 0)
-		{
-			for(var i = 0; i < Max; i++)
-				allowedValues.Add(i < allowedMax);
-			
-			refresh();
-			toggleChildren(Value);
-		}
-	}
-	
-	public void SetMax(int max)
-	{
-		Max = max;
-		refresh();
-		toggleChildren(Value);
-	}
-	
-	public void SetValue(int value) => toggleChildren(sanitizeValue(value, true));
+	public override void _Ready() => Max = max;
 	
 	private void handleToggle(ToggleButton button)
 	{
 		var value = (int)GetChildren().IndexOf(button);
-		value = sanitizeValue(++value);
-		toggleChildren(value);
-		
+		toggleChildren(sanitizeValue(++value));
 		EmitSignal(SignalName.ValueChanged, value, Name);
 	}
 	
-	private void refresh()
+	private void refreshChildren()
 	{
 		var children = GetChildren();
 		if(children.Count < Max)
@@ -93,42 +86,25 @@ public partial class TrackSimple : GridContainer
 				.ToList()
 				.ForEach(pair => pair.child.QueueFree());
 		}
-		
-		children = GetChildren();
-		for(var i = 0; i < children.Count; i++)
-		{
-			if(allowedValues[i])
-				(children[i] as ToggleButton).Enable();
-			else
-				(children[i] as ToggleButton).Disable();
-		}
 	}
 	
-	private int sanitizeValue(int value, bool force = false)
+	private int sanitizeValue(int newValue, bool force = false)
 	{
-		var safe = value;
+		var safe = newValue;
+		
 		if(safe < 0)
 			safe = 0;
+		
 		if(safe > Max)
 			safe = Max;
 		
 		if(!force && EnableToggling && safe > 0 && safe == Value)
-		{
 			safe--;
-			
-			//Keep reducing the value until we find a valid value
-			while(safe > Min && !allowedValues[safe - 1])
-			{
-				safe--;
-			}
-			
-			Value = safe;
-		}
-		else
-			Value = safe;
+		
+		value = safe;
 		
 		if(Value < Min)
-			Value = Min;
+			value = Min;
 		
 		_ = EmitSignal(SignalName.ValueChanged, Value);
 		return Value;

@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://0urptism2d4q"]
+[gd_scene load_steps=4 format=3 uid="uid://0urptism2d4q"]
 
 [ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_c8ix3"]
-[ext_resource type="Texture2D" uid="uid://b0ckvgv55nuyb" path="res://assets/textures/circle-fill-red.png" id="3_11q3n"]
-[ext_resource type="Texture2D" uid="uid://xxyutfs7xhiu" path="res://assets/textures/circle-empty.png" id="4_j7vub"]
-[ext_resource type="Texture2D" uid="uid://ce60x85miwle8" path="res://assets/textures/slash-two.png" id="5_5h70o"]
-[ext_resource type="Texture2D" uid="uid://cehotdar31nq8" path="res://assets/textures/box-border-16.png" id="6_vn17r"]
+[ext_resource type="Texture2D" uid="uid://bo4gyskgwhrci" path="res://assets/textures/slash-two-box.png" id="3_ggfar"]
 
 [node name="Attributes" type="VBoxContainer"]
 anchors_preset = 15
@@ -55,11 +52,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Mental"]
 layout_mode = 2
@@ -78,11 +71,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Mental"]
 layout_mode = 2
@@ -101,11 +90,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Physical" type="VBoxContainer" parent="Row1"]
 layout_mode = 2
@@ -136,11 +121,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Physical"]
 layout_mode = 2
@@ -159,11 +140,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Physical"]
 layout_mode = 2
@@ -182,11 +159,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Social" type="VBoxContainer" parent="Row1"]
 layout_mode = 2
@@ -217,11 +190,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row2" type="HBoxContainer" parent="Row1/Social"]
 layout_mode = 2
@@ -240,11 +209,7 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")
 
 [node name="Row3" type="HBoxContainer" parent="Row1/Social"]
 layout_mode = 2
@@ -263,8 +228,4 @@ unique_name_in_owner = true
 layout_mode = 2
 Min = 1
 Value = 1
-allowedMax = 4
-circleActive = ExtResource("3_11q3n")
-circleInactive = ExtResource("4_j7vub")
-boxActive = ExtResource("5_5h70o")
-boxInactive = ExtResource("6_vn17r")
+boxActive = ExtResource("3_ggfar")

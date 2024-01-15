@@ -18,7 +18,7 @@ public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	{
 		base.LoadEntry(merit);
 		
-		GetNode<TrackSimple>(NodePaths.DotsName).SetValue(merit.Value);
+		GetNode<TrackSimple>(NodePaths.DotsName).Value = merit.Value;
 	}
 	
 	public new void DoDelete()
@@ -47,7 +47,7 @@ public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	{
 		base.clearInputs();
 		
-		GetNode<TrackSimple>(NodePaths.DotsName).SetValue(0);
+		GetNode<TrackSimple>(NodePaths.DotsName).Value = 0;
 	}
 	
 	protected override void doSave()

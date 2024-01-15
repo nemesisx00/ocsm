@@ -52,6 +52,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
+Max = 2
 UseCircles = false
 
 [node name="Row3" type="VBoxContainer" parent="Row/Column1"]
@@ -70,8 +71,8 @@ layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
 Max = 10
+Min = 1
 Value = 7
-EnableToggling = false
 
 [node name="Row4" type="VBoxContainer" parent="Row/Column1"]
 layout_mode = 2
@@ -89,8 +90,8 @@ layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
 Max = 10
+Min = 1
 Value = 1
-EnableToggling = false
 
 [node name="Row5" type="VBoxContainer" parent="Row/Column1"]
 layout_mode = 2

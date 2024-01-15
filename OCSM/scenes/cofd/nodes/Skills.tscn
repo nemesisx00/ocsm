@@ -1,9 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxllwevkln3ib"]
+[gd_scene load_steps=5 format=3 uid="uid://bxllwevkln3ib"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rhekd"]
 [ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="2"]
+[ext_resource type="Texture2D" uid="uid://bo4gyskgwhrci" path="res://assets/textures/slash-two-box.png" id="3_8fvy4"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/SpecialtyList.cs" id="5"]
-
 
 [node name="Skills" type="VBoxContainer"]
 anchors_preset = 15
@@ -60,6 +60,7 @@ horizontal_alignment = 2
 [node name="Academics" parent="Row/Mental/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -76,6 +77,7 @@ horizontal_alignment = 2
 [node name="Computer" parent="Row/Mental/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -92,6 +94,7 @@ horizontal_alignment = 2
 [node name="Crafts" parent="Row/Mental/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -108,6 +111,7 @@ horizontal_alignment = 2
 [node name="Investigation" parent="Row/Mental/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -124,6 +128,7 @@ horizontal_alignment = 2
 [node name="Medicine" parent="Row/Mental/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -140,6 +145,7 @@ horizontal_alignment = 2
 [node name="Occult" parent="Row/Mental/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -156,6 +162,7 @@ horizontal_alignment = 2
 [node name="Politics" parent="Row/Mental/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -172,6 +179,7 @@ horizontal_alignment = 2
 [node name="Science" parent="Row/Mental/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Physical" type="VBoxContainer" parent="Row"]
 layout_mode = 2
@@ -207,6 +215,7 @@ horizontal_alignment = 2
 [node name="Athletics" parent="Row/Physical/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -223,6 +232,7 @@ horizontal_alignment = 2
 [node name="Brawl" parent="Row/Physical/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -239,6 +249,7 @@ horizontal_alignment = 2
 [node name="Drive" parent="Row/Physical/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -255,6 +266,7 @@ horizontal_alignment = 2
 [node name="Firearms" parent="Row/Physical/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -271,6 +283,7 @@ horizontal_alignment = 2
 [node name="Larceny" parent="Row/Physical/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -287,6 +300,7 @@ horizontal_alignment = 2
 [node name="Stealth" parent="Row/Physical/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -303,6 +317,7 @@ horizontal_alignment = 2
 [node name="Survival" parent="Row/Physical/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -319,6 +334,7 @@ horizontal_alignment = 2
 [node name="Weaponry" parent="Row/Physical/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Social" type="VBoxContainer" parent="Row"]
 layout_mode = 2
@@ -354,6 +370,7 @@ horizontal_alignment = 2
 [node name="Animal Ken" parent="Row/Social/Row1" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -370,6 +387,7 @@ horizontal_alignment = 2
 [node name="Empathy" parent="Row/Social/Row2" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -386,6 +404,7 @@ horizontal_alignment = 2
 [node name="Expression" parent="Row/Social/Row3" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -402,6 +421,7 @@ horizontal_alignment = 2
 [node name="Intimidation" parent="Row/Social/Row4" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -418,6 +438,7 @@ horizontal_alignment = 2
 [node name="Persuasion" parent="Row/Social/Row5" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -434,6 +455,7 @@ horizontal_alignment = 2
 [node name="Socialize" parent="Row/Social/Row6" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -450,6 +472,7 @@ horizontal_alignment = 2
 [node name="Streetwise" parent="Row/Social/Row7" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -466,6 +489,7 @@ horizontal_alignment = 2
 [node name="Subterfuge" parent="Row/Social/Row8" instance=ExtResource("2")]
 unique_name_in_owner = true
 layout_mode = 2
+boxActive = ExtResource("3_8fvy4")
 
 [node name="Column" type="VBoxContainer" parent="."]
 layout_mode = 2

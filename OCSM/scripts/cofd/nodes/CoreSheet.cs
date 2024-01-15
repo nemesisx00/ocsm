@@ -13,7 +13,6 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected class NodePaths
 	{
-		public static readonly NodePath Traits = new("%Traits");
 		public static readonly NodePath Advantages = new("%Advantages");
 		public static readonly NodePath Attributes = new($"{Traits}/%Attributes");
 		public static readonly NodePath Details = new("%Details");
@@ -23,6 +22,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		public static readonly NodePath MeritsFromMetadata = new("%MeritsFromMetadata");
 		public static readonly NodePath Skills = new($"{Traits}/%Skills");
 		public static readonly NodePath SkillSpecialties = new($"{Skills}/%Specialties");
+		public static readonly NodePath Traits = new("%Traits");
 		
 		// Advantages
 		public static readonly NodePath Armor = new($"{Advantages}/%Armor");
@@ -135,11 +135,12 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateDefense()
 	{
-		long newValue = 0;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		int newValue = 0;
+		
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Dexterity)) is Attribute dex)
 			newValue = dex.Value;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Wits)) is Ocsm.Cofd.Attribute wits
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Wits)) is Attribute wits
 				&& newValue < wits.Value)
 			newValue = wits.Value;
 		
@@ -154,10 +155,10 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	{
 		int newValue = 0;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Dexterity)) is Attribute dex)
 			newValue += dex.Value;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Composure)) is Ocsm.Cofd.Attribute comp)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Composure)) is Attribute comp)
 			newValue += comp.Value;
 		
 		if(newValue > 0)
@@ -166,7 +167,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateMaxHealth()
 	{
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Stamina)) is Ocsm.Cofd.Attribute stam)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Stamina)) is Attribute stam)
 		{
 			SheetData.Advantages.Health.Max = SheetData.Advantages.Size + stam.Value;
 			health.UpdateMax(SheetData.Advantages.Health.Max);
@@ -177,29 +178,29 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	{
 		int newValue = 0;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Composure)) is Ocsm.Cofd.Attribute comp)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Composure)) is Attribute comp)
 			newValue += comp.Value;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Resolve)) is Ocsm.Cofd.Attribute res)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Resolve)) is Attribute res)
 			newValue += res.Value;
 		
-		if(newValue > 0)
-		{
-			var advantages = SheetData.Advantages;
-			advantages.WillpowerMax = newValue;
-			SheetData.Advantages = advantages;
-			willpower.SetMax(SheetData.Advantages.WillpowerMax);
-		}
+		if(newValue <= 0)
+			newValue = 1;
+		
+		var advantages = SheetData.Advantages;
+		advantages.WillpowerMax = newValue;
+		SheetData.Advantages = advantages;
+		willpower.Max = SheetData.Advantages.WillpowerMax;
 	}
 	
 	protected void updateSpeed()
 	{
 		int newValue = SheetData.Advantages.Size;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Dexterity)) is Attribute dex)
 			newValue += dex.Value;
 		
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.EnumValues.Strength)) is Ocsm.Cofd.Attribute str)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Attribute.EnumValues.Strength)) is Attribute str)
 			newValue += str.Value;
 		
 		speed.Text = newValue.ToString();
@@ -251,7 +252,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		if(value >= 5)
 		{
 			SheetData.Beats = 0;
-			beats.SetValue(SheetData.Beats);
+			beats.Value = SheetData.Beats;
 			SheetData.Experience++;
 			experience.Value = SheetData.Experience;
 		}

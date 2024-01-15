@@ -98,7 +98,6 @@ theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 2
 script = ExtResource("7_aq4x6")
-sortItems = null
 
 [node name="Inventory" type="VBoxContainer" parent="Column/TabContainer"]
 visible = false

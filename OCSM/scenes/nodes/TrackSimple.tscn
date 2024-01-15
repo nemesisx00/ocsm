@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjnh65fra4qoc"]
+[gd_scene load_steps=7 format=3 uid="uid://bjnh65fra4qoc"]
 
 [ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_gpv13"]
+[ext_resource type="Texture2D" uid="uid://bgfh5hsmlwdlp" path="res://assets/textures/circle-fill.png" id="3_4uuct"]
+[ext_resource type="Texture2D" uid="uid://xxyutfs7xhiu" path="res://assets/textures/circle-empty.png" id="4_3ouky"]
+[ext_resource type="Texture2D" uid="uid://bo4gyskgwhrci" path="res://assets/textures/slash-two-box.png" id="5_ndv07"]
+[ext_resource type="Texture2D" uid="uid://cehotdar31nq8" path="res://assets/textures/box-border-16.png" id="6_18o1n"]
 
 [node name="Tracker" type="GridContainer"]
 anchors_preset = 15
@@ -11,3 +15,7 @@ size_flags_horizontal = 3
 theme = ExtResource("1_gpv13")
 columns = 5
 script = ExtResource("1")
+circleActive = ExtResource("3_4uuct")
+circleInactive = ExtResource("4_3ouky")
+boxActive = ExtResource("5_ndv07")
+boxInactive = ExtResource("6_18o1n")

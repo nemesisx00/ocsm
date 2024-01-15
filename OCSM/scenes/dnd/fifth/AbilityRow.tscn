@@ -60,8 +60,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 tooltip_text = "Saving Throw"
 Label = "Saving Throw"
-AbilityModifier = null
-ProficiencyBonus = null
 
 [node name="Skills" type="VBoxContainer" parent="VBoxContainer2"]
 unique_name_in_owner = true

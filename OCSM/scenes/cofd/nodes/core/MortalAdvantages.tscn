@@ -74,8 +74,8 @@ layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
 Max = 10
+Min = 1
 Value = 7
-EnableToggling = false
 
 [node name="Column2" type="VBoxContainer" parent="Row"]
 layout_mode = 2

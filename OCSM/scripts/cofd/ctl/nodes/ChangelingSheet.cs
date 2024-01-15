@@ -84,7 +84,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 
 		InitContractsList(GetNode<ContractsList>(NodePaths.ContractsList), SheetData.Contracts, changed_Contracts);
 		
-		GetNode<MeritsFromMetadata>(NodePaths.MeritsFromMetadata).AddMerit += addExistingMerit;
+		GetNode<MeritsFromMetadata>(CoreSheet<Changeling>.NodePaths.MeritsFromMetadata).AddMerit += addExistingMerit;
 		
 		base._Ready();
 		
@@ -96,8 +96,8 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		SheetData.Attributes.ForEach(a => {
 			if(GetNode<TrackSimple>($"{CoreSheet<Changeling>.NodePaths.Attributes}/%{a.Name}") is TrackSimple node)
 			{
-				node.SetMax(dotMax);
-				node.SetValue(a.Value);
+				node.Max = dotMax;
+				node.Value = a.Value;
 				attributes.Add(node);
 			}
 		});
@@ -105,8 +105,8 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		SheetData.Skills.ForEach(s => {
 			if(GetNode<TrackSimple>($"{CoreSheet<Changeling>.NodePaths.Skills}/%{s.Name}") is TrackSimple node)
 			{
-				node.SetMax(dotMax);
-				node.SetValue(s.Value);
+				node.Max = dotMax;
+				node.Value = s.Value;
 				skills.Add(node);
 			}
 		});
@@ -135,7 +135,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 	}
 	
-	protected static void InitKithOptionButton(KithOptionButton node, Kith initialValue, KithOptionButton.ItemSelectedEventHandler handler)
+	protected static void InitKithOptionButton(KithOptionButton node, Kith initialValue, OptionButton.ItemSelectedEventHandler handler)
 	{
 		if(node is not null)
 		{
@@ -146,7 +146,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 	}
 	
-	protected static void InitRegaliaOptionButton(RegaliaOptionButton node, Regalia initialValue, RegaliaOptionButton.ItemSelectedEventHandler handler)
+	protected static void InitRegaliaOptionButton(RegaliaOptionButton node, Regalia initialValue, OptionButton.ItemSelectedEventHandler handler)
 	{
 		if(node is not null)
 		{
@@ -157,7 +157,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 	}
 	
-	protected static void InitSeemingOptionButton(SeemingOptionButton node, Seeming initialValue, SeemingOptionButton.ItemSelectedEventHandler handler)
+	protected static void InitSeemingOptionButton(SeemingOptionButton node, Seeming initialValue, OptionButton.ItemSelectedEventHandler handler)
 	{
 		if(node is not null)
 		{
@@ -275,7 +275,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		if(Changeling.WyrdGlamour.TryGetValue(value, out int maxGlamour))
 		{
 			advantages.ResourceMax = maxGlamour;
-			glamour.SetMax(advantages.ResourceMax);
+			glamour.Max = advantages.ResourceMax;
 		}
 		
 		SheetData.Advantages = advantages;
@@ -284,7 +284,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		if(SheetData.Advantages.Power > 5)
 			dotMax = SheetData.Advantages.Power;
 		
-		attributes.ForEach(n => n.SetMax(dotMax));
-		skills.ForEach(n => n.SetMax(dotMax));
+		attributes.ForEach(n => n.Max = dotMax);
+		skills.ForEach(n => n.Max = dotMax);
 	}
 }
