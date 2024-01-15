@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -10,21 +9,19 @@ public partial class EntryList : Container
 	[Signal]
 	public delegate void ValueChangedEventHandler(Transport<List<string>> values);
 	
-	public List<string> Values { get; set; } = new List<string>();
+	public List<string> Values { get; set; } = [];
 	
 	public override void _Ready()
 	{
-		refresh();
+		Refresh();
 	}
 	
-	public void refresh()
+	public void Refresh()
 	{
 		foreach(Node c in GetChildren())
-		{
 			c.QueueFree();
-		}
 		
-		Values.Where(v => !String.IsNullOrEmpty(v))
+		Values.Where(v => !string.IsNullOrEmpty(v))
 			.ToList()
 			.ForEach(v => addInput(v));
 		
@@ -35,35 +32,37 @@ public partial class EntryList : Container
 	{
 		var values = new List<string>();
 		var children = GetChildren();
-		foreach(TextEdit c in children)
+		
+		foreach(TextEdit c in children.Cast<TextEdit>())
 		{
-			if(!String.IsNullOrEmpty(c.Text))
+			if(!string.IsNullOrEmpty(c.Text))
 				values.Add(c.Text);
 			else if(children.IndexOf(c) != children.Count - 1)
 				c.QueueFree();
 		}
 		
-		EmitSignal(nameof(ValueChanged), new Transport<List<string>>(values));
+		_ = EmitSignal(SignalName.ValueChanged, new Transport<List<string>>(values));
 		
 		if(children.Count <= values.Count)
-		{
 			addInput();
-		}
 	}
 	
 	private void addInput(string value = "")
 	{
 		var stringName = Name.ToString();
+
+		TextEdit node = new()
+		{
+			CustomMinimumSize = new Vector2(0, 25),
+			SizeFlagsHorizontal = SizeFlags.ExpandFill,
+			SizeFlagsVertical = SizeFlags.Fill,
+			ScrollFitContentHeight = true,
+			Text = value,
+			TooltipText = $"Enter a new {stringName[..^1]}",
+			WrapMode = TextEdit.LineWrappingMode.Boundary,
+		};
 		
-		var node = new TextEdit();
-		node.CustomMinimumSize = new Vector2(0, 25);
-		node.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-		node.SizeFlagsVertical = Control.SizeFlags.Fill;
-		node.ScrollFitContentHeight = true;
-		node.Text = value;
 		node.TextChanged += textChanged;
-		node.TooltipText = "Enter a new " + stringName.Substring(0, stringName.Length - 1);
-		node.WrapMode = TextEdit.LineWrappingMode.Boundary;
 		AddChild(node);
 	}
 }

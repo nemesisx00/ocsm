@@ -14,30 +14,27 @@ public static class Extensions
 		return value.GetType()
 			.GetField(value.ToString())
 			.GetCustomAttribute<LabelAttribute>(false)?
-			.Label ?? String.Empty;
+			.Label ?? string.Empty;
 	}
 	
 	public static string GetLabelOrName(this Enum value)
 	{
 		var ret = value.GetLabel();
-		if(String.IsNullOrEmpty(ret))
+		if(string.IsNullOrEmpty(ret))
 			ret = value.ToString();
 		return ret;
 	}
 	
 	// --------------------------------------------------
-	
+
 	// OptionButton extensions
 	
-	public static void Deselect(this OptionButton node)
-	{
-		node.Selected = -1;
-	}
+	public static void Deselect(this OptionButton node) => node.Selected = -1;
 	
 	public static void SetDisabled(this OptionButton node, List<string> strings, bool disabled = false, List<string> exclusions = null)
 	{
-		var skip = new List<string>();
-		if(exclusions is List<string>)
+		List<string> skip = [];
+		if(exclusions is not null)
 			skip.AddRange(exclusions);
 		
 		node.SetDisabledAll(false);
@@ -50,14 +47,12 @@ public static class Extensions
 		var count = node.ItemCount;
 		for(var i = 0; i < count; i++)
 		{
-			node.SetItemDisabled(i, false);
+			node.SetItemDisabled(i, disabled);
 		}
 	}
 	
 	public static void SetDisabledByText(this OptionButton node, string text, bool disabled = false)
-	{
-		node.SetItemDisabled(node.GetFirstItemIndexByText(text), disabled);
-	}
+		=> node.SetItemDisabled(node.GetFirstItemIndexByText(text), disabled);
 	
 	public static int GetFirstItemIndexByText(this OptionButton node, string text)
 	{
@@ -76,7 +71,7 @@ public static class Extensions
 	
 	public static string GetSelectedItemText(this OptionButton node)
 	{
-		var ret = String.Empty;
+		var ret = string.Empty;
 		var index = node.Selected;
 		if(index >= 0 && index < node.ItemCount)
 			ret = node.GetItemText(index);
@@ -84,7 +79,5 @@ public static class Extensions
 	}
 	
 	public static void SelectItemByText(this OptionButton node, string text)
-	{
-		node.Selected = node.GetFirstItemIndexByText(text);
-	}
+		=> node.Selected = node.GetFirstItemIndexByText(text);
 }

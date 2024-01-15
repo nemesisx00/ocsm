@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://h62ncskqhntf"]
 
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/AbilityOptionsButton.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/AbilityOptionsButton.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_c7drb"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEdit.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/NumericStatOptionsButton.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/NumericBonusEdit.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/NumericStatOptionsButton.cs" id="3"]
 
 [node name="NumericBonusEdit" type="VBoxContainer"]
 anchors_preset = 15

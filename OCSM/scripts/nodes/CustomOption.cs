@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using Ocsm.Nodes.Autoload;
 
@@ -11,20 +10,20 @@ public abstract partial class CustomOption : OptionButton
 	public delegate void ItemsChangedEventHandler();
 	
 	[Export]
-	public bool EmptyOption { get; protected set; } = false;
+	public bool EmptyOption { get; protected set; }
 	
 	protected MetadataManager metadataManager;
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += refreshMetadata;
 		metadataManager.MetadataSaved += refreshMetadata;
 		
 		refreshMetadata();
 	}
 	
-	public void select(string text)
+	public void Select(string text)
 	{
 		for(var i = 0; i < ItemCount; i++)
 		{
@@ -41,7 +40,7 @@ public abstract partial class CustomOption : OptionButton
 		var index = Selected;
 		Clear();
 		if(EmptyOption)
-			AddItem(String.Empty);
+			AddItem(string.Empty);
 		items.ForEach(i => AddItem(i));
 		Selected = index;
 	}

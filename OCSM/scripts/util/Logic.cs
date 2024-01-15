@@ -16,13 +16,8 @@ public class Logic
 	/// <param name="o1">The first object being compared.</param>
 	/// <param name="o2">The second object being compared.</param>
 	/// <returns>The boolean value resulting from the logical evaluation.</returns>
-	public static bool AreEqualOrNull<T>(T o1, T o2)
-	{
-		return (
-			(o1 is T && o1.Equals(o2))
-			|| (!(o1 is T) && !(o2 is T))
-		);
-	}
+	public static bool AreEqualOrNull<T>(T o1, T o2) => (o1 is not null && o1.Equals(o2))
+		|| (o1 is null && o2 is null);
 	
 	/// <summary>
 	/// Determine if <c>o1</c> and <c>o2</c> are equal, accounting for null values.
@@ -35,11 +30,7 @@ public class Logic
 	/// <param name="o2">The second nullable object being compared.</param>
 	/// <returns>The boolean value resulting from the logical evaluation.</returns>
 	public static bool AreEqualOrNull<T>(T? o1, T? o2)
-		where T: struct
-	{
-		return (
-			(o1 is T && o1.Equals(o2))
-			|| (!(o1 is T) && !(o2 is T))
-		);
-	}
+			where T : struct
+		=> (o1 is not null && o1.Equals(o2))
+			|| (o1 is null && o2 is null);
 }

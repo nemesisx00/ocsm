@@ -1,59 +1,59 @@
 using Godot;
-using System;
 
 namespace Ocsm.Nodes;
 
 public partial class ToggleButton : TextureButton
 {
 	[Signal]
-	public delegate void StateToggledEventHandler(ToggleButton button);
+	public delegate void ToggleEventHandler(ToggleButton button);
 	
-	[Export]
-	public bool CurrentState { get; set; } = false;
-	[Export]
-	public bool UseCircles { get; set; } = false;
-	public CompressedTexture2D ToggledTexture { get; set; }
-	public CompressedTexture2D EmptyTexture { get; set; }
+	public Texture2D Inactive { get; set; }
+	public Texture2D Active { get; set; }
+	
+	public bool State
+	{
+		get { return currentState; }
+		
+		set
+		{
+			currentState = value;
+			TextureNormal = currentState ? Active : Inactive;
+		}
+	}
+	
+	private bool currentState;
 	
 	public override void _Ready()
 	{
-		if(UseCircles)
-		{
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
-			ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircleFill);
-		}
-		else
-		{
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
-			ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBox2);
-		}
-		
-		EmptyTexture = GD.Load<CompressedTexture2D>(Constants.Texture.FullTransparent);
-		
-		GuiInput += handleClick;
 		MouseDefaultCursorShape = CursorShape.PointingHand;
-		
-		updateTexture();
+		TextureNormal = Inactive;
+		GuiInput += handleClick;
 	}
 	
-	public void toggleState()
+	public void Disable()
 	{
-		CurrentState = !CurrentState;
-		updateTexture();
-		EmitSignal(nameof(StateToggled), this);
+		if(!Disabled)
+		{
+			Disabled = true;
+			GuiInput -= handleClick;
+		}
 	}
 	
-	public void updateTexture()
+	public void Enable()
 	{
-		if(CurrentState)
-			TextureNormal = ToggledTexture;
-		else
-			TextureNormal = EmptyTexture;
+		if(Disabled)
+		{
+			Disabled = false;
+			GuiInput += handleClick;
+		}
 	}
 	
 	private void handleClick(InputEvent e)
 	{
-		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && MouseButton.Left == buttonEvent.ButtonIndex)
-			toggleState();
+		if(!Disabled && e is InputEventMouseButton iemb && iemb.Pressed && MouseButton.Left == iemb.ButtonIndex)
+		{
+			State = !currentState;
+			_ = EmitSignal(SignalName.Toggle, this);
+		}
 	}
 }

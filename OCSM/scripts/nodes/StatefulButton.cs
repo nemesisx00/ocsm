@@ -4,66 +4,41 @@ namespace Ocsm.Nodes;
 
 public partial class StatefulButton : TextureButton
 {
-	public sealed class State
+	public enum States
 	{
-		public const string None = "None";
-		public const string One = "One";
-		public const string Two = "Two";
-		public const string Three = "Three";
-		public const string EnumHint = None + "," + One + "," + Two + "," + Three;
+		None,
+		One,
+		Two,
+		Three,
 	}
 	
-	[Export(PropertyHint.Enum, State.EnumHint)]
-	public string CurrentState { get; set; } = State.None;
+	[Export(PropertyHint.Enum, "None,One,Two,Three")]
+	public States State { get; set; }
 	[Export]
-	public bool UseCircles { get; set; } = false;
+	public bool UseCircles { get; set; }
 	
 	[Signal]
 	public delegate void StateChangedEventHandler(StatefulButton box);
 	
 	public override void _Ready()
 	{
-		updateTexture();
+		UpdateTexture();
 		GuiInput += handleClick;
 	}
 	
-	public void nextState(bool reverse = false)
-	{
-		nextState(CurrentState, reverse);
-	}
+	public void NextState(bool reverse = false) => nextState(State, reverse);
 	
-	public void updateTexture()
+	public void UpdateTexture()
 	{
-		if(UseCircles)
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
-		else
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
+		GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(UseCircles ? Constants.Texture.TrackCircle : Constants.Texture.TrackBoxBorder);
 		
-		var tex = Constants.Texture.FullTransparent;
-		switch(CurrentState)
+		var tex = State switch
 		{
-			case State.One:
-				if(UseCircles)
-					tex = Constants.Texture.TrackCircleHalf;
-				else
-					tex = Constants.Texture.TrackBox1;
-				break;
-			case State.Two:
-				if(UseCircles)
-					tex = Constants.Texture.TrackCircleFill;
-				else
-					tex = Constants.Texture.TrackBox2;
-				break;
-			case State.Three:
-				if(UseCircles)
-					tex = Constants.Texture.TrackCircleRed;
-				else
-					tex = Constants.Texture.TrackBox3;
-				break;
-			case State.None:
-			default:
-				break;
-		}
+			States.One => UseCircles ? Constants.Texture.TrackCircleHalf : Constants.Texture.TrackBox1,
+			States.Two => UseCircles ? Constants.Texture.TrackCircleFill : Constants.Texture.TrackBox2,
+			States.Three => UseCircles ? Constants.Texture.TrackCircleRed : Constants.Texture.TrackBox3,
+			_ => Constants.Texture.FullTransparent,
+		};
 		
 		TextureNormal = GD.Load<CompressedTexture2D>(tex);
 	}
@@ -75,52 +50,41 @@ public partial class StatefulButton : TextureButton
 			switch(buttonEvent.ButtonIndex)
 			{
 				case MouseButton.Left:
-					CurrentState = nextState(CurrentState);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
+					State = nextState(State);
+					UpdateTexture();
+					_ = EmitSignal(SignalName.StateChanged, this);
 					break;
+				
 				case MouseButton.Right:
-					CurrentState = nextState(CurrentState, true);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
-					break;
-				default:
+					State = nextState(State, true);
+					UpdateTexture();
+					_ = EmitSignal(SignalName.StateChanged, this);
 					break;
 			}
 		}
 	}
 	
-	private string nextState(string state, bool reverse = false)
+	private static States nextState(States state, bool reverse = false)
 	{
 		if(reverse)
 		{
-			switch(state)
+			return state switch
 			{
-				case State.Two:
-					return State.One;
-				case State.Three:
-					return State.Two;
-				case State.None:
-					return State.Three;
-				case State.One:
-				default:
-					return State.None;
-			}
+				States.Two => States.One,
+				States.Three => States.Two,
+				States.None => States.Three,
+				_ => States.None,
+			};
 		}
 		else
 		{
-			switch(state)
+			return state switch
 			{
-				case State.None:
-					return State.One;
-				case State.One:
-					return State.Two;
-				case State.Two:
-					return State.Three;
-				case State.Three:
-				default:
-					return State.None;
-			}
+				States.None => States.One,
+				States.One => States.Two,
+				States.Two => States.Three,
+				_ => States.None,
+			};
 		}
 	}
 }

@@ -3,43 +3,31 @@ using System;
 
 namespace Ocsm.Meta;
 
-public interface IMetadataContainer
-{
-	void Deserialize(string json);
-	bool IsEmpty();
-	string Serialize();
-}
-
-public class Metadata : IComparable<Metadata>, IEquatable<Metadata>
+public class Metadata() : IComparable<Metadata>, IEquatable<Metadata>
 {
 	public string Description { get; set; }
 	public Texture2D Icon { get; set; }
 	public string Name { get; set; }
 	
-	public Metadata()
+	public int CompareTo(Metadata other)
 	{
-		Description = String.Empty;
-		Icon = null;
-		Name = String.Empty;
-	}
-	
-	public int CompareTo(Metadata metadata)
-	{
-		var ret = 0;
-		if(metadata is Metadata)
-		{
-			ret = Name.CompareTo(metadata.Name);
-			if(ret.Equals(0))
-				ret = Description.CompareTo(metadata.Description);
-		}
+		int ret = Name.CompareTo(other?.Name);
+			
+		if(ret == 0)
+			ret = Description.CompareTo(other?.Description);
+		
 		return ret;
 	}
 	
-	public bool Equals(Metadata metadata)
-	{
-		return metadata is Metadata
-			&& metadata.Description.Equals(Description)
-			&& Logic.AreEqualOrNull<Texture2D>(metadata.Icon, Icon)
-			&& metadata.Name.Equals(Name);
-	}
+	public override bool Equals(object other) => Equals(other as Metadata);
+	
+	public bool Equals(Metadata other) => Logic.AreEqualOrNull(Description, other?.Description)
+		&& Logic.AreEqualOrNull(Icon, other?.Icon)
+		&& Logic.AreEqualOrNull(Name, other?.Name);
+	
+	public override int GetHashCode() => HashCode.Combine(
+		Description,
+		Icon,
+		Name
+	);
 }

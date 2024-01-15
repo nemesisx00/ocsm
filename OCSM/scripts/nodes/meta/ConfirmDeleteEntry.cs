@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-namespace Ocsm.Nodes.Meta;
+namespace Ocsm.Nodes;
 
 public partial class ConfirmDeleteEntry : ConfirmationDialog
 {
@@ -11,14 +10,9 @@ public partial class ConfirmDeleteEntry : ConfirmationDialog
 	
 	public override void _Ready()
 	{
-		DialogText = String.Format(TextFormat, EntryTypeName);
+		DialogText = string.Format(TextFormat, EntryTypeName);
 		
-		Confirmed += close;
-		Canceled += close;
-	}
-	
-	private void close()
-	{
-		QueueFree();
+		Confirmed += QueueFree;
+		Canceled += QueueFree;
 	}
 }

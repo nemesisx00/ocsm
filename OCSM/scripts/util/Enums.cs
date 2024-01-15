@@ -20,7 +20,7 @@ public class Enums
 		where T: struct, Enum
 	{
 		return Enum.GetValues<T>()
-			.Where(e => Enum.GetName<T>(e).Equals(name))
+			.Where(e => Enum.GetName(e).Equals(name))
 			.FirstOrDefault();
 	}
 	
@@ -39,7 +39,7 @@ public class Enums
 			.Where(e => e.GetLabel().Equals(label))
 			.FirstOrDefault();
 	}
-	
+
 	/// <summary>
 	/// Determine if <c>o1</c> and <c>o2</c> are equal, accounting for null values.
 	/// </summary>
@@ -50,11 +50,6 @@ public class Enums
 	/// <param name="o1">The first object being compared.</param>
 	/// <param name="o2">The second object being compared.</param>
 	/// <returns>The boolean value resulting from the logical evaluation.</returns>
-	public static bool AreEqualOrNull<T>(T o1, T o2)
-	{
-		return (
-			(o1 is T && o1.Equals(o2))
-			|| (!(o1 is T) && !(o2 is T))
-		);
-	}
+	public static bool AreEqualOrNull<T>(T o1, T o2) => (o1 is not null && o1.Equals(o2))
+		|| (o1 is null && o2 is null);
 }
