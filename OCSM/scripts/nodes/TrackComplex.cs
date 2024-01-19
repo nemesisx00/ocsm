@@ -4,9 +4,11 @@ using System.Linq;
 
 namespace Ocsm.Nodes;
 
+[GlobalClass]
 public partial class TrackComplex : GridContainer
 {
 	public const int DefaultMax = 5;
+	public const int MinimumMax = 1;
 	
 	[Signal]
 	public delegate void ValueChangedEventHandler(Transport<Dictionary<StatefulButton.States, int>> values);
@@ -14,18 +16,23 @@ public partial class TrackComplex : GridContainer
 	[Export]
 	public int Max { get; set; } = DefaultMax;
 	
+	[Export]
+	public bool TwoState { get; set; } = false;
+	
 	public Dictionary<StatefulButton.States, int> Values
 	{
 		get
 		{
-			Dictionary<StatefulButton.States, int> values = [];
-			values.Add(StatefulButton.States.One, 0);
-			values.Add(StatefulButton.States.Two, 0);
-			values.Add(StatefulButton.States.Three, 0);
-			
-			foreach(StatefulButton c in GetChildren().Cast<StatefulButton>())
+			Dictionary<StatefulButton.States, int> values = new()
 			{
-				switch(c.State)
+				{ StatefulButton.States.One, 0 },
+				{ StatefulButton.States.Two, 0 },
+				{ StatefulButton.States.Three, 0 }
+			};
+			
+			foreach (StatefulButton c in GetChildren().Cast<StatefulButton>())
+			{
+				switch (c.State)
 				{
 					case StatefulButton.States.One:
 						values[StatefulButton.States.One]++;
@@ -38,62 +45,20 @@ public partial class TrackComplex : GridContainer
 						break;
 				}
 			}
-			
+
 			return values;
 		}
 		
-		set
-		{
-			var children = GetChildren();
-			foreach(StatefulButton c in children.Cast<StatefulButton>())
-			{
-				if(children.IndexOf(c) < value[StatefulButton.States.Three])
-					c.State = StatefulButton.States.Three;
-				else if(children.IndexOf(c) < value[StatefulButton.States.Three] + value[StatefulButton.States.Two])
-					c.State = StatefulButton.States.Two;
-				else if(children.IndexOf(c) < value[StatefulButton.States.Three] + value[StatefulButton.States.Two] + value[StatefulButton.States.One])
-					c.State = StatefulButton.States.One;
-			}
-			
-			UpdateBoxes();
-		}
+		set => refreshButtons(value);
 	}
 	
-	public override void _Ready()
-	{
-		UpdateMax(Max);
-	}
-	
-	private void handleStatefulButton(StatefulButton box)
-	{
-		UpdateBoxes();
-		_ = EmitSignal(SignalName.ValueChanged, new Transport<Dictionary<StatefulButton.States, int>>(Values));
-	}
-	
-	public void UpdateBoxes()
-	{
-		var values = Values;
-		var children = GetChildren();
-		foreach(StatefulButton c in children.Cast<StatefulButton>())
-		{
-			var state = StatefulButton.States.None;
-			if(children.IndexOf(c) < values[StatefulButton.States.Three])
-				state = StatefulButton.States.Three;
-			else if(children.IndexOf(c) < values[StatefulButton.States.Three] + values[StatefulButton.States.Two])
-				state = StatefulButton.States.Two;
-			else if(children.IndexOf(c) < values[StatefulButton.States.Three] + values[StatefulButton.States.Two] + values[StatefulButton.States.One])
-				state = StatefulButton.States.One;
-			
-			c.State = state;
-			c.UpdateTexture();
-		}
-	}
+	public override void _Ready() => UpdateMax(Max);
 	
 	public void UpdateMax(int max = 1)
 	{
 		Max = max;
-		if(Max < 1)
-			Max = 1;
+		if(Max < MinimumMax)
+			Max = MinimumMax;
 		
 		var children = GetChildren();
 		if(children.Count < Max)
@@ -102,6 +67,7 @@ public partial class TrackComplex : GridContainer
 			for(var i = children.Count; i < Max; i++)
 			{
 				var instance = resource.Instantiate<StatefulButton>();
+				instance.TwoState = TwoState;
 				AddChild(instance);
 				instance.StateChanged += handleStatefulButton;
 			}
@@ -112,6 +78,51 @@ public partial class TrackComplex : GridContainer
 			{
 				if(children.IndexOf(c) >= Max)
 					c.QueueFree();
+			}
+		}
+	}
+	
+	private void handleStatefulButton(StatefulButton box)
+	{
+		refreshButtons(Values, true);
+		_ = EmitSignal(SignalName.ValueChanged, new Transport<Dictionary<StatefulButton.States, int>>(Values));
+	}
+	
+	private void refreshButtons(Dictionary<StatefulButton.States, int> values, bool refreshTextures = false)
+	{
+		var children = GetChildren();
+		if(TwoState)
+		{
+			for(var i = 0; i < children.Count; i++)
+			{
+				var c = children[i] as StatefulButton;
+				if(i < values[StatefulButton.States.Two])
+					c.State = StatefulButton.States.Two;
+				else if(i < values[StatefulButton.States.Two] + values[StatefulButton.States.One])
+					c.State = StatefulButton.States.One;
+				else
+					c.State = StatefulButton.States.None;
+				
+				if(refreshTextures)
+					c.UpdateTexture();
+			}
+		}
+		else
+		{
+			for(var i = 0; i < children.Count; i++)
+			{
+				var c = children[i] as StatefulButton;
+				if(i < values[StatefulButton.States.Three])
+					c.State = StatefulButton.States.Three;
+				else if(i < values[StatefulButton.States.Three] + values[StatefulButton.States.Two])
+					c.State = StatefulButton.States.Two;
+				else if(i < values[StatefulButton.States.Three] + values[StatefulButton.States.Two] + values[StatefulButton.States.One])
+					c.State = StatefulButton.States.One;
+				else
+					c.State = StatefulButton.States.None;
+				
+				if(refreshTextures)
+					c.UpdateTexture();
 			}
 		}
 	}

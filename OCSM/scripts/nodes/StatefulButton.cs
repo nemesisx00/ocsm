@@ -14,8 +14,12 @@ public partial class StatefulButton : TextureButton
 	
 	[Export(PropertyHint.Enum, "None,One,Two,Three")]
 	public States State { get; set; }
+	
 	[Export]
 	public bool UseCircles { get; set; }
+	
+	[Export]
+	public bool TwoState { get; set; }
 	
 	[Signal]
 	public delegate void StateChangedEventHandler(StatefulButton box);
@@ -30,14 +34,14 @@ public partial class StatefulButton : TextureButton
 	
 	public void UpdateTexture()
 	{
-		GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(UseCircles ? TexturePaths.TrackCircle : TexturePaths.TrackBoxBorder);
+		GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(UseCircles ? TexturePaths.CircleEmpty : TexturePaths.BoxBorder);
 		
 		var tex = State switch
 		{
-			States.One => UseCircles ? TexturePaths.TrackCircleHalf : TexturePaths.TrackBox1,
-			States.Two => UseCircles ? TexturePaths.TrackCircleFill : TexturePaths.TrackBox2,
-			States.Three => UseCircles ? TexturePaths.TrackCircleRed : TexturePaths.TrackBox3,
-			_ => TexturePaths.FullTransparent,
+			States.One => UseCircles ? TexturePaths.CircleFillHalf : TexturePaths.SlashOne,
+			States.Two => UseCircles ? TexturePaths.CircleFill : TexturePaths.SlashTwo,
+			States.Three => UseCircles ? TexturePaths.CircleFillRed : TexturePaths.SlashThree,
+			_ => TexturePaths.BoxTransparent,
 		};
 		
 		TextureNormal = GD.Load<CompressedTexture2D>(tex);
@@ -47,32 +51,37 @@ public partial class StatefulButton : TextureButton
 	{
 		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
 		{
+			var changed = false;
 			switch(buttonEvent.ButtonIndex)
 			{
 				case MouseButton.Left:
 					State = nextState(State);
-					UpdateTexture();
-					_ = EmitSignal(SignalName.StateChanged, this);
+					changed = true;
 					break;
 				
 				case MouseButton.Right:
 					State = nextState(State, true);
-					UpdateTexture();
-					_ = EmitSignal(SignalName.StateChanged, this);
+					changed = true;
 					break;
+			}
+			
+			if(changed)
+			{
+				UpdateTexture();
+				_ = EmitSignal(SignalName.StateChanged, this);
 			}
 		}
 	}
 	
-	private static States nextState(States state, bool reverse = false)
+	private States nextState(States state, bool reverse = false)
 	{
 		if(reverse)
 		{
 			return state switch
 			{
-				States.Two => States.One,
 				States.Three => States.Two,
-				States.None => States.Three,
+				States.Two => States.One,
+				States.None => TwoState ? States.Two : States.Three,
 				_ => States.None,
 			};
 		}
@@ -82,7 +91,7 @@ public partial class StatefulButton : TextureButton
 			{
 				States.None => States.One,
 				States.One => States.Two,
-				States.Two => States.Three,
+				States.Two => TwoState ? States.None : States.Three,
 				_ => States.None,
 			};
 		}
