@@ -87,17 +87,29 @@ public sealed class ScenePaths
 			}
 		}
 	}
+	
+	public sealed class Wod
+	{
+		public sealed class V5
+		{
+			public static readonly StringName Sheet = "res://scenes/wod/sheets/V5Kindred.tscn";
+			public static readonly StringName NewSheetName = "New Kindred";
+		}
+	}
 }
 
 public sealed class TexturePaths
 {
-	public const string FullTransparent = "res://assets/textures/box-transparent-16.png";
-	public const string TrackBoxBorder = "res://assets/textures/box-border-16.png";
-	public const string TrackBox1 = "res://assets/textures/slash-one.png";
-	public const string TrackBox2 = "res://assets/textures/slash-two.png";
-	public const string TrackBox3 = "res://assets/textures/slash-three.png";
-	public const string TrackCircle = "res://assets/textures/circle-empty.png";
-	public const string TrackCircleFill = "res://assets/textures/circle-fill.png";
-	public const string TrackCircleHalf = "res://assets/textures/circle-fill-half.png";
-	public const string TrackCircleRed = "res://assets/textures/circle-fill-red.png";
+	public static readonly StringName BoxTransparent = new("res://assets/textures/box-transparent-16.png");
+	public static readonly StringName BoxBorder = new("res://assets/textures/box-border-16.png");
+	public static readonly StringName SlashOne = new("res://assets/textures/slash-one.png");
+	public static readonly StringName SlashOneBox = new("res://assets/textures/slash-one-box.png");
+	public static readonly StringName SlashTwo = new("res://assets/textures/slash-two.png");
+	public static readonly StringName SlashTwoBox = new("res://assets/textures/slash-two-box.png");
+	public static readonly StringName SlashThree = new("res://assets/textures/slash-three.png");
+	public static readonly StringName SlashThreeBox = new("res://assets/textures/slash-three-box.png");
+	public static readonly StringName CircleEmpty = new("res://assets/textures/circle-empty.png");
+	public static readonly StringName CircleFill = new("res://assets/textures/circle-fill.png");
+	public static readonly StringName CircleFillHalf = new("res://assets/textures/circle-fill-half.png");
+	public static readonly StringName CircleFillRed = new("res://assets/textures/circle-fill-red.png");
 }
