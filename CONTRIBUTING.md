@@ -35,30 +35,29 @@ Regardless of the language, code contributions must follow this style guide. A p
 		- Adhoc functions, closures, and lambdas which require multiple lines
 ```csharp
 //Example in C#
-namespace NameSpace
+namespace NameSpace;
+
+public class ClassName
 {
-	public class ClassName
+	public void functionName()
 	{
-		public void functionName()
+		if(isTrue)
 		{
-			if(isTrue)
-			{
-				collection.ForEach(v => {
-					if(v is bool)
-						isFalse = isFalse && v;
-				});
-			}
-			
-			if(isFalse)
-				doFalse();
+			collection.ForEach(v => {
+				if(v is bool)
+					isFalse = isFalse && v;
+			});
 		}
 		
-		public void doFalse() { isTrue = false; }
+		if(isFalse)
+			doFalse();
 	}
+	
+	public void doFalse() => isTrue = false;
 }
 ```
-- Use `PascalCase` for constants, static variables, class/enum/object/struct names, and namespaces
-- Use `camelCase` for functions, non-constant and non-static variable names
+- Use `PascalCase` for constants, static variables, class/enum/object/struct names, namespaces, and public members
+- Use `camelCase` for private members
 - Prefer iterating with a guaranteed end condition
 - Avoid hard-coding raw data
 	- Prefer creating immutable variables when necessary
