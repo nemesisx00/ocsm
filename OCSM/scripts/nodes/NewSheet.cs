@@ -35,11 +35,13 @@ public partial class NewSheet : ScrollContainer
 		GetNode<Button>(NodePaths.CofdMortal2e).Pressed += newCofdMortal2e;
 		GetNode<Button>(NodePaths.CofdChangeling2e).Pressed += newCofdChangeling2e;
 		GetNode<Button>(NodePaths.Dnd5thPath).Pressed += newDnd5e;
+		GetNode<Button>(NodePaths.WodVampireV5).Pressed += newWodV5Kindred;
 	}
 	
 	private void newCofdMortal2e() => addSheet(ScenePaths.Cofd.Mortal.Sheet, ScenePaths.Cofd.Mortal.NewSheetName);
 	private void newCofdChangeling2e() => addSheet(ScenePaths.Cofd.Changeling.Sheet, ScenePaths.Cofd.Changeling.NewSheetName);
 	private void newDnd5e() => addSheet(ScenePaths.Dnd.Fifth.Sheet, ScenePaths.Dnd.Fifth.NewSheetName);
+	private void newWodV5Kindred() => addSheet(ScenePaths.Wod.V5.Sheet, ScenePaths.Wod.V5.NewSheetName);
 	
 	private void addSheet(string sheetPath, string name)
 	{

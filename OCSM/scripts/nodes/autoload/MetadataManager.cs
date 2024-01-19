@@ -48,6 +48,14 @@ public partial class MetadataManager : Node
 						LoadGameSystemMetadata();
 						break;
 					
+					case GameSystems.WodVtmV5:
+						Container = null;
+						/*
+						Container = new WodV5KindredContainer();
+						LoadGameSystemMetadata();
+						*/
+						break;
+					
 					default:
 						Container = null;
 						break;

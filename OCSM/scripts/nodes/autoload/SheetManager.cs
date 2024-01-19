@@ -108,6 +108,12 @@ public partial class SheetManager : Node
 					AddNewSheet(ScenePaths.Dnd.Fifth.Sheet, ScenePaths.Dnd.Fifth.NewSheetName, json);
 					loaded = true;
 				}
+				else if(json.Contains(GameSystems.WodVtmV5.ToString()))
+				{
+					metadataManager.CurrentGameSystem = GameSystems.WodVtmV5;
+					AddNewSheet(ScenePaths.Wod.V5.Sheet, ScenePaths.Wod.V5.NewSheetName, json);
+					loaded = true;
+				}
 				
 				if(loaded)
 					HideNewSheetUI();

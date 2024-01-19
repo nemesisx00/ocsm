@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://yan3fruflolu"]
+
+[ext_resource type="Script" path="res://scripts/nodes/TrackComplex.cs" id="1_p5voi"]
+[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="2_rg8w3"]
+
+[node name="V5Kindred" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+wrap_mode = 1
+
+[node name="Player" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+wrap_mode = 1
+
+[node name="Generation" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+wrap_mode = 1
+
+[node name="Sire" type="TextEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+wrap_mode = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Health" type="GridContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 10
+script = ExtResource("1_p5voi")
+TwoState = true
+
+[node name="Humanity" type="GridContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 10
+script = ExtResource("2_rg8w3")
+EnableToggling = true
+Max = 10
+Value = 8
+UseCircles = true
+
+[node name="Stains" type="GridContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 10
+script = ExtResource("2_rg8w3")
+EnableToggling = true
+Max = 10
