@@ -1,7 +1,7 @@
 
 namespace Ocsm.Wod.Vtm.V5.Data;
 
-public struct Skills
+public class Skills
 {
 	public int Academics { get; set; }
 	public int AnimalKen { get; set; }
