@@ -14,7 +14,7 @@ public partial class TrackSimple : GridContainer
 	
 	[ExportGroup("Values")]
 	[Export]
-	public bool EnableToggling { get; set; } = true;
+	public bool EnableToggling { get; set; }
 	[Export]
 	public int Max
 	{
@@ -39,21 +39,48 @@ public partial class TrackSimple : GridContainer
 	
 	[ExportGroup("Textures")]
 	[Export]
-	public bool UseCircles { get; set; } = true;
+	public bool UseCircles { get; set; }
 	[Export]
-	public Texture2D circleActive;
+	public Texture2D circleActive = GD.Load<Texture2D>(TexturePaths.CircleFill);
 	[Export]
-	public Texture2D circleInactive;
+	public Texture2D circleInactive = GD.Load<Texture2D>(TexturePaths.CircleEmpty);
 	[Export]
-	public Texture2D boxActive;
+	public Texture2D boxActive = GD.Load<Texture2D>(TexturePaths.SlashTwoBox);
 	[Export]
-	public Texture2D boxInactive;
+	public Texture2D boxInactive = GD.Load<Texture2D>(TexturePaths.BoxBorder);
 	
 	private int max = DefaultMax;
 	private int min = DefaultMin;
 	private int value = DefaultMin;
 	
-	public override void _Ready() => Max = max;
+	public override void _Ready()
+	{
+		Max = max;
+		
+		//Force update the textures
+		//TODO: Dig in and find out whether this is really necessary or if it can be avoided
+		foreach(var b in GetChildren().Cast<ToggleButton>())
+		{
+			b.Active = UseCircles ? circleActive : boxActive;
+			b.Inactive = UseCircles ? circleInactive : boxInactive;
+			b.State = b.State;
+		}
+	}
+	
+	private void createNecessaryButtons()
+	{
+		for(var i = GetChildCount(); i < Max; i++)
+		{
+			ToggleButton instance = new()
+			{
+				Active = UseCircles ? circleActive : boxActive,
+				Inactive = UseCircles ? circleInactive : boxInactive,
+			};
+			
+			AddChild(instance);
+			instance.Toggle += handleToggle;
+		}
+	}
 	
 	private void handleToggle(ToggleButton button)
 	{
@@ -64,24 +91,12 @@ public partial class TrackSimple : GridContainer
 	
 	private void refreshChildren()
 	{
-		var children = GetChildren();
-		if(children.Count < Max)
+		createNecessaryButtons();
+		
+		if(GetChildCount() >= Max)
 		{
-			for(var i = children.Count; i < Max; i++)
-			{
-				ToggleButton instance = new()
-				{
-					Active = UseCircles ? circleActive : boxActive,
-					Inactive = UseCircles ? circleInactive : boxInactive,
-				};
-				
-				AddChild(instance);
-				instance.Toggle += handleToggle;
-			}
-		}
-		else
-		{
-			children.Select((child, index) => (child, index))
+			GetChildren()
+				.Select((child, index) => (child, index))
 				.Where(pair => pair.index >= Max)
 				.ToList()
 				.ForEach(pair => pair.child.QueueFree());
