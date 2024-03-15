@@ -1,0 +1,41 @@
+[*.cs]
+
+dotnet_naming_symbols.memberFields.applicable_kinds = field
+
+dotnet_naming_symbols.memberProperties.applicable_kinds = property
+
+dotnet_naming_symbols.privateMethods.applicable_kinds = method,event,delegate
+dotnet_naming_symbols.privateMethods.applicable_accessibilities = private
+
+dotnet_naming_symbols.publicMethods.applicable_kinds = method,event,delegate
+dotnet_naming_symbols.publicMethods.applicable_accessibilities = public
+
+dotnet_naming_symbols.staticFields.applicable_kinds = field
+dotnet_naming_symbols.staticFields.required_modifiers = static
+
+# -----
+
+dotnet_naming_style.pascalCase.capitalization = pascal_case
+dotnet_naming_style.camelCase.capitalization = camel_case
+
+# -----
+
+dotnet_naming_rule.memberFields.symbols = memberFields
+dotnet_naming_rule.memberFields.style = camelCase
+dotnet_naming_rule.memberFields.severity = warning
+
+dotnet_naming_rule.memberProperties.symbols = memberProperties
+dotnet_naming_rule.memberProperties.style = pascalCase
+dotnet_naming_rule.memberProperties.severity = warning
+
+dotnet_naming_rule.privateMethods.symbols = privateMethods
+dotnet_naming_rule.privateMethods.style = camelCase
+dotnet_naming_rule.privateMethods.severity = warning
+
+dotnet_naming_rule.publicMethods.symbols = publicMethods
+dotnet_naming_rule.publicMethods.style = pascalCase
+dotnet_naming_rule.publicMethods.severity = warning
+
+dotnet_naming_rule.staticFields.symbols = staticFields
+dotnet_naming_rule.staticFields.style = pascalCase
+dotnet_naming_rule.staticFields.severity = warning
