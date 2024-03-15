@@ -12,7 +12,7 @@ public class Constants
 	public const string NewSheetFileName = "New Sheet";
 	public const string SheetFileExtension = ".ocsd";
 	
-	public sealed class Action
+	public static class Action
 	{
 		public const string Cancel = "ui_cancel";
 		public const string FileNew = "fileNew";
@@ -22,33 +22,33 @@ public class Constants
 		public const string FileCloseSheet = "fileCloseSheet";
 	}
 	
-	public sealed class GameSystem
+	public static class GameSystem
 	{
-		public sealed class Cofd
+		public static class Cofd
 		{
 			public const string Mortal = "CodMortal";
 			public const string Changeling = "CodChangeling";
 		}
 		
-		public sealed class Dnd
+		public static class Dnd
 		{
 			public const string Fifth = "Dnd5e";
 		}
 	}
 	
-	public sealed class Json
+	public static class Json
 	{
 		public const string SheetType = "type";
 		public const string SheetData = "data";
 		
-		public sealed class DataType
+		public static class DataType
 		{
 			public const string CodMortal = "Ocsm.Mortal";
 			public const string CodChangeling = "Ocsm.Changeling";
 		}
 	}
 	
-	public sealed class NodePath
+	public static class NodePath
 	{
 		public const string AppManager = "/root/AppManager";
 		public const string AppRoot = "/root/AppRoot";
@@ -58,7 +58,7 @@ public class Constants
 		public const string SheetTabs = "/root/AppRoot/Column/SheetTabs";
 	}
 	
-	public sealed class Scene
+	public static class Scene
 	{
 		public const string AboutGodot = "res://scenes/AboutGodot.tscn";
 		public const string AboutOcsm = "res://scenes/AboutOcsm.tscn";
@@ -71,39 +71,39 @@ public class Constants
 		public const string StatefulButton = "res://scenes/nodes/StatefulButton.tscn";
 		public const string ToggleButton = "res://scenes/nodes/ToggleButton.tscn";
 		
-		public sealed class Meta
+		public static class Meta
 		{
 			public const string ConfirmDeleteEntry = "res://scenes/meta/ConfirmDeleteEntry.tscn";
 		}
 		
-		public sealed class Cofd
+		public static class Cofd
 		{
 			public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
 			public const string Specialty = "res://scenes/cod/nodes/Specialty.tscn";
 			
-			public sealed class Mortal
+			public static class Mortal
 			{
 				public const string NewSheetName = "New Mortal";
 				public const string Sheet = "res://scenes/cod/sheets/Mortal.tscn";
 			}
 			
-			public sealed class Changeling
+			public static class Changeling
 			{
 				public const string ContractNode = "res://scenes/cod/nodes/ctl/ContractNode.tscn";
 				public const string NewSheetName = "New Changeling";
 				public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
 				public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
 				
-				public sealed class Meta
+				public static class Meta
 				{
 					public const string AddEditMetadata = "res://scenes/cod/nodes/ctl/meta/CodChangelingAddEditMetadata.tscn";
 				}
 			}
 		}
 		
-		public sealed class Dnd
+		public static class Dnd
 		{
-			public sealed class Fifth
+			public static class Fifth
 			{
 				public const string Skill = "res://scenes/Dnd/Fifth/Skill.tscn";
 				public const string Sheet = "res://scenes/Dnd/sheets/Fifth.tscn";
@@ -112,7 +112,7 @@ public class Constants
 				public const string FeatureSection = "res://scenes/Dnd/Fifth/FeatureSection.tscn";
 				public const string InventoryItem = "res://scenes/Dnd/Fifth/InventoryItem.tscn";
 				
-				public sealed class Meta
+				public static class Meta
 				{
 					public const string AddEditMetadata = "res://scenes/Dnd/Fifth/meta/DndFifthAddEditMetadata.tscn";
 					public const string FeatureSectionEntry = "res://scenes/Dnd/Fifth/meta/FeatureSectionEntry.tscn";
@@ -123,7 +123,7 @@ public class Constants
 		}
 	}
 	
-	public sealed class Texture
+	public static class Texture
 	{
 		public const string FullTransparent = "res://assets/textures/box-transparent-16.png";
 		public const string TrackBoxBorder = "res://assets/textures/box-border-16.png";
