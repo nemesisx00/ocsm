@@ -10,17 +10,17 @@ public partial class WeaponPropertyOptions : OptionButton
 	{
 		Clear();
 		AddItem(String.Empty);
-		AddItem(ItemWeapon.WeaponProperty.Ammunition.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Finesse.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Heavy.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Light.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Loading.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Range.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Reach.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Silvered.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Special.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Thrown.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.TwoHanded.GetLabel());
-		AddItem(ItemWeapon.WeaponProperty.Versatile.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Ammunition.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Finesse.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Heavy.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Light.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Loading.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Range.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Reach.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Silvered.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Special.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Thrown.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.TwoHanded.GetLabel());
+		AddItem(ItemWeapon.WeaponProperties.Versatile.GetLabel());
 	}
 }

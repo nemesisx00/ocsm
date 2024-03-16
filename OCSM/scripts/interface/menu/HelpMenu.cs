@@ -4,14 +4,19 @@ namespace Ocsm.Nodes;
 
 public partial class HelpMenu : MenuButton
 {
-	private sealed class ItemNames
+	private static class ItemNames
 	{
-		public const string About = "About Ocsm";
-		public const string GameSystemLicenses = "Game System Licences";
-		public const string Godot = "About Godot Engine";
+		public static readonly StringName About = new("About Ocsm");
+		public static readonly StringName GameSystemLicenses = new("Game System Licences");
+		public static readonly StringName Godot = new("About Godot Engine");
 	}
 	
-	public enum MenuItem : long { About, GameSystemLicenses, Godot }
+	public enum MenuItem
+	{
+		About,
+		GameSystemLicenses,
+		Godot,
+	}
 	
 	private Window aboutGodot;
 	private Window aboutOcsm;
@@ -28,16 +33,19 @@ public partial class HelpMenu : MenuButton
 		GetNode<AppRoot>(Constants.NodePath.AppRoot).HelpMenuTriggered += handleMenuItem;
 	}
 	
-	private void handleMenuItem(long id)
+	private void handleMenuItem(long id) => handleMenuItem((int)id);
+	private void handleMenuItem(int id)
 	{
 		switch((MenuItem)id)
 		{
 			case MenuItem.About:
 				showAbout();
 				break;
+			
 			case MenuItem.GameSystemLicenses:
 				showGameSystemLicenses();
 				break;
+			
 			case MenuItem.Godot:
 				showGodot();
 				break;
@@ -46,7 +54,7 @@ public partial class HelpMenu : MenuButton
 	
 	private void showAbout()
 	{
-		if(aboutOcsm is Window && Node.IsInstanceValid(aboutOcsm))
+		if(aboutOcsm is not null && IsInstanceValid(aboutOcsm))
 			aboutOcsm.PopupCentered();
 		else
 		{
@@ -61,7 +69,7 @@ public partial class HelpMenu : MenuButton
 	
 	private void showGameSystemLicenses()
 	{
-		if(gameLicenses is Window && Node.IsInstanceValid(gameLicenses))
+		if(gameLicenses is not null && IsInstanceValid(gameLicenses))
 			gameLicenses.PopupCentered();
 		else
 		{
@@ -76,7 +84,7 @@ public partial class HelpMenu : MenuButton
 	
 	private void showGodot()
 	{
-		if(aboutGodot is Window && Node.IsInstanceValid(aboutGodot))
+		if(aboutGodot is not null && IsInstanceValid(aboutGodot))
 			aboutGodot.PopupCentered();
 		else
 		{

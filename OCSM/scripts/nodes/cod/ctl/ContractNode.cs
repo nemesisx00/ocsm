@@ -1,50 +1,50 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ocsm.Cofd;
 using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
+using Ocsm.Meta;
 
 namespace Ocsm.Nodes.Cofd.Ctl;
 
 public partial class ContractNode : MarginContainer
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string ActionInput = "%Action";
-		public const string AttributeInput = "%Attribute";
-		public const string Attribute2Input = "%Attribute2";
-		public const string Attribute3Input = "%Attribute3";
-		public const string Attribute2Minus = "%Attribute2Minus";
-		public const string BenefitInput = "%Benefit";
-		public const string ContractTypeInput = "%ContractType";
-		public const string CostInput = "%Cost";
-		public const string DetailsInput = "%Details";
-		public const string DescriptionInput = "%Description";
-		public const string DurationInput = "%Duration";
-		public const string EffectsInput = "%Effects";
-		public const string FailureInput = "%Failure";
-		public const string FailureDramaticInput = "%DramaticFailure";
-		public const string LoopholeInput = "%Loophole";
-		public const string NameInput = "%Name";
-		public const string RegaliaInput = "%Regalia";
-		public const string RollResultsRow = "%RollResultsRow";
-		public const string SeemingInput = "%Seeming";
-		public const string SeemingBenefitsRow = "%SeemingBenefitsRow";
-		public const string SkillInput = "%Skill";
-		public const string SkillPlus = "%SkillPlus";
-		public const string SuccessInput = "%Success";
-		public const string SuccessExceptionalInput = "%ExceptionalSuccess";
-		public const string ToggleDetails = "%ToggleDetails";
-		public const string ToggleResults = "%ToggleResults";
-		public const string Versus = "%Vs";
-		public const string Wyrd = "%Wyrd";
-		public const string Wyrd2 = "%Wyrd2";
+		public static readonly NodePath ActionInput = new("%Action");
+		public static readonly NodePath AttributeInput = new("%Attribute");
+		public static readonly NodePath Attribute2Input = new("%Attribute2");
+		public static readonly NodePath Attribute3Input = new("%Attribute3");
+		public static readonly NodePath Attribute2Minus = new("%Attribute2Minus");
+		public static readonly NodePath BenefitInput = new("%Benefit");
+		public static readonly NodePath ContractTypeInput = new("%ContractType");
+		public static readonly NodePath CostInput = new("%Cost");
+		public static readonly NodePath DetailsInput = new("%Details");
+		public static readonly NodePath DescriptionInput = new("%Description");
+		public static readonly NodePath DurationInput = new("%Duration");
+		public static readonly NodePath EffectsInput = new("%Effects");
+		public static readonly NodePath FailureInput = new("%Failure");
+		public static readonly NodePath FailureDramaticInput = new("%DramaticFailure");
+		public static readonly NodePath LoopholeInput = new("%Loophole");
+		public static readonly NodePath NameInput = new("%Name");
+		public static readonly NodePath RegaliaInput = new("%Regalia");
+		public static readonly NodePath RollResultsRow = new("%RollResultsRow");
+		public static readonly NodePath SeemingInput = new("%Seeming");
+		public static readonly NodePath SeemingBenefitsRow = new("%SeemingBenefitsRow");
+		public static readonly NodePath SkillInput = new("%Skill");
+		public static readonly NodePath SkillPlus = new("%SkillPlus");
+		public static readonly NodePath SuccessInput = new("%Success");
+		public static readonly NodePath SuccessExceptionalInput = new("%ExceptionalSuccess");
+		public static readonly NodePath ToggleDetails = new("%ToggleDetails");
+		public static readonly NodePath ToggleResults = new("%ToggleResults");
+		public static readonly NodePath Versus = new("%Vs");
+		public static readonly NodePath Wyrd = new("%Wyrd");
+		public static readonly NodePath Wyrd2 = new("%Wyrd2");
 	}
 	
-	public Dictionary<string, string> SeemingBenefits { get; set; } = new Dictionary<string, string>();
+	public Dictionary<string, string> SeemingBenefits { get; set; } = [];
 	
 	private MetadataManager metadataManager;
 	
@@ -65,100 +65,94 @@ public partial class ContractNode : MarginContainer
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 		
-		attribute2Input = GetNode<AttributeOptionButton>(NodePath.Attribute2Input);
-		attribute2Minus = GetNode<Control>(NodePath.Attribute2Minus);
-		attribute3Input = GetNode<AttributeOptionButton>(NodePath.Attribute3Input);
-		detailsInput = GetNode<VBoxContainer>(NodePath.DetailsInput);
-		rollResultsRow = GetNode<VBoxContainer>(NodePath.RollResultsRow);
-		seemingBenefitsRow = GetNode<VBoxContainer>(NodePath.SeemingBenefitsRow);
-		skillInput = GetNode<SkillOptionButton>(NodePath.SkillInput);
-		skillPlus = GetNode<Control>(NodePath.SkillPlus);
-		toggleResultsNode = GetNode<TextureButton>(NodePath.ToggleResults);
-		versus = GetNode<Label>(NodePath.Versus);
-		wyrd1 = GetNode<Control>(NodePath.Wyrd);
-		wyrd2 = GetNode<Control>(NodePath.Wyrd2);
+		attribute2Input = GetNode<AttributeOptionButton>(NodePaths.Attribute2Input);
+		attribute2Minus = GetNode<Control>(NodePaths.Attribute2Minus);
+		attribute3Input = GetNode<AttributeOptionButton>(NodePaths.Attribute3Input);
+		detailsInput = GetNode<VBoxContainer>(NodePaths.DetailsInput);
+		rollResultsRow = GetNode<VBoxContainer>(NodePaths.RollResultsRow);
+		seemingBenefitsRow = GetNode<VBoxContainer>(NodePaths.SeemingBenefitsRow);
+		skillInput = GetNode<SkillOptionButton>(NodePaths.SkillInput);
+		skillPlus = GetNode<Control>(NodePaths.SkillPlus);
+		toggleResultsNode = GetNode<TextureButton>(NodePaths.ToggleResults);
+		versus = GetNode<Label>(NodePaths.Versus);
+		wyrd1 = GetNode<Control>(NodePaths.Wyrd);
+		wyrd2 = GetNode<Control>(NodePaths.Wyrd2);
 		
-		toggleResultsNode.Pressed += toggleResults;
-		GetNode<OptionButton>(NodePath.ActionInput).ItemSelected += actionChanged;
-		GetNode<TextureButton>(NodePath.ToggleDetails).Pressed += toggleDetails;
-		GetNode<AttributeOptionButton>(NodePath.AttributeInput).ItemSelected += attributeChanged;
-		attribute3Input.ItemSelected += contestedAttributeChanged;
+		toggleResultsNode.Pressed += ToggleResults;
+		GetNode<OptionButton>(NodePaths.ActionInput).ItemSelected += actionChanged;
+		GetNode<TextureButton>(NodePaths.ToggleDetails).Pressed += ToggleDetails;
+		GetNode<AttributeOptionButton>(NodePaths.AttributeInput).ItemSelected += AttributeChanged;
+		attribute3Input.ItemSelected += ContestedAttributeChanged;
 		
-		refreshSeemingBenefits();
+		RefreshSeemingBenefits();
 	}
 	
-	public void clearInputs()
+	public void ClearInputs()
 	{
-		GetNode<AttributeOptionButton>(NodePath.AttributeInput).Deselect();
+		GetNode<AttributeOptionButton>(NodePaths.AttributeInput).Deselect();
 		attribute2Input.Deselect();
 		attribute3Input.Deselect();
 		skillInput.Deselect();
-		GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).Deselect();
-		GetNode<OptionButton>(NodePath.ContractTypeInput).Deselect();
+		GetNode<MetadataOption>(NodePaths.RegaliaInput).Deselect();
+		GetNode<OptionButton>(NodePaths.ContractTypeInput).Deselect();
 		
-		GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
-		GetNode<OptionButton>(NodePath.ActionInput).Deselect();
-		GetNode<LineEdit>(NodePath.CostInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.DescriptionInput).Text = String.Empty;
-		GetNode<LineEdit>(NodePath.DurationInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.EffectsInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.FailureInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.FailureDramaticInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.SuccessInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.LoopholeInput).Text = String.Empty;
+		GetNode<LineEdit>(NodePaths.NameInput).Text = string.Empty;
+		GetNode<OptionButton>(NodePaths.ActionInput).Deselect();
+		GetNode<LineEdit>(NodePaths.CostInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.DescriptionInput).Text = string.Empty;
+		GetNode<LineEdit>(NodePaths.DurationInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.EffectsInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.FailureInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.FailureDramaticInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.SuccessInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.SuccessExceptionalInput).Text = string.Empty;
+		GetNode<TextEdit>(NodePaths.LoopholeInput).Text = string.Empty;
 		
 		SeemingBenefits.Clear();
 		
 		actionChanged(0);
-		attributeChanged(0);
-		contestedAttributeChanged(0);
-		refreshSeemingBenefits();
+		AttributeChanged(0);
+		ContestedAttributeChanged(0);
+		RefreshSeemingBenefits();
 	}
 	
-	public Ocsm.Cofd.Ctl.Contract getData()
+	public Contract GetData()
 	{
-		var attr1Node = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
-		var regaliaNode = GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput);
-		var contractTypeNode = GetNode<ContractTypeButton>(NodePath.ContractTypeInput);
+		var attr1Node = GetNode<AttributeOptionButton>(NodePaths.AttributeInput);
+		var regaliaNode = GetNode<MetadataOption>(NodePaths.RegaliaInput);
+		var contractTypeNode = GetNode<MetadataOption>(NodePaths.ContractTypeInput);
 		
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		var cost = GetNode<LineEdit>(NodePath.CostInput).Text;
-		var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
-		var duration = GetNode<LineEdit>(NodePath.DurationInput).Text;
-		var effects = GetNode<TextEdit>(NodePath.EffectsInput).Text;
-		var failure = GetNode<TextEdit>(NodePath.FailureInput).Text;
-		var FailureDramatic = GetNode<TextEdit>(NodePath.FailureDramaticInput).Text;
-		var success = GetNode<TextEdit>(NodePath.SuccessInput).Text;
-		var successExceptional = GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text;
-		var loophole = GetNode<TextEdit>(NodePath.LoopholeInput).Text;
+		var name = GetNode<LineEdit>(NodePaths.NameInput).Text;
+		var cost = GetNode<LineEdit>(NodePaths.CostInput).Text;
+		var description = GetNode<TextEdit>(NodePaths.DescriptionInput).Text;
+		var duration = GetNode<LineEdit>(NodePaths.DurationInput).Text;
+		var effects = GetNode<TextEdit>(NodePaths.EffectsInput).Text;
+		var failure = GetNode<TextEdit>(NodePaths.FailureInput).Text;
+		var FailureDramatic = GetNode<TextEdit>(NodePaths.FailureDramaticInput).Text;
+		var success = GetNode<TextEdit>(NodePaths.SuccessInput).Text;
+		var successExceptional = GetNode<TextEdit>(NodePaths.SuccessExceptionalInput).Text;
+		var loophole = GetNode<TextEdit>(NodePaths.LoopholeInput).Text;
 		
-		var actionNode = GetNode<OptionButton>(NodePath.ActionInput);
+		var actionNode = GetNode<OptionButton>(NodePaths.ActionInput);
 		var action = actionNode.GetSelectedItemText();
 		
-		var attribute = Ocsm.Cofd.Attribute.KindFromString(attr1Node.GetSelectedItemText());
-		var attributeContested = Ocsm.Cofd.Attribute.KindFromString(attribute3Input.GetSelectedItemText());
-		var attributeResisted = Ocsm.Cofd.Attribute.KindFromString(attribute2Input.GetSelectedItemText());
-		var skill = Skill.KindFromString(skillInput.GetSelectedItemText());
+		var attribute = TraitDots.KindFromString(attr1Node.GetSelectedItemText());
+		var attributeContested = TraitDots.KindFromString(attribute3Input.GetSelectedItemText());
+		var attributeResisted = TraitDots.KindFromString(attribute2Input.GetSelectedItemText());
+		var skill = TraitDots.KindFromString(skillInput.GetSelectedItemText());
 		var regalia = regaliaNode.GetSelectedItemText();
 		var contractType = contractTypeNode.GetSelectedItemText();
 		
-		var container = metadataManager.Container;
-		
-		ContractRegalia regaliaObj = null;
-		ContractType contractTypeObj = null;
-		if(metadataManager.Container is CofdChangelingContainer ccc2)
+		Metadata regaliaObj = null;
+		Metadata contractTypeObj = null;
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(ccc2.Regalias.Find(r => r.Name.Equals(regalia)) is Regalia r)
-				regaliaObj = ContractRegalia.From(r);
-			else if(ccc2.Courts.Find(c => c.Name.Equals(regalia)) is Court c)
-				regaliaObj = ContractRegalia.From(c);
+			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingContractRegalia && m.Name == regalia).FirstOrDefault() is Metadata r)
+				regaliaObj = r;
 			
-			contractTypeObj = ccc2.ContractTypes.Find(ct => ct.Name.Equals(contractType));
+			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingContractType && m.Name == contractType).FirstOrDefault() is Metadata ct)
+				contractTypeObj = ct;
 		}
-		
-		if(!(regaliaObj is ContractRegalia) && regalia.Equals(ContractRegalia.Goblin.Name))
-			regaliaObj = ContractRegalia.Goblin;
 		
 		return new Ocsm.Cofd.Ctl.Contract()
 		{
@@ -183,49 +177,54 @@ public partial class ContractNode : MarginContainer
 		};
 	}
 	
-	public void setData(Ocsm.Cofd.Ctl.Contract contract)
+	public void SetData(Contract contract)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer)
 		{
-			var attribute1 = GetNode<AttributeOptionButton>(NodePath.AttributeInput);
-			if(contract.Attribute is Ocsm.Cofd.Attribute.Enum)
+			var attribute1 = GetNode<AttributeOptionButton>(NodePaths.AttributeInput);
+			if(contract.Attribute is not null)
 				attribute1.SelectItemByText(contract.Attribute.ToString());
-			if(contract.AttributeContested is Ocsm.Cofd.Attribute.Enum)
-				attribute2Input.SelectItemByText(contract.AttributeContested.ToString());
-			if(contract.AttributeResisted is Ocsm.Cofd.Attribute.Enum)
-				attribute3Input.SelectItemByText(contract.AttributeResisted.ToString());
-			if(contract.Skill is Ocsm.Cofd.Skill.Enum)
-				skillInput.SelectItemByText(contract.Skill.GetLabelOrName());
-			if(contract.Regalia is ContractRegalia)
-				GetNode<ContractRegaliaOptionButton>(NodePath.RegaliaInput).SelectItemByText(contract.Regalia.Name);
-			if(contract.ContractType is ContractType)
-				GetNode<ContractTypeButton>(NodePath.ContractTypeInput).SelectItemByText(contract.ContractType.Name);
 			
-			var actionOption = GetNode<ActionOptionButton>(NodePath.ActionInput);
-			GetNode<LineEdit>(NodePath.NameInput).Text = contract.Name;
+			if(contract.AttributeContested is not null)
+				attribute2Input.SelectItemByText(contract.AttributeContested.ToString());
+			
+			if(contract.AttributeResisted is not null)
+				attribute3Input.SelectItemByText(contract.AttributeResisted.ToString());
+			
+			if(contract.Skill is not null)
+				skillInput.SelectItemByText(contract.Skill.GetLabel());
+			
+			if(contract.Regalia is not null)
+				GetNode<MetadataOption>(NodePaths.RegaliaInput).SelectItemByText(contract.Regalia.Name);
+			
+			if(contract.ContractType is not null)
+				GetNode<MetadataOption>(NodePaths.ContractTypeInput).SelectItemByText(contract.ContractType.Name);
+			
+			var actionOption = GetNode<ActionOptionButton>(NodePaths.ActionInput);
+			GetNode<LineEdit>(NodePaths.NameInput).Text = contract.Name;
 			actionOption.SelectItemByText(contract.Action);
-			GetNode<LineEdit>(NodePath.CostInput).Text = contract.Cost;
-			GetNode<TextEdit>(NodePath.DescriptionInput).Text = contract.Description;
-			GetNode<LineEdit>(NodePath.DurationInput).Text = contract.Duration;
-			GetNode<TextEdit>(NodePath.EffectsInput).Text = contract.Effects;
-			GetNode<TextEdit>(NodePath.FailureInput).Text = contract.RollFailure;
-			GetNode<TextEdit>(NodePath.FailureDramaticInput).Text = contract.RollFailureDramatic;
-			GetNode<TextEdit>(NodePath.SuccessInput).Text = contract.RollSuccess;
-			GetNode<TextEdit>(NodePath.SuccessExceptionalInput).Text = contract.RollSuccessExceptional;
-			GetNode<TextEdit>(NodePath.LoopholeInput).Text = contract.Loophole;
+			GetNode<LineEdit>(NodePaths.CostInput).Text = contract.Cost;
+			GetNode<TextEdit>(NodePaths.DescriptionInput).Text = contract.Description;
+			GetNode<LineEdit>(NodePaths.DurationInput).Text = contract.Duration;
+			GetNode<TextEdit>(NodePaths.EffectsInput).Text = contract.Effects;
+			GetNode<TextEdit>(NodePaths.FailureInput).Text = contract.RollFailure;
+			GetNode<TextEdit>(NodePaths.FailureDramaticInput).Text = contract.RollFailureDramatic;
+			GetNode<TextEdit>(NodePaths.SuccessInput).Text = contract.RollSuccess;
+			GetNode<TextEdit>(NodePaths.SuccessExceptionalInput).Text = contract.RollSuccessExceptional;
+			GetNode<TextEdit>(NodePaths.LoopholeInput).Text = contract.Loophole;
 			
 			toggleResultsNode.ButtonPressed = contract.ShowResults;
 			rollResultsRow.Visible = contract.ShowResults;
 			SeemingBenefits = contract.SeemingBenefits;
 			
-			refreshSeemingBenefits();
-			actionChanged(actionOption.Selected, false);
-			attributeChanged(attribute1.Selected);
-			contestedAttributeChanged(attribute2Input.Selected);
+			RefreshSeemingBenefits();
+			ActionChanged(actionOption.Selected, false);
+			AttributeChanged(attribute1.Selected);
+			ContestedAttributeChanged(attribute2Input.Selected);
 		}
 	}
 	
-	public void refreshSeemingBenefits()
+	public void RefreshSeemingBenefits()
 	{
 		seemingBenefitsRow.GetChildren()
 			.Where(n => n is HBoxContainer)
@@ -239,7 +238,7 @@ public partial class ContractNode : MarginContainer
 		addSeemingBenefitInput();
 	}
 	
-	public void toggleDetails()
+	public void ToggleDetails()
 	{
 		if(detailsInput.Visible)
 			detailsInput.Hide();
@@ -247,7 +246,7 @@ public partial class ContractNode : MarginContainer
 			detailsInput.Show();
 	}
 	
-	public void toggleResults()
+	public void ToggleResults()
 	{
 		if(rollResultsRow.Visible)
 			rollResultsRow.Hide();
@@ -255,12 +254,8 @@ public partial class ContractNode : MarginContainer
 			rollResultsRow.Show();
 	}
 	
-	private void actionChanged(long index)
-	{
-		actionChanged(index, true);
-	}
-	
-	public void actionChanged(long index, bool reset = true)
+	private void actionChanged(long index) => ActionChanged(index, true);
+	public void ActionChanged(long index, bool reset = true)
 	{
 		if(index.Equals((long)ActionOptionButton.Action.Contested))
 		{
@@ -290,7 +285,7 @@ public partial class ContractNode : MarginContainer
 		}
 	}
 	
-	public void attributeChanged(long index)
+	public void AttributeChanged(long index)
 	{
 		if(index > 0)
 		{
@@ -307,7 +302,7 @@ public partial class ContractNode : MarginContainer
 		}
 	}
 	
-	public void contestedAttributeChanged(long index)
+	public void ContestedAttributeChanged(long index)
 	{
 		if(index > 0)
 			wyrd2.Show();
@@ -318,16 +313,16 @@ public partial class ContractNode : MarginContainer
 	private void updateSeemingBenefits()
 	{
 		GetChildren()
-			.Where(node => String.IsNullOrEmpty(node.GetNode<SeemingOptionButton>(NodePath.SeemingInput).GetSelectedItemText())
-				&& String.IsNullOrEmpty(node.GetNode<TextEdit>(NodePath.BenefitInput).Text))
+			.Where(node => string.IsNullOrEmpty(node.GetNode<MetadataOption>(NodePaths.SeemingInput).GetSelectedItemText())
+				&& string.IsNullOrEmpty(node.GetNode<TextEdit>(NodePaths.BenefitInput).Text))
 			.ToList()
 			.ForEach(node => node.QueueFree());
 		
 		SeemingBenefits = GetChildren()
 					.Where(node => node is HBoxContainer)
 					.Select(node => new {
-						seeming = node.GetNode<SeemingOptionButton>(NodePath.SeemingInput).GetSelectedItemText(),
-						benefit = node.GetNode<TextEdit>(NodePath.BenefitInput).Text
+						seeming = node.GetNode<MetadataOption>(NodePaths.SeemingInput).GetSelectedItemText(),
+						benefit = node.GetNode<TextEdit>(NodePaths.BenefitInput).Text
 					})
 					.OrderBy(o => o.seeming)
 					.ToDictionary(o => o.seeming, o => o.benefit);
@@ -342,14 +337,14 @@ public partial class ContractNode : MarginContainer
 		seemingBenefitsRow.AddChild(instance);
 		
 		//Set the values after adding the child, as we need the _Ready() function to populate the SeemingOptionButton before the index will match a given item.
-		if(!String.IsNullOrEmpty(seeming) && !String.IsNullOrEmpty(benefit))
+		if(!string.IsNullOrEmpty(seeming) && !string.IsNullOrEmpty(benefit))
 		{
-			instance.GetChild<SeemingOptionButton>(0).SelectItemByText(seeming);
+			instance.GetChild<MetadataOption>(0).SelectItemByText(seeming);
 			var text = instance.GetChild<TextEdit>(1);
 			text.Text = benefit;
 		}
 		
-		instance.GetChild<SeemingOptionButton>(0).ItemSelected += i => updateSeemingBenefits();
+		instance.GetChild<MetadataOption>(0).ItemSelected += i => updateSeemingBenefits();
 		instance.GetChild<TextEdit>(1).TextChanged += () => updateSeemingBenefits();
 	}
 }

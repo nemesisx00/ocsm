@@ -7,26 +7,6 @@ namespace Ocsm;
 
 public static class Extensions
 {
-	// Enum extensions
-	
-	public static string GetLabel(this Enum value)
-	{
-		return value.GetType()
-			.GetField(value.ToString())
-			.GetCustomAttribute<LabelAttribute>(false)?
-			.Label ?? String.Empty;
-	}
-	
-	public static string GetLabelOrName(this Enum value)
-	{
-		var ret = value.GetLabel();
-		if(String.IsNullOrEmpty(ret))
-			ret = value.ToString();
-		return ret;
-	}
-	
-	// --------------------------------------------------
-	
 	// OptionButton extensions
 	
 	public static void Deselect(this OptionButton node)

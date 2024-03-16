@@ -42,7 +42,7 @@ public class NodeUtilities
 		var instance = resource.Instantiate<ConfirmDeleteEntry>();
 		instance.EntryTypeName = label;
 		parent.AddChild(instance);
-		instance.Confirmed += handler.doDelete;
+		instance.Confirmed += handler.DoDelete;
 		instance.PopupCentered();
 	}
 	

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Ocsm.Dnd.Fifth;
+using System.Linq;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
 
@@ -12,8 +13,11 @@ public partial class FeatureTypeOptionsButton : CustomOption
 	public override void _Ready()
 	{
 		if(emptyOption)
-			AddItem(String.Empty);
+			AddItem(string.Empty);
 		
-		FeatureType.asList().ForEach(type => AddItem(type));
+		Enum.GetValues<FeatureType>()
+			.Select(ft => ft.ToString())
+			.ToList()
+			.ForEach(label => AddItem(label));
 	}
 }

@@ -25,7 +25,7 @@ public partial class AbilityScores : Container
 			if(initialValue is Ability)
 			{
 				node.Ability = initialValue;
-				node.refresh();
+				node.Refresh();
 			}
 			node.AbilityChanged += handler;
 		}
@@ -38,7 +38,7 @@ public partial class AbilityScores : Container
 			if(initialValue is Ability)
 			{
 				node.Ability = initialValue;
-				node.refresh();
+				node.Refresh();
 			}
 			node.AbilityChanged += handler;
 		}

@@ -5,21 +5,21 @@ namespace Ocsm.Nodes.Cofd;
 
 public partial class Weapon : VBoxContainer
 {
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string Name = "%Name";
-		public const string Type = "%Type";
-		public const string Availability = "%Availability";
-		public const string Damage = "%Damage";
-		public const string Initiative = "%Initiative";
-		public const string Strength = "%Strength";
-		public const string Size = "%Size";
-		public const string Ranged = "%Ranged";
-		public const string Capacity = "%Capacity";
-		public const string ShortRange = "%ShortRange";
-		public const string MediumRange = "%MediumRange";
-		public const string LongRange = "%LongRange";
-		public const string Special = "%Special";
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Type = new("%Type");
+		public static readonly NodePath Availability = new("%Availability");
+		public static readonly NodePath Damage = new("%Damage");
+		public static readonly NodePath Initiative = new("%Initiative");
+		public static readonly NodePath Strength = new("%Strength");
+		public static readonly NodePath Size = new("%Size");
+		public static readonly NodePath Ranged = new("%Ranged");
+		public static readonly NodePath Capacity = new("%Capacity");
+		public static readonly NodePath ShortRange = new("%ShortRange");
+		public static readonly NodePath MediumRange = new("%MediumRange");
+		public static readonly NodePath LongRange = new("%LongRange");
+		public static readonly NodePath Special = new("%Special");
 	}
 	
 	private HBoxContainer ranged;
@@ -27,8 +27,8 @@ public partial class Weapon : VBoxContainer
 	
 	public override void _Ready()
 	{
-		ranged = GetNode<HBoxContainer>(NodePath.Ranged);
-		type = GetNode<OptionButton>(NodePath.Type);
+		ranged = GetNode<HBoxContainer>(NodePaths.Ranged);
+		type = GetNode<OptionButton>(NodePaths.Type);
 	}
 	
 	private void typeChanged(long index)

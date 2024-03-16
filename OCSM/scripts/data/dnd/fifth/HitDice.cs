@@ -21,7 +21,7 @@ public class HitDice : IEquatable<HitDice>
 		{
 			if(Quantity > 0)
 			{
-				hp += Die.roll();
+				hp += Die.Roll();
 				Quantity--;
 			}
 		}

@@ -7,18 +7,16 @@ namespace Ocsm.Nodes.Meta;
 
 public partial class BasicMetadataEntry : Container, ICanDelete
 {
-	protected class NodePath
+	protected static class NodePaths
 	{
-		public const string ClearButton = "%Clear";
-		public const string DescriptionInput = "%Description";
-		public const string DeleteButton = "%Delete";
-		public const string ExistingEntryName = "%ExistingEntry";
-		public const string ExistingLabelName = "%ExistingLabel";
-		public const string NameInput = "%Name";
-		public const string SaveButton = "%Save";
+		public static readonly NodePath ClearButton = new("%Clear");
+		public static readonly NodePath DescriptionInput = new("%Description");
+		public static readonly NodePath DeleteButton = new("%Delete");
+		public static readonly NodePath ExistingEntryName = new("%ExistingEntry");
+		public static readonly NodePath ExistingLabelName = new("%ExistingLabel");
+		public static readonly NodePath NameInput = new("%Name");
+		public static readonly NodePath SaveButton = new("%Save");
 	}
-	
-	protected const string ExistingLabelFormat = "Existing {0}";
 	
 	[Signal]
 	public delegate void SaveClickedEventHandler(string name, string description);
@@ -26,44 +24,73 @@ public partial class BasicMetadataEntry : Container, ICanDelete
 	public delegate void DeleteConfirmedEventHandler(string name);
 	
 	[Export]
-	public string MetadataTypeLabel { get; set; } = String.Empty;
+	public string MetadataTypeLabel { get; set; } = string.Empty;
 	[Export]
 	public Script OptionsButtonScript { get; set; } = null;
 	
 	protected MetadataManager metadataManager;
 	
+	protected LineEdit nameInput;
+	protected TextEdit descriptionInput;
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.MetadataLoaded += refreshMetadata;
-		metadataManager.MetadataSaved += refreshMetadata;
+		metadataManager.MetadataLoaded += RefreshMetadata;
+		metadataManager.MetadataSaved += RefreshMetadata;
 		
-		GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
-		GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
-		GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
+		GetNode<Button>(NodePaths.ClearButton).Pressed += clearInputs;
+		GetNode<Button>(NodePaths.SaveButton).Pressed += doSave;
+		GetNode<Button>(NodePaths.DeleteButton).Pressed += handleDelete;
 		
-		GetNode<Label>(NodePath.ExistingLabelName).Text = String.Format(ExistingLabelFormat, MetadataTypeLabel);
+		GetNode<Label>(NodePaths.ExistingLabelName).Text = $"Existing {MetadataTypeLabel}";
 		
-		var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+		var optionsButton = GetNode<OptionButton>(NodePaths.ExistingEntryName);
 		optionsButton.ItemSelected += entrySelected;
-		if(OptionsButtonScript is Script)
+		
+		if(OptionsButtonScript is not null)
 			optionsButton.SetScript(OptionsButtonScript);
 		
-		refreshMetadata();
+		nameInput = GetNode<LineEdit>(NodePaths.NameInput);
+		descriptionInput = GetNode<TextEdit>(NodePaths.DescriptionInput);
+		
+		RefreshMetadata();
+	}
+	
+	public void DoDelete()
+	{
+		var name = GetNode<LineEdit>(NodePaths.NameInput).Text;
+		if(!string.IsNullOrEmpty(name))
+		{
+			EmitSignal(nameof(DeleteConfirmed), name);
+			clearInputs();
+		}
+		//TODO: Display error message if name is empty
+	}
+	
+	public virtual void LoadEntry(Metadata entry)
+	{
+		nameInput.Text = entry.Name;
+		descriptionInput.Text = entry.Description;
+	}
+	
+	public virtual void RefreshMetadata()
+	{
+		throw new NotImplementedException();
 	}
 	
 	protected virtual void clearInputs()
 	{
-		GetNode<LineEdit>(NodePath.NameInput).Text = String.Empty;
-		GetNode<TextEdit>(NodePath.DescriptionInput).Text = String.Empty;
+		nameInput.Text = string.Empty;
+		descriptionInput.Text = string.Empty;
 	}
 	
 	protected virtual void doSave()
 	{
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
+		var name = nameInput.Text;
+		var description = descriptionInput.Text;
 		
-		EmitSignal(nameof(SaveClicked), name, description);
+		EmitSignal(SignalName.SaveClicked, name, description);
 		clearInputs();
 	}
 	
@@ -74,33 +101,11 @@ public partial class BasicMetadataEntry : Container, ICanDelete
 			GetTree().CurrentScene,
 			GetViewportRect().GetCenter(),
 			this,
-			nameof(doDelete)
+			nameof(DoDelete)
 		);
 	}
 	
-	public void doDelete()
-	{
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		if(!String.IsNullOrEmpty(name))
-		{
-			EmitSignal(nameof(DeleteConfirmed), name);
-			clearInputs();
-		}
-		//TODO: Display error message if name is empty
-	}
-	
-	public virtual void loadEntry(Metadata entry)
-	{
-		GetNode<LineEdit>(NodePath.NameInput).Text = entry.Name;
-		GetNode<TextEdit>(NodePath.DescriptionInput).Text = entry.Description;
-	}
-	
 	protected virtual void entrySelected(long index)
-	{
-		throw new NotImplementedException();
-	}
-	
-	public virtual void refreshMetadata()
 	{
 		throw new NotImplementedException();
 	}

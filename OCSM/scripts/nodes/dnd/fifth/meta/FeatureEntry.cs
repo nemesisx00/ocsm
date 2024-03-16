@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Nodes.Autoload;
+using System;
 
 namespace Ocsm.Nodes.Dnd.Fifth.Meta;
 
@@ -91,7 +92,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		if(Feature is Ocsm.Dnd.Fifth.Feature)
 		{
-			classNode.select(Feature.ClassName);
+			classNode.Select(Feature.ClassName);
 			descriptionNode.Text = Feature.Description;
 			nameNode.Text = Feature.Name;
 			numericBonusesNode.Values = Feature.NumericBonuses;
@@ -101,7 +102,7 @@ public partial class FeatureEntry : Container, ICanDelete
 			sectionsNode.refresh();
 			sourceNode.Text = Feature.Source;
 			textNode.Text = Feature.Text;
-			typeNode.SelectItemByText(Feature.Type);
+			typeNode.SelectItemByText(Feature.FeatureType.GetLabel());
 		}
 		
 		toggleClassInput();
@@ -119,7 +120,7 @@ public partial class FeatureEntry : Container, ICanDelete
 		clearInputs();
 	}
 	
-	public void doDelete()
+	public void DoDelete()
 	{
 		EmitSignal(nameof(DeleteConfirmed), Feature.Name);
 		clearInputs();
@@ -132,7 +133,7 @@ public partial class FeatureEntry : Container, ICanDelete
 			GetTree().CurrentScene,
 			GetViewportRect().GetCenter(),
 			this,
-			nameof(doDelete)
+			nameof(DoDelete)
 		);
 	}
 	
@@ -162,7 +163,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void toggleClassInput()
 	{
-		if(Feature.Type.Equals(FeatureType.Class))
+		if(Feature.FeatureType.Equals(FeatureType.Class))
 		{
 			classLabel.Show();
 			classNode.Show();
@@ -185,9 +186,12 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void typeChanged(long index)
 	{
-		Feature.Type = typeNode.GetItemText((int)index);
+		var text = typeNode.GetItemText((int)index);
 		
-		if(!Feature.Type.Equals(FeatureType.Class))
+		Feature.FeatureType = Enum.GetValues<FeatureType>()
+			.FirstOrDefault(ft => ft.GetLabel() == text);
+		
+		if(!Feature.FeatureType.Equals(FeatureType.Class))
 			classNode.Deselect();
 		toggleClassInput();
 	}

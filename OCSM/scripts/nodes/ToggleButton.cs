@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 namespace Ocsm.Nodes;
 
@@ -9,9 +8,9 @@ public partial class ToggleButton : TextureButton
 	public delegate void StateToggledEventHandler(ToggleButton button);
 	
 	[Export]
-	public bool CurrentState { get; set; } = false;
+	public bool CurrentState { get; set; }
 	[Export]
-	public bool UseCircles { get; set; } = false;
+	public bool UseCircles { get; set; }
 	public CompressedTexture2D ToggledTexture { get; set; }
 	public CompressedTexture2D EmptyTexture { get; set; }
 	
@@ -33,17 +32,17 @@ public partial class ToggleButton : TextureButton
 		GuiInput += handleClick;
 		MouseDefaultCursorShape = CursorShape.PointingHand;
 		
-		updateTexture();
+		UpdateTexture();
 	}
 	
-	public void toggleState()
+	public void ToggleState()
 	{
 		CurrentState = !CurrentState;
-		updateTexture();
+		UpdateTexture();
 		EmitSignal(nameof(StateToggled), this);
 	}
 	
-	public void updateTexture()
+	public void UpdateTexture()
 	{
 		if(CurrentState)
 			TextureNormal = ToggledTexture;
@@ -54,6 +53,6 @@ public partial class ToggleButton : TextureButton
 	private void handleClick(InputEvent e)
 	{
 		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed && MouseButton.Left == buttonEvent.ButtonIndex)
-			toggleState();
+			ToggleState();
 	}
 }

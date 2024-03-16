@@ -3,18 +3,13 @@ using Ocsm.Meta;
 
 namespace Ocsm.Cofd;
 
-public class Merit : Metadata, IEquatable<Merit>
+public class Merit() : Metadata(), IEquatable<Merit>
 {
-	public long Value { get; set; }
+	public int Value { get; set; }
+
+	public bool Equals(Merit merit) => base.Equals(merit)
+		&& Value == merit?.Value;
 	
-	public Merit() : base()
-	{
-		Value = 0;
-	}
-	
-	public bool Equals(Merit merit)
-	{
-		return base.Equals(merit)
-			&& merit.Value.Equals(Value);
-	}
+	public override bool Equals(object obj) => Equals(obj as Merit);
+	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Value);
 }

@@ -8,71 +8,69 @@ namespace Ocsm.Nodes.Cofd.Meta;
 
 public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 {
-	private sealed new class NodePath : BasicMetadataEntry.NodePath
+	private new static class NodePaths
 	{
-		public const string DotsName = "%Dots";
+		public static readonly NodePath DotsName = new("%Dots");
 	}
 	
 	[Signal]
 	public new delegate void SaveClickedEventHandler(string name, string description, int value);
 	
-	public void loadMerit(Merit merit)
+	public new void DoDelete()
 	{
-		base.loadEntry(merit);
+		var name = GetNode<LineEdit>(BasicMetadataEntry.NodePaths.NameInput).Text;
+		if(!string.IsNullOrEmpty(name))
+		{
+			EmitSignal(SignalName.DeleteConfirmed, name);
+			clearInputs();
+		}
+		//TODO: Display error message if name is empty
+	}
+	
+	public void LoadMerit(Merit merit)
+	{
+		base.LoadEntry(merit);
 		
-		GetNode<TrackSimple>(NodePath.DotsName).updateValue(merit.Value);
+		GetNode<TrackSimple>(NodePaths.DotsName).UpdateValue(merit.Value);
 	}
 	
 	protected override void clearInputs()
 	{
 		base.clearInputs();
 		
-		GetNode<TrackSimple>(NodePath.DotsName).updateValue(0);
+		GetNode<TrackSimple>(NodePaths.DotsName).UpdateValue(0);
 	}
 	
 	protected override void doSave()
 	{
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
-		var value = GetNode<TrackSimple>(NodePath.DotsName).Value;
+		var name = GetNode<LineEdit>(BasicMetadataEntry.NodePaths.NameInput).Text;
+		var description = GetNode<TextEdit>(BasicMetadataEntry.NodePaths.DescriptionInput).Text;
+		var value = GetNode<TrackSimple>(NodePaths.DotsName).Value;
 		
-		EmitSignal(nameof(SaveClicked), name, description, value);
+		EmitSignal(SignalName.SaveClicked, name, description, value);
 		clearInputs();
-	}
-	
-	public new void doDelete()
-	{
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		if(!String.IsNullOrEmpty(name))
-		{
-			EmitSignal(nameof(DeleteConfirmed), name);
-			clearInputs();
-		}
-		//TODO: Display error message if name is empty
 	}
 	
 	protected override void entrySelected(long index)
 	{
-		var optionsButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+		var optionsButton = GetNode<OptionButton>(BasicMetadataEntry.NodePaths.ExistingEntryName);
 		var name = optionsButton.GetItemText((int)index);
-		if(metadataManager.Container is CofdCoreContainer ccc)
+		if(metadataManager.Container is CofdCoreContainer container
+			&& container.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 		{
-			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
-			{
-				loadMerit(merit);
-				optionsButton.Deselect();
-			}
+			LoadMerit(merit);
+			optionsButton.Deselect();
 		}
 	}
 	
-	public override void refreshMetadata()
+	public override void RefreshMetadata()
 	{
-		if(metadataManager.Container is CofdCoreContainer ccc)
+		if(metadataManager.Container is CofdCoreContainer container)
 		{
-			var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+			var optionButton = GetNode<OptionButton>(BasicMetadataEntry.NodePaths.ExistingEntryName);
 			optionButton.Clear();
 			optionButton.AddItem(String.Empty);
-			ccc.Merits.ForEach(m => optionButton.AddItem(m.Name));
+			container.Merits.ForEach(m => optionButton.AddItem(m.Name));
 		}
 	}
 }

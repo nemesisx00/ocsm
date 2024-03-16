@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b0ap5bsmgxih1"]
 
-[ext_resource type="PackedScene" uid="uid://dxwj6f5njwhkp" path="res://scenes/cod/nodes/ctl/Contract.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://dyrgsiv8fop51" path="res://scenes/cod/nodes/ctl/ContractNode.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6l2vt"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/ContractEntry.cs" id="3"]
 

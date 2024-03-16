@@ -10,40 +10,40 @@ namespace Ocsm.Nodes.Cofd.Sheets;
 public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	where T: CodCore
 {
-	protected const long DefaultAttributeMax = 5;
-	protected const long DefaultIntegrityMax = 10;
+	protected const int DefaultAttributeMax = 5;
+	protected const int DefaultIntegrityMax = 10;
 	
-	protected class NodePath
+	protected static class NodePaths
 	{
-		public const string Advantages = "%Advantages";
-		public const string Attributes = NodePath.Traits + "/%Attributes";
-		public const string Details = "%Details";
-		public const string GameNotes = "%Game Notes";
-		public const string Inventory = "%Inventory";
-		public const string Merits = "%Merits";
-		public const string MeritsFromMetadata = "%MeritsFromMetadata";
-		public const string Skills = NodePath.Traits + "/%Skills";
-		public const string SkillSpecialties = NodePath.Skills + "/%Specialties";
-		public const string Traits = "%Traits";
+		public static readonly NodePath Advantages = new("%Advantages");
+		public static readonly NodePath Attributes = new("%Traits/%Attributes");
+		public static readonly NodePath Details = new("%Details");
+		public static readonly NodePath GameNotes = new("%Game Notes");
+		public static readonly NodePath Inventory = new("%Inventory");
+		public static readonly NodePath Merits = new("%Merits");
+		public static readonly NodePath MeritsFromMetadata = new("%MeritsFromMetadata");
+		public static readonly NodePath Skills = new("%Traits/%Skills");
+		public static readonly NodePath SkillSpecialties = new("%Traits/%Skills/%Specialties");
+		public static readonly NodePath Traits = new("%Traits");
 		
 		// Advantages
-		public const string Armor = NodePath.Advantages + "/%Armor";
-		public const string Aspirations = NodePath.Advantages + "/%Aspirations";
-		public const string Beats = NodePath.Advantages + "/%Beats";
-		public const string Defense = NodePath.Advantages + "/%Defense";
-		public const string Conditions = NodePath.Advantages + "/%Conditions";
-		public const string Experience = NodePath.Advantages + "/%Experience";
-		public const string Health = NodePath.Advantages + "/%Health";
-		public const string Initiative = NodePath.Advantages + "/%Initiative";
-		public const string Speed = NodePath.Advantages + "/%Speed";
-		public const string Willpower = NodePath.Advantages + "/%Willpower";
+		public static readonly NodePath Armor = new("%Advantages/%Armor");
+		public static readonly NodePath Aspirations = new("%Advantages/%Aspirations");
+		public static readonly NodePath Beats = new("%Advantages/%Beats");
+		public static readonly NodePath Defense = new("%Advantages/%Defense");
+		public static readonly NodePath Conditions = new("%Advantages/%Conditions");
+		public static readonly NodePath Experience = new("%Advantages/%Experience");
+		public static readonly NodePath Health = new("%Advantages/%Health");
+		public static readonly NodePath Initiative = new("%Advantages/%Initiative");
+		public static readonly NodePath Speed = new("%Advantages/%Speed");
+		public static readonly NodePath Willpower = new("%Advantages/%Willpower");
 		
 		// Details
-		public const string Chronicle = NodePath.Details + "/%Chronicle";
-		public const string Concept = NodePath.Details + "/%Concept";
-		public const string Name = NodePath.Details + "/%Name";
-		public const string Player = NodePath.Details + "/%Player";
-		public const string Size = NodePath.Details + "/%Size";
+		public static readonly NodePath Chronicle = new("%Details/%Chronicle");
+		public static readonly NodePath Concept = new("%Details/%Concept");
+		public static readonly NodePath Name = new("%Details/%Name");
+		public static readonly NodePath Player = new("%Details/%Player");
+		public static readonly NodePath Size = new("%Details/%Size");
 	}
 	
 	protected TrackSimple beats;
@@ -56,39 +56,39 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	public override void _Ready()
 	{
-		beats = GetNode<TrackSimple>(NodePath.Beats);
-		defense = GetNode<Label>(NodePath.Defense);
-		experience = GetNode<SpinBox>(NodePath.Experience);
-		health = GetNode<TrackComplex>(NodePath.Health);
-		initiative = GetNode<Label>(NodePath.Initiative);
-		speed = GetNode<Label>(NodePath.Speed);
-		willpower = GetNode<TrackSimple>(NodePath.Willpower);
+		beats = GetNode<TrackSimple>(NodePaths.Beats);
+		defense = GetNode<Label>(NodePaths.Defense);
+		experience = GetNode<SpinBox>(NodePaths.Experience);
+		health = GetNode<TrackComplex>(NodePaths.Health);
+		initiative = GetNode<Label>(NodePaths.Initiative);
+		speed = GetNode<Label>(NodePaths.Speed);
+		willpower = GetNode<TrackSimple>(NodePaths.Willpower);
 		
-		InitEntryList(GetNode<EntryList>(NodePath.Aspirations), SheetData.Aspirations, changed_Aspirations);
+		InitEntryList(GetNode<EntryList>(NodePaths.Aspirations), SheetData.Aspirations, changed_Aspirations);
 		InitTrackSimple(beats, SheetData.Beats, changed_Beats);
-		InitEntryList(GetNode<EntryList>(NodePath.Conditions), SheetData.Conditions, changed_Conditions);
+		InitEntryList(GetNode<EntryList>(NodePaths.Conditions), SheetData.Conditions, changed_Conditions);
 		InitSpinBox(experience, SheetData.Experience, changed_Experience);
-		InitTrackComplex(health, SheetData.Advantages.Health.toTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
+		InitTrackComplex(health, SheetData.Advantages.Health.ToTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
 		InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower, SheetData.Advantages.WillpowerMax);
 		
-		InitLineEdit(GetNode<LineEdit>(NodePath.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
-		InitLineEdit(GetNode<LineEdit>(NodePath.Concept), SheetData.Details.Concept, changed_Concept);
-		InitLineEdit(GetNode<LineEdit>(NodePath.Name), SheetData.Name, changed_Name);
+		InitLineEdit(GetNode<LineEdit>(NodePaths.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
+		InitLineEdit(GetNode<LineEdit>(NodePaths.Concept), SheetData.Details.Concept, changed_Concept);
+		InitLineEdit(GetNode<LineEdit>(NodePaths.Name), SheetData.Name, changed_Name);
 		if(!String.IsNullOrEmpty(SheetData.Name))
 			Name = SheetData.Name;
-		InitLineEdit(GetNode<LineEdit>(NodePath.Player), SheetData.Player, changed_Player);
-		InitSpinBox(GetNode<SpinBox>(NodePath.Size), SheetData.Advantages.Size, changed_Size);
+		InitLineEdit(GetNode<LineEdit>(NodePaths.Player), SheetData.Player, changed_Player);
+		InitSpinBox(GetNode<SpinBox>(NodePaths.Size), SheetData.Advantages.Size, changed_Size);
 		
 		SheetData.Attributes.Where(a => !String.IsNullOrEmpty(a.Name))
 			.ToList()
-			.ForEach(a => InitTrackSimple(GetNode<TrackSimple>(NodePath.Attributes + "/%" + a.Name), a.Value, changed_Attribute));
+			.ForEach(a => InitTrackSimple(GetNode<TrackSimple>($"{NodePaths.Attributes}/%{a.Name}"), a.Value, changed_Attribute));
 		
 		SheetData.Skills.Where(s => !String.IsNullOrEmpty(s.Name))
 			.ToList()
-			.ForEach(s => InitTrackSimple(GetNode<TrackSimple>(NodePath.Skills + "/%" + s.Name), s.Value, changed_Skill));
+			.ForEach(s => InitTrackSimple(GetNode<TrackSimple>($"{NodePaths.Skills}/%{s.Name}"), s.Value, changed_Skill));
 		
-		InitSpecialtyList(GetNode<SpecialtyList>(NodePath.SkillSpecialties), SheetData.Specialties, changed_SkillSpecialty);
-		InitMeritList(GetNode<MeritList>(NodePath.Merits), SheetData.Merits, changed_Merits);
+		InitSpecialtyList(GetNode<SpecialtyList>(NodePaths.SkillSpecialties), SheetData.Specialties, changed_SkillSpecialty);
+		InitMeritList(GetNode<MeritList>(NodePaths.Merits), SheetData.Merits, changed_Merits);
 		
 		updateDefense();
 		updateInitiative();
@@ -101,33 +101,33 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void InitMeritList(MeritList node, List<Merit> initialValue, MeritList.ValueChangedEventHandler handler)
 	{
-		if(node is MeritList)
+		if(node is not null)
 		{
-			if(initialValue is List<Merit>)
+			if(initialValue is not null)
 				node.Values = initialValue;
-			node.refresh();
+			node.Refresh();
 			node.ValueChanged += handler;
 		}
 	}
 	
-	protected void InitItemDotsList(ItemDotsList node, Dictionary<string, long> initialValue, ItemDotsList.ValueChangedEventHandler handler)
+	protected void InitItemDotsList(ItemDotsList node, Dictionary<string, int> initialValue, ItemDotsList.ValueChangedEventHandler handler)
 	{
-		if(node is ItemDotsList)
+		if(node is not null)
 		{
-			if(initialValue is Dictionary<string, long>)
+			if(initialValue is not null)
 				node.Values = initialValue;
-			node.refresh();
+			node.Refresh();
 			node.ValueChanged += handler;
 		}
 	}
 	
-	protected void InitSpecialtyList(SpecialtyList node, Dictionary<Skill.Enum, string> initialValue, SpecialtyList.ValueChangedEventHandler handler)
+	protected void InitSpecialtyList(SpecialtyList node, Dictionary<Traits, string> initialValue, SpecialtyList.ValueChangedEventHandler handler)
 	{
-		if(node is SpecialtyList)
+		if(node is not null)
 		{
-			if(initialValue is Dictionary<Skill.Enum, string>)
+			if(initialValue is not null)
 				node.Values = initialValue;
-			node.refresh();
+			node.Refresh();
 			node.ValueChanged += handler;
 		}
 	}
@@ -135,12 +135,14 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	protected void updateDefense()
 	{
 		long newValue = 0;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Dexterity) is TraitDots dex)
 			newValue = dex.Value;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Wits)) is Ocsm.Cofd.Attribute wits
+		
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Wits) is TraitDots wits
 				&& newValue < wits.Value)
 			newValue = wits.Value;
-		if(SheetData.Skills.FirstOrDefault(s => s.Kind.Equals(Skill.Enum.Athletics)) is Skill athl)
+		
+		if(SheetData.Skills.FirstOrDefault(s => s.Kind == Traits.Athletics) is TraitDots athl)
 			newValue += athl.Value;
 		
 		if(newValue > 0)
@@ -150,9 +152,9 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	protected void updateInitiative()
 	{
 		long newValue = 0;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Dexterity) is TraitDots dex)
 			newValue += dex.Value;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Composure)) is Ocsm.Cofd.Attribute comp)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Composure) is TraitDots comp)
 			newValue += comp.Value;
 		
 		if(newValue > 0)
@@ -161,34 +163,34 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	protected void updateMaxHealth()
 	{
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Stamina)) is Ocsm.Cofd.Attribute stam)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Stamina) is TraitDots stam)
 		{
 			SheetData.Advantages.Health.Max = SheetData.Advantages.Size + stam.Value;
-			health.updateMax(SheetData.Advantages.Health.Max);
+			health.UpdateMax(SheetData.Advantages.Health.Max);
 		}
 	}
 	
 	protected void updateMaxWillpower()
 	{
-		long newValue = 0;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Composure)) is Ocsm.Cofd.Attribute comp)
+		int newValue = 0;
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Composure) is TraitDots comp)
 			newValue += comp.Value;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Resolve)) is Ocsm.Cofd.Attribute res)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Resolve) is TraitDots res)
 			newValue += res.Value;
 		
 		if(newValue > 0)
 		{
 			SheetData.Advantages.WillpowerMax = newValue;
-			willpower.updateMax(SheetData.Advantages.WillpowerMax);
+			willpower.UpdateMax(SheetData.Advantages.WillpowerMax);
 		}
 	}
 	
 	protected void updateSpeed()
 	{
 		var newValue = SheetData.Advantages.Size;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Dexterity)) is Ocsm.Cofd.Attribute dex)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Dexterity) is TraitDots dex)
 			newValue += dex.Value;
-		if(SheetData.Attributes.FirstOrDefault(a => a.Kind.Equals(Ocsm.Cofd.Attribute.Enum.Strength)) is Ocsm.Cofd.Attribute str)
+		if(SheetData.Attributes.FirstOrDefault(a => a.Kind == Traits.Strength) is TraitDots str)
 			newValue += str.Value;
 		
 		speed.Text = newValue.ToString();
@@ -199,43 +201,48 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	private void changed_Attribute(TrackSimple node)
 	{
 		var attr = SheetData.Attributes.FirstOrDefault(a => a.Name.Equals(node.Name));
-		if(attr is Ocsm.Cofd.Attribute)
+		if(attr is not null)
 		{
 			attr.Value = node.Value;
 			
 			switch(attr.Kind)
 			{
-				case Ocsm.Cofd.Attribute.Enum.Composure:
+				case Traits.Composure:
 					updateMaxWillpower();
 					updateInitiative();
 					break;
-				case Ocsm.Cofd.Attribute.Enum.Dexterity:
+				
+				case Traits.Dexterity:
 					updateDefense();
 					updateInitiative();
 					updateSpeed();
 					break;
-				case Ocsm.Cofd.Attribute.Enum.Resolve:
+				
+				case Traits.Resolve:
 					updateMaxWillpower();
 					break;
-				case Ocsm.Cofd.Attribute.Enum.Stamina:
+				
+				case Traits.Stamina:
 					updateMaxHealth();
 					break;
-				case Ocsm.Cofd.Attribute.Enum.Strength:
+				
+				case Traits.Strength:
 					updateSpeed();
 					break;
-				case Ocsm.Cofd.Attribute.Enum.Wits:
+				
+				case Traits.Wits:
 					updateDefense();
 					break;
 			}
 		}
 	}
 	
-	private void changed_Beats(long value)
+	private void changed_Beats(int value)
 	{
 		if(value >= 5)
 		{
 			SheetData.Beats = 0;
-			beats.updateValue(SheetData.Beats);
+			beats.UpdateValue(SheetData.Beats);
 			SheetData.Experience++;
 			experience.Value = SheetData.Experience;
 		}
@@ -243,45 +250,45 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 			SheetData.Beats = value;
 	}
 	
-	private void changed_Chronicle(string newText) { SheetData.Details.Chronicle = newText; }
-	private void changed_Concept(string newText) { SheetData.Details.Concept = newText; }
-	private void changed_Conditions(Transport<List<string>> transport) { SheetData.Conditions = transport.Value; }
-	private void changed_Experience(double number) { SheetData.Experience = (long)number; }
-	private void changed_Health(Transport<Dictionary<string, long>> transport) { SheetData.Advantages.Health.fromTrackComplex(transport.Value); }
-	private void changed_Merits(Transport<List<Merit>> transport) { SheetData.Merits = transport.Value; }
+	private void changed_Chronicle(string newText) => SheetData.Details.Chronicle = newText;
+	private void changed_Concept(string newText) => SheetData.Details.Concept = newText;
+	private void changed_Conditions(Transport<List<string>> transport) => SheetData.Conditions = transport.Value;
+	private void changed_Experience(double number) => SheetData.Experience = (int)number;
+	private void changed_Health(Transport<Dictionary<StatefulButton.States, int>> transport) => SheetData.Advantages.Health.FromTrackComplex(transport.Value);
+	private void changed_Merits(Transport<List<Merit>> transport) => SheetData.Merits = transport.Value;
 	
 	private void changed_Name(string newText)
 	{
 		SheetData.Name = newText;
-		if(!String.IsNullOrEmpty(SheetData.Name))
+		if(!string.IsNullOrEmpty(SheetData.Name))
 			Name = SheetData.Name;
 	}
 	
-	private void changed_Player(string newText) { SheetData.Player = newText; }
+	private void changed_Player(string newText) => SheetData.Player = newText;
 	
 	private void changed_Skill(TrackSimple node)
 	{
 		var skill = SheetData.Skills.FirstOrDefault(s => s.Name.Equals(node.Name));
-		if(skill is Skill)
+		if(skill is not null)
 		{
 			skill.Value = node.Value;
 			switch(skill.Kind)
 			{
-				case Skill.Enum.Athletics:
+				case Traits.Athletics:
 					updateDefense();
 					break;
 			}
 		}
 	}
 	
-	private void changed_SkillSpecialty(Transport<Dictionary<Skill.Enum, string>> transport) { SheetData.Specialties = transport.Value; }
+	private void changed_SkillSpecialty(Transport<Dictionary<Traits, string>> transport) => SheetData.Specialties = transport.Value;
 	
 	private void changed_Size(double number)
 	{
-		SheetData.Advantages.Size = (long)number;
+		SheetData.Advantages.Size = (int)number;
 		updateMaxHealth();
 		updateSpeed();
 	}
 	
-	private void changed_Willpower(long value) { SheetData.Advantages.WillpowerSpent = value; }
+	private void changed_Willpower(int value) => SheetData.Advantages.WillpowerSpent = value;
 }

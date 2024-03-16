@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxllwevkln3ib"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rhekd"]
-[ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="2_3fq4q"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/SpecialtyList.cs" id="5"]
 
 [node name="Skills" type="VBoxContainer"]
@@ -56,9 +56,13 @@ size_flags_horizontal = 3
 text = "Academics"
 horizontal_alignment = 2
 
-[node name="Academics" parent="Row/Mental/Row1" instance=ExtResource("2")]
+[node name="Academics" type="GridContainer" parent="Row/Mental/Row1"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -72,9 +76,13 @@ size_flags_horizontal = 3
 text = "Computer"
 horizontal_alignment = 2
 
-[node name="Computer" parent="Row/Mental/Row2" instance=ExtResource("2")]
+[node name="Computer" type="GridContainer" parent="Row/Mental/Row2"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -88,9 +96,13 @@ size_flags_horizontal = 3
 text = "Crafts"
 horizontal_alignment = 2
 
-[node name="Crafts" parent="Row/Mental/Row3" instance=ExtResource("2")]
+[node name="Crafts" type="GridContainer" parent="Row/Mental/Row3"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -104,9 +116,13 @@ size_flags_horizontal = 3
 text = "Investigation"
 horizontal_alignment = 2
 
-[node name="Investigation" parent="Row/Mental/Row4" instance=ExtResource("2")]
+[node name="Investigation" type="GridContainer" parent="Row/Mental/Row4"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -120,9 +136,13 @@ size_flags_horizontal = 3
 text = "Medicine"
 horizontal_alignment = 2
 
-[node name="Medicine" parent="Row/Mental/Row5" instance=ExtResource("2")]
+[node name="Medicine" type="GridContainer" parent="Row/Mental/Row5"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -136,9 +156,13 @@ size_flags_horizontal = 3
 text = "Occult"
 horizontal_alignment = 2
 
-[node name="Occult" parent="Row/Mental/Row6" instance=ExtResource("2")]
+[node name="Occult" type="GridContainer" parent="Row/Mental/Row6"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -152,9 +176,13 @@ size_flags_horizontal = 3
 text = "Politics"
 horizontal_alignment = 2
 
-[node name="Politics" parent="Row/Mental/Row7" instance=ExtResource("2")]
+[node name="Politics" type="GridContainer" parent="Row/Mental/Row7"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Mental"]
 layout_mode = 2
@@ -168,9 +196,13 @@ size_flags_horizontal = 3
 text = "Science"
 horizontal_alignment = 2
 
-[node name="Science" parent="Row/Mental/Row8" instance=ExtResource("2")]
+[node name="Science" type="GridContainer" parent="Row/Mental/Row8"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Physical" type="VBoxContainer" parent="Row"]
 layout_mode = 2
@@ -203,9 +235,13 @@ size_flags_horizontal = 3
 text = "Athletics"
 horizontal_alignment = 2
 
-[node name="Athletics" parent="Row/Physical/Row1" instance=ExtResource("2")]
+[node name="Athletics" type="GridContainer" parent="Row/Physical/Row1"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -219,9 +255,13 @@ size_flags_horizontal = 3
 text = "Brawl"
 horizontal_alignment = 2
 
-[node name="Brawl" parent="Row/Physical/Row2" instance=ExtResource("2")]
+[node name="Brawl" type="GridContainer" parent="Row/Physical/Row2"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -235,9 +275,13 @@ size_flags_horizontal = 3
 text = "Drive"
 horizontal_alignment = 2
 
-[node name="Drive" parent="Row/Physical/Row3" instance=ExtResource("2")]
+[node name="Drive" type="GridContainer" parent="Row/Physical/Row3"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -251,9 +295,13 @@ size_flags_horizontal = 3
 text = "Firearms"
 horizontal_alignment = 2
 
-[node name="Firearms" parent="Row/Physical/Row4" instance=ExtResource("2")]
+[node name="Firearms" type="GridContainer" parent="Row/Physical/Row4"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -267,9 +315,13 @@ size_flags_horizontal = 3
 text = "Larceny"
 horizontal_alignment = 2
 
-[node name="Larceny" parent="Row/Physical/Row5" instance=ExtResource("2")]
+[node name="Larceny" type="GridContainer" parent="Row/Physical/Row5"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -283,9 +335,13 @@ size_flags_horizontal = 3
 text = "Stealth"
 horizontal_alignment = 2
 
-[node name="Stealth" parent="Row/Physical/Row6" instance=ExtResource("2")]
+[node name="Stealth" type="GridContainer" parent="Row/Physical/Row6"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -299,9 +355,13 @@ size_flags_horizontal = 3
 text = "Survival"
 horizontal_alignment = 2
 
-[node name="Survival" parent="Row/Physical/Row7" instance=ExtResource("2")]
+[node name="Survival" type="GridContainer" parent="Row/Physical/Row7"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Physical"]
 layout_mode = 2
@@ -315,9 +375,13 @@ size_flags_horizontal = 3
 text = "Weaponry"
 horizontal_alignment = 2
 
-[node name="Weaponry" parent="Row/Physical/Row8" instance=ExtResource("2")]
+[node name="Weaponry" type="GridContainer" parent="Row/Physical/Row8"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Social" type="VBoxContainer" parent="Row"]
 layout_mode = 2
@@ -350,9 +414,13 @@ size_flags_horizontal = 3
 text = "Animal Ken"
 horizontal_alignment = 2
 
-[node name="Animal Ken" parent="Row/Social/Row1" instance=ExtResource("2")]
+[node name="Animal Ken" type="GridContainer" parent="Row/Social/Row1"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row2" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -366,9 +434,13 @@ size_flags_horizontal = 3
 text = "Empathy"
 horizontal_alignment = 2
 
-[node name="Empathy" parent="Row/Social/Row2" instance=ExtResource("2")]
+[node name="Empathy" type="GridContainer" parent="Row/Social/Row2"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row3" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -382,9 +454,13 @@ size_flags_horizontal = 3
 text = "Expression"
 horizontal_alignment = 2
 
-[node name="Expression" parent="Row/Social/Row3" instance=ExtResource("2")]
+[node name="Expression" type="GridContainer" parent="Row/Social/Row3"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row4" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -398,9 +474,13 @@ size_flags_horizontal = 3
 text = "Intimidation"
 horizontal_alignment = 2
 
-[node name="Intimidation" parent="Row/Social/Row4" instance=ExtResource("2")]
+[node name="Intimidation" type="GridContainer" parent="Row/Social/Row4"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row5" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -414,9 +494,13 @@ size_flags_horizontal = 3
 text = "Persuasion"
 horizontal_alignment = 2
 
-[node name="Persuasion" parent="Row/Social/Row5" instance=ExtResource("2")]
+[node name="Persuasion" type="GridContainer" parent="Row/Social/Row5"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row6" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -430,9 +514,13 @@ size_flags_horizontal = 3
 text = "Socialize"
 horizontal_alignment = 2
 
-[node name="Socialize" parent="Row/Social/Row6" instance=ExtResource("2")]
+[node name="Socialize" type="GridContainer" parent="Row/Social/Row6"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row7" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -446,9 +534,13 @@ size_flags_horizontal = 3
 text = "Streetwise"
 horizontal_alignment = 2
 
-[node name="Streetwise" parent="Row/Social/Row7" instance=ExtResource("2")]
+[node name="Streetwise" type="GridContainer" parent="Row/Social/Row7"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Row8" type="HBoxContainer" parent="Row/Social"]
 layout_mode = 2
@@ -462,9 +554,13 @@ size_flags_horizontal = 3
 text = "Subterfuge"
 horizontal_alignment = 2
 
-[node name="Subterfuge" parent="Row/Social/Row8" instance=ExtResource("2")]
+[node name="Subterfuge" type="GridContainer" parent="Row/Social/Row8"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+columns = 5
+script = ExtResource("2_3fq4q")
 
 [node name="Column" type="VBoxContainer" parent="."]
 layout_mode = 2

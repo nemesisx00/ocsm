@@ -17,7 +17,7 @@ public partial class SaveSheet : FileDialog
 	private void doSave(string filePath)
 	{
 		var path = filePath;
-		if(String.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
+		if(string.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
 		{
 			var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
 			path = path.Insert(extensionIndex, Constants.NewSheetFileName);
@@ -25,7 +25,7 @@ public partial class SaveSheet : FileDialog
 		else if(!path.EndsWith(Constants.SheetFileExtension))
 			path += Constants.SheetFileExtension;
 		
-		if(!String.IsNullOrEmpty(SheetData))
+		if(!string.IsNullOrEmpty(SheetData))
 			FileSystemUtilities.WriteString(path, SheetData);
 	}
 }

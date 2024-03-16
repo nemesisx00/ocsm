@@ -76,7 +76,7 @@ public sealed partial class ArmorEntry : Container, ICanDelete
 	public void loadEntry(ItemArmor entry)
 	{
 		GetNode<LineEdit>(NodePath.NameInput).Text = entry.Name;
-		GetNode<OptionButton>(NodePath.TypeInput).SelectItemByText(entry.Type.GetLabel());
+		GetNode<OptionButton>(NodePath.TypeInput).SelectItemByText(entry.ArmorType.GetLabel());
 		GetNode<SpinBox>(NodePath.ArmorClassInput).Value = entry.BaseArmorClass;
 		GetNode<SpinBox>(NodePath.CostInput).Value = entry.Cost;
 		GetNode<SpinBox>(NodePath.WeightInput).Value = entry.Weight;
@@ -124,7 +124,7 @@ public sealed partial class ArmorEntry : Container, ICanDelete
 		toggleMinimumStrengthInput();
 	}
 	
-	public void doDelete()
+	public void DoDelete()
 	{
 		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
 		if(!String.IsNullOrEmpty(name))
@@ -138,7 +138,7 @@ public sealed partial class ArmorEntry : Container, ICanDelete
 	private void doSave()
 	{
 		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		var type = (ItemArmor.ArmorType)GetNode<OptionButton>(NodePath.TypeInput).Selected;
+		var type = (ItemArmor.ArmorTypes)GetNode<OptionButton>(NodePath.TypeInput).Selected;
 		var ac = (int)GetNode<SpinBox>(NodePath.ArmorClassInput).Value;
 		var cost = (int)GetNode<SpinBox>(NodePath.CostInput).Value;
 		var weight = GetNode<SpinBox>(NodePath.WeightInput).Value;
@@ -160,7 +160,7 @@ public sealed partial class ArmorEntry : Container, ICanDelete
 			MinimumStrength = minStr,
 			Name = name,
 			StealthDisadvantage = stealth,
-			Type = type,
+			ArmorType = type,
 			Weight = weight,
 		};
 		
@@ -175,7 +175,7 @@ public sealed partial class ArmorEntry : Container, ICanDelete
 			GetTree().CurrentScene,
 			GetViewportRect().GetCenter(),
 			this,
-			nameof(doDelete)
+			nameof(DoDelete)
 		);
 	}
 	

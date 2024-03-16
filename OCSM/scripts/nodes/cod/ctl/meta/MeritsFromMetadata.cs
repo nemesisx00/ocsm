@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
 
@@ -7,16 +6,16 @@ namespace Ocsm.Nodes.Cofd.Ctl.Meta;
 
 public partial class MeritsFromMetadata : Container
 {
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string MeritsName = "%ExistingMerits";
+		public static readonly NodePath MeritsName = new("%ExistingMerits");
 	}
 	
 	[Signal]
 	public delegate void AddMeritEventHandler(string name);
 	
-	
 	private MetadataManager metadataManager;
+	private OptionButton optionButton;
 	
 	public override void _Ready()
 	{
@@ -24,19 +23,19 @@ public partial class MeritsFromMetadata : Container
 		metadataManager.MetadataLoaded += refreshMerits;
 		metadataManager.MetadataSaved += refreshMerits;
 		
-		GetNode<OptionButton>(NodePath.MeritsName).ItemSelected += meritSelected;
+		optionButton = GetNode<OptionButton>(NodePaths.MeritsName);
+		optionButton.ItemSelected += meritSelected;
 		
 		refreshMerits();
 	}
 	
 	private void refreshMerits()
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			var optionButton = GetNode<OptionButton>(NodePath.MeritsName);
 			optionButton.Clear();
-			optionButton.AddItem(String.Empty);
-			ccc.Merits.ForEach(m => optionButton.AddItem(m.Name));
+			optionButton.AddItem(string.Empty);
+			container.Merits.ForEach(m => optionButton.AddItem(m.Name));
 		}
 	}
 	
@@ -44,9 +43,8 @@ public partial class MeritsFromMetadata : Container
 	{
 		if(index > 0)
 		{
-			var node = GetNode<OptionButton>(NodePath.MeritsName);
-			EmitSignal(nameof(AddMerit), node.GetItemText((int)index));
-			node.Deselect();
+			EmitSignal(SignalName.AddMerit, optionButton.GetItemText((int)index));
+			optionButton.Deselect();
 		}
 	}
 }

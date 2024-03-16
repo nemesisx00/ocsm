@@ -5,31 +5,23 @@ using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Meta;
 
-public class CofdCoreContainer : IMetadataContainer, IEquatable<CofdCoreContainer>
+public class CofdCoreContainer() : BaseContainer(), IMetadataContainer, IEquatable<CofdCoreContainer>
 {
-	public List<Merit> Merits { get; set; } = new List<Merit>();
+	public List<Merit> Merits { get; set; } = [];
 	
-	public virtual void Deserialize(string json)
+	public override void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<CofdCoreContainer>(json);
-		if(result is CofdCoreContainer ccc)
+		if(result is CofdCoreContainer container)
 		{
-			Merits = ccc.Merits;
+			Metadata = container.Metadata;
+			Merits = container.Merits;
 		}
 	}
 	
-	public virtual bool IsEmpty()
-	{
-		return Merits.Count < 1;
-	}
-	
-	public virtual string Serialize()
-	{
-		return JsonSerializer.Serialize(this);
-	}
-	
-	public bool Equals(CofdCoreContainer container)
-	{
-		return container.Merits.Equals(Merits);
-	}
+	public override bool IsEmpty() => base.IsEmpty() && Merits.Count < 1;
+	public override string Serialize() => JsonSerializer.Serialize(this);
+	public bool Equals(CofdCoreContainer other) => base.Equals(other) && Merits == other?.Merits;
+	public override bool Equals(object obj) => Equals(obj as CofdCoreContainer);
+	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Merits);
 }

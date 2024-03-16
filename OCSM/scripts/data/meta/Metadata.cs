@@ -3,43 +3,41 @@ using System;
 
 namespace Ocsm.Meta;
 
-public interface IMetadataContainer
-{
-	void Deserialize(string json);
-	bool IsEmpty();
-	string Serialize();
-}
+/**
+<summary>
+A single entry of metadata.
 
-public class Metadata : IComparable<Metadata>, IEquatable<Metadata>
+<para>
+The Type property is used to differentiate instances for use in a given input
+field on a character sheet.
+</para>
+</summary>
+*/
+public class Metadata() : IComparable<Metadata>, IEquatable<Metadata>
 {
-	public string Description { get; set; }
+	public string Description { get; set; } = string.Empty;
 	public Texture2D Icon { get; set; }
-	public string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
+	public MetadataType Type { get; set; }
 	
-	public Metadata()
+	public int CompareTo(Metadata other)
 	{
-		Description = String.Empty;
-		Icon = null;
-		Name = String.Empty;
-	}
-	
-	public int CompareTo(Metadata metadata)
-	{
-		var ret = 0;
-		if(metadata is Metadata)
-		{
-			ret = Name.CompareTo(metadata.Name);
-			if(ret.Equals(0))
-				ret = Description.CompareTo(metadata.Description);
-		}
+		var ret = Type.CompareTo(other?.Type);
+		
+		if(ret == 0)
+			ret = Name.CompareTo(other?.Name);
+		
+		if(ret == 0)
+			ret = Description.CompareTo(other?.Description);
+		
 		return ret;
 	}
 	
-	public bool Equals(Metadata metadata)
-	{
-		return metadata is Metadata
-			&& metadata.Description.Equals(Description)
-			&& Logic.AreEqualOrNull<Texture2D>(metadata.Icon, Icon)
-			&& metadata.Name.Equals(Name);
-	}
+	public bool Equals(Metadata other) => Description == other?.Description
+		&& Logic.AreEqualOrNull(Icon, other?.Icon)
+		&& Name == other?.Name
+		&& Type == other?.Type;
+	
+	public override bool Equals(object obj) => Equals(obj as Metadata);
+	public override int GetHashCode() => HashCode.Combine(Description, Icon, Name, Type);
 }

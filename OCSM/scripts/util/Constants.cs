@@ -1,16 +1,20 @@
 
 namespace Ocsm;
 
-/// <summary>
-/// Class containing all constant values which need to be universally
-/// accessible within Ocsm.
-/// </summary>
+/**
+<summary>
+Class containing all constant values which need to be universally
+accessible within Ocsm.
+</summary>
+*/
 public class Constants
 {
 	public const string AppVersion = "0.5.0";
 	public const string MetadataFileExtension = ".ocmd";
 	public const string NewSheetFileName = "New Sheet";
 	public const string SheetFileExtension = ".ocsd";
+	
+	public const string The = "The";
 	
 	public static class Action
 	{
@@ -20,20 +24,6 @@ public class Constants
 		public const string FileSave = "fileSave";
 		public const string FileSaveAs = "fileSaveAs";
 		public const string FileCloseSheet = "fileCloseSheet";
-	}
-	
-	public static class GameSystem
-	{
-		public static class Cofd
-		{
-			public const string Mortal = "CodMortal";
-			public const string Changeling = "CodChangeling";
-		}
-		
-		public static class Dnd
-		{
-			public const string Fifth = "Dnd5e";
-		}
 	}
 	
 	public static class Json

@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3drftehkkh7q"]
+[gd_scene load_steps=4 format=3 uid="uid://c3drftehkkh7q"]
 
 [ext_resource type="Script" path="res://scripts/nodes/EntryList.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_163af"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/SeemingOptionButton.cs" id="2_tskxj"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/KithOptionButton.cs" id="3_xs3ob"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/CourtOptionButton.cs" id="4_a14ti"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/RegaliaOptionButton.cs" id="5_75anv"]
+[ext_resource type="Script" path="res://scripts/nodes/MetadataOption.cs" id="4_awl86"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 15
@@ -195,7 +192,9 @@ focus_neighbor_top = NodePath("../../Row7/Thread")
 focus_neighbor_bottom = NodePath("../../Row9/Kith")
 focus_next = NodePath("../../Row9/Kith")
 focus_previous = NodePath("../../Row7/Thread")
-script = ExtResource("2_tskxj")
+script = ExtResource("4_awl86")
+GameSystem = 2
+MetadataType = 15
 
 [node name="Row4" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -252,7 +251,9 @@ focus_neighbor_top = NodePath("../../Row8/Seeming")
 focus_neighbor_bottom = NodePath("../../Row10/Court")
 focus_next = NodePath("../../Row10/Court")
 focus_previous = NodePath("../../Row8/Seeming")
-script = ExtResource("3_xs3ob")
+script = ExtResource("4_awl86")
+GameSystem = 2
+MetadataType = 13
 
 [node name="Row5" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -307,7 +308,9 @@ size_flags_vertical = 3
 tooltip_text = "If the character is a part of a group, enter the Group Name here."
 focus_neighbor_left = NodePath("../../Row5/Size")
 focus_previous = NodePath("../../Row9/Kith")
-script = ExtResource("4_a14ti")
+script = ExtResource("4_awl86")
+GameSystem = 2
+MetadataType = 12
 
 [node name="Column" type="VBoxContainer" parent="Details"]
 layout_mode = 2
@@ -331,15 +334,17 @@ theme_override_constants/separation = 30
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("5_75anv")
-EmptyOption = true
+script = ExtResource("4_awl86")
+GameSystem = 2
+MetadataType = 14
 
 [node name="Regalia2" type="OptionButton" parent="Details/Column/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("5_75anv")
-EmptyOption = true
+script = ExtResource("4_awl86")
+GameSystem = 2
+MetadataType = 14
 
 [node name="Label2" type="Label" parent="Details/Column"]
 layout_mode = 2

@@ -13,49 +13,45 @@ public partial class Skill : Container
 		public const string Value = "Value";
 	}
 	
-	private const string PositiveFormat = "+{0}";
-	
 	[Signal]
-	public delegate void ProficiencyChangedEventHandler(string currentState);
+	public delegate void ProficiencyChangedEventHandler(StatefulButton.States currentState);
 	
 	[Export]
-	public string Label { get; set; } = String.Empty;
+	public string Label { get; set; } = string.Empty;
 	[Export]
-	public int AbilityModifier { get; set; } = 0;
+	public int AbilityModifier { get; set; }
 	[Export]
 	public int ProficiencyBonus { get; set; } = 2;
 	
+	private Label label;
 	private StatefulButton proficiency;
+	private Label value;
 	
 	public override void _Ready()
 	{
 		proficiency = GetNode<StatefulButton>(Names.Proficiency);
 		proficiency.StateChanged += proficiencyUpdated;
 		
+		label = GetNode<Label>(Names.Label);
+		value = GetNode<Label>(Names.Value);
+		
 		update();
 	}
 	
-	public void setProficiency(Proficiency newProficiency)
+	public void SetProficiency(Proficiency newProficiency)
 	{
-		proficiency.CurrentState = ProficiencyUtility.toStatefulButtonState(newProficiency);
-		proficiency.updateTexture();
+		proficiency.CurrentState = newProficiency.ToStatefulButtonState();
+		proficiency.UpdateTexture();
 		update();
 	}
 	
-	public void trackAbility(AbilityColumn ability)
-	{
-		ability.AbilityChanged += scoreChanged;
-	}
-	
-	public void trackAbility(AbilityRow ability)
-	{
-		ability.AbilityChanged += scoreChanged;
-	}
+	public void TrackAbility(AbilityColumn ability) => ability.AbilityChanged += scoreChanged;
+	public void TrackAbility(AbilityRow ability) => ability.AbilityChanged += scoreChanged;
 	
 	private void proficiencyUpdated(StatefulButton button)
 	{
 		update();
-		EmitSignal(nameof(ProficiencyChanged), button.CurrentState);
+		EmitSignal(SignalName.ProficiencyChanged, (int)button.CurrentState);
 	}
 	
 	private void scoreChanged(Transport<Ability> transport)
@@ -66,27 +62,23 @@ public partial class Skill : Container
 	
 	private void update()
 	{
-		var value = AbilityModifier;
+		var modifier = AbilityModifier;
 		switch(proficiency.CurrentState)
 		{
-			case StatefulButton.State.One:
-				value += ProficiencyBonus / 2;
+			case StatefulButton.States.One:
+				modifier += ProficiencyBonus / 2;
 				break;
-			case StatefulButton.State.Two:
-				value += ProficiencyBonus;
+			
+			case StatefulButton.States.Two:
+				modifier += ProficiencyBonus;
 				break;
-			case StatefulButton.State.Three:
-				value += ProficiencyBonus * 2;
-				break;
-			default:
+			
+			case StatefulButton.States.Three:
+				modifier += ProficiencyBonus * 2;
 				break;
 		}
 		
-		var valueString = String.Format(PositiveFormat, value);
-		if(value < 0)
-			valueString = value.ToString();
-		
-		GetNode<Label>(Names.Label).Text = Label;
-		GetNode<Label>(Names.Value).Text = valueString;
+		label.Text = Label;
+		value.Text = modifier < 0 ? modifier.ToString() : $"+{modifier}";
 	}
 }

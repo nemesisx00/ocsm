@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using Ocsm.Meta;
 using Ocsm.Cofd.Meta;
 using Ocsm.Cofd.Ctl.Meta;
@@ -12,7 +11,7 @@ namespace Ocsm.Nodes.Autoload;
 public partial class MetadataManager : Node
 {
 	[Signal]
-	public delegate void GameSystemChangedEventHandler(string gameSystem);
+	public delegate void GameSystemChangedEventHandler(GameSystem gameSystem);
 	[Signal]
 	public delegate void MetadataLoadedEventHandler();
 	[Signal]
@@ -20,36 +19,28 @@ public partial class MetadataManager : Node
 	
 	private const string FileNameFormat = "{0}" + Constants.MetadataFileExtension;
 	
-	private string gameSystem = String.Empty;
+	private GameSystem gameSystem;
 	
-	public string CurrentGameSystem
+	public GameSystem CurrentGameSystem
 	{
 		get { return gameSystem; }
 		set
 		{
-			if(!gameSystem.Equals(value))
+			if(gameSystem != value)
 			{
 				gameSystem = value;
-				EmitSignal(nameof(GameSystemChanged), gameSystem);
+				EmitSignal(SignalName.GameSystemChanged, (int)gameSystem);
 				
-				switch(gameSystem)
+				Container = gameSystem switch
 				{
-					case Constants.GameSystem.Cofd.Changeling:
-						Container = new CofdChangelingContainer();
-						loadGameSystemMetadata();
-						break;
-					case Constants.GameSystem.Cofd.Mortal:
-						Container = new CofdCoreContainer();
-						loadGameSystemMetadata();
-						break;
-					case Constants.GameSystem.Dnd.Fifth:
-						Container = new DndFifthContainer();
-						loadGameSystemMetadata();
-						break;
-					default:
-						Container = null;
-						break;
-				}
+					GameSystem.CofdChangeling => new CofdChangelingContainer(),
+					GameSystem.CofdMortal => new CofdCoreContainer(),
+					GameSystem.Dnd5e => new DndFifthContainer(),
+					_ => null,
+				};
+				
+				if(Container is not null)
+					LoadGameSystemMetadata();
 			}
 		}
 	}
@@ -60,9 +51,9 @@ public partial class MetadataManager : Node
 	
 	public override void _Ready()
 	{
-		sheetTabs = GetNode<TabContainer>(AppRoot.NodePath.SheetTabs);
+		sheetTabs = GetNode<TabContainer>(AppRoot.NodePaths.SheetTabs);
 		
-		CurrentGameSystem = String.Empty;
+		CurrentGameSystem = GameSystem.None;
 		sheetTabs.TabSelected += sheetTabSelected;
 	}
 	
@@ -70,53 +61,53 @@ public partial class MetadataManager : Node
 	{
 		var tab = sheetTabs.GetTabControl((int)tabIndex);
 		if(tab is ChangelingSheet)
-			CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
+			CurrentGameSystem = GameSystem.CofdChangeling;
 		else if (tab is MortalSheet)
-			CurrentGameSystem = Constants.GameSystem.Cofd.Mortal;
+			CurrentGameSystem = GameSystem.CofdMortal;
 		else if (tab is DndFifthSheet)
-			CurrentGameSystem = Constants.GameSystem.Dnd.Fifth;
+			CurrentGameSystem = GameSystem.Dnd5e;
 		else
-			CurrentGameSystem = String.Empty;
+			CurrentGameSystem = GameSystem.None;
 	}
 	
-	public void loadGameSystemMetadata()
+	public void LoadGameSystemMetadata()
 	{
-		if(!String.IsNullOrEmpty(CurrentGameSystem))
+		if(CurrentGameSystem != GameSystem.None)
 		{
-			var filename = String.Format(FileNameFormat, CurrentGameSystem);
+			var filename = string.Format(FileNameFormat, CurrentGameSystem.ToString());
 			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
 			var json = FileSystemUtilities.ReadString(path);
-			if(!String.IsNullOrEmpty(json) && Container is IMetadataContainer)
+			if(!string.IsNullOrEmpty(json) && Container is not null)
 			{
 				Container.Deserialize(json);
-				EmitSignal(nameof(MetadataLoaded));
+				EmitSignal(SignalName.MetadataLoaded);
 			}
 		}
 	}
 	
-	public void saveGameSystemMetadata()
+	public void SaveGameSystemMetadata()
 	{
-		if(Container is IMetadataContainer)
+		if(Container is not null)
 		{
 			var metadata = Container.Serialize();
-			var filename = String.Format(FileNameFormat, CurrentGameSystem);
+			var filename = string.Format(FileNameFormat, CurrentGameSystem.ToString());
 			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
 			
 			FileSystemUtilities.WriteString(path, metadata);
-			EmitSignal(nameof(MetadataSaved));
+			EmitSignal(SignalName.MetadataSaved);
 		}
 	}
 	
-	public void initializeGameSystems()
+	public void InitializeGameSystems()
 	{
-		CurrentGameSystem = Constants.GameSystem.Cofd.Changeling;
+		CurrentGameSystem = GameSystem.CofdChangeling;
 		if(Container.IsEmpty())
 		{
-			Container = CofdChangelingContainer.initializeWithDefaultValues();
-			saveGameSystemMetadata();
+			Container = CofdChangelingContainer.InitializeWithDefaultValues();
+			SaveGameSystemMetadata();
 		}
 		
-		gameSystem = String.Empty;
+		gameSystem = GameSystem.None;
 		Container = null;
 	}
 }

@@ -1,77 +1,35 @@
+using System;
 using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth;
 
-public enum Proficiency { NoProficiency, HalfProficiency, Proficiency, DoubleProficiency }
-
-public sealed class ProficiencyUtility
+public enum Proficiency
 {
-	public const string NoProficiency = "Not Proficient";
-	public const string HalfProficiency = "Half Proficiency";
-	public const string Proficient = "Proficient";
-	public const string DoubleProficiency = "Expertise";
-	
-	public static string byEnum(Proficiency value)
+	[Label("Not Proficient")]
+	NoProficiency,
+	[Label("Half Proficiency")]
+	HalfProficiency,
+	[Label("Proficient")]
+	Proficiency,
+	[Label("Expertise")]
+	DoubleProficiency
+}
+
+public static class ProficiencyExtensions
+{
+	public static Proficiency ToProficiency(this StatefulButton.States state) => state switch
 	{
-		switch(value)
-		{
-			case Proficiency.HalfProficiency:
-				return HalfProficiency;
-			case Proficiency.Proficiency:
-				return Proficient;
-			case Proficiency.DoubleProficiency:
-				return DoubleProficiency;
-			case Proficiency.NoProficiency:
-			default:
-				return NoProficiency;
-		}
-	}
+		StatefulButton.States.One => Proficiency.HalfProficiency,
+		StatefulButton.States.Two => Proficiency.Proficiency,
+		StatefulButton.States.Three => Proficiency.DoubleProficiency,
+		_ => Proficiency.NoProficiency,
+	};
 	
-	public static Proficiency byName(string name)
+	public static StatefulButton.States ToStatefulButtonState(this Proficiency value) => value switch
 	{
-		switch(name)
-		{
-			case HalfProficiency:
-				return Proficiency.HalfProficiency;
-			case Proficient:
-				return Proficiency.Proficiency;
-			case DoubleProficiency:
-				return Proficiency.DoubleProficiency;
-			case NoProficiency:
-			default:
-				return Proficiency.NoProficiency;
-		}
-	}
-	
-	public static Proficiency fromStatefulButtonState(string state)
-	{
-		switch(state)
-		{
-			case StatefulButton.State.One:
-				return Proficiency.HalfProficiency;
-			case StatefulButton.State.Two:
-				return Proficiency.Proficiency;
-			case StatefulButton.State.Three:
-				return Proficiency.DoubleProficiency;
-			case StatefulButton.State.None:
-			default:
-				return Proficiency.NoProficiency;
-		}
-	}
-	
-	public static string toStatefulButtonState(Proficiency proficiency)
-	{
-		switch(proficiency)
-		{
-			case Proficiency.HalfProficiency:
-				return StatefulButton.State.One;
-			case Proficiency.Proficiency:
-				return StatefulButton.State.Two;
-			case Proficiency.DoubleProficiency:
-				return StatefulButton.State.Three;
-			case Proficiency.NoProficiency:
-			default:
-				return StatefulButton.State.None;
-		}
-	}
+		Proficiency.HalfProficiency => StatefulButton.States.One,
+		Proficiency.Proficiency => StatefulButton.States.Two,
+		Proficiency.DoubleProficiency => StatefulButton.States.Three,
+		_ => StatefulButton.States.None,
+	};
 }

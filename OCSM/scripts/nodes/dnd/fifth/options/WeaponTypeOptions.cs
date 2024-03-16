@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using Ocsm.Dnd.Fifth.Inventory;
 
@@ -9,10 +10,11 @@ public partial class WeaponTypeOptions : OptionButton
 	public override void _Ready()
 	{
 		Clear();
-		AddItem(String.Empty);
-		AddItem(ItemWeapon.WeaponType.SimpleMelee.GetLabel());
-		AddItem(ItemWeapon.WeaponType.SimpleRanged.GetLabel());
-		AddItem(ItemWeapon.WeaponType.MartialMelee.GetLabel());
-		AddItem(ItemWeapon.WeaponType.MartialRanged.GetLabel());
+		AddItem(string.Empty);
+		
+		Enum.GetValues<ItemWeapon.WeaponTypes>()
+			.Select(wt => wt.GetLabel())
+			.ToList()
+			.ForEach(label => AddItem(label));
 	}
 }

@@ -6,101 +6,79 @@ using Ocsm.Cofd.Meta;
 
 namespace Ocsm.Cofd.Ctl.Meta;
 
-public class CofdChangelingContainer : CofdCoreContainer, IMetadataContainer, IEquatable<CofdChangelingContainer>
+public class CofdChangelingContainer() : CofdCoreContainer(), IMetadataContainer, IEquatable<CofdChangelingContainer>
 {
-	public static CofdChangelingContainer initializeWithDefaultValues()
+	public static CofdChangelingContainer InitializeWithDefaultValues()
 	{
 		var container = new CofdChangelingContainer();
 		
-		container.ContractTypes.Add(new ContractType() { Name = "Common" });
-		container.ContractTypes.Add(new ContractType() { Name = "Royal" });
-		container.ContractTypes.Add(new ContractType() { Name = "Goblin" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Crown" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Jewels" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Mirror" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Shield" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Steed" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Sword" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Autumn" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Spring" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Summer" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Winter" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Goblin" });
 		
-		container.Courts.Add(new Court() { Name = "Autumn" });
-		container.Courts.Add(new Court() { Name = "Spring" });
-		container.Courts.Add(new Court() { Name = "Summer" });
-		container.Courts.Add(new Court() { Name = "Winter" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Common" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Royal" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Goblin" });
 		
-		container.Kiths.Add(new Kith() { Name = "Artist" });
-		container.Kiths.Add(new Kith() { Name = "Bright One" });
-		container.Kiths.Add(new Kith() { Name = "Chatelaine" });
-		container.Kiths.Add(new Kith() { Name = "Gristlegrinder" });
-		container.Kiths.Add(new Kith() { Name = "Helldiver" });
-		container.Kiths.Add(new Kith() { Name = "Hunterheart" });
-		container.Kiths.Add(new Kith() { Name = "Leechfinger" });
-		container.Kiths.Add(new Kith() { Name = "Mirrorskin" });
-		container.Kiths.Add(new Kith() { Name = "Nightsinger" });
-		container.Kiths.Add(new Kith() { Name = "Notary" });
-		container.Kiths.Add(new Kith() { Name = "Playmate" });
-		container.Kiths.Add(new Kith() { Name = "Snowskin" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Autumn" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Spring" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Summer" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Winter" });
 		
-		container.Regalias.Add(new Regalia() { Name = "Crown" });
-		container.Regalias.Add(new Regalia() { Name = "Jewels" });
-		container.Regalias.Add(new Regalia() { Name = "Mirror" });
-		container.Regalias.Add(new Regalia() { Name = "Shield" });
-		container.Regalias.Add(new Regalia() { Name = "Steed" });
-		container.Regalias.Add(new Regalia() { Name = "Sword" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Artist" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Bright One" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Chatelaine" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Gristlegrinder" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Helldiver" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Hunterheart" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Leechfinger" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Mirrorskin" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Nightsinger" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Notary" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Playmate" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Snowskin" });
 		
-		container.Seemings.Add(new Seeming() { Name = "Beast" });
-		container.Seemings.Add(new Seeming() { Name = "Darkling" });
-		container.Seemings.Add(new Seeming() { Name = "Elemental" });
-		container.Seemings.Add(new Seeming() { Name = "Fairest" });
-		container.Seemings.Add(new Seeming() { Name = "Ogre" });
-		container.Seemings.Add(new Seeming() { Name = "Wizened" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Crown" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Jewels" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Mirror" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Shield" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Steed" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Sword" });
+		
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Beast" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Darkling" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Elemental" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Fairest" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Ogre" });
+		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Wizened" });
 		
 		return container;
 	}
 	
-	public List<Contract> Contracts { get; set; }
-	public List<ContractType> ContractTypes { get; set; }
-	public List<Court> Courts { get; set; }
-	public List<Kith> Kiths { get; set; }
-	public List<Regalia> Regalias { get; set; }
-	public List<Seeming> Seemings { get; set; }
-	
-	public CofdChangelingContainer() : base()
-	{
-		Contracts = new List<Contract>();
-		ContractTypes = new List<ContractType>();
-		Courts = new List<Court>();
-		Kiths = new List<Kith>();
-		Regalias = new List<Regalia>();
-		Seemings = new List<Seeming>();
-	}
+	public List<Contract> Contracts { get; set; } = [];
 	
 	public override void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<CofdChangelingContainer>(json);
-		if(result is CofdChangelingContainer ccc)
+		if(result is CofdChangelingContainer container)
 		{
-			Contracts = ccc.Contracts;
-			ContractTypes = ccc.ContractTypes;
-			Courts = ccc.Courts;
-			Kiths = ccc.Kiths;
-			Merits = ccc.Merits;
-			Regalias = ccc.Regalias;
-			Seemings = ccc.Seemings;
+			Contracts = container.Contracts;
+			Merits = container.Merits;
+			Metadata = container.Metadata;
 		}
 	}
 	
-	public override bool IsEmpty()
-	{
-		return base.IsEmpty()
-			&& Contracts.Count < 1
-			&& ContractTypes.Count < 1
-			&& Courts.Count < 1
-			&& Kiths.Count < 1
-			&& Regalias.Count < 1
-			&& Seemings.Count < 1;
-	}
-	
-	public override string Serialize()
-	{
-		return JsonSerializer.Serialize(this);
-	}
-	
-	public bool Equals(CofdChangelingContainer container)
-	{
-		return base.Equals(container);
-	}
+	public bool Equals(CofdChangelingContainer container) => base.Equals(container);
+	public override bool Equals(object obj) => Equals(obj as CofdChangelingContainer);
+	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Contracts);
+	public override bool IsEmpty() => base.IsEmpty() && Contracts.Count < 1;
+	public override string Serialize() => JsonSerializer.Serialize(this);
 }

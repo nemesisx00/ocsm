@@ -19,7 +19,7 @@ public partial class OpenSheet : FileDialog
 	private void doOpen(string filePath)
 	{
 		var path = filePath;
-		if(String.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
+		if(string.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
 		{
 			var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
 			path = path.Insert(extensionIndex, Constants.NewSheetFileName);
@@ -37,7 +37,7 @@ public partial class OpenSheet : FileDialog
 			GD.PrintErr("Error opening sheet: ", ex);
 		}
 		
-		if(!String.IsNullOrEmpty(json))
-			EmitSignal(nameof(JsonLoaded), json);
+		if(!string.IsNullOrEmpty(json))
+			EmitSignal(SignalName.JsonLoaded, json);
 	}
 }

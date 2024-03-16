@@ -1,23 +1,14 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://bmqp01sx1ngp0"]
 
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/CourtEntry.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_v1gtx"]
 [ext_resource type="PackedScene" uid="uid://b0ap5bsmgxih1" path="res://scenes/cod/nodes/ctl/meta/ContractEntry.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://bxsbfbdwx26pw" path="res://scenes/meta/BasicMetadataEntry.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/CodChangelingAddEditMetadata.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://d1mq7osydydws" path="res://scenes/cod/nodes/meta/MeritEntry.tscn" id="5"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/KithEntry.cs" id="6"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/SeemingEntry.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/ContractTypeEntry.cs" id="8"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/meta/RegaliaEntry.cs" id="9"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/KithOptionButton.cs" id="10"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/RegaliaOptionButton.cs" id="11"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="12"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/SeemingOptionButton.cs" id="13"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/CourtOptionButton.cs" id="14"]
+[ext_resource type="PackedScene" uid="uid://dqnjqmoa7s7ua" path="res://scenes/meta/MetadataEntry.tscn" id="7_2j06h"]
 
 [node name="AddEditMetadata" type="Window"]
 initial_position = 2
+size = Vector2i(640, 320)
 exclusive = true
 theme = ExtResource("1_v1gtx")
 script = ExtResource("4")
@@ -37,33 +28,38 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tab_alignment = 1
 
 [node name="Contract" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("2")]
 layout_mode = 2
 
-[node name="Contract Type" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3")]
+[node name="Contract Regalia" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("8")
+MetadataType = 10
+MetadataTypeLabel = "Contract Regalia"
+
+[node name="Contract Type" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+MetadataType = 11
 MetadataTypeLabel = "Contract Type"
-OptionsButtonScript = ExtResource("12")
 
-[node name="Court" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3")]
+[node name="Court" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("1")
+MetadataType = 12
 MetadataTypeLabel = "Court"
-OptionsButtonScript = ExtResource("14")
 
-[node name="Kith" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3")]
+[node name="Kith" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("6")
+MetadataType = 13
 MetadataTypeLabel = "Kith"
-OptionsButtonScript = ExtResource("10")
 
 [node name="Merit" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("5")]
 unique_name_in_owner = true
@@ -71,18 +67,16 @@ visible = false
 layout_mode = 2
 MetadataTypeLabel = "Merit"
 
-[node name="Regalia" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3")]
+[node name="Regalia" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("9")
+MetadataType = 14
 MetadataTypeLabel = "Regalia"
-OptionsButtonScript = ExtResource("11")
 
-[node name="Seeming" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3")]
+[node name="Seeming" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("7_2j06h")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("7")
+MetadataType = 15
 MetadataTypeLabel = "Seeming"
-OptionsButtonScript = ExtResource("13")

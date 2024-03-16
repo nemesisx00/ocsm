@@ -16,15 +16,15 @@ public class Die : Ocsm.Die, IComparable<Die>, IEquatable<Die>
 	
 	public int advantage()
 	{
-		var one = roll();
-		var two = roll();
+		var one = Roll();
+		var two = Roll();
 		return one > two ? one : two;
 	}
 	
 	public int disadvantage()
 	{
-		var one = roll();
-		var two = roll();
+		var one = Roll();
+		var two = Roll();
 		return one < two ? one : two;
 	}
 	

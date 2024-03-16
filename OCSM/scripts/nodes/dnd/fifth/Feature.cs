@@ -40,13 +40,11 @@ public partial class Feature : Container
 	public void update(Ocsm.Dnd.Fifth.Feature feature)
 	{
 		var name = feature.Name;
-		if(!String.IsNullOrEmpty(feature.Type))
-		{
-			if(!String.IsNullOrEmpty(feature.Source))
-				name += String.Format(FormatTypeAndSource, feature.Type, feature.Source);
-			else
-				name += String.Format(FormatType, feature.Type);
-		}
+		
+		if(!String.IsNullOrEmpty(feature.Source))
+			name += String.Format(FormatTypeAndSource, feature.FeatureType, feature.Source);
+		else
+			name += String.Format(FormatType, feature.FeatureType);
 		
 		nameNode.Text = name;
 		descriptionNode.Text = feature.Description;

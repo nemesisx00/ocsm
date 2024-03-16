@@ -1,16 +1,12 @@
-using System;
-
 namespace Ocsm.Cofd;
 
-public class Details
+public class Details()
 {
-	public string Chronicle { get; set; } = String.Empty;
-	public string Concept { get; set; } = String.Empty;
-	public string Faction { get; set; } = String.Empty;
-	public string TypePrimary { get; set; } = String.Empty;
-	public string TypeSecondary { get; set; } = String.Empty;
-	public string Virtue { get; set; } = String.Empty;
-	public string Vice { get; set; } = String.Empty;
-	
-	public Details() {}
+	public string Chronicle { get; set; } = string.Empty;
+	public string Concept { get; set; } = string.Empty;
+	public string Faction { get; set; } = string.Empty;
+	public string TypePrimary { get; set; } = string.Empty;
+	public string TypeSecondary { get; set; } = string.Empty;
+	public string Virtue { get; set; } = string.Empty;
+	public string Vice { get; set; } = string.Empty;
 }

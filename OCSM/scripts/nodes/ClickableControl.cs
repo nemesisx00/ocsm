@@ -18,11 +18,9 @@ public partial class ClickableControl : Control
 		{
 			if(e is InputEventMouseButton iemb && iemb.ButtonIndex.Equals((int)MouseButton.Left))
 			{
+				//First press, send the signal
 				if(!pressed)
-				{
-					//First press, send the signal
-					EmitSignal(nameof(Clicked));
-				}
+					EmitSignal(SignalName.Clicked);
 				pressed = iemb.Pressed;
 			}
 		}

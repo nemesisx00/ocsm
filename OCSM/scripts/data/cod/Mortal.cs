@@ -1,12 +1,7 @@
 
 namespace Ocsm.Cofd;
 
-public class Mortal : CodCore
+public class Mortal() : CodCore(GameSystem.CofdMortal)
 {
-	public long Age { get; set; }
-	
-	public Mortal() : base(Constants.GameSystem.Cofd.Mortal)
-	{
-		Age = -1;
-	}
+	public int Age { get; set; } = -1;
 }

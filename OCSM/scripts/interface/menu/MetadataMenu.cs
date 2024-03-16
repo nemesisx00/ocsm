@@ -8,12 +8,15 @@ namespace Ocsm.Nodes;
 
 public partial class MetadataMenu : MenuButton
 {
-	private sealed class ItemNames
+	private static class ItemNames
 	{
-		public const string ManageMetadata = "Manage Metadata";
+		public static readonly StringName ManageMetadata = new("Manage Metadata");
 	}
 	
-	public enum MenuItem : long { ManageMetadata }
+	public enum MenuItem
+	{
+		ManageMetadata,
+	}
 	
 	private MetadataManager metadataManager;
 	
@@ -33,8 +36,6 @@ public partial class MetadataMenu : MenuButton
 			case MenuItem.ManageMetadata:
 				showAddEditMetadata();
 				break;
-			default:
-				break;
 		}
 	}
 	
@@ -42,13 +43,12 @@ public partial class MetadataMenu : MenuButton
 	{
 		switch(metadataManager.CurrentGameSystem)
 		{
-			case Constants.GameSystem.Cofd.Changeling:
+			case GameSystem.CofdChangeling:
 				generatePopup<CodChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
 				break;
-			case Constants.GameSystem.Dnd.Fifth:
+			
+			case GameSystem.Dnd5e:
 				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.AddEditMetadata));
-				break;
-			default:
 				break;
 		}
 	}
@@ -59,7 +59,6 @@ public partial class MetadataMenu : MenuButton
 		var instance = resource.Instantiate<T>();
 		GetTree().CurrentScene.AddChild(instance);
 		instance.PopupCentered();
-		instance.MetadataChanged += metadataManager.saveGameSystemMetadata;
 		
 		return instance;
 	}

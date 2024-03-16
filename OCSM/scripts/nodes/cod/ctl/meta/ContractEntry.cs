@@ -9,18 +9,42 @@ namespace Ocsm.Nodes.Cofd.Ctl.Meta;
 
 public partial class ContractEntry : Container
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string ContractInput = "ContractInputs";
-		public const string ClearButton = "Clear";
-		public const string DeleteButton = "Delete";
-		public const string SaveButton = "Save";
-		public const string ExistingEntryName = "ExistingEntry";
-		public const string ContractsName = "Contracts";
+		public readonly static NodePath ContractInput = new("%ContractInputs");
+		public readonly static NodePath ClearButton = new("%Clear");
+		public readonly static NodePath DeleteButton = new("%Delete");
+		public readonly static NodePath SaveButton = new("%Save");
+		public readonly static NodePath ExistingEntryName = new("%ExistingEntry");
+		public readonly static NodePath ContractsName = new("%Contracts");
 	}
 	
-	private const string ContractNameFormatOne = "{0} ({1})";
-	private const string ContractNameFormatTwo = "{0} ({1} {2})";
+	private static string generateEntryName(Contract contract)
+	{
+		var ct = string.Empty;
+		var r = string.Empty;
+		
+		if(string.IsNullOrEmpty(r) && contract.Regalia is not null)
+			r = contract.Regalia.Name;
+		
+		if(contract.ContractType is not null)
+		{
+			ct = contract.ContractType.Name;
+			if(contract.ContractType.Name == "Goblin")
+				r = string.Empty;
+		}
+		
+		var itemName = contract.Name;
+		
+		if(!string.IsNullOrEmpty(ct) && !string.IsNullOrEmpty(r))
+			itemName = $"{itemName} ({ct} {r})";
+		else if(!string.IsNullOrEmpty(ct))
+			itemName = $"{itemName} ({ct})";
+		else if(!string.IsNullOrEmpty(r))
+			itemName = $"{itemName} ({r})";
+		
+		return itemName;
+	}
 	
 	[Signal]
 	public delegate void SaveClickedEventHandler();
@@ -35,33 +59,33 @@ public partial class ContractEntry : Container
 		metadataManager.MetadataLoaded += refreshMetadata;
 		metadataManager.MetadataSaved += refreshMetadata;
 		
-		GetNode<ContractNode>(NodePath.ContractInput).toggleDetails();
-		GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
-		GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
-		GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
-		GetNode<OptionButton>(NodePath.ExistingEntryName).ItemSelected += entrySelected;
+		GetNode<ContractNode>(NodePaths.ContractInput).ToggleDetails();
+		GetNode<Button>(NodePaths.ClearButton).Pressed += clearInputs;
+		GetNode<Button>(NodePaths.SaveButton).Pressed += doSave;
+		GetNode<Button>(NodePaths.DeleteButton).Pressed += handleDelete;
+		GetNode<OptionButton>(NodePaths.ExistingEntryName).ItemSelected += entrySelected;
 		
 		refreshMetadata();
 	}
 	
-	public void loadContract(Ocsm.Cofd.Ctl.Contract contract)
+	public void LoadContract(Contract contract)
 	{
-		var contractInput = GetNode<ContractNode>(NodePath.ContractInput);
-		contractInput.setData(contract);
+		var contractInput = GetNode<ContractNode>(NodePaths.ContractInput);
+		contractInput.SetData(contract);
 	}
 	
 	private void clearInputs()
 	{
-		var contractInput = GetNode<ContractNode>(NodePath.ContractInput);
-		contractInput.clearInputs();
+		var contractInput = GetNode<ContractNode>(NodePaths.ContractInput);
+		contractInput.ClearInputs();
 	}
 	
 	private void doDelete()
 	{
-		var data = GetNode<ContractNode>(NodePath.ContractInput).getData();
-		if(!String.IsNullOrEmpty(data.Name))
+		var data = GetNode<ContractNode>(NodePaths.ContractInput).GetData();
+		if(!string.IsNullOrEmpty(data.Name))
 		{
-			EmitSignal(nameof(DeleteConfirmed), data.Name);
+			EmitSignal(SignalName.DeleteConfirmed, data.Name);
 			clearInputs();
 		}
 		//TODO: Display error message if name is empty
@@ -69,10 +93,10 @@ public partial class ContractEntry : Container
 	
 	private void doSave()
 	{
-		var data = GetNode<ContractNode>(NodePath.ContractInput).getData();
-		if(!String.IsNullOrEmpty(data.Name))
+		var data = GetNode<ContractNode>(NodePaths.ContractInput).GetData();
+		if(!string.IsNullOrEmpty(data.Name))
 		{
-			EmitSignal(nameof(SaveClicked));
+			EmitSignal(SignalName.SaveClicked);
 			clearInputs();
 		}
 		//TODO: Display error message if name is empty
@@ -80,45 +104,17 @@ public partial class ContractEntry : Container
 	
 	private void entrySelected(long index)
 	{
-		var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+		var optionButton = GetNode<OptionButton>(NodePaths.ExistingEntryName);
 		var name = optionButton.GetItemText((int)index);
 		if(name.Contains(" ("))
-			name = name.Substring(0, name.IndexOf(" ("));
+			name = name[..name.IndexOf(" (")];
 		
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container
+			&& container.Contracts.Find(c => c.Name == name) is Contract contract)
 		{
-			if(ccc.Contracts.Find(c => c.Name.Equals(name)) is Ocsm.Cofd.Ctl.Contract contract)
-			{
-				loadContract(contract);
-				optionButton.Deselect();
-			}
+			LoadContract(contract);
+			optionButton.Deselect();
 		}
-	}
-	
-	private string generateEntryName(Ocsm.Cofd.Ctl.Contract contract)
-	{
-		var ct = String.Empty;
-		var r = String.Empty;
-		
-		if(String.IsNullOrEmpty(r) && contract.Regalia is ContractRegalia)
-			r = contract.Regalia.Name;
-		
-		if(contract.ContractType is ContractType contractType)
-		{
-			ct = contractType.Name;
-			if(contractType.Name.Equals(ContractType.Goblin))
-				r = String.Empty;
-		}
-		
-		var itemName = contract.Name;
-		if(!String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
-			itemName = String.Format(ContractNameFormatTwo, contract.Name, ct, r);
-		if(!String.IsNullOrEmpty(ct) && String.IsNullOrEmpty(r))
-			itemName = String.Format(ContractNameFormatOne, contract.Name, ct);
-		if(String.IsNullOrEmpty(ct) && !String.IsNullOrEmpty(r))
-			itemName = String.Format(ContractNameFormatOne, contract.Name, r);
-		
-		return itemName;
 	}
 	
 	private void handleDelete()
@@ -133,12 +129,12 @@ public partial class ContractEntry : Container
 	
 	private void refreshMetadata()
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			var optionButton = GetNode<OptionButton>(NodePath.ExistingEntryName);
+			var optionButton = GetNode<OptionButton>(NodePaths.ExistingEntryName);
 			optionButton.Clear();
-			optionButton.AddItem(String.Empty);
-			ccc.Contracts.ForEach(c => optionButton.AddItem(generateEntryName(c)));
+			optionButton.AddItem(string.Empty);
+			container.Contracts.ForEach(c => optionButton.AddItem(generateEntryName(c)));
 		}
 	}
 }

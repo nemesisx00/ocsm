@@ -4,35 +4,40 @@ namespace Ocsm.Nodes;
 
 public partial class StatefulButton : TextureButton
 {
-	public sealed class State
+	public enum States
 	{
-		public const string None = "None";
-		public const string One = "One";
-		public const string Two = "Two";
-		public const string Three = "Three";
-		public const string EnumHint = None + "," + One + "," + Two + "," + Three;
+		None,
+		One,
+		Two,
+		Three,
 	}
 	
-	[Export(PropertyHint.Enum, State.EnumHint)]
-	public string CurrentState { get; set; } = State.None;
+	private static States nextState(States state, bool reverse = false) => state switch
+	{
+		States.One => reverse ? States.None : States.Two,
+		States.Two => reverse ? States.One : States.Three,
+		States.Three => reverse ? States.Two : States.None,
+		States.None => reverse ? States.Three : States.One,
+		_ => States.None,
+	};
+	
 	[Export]
-	public bool UseCircles { get; set; } = false;
+	public States CurrentState { get; set; }
+	[Export]
+	public bool UseCircles { get; set; }
 	
 	[Signal]
 	public delegate void StateChangedEventHandler(StatefulButton box);
 	
 	public override void _Ready()
 	{
-		updateTexture();
+		UpdateTexture();
 		GuiInput += handleClick;
 	}
 	
-	public void nextState(bool reverse = false)
-	{
-		nextState(CurrentState, reverse);
-	}
+	public void NextState(bool reverse = false) => nextState(CurrentState, reverse);
 	
-	public void updateTexture()
+	public void UpdateTexture()
 	{
 		if(UseCircles)
 			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
@@ -42,26 +47,25 @@ public partial class StatefulButton : TextureButton
 		var tex = Constants.Texture.FullTransparent;
 		switch(CurrentState)
 		{
-			case State.One:
+			case States.One:
 				if(UseCircles)
 					tex = Constants.Texture.TrackCircleHalf;
 				else
 					tex = Constants.Texture.TrackBox1;
 				break;
-			case State.Two:
+			
+			case States.Two:
 				if(UseCircles)
 					tex = Constants.Texture.TrackCircleFill;
 				else
 					tex = Constants.Texture.TrackBox2;
 				break;
-			case State.Three:
+			
+			case States.Three:
 				if(UseCircles)
 					tex = Constants.Texture.TrackCircleRed;
 				else
 					tex = Constants.Texture.TrackBox3;
-				break;
-			case State.None:
-			default:
 				break;
 		}
 		
@@ -72,55 +76,9 @@ public partial class StatefulButton : TextureButton
 	{
 		if(e is InputEventMouseButton buttonEvent && buttonEvent.Pressed)
 		{
-			switch(buttonEvent.ButtonIndex)
-			{
-				case MouseButton.Left:
-					CurrentState = nextState(CurrentState);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
-					break;
-				case MouseButton.Right:
-					CurrentState = nextState(CurrentState, true);
-					updateTexture();
-					EmitSignal(nameof(StateChanged), this);
-					break;
-				default:
-					break;
-			}
-		}
-	}
-	
-	private string nextState(string state, bool reverse = false)
-	{
-		if(reverse)
-		{
-			switch(state)
-			{
-				case State.Two:
-					return State.One;
-				case State.Three:
-					return State.Two;
-				case State.None:
-					return State.Three;
-				case State.One:
-				default:
-					return State.None;
-			}
-		}
-		else
-		{
-			switch(state)
-			{
-				case State.None:
-					return State.One;
-				case State.One:
-					return State.Two;
-				case State.Two:
-					return State.Three;
-				case State.Three:
-				default:
-					return State.None;
-			}
+			CurrentState = nextState(CurrentState, buttonEvent.ButtonIndex == MouseButton.Right);
+			UpdateTexture();
+			EmitSignal(SignalName.StateChanged, this);
 		}
 	}
 }

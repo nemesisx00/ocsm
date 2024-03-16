@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Ocsm.Cofd;
@@ -11,25 +10,25 @@ public partial class MeritList : ItemDotsList
 	[Signal]
 	public new delegate void ValueChangedEventHandler(Transport<List<Merit>> transport);
 	
-	public new List<Merit> Values { get; set; } = new List<Merit>();
+	public new List<Merit> Values { get; set; } = [];
 	
 	public override void _Ready()
 	{
 		ItemLabel = "Merit";
 		
-		refresh();
+		Refresh();
 	}
 	
-	public override void refresh()
+	public override void Refresh()
 	{
 		GetChildren().ToList()
 			.ForEach(n => n.QueueFree());
 		
-		Values.Where(m => m is Merit)
+		Values.Where(m => m is not null)
 			.ToList()
 			.ForEach(m => addInput(m.Name, m.Value));
 		
-		if(SortItems)
+		if(sortItems)
 			sortChildren();
 		addInput();
 	}
@@ -47,9 +46,9 @@ public partial class MeritList : ItemDotsList
 		list.ForEach(m => values.Add(m));
 		
 		Values = values;
-		EmitSignal(nameof(ValueChanged), new Transport<List<Merit>>(Values));
+		EmitSignal(SignalName.ValueChanged, new Transport<List<Merit>>(Values));
 		
-		if(SortItems)
+		if(sortItems)
 			sortChildren();
 		addInput();
 	}

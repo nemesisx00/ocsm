@@ -4,7 +4,7 @@ namespace Ocsm.Dnd.Fifth.Inventory;
 
 public class ItemArmor : ItemEquippable, IComparable<ItemArmor>, IEquatable<ItemArmor>
 {
-	public enum ArmorType
+	public enum ArmorTypes
 	{
 		None = 0,
 		[Label("Light Armor")]
@@ -23,7 +23,7 @@ public class ItemArmor : ItemEquippable, IComparable<ItemArmor>, IEquatable<Item
 	public bool LimitDexterityBonus { get; set; }
 	public int MinimumStrength { get; set; }
 	public bool StealthDisadvantage { get; set; }
-	public ArmorType Type { get; set; }
+	public ArmorTypes ArmorType { get; set; }
 	
 	public ItemArmor() : base()
 	{
@@ -33,39 +33,54 @@ public class ItemArmor : ItemEquippable, IComparable<ItemArmor>, IEquatable<Item
 		LimitDexterityBonus = false;
 		MinimumStrength = 0;
 		StealthDisadvantage = false;
-		Type = ArmorType.None;
+		ArmorType = ArmorTypes.None;
 	}
 	
-	public int CompareTo(ItemArmor item)
+	public int CompareTo(ItemArmor other)
 	{
-		var ret = Type.CompareTo(item.Type);
-		if(item is ItemArmor)
-		{
-			if(ret.Equals(0))
-				ret = BaseArmorClass.CompareTo(item.BaseArmorClass);
-			if(ret.Equals(0))
-				ret = base.CompareTo(item);
-			if(ret.Equals(0))
-				ret = StealthDisadvantage.CompareTo(item.StealthDisadvantage);
-			if(ret.Equals(0))
-				ret = AllowDexterityBonus.CompareTo(item.AllowDexterityBonus);
-			if(ret.Equals(0))
-				ret = LimitDexterityBonus.CompareTo(item.LimitDexterityBonus);
-			if(ret.Equals(0))
-				ret = DexterityBonusLimit.CompareTo(item.DexterityBonusLimit);
-			if(ret.Equals(0))
-				ret = MinimumStrength.CompareTo(item.MinimumStrength);
-		}
+		var ret = ArmorType.CompareTo(other?.ArmorType);
+	
+		if(ret == 0)
+			ret = BaseArmorClass.CompareTo(other?.BaseArmorClass);
+		
+		if(ret == 0)
+			ret = base.CompareTo(other);
+		
+		if(ret == 0)
+			ret = StealthDisadvantage.CompareTo(other?.StealthDisadvantage);
+		
+		if(ret == 0)
+			ret = AllowDexterityBonus.CompareTo(other?.AllowDexterityBonus);
+		
+		if(ret == 0)
+			ret = LimitDexterityBonus.CompareTo(other?.LimitDexterityBonus);
+		
+		if(ret == 0)
+			ret = DexterityBonusLimit.CompareTo(other?.DexterityBonusLimit);
+		
+		if(ret == 0)
+			ret = MinimumStrength.CompareTo(other?.MinimumStrength);
+		
 		return ret;
 	}
 	
-	public bool Equals(ItemArmor item)
-	{
-		return base.Equals(item)
-			&& AllowDexterityBonus.Equals(item.AllowDexterityBonus)
-			&& BaseArmorClass.Equals(item.BaseArmorClass)
-			&& DexterityBonusLimit.Equals(item.DexterityBonusLimit)
-			&& LimitDexterityBonus.Equals(item.LimitDexterityBonus)
-			&& Type.Equals(item.Type);
-	}
+	public bool Equals(ItemArmor item) => base.Equals(item)
+		&& AllowDexterityBonus == item.AllowDexterityBonus
+		&& BaseArmorClass == item.BaseArmorClass
+		&& DexterityBonusLimit == item.DexterityBonusLimit
+		&& LimitDexterityBonus == item.LimitDexterityBonus
+		&& ArmorType == item.ArmorType;
+	
+	public override bool Equals(object obj) => Equals(obj as ItemArmor);
+	
+	public override int GetHashCode() => HashCode.Combine(
+		base.GetHashCode(),
+		AllowDexterityBonus,
+		BaseArmorClass,
+		DexterityBonusLimit,
+		LimitDexterityBonus,
+		MinimumStrength,
+		StealthDisadvantage,
+		ArmorType
+	);
 }

@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyrgsiv8fop51"]
+[gd_scene load_steps=9 format=3 uid="uid://dyrgsiv8fop51"]
 
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/ContractNode.cs" id="1_l6lsg"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="2_rk7r5"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractRegaliaOptionButton.cs" id="3_h8tv6"]
-[ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ContractTypeButton.cs" id="4_px6nx"]
+[ext_resource type="Script" path="res://scripts/nodes/MetadataOption.cs" id="3_856tn"]
 [ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="5_d0xoq"]
 [ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="6_eo8c3"]
 [ext_resource type="Script" path="res://scripts/nodes/cod/ctl/options/ActionOptionButton.cs" id="7_hvqwi"]
@@ -49,15 +48,17 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("3_h8tv6")
-EmptyOption = true
+script = ExtResource("3_856tn")
+GameSystem = 2
+MetadataType = 10
 
 [node name="ContractType" type="OptionButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("4_px6nx")
-EmptyOption = true
+script = ExtResource("3_856tn")
+GameSystem = 2
+MetadataType = 10
 
 [node name="ToggleDetails" type="TextureButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 using Ocsm.Dnd.Fifth.Inventory;
 
@@ -9,10 +10,11 @@ public partial class ArmorTypeOptions : OptionButton
 	public override void _Ready()
 	{
 		Clear();
-		AddItem(String.Empty);
-		AddItem(ItemArmor.ArmorType.Light.GetLabel());
-		AddItem(ItemArmor.ArmorType.Medium.GetLabel());
-		AddItem(ItemArmor.ArmorType.Heavy.GetLabel());
-		AddItem(ItemArmor.ArmorType.Shield.GetLabel());
+		AddItem(string.Empty);
+		
+		Enum.GetValues<ItemArmor.ArmorTypes>()
+			.Select(at => at.GetLabel())
+			.ToList()
+			.ForEach(label => AddItem(label));
 	}
 }

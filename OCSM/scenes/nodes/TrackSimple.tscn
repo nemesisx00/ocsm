@@ -11,3 +11,7 @@ size_flags_horizontal = 3
 theme = ExtResource("1_gpv13")
 columns = 5
 script = ExtResource("1")
+Max = null
+Value = null
+UseCircles = null
+EnableToggling = null

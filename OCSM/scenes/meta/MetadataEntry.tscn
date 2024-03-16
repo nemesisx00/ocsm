@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxsbfbdwx26pw"]
+[gd_scene load_steps=4 format=3 uid="uid://dqnjqmoa7s7ua"]
 
-[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_iffss"]
-[ext_resource type="Script" path="res://scripts/nodes/meta/BasicMetadataEntry.cs" id="2"]
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_4vgly"]
+[ext_resource type="Script" path="res://scripts/nodes/meta/MetadataEntry.cs" id="2_0gd7m"]
+[ext_resource type="Script" path="res://scripts/nodes/MetadataOption.cs" id="3_84voi"]
 
-[node name="BasicMetadataEnty" type="VBoxContainer"]
+[node name="MetadataEntry" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,9 +13,9 @@ offset_top = 32.0
 offset_right = -4.0
 offset_bottom = -4.0
 size_flags_horizontal = 3
-theme = ExtResource("1_iffss")
+theme = ExtResource("1_4vgly")
 theme_override_constants/separation = 15
-script = ExtResource("2")
+script = ExtResource("2_0gd7m")
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -32,6 +33,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 2
+script = ExtResource("3_84voi")
 
 [node name="Row2" type="HBoxContainer" parent="."]
 layout_mode = 2

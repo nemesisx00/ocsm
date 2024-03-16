@@ -4,87 +4,93 @@ using Ocsm.API;
 
 namespace Ocsm.Cofd;
 
-public class Weapon : IEmptiable, IEquatable<Weapon>, IComparable<Weapon>
+public class Weapon() : IEmptiable, IEquatable<Weapon>, IComparable<Weapon>
 {
-	public string Name { get; set; } = String.Empty;
-	public WeaponType Type { get; set; } = WeaponType.Melee;
-	public long Availability { get; set; } = 1;
-	public long Damage { get; set; } = 0;
-	public long Strength { get; set; } = 1;
-	public long Size { get; set; } = 1;
-	public long Capacity { get; set; } = 0;
-	public long RangeShort { get; set; } = 1;
-	public long RangeMid { get; set; } = 1;
-	public long RangeLong { get; set; } = 1;
-	public string Special { get; set; } = String.Empty;
+	public int Availability { get; set; } = 1;
+	public int Capacity { get; set; }
+	public int Damage { get; set; }
+	public string Name { get; set; } = string.Empty;
+	public int RangeLong { get; set; } = 1;
+	public int RangeMid { get; set; } = 1;
+	public int RangeShort { get; set; } = 1;
+	public int Size { get; set; } = 1;
+	public string Special { get; set; } = string.Empty;
+	public int Strength { get; set; } = 1;
+	public WeaponType Type { get; set; }
 	
 	[JsonIgnore]
-	public bool Empty
-	{
-		get
-		{
-			var empty = String.IsNullOrEmpty(Name)
-				&& Damage.Equals(0)
-				&& String.IsNullOrEmpty(Special);
-			
-			if(Type.Equals(WeaponType.Ranged))
-				empty = empty && Capacity.Equals(0);
-			
-			return empty;
-		}
-	}
-	
-	public Weapon() {}
+	public bool Empty => string.IsNullOrEmpty(Name)
+		&& Damage == 0
+		&& string.IsNullOrEmpty(Special)
+		&& (Type != WeaponType.Ranged || Capacity == 0);
 	
 	public int CompareTo(Weapon other)
 	{
-		var ret = 0;
+		var ret = Type.CompareTo(other?.Type);
 		
-		if(other is Weapon)
+		if(ret == 0)
+			ret = Availability.CompareTo(other?.Availability);
+		
+		if(ret == 0)
+			ret = Damage.CompareTo(other?.Damage);
+		
+		if(ret == 0)
+			ret = Size.CompareTo(other?.Size);
+		
+		if(ret == 0)
+			ret = Strength.CompareTo(other?.Strength);
+		
+		if(ret == 0 && Type.Equals(WeaponType.Ranged))
 		{
-			ret = Type.CompareTo(other.Type);
-			if(ret.Equals(0))
-				ret = other.Availability.CompareTo(Availability);
-			if(ret.Equals(0))
-				ret = other.Damage.CompareTo(Damage);
-			if(ret.Equals(0))
-				ret = other.Size.CompareTo(Size);
-			if(ret.Equals(0))
-				ret = Strength.CompareTo(other.Strength);
+			ret = Capacity.CompareTo(other?.Capacity);
 			
-			if(ret.Equals(0) && Type.Equals(WeaponType.Ranged))
-			{
-				ret = other.Capacity.CompareTo(Capacity);
-				if(ret.Equals(0))
-					ret = other.RangeLong.CompareTo(RangeLong);
-				if(ret.Equals(0))
-					ret = other.RangeMid.CompareTo(RangeMid);
-				if(ret.Equals(0))
-					ret = other.RangeShort.CompareTo(RangeShort);
-			}
+			if(ret == 0)
+				ret = RangeLong.CompareTo(other?.RangeLong);
 			
-			if(ret.Equals(0))
-				ret = other.Special.CompareTo(Special);
-			if(ret.Equals(0))
-				ret = Name.CompareTo(other.Name);
+			if(ret == 0)
+				ret = RangeMid.CompareTo(other?.RangeMid);
+			
+			if(ret == 0)
+				ret = RangeShort.CompareTo(other?.RangeShort);
 		}
+		
+		if(ret == 0)
+			ret = Special.CompareTo(other?.Special);
+		
+		if(ret == 0)
+			ret = Name.CompareTo(other?.Name);
 		
 		return ret;
 	}
 	
-	public bool Equals(Weapon other)
+	public bool Equals(Weapon other) => Availability.Equals(other?.Availability)
+		&& Capacity.Equals(other?.Capacity)
+		&& Damage.Equals(other?.Damage)
+		&& Name.Equals(other?.Name)
+		&& RangeLong.Equals(other?.RangeLong)
+		&& RangeMid.Equals(other?.RangeMid)
+		&& RangeShort.Equals(other?.RangeShort)
+		&& Size.Equals(other?.Size)
+		&& Special.Equals(other?.Special)
+		&& Strength.Equals(other?.Strength)
+		&& Type.Equals(other?.Type);
+	
+	public override bool Equals(object obj) => Equals(obj as Weapon);
+	
+	public override int GetHashCode()
 	{
-		return other is Weapon
-			&& Name.Equals(other.Name)
-			&& Type.Equals(other.Type)
-			&& Availability.Equals(other.Availability)
-			&& Damage.Equals(other.Damage)
-			&& Strength.Equals(other.Strength)
-			&& Size.Equals(other.Size)
-			&& Capacity.Equals(other.Capacity)
-			&& RangeShort.Equals(other.RangeShort)
-			&& RangeMid.Equals(other.RangeMid)
-			&& RangeLong.Equals(other.RangeLong)
-			&& Special.Equals(other.Special);
+		HashCode hash = new();
+		hash.Add(Availability);
+		hash.Add(Capacity);
+		hash.Add(Damage);
+		hash.Add(Name);
+		hash.Add(RangeLong);
+		hash.Add(RangeMid);
+		hash.Add(RangeShort);
+		hash.Add(Size);
+		hash.Add(Special);
+		hash.Add(Strength);
+		hash.Add(Type);
+		return hash.ToHashCode();
 	}
 }

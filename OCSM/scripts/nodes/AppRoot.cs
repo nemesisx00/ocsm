@@ -5,21 +5,17 @@ namespace Ocsm.Nodes;
 
 public partial class AppRoot : Control
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string Self = "/root/AppRoot";
-		public const string SheetTabs = NodePath.Self + "/%SheetTabs";
-		public const string NewSheet = NodePath.Self + "/%NewSheet";
+		public static readonly NodePath Self = new("/root/AppRoot");
+		public static readonly NodePath SheetTabs = new(Self + "/%SheetTabs");
+		public static readonly NodePath NewSheet = new(Self + "/%NewSheet");
 	}
 	
-	public const string SheetTabsName = "SheetTabs";
-	private const string FileMenuName = "FileMenu";
-	private const string HelpMenuName = "HelpMenu";
-	
 	[Signal]
-	public delegate void FileMenuTriggeredEventHandler(long menuItem);
+	public delegate void FileMenuTriggeredEventHandler(int menuItem);
 	[Signal]
-	public delegate void HelpMenuTriggeredEventHandler(long menuItem);
+	public delegate void HelpMenuTriggeredEventHandler(int menuItem);
 	
 	private AppManager appManager;
 	
@@ -29,14 +25,19 @@ public partial class AppRoot : Control
 		{
 			if(e is InputEventKey iek && iek.Pressed)
 			{
+				int? menu = null;
+				
 				if(e.IsActionPressed(Constants.Action.FileNew))
-					EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.New);
+					menu = (int)FileMenu.MenuItem.New;
 				else if(e.IsActionPressed(Constants.Action.FileOpen))
-					EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Open);
+					menu = (int)FileMenu.MenuItem.Open;
 				else if(e.IsActionPressed(Constants.Action.FileSave))
-					EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.Save);
+					menu = (int)FileMenu.MenuItem.Save;
 				else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
-					EmitSignal(nameof(FileMenuTriggered), (long)FileMenu.MenuItem.CloseSheet);
+					menu = (int)FileMenu.MenuItem.CloseSheet;
+				
+				if(menu is int menuItem)
+					EmitSignal(SignalName.FileMenuTriggered, menuItem);
 			}
 		}
 	}
@@ -44,6 +45,6 @@ public partial class AppRoot : Control
 	public override void _Ready()
 	{
 		appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
-		GetNode<MetadataManager>(Constants.NodePath.MetadataManager).initializeGameSystems();
+		GetNode<MetadataManager>(Constants.NodePath.MetadataManager).InitializeGameSystems();
 	}
 }

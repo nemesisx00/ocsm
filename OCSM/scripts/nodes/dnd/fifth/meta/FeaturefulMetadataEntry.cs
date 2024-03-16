@@ -7,7 +7,7 @@ namespace Ocsm.Nodes.Dnd.Fifth.Meta;
 
 public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 {
-	protected new class NodePath : BasicMetadataEntry.NodePath
+	protected new static class NodePaths
 	{
 		public const string ExistingFeaturesName = "%ExistingFeatures";
 		public const string FeaturesName = "%Features";
@@ -17,18 +17,26 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	[Signal]
 	public new delegate void SaveClickedEventHandler(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features);
 	
-	protected List<Ocsm.Dnd.Fifth.Feature> Features;
-	
+	protected List<Ocsm.Dnd.Fifth.Feature> features = [];
 	protected Container featureContainer;
 	
-	public new void _Ready()
+	public override void _Ready()
 	{
-		Features = new List<Ocsm.Dnd.Fifth.Feature>();
-		
-		featureContainer = GetNode<Container>(NodePath.FeaturesName);
+		featureContainer = GetNode<Container>(NodePaths.FeaturesName);
 		
 		base._Ready();
-		GetNode<FeatureOptionsButton>(NodePath.ExistingFeaturesName).ItemSelected += featureSelected;
+		GetNode<FeatureOptionsButton>(NodePaths.ExistingFeaturesName).ItemSelected += featureSelected;
+	}
+	
+	public virtual void LoadEntry(Featureful entry)
+	{
+		base.LoadEntry(entry);
+		var sections = GetNode<SectionList>(NodePaths.SectionsName);
+		sections.Values = entry.Sections;
+		sections.refresh();
+		features = entry.Features;
+		features.Sort();
+		renderFeatures();
 	}
 	
 	protected void renderFeatures()
@@ -39,15 +47,19 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 		}
 		
 		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
-		Features.ForEach(f => instantiateFeature(f, resource));
+		features.ForEach(f => instantiateFeature(f, resource));
 	}
 	
 	protected void instantiateFeature(Ocsm.Dnd.Fifth.Feature feature, PackedScene resource)
 	{
 		var instance = resource.Instantiate<Feature>();
-		var button = new Button();
-		button.Text = "Remove";
-		button.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
+		
+		Button button = new()
+		{
+			Text = "Remove",
+			SizeFlagsHorizontal = SizeFlags.ShrinkCenter
+		};
+		
 		button.Pressed += () => removeFeature(new Transport<Ocsm.Dnd.Fifth.Feature>(feature));
 		instance.AddChild(button);
 		featureContainer.AddChild(instance);
@@ -57,27 +69,27 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	
 	protected void removeFeature(Transport<Ocsm.Dnd.Fifth.Feature> transport)
 	{
-		Features.Remove(transport.Value);
+		features.Remove(transport.Value);
 		renderFeatures();
 	}
 	
 	protected override void clearInputs()
 	{
 		base.clearInputs();
-		var sections = GetNode<SectionList>(NodePath.SectionsName);
-		sections.Values = new List<Ocsm.Dnd.Fifth.FeatureSection>();
+		var sections = GetNode<SectionList>(NodePaths.SectionsName);
+		sections.Values = [];
 		sections.refresh();
-		Features = new List<Ocsm.Dnd.Fifth.Feature>();
+		features = [];
 		renderFeatures();
 	}
 	
 	protected override void doSave()
 	{
-		var name = GetNode<LineEdit>(NodePath.NameInput).Text;
-		var description = GetNode<TextEdit>(NodePath.DescriptionInput).Text;
-		var sections = GetNode<SectionList>(NodePath.SectionsName).Values;
+		var name = nameInput.Text;
+		var description = descriptionInput.Text;
+		var sections = GetNode<SectionList>(NodePaths.SectionsName).Values;
 		
-		EmitSignal(nameof(SaveClicked), name, description, new Transport<List<Ocsm.Dnd.Fifth.FeatureSection>>(sections), new Transport<List<Ocsm.Dnd.Fifth.Feature>>(Features));
+		EmitSignal(SignalName.SaveClicked, name, description, new Transport<List<Ocsm.Dnd.Fifth.FeatureSection>>(sections), new Transport<List<Ocsm.Dnd.Fifth.Feature>>(features));
 		clearInputs();
 	}
 	
@@ -85,26 +97,15 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	{
 		if(metadataManager.Container is DndFifthContainer dfc)
 		{
-			var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingFeaturesName);
+			var optionsButton = GetNode<FeatureOptionsButton>(NodePaths.ExistingFeaturesName);
 			var name = optionsButton.GetItemText((int)index);
-			if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature && !Features.Contains(feature))
+			if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature && !features.Contains(feature))
 			{
-				Features.Add(feature);
-				Features.Sort();
+				features.Add(feature);
+				features.Sort();
 				renderFeatures();
 			}
 			optionsButton.Deselect();
 		}
-	}
-	
-	public virtual void loadEntry(Featureful entry)
-	{
-		base.loadEntry(entry);
-		var sections = GetNode<SectionList>(NodePath.SectionsName);
-		sections.Values = entry.Sections;
-		sections.refresh();
-		Features = entry.Features;
-		Features.Sort();
-		renderFeatures();
 	}
 }

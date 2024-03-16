@@ -16,16 +16,9 @@ public partial class ActionOptionButton : CustomOption
 		Resisted
 	}
 	
-	public override void _Ready()
-	{
-		refreshMetadata();
-	}
+	public override void _Ready() => refreshMetadata();
 	
-	protected override void refreshMetadata()
-	{
-		replaceItems(Enum.GetValues<Action>()
-			.ToList()
-			.Select(a => Enum.GetName<Action>(a))
-			.ToList());
-	}
+	protected override void refreshMetadata() => replaceItems(Enum.GetValues<Action>()
+		.Select(a => Enum.GetName(a))
+		.ToList());
 }

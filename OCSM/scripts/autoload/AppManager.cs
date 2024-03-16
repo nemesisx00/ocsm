@@ -5,6 +5,7 @@ namespace Ocsm.Nodes.Autoload;
 public partial class AppManager : Node
 {
 	public const string NodePath = "/root/AppManager";
+	
 	public bool IsQuitting { get; set; } = false;
 	
 	private ConfirmationDialog confirmQuit;
@@ -14,7 +15,7 @@ public partial class AppManager : Node
 		switch((long)notificationCode)
 		{
 			case NotificationWMCloseRequest:
-				showQuitConfirm();
+				ShowQuitConfirm();
 				break;
 		}
 	}
@@ -25,9 +26,9 @@ public partial class AppManager : Node
 		GetTree().AutoAcceptQuit = false;
 	}
 	
-	public void showQuitConfirm()
+	public void ShowQuitConfirm()
 	{
-		if(confirmQuit is ConfirmationDialog && Node.IsInstanceValid(confirmQuit))
+		if(confirmQuit is not null && IsInstanceValid(confirmQuit))
 			confirmQuit.PopupCentered();
 		else if(!IsQuitting)
 		{

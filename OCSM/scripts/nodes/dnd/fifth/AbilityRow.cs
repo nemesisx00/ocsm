@@ -35,20 +35,20 @@ public partial class AbilityRow : Container
 		modifier = GetNode<SpinBox>(NodePath.Modifier);
 		skillsContainer = GetNode<Container>(NodePath.Skills);
 		savingThrow = GetNode<Skill>(NodePath.SavingThrow);
-		savingThrow.trackAbility(this);
+		savingThrow.TrackAbility(this);
 		savingThrow.ProficiencyChanged += savingThrowChanged;
 		
 		score.ValueChanged += scoreChanged;
 	}
 	
-	public void refresh()
+	public void Refresh()
 	{
-		if(Ability is Ability)
+		if(Ability is not null)
 		{
 			name.Text = Ability.Name;
 			score.Value = Ability.Score;
 			modifier.Value = Ability.Modifier;
-			savingThrow.setProficiency(Ability.SavingThrow);
+			savingThrow.SetProficiency(Ability.SavingThrow);
 			renderSkills();
 		}
 	}
@@ -59,7 +59,7 @@ public partial class AbilityRow : Container
 		if(modifier.Value >= 0)
 			modifier.Prefix = "+";
 		else
-			modifier.Prefix = String.Empty;
+			modifier.Prefix = string.Empty;
 	}
 	
 	private void renderSkills()
@@ -69,7 +69,7 @@ public partial class AbilityRow : Container
 			child.QueueFree();
 		}
 		
-		if(Ability is Ability)
+		if(Ability is not null)
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Skill);
 			Ability.Skills.ForEach(s => instantiateSkill(s, resource));
@@ -83,31 +83,31 @@ public partial class AbilityRow : Container
 		instance.ProficiencyBonus = ProficiencyBonus;
 		instance.Label = skill.Name;
 		instance.Name = skill.Name;
-		instance.trackAbility(this);
+		instance.TrackAbility(this);
 		instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
 		skillsContainer.AddChild(instance);
-		instance.setProficiency(skill.Proficient);
+		instance.SetProficiency(skill.Proficient);
 	}
 	
-	private void proficiencyChanged(string currentState, Ocsm.Dnd.Fifth.Skill boundSkill)
+	private void proficiencyChanged(StatefulButton.States currentState, Ocsm.Dnd.Fifth.Skill boundSkill)
 	{
-		var proficiency = ProficiencyUtility.fromStatefulButtonState(currentState);
+		var proficiency = currentState.ToProficiency();
 		boundSkill.Proficient = proficiency;
 		if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is Ocsm.Dnd.Fifth.Skill skill)
 			skill.Proficient = proficiency;
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		EmitSignal(SignalName.AbilityChanged, new Transport<Ability>(Ability));
 	}
 	
-	private void savingThrowChanged(string currentState)
+	private void savingThrowChanged(StatefulButton.States currentState)
 	{
-		Ability.SavingThrow = ProficiencyUtility.fromStatefulButtonState(currentState);
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		Ability.SavingThrow = currentState.ToProficiency();
+		EmitSignal(SignalName.AbilityChanged, new Transport<Ability>(Ability));
 	}
 	
 	private void scoreChanged(double value)
 	{
 		Ability.Score = (int)value;
 		calculateModifier();
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		EmitSignal(SignalName.AbilityChanged, new Transport<Ability>(Ability));
 	}
 }

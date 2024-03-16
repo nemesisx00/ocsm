@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Ocsm.Dnd.Fifth.Inventory;
 
-public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<ItemWeapon>
+public class ItemWeapon() : ItemEquippable(), IComparable<ItemWeapon>, IEquatable<ItemWeapon>
 {
-	public enum WeaponType
+	public enum WeaponTypes
 	{
 		None = 0,
 		[Label("Simple")]
@@ -25,7 +25,7 @@ public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<It
 		Improvised = 16,
 	}
 	
-	public enum WeaponProperty
+	public enum WeaponProperties
 	{
 		None = 0,
 		[Label("Ammunition")]
@@ -54,12 +54,12 @@ public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<It
 		Versatile,
 	}
 	
-	public static string FormatProperties(List<WeaponProperty> properties)
+	public static string FormatProperties(List<WeaponProperties> properties)
 	{
 		var str = new StringBuilder();
 		
-		properties.Sort();
-		properties.ForEach(prop => {
+		properties?.Sort();
+		properties?.ForEach(prop => {
 			if(str.Length > 0)
 				str.Append(", ");
 			str.Append(prop.GetLabel());
@@ -68,42 +68,37 @@ public class ItemWeapon : ItemEquippable, IComparable<ItemWeapon>, IEquatable<It
 		return str.ToString();
 	}
 	
-	public Dictionary<DamageDie, int> DamageDice { get; set; }
-	public List<WeaponProperty> Properties { get; set; }
-	public Range Range { get; set; }
-	public WeaponType Type { get; set; }
-	
-	public ItemWeapon() : base()
-	{
-		DamageDice = new Dictionary<DamageDie, int>();
-		Properties = new List<WeaponProperty>();
-		Range = Range.Melee;
-		Type = WeaponType.None;
-	}
+	public Dictionary<DamageDie, int> DamageDice { get; set; } = [];
+	public List<WeaponProperties> Properties { get; set; } = [];
+	public Range Range { get; set; } = Range.Melee;
+	public WeaponTypes WeaponType { get; set; }
 	
 	public int CompareTo(ItemWeapon other)
 	{
-		var ret = Type.CompareTo(other.Type);
-		if(other is ItemWeapon)
-		{
-			if(ret.Equals(0))
-				ret = base.CompareTo(other);
-			if(ret.Equals(0))
-				ret = Range.CompareTo(other.Range);
-			if(ret.Equals(0))
-				ret = DamageDice.Keys.Count.CompareTo(other.DamageDice.Keys.Count);
-			if(ret.Equals(0))
-				ret = Properties.Count.CompareTo(other.Properties.Count);
-			if(ret.Equals(0))
-				ret = ItemWeapon.FormatProperties(Properties).CompareTo(ItemWeapon.FormatProperties(other.Properties));
-		}
+		var ret = WeaponType.CompareTo(other.WeaponType);
+		
+		if(ret == 0)
+			ret = base.CompareTo(other);
+		
+		if(ret == 0)
+			ret = Range.CompareTo(other?.Range);
+		
+		if(ret == 0)
+			ret = DamageDice.Keys.Count.CompareTo(other?.DamageDice.Keys.Count);
+		
+		if(ret == 0)
+			ret = Properties.Count.CompareTo(other?.Properties.Count);
+		
+		if(ret == 0)
+			ret = FormatProperties(Properties).CompareTo(FormatProperties(other?.Properties));
+		
 		return ret;
 	}
 	
-	public bool Equals(ItemWeapon item)
-	{
-		return base.Equals(item)
-			&& Properties.Equals(item.Properties)
-			&& Type.Equals(item.Type);
-	}
+	public bool Equals(ItemWeapon other) => base.Equals(other)
+		&& Properties == other?.Properties
+		&& WeaponType == other?.WeaponType;
+	
+	public override bool Equals(object obj) => Equals(obj as ItemWeapon);
+	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), DamageDice, Properties, Range, WeaponType);
 }

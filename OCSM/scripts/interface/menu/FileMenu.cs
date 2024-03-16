@@ -5,16 +5,23 @@ namespace Ocsm.Nodes;
 
 public partial class FileMenu : MenuButton
 {
-	private sealed class ItemNames
+	private static class ItemNames
 	{
-		public const string CloseSheet = "Close Sheet";
-		public const string New = "New";
-		public const string Open = "Open";
-		public const string Quit = "Quit";
-		public const string Save = "Save";
+		public static readonly StringName CloseSheet = new("Close Sheet");
+		public static readonly StringName New = new("New");
+		public static readonly StringName Open = new("Open");
+		public static readonly StringName Quit = new("Quit");
+		public static readonly StringName Save = new("Save");
 	}
 	
-	public enum MenuItem : long { New, Open, Save, CloseSheet, Quit }
+	public enum MenuItem
+	{
+		New,
+		Open,
+		Save,
+		CloseSheet,
+		Quit,
+	}
 	
 	private MetadataManager metadataManager;
 	private SheetManager sheetManager;
@@ -36,28 +43,33 @@ public partial class FileMenu : MenuButton
 		GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
 	}
 	
-	private void handleMenuItem(long id)
+	private void handleMenuItem(long id) => handleMenuItem((int)id);
+	private void handleMenuItem(int id)
 	{
 		switch((MenuItem)id)
 		{
 			case MenuItem.New:
-				sheetManager.showNewSheetUI();
+				sheetManager.ShowNewSheetUI();
 				break;
+			
 			case MenuItem.Open:
 				doOpen();
 				break;
+			
 			case MenuItem.Save:
 				doSave();
 				break;
+			
 			case MenuItem.CloseSheet:
-				sheetManager.closeActiveSheet();
+				sheetManager.CloseActiveSheet();
 				break;
+			
 			case MenuItem.Quit:
 				//FIXME: GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
 				//Determine why firing the notification doesn't work here.
 				//The window is created but then its Canceled signal is triggered before it's even finished drawing.
 				//Calling AppManager's showQuitConfirm manually is good enough for now.
-				GetNode<AppManager>(AppManager.NodePath).showQuitConfirm();
+				GetNode<AppManager>(AppManager.NodePath).ShowQuitConfirm();
 				break;
 		}
 	}
@@ -71,14 +83,11 @@ public partial class FileMenu : MenuButton
 		instance.JsonLoaded += handleOpenJson;
 	}
 	
-	private void handleOpenJson(string json)
-	{
-		sheetManager.loadSheetJsonData(json);
-	}
+	private void handleOpenJson(string json) => sheetManager.LoadSheetJsonData(json);
 	
 	private void doSave()
 	{
-		var data = sheetManager.getActiveSheetJsonData();
+		var data = sheetManager.GetActiveSheetJsonData();
 		if(data != null)
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.SaveSheet);

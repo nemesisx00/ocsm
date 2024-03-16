@@ -1,26 +1,25 @@
-using System;
 using System.Collections.Generic;
 using Ocsm.Dnd.Fifth.Inventory;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class FifthAdventurer : Character
+public class FifthAdventurer() : Character(GameSystem.Dnd5e)
 {
-	public List<Ability> Abilities { get; set; }
-	public string Alignment { get; set; }
+	public List<Ability> Abilities { get; set; } = Ability.generateBaseAbilityScores();
+	public string Alignment { get; set; } = string.Empty;
 	public Background Background { get; set; }
 	public bool BardicInspiration { get; set; }
 	public Die BardicInspirationDie { get; set; }
-	public string Bonds { get; set; }
-	public List<Class> Classes { get; set; }
-	public CoinPurse CoinPurse { get; set; }
-	public List<Feature> Features { get; set; }
-	public string Flaws { get; set; }
-	public HitPoints HP { get; set; }
-	public string Ideals { get; set; }
+	public string Bonds { get; set; } = string.Empty;
+	public List<Class> Classes { get; set; } = [];
+	public CoinPurse CoinPurse { get; set; } = new();
+	public List<Feature> Features { get; set; } = [];
+	public string Flaws { get; set; } = string.Empty;
+	public HitPoints HP { get; set; } = new();
+	public string Ideals { get; set; } = string.Empty;
 	public bool Inspiration { get; set; }
-	public List<Item> Inventory { get; set; }
-	public string PersonalityTraits { get; set; }
+	public List<Item> Inventory { get; set; } = [];
+	public string PersonalityTraits { get; set; } = string.Empty;
 	public Race Race { get; set; }
 	
 	public double InventoryWeight
@@ -30,31 +29,11 @@ public class FifthAdventurer : Character
 			var val = 0.0;
 			Inventory.ForEach(i => {
 				if(i is ItemContainer ic)
-					val += ic.totalWeight();
+					val += ic.TotalWeight();
 				else
 					val += i.Weight;
 			});
 			return val;
 		}
-	}
-	
-	public FifthAdventurer() : base(Constants.GameSystem.Dnd.Fifth)
-	{
-		Abilities = Ability.generateBaseAbilityScores();
-		Alignment = String.Empty;
-		Background = null;
-		BardicInspiration = false;
-		BardicInspirationDie = null;
-		Bonds = String.Empty;
-		Classes = new List<Class>();
-		CoinPurse = new CoinPurse();
-		Features = new List<Feature>();
-		Flaws = String.Empty;
-		HP = new HitPoints();
-		Ideals = String.Empty;
-		Inspiration = false;
-		Inventory = new List<Item>();
-		PersonalityTraits = String.Empty;
-		Race = null;
 	}
 }

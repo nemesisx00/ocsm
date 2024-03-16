@@ -1,7 +1,9 @@
+using System.Linq;
 using Godot;
 using Ocsm.Cofd;
 using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes.Cofd.Meta;
 using Ocsm.Nodes.Meta;
@@ -10,17 +12,18 @@ namespace Ocsm.Nodes.Cofd.Ctl.Meta;
 
 public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 {
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string ContractName = "%Contract";
-		public const string ContractTypeName = "%Contract Type";
-		public const string CourtName = "%Court";
-		public const string KithName = "%Kith";
-		public const string MeritName = "%Merit";
-		public const string MetadataSelectorName = "%MetadataSelector";
-		public const string RegaliaName = "%Regalia";
-		public const string SeemingName = "%Seeming";
-		public const string TabContainer = "%TabContainer";
+		public readonly static NodePath Contract = new("%Contract");
+		public readonly static NodePath ContractRegalia = new("%Contract Regalia");
+		public readonly static NodePath ContractType = new("%Contract Type");
+		public readonly static NodePath Court = new("%Court");
+		public readonly static NodePath Kith = new("%Kith");
+		public readonly static NodePath Merit = new("%Merit");
+		public readonly static NodePath MetadataSelector = new("%MetadataSelector");
+		public readonly static NodePath Regalia = new("%Regalia");
+		public readonly static NodePath Seeming = new("%Seeming");
+		public readonly static NodePath TabContainer = new("%TabContainer");
 	}
 	
 	private MetadataManager metadataManager;
@@ -31,208 +34,117 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 		
 		CloseRequested += closeHandler;
 		
-		var contractEntry = GetNode<ContractEntry>(NodePath.ContractName);
+		var contractEntry = GetNode<ContractEntry>(NodePaths.Contract);
 		contractEntry.SaveClicked += saveContract;
 		contractEntry.DeleteConfirmed += deleteContract;
 		
-		var contractTypeEntry = GetNode<BasicMetadataEntry>(NodePath.ContractTypeName);
-		contractTypeEntry.SaveClicked += saveContractType;
-		contractTypeEntry.DeleteConfirmed += deleteContractType;
+		var contractRegaliaEntry = GetNode<MetadataEntry>(NodePaths.ContractRegalia);
+		contractRegaliaEntry.SaveClicked += saveMetadata;
+		contractRegaliaEntry.DeleteConfirmed += deleteMetadata;
 		
-		var courtEntry = GetNode<BasicMetadataEntry>(NodePath.CourtName);
-		courtEntry.SaveClicked += saveCourt;
-		courtEntry.DeleteConfirmed += deleteCourt;
+		var contractTypeEntry = GetNode<MetadataEntry>(NodePaths.ContractType);
+		contractTypeEntry.SaveClicked += saveMetadata;
+		contractTypeEntry.DeleteConfirmed += deleteMetadata;
 		
-		var kithEntry = GetNode<BasicMetadataEntry>(NodePath.KithName);
-		kithEntry.SaveClicked += saveKith;
-		kithEntry.DeleteConfirmed += deleteKith;
+		var courtEntry = GetNode<MetadataEntry>(NodePaths.Court);
+		courtEntry.SaveClicked += saveMetadata;
+		courtEntry.DeleteConfirmed += deleteMetadata;
 		
-		var meritEntry = GetNode<MeritEntry>(NodePath.MeritName);
+		var kithEntry = GetNode<MetadataEntry>(NodePaths.Kith);
+		kithEntry.SaveClicked += saveMetadata;
+		kithEntry.DeleteConfirmed += deleteMetadata;
+		
+		var meritEntry = GetNode<MeritEntry>(NodePaths.Merit);
 		meritEntry.SaveClicked += saveMerit;
 		meritEntry.DeleteConfirmed += deleteMerit;
 		
-		var regaliaEntry = GetNode<BasicMetadataEntry>(NodePath.RegaliaName);
-		regaliaEntry.SaveClicked += saveRegalia;
-		regaliaEntry.DeleteConfirmed += deleteRegalia;
+		var regaliaEntry = GetNode<MetadataEntry>(NodePaths.Regalia);
+		regaliaEntry.SaveClicked += saveMetadata;
+		regaliaEntry.DeleteConfirmed += deleteMetadata;
 		
-		var seemingEntry = GetNode<BasicMetadataEntry>(NodePath.SeemingName);
-		seemingEntry.SaveClicked += saveSeeming;
-		seemingEntry.DeleteConfirmed += deleteSeeming;
+		var seemingEntry = GetNode<MetadataEntry>(NodePaths.Seeming);
+		seemingEntry.SaveClicked += saveMetadata;
+		seemingEntry.DeleteConfirmed += deleteMetadata;
 	}
 	
-	private void closeHandler()
-	{
-		QueueFree();
-	}
+	private void closeHandler() => QueueFree();
 	
 	private void deleteContract(string name)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(ccc.Contracts.Find(c => c.Name.Equals(name)) is Ocsm.Cofd.Ctl.Contract contract)
+			if(container.Contracts.Find(c => c.Name.Equals(name)) is Contract contract)
 			{
-				ccc.Contracts.Remove(contract);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	private void deleteContractType(string name)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
-			{
-				ccc.ContractTypes.Remove(contractType);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	private void deleteCourt(string name)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
-			{
-				ccc.Courts.Remove(court);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	private void deleteKith(string name)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
-			{
-				ccc.Kiths.Remove(kith);
-				EmitSignal(nameof(MetadataChanged));
+				container.Contracts.Remove(contract);
+				EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			}
 		}
 	}
 	
 	private void deleteMerit(string name)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+			if(container.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
 			{
-				ccc.Merits.Remove(merit);
-				EmitSignal(nameof(MetadataChanged));
+				container.Merits.Remove(merit);
+				EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			}
 		}
 	}
 	
-	private void deleteRegalia(string name)
+	private void deleteMetadata(string name, MetadataType type)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container
+			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
-			if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
-			{
-				ccc.Regalias.Remove(regalia);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	private void deleteSeeming(string name)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
-			{
-				ccc.Seemings.Remove(seeming);
-				EmitSignal(nameof(MetadataChanged));
-			}
+			container.Metadata.Remove(entry);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
 	private void saveContract()
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			var entry = GetNode<ContractEntry>(NodePath.ContractName);
-			var contract = entry.GetNode<ContractNode>(ContractEntry.NodePath.ContractInput).getData();
+			var entry = GetNode<ContractEntry>(NodePaths.Contract);
+			var contract = entry.GetNode<ContractNode>(ContractEntry.NodePaths.ContractInput).GetData();
 			
-			if(ccc.Contracts.Find(c => c.Name.Equals(contract.Name)) is Ocsm.Cofd.Ctl.Contract existingContract)
-				ccc.Contracts.Remove(existingContract);
+			if(container.Contracts.Find(c => c.Name.Equals(contract.Name)) is Contract existingContract)
+				container.Contracts.Remove(existingContract);
 			
-			ccc.Contracts.Add(contract);
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	private void saveContractType(string name, string description)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.ContractTypes.Find(ct => ct.Name.Equals(name)) is ContractType contractType)
-				ccc.ContractTypes.Remove(contractType);
-			
-			ccc.ContractTypes.Add(new ContractType() { Description = description, Name = name, });
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	private void saveCourt(string name, string description)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Courts.Find(c => c.Name.Equals(name)) is Court court)
-				ccc.Courts.Remove(court);
-			
-			ccc.Courts.Add(new Court() { Description = description, Name = name, });
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	private void saveKith(string name, string description)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Kiths.Find(k => k.Name.Equals(name)) is Kith kith)
-				ccc.Kiths.Remove(kith);
-			
-			ccc.Kiths.Add(new Kith() { Description = description, Name = name, });
-			EmitSignal(nameof(MetadataChanged));
+			container.Contracts.Add(contract);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
 	private void saveMerit(string name, string description, int value)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(ccc.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
-				ccc.Merits.Remove(merit);
+			if(container.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+				container.Merits.Remove(merit);
 			
-			ccc.Merits.Add(new Merit() { Description = description, Name = name, Value = value });
-			EmitSignal(nameof(MetadataChanged));
+			container.Merits.Add(new Merit() { Description = description, Name = name, Value = value });
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
-	private void saveRegalia(string name, string description)
+	private void saveMetadata(string name, string description, MetadataType type)
 	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
+		if(metadataManager.Container is BaseContainer container)
 		{
-			if(ccc.Regalias.Find(r => r.Name.Equals(name)) is Regalia regalia)
-				ccc.Regalias.Remove(regalia);
+			if(container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+				container.Metadata.Remove(entry);
 			
-			ccc.Regalias.Add(new Regalia() { Description = description, Name = name, });
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	private void saveSeeming(string name, string description)
-	{
-		if(metadataManager.Container is CofdChangelingContainer ccc)
-		{
-			if(ccc.Seemings.Find(s => s.Name.Equals(name)) is Seeming seeming)
-				ccc.Seemings.Remove(seeming);
+			container.Metadata.Add(new()
+			{
+				Description = description,
+				Name = name,
+				Type = type,
+			});
 			
-			ccc.Seemings.Add(new Seeming() { Description = description, Name = name, });
-			EmitSignal(nameof(MetadataChanged));
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 }

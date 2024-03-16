@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Ctl;
 
-public class Changeling : CodCore
+public class Changeling(string name = "") : CodCore(GameSystem.CofdChangeling, name)
 {
-	public static Dictionary<long, long> WyrdGlamour = new Dictionary<long, long>(10)
+	public readonly static Dictionary<int, int> WyrdGlamour = new(10)
 	{
 		{ 1, 10 },
 		{ 2, 11 },
@@ -18,16 +19,8 @@ public class Changeling : CodCore
 		{ 10, 75 }
 	};
 	
-	public List<Contract> Contracts { get; set; }
-	public Pair<Regalia, Regalia> FavoredRegalia { get; set; }
-	public List<string> Frailties { get; set; }
-	public List<string> Touchstones { get; set; }
-	
-	public Changeling() : base(Constants.GameSystem.Cofd.Changeling)
-	{
-		Contracts = new List<Contract>();
-		FavoredRegalia = new Pair<Regalia, Regalia>();
-		Frailties = new List<string>();
-		Touchstones = new List<string>();
-	}
+	public List<Contract> Contracts { get; set; } = [];
+	public Pair<Metadata, Metadata> FavoredRegalia { get; set; } = new();
+	public List<string> Frailties { get; set; } = [];
+	public List<string> Touchstones { get; set; } = [];
 }
