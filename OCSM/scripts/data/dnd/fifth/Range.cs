@@ -2,34 +2,22 @@ using System;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class Range : IComparable<Range>, IEquatable<Range>
+public class Range(int shortRange = 5, int longRange = 0) : IComparable<Range>, IEquatable<Range>
 {
-	public static Range Melee = new Range() { Short = 5, Long = 0};
-	
-	public int Short { get; set; }
-	public int Long { get; set; }
-	
-	public Range()
-	{
-		Short = 5;
-		Long = 0;
-	}
+	public int Short { get; set; } = shortRange;
+	public int Long { get; set; } = longRange;
 	
 	public int CompareTo(Range other)
 	{
-		var ret = 0;
-		if(other is Range)
-		{
-			ret = Short.CompareTo(other.Short);
-			if(ret.Equals(0))
-				ret = Long.CompareTo(other.Long);
-		}
+		var ret = Short.CompareTo(other?.Short);
+		
+		if(ret == 0)
+			ret = Long.CompareTo(other?.Long);
+		
 		return ret;
 	}
-	
-	public bool Equals(Range range)
-	{
-		return Short.Equals(range.Short)
-			&& Long.Equals(range.Long);
-	}
+
+	public bool Equals(Range range) => Short == range?.Short && Long == range?.Long;
+	public override bool Equals(object obj) => Equals(obj as Range);
+	public override int GetHashCode() => HashCode.Combine(Short, Long);
 }

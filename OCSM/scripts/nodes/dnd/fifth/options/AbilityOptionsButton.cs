@@ -16,7 +16,7 @@ public partial class AbilityOptionsButton : CustomOption
 		
 		Clear();
 		AddItem(String.Empty);
-		Ability.Names.asList().ForEach(label => AddItem(label));
+		AbilityInfo.Abilities.asList().ForEach(label => AddItem(label));
 		
 		Selected = index;
 	}

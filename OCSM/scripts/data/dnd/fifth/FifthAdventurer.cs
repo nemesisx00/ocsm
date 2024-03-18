@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using Ocsm.Dnd.Fifth.Inventory;
+using Ocsm.Dnd.Fifth.Meta;
 
 namespace Ocsm.Dnd.Fifth;
 
 public class FifthAdventurer() : Character(GameSystem.Dnd5e)
 {
-	public List<Ability> Abilities { get; set; } = Ability.generateBaseAbilityScores();
+	public List<AbilityInfo> Abilities { get; set; } = AbilityInfo.GenerateBaseAbilityScores();
 	public string Alignment { get; set; } = string.Empty;
-	public Background Background { get; set; }
+	public Featureful Background { get; set; }
 	public bool BardicInspiration { get; set; }
 	public Die BardicInspirationDie { get; set; }
 	public string Bonds { get; set; } = string.Empty;
@@ -20,7 +21,7 @@ public class FifthAdventurer() : Character(GameSystem.Dnd5e)
 	public bool Inspiration { get; set; }
 	public List<Item> Inventory { get; set; } = [];
 	public string PersonalityTraits { get; set; } = string.Empty;
-	public Race Race { get; set; }
+	public Featureful Race { get; set; }
 	
 	public double InventoryWeight
 	{

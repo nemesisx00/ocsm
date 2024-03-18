@@ -4,15 +4,15 @@ using Ocsm.API;
 
 namespace Ocsm;
 
-public struct Pair<K, V> : IComparable<Pair<K, V>>, IEmptiable, IEquatable<Pair<K, V>>
+public struct Pair<K, V>(K key = default, V value = default) : IComparable<Pair<K, V>>, IEmptiable, IEquatable<Pair<K, V>>
 	where K: IComparable<K>, IEquatable<K>
 	where V: IComparable<V>, IEquatable<V>
 {
 	public static bool operator ==(Pair<K, V> left, Pair<K, V> right) => left.Equals(right);
 	public static bool operator !=(Pair<K, V> left, Pair<K, V> right) => !(left == right);
 	
-	public K Key { get; set; }
-	public V Value { get; set; }
+	public K Key { get; set; } = key;
+	public V Value { get; set; } = value;
 	
 	[JsonIgnore]
 	public readonly bool Empty => (Key is null || Key is string skey && string.IsNullOrEmpty(skey))

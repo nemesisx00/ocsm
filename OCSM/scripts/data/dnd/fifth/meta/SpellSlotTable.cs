@@ -4,10 +4,13 @@ namespace Ocsm.Dnd.Fifth.Meta;
 
 public sealed class SpellSlots
 {
-	public static Dictionary<int, int> forFullCaster(int casterLevel = 1)
+	public static Dictionary<int, int> ForFullCaster(int casterLevel = 1)
 	{
-		var slots = new Dictionary<int, int>();
-		slots.Add(1, 2);
+		Dictionary<int, int> slots = new()
+		{
+			{ 1, 2 }
+		};
+		
 		if(casterLevel == 1)
 			return slots;
 		
@@ -77,9 +80,10 @@ public sealed class SpellSlots
 		return slots;
 	}
 	
-	public static Dictionary<int, int> forHalfCaster(int casterLevel = 1)
+	public static Dictionary<int, int> ForHalfCaster(int casterLevel = 1)
 	{
-		var slots = new Dictionary<int, int>();
+		Dictionary<int, int> slots = [];
+		
 		if(casterLevel == 1)
 			return slots;
 		
@@ -125,9 +129,10 @@ public sealed class SpellSlots
 		return slots;
 	}
 	
-	public static Dictionary<int, int> forThirdCaster(int casterLevel = 1)
+	public static Dictionary<int, int> ForThirdCaster(int casterLevel = 1)
 	{
-		var slots = new Dictionary<int, int>();
+		Dictionary<int, int> slots = [];
+		
 		if(casterLevel <= 2)
 			return slots;
 		

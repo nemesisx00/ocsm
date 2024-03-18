@@ -2,19 +2,13 @@ using System;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class HitDice : IEquatable<HitDice>
+public class HitDice(int sides) : IEquatable<HitDice>
 {
-	public Die Die { get; set; }
-	public int Quantity { get; set; }
+	public Die Die { get; set; } = new(sides);
 	public int Max { get; set; }
+	public int Quantity { get; set; }
 	
-	public HitDice()
-	{
-		Die = new Die();
-		Quantity = Max = 0;
-	}
-	
-	public int spend(uint amount = 1)
+	public int Spend(uint amount = 1)
 	{
 		var hp = 0;
 		for(var i = 0; i < amount; i++)
@@ -28,29 +22,25 @@ public class HitDice : IEquatable<HitDice>
 		return hp;
 	}
 	
-	public void refresh()
-	{
-		Quantity = Max;
-	}
+	public void Refresh() => Quantity = Max;
 	
 	public int CompareTo(HitDice other)
 	{
-		var ret = 0;
-		if(other is HitDice)
-		{
-			ret = Die.CompareTo(other.Die);
-			if(ret.Equals(0))
-				ret = Max.CompareTo(other.Max);
-			if(ret.Equals(0))
-				ret = Quantity.CompareTo(other.Quantity);
-		}
+		var ret = Die.CompareTo(other?.Die);
+		
+		if(ret == 0)
+			ret = Max.CompareTo(other?.Max);
+		
+		if(ret == 0)
+			ret = Quantity.CompareTo(other?.Quantity);
+		
 		return ret;
 	}
 	
-	public bool Equals(HitDice other)
-	{
-		return Die.Equals(other.Die)
-			&& Quantity.Equals(other.Quantity)
-			&& Max.Equals(other.Max);
-	}
+	public bool Equals(HitDice other) => Die == other?.Die
+		&& Quantity == other?.Quantity
+		&& Max == other?.Max;
+	
+	public override bool Equals(object obj) => Equals(obj as HitDice);
+	public override int GetHashCode() => HashCode.Combine(Die, Max, Quantity);
 }

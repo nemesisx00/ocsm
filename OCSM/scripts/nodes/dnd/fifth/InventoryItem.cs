@@ -21,8 +21,8 @@ public partial class InventoryItem : HBoxContainer
 	public delegate void EquippedEventHandler(Transport<Item> transport);
 	
 	public Item Item { get; set; }
-	public Ability Strength { get; set; }
-	public Ability Dexterity { get; set; }
+	public AbilityInfo Strength { get; set; }
+	public AbilityInfo Dexterity { get; set; }
 	
 	public override void _Ready()
 	{
@@ -103,7 +103,7 @@ public partial class InventoryItem : HBoxContainer
 					damage.Append(" + ");
 				damage.Append(d.Key.ToString(d.Value));
 				damage.Append(" ");
-				damage.Append(d.Key.Type.GetLabel());
+				damage.Append(d.Key.DamageType.GetLabel());
 			});
 		
 		return new List<Node>()

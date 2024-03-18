@@ -100,5 +100,12 @@ public class ItemWeapon() : ItemEquippable(), IComparable<ItemWeapon>, IEquatabl
 		&& WeaponType == other?.WeaponType;
 	
 	public override bool Equals(object obj) => Equals(obj as ItemWeapon);
-	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), DamageDice, Properties, Range, WeaponType);
+	
+	public override int GetHashCode() => HashCode.Combine(
+		base.GetHashCode(),
+		DamageDice,
+		Properties,
+		Range,
+		WeaponType
+	);
 }

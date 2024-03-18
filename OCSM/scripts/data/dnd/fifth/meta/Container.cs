@@ -7,7 +7,7 @@ using Ocsm.Dnd.Fifth.Inventory;
 
 namespace Ocsm.Dnd.Fifth.Meta;
 
-public class DndFifthContainer : IMetadataContainer, IEquatable<DndFifthContainer>
+public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContainer>
 {
 	[JsonIgnore]
 	public List<Item> AllItems
@@ -24,49 +24,55 @@ public class DndFifthContainer : IMetadataContainer, IEquatable<DndFifthContaine
 		}
 	}
 	
-	public List<ItemArmor> Armors { get; set; } = new List<ItemArmor>();
-	public List<Background> Backgrounds { get; set; } = new List<Background>();
-	public List<Class> Classes { get; set; } = new List<Class>();
-	public List<ItemContainer> Containers { get; set; } = new List<ItemContainer>();
-	public List<Feature> Features { get; set; } = new List<Feature>();
-	public List<Item> Items { get; set; } = new List<Item>();
-	public List<Race> Races { get; set; } = new List<Race>();
-	public List<ItemWeapon> Weapons { get; set; } = new List<ItemWeapon>();
+	public List<ItemArmor> Armors { get; set; } = [];
+	public List<Background> Backgrounds { get; set; } = [];
+	public List<Class> Classes { get; set; } = [];
+	public List<ItemContainer> Containers { get; set; } = [];
+	public List<Feature> Features { get; set; } = [];
+	public List<Item> Items { get; set; } = [];
+	public List<Race> Races { get; set; } = [];
+	public List<ItemWeapon> Weapons { get; set; } = [];
 	
 	public void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<DndFifthContainer>(json);
-		if(result is DndFifthContainer dfc)
+		if(result is DndFifthContainer container)
 		{
-			dfc.Sort();
+			container.Sort();
 			
-			Armors = dfc.Armors;
-			Backgrounds = dfc.Backgrounds;
-			Classes = dfc.Classes;
-			Containers = dfc.Containers;
-			Features = dfc.Features;
-			Items = dfc.Items;
-			Races = dfc.Races;
-			Weapons = dfc.Weapons;
+			Armors = container.Armors;
+			Backgrounds = container.Backgrounds;
+			Classes = container.Classes;
+			Containers = container.Containers;
+			Features = container.Features;
+			Items = container.Items;
+			Races = container.Races;
+			Weapons = container.Weapons;
 		}
 	}
 	
-	public bool IsEmpty()
-	{
-		return Armors.Count < 1
-			&& Backgrounds.Count < 1
-			&& Classes.Count < 1
-			&& Containers.Count < 1
-			&& Features.Count < 1
-			&& Items.Count < 1
-			&& Races.Count < 1
-			&& Weapons.Count < 1;
-	}
+	public bool Equals(DndFifthContainer other) => Armors == other?.Armors
+		&& Backgrounds == other?.Backgrounds
+		&& Classes == other?.Classes
+		&& Containers == other?.Containers
+		&& Features == other?.Features
+		&& Items == other?.Items
+		&& Races == other?.Races
+		&& Weapons == other?.Weapons;
 	
-	public string Serialize()
-	{
-		return JsonSerializer.Serialize(this);
-	}
+	public override bool Equals(object obj) => Equals(obj as DndFifthContainer);
+	public override int GetHashCode() => throw new NotImplementedException();
+	
+	public bool IsEmpty() => Armors.Count == 0
+		&& Backgrounds.Count == 0
+		&& Classes.Count == 0
+		&& Containers.Count == 0
+		&& Features.Count == 0
+		&& Items.Count == 0
+		&& Races.Count == 0
+		&& Weapons.Count == 0;
+	
+	public string Serialize() => JsonSerializer.Serialize(this);
 	
 	public void Sort()
 	{
@@ -78,17 +84,5 @@ public class DndFifthContainer : IMetadataContainer, IEquatable<DndFifthContaine
 		Items.Sort();
 		Races.Sort();
 		Weapons.Sort();
-	}
-	
-	public bool Equals(DndFifthContainer container)
-	{
-		return Armors.Equals(container.Armors)
-			&& Backgrounds.Equals(container.Backgrounds)
-			&& Classes.Equals(container.Classes)
-			&& Containers.Equals(container.Containers)
-			&& Features.Equals(container.Features)
-			&& Items.Equals(container.Items)
-			&& Races.Equals(container.Races)
-			&& Weapons.Equals(container.Weapons);
 	}
 }

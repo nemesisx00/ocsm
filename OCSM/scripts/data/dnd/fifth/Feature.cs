@@ -12,7 +12,7 @@ public class Feature() : Metadata(), IComparable<Feature>, IEquatable<Feature>
 	public List<FeatureSection> Sections { get; set; } = [];
 	public string Source { get; set; } = string.Empty;
 	public string Text { get; set; } = string.Empty;
-	public FeatureType FeatureType { get; set; }
+	public FeatureTypes FeatureType { get; set; }
 	
 	public int CompareTo(Feature other)
 	{

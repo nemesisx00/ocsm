@@ -51,7 +51,7 @@ public partial class NumericBonusEdit : Container
 	{
 		Value = numericBonus;
 		
-		abilityInput.SelectItemByText(Value.AbilityName);
+		abilityInput.SelectItemByText(Value.Ability);
 		methodInput.Selected = Value.Add ? 1 : 0;
 		nameInput.Text = Value.Name;
 		typeInput.SelectItemByText(Value.Type.GetLabel());
@@ -81,7 +81,7 @@ public partial class NumericBonusEdit : Container
 	
 	private void abilityChanged(long index)
 	{
-		Value.AbilityName = abilityInput.GetItemText((int)index);
+		Value.Ability = abilityInput.GetItemText((int)index);
 		doEmitSignal();
 	}
 	
@@ -102,7 +102,7 @@ public partial class NumericBonusEdit : Container
 		Value.Type = (NumericStat)index;
 		if(!Value.Type.Equals(NumericStat.AbilityScore))
 		{
-			Value.AbilityName = String.Empty;
+			Value.Ability = String.Empty;
 			abilityInput.Deselect();
 		}
 		toggleAbilityNodes();

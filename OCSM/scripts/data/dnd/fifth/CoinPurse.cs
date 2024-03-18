@@ -2,145 +2,129 @@ using System;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class CoinPurse : IEquatable<CoinPurse>
+public class CoinPurse() : IEquatable<CoinPurse>
 {
 	public bool AutoConvert { get; set; }
-	public Currency PreferredCurrency { get; set; }
+	public Currency PreferredCurrency { get; set; } = Currency.Gold;
 	
 	public int Copper
 	{
-		get { return copper; }
-		set
-		{
-			copper = value;
-			if(copper < 0)
-				copper = 0;
-		}
-	}
-	
-	public int Silver
-	{
-		get { return silver; }
-		set
-		{
-			silver = value;
-			if(silver < 0)
-				silver = 0;
-		}
+		get => copper;
+		set => SetCurrency(Currency.Copper, value);
 	}
 	
 	public int Electrum
 	{
-		get { return electrum; }
-		set
-		{
-			electrum = value;
-			if(electrum < 0)
-				electrum = 0;
-		}
+		get => electrum;
+		set => SetCurrency(Currency.Electrum, value);
 	}
 	
 	public int Gold
 	{
-		get { return gold; }
-		set
-		{
-			gold = value;
-			if(gold < 0)
-				gold = 0;
-		}
+		get => gold;
+		set => SetCurrency(Currency.Gold, value);
 	}
 	
 	public int Platinum
 	{
-		get { return platinum; }
-		set
-		{
-			platinum = value;
-			if(platinum < 0)
-				platinum = 0;
-		}
+		get => platinum;
+		set => SetCurrency(Currency.Platinum, value);
 	}
 	
-	
-	private int copper = 0;
-	private int silver = 0;
-	private int electrum = 0;
-	private int gold = 0;
-	private int platinum = 0;
-	
-	public CoinPurse()
+	public int Silver
 	{
-		AutoConvert = false;
-		PreferredCurrency = Currency.Gold;
-		
-		Copper = 0;
-		Silver = 0;
-		Electrum = 0;
-		Gold = 0;
-		Platinum = 0;
+		get => silver;
+		set => SetCurrency(Currency.Silver, value);
 	}
 	
-	public void convert(Currency? currency = null)
+	private int copper;
+	private int electrum;
+	private int gold;
+	private int platinum;
+	private int silver;
+	
+	/**
+	<summary>
+	Convert all currency in the coin purse into the specified currency, leaving
+	the remainders as their original currencies.
+	</summary>
+	*/
+	public void Convert(Currency? currency = null)
 	{
 		Currency to = currency ?? PreferredCurrency;
 		
-		var cop = CurrencyConverter.convert(Copper, Currency.Copper, to);
-		var sil = CurrencyConverter.convert(Silver, Currency.Silver, to);
-		var ele = CurrencyConverter.convert(Electrum, Currency.Electrum, to);
-		var gol = CurrencyConverter.convert(Gold, Currency.Gold, to);
-		var pla = CurrencyConverter.convert(Platinum, Currency.Platinum, to);
+		var cop = CurrencyConverter.Convert(Copper, Currency.Copper, to);
+		var sil = CurrencyConverter.Convert(Silver, Currency.Silver, to);
+		var ele = CurrencyConverter.Convert(Electrum, Currency.Electrum, to);
+		var gol = CurrencyConverter.Convert(Gold, Currency.Gold, to);
+		var pla = CurrencyConverter.Convert(Platinum, Currency.Platinum, to);
+		
+		Copper = cop.Remainder;
+		Silver = sil.Remainder;
+		Electrum = ele.Remainder;
+		Gold = gol.Remainder;
+		Platinum = pla.Remainder;
 		
 		switch(to)
 		{
 			case Currency.Copper:
 				Copper = cop.Result + sil.Result + ele.Result + gol.Result + pla.Result;
-				Silver = sil.Remainder;
-				Electrum = ele.Remainder;
-				Gold = gol.Remainder;
-				Platinum = pla.Remainder;
 				break;
 			
 			case Currency.Silver:
-				Copper = cop.Remainder;
 				Silver = cop.Result + sil.Result + ele.Result + gol.Result + pla.Result;
-				Electrum = ele.Remainder;
-				Gold = gol.Remainder;
-				Platinum = pla.Remainder;
 				break;
 			
 			case Currency.Electrum:
-				Copper = cop.Remainder;
-				Silver = sil.Remainder;
 				Electrum = cop.Result + sil.Result + ele.Result + gol.Result + pla.Result;
-				Gold = gol.Remainder;
-				Platinum = pla.Remainder;
 				break;
 			
 			case Currency.Gold:
-				Copper = cop.Remainder;
-				Silver = sil.Remainder;
-				Electrum = ele.Remainder;
 				Gold = cop.Result + sil.Result + ele.Result + gol.Result + pla.Result;
-				Platinum = pla.Remainder;
 				break;
 			
 			case Currency.Platinum:
-				Copper = cop.Remainder;
-				Silver = sil.Remainder;
-				Electrum = ele.Remainder;
-				Gold = gol.Remainder;
 				Platinum = cop.Result + sil.Result + ele.Result + gol.Result + pla.Result;
 				break;
 		}
 	}
 	
-	public bool Equals(CoinPurse coinPurse)
+	public bool Equals(CoinPurse other) => Copper == other?.Copper
+		&& Electrum == other?.Electrum
+		&& Gold == other?.Gold
+		&& Platinum == other?.Platinum
+		&& Silver == other?.Silver;
+	
+	public override bool Equals(object obj) => Equals(obj as CoinPurse);
+	public override int GetHashCode() => HashCode.Combine(Copper, Electrum, Gold, Platinum, Silver);
+	
+	public void SetCurrency(Currency currency, int value)
 	{
-		return coinPurse.Copper.Equals(Copper)
-			&& coinPurse.Silver.Equals(Silver)
-			&& coinPurse.Electrum.Equals(Electrum)
-			&& coinPurse.Gold.Equals(Gold)
-			&& coinPurse.Platinum.Equals(Platinum);
+		var amount = value;
+		if(amount < 0)
+			amount = 0;
+		
+		switch(currency)
+		{
+			case Currency.Copper:
+				copper = amount;
+				break;
+			
+			case Currency.Silver:
+				silver = amount;
+				break;
+			
+			case Currency.Electrum:
+				electrum = amount;
+				break;
+			
+			case Currency.Gold:
+				gold = amount;
+				break;
+			
+			case Currency.Platinum:
+				platinum = amount;
+				break;
+		}
 	}
 }

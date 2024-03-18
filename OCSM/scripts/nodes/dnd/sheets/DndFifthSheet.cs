@@ -148,9 +148,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	{
 		if(node is Inventory)
 		{
-			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength)
+			if(SheetData.Abilities.Find(a => a.Name.Equals(AbilityInfo.Abilities.Strength)) is AbilityInfo strength)
 				node.Strength = strength;
-			if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+			if(SheetData.Abilities.Find(a => a.Name.Equals(AbilityInfo.Abilities.Dexterity)) is AbilityInfo dexterity)
 				node.Dexterity = dexterity;
 			
 			if(initialValue is List<Item>)
@@ -186,7 +186,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		
 		//Find the first equipped armor
 		if(SheetData.Inventory.Find(i => i is ItemArmor ia && ia.Equipped) is ItemArmor armor
-			&& SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Strength)) is Ability strength
+			&& SheetData.Abilities.Find(a => a.Name.Equals(AbilityInfo.Abilities.Strength)) is AbilityInfo strength
 			&& strength.Score >= armor.MinimumStrength)
 		{
 			ac = armor.BaseArmorClass;
@@ -195,7 +195,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 				dexLimit = armor.DexterityBonusLimit;
 		}
 		
-		if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+		if(SheetData.Abilities.Find(a => a.Name.Equals(AbilityInfo.Abilities.Dexterity)) is AbilityInfo dexterity)
 		{
 			if(addDex)
 			{
@@ -225,7 +225,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private int calculateInitiative()
 	{
 		var bonus = 0;
-		if(SheetData.Abilities.Find(a => a.Name.Equals(Ability.Names.Dexterity)) is Ability dexterity)
+		if(SheetData.Abilities.Find(a => a.Name.Equals(AbilityInfo.Abilities.Dexterity)) is AbilityInfo dexterity)
 			bonus += dexterity.Modifier;
 		
 		collectAllFeatures().ForEach(f => {
@@ -258,20 +258,20 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		return speed;
 	}
 	
-	private void changed_Ability(Transport<Ability> transport)
+	private void changed_Ability(Transport<AbilityInfo> transport)
 	{
-		if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is Ability ab)
+		if(SheetData.Abilities.Find(a => a.Name.Equals(transport.Value.Name)) is AbilityInfo ab)
 			SheetData.Abilities.Remove(ab);
 		
 		var ability = transport.Value;
 		SheetData.Abilities.Add(ability);
 		
-		if(ability.Name.Equals(Ability.Names.Strength) || ability.Name.Equals(Ability.Names.Dexterity))
+		if(ability.Name.Equals(AbilityInfo.Abilities.Strength) || ability.Name.Equals(AbilityInfo.Abilities.Dexterity))
 		{
-			if(ability.Name.Equals(Ability.Names.Strength))
+			if(ability.Name.Equals(AbilityInfo.Abilities.Strength))
 				inventory.Strength = ability;
 			
-			if(ability.Name.Equals(Ability.Names.Dexterity))
+			if(ability.Name.Equals(AbilityInfo.Abilities.Dexterity))
 				inventory.Dexterity = ability;
 			
 			inventory.regenerateItems();

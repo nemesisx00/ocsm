@@ -15,7 +15,7 @@ public partial class FeatureTypeOptionsButton : CustomOption
 		if(emptyOption)
 			AddItem(string.Empty);
 		
-		Enum.GetValues<FeatureType>()
+		Enum.GetValues<FeatureTypes>()
 			.Select(ft => ft.ToString())
 			.ToList()
 			.ForEach(label => AddItem(label));

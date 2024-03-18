@@ -8,7 +8,7 @@ namespace Ocsm.Nodes.Dnd.Fifth;
 public partial class AbilityColumn : Container
 {
 	[Signal]
-	public delegate void AbilityChangedEventHandler(Transport<Ability> transport);
+	public delegate void AbilityChangedEventHandler(Transport<AbilityInfo> transport);
 	
 	private sealed class NodePath
 	{
@@ -19,7 +19,7 @@ public partial class AbilityColumn : Container
 		public const string Skills = "%Skills";
 	}
 	
-	public Ability Ability { get; set; }
+	public AbilityInfo Ability { get; set; }
 	public int ProficiencyBonus { get; set; } = 2;
 	
 	private Label label;
@@ -95,19 +95,19 @@ public partial class AbilityColumn : Container
 		boundSkill.Proficient = proficiency;
 		if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is Ocsm.Dnd.Fifth.Skill skill)
 			skill.Proficient = proficiency;
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
 	}
 	
 	private void savingThrowChanged(StatefulButton.States currentState)
 	{
 		Ability.SavingThrow = currentState.ToProficiency();
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
 	}
 	
 	private void scoreChanged(double value)
 	{
 		Ability.Score = (int)value;
 		calculateModifier();
-		EmitSignal(nameof(AbilityChanged), new Transport<Ability>(Ability));
+		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
 	}
 }

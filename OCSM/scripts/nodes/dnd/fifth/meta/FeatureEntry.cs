@@ -163,7 +163,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void toggleClassInput()
 	{
-		if(Feature.FeatureType.Equals(FeatureType.Class))
+		if(Feature.FeatureType.Equals(FeatureTypes.Class))
 		{
 			classLabel.Show();
 			classNode.Show();
@@ -188,10 +188,10 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		var text = typeNode.GetItemText((int)index);
 		
-		Feature.FeatureType = Enum.GetValues<FeatureType>()
+		Feature.FeatureType = Enum.GetValues<FeatureTypes>()
 			.FirstOrDefault(ft => ft.GetLabel() == text);
 		
-		if(!Feature.FeatureType.Equals(FeatureType.Class))
+		if(!Feature.FeatureType.Equals(FeatureTypes.Class))
 			classNode.Deselect();
 		toggleClassInput();
 	}

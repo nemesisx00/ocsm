@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ocsm.Dnd.Fifth.Inventory;
 
@@ -17,16 +18,8 @@ public class ItemContainer() : ItemEquippable(), IComparable<ItemContainer>, IEq
 		return ret;
 	}
 
-	public bool Equals(ItemContainer other) => base.Equals(other)
-		&& Items == other?.Items;
-	
+	public bool Equals(ItemContainer other) => base.Equals(other) && Items == other?.Items;
 	public override bool Equals(object obj) => Equals(obj as ItemContainer);
 	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), Items);
-	
-	public double TotalWeight()
-	{
-		var val = Weight;
-		Items.ForEach(i => val += i.Weight);
-		return val;
-	}
+	public double TotalWeight() => Items.Aggregate(Weight, (acc, i) => acc + i.Weight);
 }

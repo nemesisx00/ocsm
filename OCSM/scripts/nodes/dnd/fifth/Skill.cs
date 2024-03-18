@@ -54,7 +54,7 @@ public partial class Skill : Container
 		EmitSignal(SignalName.ProficiencyChanged, (int)button.CurrentState);
 	}
 	
-	private void scoreChanged(Transport<Ability> transport)
+	private void scoreChanged(Transport<AbilityInfo> transport)
 	{
 		AbilityModifier = transport.Value.Modifier;
 		update();

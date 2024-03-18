@@ -1,16 +1,9 @@
 
 namespace Ocsm.Dnd.Fifth;
 
-public class HitPoints
+public struct HitPoints(int max = 1)
 {
-	public int Current { get; set; }
-	public int Max { get; set; }
+	public int Current { get; set; } = max;
+	public int Max { get; set; } = max;
 	public int Temp { get; set; }
-	
-	public HitPoints(int max = 1)
-	{
-		Current = max;
-		Max = max;
-		Temp = 0;
-	}
 }

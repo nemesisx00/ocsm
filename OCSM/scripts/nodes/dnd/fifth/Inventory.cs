@@ -20,8 +20,8 @@ public partial class Inventory : VBoxContainer
 	public delegate void ItemsChangedEventHandler(Transport<List<Item>> items);
 	
 	public List<Item> Items { get; set; }
-	public Ability Strength { get; set; }
-	public Ability Dexterity { get; set; }
+	public AbilityInfo Strength { get; set; }
+	public AbilityInfo Dexterity { get; set; }
 	
 	private VBoxContainer itemList;
 	private InventoryItemOptions options;
