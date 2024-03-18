@@ -15,7 +15,7 @@ public partial class TrackSimple : GridContainer
 	[Export]
 	public int Max { get; set; } = DefaultMax;
 	[Export]
-	public int Value { get; set; } = 0;
+	public int Value { get; set; }
 	[Export]
 	public bool UseCircles { get; set; } = true;
 	[Export]
@@ -68,10 +68,13 @@ public partial class TrackSimple : GridContainer
 		}
 		else
 		{
-			foreach(var c in children)
+			foreach(var c in children.Cast<ToggleButton>())
 			{
 				if(children.IndexOf(c) >= Max)
+				{
+					c.StateToggled -= handleToggle;
 					c.QueueFree();
+				}
 			}
 		}
 	}
