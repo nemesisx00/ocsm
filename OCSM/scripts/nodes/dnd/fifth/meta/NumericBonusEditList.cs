@@ -11,45 +11,42 @@ public partial class NumericBonusEditList : Container
 	[Signal]
 	public delegate void ValuesChangedEventHandler(Transport<List<NumericBonus>> values);
 	
-	public List<NumericBonus> Values { get; set; } = new List<NumericBonus>();
-	
-	public override void _Ready()
-	{
-		refresh();
-	}
-	
-	public void refresh()
+	public List<NumericBonus> Values { get; set; } = [];
+
+	public override void _Ready() => Refresh();
+
+	public void Refresh()
 	{
 		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
 		
-		Values.Where(v => v is NumericBonus)
+		Values.Where(v => v is not null)
 			.ToList()
 			.ForEach(v => addInput(v));
 		
 		addInput();
 	}
 	
-	private void numericBonusChanged(Transport<NumericBonus> transport) { updateValues(); }
+	private void numericBonusChanged(Transport<NumericBonus> transport) => updateValues();
 	
 	private void updateValues()
 	{
 		var values = new List<NumericBonus>();
 		var children = GetChildren();
-		foreach(NumericBonusEdit c in children)
+		foreach(var c in children.Cast<NumericBonusEdit>())
 		{
 			var value = c.Value;
 			
-			if(!String.IsNullOrEmpty(value.Name) || !value.Type.Equals(NumericStat.None))
+			if(!string.IsNullOrEmpty(value.Name) || value.Type != NumericStats.None)
 				values.Add(value);
 			else if(children.IndexOf(c) != children.Count - 1)
 				c.QueueFree();
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValuesChanged), new Transport<List<NumericBonus>>(Values));
+		EmitSignal(SignalName.ValuesChanged, new Transport<List<NumericBonus>>(Values));
 		
 		if(children.Count <= values.Count)
 			addInput();
@@ -61,8 +58,9 @@ public partial class NumericBonusEditList : Container
 		var instance = resource.Instantiate<NumericBonusEdit>();
 		
 		AddChild(instance);
-		if(bonus is NumericBonus)
-			instance.setValue(bonus);
+		
+		if(bonus is not null)
+			instance.SetValue(bonus);
 		
 		instance.ValueChanged += numericBonusChanged;
 	}

@@ -1,19 +1,20 @@
 using Godot;
 using System;
 using Ocsm.Dnd.Fifth;
+using System.Linq;
 
 namespace Ocsm.Nodes.Dnd.Fifth.Meta;
 
 public partial class NumericBonusEdit : Container
 {
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string Ability = "%Ability";
-		public const string AbilityLabel = "%AbilityLabel";
-		public const string Method = "%Method";
-		public const string Name = "%Name";
-		public const string Type = "%Type";
-		public const string Value = "%Value";
+		public static readonly NodePath Ability = new("%Ability");
+		public static readonly NodePath AbilityLabel = new("%AbilityLabel");
+		public static readonly NodePath Method = new("%Method");
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Type = new("%Type");
+		public static readonly NodePath Value = new("%Value");
 	}
 	
 	[Signal]
@@ -30,15 +31,14 @@ public partial class NumericBonusEdit : Container
 	
 	public override void _Ready()
 	{
-		if(!(Value is NumericBonus))
-			Value = new NumericBonus();
+		Value ??= new();
 		
-		abilityInput = GetNode<AbilityOptionsButton>(NodePath.Ability);
-		abilityLabel = GetNode<Label>(NodePath.AbilityLabel);
-		methodInput = GetNode<OptionButton>(NodePath.Method);
-		nameInput = GetNode<LineEdit>(NodePath.Name);
-		typeInput = GetNode<NumericStatOptionsButton>(NodePath.Type);
-		valueInput = GetNode<SpinBox>(NodePath.Value);
+		abilityInput = GetNode<AbilityOptionsButton>(NodePaths.Ability);
+		abilityLabel = GetNode<Label>(NodePaths.AbilityLabel);
+		methodInput = GetNode<OptionButton>(NodePaths.Method);
+		nameInput = GetNode<LineEdit>(NodePaths.Name);
+		typeInput = GetNode<NumericStatOptionsButton>(NodePaths.Type);
+		valueInput = GetNode<SpinBox>(NodePaths.Value);
 		
 		abilityInput.ItemSelected += abilityChanged;
 		methodInput.ItemSelected += methodChanged;
@@ -47,11 +47,11 @@ public partial class NumericBonusEdit : Container
 		valueInput.ValueChanged += valueChanged;
 	}
 	
-	public void setValue(NumericBonus numericBonus)
+	public void SetValue(NumericBonus numericBonus)
 	{
 		Value = numericBonus;
 		
-		abilityInput.SelectItemByText(Value.Ability);
+		abilityInput.SelectItemByText(Value.Ability.GetLabel());
 		methodInput.Selected = Value.Add ? 1 : 0;
 		nameInput.Text = Value.Name;
 		typeInput.SelectItemByText(Value.Type.GetLabel());
@@ -60,14 +60,11 @@ public partial class NumericBonusEdit : Container
 		toggleAbilityNodes();
 	}
 	
-	private void doEmitSignal()
-	{
-		EmitSignal(nameof(ValueChanged), new Transport<NumericBonus>(Value));
-	}
+	private void doEmitSignal() => EmitSignal(SignalName.ValueChanged, new Transport<NumericBonus>(Value));
 	
 	private void toggleAbilityNodes()
 	{
-		if(Value.Type.Equals(NumericStat.AbilityScore))
+		if(Value.Type == NumericStats.AbilityScore)
 		{
 			abilityLabel.Show();
 			abilityInput.Show();
@@ -81,7 +78,10 @@ public partial class NumericBonusEdit : Container
 	
 	private void abilityChanged(long index)
 	{
-		Value.Ability = abilityInput.GetItemText((int)index);
+		Value.Ability = Enum.GetValues<Abilities>()
+			.Where(a => a.GetLabel() == abilityInput.GetItemText((int)index))
+			.FirstOrDefault();
+		
 		doEmitSignal();
 	}
 	
@@ -99,12 +99,10 @@ public partial class NumericBonusEdit : Container
 	
 	private void typeChanged(long index)
 	{
-		Value.Type = (NumericStat)index;
-		if(!Value.Type.Equals(NumericStat.AbilityScore))
-		{
-			Value.Ability = String.Empty;
+		Value.Type = (NumericStats)index;
+		if(Value.Type != NumericStats.AbilityScore)
 			abilityInput.Deselect();
-		}
+		
 		toggleAbilityNodes();
 		doEmitSignal();
 	}

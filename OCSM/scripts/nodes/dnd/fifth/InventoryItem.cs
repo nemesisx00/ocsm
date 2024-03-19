@@ -9,12 +9,12 @@ namespace Ocsm.Nodes.Dnd.Fifth;
 
 public partial class InventoryItem : HBoxContainer
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string Details = "%Details";
-		public const string Equipped = "%Equipped";
-		public const string Name = "%Name";
-		public const string Weight = "%Weight";
+		public static readonly NodePath Details = new("%Details");
+		public static readonly NodePath Equipped = new("%Equipped");
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Weight = new("%Weight");
 	}
 	
 	[Signal]
@@ -26,17 +26,17 @@ public partial class InventoryItem : HBoxContainer
 	
 	public override void _Ready()
 	{
-		GetNode<CheckBox>(NodePath.Equipped).Pressed += toggleEquipped;
+		GetNode<CheckBox>(NodePaths.Equipped).Pressed += toggleEquipped;
 		
-		refresh();
+		Refresh();
 	}
 	
-	public void refresh()
+	public void Refresh()
 	{
-		GetNode<Label>(NodePath.Name).Text = Item.Name;
-		GetNode<Label>(NodePath.Weight).Text = Item.Weight + " lbs";
+		GetNode<Label>(NodePaths.Name).Text = Item.Name;
+		GetNode<Label>(NodePaths.Weight).Text = Item.Weight + " lbs";
 		
-		var details = GetNode<HBoxContainer>(NodePath.Details);
+		var details = GetNode<HBoxContainer>(NodePaths.Details);
 		foreach(Node node in details.GetChildren())
 		{
 			node.QueueFree();
@@ -47,7 +47,7 @@ public partial class InventoryItem : HBoxContainer
 		else if(Item is ItemWeapon iw)
 			generateDetails(iw).ForEach(n => details.AddChild(n));
 		
-		var equipped = GetNode<CheckBox>(NodePath.Equipped);
+		var equipped = GetNode<CheckBox>(NodePaths.Equipped);
 		if(Item is ItemEquippable ie)
 		{
 			equipped.ButtonPressed = ie.Equipped;
@@ -59,11 +59,11 @@ public partial class InventoryItem : HBoxContainer
 	
 	private void toggleEquipped()
 	{
-		var checkbox = GetNode<CheckBox>(NodePath.Equipped);
+		var checkbox = GetNode<CheckBox>(NodePaths.Equipped);
 		if(Item is ItemEquippable ie)
 		{
 			ie.Equipped = checkbox.ButtonPressed;
-			EmitSignal(nameof(Equipped), new Transport<Item>(ie));
+			EmitSignal(SignalName.Equipped, new Transport<Item>(ie));
 		}
 	}
 	
@@ -71,22 +71,26 @@ public partial class InventoryItem : HBoxContainer
 	{
 		var nodes = new List<Node>();
 		
-		var ac = "AC " + armor.BaseArmorClass;
+		StringBuilder ac = new($"AC {armor.BaseArmorClass}");
+		
 		if((armor.AllowDexterityBonus && Dexterity.Modifier > 0) || Dexterity.Modifier < 0)
 		{
-			ac += " ";
+			ac.Append(' ');
+			
 			if(Dexterity.Modifier > 0)
-				ac += "+";
-			ac += Dexterity.Modifier;
+				ac.Append('+');
+			
+			ac.Append(Dexterity.Modifier);
+			
 			if(armor.LimitDexterityBonus && armor.DexterityBonusLimit > 0)
-				ac += " (Max " + armor.DexterityBonusLimit + ")";
+				ac.Append($" (Max {armor.DexterityBonusLimit})");
 		}
 		
-		nodes.Add(NodeUtilities.createCenteredLabel(ac));
+		nodes.Add(NodeUtilities.createCenteredLabel(ac.ToString()));
 		
 		//TODO: Should this always display or hide when the character's strength meets/exceeds the requirements?
 		if(armor.MinimumStrength > 0 && Strength.Score < armor.MinimumStrength)
-			nodes.Add(NodeUtilities.createCenteredLabel(armor.MinimumStrength + " Str Required"));
+			nodes.Add(NodeUtilities.createCenteredLabel($"{armor.MinimumStrength} Str Required"));
 		
 		if(armor.StealthDisadvantage)
 			nodes.Add(NodeUtilities.createCenteredLabel("Disadvantage on Stealth Checks"));
@@ -94,7 +98,7 @@ public partial class InventoryItem : HBoxContainer
 		return nodes;
 	}
 	
-	private List<Node> generateDetails(ItemWeapon weapon)
+	private static List<Node> generateDetails(ItemWeapon weapon)
 	{
 		var damage = new StringBuilder();
 		weapon.DamageDice.ToList()
@@ -102,13 +106,10 @@ public partial class InventoryItem : HBoxContainer
 				if(damage.Length > 0)
 					damage.Append(" + ");
 				damage.Append(d.Key.ToString(d.Value));
-				damage.Append(" ");
+				damage.Append(' ');
 				damage.Append(d.Key.DamageType.GetLabel());
 			});
 		
-		return new List<Node>()
-		{
-			NodeUtilities.createCenteredLabel(damage.ToString())
-		};
+		return [NodeUtilities.createCenteredLabel(damage.ToString())];
 	}
 }

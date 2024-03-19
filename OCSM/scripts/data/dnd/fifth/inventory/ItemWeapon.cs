@@ -8,48 +8,69 @@ public class ItemWeapon() : ItemEquippable(), IComparable<ItemWeapon>, IEquatabl
 {
 	public enum WeaponTypes
 	{
+		[Label("")]
 		None = 0,
+		
 		[Label("Simple")]
 		Simple = SimpleMelee | SimpleRanged,
+		
 		[Label("Simple Melee")]
 		SimpleMelee = 1,
+		
 		[Label("Simple Ranged")]
 		SimpleRanged = 2,
+		
 		[Label("Martial")]
 		Martial = MartialMelee | MartialRanged,
+		
 		[Label("Martial Melee")]
 		MartialMelee = 4,
+		
 		[Label("Martial Ranged")]
 		MartialRanged = 8,
+		
 		[Label("Improvised")]
 		Improvised = 16,
 	}
 	
 	public enum WeaponProperties
 	{
+		[Label("")]
 		None = 0,
+		
 		[Label("Ammunition")]
 		Ammunition,
+		
 		[Label("Finesse")]
 		Finesse,
+		
 		[Label("Heavy")]
 		Heavy,
+		
 		[Label("Light")]
 		Light,
+		
 		[Label("Loading")]
 		Loading,
+		
 		[Label("Range")]
 		Range,
+		
 		[Label("Reach")]
 		Reach,
+		
 		[Label("Silvered")]
 		Silvered,
+		
 		[Label("Special")]
 		Special,
+		
 		[Label("Thrown")]
 		Thrown,
+		
 		[Label("TwoHanded")]
 		TwoHanded,
+		
 		[Label("Versatile")]
 		Versatile,
 	}
@@ -70,7 +91,7 @@ public class ItemWeapon() : ItemEquippable(), IComparable<ItemWeapon>, IEquatabl
 	
 	public Dictionary<DamageDie, int> DamageDice { get; set; } = [];
 	public List<WeaponProperties> Properties { get; set; } = [];
-	public Range Range { get; set; } = Range.Melee;
+	public Range Range { get; set; } = new();
 	public WeaponTypes WeaponType { get; set; }
 	
 	public int CompareTo(ItemWeapon other)

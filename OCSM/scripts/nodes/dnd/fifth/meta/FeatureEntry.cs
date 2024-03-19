@@ -96,10 +96,10 @@ public partial class FeatureEntry : Container, ICanDelete
 			descriptionNode.Text = Feature.Description;
 			nameNode.Text = Feature.Name;
 			numericBonusesNode.Values = Feature.NumericBonuses;
-			numericBonusesNode.refresh();
+			numericBonusesNode.Refresh();
 			requiredLevel.Value = Feature.RequiredLevel;
 			sectionsNode.Values = Feature.Sections;
-			sectionsNode.refresh();
+			sectionsNode.Refresh();
 			sourceNode.Text = Feature.Source;
 			textNode.Text = Feature.Text;
 			typeNode.SelectItemByText(Feature.FeatureType.GetLabel());

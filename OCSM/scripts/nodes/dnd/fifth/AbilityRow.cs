@@ -10,13 +10,13 @@ public partial class AbilityRow : Container
 	[Signal]
 	public delegate void AbilityChangedEventHandler(Transport<AbilityInfo> transport);
 	
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string Name = "%Name";
-		public const string Score = "%Score";
-		public const string Modifier = "%Modifier";
-		public const string SavingThrow = "%SavingThrow";
-		public const string Skills = "%Skills";
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Score = new("%Score");
+		public static readonly NodePath Modifier = new("%Modifier");
+		public static readonly NodePath SavingThrow = new("%SavingThrow");
+		public static readonly NodePath Skills = new("%Skills");
 	}
 	
 	public AbilityInfo Ability { get; set; }
@@ -26,15 +26,15 @@ public partial class AbilityRow : Container
 	private SpinBox score;
 	private SpinBox modifier;
 	private Container skillsContainer;
-	private Skill savingThrow;
+	private SkillNode savingThrow;
 	
 	public override void _Ready()
 	{
-		name = GetNode<Label>(NodePath.Name);
-		score = GetNode<SpinBox>(NodePath.Score);
-		modifier = GetNode<SpinBox>(NodePath.Modifier);
-		skillsContainer = GetNode<Container>(NodePath.Skills);
-		savingThrow = GetNode<Skill>(NodePath.SavingThrow);
+		name = GetNode<Label>(NodePaths.Name);
+		score = GetNode<SpinBox>(NodePaths.Score);
+		modifier = GetNode<SpinBox>(NodePaths.Modifier);
+		skillsContainer = GetNode<Container>(NodePaths.Skills);
+		savingThrow = GetNode<SkillNode>(NodePaths.SavingThrow);
 		savingThrow.TrackAbility(this);
 		savingThrow.ProficiencyChanged += savingThrowChanged;
 		
@@ -45,7 +45,7 @@ public partial class AbilityRow : Container
 	{
 		if(Ability is not null)
 		{
-			name.Text = Ability.Name;
+			name.Text = Ability.AbilityType.GetLabel();
 			score.Value = Ability.Score;
 			modifier.Value = Ability.Modifier;
 			savingThrow.SetProficiency(Ability.SavingThrow);
@@ -78,11 +78,11 @@ public partial class AbilityRow : Container
 	
 	private void instantiateSkill(Ocsm.Dnd.Fifth.Skill skill, PackedScene resource)
 	{
-		var instance = resource.Instantiate<Skill>();
+		var instance = resource.Instantiate<SkillNode>();
 		instance.AbilityModifier = Ability.Modifier;
 		instance.ProficiencyBonus = ProficiencyBonus;
-		instance.Label = skill.Name;
-		instance.Name = skill.Name;
+		instance.Label = skill.SkillType.GetLabel();
+		instance.Name = skill.SkillType.GetLabel();
 		instance.TrackAbility(this);
 		instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
 		skillsContainer.AddChild(instance);
@@ -93,7 +93,7 @@ public partial class AbilityRow : Container
 	{
 		var proficiency = currentState.ToProficiency();
 		boundSkill.Proficient = proficiency;
-		if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is Ocsm.Dnd.Fifth.Skill skill)
+		if(Ability.Skills.Find(s => s.SkillType == boundSkill.SkillType) is Ocsm.Dnd.Fifth.Skill skill)
 			skill.Proficient = proficiency;
 		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}

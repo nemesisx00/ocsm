@@ -10,7 +10,6 @@ public partial class WeaponTypeOptions : OptionButton
 	public override void _Ready()
 	{
 		Clear();
-		AddItem(string.Empty);
 		
 		Enum.GetValues<ItemWeapon.WeaponTypes>()
 			.Select(wt => wt.GetLabel())

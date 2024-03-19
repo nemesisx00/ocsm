@@ -1,23 +1,19 @@
 using Godot;
-using System;
-using System.Linq;
+using Ocsm.Dnd.Fifth;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
 
-public partial class Feature : Container
+public partial class FeatureNode : Container
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string Name = "%Name";
-		public const string Description = "%Description";
-		public const string Details = "%Details";
-		public const string Text = "%Text";
-		public const string Sections = "%Sections";
-		public const string ShowHide = "%ShowHide";
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Description = new("%Description");
+		public static readonly NodePath Details = new("%Details");
+		public static readonly NodePath Text = new("%Text");
+		public static readonly NodePath Sections = new("%Sections");
+		public static readonly NodePath ShowHide = new("%ShowHide");
 	}
-	
-	private const string FormatType = " ({0} Feature)";
-	private const string FormatTypeAndSource = " ({0} Feature, {1})";
 	
 	private Label nameNode;
 	private RichTextLabel descriptionNode;
@@ -27,37 +23,37 @@ public partial class Feature : Container
 	
 	public override void _Ready()
 	{
-		nameNode = GetNode<Label>(NodePath.Name);
-		descriptionNode = GetNode<RichTextLabel>(NodePath.Description);
-		detailsNode = GetNode<Container>(NodePath.Details);
-		textNode = GetNode<RichTextLabel>(NodePath.Text);
-		sectionsNode = GetNode<Container>(NodePath.Sections);
+		nameNode = GetNode<Label>(NodePaths.Name);
+		descriptionNode = GetNode<RichTextLabel>(NodePaths.Description);
+		detailsNode = GetNode<Container>(NodePaths.Details);
+		textNode = GetNode<RichTextLabel>(NodePaths.Text);
+		sectionsNode = GetNode<Container>(NodePaths.Sections);
 		
 		//nameNode.GuiInput += toggleSections;
-		GetNode<TextureButton>(NodePath.ShowHide).Pressed += toggleSections;
+		GetNode<TextureButton>(NodePaths.ShowHide).Pressed += toggleSections;
 	}
 	
-	public void update(Ocsm.Dnd.Fifth.Feature feature)
+	public void Update(Feature feature)
 	{
 		var name = feature.Name;
 		
-		if(!String.IsNullOrEmpty(feature.Source))
-			name += String.Format(FormatTypeAndSource, feature.FeatureType, feature.Source);
+		if(!string.IsNullOrEmpty(feature.Source))
+			name += $"({feature.FeatureType} Feature, {feature.Source})";
 		else
-			name += String.Format(FormatType, feature.FeatureType);
+			name += $"({feature.FeatureType} Feature)";
 		
 		nameNode.Text = name;
 		descriptionNode.Text = feature.Description;
 		textNode.Text = feature.Text;
 		
-		if(feature.Sections.Any())
+		if(feature.Sections.Count != 0)
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.FeatureSection);
 			feature.Sections.ForEach(s => instantiateSection(s, resource));
 		}
 	}
 	
-	private void instantiateSection(Ocsm.Dnd.Fifth.FeatureSection section, PackedScene resource)
+	private void instantiateSection(FeatureSection section, PackedScene resource)
 	{
 		var instance = resource.Instantiate<VBoxContainer>();
 		instance.GetChild<Label>(0).Text = section.Section;

@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Collections.Generic;
 using Ocsm.Dnd.Fifth;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
@@ -10,13 +8,13 @@ public partial class AbilityColumn : Container
 	[Signal]
 	public delegate void AbilityChangedEventHandler(Transport<AbilityInfo> transport);
 	
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string Name = "%Name";
-		public const string Score = "%Score";
-		public const string Modifier = "%Modifier";
-		public const string SavingThrow = "%SavingThrow";
-		public const string Skills = "%Skills";
+		public static readonly NodePath Name = new("%Name");
+		public static readonly NodePath Score = new("%Score");
+		public static readonly NodePath Modifier = new("%Modifier");
+		public static readonly NodePath SavingThrow = new("%SavingThrow");
+		public static readonly NodePath Skills = new("%Skills");
 	}
 	
 	public AbilityInfo Ability { get; set; }
@@ -26,15 +24,15 @@ public partial class AbilityColumn : Container
 	private SpinBox score;
 	private SpinBox modifier;
 	private Container skillsContainer;
-	private Skill savingThrow;
+	private SkillNode savingThrow;
 	
 	public override void _Ready()
 	{
-		label = GetNode<Label>(NodePath.Name);
-		score = GetNode<SpinBox>(NodePath.Score);
-		modifier = GetNode<SpinBox>(NodePath.Modifier);
-		skillsContainer = GetNode<Container>(NodePath.Skills);
-		savingThrow = GetNode<Skill>(NodePath.SavingThrow);
+		label = GetNode<Label>(NodePaths.Name);
+		score = GetNode<SpinBox>(NodePaths.Score);
+		modifier = GetNode<SpinBox>(NodePaths.Modifier);
+		skillsContainer = GetNode<Container>(NodePaths.Skills);
+		savingThrow = GetNode<SkillNode>(NodePaths.SavingThrow);
 		savingThrow.TrackAbility(this);
 		savingThrow.ProficiencyChanged += savingThrowChanged;
 		
@@ -45,7 +43,7 @@ public partial class AbilityColumn : Container
 	{
 		if(Ability is not null)
 		{
-			label.Text = Ability.Name;
+			label.Text = Ability.AbilityType.GetLabel();
 			score.Value = Ability.Score;
 			modifier.Value = Ability.Modifier;
 			savingThrow.SetProficiency(Ability.SavingThrow);
@@ -56,10 +54,11 @@ public partial class AbilityColumn : Container
 	private void calculateModifier()
 	{
 		modifier.Value = Ability.Modifier;
+		
 		if(modifier.Value >= 0)
 			modifier.Prefix = "+";
 		else
-			modifier.Prefix = String.Empty;
+			modifier.Prefix = string.Empty;
 	}
 	
 	private void renderSkills()
@@ -78,11 +77,11 @@ public partial class AbilityColumn : Container
 	
 	private void instantiateSkill(Ocsm.Dnd.Fifth.Skill skill, PackedScene resource)
 	{
-		var instance = resource.Instantiate<Skill>();
+		var instance = resource.Instantiate<SkillNode>();
 		instance.AbilityModifier = Ability.Modifier;
 		instance.ProficiencyBonus = ProficiencyBonus;
-		instance.Label = skill.Name;
-		instance.Name = skill.Name;
+		instance.Label = skill.SkillType.GetLabel();
+		instance.Name = skill.SkillType.GetLabel();
 		instance.TrackAbility(this);
 		instance.ProficiencyChanged += (currentState) => proficiencyChanged(currentState, skill);
 		skillsContainer.AddChild(instance);
@@ -93,21 +92,21 @@ public partial class AbilityColumn : Container
 	{
 		var proficiency = currentState.ToProficiency();
 		boundSkill.Proficient = proficiency;
-		if(Ability.Skills.Find(s => s.Name.Equals(boundSkill.Name)) is Ocsm.Dnd.Fifth.Skill skill)
+		if(Ability.Skills.Find(s => s.SkillType == boundSkill.SkillType) is Ocsm.Dnd.Fifth.Skill skill)
 			skill.Proficient = proficiency;
-		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
+		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}
 	
 	private void savingThrowChanged(StatefulButton.States currentState)
 	{
 		Ability.SavingThrow = currentState.ToProficiency();
-		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
+		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}
 	
 	private void scoreChanged(double value)
 	{
 		Ability.Score = (int)value;
 		calculateModifier();
-		EmitSignal(nameof(AbilityChanged), new Transport<AbilityInfo>(Ability));
+		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}
 }

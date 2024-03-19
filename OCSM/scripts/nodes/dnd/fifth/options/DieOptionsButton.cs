@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
 
@@ -12,20 +11,20 @@ public partial class DieOptionsButton : CustomOption
 	
 	public override void _Ready()
 	{
-		AddItem(String.Empty);
+		AddItem(string.Empty);
 		
 		if(!BardicInspiration)
-			AddItem(Ocsm.Dnd.Fifth.Die.d4.ToString());
+			AddItem(Die.D4.ToString());
 		
-		AddItem(Ocsm.Dnd.Fifth.Die.d6.ToString());
-		AddItem(Ocsm.Dnd.Fifth.Die.d8.ToString());
-		AddItem(Ocsm.Dnd.Fifth.Die.d10.ToString());
-		AddItem(Ocsm.Dnd.Fifth.Die.d12.ToString());
+		AddItem(Die.D6.ToString());
+		AddItem(Die.D8.ToString());
+		AddItem(Die.D10.ToString());
+		AddItem(Die.D12.ToString());
 		
 		if(!BardicInspiration && !DamageDie)
 		{
-			AddItem(Ocsm.Dnd.Fifth.Die.d20.ToString());
-			AddItem(Ocsm.Dnd.Fifth.Die.d100.ToString());
+			AddItem(Die.D20.ToString());
+			AddItem(Die.D100.ToString());
 		}
 	}
 }

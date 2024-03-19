@@ -4,7 +4,7 @@ namespace Ocsm.Dnd.Fifth;
 
 public class NumericBonus : IComparable<NumericBonus>, IEquatable<NumericBonus>
 {
-	public Abilities Ability { get; set; }
+	public Abilities? Ability { get; set; }
 	public bool Add { get; set; }
 	public string Name { get; set; } = string.Empty;
 	public NumericStats Type { get; set; }
@@ -18,7 +18,12 @@ public class NumericBonus : IComparable<NumericBonus>, IEquatable<NumericBonus>
 			ret = Name.CompareTo(other?.Name);
 		
 		if(ret == 0)
-			ret = Ability.CompareTo(other?.Ability);
+		{
+			if(Ability is Abilities a)
+				ret = a.CompareTo(other?.Ability);
+			else
+				ret = other?.Ability is not null ? 1 : 0;
+		}
 		
 		if(ret == 0)
 			ret = Add.CompareTo(other?.Add);

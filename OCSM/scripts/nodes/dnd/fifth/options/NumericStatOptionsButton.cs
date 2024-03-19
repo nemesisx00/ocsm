@@ -6,16 +6,10 @@ namespace Ocsm.Nodes.Dnd.Fifth;
 
 public partial class NumericStatOptionsButton : CustomOption
 {
-	public override void _Ready()
-	{
-		refreshMetadata();
-	}
+	public override void _Ready() => refreshMetadata();
 	
-	protected override void refreshMetadata()
-	{
-		replaceItems(Enum.GetValues<NumericStat>()
-			.Where(ns => !String.IsNullOrEmpty(ns.GetLabel()))
-			.Select(ns => ns.GetLabel())
-			.ToList());
-	}
+	protected override void refreshMetadata() => replaceItems(Enum.GetValues<NumericStats>()
+		.Where(ns => !string.IsNullOrEmpty(ns.GetLabel()))
+		.Select(ns => ns.GetLabel())
+		.ToList());
 }

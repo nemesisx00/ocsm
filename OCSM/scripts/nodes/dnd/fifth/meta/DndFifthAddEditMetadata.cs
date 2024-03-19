@@ -1,5 +1,6 @@
-using Godot;
 using System.Collections.Generic;
+using System.Linq;
+using Godot;
 using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
@@ -10,13 +11,13 @@ namespace Ocsm.Nodes.Dnd.Fifth.Meta;
 
 public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 {
-	private sealed class NodePath
+	private static class NodePaths
 	{
-		public const string ArmorName = "%Armor";
-		public const string BackgroundsName = "%Backgrounds";
-		public const string ClassesName = "%Classes";
-		public const string FeaturesName = "%FeatureEntry";
-		public const string RacesName = "%Races";
+		public static readonly NodePath ArmorName = new("%Armor");
+		public static readonly NodePath BackgroundsName = new("%Backgrounds");
+		public static readonly NodePath ClassesName = new("%Classes");
+		public static readonly NodePath FeaturesName = new("%FeatureEntry");
+		public static readonly NodePath RacesName = new("%Races");
 	}
 	
 	private MetadataManager metadataManager;
@@ -27,174 +28,145 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 		
 		CloseRequested += closeHandler;
 		
-		var armorEntry = GetNode<ArmorEntry>(NodePath.ArmorName);
+		var armorEntry = GetNode<ArmorEntry>(NodePaths.ArmorName);
 		armorEntry.SaveClicked += saveArmor;
 		armorEntry.DeleteConfirmed += deleteArmor;
 		
-		var backgroundEntry = GetNode<BackgroundEntry>(NodePath.BackgroundsName);
-		backgroundEntry.SaveClicked += saveBackground;
-		backgroundEntry.DeleteConfirmed += deleteBackground;
+		var backgroundEntry = GetNode<FeaturefulEntry>(NodePaths.BackgroundsName);
+		backgroundEntry.SaveClicked += saveFeatureful;
+		backgroundEntry.DeleteConfirmed += deleteFeatureful;
 		
-		var classEntry = GetNode<ClassEntry>(NodePath.ClassesName);
+		var classEntry = GetNode<ClassEntry>(NodePaths.ClassesName);
 		classEntry.SaveClicked += saveClass;
 		classEntry.DeleteConfirmed += deleteClass;
 		
-		var featureEntry = GetNode<FeatureEntry>(NodePath.FeaturesName);
+		var featureEntry = GetNode<FeatureEntry>(NodePaths.FeaturesName);
 		featureEntry.SaveClicked += saveFeature;
 		featureEntry.DeleteConfirmed += deleteFeature;
 		
-		var raceEntry = GetNode<RaceEntry>(NodePath.RacesName);
-		raceEntry.SaveClicked += saveRace;
-		raceEntry.DeleteConfirmed += deleteRace;
+		var raceEntry = GetNode<FeaturefulEntry>(NodePaths.RacesName);
+		raceEntry.SaveClicked += saveFeatureful;
+		raceEntry.DeleteConfirmed += deleteFeatureful;
 	}
 	
-	private void closeHandler()
-	{
-		QueueFree();
-	}
+	private void closeHandler() => QueueFree();
 	
 	protected void deleteArmor(string name)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Armors.Where(a => a.Name == name).FirstOrDefault() is ItemArmor armor)
 		{
-			if(dfc.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
-			{
-				dfc.Armors.Remove(armor);
-				EmitSignal(nameof(MetadataChanged));
-			}
-		}
-	}
-	
-	protected void deleteBackground(string name)
-	{
-		if(metadataManager.Container is DndFifthContainer dfc)
-		{
-			if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
-			{
-				dfc.Backgrounds.Remove(background);
-				EmitSignal(nameof(MetadataChanged));
-			}
+			container.Armors.Remove(armor);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
 	protected void deleteClass(string name)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Classes.Where(c => c.Name == name).FirstOrDefault() is Class clazz)
 		{
-			if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
-			{
-				dfc.Classes.Remove(clazz);
-				EmitSignal(nameof(MetadataChanged));
-			}
+			container.Classes.Remove(clazz);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
 	protected void deleteFeature(string name)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Features.Where(f => f.Name == name).FirstOrDefault() is Feature feature)
 		{
-			if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature)
-			{
-				dfc.Features.Remove(feature);
-				EmitSignal(nameof(MetadataChanged));
-			}
+			container.Features.Remove(feature);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
-	protected void deleteRace(string name)
+	protected void deleteFeatureful(MetadataType type, string name)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Featurefuls.Where(f => f.Type == type && f.Name == name).FirstOrDefault() is Featureful entry)
 		{
-			if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
-			{
-				dfc.Races.Remove(race);
-				EmitSignal(nameof(MetadataChanged));
-			}
+			container.Featurefuls.Remove(entry);
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
 	protected void saveArmor(Transport<ItemArmor> transport)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container)
 		{
-			var armor = transport.Value;
+			if(container.Armors.Where(a => a.Name == transport.Value.Name).FirstOrDefault() is ItemArmor existingArmor)
+				container.Armors.Remove(existingArmor);
 			
-			if(dfc.Armors.Find(a => a.Name.Equals(armor.Name)) is ItemArmor existingArmor)
-				dfc.Armors.Remove(existingArmor);
-			
-			dfc.Armors.Add(armor);
-			dfc.Armors.Sort();
-			EmitSignal(nameof(MetadataChanged));
+			container.Armors.Add(transport.Value);
+			container.Armors.Sort();
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
-	protected void saveBackground(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
+	protected void saveClass(string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(dfc.Backgrounds.Find(b => b.Name.Equals(name)) is Background background)
-				dfc.Backgrounds.Remove(background);
+			if(container.Classes.Find(c => c.Name == name) is Class clazz)
+				container.Classes.Remove(clazz);
 			
-			var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
+			List<FeatureSection> sectionList = [];
+			List<Feature> featureList = [];
+			
 			sections.Value.ForEach(fs => sectionList.Add(fs));
-			
-			var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
 			features.Value.ForEach(f => featureList.Add(f));
 			
-			dfc.Backgrounds.Add(new Background() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
-			dfc.Backgrounds.Sort();
-			EmitSignal(nameof(MetadataChanged));
+			container.Classes.Add(new()
+			{
+				Description = description,
+				Features = featureList,
+				HitDie = Die.D10,
+				Name = name,
+				Sections = sectionList,
+			});
+			
+			container.Classes.Sort();
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 	
-	protected void saveClass(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
+	protected void saveFeature(Transport<Feature> transport)
 	{
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(dfc.Classes.Find(c => c.Name.Equals(name)) is Class clazz)
-				dfc.Classes.Remove(clazz);
+			if(container.Features.Find(f => f.Name == transport.Value.Name) is Feature feature)
+				container.Features.Remove(feature);
 			
-			var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
+			container.Features.Add(transport.Value);
+			container.Features.Sort();
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+		}
+	}
+	
+	protected void saveFeatureful(MetadataType type, string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
+	{
+		if(metadataManager.Container is DndFifthContainer container)
+		{
+			if(container.Featurefuls.Where(f => f.Type == type && f.Name == name).FirstOrDefault() is Featureful entry)
+				container.Featurefuls.Remove(entry);
+			
+			List<FeatureSection> sectionList = [];
+			List<Feature> featureList = [];
+			
 			sections.Value.ForEach(fs => sectionList.Add(fs));
-			
-			var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
 			features.Value.ForEach(f => featureList.Add(f));
 			
-			dfc.Classes.Add(new Class() { Description = description, Features = featureList, HitDie = Ocsm.Dnd.Fifth.Die.d10, Name = name, Sections = sectionList, });
-			dfc.Classes.Sort();
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	protected void saveFeature(Transport<Ocsm.Dnd.Fifth.Feature> transport)
-	{
-		if(metadataManager.Container is DndFifthContainer dfc)
-		{
-			if(dfc.Features.Find(f => f.Name.Equals(transport.Value.Name)) is Ocsm.Dnd.Fifth.Feature feature)
-				dfc.Features.Remove(feature);
+			container.Featurefuls.Add(new() {
+				Description = description,
+				Features = featureList,
+				Name = name,
+				Sections = sectionList,
+				Type = type,
+			});
 			
-			dfc.Features.Add(transport.Value);
-			dfc.Features.Sort();
-			EmitSignal(nameof(MetadataChanged));
-		}
-	}
-	
-	protected void saveRace(string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
-	{
-		if(metadataManager.Container is DndFifthContainer dfc)
-		{
-			if(dfc.Races.Find(r => r.Name.Equals(name)) is Race race)
-				dfc.Races.Remove(race);
-			
-			var sectionList = new List<Ocsm.Dnd.Fifth.FeatureSection>();
-			sections.Value.ForEach(fs => sectionList.Add(fs));
-			
-			var featureList = new List<Ocsm.Dnd.Fifth.Feature>();
-			features.Value.ForEach(f => featureList.Add(f));
-			
-			dfc.Races.Add(new Race() { Description = description, Features = featureList, Name = name, Sections = sectionList, });
-			dfc.Races.Sort();
-			EmitSignal(nameof(MetadataChanged));
+			container.Featurefuls.Sort();
+			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
 }

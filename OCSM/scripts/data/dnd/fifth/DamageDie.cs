@@ -2,7 +2,7 @@ using System;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class DamageDie() : Die(), IComparable<DamageDie>, IEquatable<DamageDie>
+public class DamageDie(int sides) : Die(sides), IComparable<DamageDie>, IEquatable<DamageDie>
 {
 	public DamageTypes DamageType { get; set; }
 	

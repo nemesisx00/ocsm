@@ -14,18 +14,18 @@ public sealed class AbilityInfo(Abilities name, int score = 10, List<Skill> skil
 		new(Abilities.Wisdom, defaultScore, Skill.ListWisdom())
 	];
 	
-	public Abilities Name { get; set; } = name;
+	public Abilities AbilityType { get; set; } = name;
 	public Proficiency SavingThrow { get; set; }
 	public int Score { get; set; } = score;
 	public List<Skill> Skills { get; set; } = skills ?? [];
 	
 	public int Modifier => (Score / 2) - 5;
 	
-	public bool Equals(AbilityInfo other) => Name == other?.Name
+	public bool Equals(AbilityInfo other) => AbilityType == other?.AbilityType
 		&& SavingThrow == other?.SavingThrow
 		&& Score == other?.Score
 		&& Skills == other?.Skills;
 	
 	public override bool Equals(object obj) => Equals(obj as AbilityInfo);
-	public override int GetHashCode() => HashCode.Combine(Name, SavingThrow, Score, Skills);
+	public override int GetHashCode() => HashCode.Combine(AbilityType, SavingThrow, Score, Skills);
 }

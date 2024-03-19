@@ -11,29 +11,26 @@ public partial class SectionList : Container
 	[Signal]
 	public delegate void ValuesChangedEventHandler(Transport<List<FeatureSection>> transport);
 	
-	public List<FeatureSection> Values { get; set; } = new List<FeatureSection>();
+	public List<FeatureSection> Values { get; set; } = [];
 	
-	public override void _Ready()
-	{
-		refresh();
-	}
+	public override void _Ready() => Refresh();
 	
-	public void refresh()
+	public void Refresh()
 	{
 		foreach(Node c in GetChildren())
 		{
 			c.QueueFree();
 		}
 		
-		Values.Where(v => v is FeatureSection)
+		Values.Where(v => v is not null)
 			.ToList()
 			.ForEach(v => addInput(v));
 		
 		addInput();
 	}
 	
-	private void lineChanged(string text) { updateValues(); }
-	private void textChanged() { updateValues(); }
+	private void lineChanged(string text) => updateValues();
+	private void textChanged() => updateValues();
 	
 	private void updateValues()
 	{
@@ -44,19 +41,17 @@ public partial class SectionList : Container
 			var section = c.GetChild<LineEdit>(0).Text;
 			var sectionText = c.GetChild<TextEdit>(1).Text;
 			
-			if(!String.IsNullOrEmpty(section) || !String.IsNullOrEmpty(sectionText))
-				values.Add(new FeatureSection(section, sectionText));
+			if(!string.IsNullOrEmpty(section) || !string.IsNullOrEmpty(sectionText))
+				values.Add(new(section, sectionText));
 			else if(children.IndexOf(c) != children.Count - 1)
 				c.QueueFree();
 		}
 		
 		Values = values;
-		EmitSignal(nameof(ValuesChanged), new Transport<List<FeatureSection>>(Values));
+		EmitSignal(SignalName.ValuesChanged, new Transport<List<FeatureSection>>(Values));
 		
 		if(children.Count <= values.Count)
-		{
 			addInput();
-		}
 	}
 	
 	private void addInput(FeatureSection section = null)
@@ -68,10 +63,11 @@ public partial class SectionList : Container
 		
 		var sectionNode = instance.GetChild<LineEdit>(0);
 		sectionNode.TextChanged += lineChanged;
+		
 		var textNode = instance.GetChild<TextEdit>(1);
 		textNode.TextChanged += textChanged;
 		
-		if(section is FeatureSection)
+		if(section is not null)
 		{
 			sectionNode.Text = section.Section;
 			textNode.Text = section.Text;

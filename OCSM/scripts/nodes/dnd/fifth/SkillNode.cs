@@ -1,16 +1,15 @@
 using Godot;
-using System;
 using Ocsm.Dnd.Fifth;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
 
-public partial class Skill : Container
+public partial class SkillNode : Container
 {
-	private sealed class Names
+	private static class NodePaths
 	{
-		public const string Proficiency = "Proficiency";
-		public const string Label = "Label";
-		public const string Value = "Value";
+		public static readonly NodePath Proficiency = new("Proficiency");
+		public static readonly NodePath Label = new("Label");
+		public static readonly NodePath Value = new("Value");
 	}
 	
 	[Signal]
@@ -29,11 +28,11 @@ public partial class Skill : Container
 	
 	public override void _Ready()
 	{
-		proficiency = GetNode<StatefulButton>(Names.Proficiency);
+		proficiency = GetNode<StatefulButton>(NodePaths.Proficiency);
 		proficiency.StateChanged += proficiencyUpdated;
 		
-		label = GetNode<Label>(Names.Label);
-		value = GetNode<Label>(Names.Value);
+		label = GetNode<Label>(NodePaths.Label);
+		value = GetNode<Label>(NodePaths.Value);
 		
 		update();
 	}

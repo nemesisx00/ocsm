@@ -21,4 +21,8 @@ public enum MetadataType
 	CofdChangelingKith,
 	CofdChangelingRegalia,
 	CofdChangelingSeeming,
+	
+	Dnd5eBackground = 1000,
+	Dnd5eClass,
+	Dnd5eRace,
 }

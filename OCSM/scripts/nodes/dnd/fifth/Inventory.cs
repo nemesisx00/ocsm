@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Dnd.Fifth.Meta;
@@ -9,11 +10,11 @@ namespace Ocsm.Nodes.Dnd.Fifth;
 
 public partial class Inventory : VBoxContainer
 {
-	public sealed class NodePath
+	public static class NodePaths
 	{
-		public const string AddItem = "%AddItem";
-		public const string ItemList = "%ItemList";
-		public const string SelectedItem = "%SelectedItem";
+		public static readonly NodePath AddItem = new("%AddItem");
+		public static readonly NodePath ItemList = new("%ItemList");
+		public static readonly NodePath SelectedItem = new("%SelectedItem");
 	}
 	
 	[Signal]
@@ -28,18 +29,17 @@ public partial class Inventory : VBoxContainer
 	
 	public override void _Ready()
 	{
-		if(!(Items is List<Item>))
-			Items = new List<Item>();
+		Items ??= [];
 		
-		itemList = GetNode<VBoxContainer>(NodePath.ItemList);
-		options = GetNode<InventoryItemOptions>(NodePath.SelectedItem);
+		itemList = GetNode<VBoxContainer>(NodePaths.ItemList);
+		options = GetNode<InventoryItemOptions>(NodePaths.SelectedItem);
 		
-		GetNode<Button>(NodePath.AddItem).Pressed += addItemHandler;
+		GetNode<Button>(NodePaths.AddItem).Pressed += addItemHandler;
 		
-		regenerateItems();
+		RegenerateItems();
 	}
 	
-	public void regenerateItems()
+	public void RegenerateItems()
 	{
 		foreach(Node c in itemList.GetChildren())
 		{
@@ -53,15 +53,15 @@ public partial class Inventory : VBoxContainer
 	private void addItemHandler()
 	{
 		var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container)
 		{
 			var itemName = options.GetSelectedItemText();
-			if(dfc.AllItems.Find(i => i.Name.Equals(itemName)) is Item item)
+			if(container.AllItems.Find(i => i.Name.Equals(itemName)) is Item item)
 			{
 				Items.Add(item);
-				EmitSignal(nameof(ItemsChanged), new Transport<List<Item>>(Items));
+				EmitSignal(SignalName.ItemsChanged, new Transport<List<Item>>(Items));
 				
-				regenerateItems();
+				RegenerateItems();
 			}
 			options.Deselect();
 		}
@@ -76,16 +76,17 @@ public partial class Inventory : VBoxContainer
 		instance.Equipped += itemEquipped;
 		
 		itemList.AddChild(instance);
-		instance.refresh();
+		instance.Refresh();
 		instance.Visible = true;
 	}
 	
 	private void itemEquipped(Transport<Item> transport)
 	{
-		if(Items.Find(i => i.Equals(transport.Value)) is ItemEquippable item && transport.Value is ItemEquippable changed)
+		if(transport.Value is ItemEquippable changed
+			&& Items.Where(i => i == transport.Value).FirstOrDefault() is ItemEquippable item)
 		{
 			item.Equipped = changed.Equipped;
-			EmitSignal(nameof(ItemsChanged), new Transport<List<Item>>(Items));
+			EmitSignal(SignalName.ItemsChanged, new Transport<List<Item>>(Items));
 		}
 	}
 }
