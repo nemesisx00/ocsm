@@ -1,5 +1,4 @@
-﻿
-namespace Ocsm.Tests.util;
+﻿namespace Ocsm.Tests.Util;
 
 public class ExtensionsTest
 {
@@ -7,6 +6,7 @@ public class ExtensionsTest
 	{
 		[Label("Hi")]
 		Hi,
+		
 		[Label("There")]
 		There,
 	}
