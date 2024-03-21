@@ -23,11 +23,13 @@ public partial class FileMenu : MenuButton
 		Quit,
 	}
 	
+	private AppManager appManager;
 	private MetadataManager metadataManager;
 	private SheetManager sheetManager;
 	
 	public override void _Ready()
 	{
+		appManager = GetNode<AppManager>(AppManager.NodePath);
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 		
@@ -65,11 +67,7 @@ public partial class FileMenu : MenuButton
 				break;
 			
 			case MenuItem.Quit:
-				//FIXME: GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
-				//Determine why firing the notification doesn't work here.
-				//The window is created but then its Canceled signal is triggered before it's even finished drawing.
-				//Calling AppManager's showQuitConfirm manually is good enough for now.
-				GetNode<AppManager>(AppManager.NodePath).ShowQuitConfirm();
+				appManager.ShowQuitConfirm();
 				break;
 		}
 	}
