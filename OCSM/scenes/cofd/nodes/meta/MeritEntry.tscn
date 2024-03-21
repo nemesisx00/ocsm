@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d1mq7osydydws"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_u8wcu"]
-[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/core/nodes/TrackSimple.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/meta/MeritEntry.cs" id="4"]
 
 

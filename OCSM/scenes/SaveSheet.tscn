@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://dtx5rqwvpdm8a"]
 
-[ext_resource type="Script" path="res://scripts/interface/SaveSheet.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/core/nodes/interface/SaveSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_5ikmg"]
+
 
 [node name="FileDialog" type="FileDialog"]
 initial_position = 1

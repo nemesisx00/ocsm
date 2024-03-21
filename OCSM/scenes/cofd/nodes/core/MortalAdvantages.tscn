@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://bwttlfflu2lyi"]
 
-[ext_resource type="Script" path="res://scripts/nodes/EntryList.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/core/nodes/EntryList.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_45tya"]
 [ext_resource type="PackedScene" uid="uid://l2joeymavl7n" path="res://scenes/nodes/TrackComplex.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="4"]
+
 
 [node name="Advantages" type="VBoxContainer"]
 anchors_preset = 15

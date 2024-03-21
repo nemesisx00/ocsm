@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://2shcam2dbwr4"]
 
-[ext_resource type="Script" path="res://scripts/nodes/NewSheet.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/core/nodes/NewSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_824il"]
 
 [node name="NewSheet" type="ScrollContainer"]

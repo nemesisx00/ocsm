@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxllwevkln3ib"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_rhekd"]
-[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="2_3fq4q"]
+[ext_resource type="Script" path="res://scripts/core/nodes/TrackSimple.cs" id="2_3fq4q"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/SpecialtyList.cs" id="5"]
 
 [node name="Skills" type="VBoxContainer"]

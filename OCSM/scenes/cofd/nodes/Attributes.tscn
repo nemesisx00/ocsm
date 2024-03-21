@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://0urptism2d4q"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_c8ix3"]
-[ext_resource type="Script" path="res://scripts/nodes/TrackSimple.cs" id="2_dnks5"]
+[ext_resource type="Script" path="res://scripts/core/nodes/TrackSimple.cs" id="2_dnks5"]
 
 [node name="Attributes" type="VBoxContainer"]
 anchors_preset = 15

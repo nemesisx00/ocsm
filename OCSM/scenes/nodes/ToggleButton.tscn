@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlasl05x5a5r6"]
 
-[ext_resource type="Script" path="res://scripts/nodes/ToggleButton.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/core/nodes/ToggleButton.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_im040"]
 
 [node name="ToggleButton" type="TextureButton"]

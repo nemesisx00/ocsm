@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bxsbfbdwx26pw"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_iffss"]
-[ext_resource type="Script" path="res://scripts/nodes/meta/BasicMetadataEntry.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/core/nodes/meta/BasicMetadataEntry.cs" id="2"]
 
 [node name="BasicMetadataEnty" type="VBoxContainer"]
 anchors_preset = 15

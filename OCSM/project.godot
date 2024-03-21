@@ -17,9 +17,9 @@ config/icon="res://icon.png"
 
 [autoload]
 
-AppManager="*res://scripts/autoload/AppManager.cs"
-MetadataManager="*res://scripts/autoload/MetadataManager.cs"
-SheetManager="*res://scripts/autoload/SheetManager.cs"
+AppManager="*res://scripts/core/nodes/autoload/AppManager.cs"
+MetadataManager="*res://scripts/core/nodes/autoload/MetadataManager.cs"
+SheetManager="*res://scripts/core/nodes/autoload/SheetManager.cs"
 
 [display]
 

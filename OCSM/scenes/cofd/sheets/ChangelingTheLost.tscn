@@ -101,6 +101,7 @@ theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 2
 script = ExtResource("6")
+sortItems = null
 
 [node name="Contracts" type="MarginContainer" parent="Column/TabContainer"]
 visible = false

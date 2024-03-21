@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/ContractNode.cs" id="1_l6lsg"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="2_rk7r5"]
-[ext_resource type="Script" path="res://scripts/nodes/MetadataOption.cs" id="3_856tn"]
+[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_856tn"]
 [ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="5_d0xoq"]
 [ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="6_eo8c3"]
 [ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/options/ActionOptionButton.cs" id="7_hvqwi"]
