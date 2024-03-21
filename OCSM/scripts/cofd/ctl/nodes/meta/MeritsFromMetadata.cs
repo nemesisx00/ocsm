@@ -2,7 +2,7 @@ using Godot;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes.Cofd.Ctl.Meta;
+namespace Ocsm.Cofd.Ctl.Nodes.Meta;
 
 public partial class MeritsFromMetadata : Container
 {

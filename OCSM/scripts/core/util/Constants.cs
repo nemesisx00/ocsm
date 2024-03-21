@@ -95,19 +95,19 @@ public class Constants
 		{
 			public static class Fifth
 			{
-				public const string Skill = "res://scenes/Dnd/Fifth/Skill.tscn";
-				public const string Sheet = "res://scenes/Dnd/sheets/Fifth.tscn";
+				public const string Skill = "res://scenes/dnd/fifth/Skill.tscn";
+				public const string Sheet = "res://scenes/dnd/sheets/Fifth.tscn";
 				public const string NewSheetName = "New Adventurer";
-				public const string Feature = "res://scenes/Dnd/Fifth/Feature.tscn";
-				public const string FeatureSection = "res://scenes/Dnd/Fifth/FeatureSection.tscn";
-				public const string InventoryItem = "res://scenes/Dnd/Fifth/InventoryItem.tscn";
+				public const string Feature = "res://scenes/dnd/fifth/Feature.tscn";
+				public const string FeatureSection = "res://scenes/dnd/fifth/FeatureSection.tscn";
+				public const string InventoryItem = "res://scenes/dnd/fifth/InventoryItem.tscn";
 				
 				public static class Meta
 				{
-					public const string AddEditMetadata = "res://scenes/Dnd/Fifth/meta/DndFifthAddEditMetadata.tscn";
-					public const string FeatureSectionEntry = "res://scenes/Dnd/Fifth/meta/FeatureSectionEntry.tscn";
-					public const string FeatureEntry = "res://scenes/Dnd/Fifth/meta/FeatureEntry.tscn";
-					public const string NumericBonusEdit = "res://scenes/Dnd/Fifth/meta/NumericBonusEdit.tscn";
+					public const string AddEditMetadata = "res://scenes/dnd/fifth/meta/DndFifthAddEditMetadata.tscn";
+					public const string FeatureSectionEntry = "res://scenes/dnd/fifth/meta/FeatureSectionEntry.tscn";
+					public const string FeatureEntry = "res://scenes/dnd/fifth/meta/FeatureEntry.tscn";
+					public const string NumericBonusEdit = "res://scenes/dnd/fifth/meta/NumericBonusEdit.tscn";
 				}
 			}
 		}

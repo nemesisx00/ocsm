@@ -2,7 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace Ocsm.Nodes.Sheets;
+namespace Ocsm.Nodes;
 
 public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 	where T: Character

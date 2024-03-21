@@ -1,11 +1,9 @@
 using Godot;
-using System;
-using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes.Meta;
 
-namespace Ocsm.Nodes.Cofd.Ctl.Meta;
+namespace Ocsm.Cofd.Ctl.Nodes.Meta;
 
 public partial class ContractEntry : Container
 {

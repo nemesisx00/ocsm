@@ -1,9 +1,9 @@
 using Godot;
 using System.Linq;
 using System.Collections.Generic;
-using Ocsm.Cofd;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Cofd;
+namespace Ocsm.Cofd.Nodes;
 
 public partial class MeritList : ItemDotsList
 {

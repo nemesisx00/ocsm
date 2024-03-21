@@ -1,30 +1,20 @@
-using System;
 using System.Text.Json.Serialization;
 
-namespace Ocsm;
-
-[Flags]
-public enum GameSystem
-{
-	None = 0,
-	CofdChangeling = 1,
-	CofdMortal = 2,
-	Dnd5e = 4,
-}
+namespace Ocsm.Meta;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum MetadataType
 {
-	None = 0,
+	None,
 	
-	CofdChangelingContractRegalia = 10,
+	CofdChangelingContractRegalia,
 	CofdChangelingContractType,
 	CofdChangelingCourt,
 	CofdChangelingKith,
 	CofdChangelingRegalia,
 	CofdChangelingSeeming,
 	
-	Dnd5eBackground = 1000,
+	Dnd5eBackground,
 	Dnd5eClass,
 	Dnd5eRace,
 }

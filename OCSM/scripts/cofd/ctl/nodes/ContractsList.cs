@@ -1,12 +1,12 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Cofd.Nodes;
+using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
-using Ocsm.Cofd;
 
-namespace Ocsm.Nodes.Cofd.Ctl;
+namespace Ocsm.Cofd.Ctl.Nodes;
 
 public partial class ContractsList : Container
 {

@@ -1,9 +1,7 @@
 using Godot;
-using System;
-using System.Collections.Generic;
-using Ocsm.Dnd.Fifth;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class AbilityRow : Container
 {

@@ -1,6 +1,7 @@
 using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class InventoryItemOptions : CustomOption
 {

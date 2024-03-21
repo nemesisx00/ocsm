@@ -5,19 +5,14 @@ using Godot;
 
 namespace Ocsm;
 
-public static class Extensions
+public static class OptionButtonExtensions
 {
-	// OptionButton extensions
-	
-	public static void Deselect(this OptionButton node)
-	{
-		node.Selected = -1;
-	}
+	public static void Deselect(this OptionButton node) => node.Selected = -1;
 	
 	public static void SetDisabled(this OptionButton node, List<string> strings, bool disabled = false, List<string> exclusions = null)
 	{
 		var skip = new List<string>();
-		if(exclusions is List<string>)
+		if(exclusions is not null)
 			skip.AddRange(exclusions);
 		
 		node.SetDisabledAll(false);
@@ -30,7 +25,7 @@ public static class Extensions
 		var count = node.ItemCount;
 		for(var i = 0; i < count; i++)
 		{
-			node.SetItemDisabled(i, false);
+			node.SetItemDisabled(i, disabled);
 		}
 	}
 	
@@ -56,15 +51,12 @@ public static class Extensions
 	
 	public static string GetSelectedItemText(this OptionButton node)
 	{
-		var ret = String.Empty;
+		var ret = string.Empty;
 		var index = node.Selected;
 		if(index >= 0 && index < node.ItemCount)
 			ret = node.GetItemText(index);
 		return ret;
 	}
 	
-	public static void SelectItemByText(this OptionButton node, string text)
-	{
-		node.Selected = node.GetFirstItemIndexByText(text);
-	}
+	public static void SelectItemByText(this OptionButton node, string text) => node.Selected = node.GetFirstItemIndexByText(text);
 }

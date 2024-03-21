@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
+using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes.Meta;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 {

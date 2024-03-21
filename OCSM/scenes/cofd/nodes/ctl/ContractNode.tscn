@@ -49,16 +49,18 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("3_856tn")
-GameSystem = 2
-MetadataType = 10
+EmptyOption = null
+GameSystem = 1
+MetadataType = 1
 
 [node name="ContractType" type="OptionButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("3_856tn")
-GameSystem = 2
-MetadataType = 10
+EmptyOption = null
+GameSystem = 1
+MetadataType = 2
 
 [node name="ToggleDetails" type="TextureButton" parent="VBoxContainer/Row"]
 unique_name_in_owner = true

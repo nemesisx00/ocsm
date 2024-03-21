@@ -1,10 +1,8 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Cofd;
 
-namespace Ocsm.Nodes.Cofd;
+namespace Ocsm.Cofd.Nodes;
 
 public partial class SpecialtyList : Container
 {
@@ -42,7 +40,7 @@ public partial class SpecialtyList : Container
 		.ToList()
 		.ForEach(row => row.QueueFree());
 	
-	private void sortChildren() => NodeUtilities.rearrangeNodes(
+	private void sortChildren() => NodeUtilities.RearrangeNodes(
 			this,
 			[.. GetChildren()
 				.OrderBy(row => TraitDots.KindFromString(row.GetChild<OptionButton>(0).GetSelectedItemText()))]

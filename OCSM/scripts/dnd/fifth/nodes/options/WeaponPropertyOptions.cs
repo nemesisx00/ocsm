@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Ocsm.Dnd.Fifth.Inventory;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class WeaponPropertyOptions : OptionButton
 {

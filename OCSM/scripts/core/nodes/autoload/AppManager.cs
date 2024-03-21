@@ -36,7 +36,7 @@ public partial class AppManager : Node
 		else if(!IsQuitting)
 		{
 			confirmQuit = confirmQuitScene.Instantiate<ConfirmQuit>();
-			confirmQuit.CloseRequested += () => NodeUtilities.queueFree(ref confirmQuit);
+			confirmQuit.CloseRequested += () => NodeUtilities.QueueFree(ref confirmQuit);
 			
 			GetTree().CurrentScene.AddChild(confirmQuit);
 			confirmQuit.PopupCentered();

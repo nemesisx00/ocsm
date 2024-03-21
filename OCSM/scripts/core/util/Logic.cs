@@ -23,7 +23,7 @@ public class Logic
 	public static bool AreEqualOrNull<T>(T o1, T o2)
 		=> (o1 is not null && o1.Equals(o2))
 			|| (o1 is null && o2 is null);
-
+	
 	/**
 	<summary>
 	Determine if <c>o1</c> and <c>o2</c> are equal, accounting for null values.

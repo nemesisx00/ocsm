@@ -1,4 +1,4 @@
-namespace Ocsm.Nodes.Sheets;
+namespace Ocsm.Nodes;
 
 public interface ICharacterSheet
 {

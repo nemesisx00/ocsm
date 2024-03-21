@@ -1,8 +1,7 @@
 using Godot;
 using System.Collections.Generic;
-using Ocsm.Dnd.Fifth;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class AbilityScores : Container
 {

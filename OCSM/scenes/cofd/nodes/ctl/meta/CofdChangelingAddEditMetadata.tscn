@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bmqp01sx1ngp0"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_4lj0f"]
-[ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/meta/CodChangelingAddEditMetadata.cs" id="2_6tw84"]
+[ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/meta/CofdChangelingAddEditMetadata.cs" id="2_6tw84"]
 [ext_resource type="PackedScene" uid="uid://b0ap5bsmgxih1" path="res://scenes/cofd/nodes/ctl/meta/ContractEntry.tscn" id="3_1t2lx"]
 [ext_resource type="PackedScene" uid="uid://dqnjqmoa7s7ua" path="res://scenes/meta/MetadataEntry.tscn" id="4_k33dx"]
 [ext_resource type="PackedScene" uid="uid://d1mq7osydydws" path="res://scenes/cofd/nodes/meta/MeritEntry.tscn" id="5_ui51e"]
@@ -37,28 +37,28 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 10
+MetadataType = 1
 MetadataTypeLabel = "Contract Regalia"
 
 [node name="Contract Type" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("4_k33dx")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 11
+MetadataType = 2
 MetadataTypeLabel = "Contract Type"
 
 [node name="Court" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("4_k33dx")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 12
+MetadataType = 3
 MetadataTypeLabel = "Court"
 
 [node name="Kith" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("4_k33dx")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 13
+MetadataType = 4
 MetadataTypeLabel = "Kith"
 
 [node name="Merit" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("5_ui51e")]
@@ -71,12 +71,12 @@ MetadataTypeLabel = "Merit"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 14
+MetadataType = 5
 MetadataTypeLabel = "Regalia"
 
 [node name="Seeming" parent="ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("4_k33dx")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 15
+MetadataType = 6
 MetadataTypeLabel = "Seeming"

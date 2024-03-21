@@ -31,7 +31,7 @@ tab_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("6")
-Type = 1000
+Type = 7
 MetadataTypeLabel = "Background"
 
 [node name="Classes" parent="ScrollContainer/TabContainer" instance=ExtResource("1")]
@@ -39,7 +39,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 script = ExtResource("6")
-Type = 1001
+Type = 8
 MetadataTypeLabel = "Class"
 
 [node name="Features" type="VBoxContainer" parent="ScrollContainer/TabContainer"]
@@ -77,5 +77,5 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 script = ExtResource("6")
-Type = 1002
+Type = 9
 MetadataTypeLabel = "Race"

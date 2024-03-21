@@ -1,16 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Ocsm.Cofd;
-using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Cofd.Ctl.Nodes.Meta;
+using Ocsm.Cofd.Nodes;
 using Ocsm.Meta;
+using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
-using Ocsm.Nodes.Cofd.Ctl;
-using Ocsm.Nodes.Cofd.Ctl.Meta;
-using Ocsm.Nodes.Sheets;
 
-namespace Ocsm.Nodes.Cofd.Sheets;
+namespace Ocsm.Cofd.Ctl.Nodes;
 
 public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 {

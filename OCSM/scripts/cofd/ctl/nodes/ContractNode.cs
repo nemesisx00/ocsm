@@ -1,13 +1,13 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Cofd;
-using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
-using Ocsm.Nodes.Autoload;
+using Ocsm.Cofd.Nodes;
 using Ocsm.Meta;
+using Ocsm.Nodes;
+using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes.Cofd.Ctl;
+namespace Ocsm.Cofd.Ctl.Nodes;
 
 public partial class ContractNode : MarginContainer
 {
@@ -313,16 +313,16 @@ public partial class ContractNode : MarginContainer
 	private void updateSeemingBenefits()
 	{
 		GetChildren()
-			.Where(node => string.IsNullOrEmpty(node.GetNode<MetadataOption>(NodePaths.SeemingInput).GetSelectedItemText())
-				&& string.IsNullOrEmpty(node.GetNode<TextEdit>(NodePaths.BenefitInput).Text))
+			.Where(node => string.IsNullOrEmpty(node.GetNodeOrNull<MetadataOption>(NodePaths.SeemingInput)?.GetSelectedItemText())
+				&& string.IsNullOrEmpty(node.GetNodeOrNull<TextEdit>(NodePaths.BenefitInput)?.Text))
 			.ToList()
 			.ForEach(node => node.QueueFree());
 		
 		SeemingBenefits = GetChildren()
 					.Where(node => node is HBoxContainer)
 					.Select(node => new {
-						seeming = node.GetNode<MetadataOption>(NodePaths.SeemingInput).GetSelectedItemText(),
-						benefit = node.GetNode<TextEdit>(NodePaths.BenefitInput).Text
+						seeming = node.GetNodeOrNull<MetadataOption>(NodePaths.SeemingInput)?.GetSelectedItemText(),
+						benefit = node.GetNodeOrNull<TextEdit>(NodePaths.BenefitInput)?.Text
 					})
 					.OrderBy(o => o.seeming)
 					.ToDictionary(o => o.seeming, o => o.benefit);

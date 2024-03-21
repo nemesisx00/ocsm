@@ -17,12 +17,10 @@ public static class Enums
 	/// returns null.
 	/// </returns>
 	public static T? FromName<T>(string name)
-		where T: struct, Enum
-	{
-		return Enum.GetValues<T>()
-			.Where(e => Enum.GetName<T>(e).Equals(name))
+			where T: struct, Enum
+		=> Enum.GetValues<T>()
+			.Where(e => Enum.GetName(e) == name)
 			.FirstOrDefault();
-	}
 	
 	/// <summary>
 	/// Convenience method to get an enumeration value based on its label attribute.
@@ -33,12 +31,10 @@ public static class Enums
 	/// returns null.
 	/// </returns>
 	public static T? FromLabel<T>(string label)
-		where T: struct, Enum
-	{
-		return Enum.GetValues<T>()
-			.Where(e => e.GetLabel().Equals(label))
+			where T: struct, Enum
+		=> Enum.GetValues<T>()
+			.Where(e => e.GetLabel() == label)
 			.FirstOrDefault();
-	}
 	
 	/// <summary>
 	/// Determine if <c>o1</c> and <c>o2</c> are equal, accounting for null values.
@@ -51,10 +47,6 @@ public static class Enums
 	/// <param name="o2">The second object being compared.</param>
 	/// <returns>The boolean value resulting from the logical evaluation.</returns>
 	public static bool AreEqualOrNull<T>(T o1, T o2)
-	{
-		return (
-			(o1 is not null && o1.Equals(o2))
-			|| (o1 is null && o2 is null)
-		);
-	}
+		=> (o1 is not null && o1.Equals(o2))
+			|| (o1 is null && o2 is null);
 }

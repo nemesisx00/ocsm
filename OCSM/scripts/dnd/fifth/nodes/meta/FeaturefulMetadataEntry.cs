@@ -1,10 +1,9 @@
 using Godot;
 using System.Collections.Generic;
 using Ocsm.Nodes.Meta;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Meta;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 {

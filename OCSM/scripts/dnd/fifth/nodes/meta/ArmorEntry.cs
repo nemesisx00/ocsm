@@ -1,9 +1,10 @@
 using Godot;
+using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class ArmorEntry : Container, ICanDelete
 {
@@ -87,10 +88,10 @@ public partial class ArmorEntry : Container, ICanDelete
 	
 	public void DoDelete()
 	{
-		var name = GetNode<LineEdit>(NodePaths.NameInput).Text;
+		var name = nameInput.Text;
 		if(!string.IsNullOrEmpty(name))
 		{
-			EmitSignal(nameof(DeleteConfirmed), name);
+			EmitSignal(SignalName.DeleteConfirmed, name);
 			clearInputs();
 		}
 		//TODO: Display error message if name is empty
@@ -160,7 +161,7 @@ public partial class ArmorEntry : Container, ICanDelete
 		var minStr = (int)minimumStrengthInput.Value;
 		var description = descriptionInput.Text;
 		
-		var armor = new ItemArmor()
+		EmitSignal(SignalName.SaveClicked, new Transport<ItemArmor>(new()
 		{
 			AllowDexterityBonus = allowDex,
 			BaseArmorClass = ac,
@@ -173,9 +174,8 @@ public partial class ArmorEntry : Container, ICanDelete
 			StealthDisadvantage = stealth,
 			ArmorType = type,
 			Weight = weight,
-		};
+		}));
 		
-		EmitSignal(SignalName.SaveClicked, new Transport<ItemArmor>(armor));
 		clearInputs();
 	}
 	

@@ -1,8 +1,8 @@
-using Godot;
+using Ocsm.Nodes;
 using System;
 using System.Linq;
 
-namespace Ocsm.Nodes.Cofd.Ctl;
+namespace Ocsm.Cofd.Ctl.Nodes;
 
 public partial class ActionOptionButton : CustomOption
 {

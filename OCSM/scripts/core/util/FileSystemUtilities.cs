@@ -9,8 +9,8 @@ namespace Ocsm;
 public class FileSystemUtilities
 {
 	private const string App = "/Ocsm/";
-	private const string Sheets = App + "sheets/";
-	private const string Metadata = App + "metadata/";
+	private const string Sheets = $"{App}sheets/";
+	private const string Metadata = $"{App}metadata/";
 	
 	/// <summary>
 	/// The path to the user-specific default storage directory for saving character sheet files.
@@ -18,14 +18,29 @@ public class FileSystemUtilities
 	/// <remarks>
 	/// Uses <c>System.Environment.SpecialFolder.ApplicationData</c> as a base path.
 	/// </remarks>
-	public static string DefaultSheetDirectory { get { return CreatePathIfNotExists(AutoLower(GetFinalPath(Environment.SpecialFolder.ApplicationData, Sheets))); } }
+	public static string DefaultSheetDirectory => createPathIfNotExists(
+		autoLower(
+			getFinalPath(
+				Environment.SpecialFolder.ApplicationData,
+				Sheets
+			)
+		)
+	);
+	
 	/// <summary>
 	/// The path to the user-agnostic default storage directory for saving game system metadata files.
 	/// </summary>
 	/// <remarks>
 	/// Uses <c>System.Environment.SpecialFolder.CommonApplicationData</c> as a base path.
 	/// </remarks>
-	public static string DefaultMetadataDirectory { get { return CreatePathIfNotExists(AutoLower(GetFinalPath(Environment.SpecialFolder.CommonApplicationData, Metadata))); } }
+	public static string DefaultMetadataDirectory => createPathIfNotExists(
+		autoLower(
+			getFinalPath(
+				Environment.SpecialFolder.CommonApplicationData,
+				Metadata
+			)
+		)
+	);
 	
 	/// <summary>
 	/// Read the contents of a file at the given <c>path</c>, if it exists.
@@ -50,7 +65,7 @@ public class FileSystemUtilities
 	/// <param name="data">The string to be written as the contents of the file.</param>
 	public static void WriteString(string path, string data)
 	{
-		var finalPath = CreatePathIfNotExists(Path.GetFullPath(path));
+		var finalPath = createPathIfNotExists(Path.GetFullPath(path));
 		File.WriteAllText(finalPath, data);
 	}
 	
@@ -66,10 +81,14 @@ public class FileSystemUtilities
 	/// The <c>path</c> as a string, whether it was modified or left
 	/// unaltered.
 	/// </returns>
-	private static string AutoLower(string path)
+	private static string autoLower(string path)
 	{
-		if(Environment.OSVersion.Platform.Equals(PlatformID.Unix) || Environment.OSVersion.Platform.Equals(PlatformID.MacOSX))
+		if(Environment.OSVersion.Platform.Equals(PlatformID.Unix)
+			|| Environment.OSVersion.Platform.Equals(PlatformID.MacOSX))
+		{
 			return path.ToLower();
+		}
+		
 		return path;
 	}
 	
@@ -79,10 +98,8 @@ public class FileSystemUtilities
 	/// <param name="folder">The <c>System.Environment.SpecialFolder</c> to use as a base path.</param>
 	/// <param name="pathFragment">The path, relative to <c>folder</c>, defining the desired directory or file.</param>
 	/// <returns>The fully qualified file system path as a string.</returns>
-	private static string GetFinalPath(Environment.SpecialFolder folder, string pathFragment)
-	{
-		return Path.GetFullPath(Environment.GetFolderPath(folder) + pathFragment);
-	}
+	private static string getFinalPath(Environment.SpecialFolder folder, string pathFragment)
+		=> Path.GetFullPath(Environment.GetFolderPath(folder) + pathFragment);
 	
 	/// <summary>
 	/// Create the full directory structure of a given <c>path</c> if any
@@ -93,7 +110,7 @@ public class FileSystemUtilities
 	/// </remarks>
 	/// <param name="path">The path whose directory structure will be created.</param>
 	/// <returns>The unaltered <c>path</c> as a string.</returns>
-	private static string CreatePathIfNotExists(string path)
+	private static string createPathIfNotExists(string path)
 	{
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
 		return path;

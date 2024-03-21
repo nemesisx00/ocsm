@@ -1,12 +1,12 @@
 using Godot;
+using System;
 using System.Linq;
 using System.Collections.Generic;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
-using System;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class FeatureEntry : Container, ICanDelete
 {
@@ -37,7 +37,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	[Signal]
 	public delegate void DeleteConfirmedEventHandler(string name);
 	
-	public Ocsm.Dnd.Fifth.Feature Feature { get; set; }
+	public Feature Feature { get; set; }
 	
 	private Label classLabel;
 	private ClassOptionsButton classNode;
@@ -56,8 +56,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
 		
-		if(!(Feature is Ocsm.Dnd.Fifth.Feature))
-			Feature = new Ocsm.Dnd.Fifth.Feature();
+		Feature ??= new Feature();
 		
 		classLabel = GetNode<Label>(NodePath.ClassLabel);
 		classNode = GetNode<ClassOptionsButton>(NodePath.Class);
@@ -90,7 +89,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void refreshValues()
 	{
-		if(Feature is Ocsm.Dnd.Fifth.Feature)
+		if(Feature is not null)
 		{
 			classNode.Select(Feature.ClassName);
 			descriptionNode.Text = Feature.Description;
@@ -110,19 +109,19 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void clearInputs()
 	{
-		Feature = new Ocsm.Dnd.Fifth.Feature();
+		Feature = new();
 		refreshValues();
 	}
 	
 	private void doSave()
 	{
-		EmitSignal(nameof(SaveClicked), new Transport<Ocsm.Dnd.Fifth.Feature>(Feature));
+		EmitSignal(SignalName.SaveClicked, new Transport<Feature>(Feature));
 		clearInputs();
 	}
 	
 	public void DoDelete()
 	{
-		EmitSignal(nameof(DeleteConfirmed), Feature.Name);
+		EmitSignal(SignalName.DeleteConfirmed, Feature.Name);
 		clearInputs();
 	}
 	
@@ -136,19 +135,19 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName);
 		var name = optionsButton.GetItemText((int)index);
-		if(metadataManager.Container is DndFifthContainer dfc)
+		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(dfc.Features.Find(f => f.Name.Equals(name)) is Ocsm.Dnd.Fifth.Feature feature)
+			if(container.Features.Where(f => f.Name == name).FirstOrDefault() is Feature feature)
 			{
-				loadEntry(feature);
+				LoadEntry(feature);
 				optionsButton.Deselect();
 			}
 		}
 	}
 	
-	public void loadEntry(Ocsm.Dnd.Fifth.Feature feature)
+	public void LoadEntry(Feature feature)
 	{
-		if(feature is Ocsm.Dnd.Fifth.Feature)
+		if(feature is not null)
 		{
 			Feature = feature;
 			Feature.NumericBonuses.Sort();
@@ -158,7 +157,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void toggleClassInput()
 	{
-		if(Feature.FeatureType.Equals(FeatureTypes.Class))
+		if(Feature.FeatureType == FeatureTypes.Class)
 		{
 			classLabel.Show();
 			classNode.Show();
@@ -170,14 +169,14 @@ public partial class FeatureEntry : Container, ICanDelete
 		}
 	}
 	
-	private void classChanged(long index) { Feature.ClassName = classNode.GetItemText((int)index); }
-	private void descriptionChanged() { Feature.Description = descriptionNode.Text; }
-	private void nameChanged(string text) { Feature.Name = text; }
-	private void numericBonusesChanged(Transport<List<NumericBonus>> transport) { Feature.NumericBonuses = transport.Value.OrderBy(nb => nb).ToList(); }
-	private void requiredLevelChanged(double value) { Feature.RequiredLevel = (int)value; }
-	private void sectionsChanged(Transport<List<FeatureSection>> transport) { Feature.Sections = transport.Value; }
-	private void sourceChanged(string text) { Feature.Source = text; }
-	private void textChanged() { Feature.Text = textNode.Text; }
+	private void classChanged(long index) => Feature.ClassName = classNode.GetItemText((int)index);
+	private void descriptionChanged() => Feature.Description = descriptionNode.Text;
+	private void nameChanged(string text) => Feature.Name = text;
+	private void numericBonusesChanged(Transport<List<NumericBonus>> transport) => Feature.NumericBonuses = [.. transport?.Value.OrderBy(nb => nb)];
+	private void requiredLevelChanged(double value) => Feature.RequiredLevel = (int)value;
+	private void sectionsChanged(Transport<List<FeatureSection>> transport) => Feature.Sections = transport.Value;
+	private void sourceChanged(string text) => Feature.Source = text;
+	private void textChanged() => Feature.Text = textNode.Text;
 	
 	private void typeChanged(long index)
 	{
@@ -186,8 +185,9 @@ public partial class FeatureEntry : Container, ICanDelete
 		Feature.FeatureType = Enum.GetValues<FeatureTypes>()
 			.FirstOrDefault(ft => ft.GetLabel() == text);
 		
-		if(!Feature.FeatureType.Equals(FeatureTypes.Class))
+		if(Feature.FeatureType != FeatureTypes.Class)
 			classNode.Deselect();
+		
 		toggleClassInput();
 	}
 }

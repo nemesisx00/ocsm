@@ -1,6 +1,7 @@
 using Godot;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class DieOptionsButton : CustomOption
 {

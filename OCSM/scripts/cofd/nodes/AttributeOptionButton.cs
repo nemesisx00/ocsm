@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Ocsm.Cofd;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Cofd;
+namespace Ocsm.Cofd.Nodes;
 
 public partial class AttributeOptionButton : CustomOption
 {

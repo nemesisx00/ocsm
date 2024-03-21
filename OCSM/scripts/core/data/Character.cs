@@ -1,3 +1,5 @@
+using Ocsm.Meta;
+
 namespace Ocsm;
 
 public class Character(GameSystem gameSystem, string name = "")

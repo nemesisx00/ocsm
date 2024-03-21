@@ -2,10 +2,9 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Inventory;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class InventoryItem : HBoxContainer
 {
@@ -86,14 +85,14 @@ public partial class InventoryItem : HBoxContainer
 				ac.Append($" (Max {armor.DexterityBonusLimit})");
 		}
 		
-		nodes.Add(NodeUtilities.createCenteredLabel(ac.ToString()));
+		nodes.Add(NodeUtilities.CreateCenteredLabel(ac.ToString()));
 		
 		//TODO: Should this always display or hide when the character's strength meets/exceeds the requirements?
 		if(armor.MinimumStrength > 0 && Strength.Score < armor.MinimumStrength)
-			nodes.Add(NodeUtilities.createCenteredLabel($"{armor.MinimumStrength} Str Required"));
+			nodes.Add(NodeUtilities.CreateCenteredLabel($"{armor.MinimumStrength} Str Required"));
 		
 		if(armor.StealthDisadvantage)
-			nodes.Add(NodeUtilities.createCenteredLabel("Disadvantage on Stealth Checks"));
+			nodes.Add(NodeUtilities.CreateCenteredLabel("Disadvantage on Stealth Checks"));
 		
 		return nodes;
 	}
@@ -110,6 +109,6 @@ public partial class InventoryItem : HBoxContainer
 				damage.Append(d.Key.DamageType.GetLabel());
 			});
 		
-		return [NodeUtilities.createCenteredLabel(damage.ToString())];
+		return [NodeUtilities.CreateCenteredLabel(damage.ToString())];
 	}
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using Godot;
 using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Meta;
@@ -12,6 +14,10 @@ public class CofdCoreContainer() : BaseContainer(), IMetadataContainer, IEquatab
 	public override void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<CofdCoreContainer>(json);
+		if(result is not null)
+		{
+			GD.Print(result.Metadata.FirstOrDefault()?.Type);
+		}
 		if(result is CofdCoreContainer container)
 		{
 			Metadata = container.Metadata;

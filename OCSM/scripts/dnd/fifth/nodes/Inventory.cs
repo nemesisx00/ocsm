@@ -1,12 +1,11 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class Inventory : VBoxContainer
 {

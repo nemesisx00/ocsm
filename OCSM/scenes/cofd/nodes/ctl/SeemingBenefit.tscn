@@ -16,8 +16,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 script = ExtResource("2_krmrv")
-GameSystem = 2
-MetadataType = 15
+EmptyOption = null
+GameSystem = 1
+MetadataType = 6
 
 [node name="Benefit" type="TextEdit" parent="."]
 unique_name_in_owner = true

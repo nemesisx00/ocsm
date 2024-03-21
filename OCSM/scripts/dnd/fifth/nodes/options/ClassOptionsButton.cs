@@ -1,7 +1,9 @@
 using System.Linq;
 using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Meta;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class ClassOptionsButton : CustomOption
 {

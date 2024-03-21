@@ -193,8 +193,9 @@ focus_neighbor_bottom = NodePath("../../Row9/Kith")
 focus_next = NodePath("../../Row9/Kith")
 focus_previous = NodePath("../../Row7/Thread")
 script = ExtResource("4_awl86")
-GameSystem = 2
-MetadataType = 15
+EmptyOption = null
+GameSystem = 1
+MetadataType = 6
 
 [node name="Row4" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -252,8 +253,9 @@ focus_neighbor_bottom = NodePath("../../Row10/Court")
 focus_next = NodePath("../../Row10/Court")
 focus_previous = NodePath("../../Row8/Seeming")
 script = ExtResource("4_awl86")
-GameSystem = 2
-MetadataType = 13
+EmptyOption = null
+GameSystem = 1
+MetadataType = 4
 
 [node name="Row5" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -309,8 +311,9 @@ tooltip_text = "If the character is a part of a group, enter the Group Name here
 focus_neighbor_left = NodePath("../../Row5/Size")
 focus_previous = NodePath("../../Row9/Kith")
 script = ExtResource("4_awl86")
-GameSystem = 2
-MetadataType = 12
+EmptyOption = null
+GameSystem = 1
+MetadataType = 3
 
 [node name="Column" type="VBoxContainer" parent="Details"]
 layout_mode = 2
@@ -335,16 +338,18 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("4_awl86")
-GameSystem = 2
-MetadataType = 14
+EmptyOption = null
+GameSystem = 1
+MetadataType = 5
 
 [node name="Regalia2" type="OptionButton" parent="Details/Column/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 script = ExtResource("4_awl86")
-GameSystem = 2
-MetadataType = 14
+EmptyOption = null
+GameSystem = 1
+MetadataType = 5
 
 [node name="Label2" type="Label" parent="Details/Column"]
 layout_mode = 2

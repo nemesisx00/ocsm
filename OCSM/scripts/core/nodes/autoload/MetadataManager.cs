@@ -1,10 +1,11 @@
 using Godot;
 using Ocsm.Meta;
-using Ocsm.Cofd.Meta;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Cofd.Ctl.Nodes;
+using Ocsm.Cofd.Meta;
+using Ocsm.Cofd.Nodes;
 using Ocsm.Dnd.Fifth.Meta;
-using Ocsm.Nodes.Cofd.Sheets;
-using Ocsm.Nodes.Dnd.Sheets;
+using Ocsm.Dnd.Nodes;
 
 namespace Ocsm.Nodes.Autoload;
 
@@ -74,8 +75,7 @@ public partial class MetadataManager : Node
 	{
 		if(CurrentGameSystem != GameSystem.None)
 		{
-			var filename = string.Format(FileNameFormat, CurrentGameSystem.ToString());
-			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
+			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem}{Constants.MetadataFileExtension}");
 			var json = FileSystemUtilities.ReadString(path);
 			if(!string.IsNullOrEmpty(json) && Container is not null)
 			{
@@ -90,9 +90,7 @@ public partial class MetadataManager : Node
 		if(Container is not null)
 		{
 			var metadata = Container.Serialize();
-			var filename = string.Format(FileNameFormat, CurrentGameSystem.ToString());
-			var path = System.IO.Path.GetFullPath(FileSystemUtilities.DefaultMetadataDirectory + filename);
-			
+			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem}{Constants.MetadataFileExtension}");
 			FileSystemUtilities.WriteString(path, metadata);
 			EmitSignal(SignalName.MetadataSaved);
 		}

@@ -1,7 +1,6 @@
 using Godot;
-using System;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class WeaponEntry : VBoxContainer
 {

@@ -1,14 +1,12 @@
 using System.Linq;
 using Godot;
-using Ocsm.Cofd;
-using Ocsm.Cofd.Ctl;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Cofd.Nodes.Meta;
 using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
-using Ocsm.Nodes.Cofd.Meta;
 using Ocsm.Nodes.Meta;
 
-namespace Ocsm.Nodes.Cofd.Ctl.Meta;
+namespace Ocsm.Cofd.Ctl.Nodes.Meta;
 
 public partial class CofdChangelingAddEditMetadata : Window, IAddEditMetadata
 {

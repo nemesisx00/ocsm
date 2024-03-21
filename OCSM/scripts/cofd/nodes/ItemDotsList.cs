@@ -2,8 +2,9 @@ using Godot;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Cofd;
+namespace Ocsm.Cofd.Nodes;
 
 public partial class ItemDotsList : Container
 {
@@ -43,7 +44,7 @@ public partial class ItemDotsList : Container
 		.ToList()
 		.ForEach(node => node.QueueFree());
 	
-	protected void sortChildren() => NodeUtilities.rearrangeNodes(
+	protected void sortChildren() => NodeUtilities.RearrangeNodes(
 			this,
 			[.. GetChildren()
 				.OrderBy(node => node.GetChild<TextEdit>(0).Text)

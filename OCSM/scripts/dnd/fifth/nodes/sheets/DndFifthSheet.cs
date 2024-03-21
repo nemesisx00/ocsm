@@ -1,15 +1,15 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ocsm.Dnd.Fifth;
+using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
-using Ocsm.Nodes.Dnd.Fifth;
-using Ocsm.Nodes.Sheets;
+using Ocsm.Nodes;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
+using Ocsm.Dnd.Fifth.Nodes;
 
-namespace Ocsm.Nodes.Dnd.Sheets;
+namespace Ocsm.Dnd.Nodes;
 
 public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 {

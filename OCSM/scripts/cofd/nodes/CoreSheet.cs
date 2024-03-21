@@ -2,10 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Cofd;
-using Ocsm.Nodes.Sheets;
+using Ocsm.Nodes;
 
-namespace Ocsm.Nodes.Cofd.Sheets;
+namespace Ocsm.Cofd.Nodes;
 
 public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	where T: CofdCore

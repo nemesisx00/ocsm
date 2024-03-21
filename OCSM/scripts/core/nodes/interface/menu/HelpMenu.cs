@@ -60,7 +60,7 @@ public partial class HelpMenu : MenuButton
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.AboutOcsm);
 			aboutOcsm = resource.Instantiate<Window>();
-			aboutOcsm.CloseRequested += () => NodeUtilities.queueFree(ref aboutOcsm);
+			aboutOcsm.CloseRequested += () => NodeUtilities.QueueFree(ref aboutOcsm);
 			
 			GetTree().CurrentScene.AddChild(aboutOcsm);
 			aboutOcsm.PopupCentered();
@@ -75,7 +75,7 @@ public partial class HelpMenu : MenuButton
 		{
 			var resource = GD.Load<PackedScene>(Constants.Scene.GameSystemLicenses);
 			gameLicenses = resource.Instantiate<Window>();
-			gameLicenses.CloseRequested += () => NodeUtilities.queueFree(ref gameLicenses);
+			gameLicenses.CloseRequested += () => NodeUtilities.QueueFree(ref gameLicenses);
 			
 			GetTree().CurrentScene.AddChild(gameLicenses);
 			gameLicenses.PopupCentered();
@@ -91,7 +91,7 @@ public partial class HelpMenu : MenuButton
 			var resource = GD.Load<PackedScene>(Constants.Scene.AboutGodot);
 			aboutGodot = resource.Instantiate<Window>();
 			aboutGodot.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
-			aboutGodot.CloseRequested += () => NodeUtilities.queueFree(ref aboutGodot);
+			aboutGodot.CloseRequested += () => NodeUtilities.QueueFree(ref aboutGodot);
 			
 			GetTree().CurrentScene.AddChild(aboutGodot);
 			aboutGodot.PopupCentered();

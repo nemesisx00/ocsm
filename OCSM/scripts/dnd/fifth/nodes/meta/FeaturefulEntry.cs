@@ -1,11 +1,12 @@
 using Godot;
 using System.Collections.Generic;
-using Ocsm.Dnd.Fifth;
-using Ocsm.Dnd.Fifth.Meta;
-using Ocsm.Nodes.Autoload;
 using System.Linq;
+using Ocsm.Dnd.Fifth.Meta;
+using Ocsm.Meta;
+using Ocsm.Nodes;
+using Ocsm.Nodes.Autoload;
 
-namespace Ocsm.Nodes.Dnd.Fifth.Meta;
+namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class FeaturefulEntry : Container, ICanDelete
 {

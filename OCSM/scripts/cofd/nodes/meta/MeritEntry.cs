@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using Ocsm.Cofd;
 using Ocsm.Cofd.Meta;
+using Ocsm.Nodes;
 using Ocsm.Nodes.Meta;
 
-namespace Ocsm.Nodes.Cofd.Meta;
+namespace Ocsm.Cofd.Nodes.Meta;
 
 public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 {

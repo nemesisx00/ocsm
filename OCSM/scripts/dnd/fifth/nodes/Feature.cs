@@ -1,7 +1,6 @@
 using Godot;
-using Ocsm.Dnd.Fifth;
 
-namespace Ocsm.Nodes.Dnd.Fifth;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class FeatureNode : Container
 {
