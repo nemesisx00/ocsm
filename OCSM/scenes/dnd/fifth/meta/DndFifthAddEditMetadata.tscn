@@ -1,15 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://5e1jp5pipscx"]
+[gd_scene load_steps=8 format=3 uid="uid://5e1jp5pipscx"]
 
 [ext_resource type="PackedScene" uid="uid://ddr6vv5vktghs" path="res://scenes/dnd/fifth/meta/FeaturefulMetadataEntry.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6m7kq"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/DndFifthAddEditMetadata.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/BackgroundEntry.cs" id="4"]
 [ext_resource type="PackedScene" uid="uid://civ425frlttp6" path="res://scenes/dnd/fifth/meta/FeatureEntry.tscn" id="5"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/RaceEntry.cs" id="6"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ClassOptionsButton.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" id="8"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/ClassEntry.cs" id="9"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeaturefulEntry.cs" id="6"]
 [ext_resource type="PackedScene" uid="uid://hyx8nnliaktu" path="res://scenes/dnd/fifth/meta/ArmorEntry.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://dbgolm1a7kgox" path="res://scenes/dnd/fifth/meta/WeaponEntry.tscn" id="11"]
 
@@ -35,17 +30,17 @@ tab_alignment = 1
 [node name="Backgrounds" parent="ScrollContainer/TabContainer" instance=ExtResource("1")]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("4")
+script = ExtResource("6")
+Type = 1000
 MetadataTypeLabel = "Background"
-OptionsButtonScript = ExtResource("2")
 
 [node name="Classes" parent="ScrollContainer/TabContainer" instance=ExtResource("1")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("9")
+script = ExtResource("6")
+Type = 1001
 MetadataTypeLabel = "Class"
-OptionsButtonScript = ExtResource("7")
 
 [node name="Features" type="VBoxContainer" parent="ScrollContainer/TabContainer"]
 visible = false
@@ -82,5 +77,5 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 script = ExtResource("6")
+Type = 1002
 MetadataTypeLabel = "Race"
-OptionsButtonScript = ExtResource("8")

@@ -1,3 +1,4 @@
+using System.Linq;
 using Ocsm.Dnd.Fifth.Meta;
 
 namespace Ocsm.Nodes.Dnd.Fifth;
@@ -12,7 +13,12 @@ public partial class ClassOptionsButton : CustomOption
 			
 			Clear();
 			AddItem(string.Empty);
-			container.Classes.ForEach(c => AddItem(c.Name));
+			
+			container.Featurefuls
+				.Where(f => f.Type == MetadataType.Dnd5eClass)
+				.Select(f => f.Name)
+				.ToList()
+				.ForEach(label => AddItem(label));
 			
 			Selected = index;
 		}

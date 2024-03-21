@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bqdoim3nbp6dn" path="res://scenes/nodes/StatefulButton.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_lvxkn"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/Skill.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/SkillNode.cs" id="2"]
 
 [node name="Skill" type="HBoxContainer"]
 anchors_preset = 15

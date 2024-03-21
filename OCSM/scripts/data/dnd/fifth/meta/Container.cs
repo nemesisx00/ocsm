@@ -25,7 +25,6 @@ public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContai
 	}
 	
 	public List<ItemArmor> Armors { get; set; } = [];
-	public List<Class> Classes { get; set; } = [];
 	public List<ItemContainer> Containers { get; set; } = [];
 	public List<Featureful> Featurefuls { get; set; } = [];
 	public List<Feature> Features { get; set; } = [];
@@ -40,7 +39,6 @@ public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContai
 			container.Sort();
 			
 			Armors = container.Armors;
-			Classes = container.Classes;
 			Containers = container.Containers;
 			Featurefuls = container.Featurefuls;
 			Features = container.Features;
@@ -50,7 +48,6 @@ public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContai
 	}
 	
 	public bool Equals(DndFifthContainer other) => Armors == other?.Armors
-		&& Classes == other?.Classes
 		&& Containers == other?.Containers
 		&& Featurefuls == other?.Featurefuls
 		&& Features == other?.Features
@@ -61,7 +58,6 @@ public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContai
 	public override int GetHashCode() => throw new NotImplementedException();
 	
 	public bool IsEmpty() => Armors.Count == 0
-		&& Classes.Count == 0
 		&& Containers.Count == 0
 		&& Featurefuls.Count == 0
 		&& Features.Count == 0
@@ -73,7 +69,6 @@ public class DndFifthContainer() : IMetadataContainer, IEquatable<DndFifthContai
 	public void Sort()
 	{
 		Armors.Sort();
-		Classes.Sort();
 		Containers.Sort();
 		Featurefuls.Sort();
 		Features.Sort();

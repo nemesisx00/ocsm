@@ -36,9 +36,9 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 		backgroundEntry.SaveClicked += saveFeatureful;
 		backgroundEntry.DeleteConfirmed += deleteFeatureful;
 		
-		var classEntry = GetNode<ClassEntry>(NodePaths.ClassesName);
-		classEntry.SaveClicked += saveClass;
-		classEntry.DeleteConfirmed += deleteClass;
+		var classEntry = GetNode<FeaturefulEntry>(NodePaths.ClassesName);
+		classEntry.SaveClicked += saveFeatureful;
+		classEntry.DeleteConfirmed += deleteFeatureful;
 		
 		var featureEntry = GetNode<FeatureEntry>(NodePaths.FeaturesName);
 		featureEntry.SaveClicked += saveFeature;
@@ -57,16 +57,6 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			&& container.Armors.Where(a => a.Name == name).FirstOrDefault() is ItemArmor armor)
 		{
 			container.Armors.Remove(armor);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
-		}
-	}
-	
-	protected void deleteClass(string name)
-	{
-		if(metadataManager.Container is DndFifthContainer container
-			&& container.Classes.Where(c => c.Name == name).FirstOrDefault() is Class clazz)
-		{
-			container.Classes.Remove(clazz);
 			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
@@ -100,33 +90,6 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			
 			container.Armors.Add(transport.Value);
 			container.Armors.Sort();
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
-		}
-	}
-	
-	protected void saveClass(string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features)
-	{
-		if(metadataManager.Container is DndFifthContainer container)
-		{
-			if(container.Classes.Find(c => c.Name == name) is Class clazz)
-				container.Classes.Remove(clazz);
-			
-			List<FeatureSection> sectionList = [];
-			List<Feature> featureList = [];
-			
-			sections.Value.ForEach(fs => sectionList.Add(fs));
-			features.Value.ForEach(f => featureList.Add(f));
-			
-			container.Classes.Add(new()
-			{
-				Description = description,
-				Features = featureList,
-				HitDie = Die.D10,
-				Name = name,
-				Sections = sectionList,
-			});
-			
-			container.Classes.Sort();
 			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 		}
 	}
