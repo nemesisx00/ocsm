@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://qfhjanw2gycp"]
 
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/InventoryItemOptions.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/InventoryItemOptions.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_2awdw"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/Inventory.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/Inventory.cs" id="2"]
 
 [node name="Inventory" type="VBoxContainer"]
 anchors_preset = 15

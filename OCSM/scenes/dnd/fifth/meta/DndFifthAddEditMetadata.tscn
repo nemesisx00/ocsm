@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://ddr6vv5vktghs" path="res://scenes/dnd/fifth/meta/FeaturefulMetadataEntry.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6m7kq"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/DndFifthAddEditMetadata.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/DndFifthAddEditMetadata.cs" id="3"]
 [ext_resource type="PackedScene" uid="uid://civ425frlttp6" path="res://scenes/dnd/fifth/meta/FeatureEntry.tscn" id="5"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeaturefulEntry.cs" id="6"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeaturefulEntry.cs" id="6"]
 [ext_resource type="PackedScene" uid="uid://hyx8nnliaktu" path="res://scenes/dnd/fifth/meta/ArmorEntry.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://dbgolm1a7kgox" path="res://scenes/dnd/fifth/meta/WeaponEntry.tscn" id="11"]
 

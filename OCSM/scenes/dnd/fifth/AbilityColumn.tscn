@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://deu3qx5cs2s01"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_hf763"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/AbilityColumn.cs" id="2_y5s86"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/AbilityColumn.cs" id="2_y5s86"]
 [ext_resource type="PackedScene" uid="uid://6xlybs5ki0j" path="res://scenes/dnd/fifth/Skill.tscn" id="3_mfvte"]
 
 [node name="Ability" type="VBoxContainer"]

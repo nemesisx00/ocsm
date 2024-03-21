@@ -33,8 +33,8 @@ public class Constants
 		
 		public static class DataType
 		{
-			public const string CodMortal = "Ocsm.Mortal";
-			public const string CodChangeling = "Ocsm.Changeling";
+			public const string CofdMortal = "Ocsm.Mortal";
+			public const string CofdChangeling = "Ocsm.Changeling";
 		}
 	}
 	
@@ -68,25 +68,25 @@ public class Constants
 		
 		public static class Cofd
 		{
-			public const string ItemDots = "res://scenes/cod/nodes/ItemDots.tscn";
-			public const string Specialty = "res://scenes/cod/nodes/Specialty.tscn";
+			public const string ItemDots = "res://scenes/cofd/nodes/ItemDots.tscn";
+			public const string Specialty = "res://scenes/cofd/nodes/Specialty.tscn";
 			
 			public static class Mortal
 			{
 				public const string NewSheetName = "New Mortal";
-				public const string Sheet = "res://scenes/cod/sheets/Mortal.tscn";
+				public const string Sheet = "res://scenes/cofd/sheets/Mortal.tscn";
 			}
 			
 			public static class Changeling
 			{
-				public const string ContractNode = "res://scenes/cod/nodes/ctl/ContractNode.tscn";
+				public const string ContractNode = "res://scenes/cofd/nodes/ctl/ContractNode.tscn";
 				public const string NewSheetName = "New Changeling";
-				public const string SeemingBenefit = "res://scenes/cod/nodes/ctl/SeemingBenefit.tscn";
-				public const string Sheet = "res://scenes/cod/sheets/ChangelingTheLost.tscn";
+				public const string SeemingBenefit = "res://scenes/cofd/nodes/ctl/SeemingBenefit.tscn";
+				public const string Sheet = "res://scenes/cofd/sheets/ChangelingTheLost.tscn";
 				
 				public static class Meta
 				{
-					public const string AddEditMetadata = "res://scenes/cod/nodes/ctl/meta/CodChangelingAddEditMetadata.tscn";
+					public const string AddEditMetadata = "res://scenes/cofd/nodes/ctl/meta/CofdChangelingAddEditMetadata.tscn";
 				}
 			}
 		}

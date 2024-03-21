@@ -44,7 +44,7 @@ public partial class MetadataMenu : MenuButton
 		switch(metadataManager.CurrentGameSystem)
 		{
 			case GameSystem.CofdChangeling:
-				generatePopup<CodChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
+				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
 				break;
 			
 			case GameSystem.Dnd5e:

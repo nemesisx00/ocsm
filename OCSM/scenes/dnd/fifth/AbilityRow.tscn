@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://8onwjd0ppers"]
 
 [ext_resource type="PackedScene" uid="uid://6xlybs5ki0j" path="res://scenes/dnd/fifth/Skill.tscn" id="1_0oflb"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/AbilityRow.cs" id="1_oij4g"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/AbilityRow.cs" id="1_oij4g"]
 
 [node name="Ability" type="HBoxContainer"]
 anchors_preset = 15

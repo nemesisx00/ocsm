@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://ddr6vv5vktghs"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_k1ow7"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeaturefulMetadataEntry.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeaturefulMetadataEntry.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureOptionsButton.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/SectionList.cs" id="5"]
 
 [node name="FeaturefulMetadataEntry" type="VBoxContainer"]
 anchors_preset = 15

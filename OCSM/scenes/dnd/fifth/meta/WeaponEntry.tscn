@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://dbgolm1a7kgox"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_onwmm"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/WeaponOptions.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/WeaponTypeOptions.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/WeaponEntry.cs" id="5"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/WeaponPropertyOptions.cs" id="5_ctfyg"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/WeaponOptions.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/WeaponTypeOptions.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/WeaponEntry.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/WeaponPropertyOptions.cs" id="5_ctfyg"]
 
 [node name="WeaponEntry" type="VBoxContainer"]
 anchors_preset = 15

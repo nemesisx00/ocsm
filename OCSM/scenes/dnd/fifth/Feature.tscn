@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dy8xp8fxdha3x"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6xuws"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/Feature.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/Feature.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://caes02bma6dlg" path="res://assets/textures/up-arrow.png" id="3_llhfb"]
 [ext_resource type="Texture2D" uid="uid://d2mc500cxhbry" path="res://assets/textures/down-arrow.png" id="4_3hj6k"]
 

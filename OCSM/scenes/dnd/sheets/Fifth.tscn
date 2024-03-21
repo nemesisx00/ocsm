@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://do2n200fvn5xi"]
 
-[ext_resource type="Script" path="res://scripts/nodes/dnd/sheets/DndFifthSheet.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
 [ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/nodes/ToggleButton.tscn" id="6"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/BackgroundOptionsButton.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/BackgroundOptionsButton.cs" id="7"]
 [ext_resource type="PackedScene" uid="uid://b5ja4qd1nmj4c" path="res://scenes/dnd/fifth/AbilityScores.tscn" id="7_6176l"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/RaceOptionsButton.cs" id="8"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/DieOptionsButton.cs" id="9"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/RaceOptionsButton.cs" id="8"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/DieOptionsButton.cs" id="9"]
 [ext_resource type="PackedScene" uid="uid://qfhjanw2gycp" path="res://scenes/dnd/fifth/Inventory.tscn" id="11"]
 
 [node name="5E" type="ScrollContainer"]

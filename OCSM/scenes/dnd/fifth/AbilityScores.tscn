@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b5ja4qd1nmj4c"]
 
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/AbilityScores.cs" id="1_ul5nv"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/AbilityScores.cs" id="1_ul5nv"]
 [ext_resource type="PackedScene" uid="uid://8onwjd0ppers" path="res://scenes/dnd/fifth/AbilityRow.tscn" id="2_p8ma2"]
 
 [node name="AbilityScores" type="MarginContainer"]

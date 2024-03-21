@@ -8,10 +8,10 @@ public partial class NewSheet : ScrollContainer
 	private static class NodePaths
 	{
 		public static readonly NodePath Dnd5thPath = new("%D&D5E");
-		public static readonly NodePath CodMortal2e = new("%Mortal2e");
-		public static readonly NodePath CodChangeling2e = new("%Changeling2e");
-		public static readonly NodePath CodMage2e = new("%Mage2e");
-		public static readonly NodePath CodVampire2e = new("%Vampire2e");
+		public static readonly NodePath CofdMortal2e = new("%Mortal2e");
+		public static readonly NodePath CofdChangeling2e = new("%Changeling2e");
+		public static readonly NodePath CofdMage2e = new("%Mage2e");
+		public static readonly NodePath CofdVampire2e = new("%Vampire2e");
 		public static readonly NodePath WodVampireV5 = new("%VampireV5");
 	}
 	
@@ -32,8 +32,8 @@ public partial class NewSheet : ScrollContainer
 		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
 		tabContainer = GetNode<TabContainer>(AppRoot.NodePaths.SheetTabs);
 		
-		GetNode<Button>(NodePaths.CodMortal2e).Pressed += newCofdMortal2e;
-		GetNode<Button>(NodePaths.CodChangeling2e).Pressed += newCofdChangeling2e;
+		GetNode<Button>(NodePaths.CofdMortal2e).Pressed += newCofdMortal2e;
+		GetNode<Button>(NodePaths.CofdChangeling2e).Pressed += newCofdChangeling2e;
 		GetNode<Button>(NodePaths.Dnd5thPath).Pressed += newDnd5e;
 	}
 	

@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://civ425frlttp6"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_60b6o"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/SectionList.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureTypeOptionsButton.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/FeatureEntry.cs" id="5"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/FeatureOptionsButton.cs" id="6"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/meta/NumericBonusEditList.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/nodes/dnd/fifth/options/ClassOptionsButton.cs" id="8"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/SectionList.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureTypeOptionsButton.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeatureEntry.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureOptionsButton.cs" id="6"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/NumericBonusEditList.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/ClassOptionsButton.cs" id="8"]
 
 [node name="FeatureEntry" type="VBoxContainer"]
 anchors_preset = 15
