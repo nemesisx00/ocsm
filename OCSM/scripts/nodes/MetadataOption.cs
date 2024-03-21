@@ -21,13 +21,32 @@ public partial class MetadataOption : OptionButton
 	
 	private MetadataManager metadataManager;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= RefreshMetadata;
+		metadataManager.MetadataSaved -= RefreshMetadata;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.MetadataLoaded += refreshMetadata;
-		metadataManager.MetadataSaved += refreshMetadata;
+		metadataManager.MetadataLoaded += RefreshMetadata;
+		metadataManager.MetadataSaved += RefreshMetadata;
 		
-		refreshMetadata();
+		RefreshMetadata();
+	}
+	
+	public void RefreshMetadata()
+	{
+		if(metadataManager.Container is BaseContainer container)
+		{
+			replaceItems(container.Metadata
+				.Where(m => m.Type == MetadataType)
+				.Select(m => m.Name)
+				.ToList());
+		}
 	}
 	
 	public void Select(string text)
@@ -50,16 +69,5 @@ public partial class MetadataOption : OptionButton
 			AddItem(string.Empty);
 		items.ForEach(i => AddItem(i));
 		Selected = index;
-	}
-	
-	private void refreshMetadata()
-	{
-		if(metadataManager.Container is BaseContainer container)
-		{
-			replaceItems(container.Metadata
-				.Where(m => m.Type == MetadataType)
-				.Select(m => m.Name)
-				.ToList());
-		}
 	}
 }

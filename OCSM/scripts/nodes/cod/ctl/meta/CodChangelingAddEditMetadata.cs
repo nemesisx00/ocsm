@@ -28,6 +28,8 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	
 	private MetadataManager metadataManager;
 	
+	private ContractNode contractInput;
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
@@ -37,6 +39,8 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 		var contractEntry = GetNode<ContractEntry>(NodePaths.Contract);
 		contractEntry.SaveClicked += saveContract;
 		contractEntry.DeleteConfirmed += deleteContract;
+		
+		contractInput = contractEntry.GetNode<ContractNode>(ContractEntry.NodePaths.ContractInput);
 		
 		var contractRegaliaEntry = GetNode<MetadataEntry>(NodePaths.ContractRegalia);
 		contractRegaliaEntry.SaveClicked += saveMetadata;
@@ -71,25 +75,25 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	
 	private void deleteContract(string name)
 	{
-		if(metadataManager.Container is CofdChangelingContainer container)
+		if(metadataManager.Container is CofdChangelingContainer container
+			&& container.Contracts.Where(c => c.Name == name).FirstOrDefault() is Contract contract)
 		{
-			if(container.Contracts.Find(c => c.Name.Equals(name)) is Contract contract)
-			{
-				container.Contracts.Remove(contract);
-				EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
-			}
+			container.Contracts.Remove(contract);
+			
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
 	private void deleteMerit(string name)
 	{
-		if(metadataManager.Container is CofdChangelingContainer container)
+		if(metadataManager.Container is CofdChangelingContainer container
+			&& container.Merits.Where(m => m.Name == name).FirstOrDefault() is Merit merit)
 		{
-			if(container.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
-			{
-				container.Merits.Remove(merit);
-				EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
-			}
+			container.Merits.Remove(merit);
+			
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -99,7 +103,9 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
 			container.Metadata.Remove(entry);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -107,14 +113,15 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	{
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			var entry = GetNode<ContractEntry>(NodePaths.Contract);
-			var contract = entry.GetNode<ContractNode>(ContractEntry.NodePaths.ContractInput).GetData();
+			var contract = contractInput.GetData();
 			
-			if(container.Contracts.Find(c => c.Name.Equals(contract.Name)) is Contract existingContract)
+			if(container.Contracts.Where(c => c.Name == contract.Name).FirstOrDefault() is Contract existingContract)
 				container.Contracts.Remove(existingContract);
 			
 			container.Contracts.Add(contract);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -122,17 +129,19 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 	{
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(container.Merits.Find(m => m.Name.Equals(name)) is Merit merit)
+			if(container.Merits.Where(m => m.Name == name).FirstOrDefault() is Merit merit)
 				container.Merits.Remove(merit);
 			
 			container.Merits.Add(new Merit() { Description = description, Name = name, Value = value });
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
 	private void saveMetadata(string name, string description, MetadataType type)
 	{
-		if(metadataManager.Container is BaseContainer container)
+		if(metadataManager.Container is CofdChangelingContainer container)
 		{
 			if(container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
 				container.Metadata.Remove(entry);
@@ -144,7 +153,8 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 				Type = type,
 			});
 			
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 }

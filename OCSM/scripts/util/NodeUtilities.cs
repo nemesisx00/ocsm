@@ -27,16 +27,11 @@ public class NodeUtilities
 	/// </summary>
 	/// <param name="label">The text denoting what is being deleted.</param>
 	/// <param name="parent">The <c>Godot.Node</c> to which to add the instance.</param>
-	/// <param name="center">The <c>Godot.Vector2</c> used to center the instance.</param>
 	/// <param name="handler">
 	/// The <c>Godot.Node</c> which will be handling the Confirmed signal
 	/// emitted by the instance.
 	/// </param>
-	/// <param name="doDelete">
-	/// The name of the method to call when handling the Confirmed signal
-	/// emitted by the instance.
-	/// </param>
-	public static void displayDeleteConfirmation(string label, Node parent, Vector2 center, ICanDelete handler, string doDelete)
+	public static void DisplayDeleteConfirmation(string label, Node parent, ICanDelete handler)
 	{
 		var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
 		var instance = resource.Instantiate<ConfirmDeleteEntry>();

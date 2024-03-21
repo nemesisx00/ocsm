@@ -126,16 +126,11 @@ public partial class FeatureEntry : Container, ICanDelete
 		clearInputs();
 	}
 	
-	private void handleDelete()
-	{
-		NodeUtilities.displayDeleteConfirmation(
-			MetadataTypeLabel,
-			GetTree().CurrentScene,
-			GetViewportRect().GetCenter(),
-			this,
-			nameof(DoDelete)
-		);
-	}
+	private void handleDelete() => NodeUtilities.DisplayDeleteConfirmation(
+		MetadataTypeLabel,
+		this,
+		this
+	);
 	
 	private void entrySelected(long index)
 	{

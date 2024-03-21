@@ -36,11 +36,17 @@ public partial class MetadataEntry : Container, ICanDelete
 	private LineEdit name;
 	private TextEdit description;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= RefreshMetadata;
+		metadataManager.MetadataSaved -= RefreshMetadata;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		metadataManager.MetadataLoaded += RefreshMetadata;
-		metadataManager.MetadataSaved += RefreshMetadata;
 		
 		GetNode<Button>(NodePaths.ClearButton).Pressed += clearInputs;
 		GetNode<Button>(NodePaths.SaveButton).Pressed += doSave;
@@ -75,20 +81,7 @@ public partial class MetadataEntry : Container, ICanDelete
 		description.Text = entry.Description;
 	}
 	
-	public void RefreshMetadata()
-	{
-		if(metadataManager.Container is BaseContainer container)
-		{
-			var optionButton = GetNode<OptionButton>(NodePaths.ExistingEntryName);
-			optionButton.Clear();
-			optionButton.AddItem(string.Empty);
-			
-			container.Metadata.Where(m => m.Type == MetadataType)
-				.Select(m => m.Name)
-				.ToList()
-				.ForEach(name => optionButton.AddItem(name));
-		}
-	}
+	public void RefreshMetadata() => optionsButton.RefreshMetadata();
 	
 	private void clearInputs()
 	{
@@ -118,14 +111,9 @@ public partial class MetadataEntry : Container, ICanDelete
 		}
 	}
 	
-	private void handleDelete()
-	{
-		NodeUtilities.displayDeleteConfirmation(
-			MetadataTypeLabel,
-			GetTree().CurrentScene,
-			GetViewportRect().GetCenter(),
-			this,
-			nameof(DoDelete)
-		);
-	}
+	private void handleDelete() => NodeUtilities.DisplayDeleteConfirmation(
+		MetadataTypeLabel,
+		this,
+		this
+	);
 }

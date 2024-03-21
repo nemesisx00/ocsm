@@ -152,16 +152,11 @@ public partial class FeaturefulEntry : Container, ICanDelete
 		}
 	}
 	
-	protected void handleDelete()
-	{
-		NodeUtilities.displayDeleteConfirmation(
-			MetadataTypeLabel,
-			GetTree().CurrentScene,
-			GetViewportRect().GetCenter(),
-			this,
-			nameof(DoDelete)
-		);
-	}
+	protected void handleDelete() => NodeUtilities.DisplayDeleteConfirmation(
+		MetadataTypeLabel,
+		this,
+		this
+	);
 	
 	private void instantiateFeature(Feature feature, PackedScene resource)
 	{

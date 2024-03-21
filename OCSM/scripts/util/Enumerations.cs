@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 
 namespace Ocsm;
 
@@ -11,6 +12,7 @@ public enum GameSystem
 	Dnd5e = 4,
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum MetadataType
 {
 	None = 0,

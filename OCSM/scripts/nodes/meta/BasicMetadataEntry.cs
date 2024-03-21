@@ -94,16 +94,11 @@ public partial class BasicMetadataEntry : Container, ICanDelete
 		clearInputs();
 	}
 	
-	protected void handleDelete()
-	{
-		NodeUtilities.displayDeleteConfirmation(
-			MetadataTypeLabel,
-			GetTree().CurrentScene,
-			GetViewportRect().GetCenter(),
-			this,
-			nameof(DoDelete)
-		);
-	}
+	protected void handleDelete() => NodeUtilities.DisplayDeleteConfirmation(
+		MetadataTypeLabel,
+		this,
+		this
+	);
 	
 	protected virtual void entrySelected(long index)
 	{
