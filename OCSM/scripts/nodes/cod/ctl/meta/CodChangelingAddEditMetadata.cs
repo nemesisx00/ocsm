@@ -10,7 +10,7 @@ using Ocsm.Nodes.Meta;
 
 namespace Ocsm.Nodes.Cofd.Ctl.Meta;
 
-public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
+public partial class CodChangelingAddEditMetadata : Window, IAddEditMetadata
 {
 	private static class NodePaths
 	{
@@ -79,8 +79,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 			&& container.Contracts.Where(c => c.Name == name).FirstOrDefault() is Contract contract)
 		{
 			container.Contracts.Remove(contract);
-			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -91,8 +89,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 			&& container.Merits.Where(m => m.Name == name).FirstOrDefault() is Merit merit)
 		{
 			container.Merits.Remove(merit);
-			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -103,8 +99,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
 			container.Metadata.Remove(entry);
-			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -119,8 +113,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 				container.Contracts.Remove(existingContract);
 			
 			container.Contracts.Add(contract);
-			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -133,8 +125,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 				container.Merits.Remove(merit);
 			
 			container.Merits.Add(new Merit() { Description = description, Name = name, Value = value });
-			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -153,7 +143,6 @@ public partial class CodChangelingAddEditMetadata : BaseAddEditMetadata
 				Type = type,
 			});
 			
-			//EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}

@@ -9,7 +9,7 @@ using Ocsm.Nodes.Meta;
 
 namespace Ocsm.Nodes.Dnd.Fifth.Meta;
 
-public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
+public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 {
 	private static class NodePaths
 	{
@@ -57,7 +57,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			&& container.Armors.Where(a => a.Name == name).FirstOrDefault() is ItemArmor armor)
 		{
 			container.Armors.Remove(armor);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -67,7 +67,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			&& container.Features.Where(f => f.Name == name).FirstOrDefault() is Feature feature)
 		{
 			container.Features.Remove(feature);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -77,7 +77,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			&& container.Featurefuls.Where(f => f.Type == type && f.Name == name).FirstOrDefault() is Featureful entry)
 		{
 			container.Featurefuls.Remove(entry);
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -90,7 +90,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			
 			container.Armors.Add(transport.Value);
 			container.Armors.Sort();
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -103,7 +103,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			
 			container.Features.Add(transport.Value);
 			container.Features.Sort();
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 	
@@ -129,7 +129,7 @@ public partial class DndFifthAddEditMetadata : BaseAddEditMetadata
 			});
 			
 			container.Featurefuls.Sort();
-			EmitSignal(BaseAddEditMetadata.SignalName.MetadataChanged);
+			metadataManager.SaveGameSystemMetadata();
 		}
 	}
 }

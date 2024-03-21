@@ -54,7 +54,7 @@ public partial class MetadataMenu : MenuButton
 	}
 	
 	private T generatePopup<T>(PackedScene resource)
-		where T: BaseAddEditMetadata
+		where T: Window, IAddEditMetadata
 	{
 		var instance = resource.Instantiate<T>();
 		GetTree().CurrentScene.AddChild(instance);
