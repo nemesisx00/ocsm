@@ -6,9 +6,10 @@ public partial class AppManager : Node
 {
 	public const string NodePath = "/root/AppManager";
 	
-	public bool IsQuitting { get; set; } = false;
+	public bool IsQuitting { get; set; }
 	
 	private ConfirmationDialog confirmQuit;
+	private PackedScene confirmQuitScene;
 	
 	public override void _Notification(int notificationCode)
 	{
@@ -24,6 +25,8 @@ public partial class AppManager : Node
 	{
 		//Prevent the game from simply ending so that we have a chance to free memory in QuitGame() if necessary
 		GetTree().AutoAcceptQuit = false;
+		
+		confirmQuitScene = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
 	}
 	
 	public void ShowQuitConfirm()
@@ -32,8 +35,7 @@ public partial class AppManager : Node
 			confirmQuit.PopupCentered();
 		else if(!IsQuitting)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
-			confirmQuit = resource.Instantiate<ConfirmQuit>();
+			confirmQuit = confirmQuitScene.Instantiate<ConfirmQuit>();
 			confirmQuit.CloseRequested += () => NodeUtilities.queueFree(ref confirmQuit);
 			
 			GetTree().CurrentScene.AddChild(confirmQuit);
