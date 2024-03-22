@@ -4,7 +4,7 @@ namespace Ocsm.Nodes.Autoload;
 
 public partial class AppManager : Node
 {
-	public const string NodePath = "/root/AppManager";
+	public static readonly NodePath NodePath = new("/root/AppManager");
 	
 	public bool IsQuitting { get; set; }
 	
@@ -26,7 +26,7 @@ public partial class AppManager : Node
 		//Prevent the game from simply ending so that we have a chance to free memory in QuitGame() if necessary
 		GetTree().AutoAcceptQuit = false;
 		
-		confirmQuitScene = GD.Load<PackedScene>(Constants.Scene.ConfirmQuit);
+		confirmQuitScene = GD.Load<PackedScene>(ScenePaths.ConfirmQuit);
 	}
 	
 	public void ShowQuitConfirm()

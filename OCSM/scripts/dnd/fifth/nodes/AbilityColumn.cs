@@ -70,7 +70,7 @@ public partial class AbilityColumn : Container
 		
 		if(Ability is not null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Skill);
+			var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Skill);
 			Ability.Skills.ForEach(s => instantiateSkill(s, resource));
 		}
 	}

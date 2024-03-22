@@ -61,7 +61,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		SheetData ??= new FifthAdventurer();
 		
@@ -377,7 +377,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		foreach(Node child in raceFeatures.GetChildren())
 			child.QueueFree();
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
 		if(SheetData.Background is not null && SheetData.Background.Features.Count != 0)
 		{
 			var last = SheetData.Background.Features.Last();

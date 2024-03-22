@@ -47,7 +47,7 @@ public partial class FeaturefulEntry : Container, ICanDelete
 	public override void _Ready()
 	{
 		
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += RefreshMetadata;
 		metadataManager.MetadataSaved += RefreshMetadata;
 		
@@ -189,7 +189,7 @@ public partial class FeaturefulEntry : Container, ICanDelete
 			c.QueueFree();
 		}
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
 		features.ForEach(f => instantiateFeature(f, resource));
 	}
 }

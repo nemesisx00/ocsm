@@ -19,7 +19,7 @@ public partial class MeritsFromMetadata : Container
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += refreshMerits;
 		metadataManager.MetadataSaved += refreshMerits;
 		

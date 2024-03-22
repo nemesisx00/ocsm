@@ -23,7 +23,7 @@ public partial class MetadataMenu : MenuButton
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		var popup = GetPopup();
 		popup.AddItem(ItemNames.ManageMetadata, (int)MenuItem.ManageMetadata);
@@ -45,11 +45,11 @@ public partial class MetadataMenu : MenuButton
 		switch(metadataManager.CurrentGameSystem)
 		{
 			case GameSystem.CofdChangeling:
-				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.Meta.AddEditMetadata));
+				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.Meta.AddEditMetadata));
 				break;
 			
 			case GameSystem.Dnd5e:
-				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.AddEditMetadata));
+				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Meta.AddEditMetadata));
 				break;
 		}
 	}

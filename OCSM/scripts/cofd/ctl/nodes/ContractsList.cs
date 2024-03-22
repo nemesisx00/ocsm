@@ -19,7 +19,7 @@ public partial class ContractsList : Container
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += Refresh;
 		
 		Refresh();
@@ -62,7 +62,7 @@ public partial class ContractsList : Container
 	
 	private void addInput(Contract value = null)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.ContractNode);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.ContractNode);
 		var instance = resource.Instantiate<ContractNode>();
 		
 		AddChild(instance);

@@ -98,7 +98,7 @@ public partial class TrackComplex : GridContainer
 		var children = GetChildren();
 		if(children.Count < Max)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.StatefulButton);
+			var resource = GD.Load<PackedScene>(ScenePaths.StatefulButton);
 			for(var i = children.Count; i < Max; i++)
 			{
 				var instance = resource.Instantiate<StatefulButton>();

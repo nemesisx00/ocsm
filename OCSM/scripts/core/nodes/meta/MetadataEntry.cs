@@ -46,7 +46,7 @@ public partial class MetadataEntry : Container, ICanDelete
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		GetNode<Button>(NodePaths.ClearButton).Pressed += clearInputs;
 		GetNode<Button>(NodePaths.SaveButton).Pressed += doSave;

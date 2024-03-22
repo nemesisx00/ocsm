@@ -40,32 +40,32 @@ public partial class StatefulButton : TextureButton
 	public void UpdateTexture()
 	{
 		if(UseCircles)
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
+			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackCircle);
 		else
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
+			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackBoxBorder);
 		
-		var tex = Constants.Texture.FullTransparent;
+		var tex = TexturePaths.FullTransparent;
 		switch(CurrentState)
 		{
 			case States.One:
 				if(UseCircles)
-					tex = Constants.Texture.TrackCircleHalf;
+					tex = TexturePaths.TrackCircleHalf;
 				else
-					tex = Constants.Texture.TrackBox1;
+					tex = TexturePaths.TrackBox1;
 				break;
 			
 			case States.Two:
 				if(UseCircles)
-					tex = Constants.Texture.TrackCircleFill;
+					tex = TexturePaths.TrackCircleFill;
 				else
-					tex = Constants.Texture.TrackBox2;
+					tex = TexturePaths.TrackBox2;
 				break;
 			
 			case States.Three:
 				if(UseCircles)
-					tex = Constants.Texture.TrackCircleRed;
+					tex = TexturePaths.TrackCircleRed;
 				else
-					tex = Constants.Texture.TrackBox3;
+					tex = TexturePaths.TrackBox3;
 				break;
 		}
 		

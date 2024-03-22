@@ -64,7 +64,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		SheetData ??= new Changeling();
 		
 		glamour = GetNode<TrackSimple>(NodePaths.Glamour);

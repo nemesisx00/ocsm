@@ -63,7 +63,7 @@ public partial class ContractNode : MarginContainer
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		attribute2Input = GetNode<AttributeOptionButton>(NodePaths.Attribute2Input);
 		attribute2Minus = GetNode<Control>(NodePaths.Attribute2Minus);
@@ -332,7 +332,7 @@ public partial class ContractNode : MarginContainer
 	
 	private void addSeemingBenefitInput(string seeming = null, string benefit = "")
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Changeling.SeemingBenefit);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.SeemingBenefit);
 		var instance = resource.Instantiate<HBoxContainer>();
 		seemingBenefitsRow.AddChild(instance);
 		

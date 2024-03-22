@@ -57,7 +57,7 @@ public partial class TrackSimple : GridContainer
 		var children = GetChildren();
 		if(children.Count < Max)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.ToggleButton);
+			var resource = GD.Load<PackedScene>(ScenePaths.ToggleButton);
 			for(var i = children.Count; i < Max; i++)
 			{
 				var instance = resource.Instantiate<ToggleButton>();

@@ -30,8 +30,8 @@ public partial class FileMenu : MenuButton
 	public override void _Ready()
 	{
 		appManager = GetNode<AppManager>(AppManager.NodePath);
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
-		sheetManager = GetNode<SheetManager>(Constants.NodePath.SheetManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
+		sheetManager = GetNode<SheetManager>(SheetManager.NodePath);
 		
 		var popup = GetPopup();
 		popup.AddItem(ItemNames.New, (int)MenuItem.New);
@@ -42,7 +42,7 @@ public partial class FileMenu : MenuButton
 		popup.AddItem(ItemNames.Quit, (int)MenuItem.Quit);
 		popup.IdPressed += handleMenuItem;
 		
-		GetNode<AppRoot>(Constants.NodePath.AppRoot).FileMenuTriggered += handleMenuItem;
+		GetNode<AppRoot>(AppRoot.NodePaths.Self).FileMenuTriggered += handleMenuItem;
 	}
 	
 	private void handleMenuItem(long id) => handleMenuItem((int)id);
@@ -74,7 +74,7 @@ public partial class FileMenu : MenuButton
 	
 	private void doOpen()
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.OpenSheet);
+		var resource = GD.Load<PackedScene>(ScenePaths.OpenSheet);
 		var instance = resource.Instantiate<OpenSheet>();
 		GetTree().CurrentScene.AddChild(instance);
 		instance.PopupCentered();
@@ -88,7 +88,7 @@ public partial class FileMenu : MenuButton
 		var data = sheetManager.GetActiveSheetJsonData();
 		if(data != null)
 		{
-			var resource = GD.Load<PackedScene>(Constants.Scene.SaveSheet);
+			var resource = GD.Load<PackedScene>(ScenePaths.SaveSheet);
 			var instance = resource.Instantiate<SaveSheet>();
 			instance.SheetData = data;
 			GetTree().CurrentScene.AddChild(instance);

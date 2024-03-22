@@ -24,7 +24,7 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		CloseRequested += closeHandler;
 		

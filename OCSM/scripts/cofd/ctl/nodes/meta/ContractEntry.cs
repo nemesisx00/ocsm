@@ -53,7 +53,7 @@ public partial class ContractEntry : Container
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += refreshMetadata;
 		metadataManager.MetadataSaved += refreshMetadata;
 		
@@ -117,7 +117,7 @@ public partial class ContractEntry : Container
 	
 	private void handleDelete()
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+		var resource = GD.Load<PackedScene>(ScenePaths.Meta.ConfirmDeleteEntry);
 		var instance = resource.Instantiate<ConfirmDeleteEntry>();
 		instance.EntryTypeName = "Contract";
 		GetTree().CurrentScene.AddChild(instance);

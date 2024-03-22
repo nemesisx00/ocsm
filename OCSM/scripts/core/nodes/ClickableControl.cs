@@ -28,7 +28,7 @@ public partial class ClickableControl : Control
 	
 	public override void _Ready()
 	{
-		appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
+		appManager = GetNode<AppManager>(AppManager.NodePath);
 		pressed = false;
 	}
 }

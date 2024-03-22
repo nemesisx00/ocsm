@@ -27,13 +27,13 @@ public partial class AppRoot : Control
 			{
 				int? menu = null;
 				
-				if(e.IsActionPressed(Constants.Action.FileNew))
+				if(e.IsActionPressed(Actions.FileNew))
 					menu = (int)FileMenu.MenuItem.New;
-				else if(e.IsActionPressed(Constants.Action.FileOpen))
+				else if(e.IsActionPressed(Actions.FileOpen))
 					menu = (int)FileMenu.MenuItem.Open;
-				else if(e.IsActionPressed(Constants.Action.FileSave))
+				else if(e.IsActionPressed(Actions.FileSave))
 					menu = (int)FileMenu.MenuItem.Save;
-				else if(e.IsActionPressed(Constants.Action.FileCloseSheet))
+				else if(e.IsActionPressed(Actions.FileCloseSheet))
 					menu = (int)FileMenu.MenuItem.CloseSheet;
 				
 				if(menu is int menuItem)
@@ -44,7 +44,7 @@ public partial class AppRoot : Control
 	
 	public override void _Ready()
 	{
-		appManager = GetNode<AppManager>(Constants.NodePath.AppManager);
-		GetNode<MetadataManager>(Constants.NodePath.MetadataManager).InitializeGameSystems();
+		appManager = GetNode<AppManager>(AppManager.NodePath);
+		GetNode<MetadataManager>(MetadataManager.NodePath).InitializeGameSystems();
 	}
 }

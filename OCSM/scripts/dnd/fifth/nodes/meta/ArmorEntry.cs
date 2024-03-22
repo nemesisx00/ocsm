@@ -56,7 +56,7 @@ public partial class ArmorEntry : Container, ICanDelete
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += RefreshMetadata;
 		metadataManager.MetadataSaved += RefreshMetadata;
 		

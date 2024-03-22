@@ -45,13 +45,13 @@ public partial class Inventory : VBoxContainer
 			c.QueueFree();
 		}
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.InventoryItem);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.InventoryItem);
 		Items.ForEach(i => instantiateItem(i, resource));
 	}
 	
 	private void addItemHandler()
 	{
-		var metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		var metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		if(metadataManager.Container is DndFifthContainer container)
 		{
 			var itemName = options.GetSelectedItemText();

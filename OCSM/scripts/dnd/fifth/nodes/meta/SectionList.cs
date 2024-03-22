@@ -54,7 +54,7 @@ public partial class SectionList : Container
 	
 	private void addInput(FeatureSection section = null)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.FeatureSectionEntry);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Meta.FeatureSectionEntry);
 		var instance = resource.Instantiate<HBoxContainer>();
 		
 		AddChild(instance);

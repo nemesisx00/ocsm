@@ -35,7 +35,7 @@ public class NodeUtilities
 	/// </param>
 	public static void DisplayDeleteConfirmation(string label, Node parent, ICanDelete handler)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Meta.ConfirmDeleteEntry);
+		var resource = GD.Load<PackedScene>(ScenePaths.Meta.ConfirmDeleteEntry);
 		var instance = resource.Instantiate<ConfirmDeleteEntry>();
 		instance.EntryTypeName = label;
 		parent.AddChild(instance);

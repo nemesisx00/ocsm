@@ -46,7 +46,7 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 			c.QueueFree();
 		}
 		
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Feature);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
 		features.ForEach(f => instantiateFeature(f, resource));
 	}
 	

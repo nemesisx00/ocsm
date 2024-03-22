@@ -18,7 +18,7 @@ public partial class MetadataManager : Node
 	[Signal]
 	public delegate void MetadataSavedEventHandler();
 	
-	private const string FileNameFormat = "{0}" + Constants.MetadataFileExtension;
+	public static readonly NodePath NodePath = new("/root/MetadataManager");
 	
 	private GameSystem gameSystem;
 	

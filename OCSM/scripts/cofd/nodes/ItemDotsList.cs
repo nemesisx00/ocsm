@@ -53,7 +53,7 @@ public partial class ItemDotsList : Container
 	
 	protected virtual void addInput(string text = "", int dots = 0)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.ItemDots);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.ItemDots);
 		var node = resource.Instantiate();
 		var textEdit = node.GetChild<TextEdit>(0);
 		textEdit.Text = text;

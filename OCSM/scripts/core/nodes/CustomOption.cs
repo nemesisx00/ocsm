@@ -16,7 +16,7 @@ public abstract partial class CustomOption : OptionButton
 	
 	public override void _Ready()
 	{
-		metadataManager = GetNode<MetadataManager>(Constants.NodePath.MetadataManager);
+		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		metadataManager.MetadataLoaded += refreshMetadata;
 		metadataManager.MetadataSaved += refreshMetadata;
 		

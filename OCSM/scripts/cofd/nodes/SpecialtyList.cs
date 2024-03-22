@@ -88,7 +88,7 @@ public partial class SpecialtyList : Container
 	
 	private void addInput(Traits? skill = null, string specialty = "")
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Cofd.Specialty);
+		var resource = GD.Load<PackedScene>(ScenePaths.Cofd.Specialty);
 		var instance = resource.Instantiate<HBoxContainer>();
 		AddChild(instance);
 		

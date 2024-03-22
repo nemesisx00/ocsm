@@ -18,16 +18,16 @@ public partial class ToggleButton : TextureButton
 	{
 		if(UseCircles)
 		{
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircle);
-			ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackCircleFill);
+			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackCircle);
+			ToggledTexture = GD.Load<CompressedTexture2D>(TexturePaths.TrackCircleFill);
 		}
 		else
 		{
-			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBoxBorder);
-			ToggledTexture = GD.Load<CompressedTexture2D>(Constants.Texture.TrackBox2);
+			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackBoxBorder);
+			ToggledTexture = GD.Load<CompressedTexture2D>(TexturePaths.TrackBox2);
 		}
 		
-		EmptyTexture = GD.Load<CompressedTexture2D>(Constants.Texture.FullTransparent);
+		EmptyTexture = GD.Load<CompressedTexture2D>(TexturePaths.FullTransparent);
 		
 		GuiInput += handleClick;
 		MouseDefaultCursorShape = CursorShape.PointingHand;

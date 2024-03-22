@@ -52,7 +52,7 @@ public partial class NumericBonusEditList : Container
 	
 	private void addInput(NumericBonus bonus = null)
 	{
-		var resource = GD.Load<PackedScene>(Constants.Scene.Dnd.Fifth.Meta.NumericBonusEdit);
+		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Meta.NumericBonusEdit);
 		var instance = resource.Instantiate<NumericBonusEdit>();
 		
 		AddChild(instance);
