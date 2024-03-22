@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dorx566a4bcix"]
 
-[ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/nodes/TrackSimple.tscn" id="1_3t8br"]
+[ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/TrackSimple.tscn" id="1_3t8br"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/Weapon.cs" id="1_rilwj"]
 
 

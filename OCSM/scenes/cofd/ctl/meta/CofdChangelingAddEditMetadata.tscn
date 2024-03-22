@@ -2,14 +2,16 @@
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_4lj0f"]
 [ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/meta/CofdChangelingAddEditMetadata.cs" id="2_6tw84"]
-[ext_resource type="PackedScene" uid="uid://b0ap5bsmgxih1" path="res://scenes/cofd/nodes/ctl/meta/ContractEntry.tscn" id="3_1t2lx"]
+[ext_resource type="PackedScene" uid="uid://b0ap5bsmgxih1" path="res://scenes/cofd/ctl/meta/ContractEntry.tscn" id="3_1t2lx"]
 [ext_resource type="PackedScene" uid="uid://dqnjqmoa7s7ua" path="res://scenes/meta/MetadataEntry.tscn" id="4_k33dx"]
-[ext_resource type="PackedScene" uid="uid://d1mq7osydydws" path="res://scenes/cofd/nodes/meta/MeritEntry.tscn" id="5_ui51e"]
+[ext_resource type="PackedScene" uid="uid://d1mq7osydydws" path="res://scenes/cofd/meta/MeritEntry.tscn" id="5_ui51e"]
 
 [node name="AddEditMetadata" type="Window"]
 initial_position = 2
-size = Vector2i(640, 320)
+size = Vector2i(720, 405)
+transient = true
 exclusive = true
+popup_window = true
 theme = ExtResource("1_4lj0f")
 script = ExtResource("2_6tw84")
 

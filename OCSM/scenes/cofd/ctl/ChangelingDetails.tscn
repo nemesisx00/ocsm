@@ -50,37 +50,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Enter the player's name here."
-focus_neighbor_right = NodePath("../../Row6/Needle")
+focus_neighbor_right = NodePath("../../../GridContainer/Row6/Needle")
 focus_neighbor_bottom = NodePath("../../Row2/Chronicle")
 focus_next = NodePath("../../Row2/Chronicle")
-focus_previous = NodePath("../../Row10/Court")
-
-[node name="Row6" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row6"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Needle:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Needle" type="LineEdit" parent="Details/Grid/Row6"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's core concept here."
-focus_neighbor_left = NodePath("../../Row1/Player")
-focus_neighbor_bottom = NodePath("../../Row7/Thread")
-focus_next = NodePath("../../Row7/Thread")
-focus_previous = NodePath("../../Row1/Player")
+focus_previous = NodePath("../../../GridContainer/Row10/Court")
 
 [node name="Row2" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -105,38 +78,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Enter the Chronicle name here."
 focus_neighbor_top = NodePath("../../Row1/Player")
-focus_neighbor_right = NodePath("../../Row7/Thread")
+focus_neighbor_right = NodePath("../../../GridContainer/Row7/Thread")
 focus_neighbor_bottom = NodePath("../../Row3/Name")
 focus_next = NodePath("../../Row3/Name")
 focus_previous = NodePath("../../Row1/Player")
-
-[node name="Row7" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row7"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Thread:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Thread" type="LineEdit" parent="Details/Grid/Row7"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's Virtue here."
-focus_neighbor_left = NodePath("../../Row2/Chronicle")
-focus_neighbor_top = NodePath("../../Row6/Needle")
-focus_neighbor_bottom = NodePath("../../Row8/Seeming")
-focus_next = NodePath("../../Row8/Seeming")
-focus_previous = NodePath("../../Row6/Needle")
 
 [node name="Row3" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -160,42 +105,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Enter the character's name here."
 focus_neighbor_top = NodePath("../../Row2/Chronicle")
-focus_neighbor_right = NodePath("../../Row8/Seeming")
+focus_neighbor_right = NodePath("../../../GridContainer/Row8/Seeming")
 focus_neighbor_bottom = NodePath("../../Row4/Concept")
 focus_next = NodePath("../../Row4/Concept")
 focus_previous = NodePath("../../Row2/Chronicle")
-
-[node name="Row8" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row8"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Seeming:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Seeming" type="OptionButton" parent="Details/Grid/Row8"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's Vice here."
-focus_neighbor_left = NodePath("../../Row3/Name")
-focus_neighbor_top = NodePath("../../Row7/Thread")
-focus_neighbor_bottom = NodePath("../../Row9/Kith")
-focus_next = NodePath("../../Row9/Kith")
-focus_previous = NodePath("../../Row7/Thread")
-script = ExtResource("4_awl86")
-EmptyOption = null
-GameSystem = 1
-MetadataType = 6
 
 [node name="Row4" type="HBoxContainer" parent="Details/Grid"]
 custom_minimum_size = Vector2(0, 20)
@@ -220,18 +133,81 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "Enter the character's age here."
 focus_neighbor_top = NodePath("../../Row3/Name")
-focus_neighbor_right = NodePath("../../Row9/Kith")
-focus_neighbor_bottom = NodePath("../../Row5/Size")
-focus_next = NodePath("../../Row5/Size")
+focus_neighbor_right = NodePath("../../../GridContainer/Row9/Kith")
+focus_neighbor_bottom = NodePath("../../../GridContainer/Row5/Size")
+focus_next = NodePath("../../../GridContainer/Row5/Size")
 focus_previous = NodePath("../../Row3/Name")
 
-[node name="Row9" type="HBoxContainer" parent="Details/Grid"]
+[node name="GridContainer" type="GridContainer" parent="Details"]
+layout_mode = 2
+columns = 3
+
+[node name="Row6" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/Grid/Row9"]
+[node name="Label" type="Label" parent="Details/GridContainer/Row6"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Needle:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Needle" type="LineEdit" parent="Details/GridContainer/Row6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Enter the character's core concept here."
+focus_neighbor_left = NodePath("../../../Grid/Row1/Player")
+focus_neighbor_bottom = NodePath("../../Row7/Thread")
+focus_next = NodePath("../../Row7/Thread")
+focus_previous = NodePath("../../../Grid/Row1/Player")
+
+[node name="Row8" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/Row8"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Seeming:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Seeming" type="OptionButton" parent="Details/GridContainer/Row8"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Enter the character's Vice here."
+focus_neighbor_left = NodePath("../../../Grid/Row3/Name")
+focus_neighbor_top = NodePath("../../Row7/Thread")
+focus_neighbor_bottom = NodePath("../../Row9/Kith")
+focus_next = NodePath("../../Row9/Kith")
+focus_previous = NodePath("../../Row7/Thread")
+script = ExtResource("4_awl86")
+EmptyOption = null
+GameSystem = 1
+MetadataType = 6
+
+[node name="Row9" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/Row9"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -240,14 +216,14 @@ text = "Kith:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Kith" type="OptionButton" parent="Details/Grid/Row9"]
+[node name="Kith" type="OptionButton" parent="Details/GridContainer/Row9"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tooltip_text = "If the character is a part of a Faction, enter that Faction here."
-focus_neighbor_left = NodePath("../../Row4/Concept")
+focus_neighbor_left = NodePath("../../../Grid/Row4/Concept")
 focus_neighbor_top = NodePath("../../Row8/Seeming")
 focus_neighbor_bottom = NodePath("../../Row10/Court")
 focus_next = NodePath("../../Row10/Court")
@@ -257,42 +233,13 @@ EmptyOption = null
 GameSystem = 1
 MetadataType = 4
 
-[node name="Row5" type="HBoxContainer" parent="Details/Grid"]
+[node name="Row10" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/Grid/Row5"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Size:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Size" type="SpinBox" parent="Details/Grid/Row5"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's size here."
-focus_neighbor_top = NodePath("../../Row4/Concept")
-focus_neighbor_right = NodePath("../../Row10/Court")
-focus_next = NodePath("../../Row6/Needle")
-focus_previous = NodePath("../../Row4/Concept")
-min_value = 1.0
-value = 5.0
-
-[node name="Row10" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row10"]
+[node name="Label" type="Label" parent="Details/GridContainer/Row10"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -301,7 +248,7 @@ text = "Court:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Court" type="OptionButton" parent="Details/Grid/Row10"]
+[node name="Court" type="OptionButton" parent="Details/GridContainer/Row10"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
@@ -314,6 +261,63 @@ script = ExtResource("4_awl86")
 EmptyOption = null
 GameSystem = 1
 MetadataType = 3
+
+[node name="Row7" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/Row7"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Thread:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Thread" type="LineEdit" parent="Details/GridContainer/Row7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Enter the character's Virtue here."
+focus_neighbor_left = NodePath("../../../Grid/Row2/Chronicle")
+focus_neighbor_top = NodePath("../../Row6/Needle")
+focus_neighbor_bottom = NodePath("../../Row8/Seeming")
+focus_next = NodePath("../../Row8/Seeming")
+focus_previous = NodePath("../../Row6/Needle")
+
+[node name="Row5" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/Row5"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Size:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Size" type="SpinBox" parent="Details/GridContainer/Row5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tooltip_text = "Enter the character's size here."
+focus_neighbor_top = NodePath("../../../Grid/Row4/Concept")
+focus_neighbor_right = NodePath("../../Row10/Court")
+focus_next = NodePath("../../Row6/Needle")
+focus_previous = NodePath("../../../Grid/Row4/Concept")
+min_value = 1.0
+value = 5.0
 
 [node name="Column" type="VBoxContainer" parent="Details"]
 layout_mode = 2

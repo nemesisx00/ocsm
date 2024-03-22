@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://6xlybs5ki0j"]
 
-[ext_resource type="PackedScene" uid="uid://bqdoim3nbp6dn" path="res://scenes/nodes/StatefulButton.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://bqdoim3nbp6dn" path="res://scenes/StatefulButton.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_lvxkn"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/SkillNode.cs" id="2"]
 

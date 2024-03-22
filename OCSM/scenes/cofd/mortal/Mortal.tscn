@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://dnk76nvuj6lbi"]
 
-[ext_resource type="PackedScene" uid="uid://bwttlfflu2lyi" path="res://scenes/cofd/nodes/core/MortalAdvantages.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://bwttlfflu2lyi" path="res://scenes/cofd/mortal/MortalAdvantages.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_17734"]
-[ext_resource type="PackedScene" uid="uid://ckptjuemy6uty" path="res://scenes/cofd/nodes/Traits.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://dipgl2l1ptdw0" path="res://scenes/cofd/nodes/core/MortalDetails.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://ckptjuemy6uty" path="res://scenes/cofd/Traits.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dipgl2l1ptdw0" path="res://scenes/cofd/mortal/MortalDetails.tscn" id="5"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/MortalSheet.cs" id="6"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/MeritList.cs" id="7_aq4x6"]
-[ext_resource type="PackedScene" uid="uid://bboa30b5nlic0" path="res://scenes/cofd/nodes/ctl/meta/MeritsFromMetadata.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://bboa30b5nlic0" path="res://scenes/cofd/ctl/meta/MeritsFromMetadata.tscn" id="8"]
 
 
 [node name="MortalSheet" type="ScrollContainer"]
