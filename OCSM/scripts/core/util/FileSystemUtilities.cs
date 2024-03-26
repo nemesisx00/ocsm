@@ -6,7 +6,7 @@ namespace Ocsm;
 /// <summary>
 /// Class providing convenience methods for interacting with the file system in an OS-agnostic fashion.
 /// </summary>
-public class FileSystemUtilities
+public static class FileSystemUtilities
 {
 	private const string App = "/Ocsm/";
 	private const string Sheets = $"{App}sheets/";
