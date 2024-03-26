@@ -19,12 +19,10 @@ public class FileSystemUtilities
 	/// Uses <c>System.Environment.SpecialFolder.ApplicationData</c> as a base path.
 	/// </remarks>
 	public static string DefaultSheetDirectory => createPathIfNotExists(
-		autoLower(
-			getFinalPath(
-				Environment.SpecialFolder.ApplicationData,
-				Sheets
-			)
-		)
+		getFinalPath(
+			Environment.SpecialFolder.ApplicationData,
+			Sheets
+		).ToLower()
 	);
 	
 	/// <summary>
@@ -34,12 +32,10 @@ public class FileSystemUtilities
 	/// Uses <c>System.Environment.SpecialFolder.CommonApplicationData</c> as a base path.
 	/// </remarks>
 	public static string DefaultMetadataDirectory => createPathIfNotExists(
-		autoLower(
-			getFinalPath(
-				Environment.SpecialFolder.ApplicationData,
-				Metadata
-			)
-		)
+		getFinalPath(
+			Environment.SpecialFolder.ApplicationData,
+			Metadata
+		).ToLower()
 	);
 	
 	/// <summary>
@@ -52,10 +48,13 @@ public class FileSystemUtilities
 	/// </returns>
 	public static string ReadString(string path)
 	{
+		string output = null;
+		
 		var finalPath = Path.GetFullPath(path);
 		if(File.Exists(finalPath))
-			return File.ReadAllText(finalPath);
-		return null;
+			output = File.ReadAllText(finalPath);
+		
+		return output;
 	}
 	
 	/// <summary>
@@ -70,36 +69,13 @@ public class FileSystemUtilities
 	}
 	
 	/// <summary>
-	/// Automatically modify a path to lowercase based upon the current OS.
-	/// </summary>
-	/// <remarks>
-	/// Relies on <c>System.Environment.OSVersion.Platform</c> and
-	/// <c>System.PlatformID</c> to identify the current OS.
-	/// </remarks>
-	/// <param name="path">The file system path to be modified.</param>
-	/// <returns>
-	/// The <c>path</c> as a string, whether it was modified or left
-	/// unaltered.
-	/// </returns>
-	private static string autoLower(string path)
-	{
-		if(Environment.OSVersion.Platform.Equals(PlatformID.Unix)
-			|| Environment.OSVersion.Platform.Equals(PlatformID.MacOSX))
-		{
-			return path.ToLower();
-		}
-		
-		return path;
-	}
-	
-	/// <summary>
 	/// Generate a fully qualified file system path to the desired directory or file.
 	/// </summary>
 	/// <param name="folder">The <c>System.Environment.SpecialFolder</c> to use as a base path.</param>
 	/// <param name="pathFragment">The path, relative to <c>folder</c>, defining the desired directory or file.</param>
 	/// <returns>The fully qualified file system path as a string.</returns>
 	private static string getFinalPath(Environment.SpecialFolder folder, string pathFragment)
-		=> Path.GetFullPath(Environment.GetFolderPath(folder) + pathFragment);
+		=> Path.GetFullPath($"{Environment.GetFolderPath(folder)}{pathFragment}");
 	
 	/// <summary>
 	/// Create the full directory structure of a given <c>path</c> if any
