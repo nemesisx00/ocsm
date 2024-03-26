@@ -36,7 +36,7 @@ public class FileSystemUtilities
 	public static string DefaultMetadataDirectory => createPathIfNotExists(
 		autoLower(
 			getFinalPath(
-				Environment.SpecialFolder.CommonApplicationData,
+				Environment.SpecialFolder.ApplicationData,
 				Metadata
 			)
 		)
