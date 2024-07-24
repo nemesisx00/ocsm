@@ -51,7 +51,7 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	a container, this property has no effect.
 	</remarks>
 	*/
-	public bool? IgnoreContentsWeight { get; set; } = null;
+	public bool IgnoreContentsWeight { get; set; }
 	
 	/**
 	<summary>
@@ -126,7 +126,7 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	The total weight of the item.
 	</returns>
 	*/
-	public double TotalWeight() => Items is not null && !(IgnoreContentsWeight ?? false)
+	public double TotalWeight() => Items is not null && !IgnoreContentsWeight
 		? Items.Aggregate(Weight, (acc, i) => acc + i.Weight)
 		: Weight;
 }
