@@ -46,7 +46,9 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	Whether or not the item's contents count towards the item's total weight.
 	</summary>
 	<remarks>
-	If the item is not a container, this property has no effect.
+	If true, the contents will not be included in the result of calling
+	TotalWeight(). Otherwise, the contents will be included. If the item is not
+	a container, this property has no effect.
 	</remarks>
 	*/
 	public bool? IgnoreContentsWeight { get; set; } = null;
