@@ -11,9 +11,9 @@ namespace Ocsm.Dnd.Fifth.Inventory;
 Generic data structure defining every aspect of an individual item.
 </para>
 <para>
-As it is theoretically possible for a single item to be armor, a container,
-and a weapon simultaneously, the data related to specific subtypes is composed
-here. An item qualifies as a subtype if that subtype's data is not null.
+As it is theoretically possible for a single item to function as armor, a
+container, and a weapon simultaneously, the data related to specific subtypes is
+composed here. An item qualifies as a subtype if that subtype's data is not null.
 </para>
 </summary>
 */
