@@ -95,7 +95,16 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 		&& Weight == other?.Weight;
 	
 	public override bool Equals(object obj) => Equals(obj as Item);
-	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), ArmorData, Cost, Equipped, Items, WeaponData, Weight);
+	
+	public override int GetHashCode() => HashCode.Combine(
+		base.GetHashCode(),
+		ArmorData,
+		Cost,
+		Equipped,
+		Items,
+		WeaponData,
+		Weight
+	);
 	
 	/**
 	<summary>
@@ -105,5 +114,6 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	The total weight of the item.
 	</returns>
 	*/
-	public double TotalWeight() => Items?.Aggregate(Weight, (acc, i) => acc + i.Weight) ?? Weight;
+	public double TotalWeight() => Items?.Aggregate(Weight, (acc, i) => acc + i.Weight)
+		?? Weight;
 }
