@@ -80,17 +80,19 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 		var ret = base.CompareTo(other);
 		
 		if(ret == 0)
+			ret = Logic.CompareNullables(Items?.Count, other?.Items?.Count);
+		
+		if(ret == 0)
+			ret = Logic.CompareNullables(WeaponData, other?.WeaponData);
+		
+		if(ret == 0)
+			ret = Logic.CompareNullables(ArmorData, other?.ArmorData);
+		
+		if(ret == 0)
+			ret = Logic.CompareNullables(Equipped, other?.Equipped);
+		
+		if(ret == 0)
 			ret = Cost.CompareTo(other?.Cost);
-		
-		if(ret == 0)
-			ret = Equipped is not null
-				? ((bool)Equipped).CompareTo(other?.Equipped)
-				: other?.Equipped is not null ? 1 : 0;
-		
-		if(ret == 0)
-			ret = Items is not null
-				? Items.Count.CompareTo(other?.Items.Count)
-				: other?.Items is not null ? 1 : 0;
 		
 		if(ret == 0)
 			ret = Weight.CompareTo(other?.Weight);
