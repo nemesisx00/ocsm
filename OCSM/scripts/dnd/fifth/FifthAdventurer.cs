@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Meta;
@@ -24,18 +25,5 @@ public class FifthAdventurer() : Character(GameSystem.Dnd5e)
 	public string PersonalityTraits { get; set; } = string.Empty;
 	public Featureful Race { get; set; }
 	
-	public double InventoryWeight
-	{
-		get
-		{
-			var val = 0.0;
-			Inventory.ForEach(i => {
-				if(i is ItemContainer ic)
-					val += ic.TotalWeight();
-				else
-					val += i.Weight;
-			});
-			return val;
-		}
-	}
+	public double InventoryWeight => Inventory.Aggregate(0.0, (acc, i) => acc + i.TotalWeight());
 }

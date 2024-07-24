@@ -41,15 +41,15 @@ public partial class InventoryItem : HBoxContainer
 			node.QueueFree();
 		}
 		
-		if(Item is ItemArmor ia)
-			generateDetails(ia).ForEach(n => details.AddChild(n));
-		else if(Item is ItemWeapon iw)
-			generateDetails(iw).ForEach(n => details.AddChild(n));
+		if(Item.ArmorData is not null)
+			generateDetails(Item.ArmorData).ForEach(n => details.AddChild(n));
+		else if(Item.WeaponData is not null)
+			generateDetails(Item.WeaponData).ForEach(n => details.AddChild(n));
 		
 		var equipped = GetNode<CheckBox>(NodePaths.Equipped);
-		if(Item is ItemEquippable ie)
+		if(Item.Equipped is not null)
 		{
-			equipped.ButtonPressed = ie.Equipped;
+			equipped.ButtonPressed = (bool)Item.Equipped;
 			equipped.Visible = true;
 		}
 		else
@@ -59,14 +59,14 @@ public partial class InventoryItem : HBoxContainer
 	private void toggleEquipped()
 	{
 		var checkbox = GetNode<CheckBox>(NodePaths.Equipped);
-		if(Item is ItemEquippable ie)
+		if(Item.Equipped is not null)
 		{
-			ie.Equipped = checkbox.ButtonPressed;
-			EmitSignal(SignalName.Equipped, new Transport<Item>(ie));
+			Item.Equipped = checkbox.ButtonPressed;
+			EmitSignal(SignalName.Equipped, new Transport<Item>(Item));
 		}
 	}
 	
-	private List<Node> generateDetails(ItemArmor armor)
+	private List<Node> generateDetails(ArmorData armor)
 	{
 		var nodes = new List<Node>();
 		
@@ -97,7 +97,7 @@ public partial class InventoryItem : HBoxContainer
 		return nodes;
 	}
 	
-	private static List<Node> generateDetails(ItemWeapon weapon)
+	private static List<Node> generateDetails(WeaponData weapon)
 	{
 		var damage = new StringBuilder();
 		weapon.DamageDice.ToList()

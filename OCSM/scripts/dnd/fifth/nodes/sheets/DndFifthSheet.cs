@@ -177,14 +177,14 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		var dexLimit = 0;
 		
 		//Find the first equipped armor
-		if(SheetData.Inventory.Where(i => i is ItemArmor ia && ia.Equipped).FirstOrDefault() is ItemArmor armor
+		if(SheetData.Inventory.Where(i => i.ArmorData is not null && (i.Equipped ?? false)).FirstOrDefault() is Item armor
 			&& SheetData.Abilities.Where(a => a.AbilityType == Abilities.Strength).FirstOrDefault() is AbilityInfo strength
-			&& strength.Score >= armor.MinimumStrength)
+			&& strength.Score >= armor.ArmorData.MinimumStrength)
 		{
-			ac = armor.BaseArmorClass;
-			addDex = armor.AllowDexterityBonus;
-			if(armor.LimitDexterityBonus)
-				dexLimit = armor.DexterityBonusLimit;
+			ac = armor.ArmorData.BaseArmorClass;
+			addDex = armor.ArmorData.AllowDexterityBonus;
+			if(armor.ArmorData.LimitDexterityBonus)
+				dexLimit = armor.ArmorData.DexterityBonusLimit;
 		}
 		
 		if(SheetData.Abilities.Where(a => a.AbilityType == Abilities.Dexterity).FirstOrDefault() is AbilityInfo dexterity)

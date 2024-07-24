@@ -12,7 +12,7 @@ public partial class ArmorTypeOptions : OptionButton
 		Clear();
 		AddItem(string.Empty);
 		
-		Enum.GetValues<ItemArmor.ArmorTypes>()
+		Enum.GetValues<ArmorTypes>()
 			.Select(at => at.GetLabel())
 			.ToList()
 			.ForEach(label => AddItem(label));

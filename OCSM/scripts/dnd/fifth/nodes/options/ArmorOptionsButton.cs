@@ -1,3 +1,4 @@
+using System.Linq;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Nodes;
 
@@ -13,7 +14,10 @@ public partial class ArmorOptionsButton : CustomOption
 			
 			Clear();
 			AddItem(string.Empty);
-			container.Armors.ForEach(a => AddItem(a.Name));
+			container.Items
+				.Where(i => i.ArmorData is not null)
+				.ToList()
+				.ForEach(i => AddItem(i.Name));
 			
 			Selected = index;
 			

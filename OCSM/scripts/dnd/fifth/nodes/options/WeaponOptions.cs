@@ -1,3 +1,4 @@
+using System.Linq;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Nodes;
 
@@ -13,7 +14,10 @@ public partial class WeaponOptions : CustomOption
 			
 			Clear();
 			AddItem(string.Empty);
-			container.Weapons.ForEach(w => AddItem(w.Name));
+			container.Items
+				.Where(i => i.WeaponData is not null)
+				.ToList()
+				.ForEach(i => AddItem(i.Name));
 			
 			Selected = index;
 			

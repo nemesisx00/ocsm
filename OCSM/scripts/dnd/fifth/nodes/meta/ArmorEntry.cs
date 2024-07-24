@@ -3,6 +3,7 @@ using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
+using System.Linq;
 
 namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
@@ -31,7 +32,7 @@ public partial class ArmorEntry : Container, ICanDelete
 	public const string MetadataLabel = "Armor";
 	
 	[Signal]
-	public delegate void SaveClickedEventHandler(Transport<ItemArmor> armor);
+	public delegate void SaveClickedEventHandler(Transport<Item> armor);
 	[Signal]
 	public delegate void DeleteConfirmedEventHandler(string name);
 	
@@ -97,19 +98,19 @@ public partial class ArmorEntry : Container, ICanDelete
 		//TODO: Display error message if name is empty
 	}
 	
-	public void LoadEntry(ItemArmor entry)
+	public void LoadEntry(Item entry)
 	{
 		nameInput.Text = entry.Name;
-		typeInput.SelectItemByText(entry.ArmorType.GetLabel());
-		armorClassInput.Value = entry.BaseArmorClass;
+		typeInput.SelectItemByText(entry.ArmorData.ArmorType.GetLabel());
+		armorClassInput.Value = entry.ArmorData.BaseArmorClass;
 		costInput.Value = entry.Cost;
 		weightInput.Value = entry.Weight;
-		allowDexterityBonus.ButtonPressed = entry.AllowDexterityBonus;
-		limitDexterityBonus.ButtonPressed = entry.LimitDexterityBonus;
-		dexterityBonusLimit.Value = entry.DexterityBonusLimit;
-		stealthDisadvantageInput.ButtonPressed = entry.StealthDisadvantage;
-		showStrengthCheck.ButtonPressed = entry.MinimumStrength > 0;
-		minimumStrengthInput.Value = entry.MinimumStrength;
+		allowDexterityBonus.ButtonPressed = entry.ArmorData.AllowDexterityBonus;
+		limitDexterityBonus.ButtonPressed = entry.ArmorData.LimitDexterityBonus;
+		dexterityBonusLimit.Value = entry.ArmorData.DexterityBonusLimit;
+		stealthDisadvantageInput.ButtonPressed = entry.ArmorData.StealthDisadvantage;
+		showStrengthCheck.ButtonPressed = entry.ArmorData.MinimumStrength > 0;
+		minimumStrengthInput.Value = entry.ArmorData.MinimumStrength;
 		descriptionInput.Text = entry.Description;
 		
 		toggleLimitDexterity();
@@ -123,7 +124,10 @@ public partial class ArmorEntry : Container, ICanDelete
 		{
 			armorOptionsButton.Clear();
 			armorOptionsButton.AddItem(string.Empty);
-			container.Armors.ForEach(a => armorOptionsButton.AddItem(a.Name));
+			container.Items
+				.Where(i => i.ArmorData is not null)
+				.ToList()
+				.ForEach(i => armorOptionsButton.AddItem(i.Name));
 		}
 	}
 	
@@ -150,7 +154,7 @@ public partial class ArmorEntry : Container, ICanDelete
 	private void doSave()
 	{
 		var name = nameInput.Text;
-		var type = (ItemArmor.ArmorTypes)typeInput.Selected;
+		var type = (ArmorTypes)typeInput.Selected;
 		var ac = (int)armorClassInput.Value;
 		var cost = (int)costInput.Value;
 		var weight = weightInput.Value;
@@ -161,18 +165,21 @@ public partial class ArmorEntry : Container, ICanDelete
 		var minStr = (int)minimumStrengthInput.Value;
 		var description = descriptionInput.Text;
 		
-		EmitSignal(SignalName.SaveClicked, new Transport<ItemArmor>(new()
+		EmitSignal(SignalName.SaveClicked, new Transport<Item>(new()
 		{
-			AllowDexterityBonus = allowDex,
-			BaseArmorClass = ac,
+			ArmorData = new()
+			{
+				AllowDexterityBonus = allowDex,
+				BaseArmorClass = ac,
+				DexterityBonusLimit = dexLimit,
+				LimitDexterityBonus = limitDex,
+				MinimumStrength = minStr,
+				StealthDisadvantage = stealth,
+				ArmorType = type,
+			},
 			Cost = cost,
-			DexterityBonusLimit = dexLimit,
 			Description = description,
-			LimitDexterityBonus = limitDex,
-			MinimumStrength = minStr,
 			Name = name,
-			StealthDisadvantage = stealth,
-			ArmorType = type,
 			Weight = weight,
 		}));
 		
@@ -184,9 +191,9 @@ public partial class ArmorEntry : Container, ICanDelete
 		var name = armorOptionsButton.GetItemText((int)index);
 		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(container.Armors.Find(a => a.Name.Equals(name)) is ItemArmor armor)
+			if(container.Items.Find(i => i.Name.Equals(name)) is Item item)
 			{
-				LoadEntry(armor);
+				LoadEntry(item);
 				armorOptionsButton.Deselect();
 			}
 		}

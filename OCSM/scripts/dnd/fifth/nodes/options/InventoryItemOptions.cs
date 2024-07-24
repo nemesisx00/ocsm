@@ -13,7 +13,7 @@ public partial class InventoryItemOptions : CustomOption
 			
 			Clear();
 			AddItem(string.Empty);
-			container.AllItems.ForEach(i => AddItem(i.Name));
+			container.Items.ForEach(i => AddItem(i.Name));
 			
 			Selected = index;
 		}

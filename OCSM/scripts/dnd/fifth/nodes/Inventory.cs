@@ -46,7 +46,9 @@ public partial class Inventory : VBoxContainer
 		}
 		
 		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.InventoryItem);
-		Items.ForEach(i => instantiateItem(i, resource));
+		
+		if(resource.CanInstantiate())
+			Items.ForEach(i => instantiateItem(i, resource));
 	}
 	
 	private void addItemHandler()
@@ -55,7 +57,7 @@ public partial class Inventory : VBoxContainer
 		if(metadataManager.Container is DndFifthContainer container)
 		{
 			var itemName = options.GetSelectedItemText();
-			if(container.AllItems.Find(i => i.Name.Equals(itemName)) is Item item)
+			if(container.Items.Find(i => i.Name.Equals(itemName)) is Item item)
 			{
 				Items.Add(item);
 				EmitSignal(SignalName.ItemsChanged, new Transport<List<Item>>(Items));
@@ -81,8 +83,8 @@ public partial class Inventory : VBoxContainer
 	
 	private void itemEquipped(Transport<Item> transport)
 	{
-		if(transport.Value is ItemEquippable changed
-			&& Items.Where(i => i == transport.Value).FirstOrDefault() is ItemEquippable item)
+		if(transport.Value is Item changed
+			&& Items.Where(i => i == transport.Value).FirstOrDefault() is Item item)
 		{
 			item.Equipped = changed.Equipped;
 			EmitSignal(SignalName.ItemsChanged, new Transport<List<Item>>(Items));

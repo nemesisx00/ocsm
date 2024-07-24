@@ -54,9 +54,9 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 	protected void deleteArmor(string name)
 	{
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Armors.Where(a => a.Name == name).FirstOrDefault() is ItemArmor armor)
+			&& container.Items.Where(i => i.Name == name).FirstOrDefault() is Item item)
 		{
-			container.Armors.Remove(armor);
+			container.Items.Remove(item);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -81,15 +81,15 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 		}
 	}
 	
-	protected void saveArmor(Transport<ItemArmor> transport)
+	protected void saveArmor(Transport<Item> transport)
 	{
 		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(container.Armors.Where(a => a.Name == transport.Value.Name).FirstOrDefault() is ItemArmor existingArmor)
-				container.Armors.Remove(existingArmor);
+			if(container.Items.Where(i => i.Name == transport.Value.Name).FirstOrDefault() is Item existingItem)
+				container.Items.Remove(existingItem);
 			
-			container.Armors.Add(transport.Value);
-			container.Armors.Sort();
+			container.Items.Add(transport.Value);
+			container.Items.Sort();
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}

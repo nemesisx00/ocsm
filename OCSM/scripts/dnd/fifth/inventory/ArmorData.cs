@@ -2,21 +2,8 @@ using System;
 
 namespace Ocsm.Dnd.Fifth.Inventory;
 
-public class ItemArmor() : ItemEquippable(), IComparable<ItemArmor>, IEquatable<ItemArmor>
+public class ArmorData() : IComparable<ArmorData>, IEquatable<ArmorData>
 {
-	public enum ArmorTypes
-	{
-		None = 0,
-		[Label("Light Armor")]
-		Light,
-		[Label("Medium Armor")]
-		Medium,
-		[Label("Heavy Armor")]
-		Heavy,
-		[Label("Shield")]
-		Shield,
-	}
-	
 	public bool AllowDexterityBonus { get; set; } = true;
 	public int BaseArmorClass { get; set; }
 	public int DexterityBonusLimit { get; set; } = -1;
@@ -25,15 +12,12 @@ public class ItemArmor() : ItemEquippable(), IComparable<ItemArmor>, IEquatable<
 	public bool StealthDisadvantage { get; set; }
 	public ArmorTypes ArmorType { get; set; }
 	
-	public int CompareTo(ItemArmor other)
+	public int CompareTo(ArmorData other)
 	{
 		var ret = ArmorType.CompareTo(other?.ArmorType);
 	
 		if(ret == 0)
 			ret = BaseArmorClass.CompareTo(other?.BaseArmorClass);
-		
-		if(ret == 0)
-			ret = base.CompareTo(other);
 		
 		if(ret == 0)
 			ret = StealthDisadvantage.CompareTo(other?.StealthDisadvantage);
@@ -53,14 +37,14 @@ public class ItemArmor() : ItemEquippable(), IComparable<ItemArmor>, IEquatable<
 		return ret;
 	}
 	
-	public bool Equals(ItemArmor item) => base.Equals(item)
+	public bool Equals(ArmorData item) => base.Equals(item)
 		&& AllowDexterityBonus == item?.AllowDexterityBonus
 		&& BaseArmorClass == item?.BaseArmorClass
 		&& DexterityBonusLimit == item?.DexterityBonusLimit
 		&& LimitDexterityBonus == item?.LimitDexterityBonus
 		&& ArmorType == item?.ArmorType;
 	
-	public override bool Equals(object obj) => Equals(obj as ItemArmor);
+	public override bool Equals(object obj) => Equals(obj as ArmorData);
 	
 	public override int GetHashCode() => HashCode.Combine(
 		base.GetHashCode(),

@@ -11,7 +11,7 @@ public partial class WeaponTypeOptions : OptionButton
 	{
 		Clear();
 		
-		Enum.GetValues<ItemWeapon.WeaponTypes>()
+		Enum.GetValues<WeaponTypes>()
 			.Select(wt => wt.GetLabel())
 			.ToList()
 			.ForEach(label => AddItem(label));
