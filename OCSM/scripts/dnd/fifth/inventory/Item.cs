@@ -43,6 +43,16 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	
 	/**
 	<summary>
+	Whether or not the item's contents count towards the item's total weight.
+	</summary>
+	<remarks>
+	If the item is not a container, this property has no effect.
+	</remarks>
+	*/
+	public bool? IgnoreContentsWeight { get; set; } = null;
+	
+	/**
+	<summary>
 	The list of contained items.
 	</summary>
 	<remarks>
@@ -114,6 +124,7 @@ public class Item() : Metadata(), IComparable<Item>, IEquatable<Item>
 	The total weight of the item.
 	</returns>
 	*/
-	public double TotalWeight() => Items?.Aggregate(Weight, (acc, i) => acc + i.Weight)
-		?? Weight;
+	public double TotalWeight() => Items is not null && !(IgnoreContentsWeight ?? false)
+		? Items.Aggregate(Weight, (acc, i) => acc + i.Weight)
+		: Weight;
 }
