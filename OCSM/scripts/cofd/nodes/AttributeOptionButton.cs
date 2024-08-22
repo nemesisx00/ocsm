@@ -10,6 +10,5 @@ public partial class AttributeOptionButton : CustomOption
 	
 	protected override void refreshMetadata() => replaceItems(Enum.GetValues<Traits>()
 		.Where(t => t.GetTraitType() == Trait.Type.Attribute)
-		.Select(t => t.ToString())
-		.ToList());
+		.Select(t => t.ToString()));
 }

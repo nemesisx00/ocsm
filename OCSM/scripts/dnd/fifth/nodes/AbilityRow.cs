@@ -26,6 +26,13 @@ public partial class AbilityRow : Container
 	private Container skillsContainer;
 	private SkillNode savingThrow;
 	
+	public override void _ExitTree()
+	{
+		score.ValueChanged -= scoreChanged;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		name = GetNode<Label>(NodePaths.Name);

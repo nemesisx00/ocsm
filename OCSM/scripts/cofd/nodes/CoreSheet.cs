@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ocsm.Nodes;
@@ -45,27 +44,57 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		public static readonly NodePath Size = new("%Details/%Size");
 	}
 	
+	protected EntryList aspirations;
+	protected List<TrackSimple> attributes = [];
 	protected TrackSimple beats;
+	protected EntryList conditions;
 	protected Label defense;
 	protected SpinBox experience;
 	protected TrackComplex health;
 	protected Label initiative;
+	protected MeritList merits;
+	protected List<TrackSimple> skills = [];
+	protected SpecialtyList skillSpecialties;
 	protected Label speed;
 	protected TrackSimple willpower;
 	
+	public override void _ExitTree()
+	{
+		aspirations.ValueChanged -= changed_Aspirations;
+		beats.ValueChanged -= changed_Beats;
+		conditions.ValueChanged -= changed_Conditions;
+		health.ValueChanged -= changed_Health;
+		willpower.ValueChanged -= changed_Willpower;
+		
+		foreach(var a in attributes)
+			a.NodeChanged -= changed_Attribute;
+		
+		foreach(var s in skills)
+			s.NodeChanged -= changed_Skill;
+		
+		skillSpecialties.ValueChanged -= changed_SkillSpecialty;
+		merits.MeritChanged -= changed_Merits;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
+		aspirations = GetNode<EntryList>(NodePaths.Aspirations);
 		beats = GetNode<TrackSimple>(NodePaths.Beats);
+		conditions = GetNode<EntryList>(NodePaths.Conditions);
 		defense = GetNode<Label>(NodePaths.Defense);
 		experience = GetNode<SpinBox>(NodePaths.Experience);
 		health = GetNode<TrackComplex>(NodePaths.Health);
 		initiative = GetNode<Label>(NodePaths.Initiative);
+		merits = GetNode<MeritList>(NodePaths.Merits);
+		skillSpecialties = GetNode<SpecialtyList>(NodePaths.SkillSpecialties);
 		speed = GetNode<Label>(NodePaths.Speed);
 		willpower = GetNode<TrackSimple>(NodePaths.Willpower);
 		
-		InitEntryList(GetNode<EntryList>(NodePaths.Aspirations), SheetData.Aspirations, changed_Aspirations);
+		InitEntryList(aspirations, SheetData.Aspirations, changed_Aspirations);
 		InitTrackSimple(beats, SheetData.Beats, changed_Beats);
-		InitEntryList(GetNode<EntryList>(NodePaths.Conditions), SheetData.Conditions, changed_Conditions);
+		InitEntryList(conditions, SheetData.Conditions, changed_Conditions);
 		InitSpinBox(experience, SheetData.Experience, changed_Experience);
 		InitTrackComplex(health, SheetData.Advantages.Health.ToTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
 		InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower, SheetData.Advantages.WillpowerMax);
@@ -73,21 +102,27 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Concept), SheetData.Details.Concept, changed_Concept);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Name), SheetData.Name, changed_Name);
-		if(!String.IsNullOrEmpty(SheetData.Name))
+		if(!string.IsNullOrEmpty(SheetData.Name))
 			Name = SheetData.Name;
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Player), SheetData.Player, changed_Player);
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Size), SheetData.Advantages.Size, changed_Size);
 		
-		SheetData.Attributes.Where(a => !String.IsNullOrEmpty(a.Name))
-			.ToList()
-			.ForEach(a => InitTrackSimple(GetNode<TrackSimple>($"{NodePaths.Attributes}/%{a.Name}"), a.Value, changed_Attribute));
+		foreach(var a in SheetData.Attributes.Where(a => !string.IsNullOrEmpty(a.Name)))
+		{
+			var attr = GetNode<TrackSimple>($"{NodePaths.Attributes}/%{a.Name}");
+			InitTrackSimple(attr, a.Value, changed_Attribute);
+			attributes.Add(attr);
+		}
 		
-		SheetData.Skills.Where(s => !String.IsNullOrEmpty(s.Name))
-			.ToList()
-			.ForEach(s => InitTrackSimple(GetNode<TrackSimple>($"{NodePaths.Skills}/%{s.Name}"), s.Value, changed_Skill));
+		foreach(var s in SheetData.Skills.Where(s => !string.IsNullOrEmpty(s.Name)))
+		{
+			var skill = GetNode<TrackSimple>($"{NodePaths.Skills}/%{s.Name}");
+			InitTrackSimple(skill, s.Value, changed_Skill);
+			skills.Add(skill);
+		}
 		
-		InitSpecialtyList(GetNode<SpecialtyList>(NodePaths.SkillSpecialties), SheetData.Specialties, changed_SkillSpecialty);
-		InitMeritList(GetNode<MeritList>(NodePaths.Merits), SheetData.Merits, changed_Merits);
+		InitSpecialtyList(skillSpecialties, SheetData.Specialties, changed_SkillSpecialty);
+		InitMeritList(merits, SheetData.Merits, changed_Merits);
 		
 		updateDefense();
 		updateInitiative();
@@ -98,14 +133,14 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		base._Ready();
 	}
 	
-	protected void InitMeritList(MeritList node, List<Merit> initialValue, MeritList.ValueChangedEventHandler handler)
+	protected void InitMeritList(MeritList node, List<Merit> initialValue, MeritList.MeritChangedEventHandler handler)
 	{
 		if(node is not null)
 		{
 			if(initialValue is not null)
 				node.Values = initialValue;
 			node.Refresh();
-			node.ValueChanged += handler;
+			node.MeritChanged += handler;
 		}
 	}
 	

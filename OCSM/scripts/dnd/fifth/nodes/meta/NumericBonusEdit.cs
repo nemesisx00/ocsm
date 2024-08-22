@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Linq;
 
 namespace Ocsm.Dnd.Fifth.Nodes.Meta;
@@ -77,7 +76,7 @@ public partial class NumericBonusEdit : Container
 	
 	private void abilityChanged(long index)
 	{
-		Value.Ability = Enum.GetValues<Abilities>()
+		Value.Ability = System.Enum.GetValues<Abilities>()
 			.Where(a => a.GetLabel() == abilityInput.GetItemText((int)index))
 			.FirstOrDefault();
 		

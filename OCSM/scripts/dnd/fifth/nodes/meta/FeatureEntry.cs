@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Ocsm.Dnd.Fifth.Meta;
@@ -51,6 +50,14 @@ public partial class FeatureEntry : Container, ICanDelete
 	private FeatureTypeOptionsButton typeNode;
 	
 	private MetadataManager metadataManager;
+	
+	public override void _ExitTree()
+	{
+		numericBonusesNode.ValuesChanged -= numericBonusesChanged;
+		sectionsNode.ValuesChanged -= sectionsChanged;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
@@ -182,7 +189,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		var text = typeNode.GetItemText((int)index);
 		
-		Feature.FeatureType = Enum.GetValues<FeatureTypes>()
+		Feature.FeatureType = System.Enum.GetValues<FeatureTypes>()
 			.FirstOrDefault(ft => ft.GetLabel() == text);
 		
 		if(Feature.FeatureType != FeatureTypes.Class)

@@ -8,7 +8,7 @@ namespace Ocsm.Cofd.Nodes;
 public partial class MeritList : ItemDotsList
 {
 	[Signal]
-	public new delegate void ValueChangedEventHandler(Transport<List<Merit>> transport);
+	public delegate void MeritChangedEventHandler(Transport<List<Merit>> transport);
 	
 	public new List<Merit> Values { get; set; } = [];
 	
@@ -21,15 +21,15 @@ public partial class MeritList : ItemDotsList
 	
 	public override void Refresh()
 	{
-		GetChildren().ToList()
-			.ForEach(n => n.QueueFree());
+		foreach(var child in GetChildren())
+			child.QueueFree();
 		
-		Values.Where(m => m is not null)
-			.ToList()
-			.ForEach(m => addInput(m.Name, m.Value));
+		foreach(var merit in Values.Where(m => m is not null))
+			addInput(merit.Name, merit.Value);
 		
 		if(sortItems)
 			sortChildren();
+		
 		addInput();
 	}
 	
@@ -37,19 +37,19 @@ public partial class MeritList : ItemDotsList
 	{
 		removeEmpties();
 		
-		var values = new List<Merit>();
-		var list = GetChildren()
-			.Select(node => new Merit() { Name = node.GetChild<TextEdit>(0).Text, Value = node.GetChild<TrackSimple>(1).Value })
-			.OrderBy(m => m)
-			.ToList();
+		Values = [.. GetChildren()
+			.Select(node => new Merit()
+			{
+				Name = node.GetChild<TextEdit>(0).Text,
+				Value = node.GetChild<TrackSimple>(1).Value
+			})
+			.OrderBy(m => m)];
 		
-		list.ForEach(m => values.Add(m));
-		
-		Values = values;
 		EmitSignal(SignalName.ValueChanged, new Transport<List<Merit>>(Values));
 		
 		if(sortItems)
 			sortChildren();
+		
 		addInput();
 	}
 }

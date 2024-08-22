@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://scripts/core/nodes/TrackSimple.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6y57e"]
 
-
 [node name="ItemDots" type="HBoxContainer"]
 offset_right = 1016.0
 offset_bottom = 24.0

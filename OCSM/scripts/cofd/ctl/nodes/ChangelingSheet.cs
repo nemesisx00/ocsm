@@ -55,25 +55,46 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	
 	private MetadataManager metadataManager;
 	
-	private readonly List<TrackSimple> attributes = [];
+	private TrackSimple clarity;
+	private ContractsList contractsList;
+	private EntryList frailties;
 	private TrackSimple glamour;
-	private MeritList merits;
+	private MeritsFromMetadata meritsFromMetadata;
 	private MetadataOption regalia1;
 	private MetadataOption regalia2;
-	private readonly List<TrackSimple> skills = [];
+	private EntryList touchstones;
+	private TrackSimple wyrd;
+	
+	public override void _ExitTree()
+	{
+		clarity.ValueChanged -= changed_Clarity;
+		contractsList.ValueChanged -= changed_Contracts;
+		glamour.ValueChanged -= changed_Glamour;
+		frailties.ValueChanged -= changed_Frailties;
+		meritsFromMetadata.AddMerit -= addExistingMerit;
+		touchstones.ValueChanged -= changed_Touchstones;
+		wyrd.ValueChanged -= changed_Wyrd;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		SheetData ??= new Changeling();
 		
+		clarity = GetNode<TrackSimple>(NodePaths.Clarity);
+		contractsList = GetNode<ContractsList>(NodePaths.ContractsList);
+		frailties = GetNode<EntryList>(NodePaths.Frailties);
 		glamour = GetNode<TrackSimple>(NodePaths.Glamour);
-		merits = GetNode<MeritList>(CoreSheet<Changeling>.NodePaths.Merits);
+		meritsFromMetadata = GetNode<MeritsFromMetadata>(CoreSheet<Changeling>.NodePaths.MeritsFromMetadata);
 		regalia1 = GetNode<MetadataOption>(NodePaths.Regalia1);
 		regalia2 = GetNode<MetadataOption>(NodePaths.Regalia2);
+		touchstones = GetNode<EntryList>(NodePaths.Touchstones);
+		wyrd = GetNode<TrackSimple>(NodePaths.Wyrd);
 		
-		InitTrackSimple(GetNode<TrackSimple>(NodePaths.Clarity), SheetData.Advantages.Integrity, changed_Clarity, DefaultIntegrityMax);
-		InitTrackSimple(GetNode<TrackSimple>(NodePaths.Wyrd), SheetData.Advantages.Power, changed_Wyrd, DefaultIntegrityMax);
+		InitTrackSimple(clarity, SheetData.Advantages.Integrity, changed_Clarity, DefaultIntegrityMax);
+		InitTrackSimple(wyrd, SheetData.Advantages.Power, changed_Wyrd, DefaultIntegrityMax);
 		InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour, SheetData.Advantages.ResourceMax);
 		
 		GetNode<Label>(NodePaths.NeedleLabel).Text = SheetData.Details.Virtue;
@@ -96,18 +117,18 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 		
 		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Court), court, changed_Court);
-		InitEntryList(GetNode<EntryList>(NodePaths.Frailties), SheetData.Frailties, changed_Frailties);
+		InitEntryList(frailties, SheetData.Frailties, changed_Frailties);
 		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Kith), kith, changed_Kith);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Needle), SheetData.Details.Virtue, changed_Needle);
 		InitMetadataOptionButton(regalia1, SheetData.FavoredRegalia.Key, changed_FavoredRegalia);
 		InitMetadataOptionButton(regalia2, SheetData.FavoredRegalia.Value, changed_FavoredRegalia);
 		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Seeming), seeming, changed_Seeming);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Thread), SheetData.Details.Vice, changed_Thread);
-		InitEntryList(GetNode<EntryList>(NodePaths.Touchstones), SheetData.Touchstones, changed_Touchstones);
+		InitEntryList(touchstones, SheetData.Touchstones, changed_Touchstones);
 
-		InitContractsList(GetNode<ContractsList>(NodePaths.ContractsList), SheetData.Contracts, changed_Contracts);
+		InitContractsList(contractsList, SheetData.Contracts, changed_Contracts);
 		
-		GetNode<MeritsFromMetadata>(CoreSheet<Changeling>.NodePaths.MeritsFromMetadata).AddMerit += addExistingMerit;
+		meritsFromMetadata.AddMerit += addExistingMerit;
 		
 		base._Ready();
 		
@@ -116,23 +137,23 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		if(SheetData.Advantages.Power > 5)
 			dotMax = SheetData.Advantages.Power;
 		
-		SheetData.Attributes.ForEach(a => {
-			if(GetNode<TrackSimple>(CoreSheet<Changeling>.NodePaths.Attributes + "/%" + a.Name) is TrackSimple node)
+		foreach(var attribute in attributes)
+		{
+			if(SheetData.Attributes.Find(td => td.Name == attribute.Name) is TraitDots trait)
 			{
-				node.UpdateMax(dotMax);
-				node.UpdateValue(a.Value);
-				attributes.Add(node);
+				attribute.UpdateMax(dotMax);
+				attribute.UpdateValue(trait.Value);
 			}
-		});
+		}
 		
-		SheetData.Skills.ForEach(s => {
-			if(GetNode<TrackSimple>(CoreSheet<Changeling>.NodePaths.Skills + "/%" + s.Name) is TrackSimple node)
+		foreach(var skill in skills)
+		{
+			if(SheetData.Skills.Find(td => td.Name == skill.Name) is TraitDots trait)
 			{
-				node.UpdateMax(dotMax);
-				node.UpdateValue(s.Value);
-				skills.Add(node);
+				skill.UpdateMax(dotMax);
+				skill.UpdateValue(trait.Value);
 			}
-		});
+		}
 	}
 	
 	private void addExistingMerit(string name)

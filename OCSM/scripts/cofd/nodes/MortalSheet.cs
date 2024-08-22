@@ -17,17 +17,26 @@ public partial class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 		public static readonly NodePath VirtueLabel = new("%Advantages/%VirtueLabel");
 	}
 	
+	private TrackSimple integrity;
 	private Label viceLabel;
 	private Label virtueLabel;
+	
+	public override void _ExitTree()
+	{
+		integrity.ValueChanged -= changed_Integrity;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
 		SheetData ??= new Mortal();
 		
+		integrity = GetNode<TrackSimple>(NodePaths.Integrity);
 		viceLabel = GetNode<Label>(NodePaths.ViceLabel);
 		virtueLabel = GetNode<Label>(NodePaths.VirtueLabel);
 		
-		InitTrackSimple(GetNode<TrackSimple>(NodePaths.Integrity), SheetData.Advantages.Integrity, changed_Integrity, DefaultIntegrityMax);
+		InitTrackSimple(integrity, SheetData.Advantages.Integrity, changed_Integrity, DefaultIntegrityMax);
 		viceLabel.Text = SheetData.Details.Vice;
 		virtueLabel.Text = SheetData.Details.Virtue;
 		

@@ -17,12 +17,14 @@ public partial class NumericBonusEditList : Container
 	{
 		foreach(Node c in GetChildren())
 		{
+			if(c is NumericBonusEdit nbe)
+				nbe.ValueChanged -= numericBonusChanged;
+			
 			c.QueueFree();
 		}
 		
-		Values.Where(v => v is not null)
-			.ToList()
-			.ForEach(v => addInput(v));
+		foreach(var value in Values.Where(v => v is not null))
+			addInput(value);
 		
 		addInput();
 	}

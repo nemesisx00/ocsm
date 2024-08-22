@@ -35,13 +35,17 @@ public abstract partial class CustomOption : OptionButton
 		}
 	}
 	
-	protected void replaceItems(List<string> items)
+	protected void replaceItems(IEnumerable<string> items)
 	{
 		var index = GetSelectedId();
 		Clear();
+		
 		if(EmptyOption)
 			AddItem(string.Empty);
-		items.ForEach(i => AddItem(i));
+		
+		foreach(var i in items)
+			AddItem(i);
+		
 		Selected = index;
 	}
 	

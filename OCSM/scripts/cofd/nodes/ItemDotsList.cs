@@ -28,14 +28,18 @@ public partial class ItemDotsList : Container
 	
 	public virtual void Refresh()
 	{
-		GetChildren().ToList()
-			.ForEach(n => n.QueueFree());
+		foreach(var child in GetChildren())
+		{
+			child.GetChild<TrackSimple>(1).NodeChanged -= handleTrackNodeChanged;
+			child.QueueFree();
+		}
 		
-		Values.ToList()
-			.ForEach(pair => addInput(pair.Key, pair.Value));
+		foreach(var pair in Values)
+			addInput(pair.Key, pair.Value);
 		
 		if(sortItems)
 			sortChildren();
+		
 		addInput();
 	}
 	
@@ -64,25 +68,28 @@ public partial class ItemDotsList : Container
 		
 		AddChild(node);
 		textEdit.TextChanged += () => updateValues();
-		track.NodeChanged += n => updateValues();
+		track.NodeChanged += handleTrackNodeChanged;
 	}
+	
+	protected void handleTrackNodeChanged(TrackSimple node) => updateValues();
 	
 	protected virtual void updateValues()
 	{
 		removeEmpties();
 		
-		Dictionary<string, int> values = [];
-		GetChildren()
-			.Select(node => new { text = node.GetChild<TextEdit>(0).Text, dots = node.GetChild<TrackSimple>(1).Value })
-			.OrderBy(o => o.text)
-			.ToList()
-			.ForEach(o => values.Add(o.text, o.dots));
+		Values = GetChildren()
+			.Select(node => new KeyValuePair<string, int>(
+				node.GetChild<TextEdit>(0).Text,
+				node.GetChild<TrackSimple>(1).Value
+			))
+			.OrderBy(o => o.Key)
+			.ToDictionary();
 		
-		Values = values;
 		EmitSignal(SignalName.ValueChanged, new Transport<Dictionary<string, int>>(Values));
 		
 		if(sortItems)
 			sortChildren();
+		
 		addInput();
 	}
 }
