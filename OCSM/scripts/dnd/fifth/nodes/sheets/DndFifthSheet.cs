@@ -47,17 +47,32 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private MetadataManager metadataManager;
 	
-	private Inventory inventory;
+	private List<AbilityRow> abilities = [];
+	private SpinBox armorClass;
+	private VBoxContainer backgroundFeatures;
+	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
 	private TextEdit bonds;
 	private TextEdit flaws;
 	private TextEdit ideals;
-	private TextEdit personalityTraits;
-	private VBoxContainer backgroundFeatures;
-	private VBoxContainer raceFeatures;
-	private SpinBox armorClass;
 	private SpinBox initiativeBonus;
+	private ToggleButton inspiration;
+	private Inventory inventory;
+	private TextEdit personalityTraits;
+	private VBoxContainer raceFeatures;
 	private SpinBox speed;
+	
+	public override void _ExitTree()
+	{
+		bardicInspiration.StateToggled -= changed_BardicInspiration;
+		inspiration.StateToggled -= changed_Inspiration;
+		inventory.ItemsChanged -= changed_Inventory;
+		
+		foreach(var row in abilities)
+			row.AbilityChanged -= changed_Ability;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
@@ -66,10 +81,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		SheetData ??= new FifthAdventurer();
 		
 		inventory = GetNode<Inventory>(NodePaths.Inventory);
+		bardicInspiration = GetNode<ToggleButton>(NodePaths.BardicInspiration);
 		bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
 		bonds = GetNode<TextEdit>(NodePaths.Bonds);
 		flaws = GetNode<TextEdit>(NodePaths.Flaws);
 		ideals = GetNode<TextEdit>(NodePaths.Ideals);
+		inspiration = GetNode<ToggleButton>(NodePaths.Inspiration);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
 		backgroundFeatures = GetNode<VBoxContainer>(NodePaths.BackgroundFeatures);
 		raceFeatures = GetNode<VBoxContainer>(NodePaths.RaceFeatures);
@@ -93,8 +110,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Gold), SheetData.CoinPurse.Gold, changed_Gold);
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Platinum), SheetData.CoinPurse.Platinum, changed_Platinum);
 		
-		InitToggleButton(GetNode<ToggleButton>(NodePaths.Inspiration), SheetData.Inspiration, changed_Inspiration);
-		InitToggleButton(GetNode<ToggleButton>(NodePaths.BardicInspiration), SheetData.BardicInspiration, changed_BardicInspiration);
+		InitToggleButton(inspiration, SheetData.Inspiration, changed_Inspiration);
+		InitToggleButton(bardicInspiration, SheetData.BardicInspiration, changed_BardicInspiration);
 		InitDieOptionsButton(bardicInspirationDie, SheetData.BardicInspirationDie, changed_BardicInspirationDie);
 		
 		InitTextEdit(personalityTraits, SheetData.PersonalityTraits, changed_PersonalityTraits);
@@ -102,8 +119,13 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		InitTextEdit(bonds, SheetData.Bonds, changed_Bonds);
 		InitTextEdit(flaws, SheetData.Flaws, changed_Flaws);
 		
-		GetNode<AbilityScores>(NodePaths.AbilityScores)
-			.Initialize<AbilityRow>(SheetData.Abilities, changed_Ability);
+		var asNode = GetNode(NodePaths.AbilityScores);
+		foreach(var info in SheetData.Abilities)
+		{
+			var row = asNode.GetNode<AbilityRow>($"%{info.AbilityType}");
+			InitAbilityRow(row, info, changed_Ability);
+			abilities.Add(row);
+		}
 		
 		InitInventory(inventory, SheetData.Inventory, changed_Inventory);
 		
@@ -111,6 +133,34 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		refreshFeatures();
 		toggleBardicInspirationDie();
 		updateCalculatedTraits();
+	}
+	
+	protected static void InitAbilityColumn(AbilityColumn node, AbilityInfo initialValue, AbilityColumn.AbilityChangedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+			{
+				node.Ability = initialValue;
+				node.Refresh();
+			}
+			
+			node.AbilityChanged += handler;
+		}
+	}
+	
+	protected static void InitAbilityRow(AbilityRow node, AbilityInfo initialValue, AbilityRow.AbilityChangedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+			{
+				node.Ability = initialValue;
+				node.Refresh();
+			}
+			
+			node.AbilityChanged += handler;
+		}
 	}
 	
 	protected static void InitFeaturefulOptionsButton(OptionButton node, Featureful initialValue, OptionButton.ItemSelectedEventHandler handler)
