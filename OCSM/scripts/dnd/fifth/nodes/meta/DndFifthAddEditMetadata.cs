@@ -22,29 +22,51 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 	
 	private MetadataManager metadataManager;
 	
+	private ArmorEntry armorEntry;
+	private FeaturefulEntry backgroundEntry;
+	private FeaturefulEntry classEntry;
+	private FeatureEntry featureEntry;
+	private FeaturefulEntry raceEntry;
+	
+	public override void _ExitTree()
+	{
+		armorEntry.SaveClicked += saveArmor;
+		armorEntry.DeleteConfirmed += deleteArmor;
+		backgroundEntry.SaveClicked += saveFeatureful;
+		backgroundEntry.DeleteConfirmed += deleteFeatureful;
+		classEntry.SaveClicked += saveFeatureful;
+		classEntry.DeleteConfirmed += deleteFeatureful;
+		featureEntry.SaveClicked += saveFeature;
+		featureEntry.DeleteConfirmed += deleteFeature;
+		raceEntry.SaveClicked += saveFeatureful;
+		raceEntry.DeleteConfirmed += deleteFeatureful;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
 		CloseRequested += closeHandler;
 		
-		var armorEntry = GetNode<ArmorEntry>(NodePaths.ArmorName);
+		armorEntry = GetNode<ArmorEntry>(NodePaths.ArmorName);
 		armorEntry.SaveClicked += saveArmor;
 		armorEntry.DeleteConfirmed += deleteArmor;
 		
-		var backgroundEntry = GetNode<FeaturefulEntry>(NodePaths.BackgroundsName);
+		backgroundEntry = GetNode<FeaturefulEntry>(NodePaths.BackgroundsName);
 		backgroundEntry.SaveClicked += saveFeatureful;
 		backgroundEntry.DeleteConfirmed += deleteFeatureful;
 		
-		var classEntry = GetNode<FeaturefulEntry>(NodePaths.ClassesName);
+		classEntry = GetNode<FeaturefulEntry>(NodePaths.ClassesName);
 		classEntry.SaveClicked += saveFeatureful;
 		classEntry.DeleteConfirmed += deleteFeatureful;
 		
-		var featureEntry = GetNode<FeatureEntry>(NodePaths.FeaturesName);
+		featureEntry = GetNode<FeatureEntry>(NodePaths.FeaturesName);
 		featureEntry.SaveClicked += saveFeature;
 		featureEntry.DeleteConfirmed += deleteFeature;
 		
-		var raceEntry = GetNode<FeaturefulEntry>(NodePaths.RacesName);
+		raceEntry = GetNode<FeaturefulEntry>(NodePaths.RacesName);
 		raceEntry.SaveClicked += saveFeatureful;
 		raceEntry.DeleteConfirmed += deleteFeatureful;
 	}
@@ -107,7 +129,7 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 		}
 	}
 	
-	protected void saveFeatureful(MetadataType type, string name, string description, Transport<List<Ocsm.Dnd.Fifth.FeatureSection>> sections, Transport<List<Ocsm.Dnd.Fifth.Feature>> features)
+	protected void saveFeatureful(MetadataType type, string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features)
 	{
 		if(metadataManager.Container is DndFifthContainer container)
 		{
