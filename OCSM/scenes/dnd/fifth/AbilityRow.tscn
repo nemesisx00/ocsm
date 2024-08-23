@@ -3,14 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://6xlybs5ki0j" path="res://scenes/dnd/fifth/Skill.tscn" id="1_0oflb"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/AbilityRow.cs" id="1_oij4g"]
 
-[node name="Ability" type="HBoxContainer"]
+[node name="Ability" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
-alignment = 1
 script = ExtResource("1_oij4g")
 
 [node name="Name" type="Label" parent="."]
@@ -18,16 +17,20 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
-horizontal_alignment = 2
+horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Modifier" type="SpinBox" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+
+[node name="Modifier" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -38,7 +41,7 @@ rounded = true
 alignment = 1
 editable = false
 
-[node name="Score" type="SpinBox" parent="VBoxContainer"]
+[node name="Score" type="SpinBox" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
@@ -48,12 +51,12 @@ value = 10.0
 rounded = true
 alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="SavingThrow" parent="VBoxContainer2" instance=ExtResource("1_0oflb")]
+[node name="SavingThrow" parent="HBoxContainer/VBoxContainer2" instance=ExtResource("1_0oflb")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -61,7 +64,7 @@ size_flags_vertical = 4
 tooltip_text = "Saving Throw"
 Label = "Saving Throw"
 
-[node name="Skills" type="VBoxContainer" parent="VBoxContainer2"]
+[node name="Skills" type="VBoxContainer" parent="HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
