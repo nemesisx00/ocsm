@@ -3,7 +3,7 @@ namespace Ocsm;
 public static class ScenePaths
 {
 	public const string AboutGodot = $"{Prefix}/AboutGodot.tscn";
-	public const string AboutOcsm = $"{Prefix}/AboutOcsm.tscn";
+	public const string AboutOcsm = $"{Prefix}/AboutOCSM.tscn";
 	public const string ConfirmQuit = $"{Prefix}/ConfirmQuit.tscn";
 	public const string DarkPack = $"{Prefix}/DarkPack.tscn";
 	public const string GameSystemLicenses = $"{Prefix}/GameSystemLicenses.tscn";

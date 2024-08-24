@@ -15,7 +15,7 @@ public partial class FeaturefulMetadataEntry : BasicMetadataEntry
 	}
 	
 	[Signal]
-	public new delegate void SaveClickedEventHandler(string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features);
+	public delegate void SaveFeaturefulClickedEventHandler(string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features);
 	
 	protected List<Feature> features = [];
 	protected Container featureContainer;

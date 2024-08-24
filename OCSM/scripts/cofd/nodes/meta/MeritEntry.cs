@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using Ocsm.Cofd.Meta;
 using Ocsm.Nodes;
 using Ocsm.Nodes.Meta;
@@ -14,7 +13,7 @@ public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 	}
 	
 	[Signal]
-	public new delegate void SaveClickedEventHandler(string name, string description, int value);
+	public delegate void SaveMeritClickedEventHandler(string name, string description, int value);
 	
 	public new void DoDelete()
 	{
@@ -47,7 +46,7 @@ public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 		var description = GetNode<TextEdit>(BasicMetadataEntry.NodePaths.DescriptionInput).Text;
 		var value = GetNode<TrackSimple>(NodePaths.DotsName).Value;
 		
-		EmitSignal(SignalName.SaveClicked, name, description, value);
+		EmitSignal(SignalName.SaveMeritClicked, name, description, value);
 		clearInputs();
 	}
 	
@@ -69,7 +68,7 @@ public partial class MeritEntry : BasicMetadataEntry, ICanDelete
 		{
 			var optionButton = GetNode<OptionButton>(BasicMetadataEntry.NodePaths.ExistingEntryName);
 			optionButton.Clear();
-			optionButton.AddItem(String.Empty);
+			optionButton.AddItem(string.Empty);
 			container.Merits.ForEach(m => optionButton.AddItem(m.Name));
 		}
 	}

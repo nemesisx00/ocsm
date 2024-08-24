@@ -190,6 +190,10 @@ public partial class FeaturefulEntry : Container, ICanDelete
 		}
 		
 		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
-		features.ForEach(f => instantiateFeature(f, resource));
+		if(resource.CanInstantiate())
+		{
+			foreach(var f in features)
+				instantiateFeature(f, resource);
+		}
 	}
 }

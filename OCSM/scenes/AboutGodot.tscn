@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://ck1ttf4nrqf75"]
 
 [node name="AboutGodot" type="Window"]
-initial_position = 2
 title = "About Godot Engine"
+initial_position = 2
 size = Vector2i(800, 500)
 transient = true
 min_size = Vector2i(764, 250)

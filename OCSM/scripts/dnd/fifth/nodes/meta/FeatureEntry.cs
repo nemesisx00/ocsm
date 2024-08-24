@@ -32,7 +32,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	public const string ExistingLabelFormat = "Existing {0}";
 	
 	[Signal]
-	public delegate void SaveClickedEventHandler(Transport<Ocsm.Dnd.Fifth.Feature> feature);
+	public delegate void SaveClickedEventHandler(Transport<Feature> feature);
 	[Signal]
 	public delegate void DeleteConfirmedEventHandler(string name);
 	

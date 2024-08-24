@@ -9,19 +9,27 @@ using Ocsm.Nodes.Meta;
 
 namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
-public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
+public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 {
+	private static class AnimationName
+	{
+		public static readonly StringName SlideUp = new("slideUp");
+	}
+	
 	private static class NodePaths
 	{
+		public static readonly NodePath AnimationPlayer = new("%AnimationPlayer");
 		public static readonly NodePath ArmorName = new("%Armor");
 		public static readonly NodePath BackgroundsName = new("%Backgrounds");
 		public static readonly NodePath ClassesName = new("%Classes");
+		public static readonly NodePath CloseButton = new("%CloseButton");
 		public static readonly NodePath FeaturesName = new("%FeatureEntry");
 		public static readonly NodePath RacesName = new("%Races");
 	}
 	
 	private MetadataManager metadataManager;
 	
+	private AnimationPlayer animPlayer;
 	private ArmorEntry armorEntry;
 	private FeaturefulEntry backgroundEntry;
 	private FeaturefulEntry classEntry;
@@ -48,7 +56,7 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
-		CloseRequested += closeHandler;
+		animPlayer = GetNode<AnimationPlayer>(NodePaths.AnimationPlayer);
 		
 		armorEntry = GetNode<ArmorEntry>(NodePaths.ArmorName);
 		armorEntry.SaveClicked += saveArmor;
@@ -69,9 +77,23 @@ public partial class DndFifthAddEditMetadata : Window, IAddEditMetadata
 		raceEntry = GetNode<FeaturefulEntry>(NodePaths.RacesName);
 		raceEntry.SaveClicked += saveFeatureful;
 		raceEntry.DeleteConfirmed += deleteFeatureful;
+		
+		GetNode<Button>(NodePaths.CloseButton).Pressed += Close;
+		
+		animPlayer.Play(AnimationName.SlideUp);
 	}
 	
-	private void closeHandler() => QueueFree();
+	public override void _UnhandledKeyInput(InputEvent evt)
+	{
+		if(evt.IsActionReleased(Actions.Cancel))
+			Close();
+	}
+	
+	public void Close()
+	{
+		animPlayer.PlayBackwards(AnimationName.SlideUp);
+		animPlayer.AnimationFinished += anim => QueueFree();
+	}
 	
 	protected void deleteArmor(string name)
 	{

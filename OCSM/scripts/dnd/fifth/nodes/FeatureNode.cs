@@ -48,7 +48,11 @@ public partial class FeatureNode : Container
 		if(feature.Sections.Count != 0)
 		{
 			var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.FeatureSection);
-			feature.Sections.ForEach(s => instantiateSection(s, resource));
+			if(resource.CanInstantiate())
+			{
+				foreach(var s in feature.Sections)
+					instantiateSection(s, resource);
+			}
 		}
 	}
 	

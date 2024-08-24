@@ -8,10 +8,17 @@ using Ocsm.Nodes.Meta;
 
 namespace Ocsm.Cofd.Ctl.Nodes.Meta;
 
-public partial class CofdChangelingAddEditMetadata : Window, IAddEditMetadata
+public partial class CofdChangelingAddEditMetadata : Container, IAddEditMetadata
 {
+	private static class AnimationName
+	{
+		public static readonly StringName SlideUp = new("slideUp");
+	}
+	
 	private static class NodePaths
 	{
+		public static readonly NodePath AnimationPlayer = new("%AnimationPlayer");
+		public static readonly NodePath CloseButton = new("%CloseButton");
 		public readonly static NodePath Contract = new("%Contract");
 		public readonly static NodePath ContractRegalia = new("%Contract Regalia");
 		public readonly static NodePath ContractType = new("%Contract Type");
@@ -26,50 +33,95 @@ public partial class CofdChangelingAddEditMetadata : Window, IAddEditMetadata
 	
 	private MetadataManager metadataManager;
 	
+	private AnimationPlayer animPlayer;
+	private ContractEntry contractEntry;
 	private ContractNode contractInput;
+	private MetadataEntry contractRegaliaEntry;
+	private MetadataEntry contractTypeEntry;
+	private MetadataEntry courtEntry;
+	private MetadataEntry kithEntry;
+	private MeritEntry meritEntry;
+	private MetadataEntry regaliaEntry;
+	private MetadataEntry seemingEntry;
+	
+	public override void _ExitTree()
+	{
+		contractEntry.SaveClicked -= saveContract;
+		contractEntry.DeleteConfirmed -= deleteContract;
+		contractRegaliaEntry.SaveClicked -= saveMetadata;
+		contractRegaliaEntry.DeleteConfirmed -= deleteMetadata;
+		contractTypeEntry.SaveClicked -= saveMetadata;
+		contractTypeEntry.DeleteConfirmed -= deleteMetadata;
+		courtEntry.SaveClicked -= saveMetadata;
+		courtEntry.DeleteConfirmed -= deleteMetadata;
+		kithEntry.SaveClicked -= saveMetadata;
+		kithEntry.DeleteConfirmed -= deleteMetadata;
+		meritEntry.SaveMeritClicked -= saveMerit;
+		meritEntry.DeleteConfirmed -= deleteMerit;
+		regaliaEntry.SaveClicked -= saveMetadata;
+		regaliaEntry.DeleteConfirmed -= deleteMetadata;
+		seemingEntry.SaveClicked -= saveMetadata;
+		seemingEntry.DeleteConfirmed -= deleteMetadata;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
-		CloseRequested += closeHandler;
+		animPlayer = GetNode<AnimationPlayer>(NodePaths.AnimationPlayer);
 		
-		var contractEntry = GetNode<ContractEntry>(NodePaths.Contract);
+		contractEntry = GetNode<ContractEntry>(NodePaths.Contract);
 		contractEntry.SaveClicked += saveContract;
 		contractEntry.DeleteConfirmed += deleteContract;
 		
 		contractInput = contractEntry.GetNode<ContractNode>(ContractEntry.NodePaths.ContractInput);
 		
-		var contractRegaliaEntry = GetNode<MetadataEntry>(NodePaths.ContractRegalia);
+		contractRegaliaEntry = GetNode<MetadataEntry>(NodePaths.ContractRegalia);
 		contractRegaliaEntry.SaveClicked += saveMetadata;
 		contractRegaliaEntry.DeleteConfirmed += deleteMetadata;
 		
-		var contractTypeEntry = GetNode<MetadataEntry>(NodePaths.ContractType);
+		contractTypeEntry = GetNode<MetadataEntry>(NodePaths.ContractType);
 		contractTypeEntry.SaveClicked += saveMetadata;
 		contractTypeEntry.DeleteConfirmed += deleteMetadata;
 		
-		var courtEntry = GetNode<MetadataEntry>(NodePaths.Court);
+		courtEntry = GetNode<MetadataEntry>(NodePaths.Court);
 		courtEntry.SaveClicked += saveMetadata;
 		courtEntry.DeleteConfirmed += deleteMetadata;
 		
-		var kithEntry = GetNode<MetadataEntry>(NodePaths.Kith);
+		kithEntry = GetNode<MetadataEntry>(NodePaths.Kith);
 		kithEntry.SaveClicked += saveMetadata;
 		kithEntry.DeleteConfirmed += deleteMetadata;
 		
-		var meritEntry = GetNode<MeritEntry>(NodePaths.Merit);
-		meritEntry.SaveClicked += saveMerit;
+		meritEntry = GetNode<MeritEntry>(NodePaths.Merit);
+		meritEntry.SaveMeritClicked += saveMerit;
 		meritEntry.DeleteConfirmed += deleteMerit;
 		
-		var regaliaEntry = GetNode<MetadataEntry>(NodePaths.Regalia);
+		regaliaEntry = GetNode<MetadataEntry>(NodePaths.Regalia);
 		regaliaEntry.SaveClicked += saveMetadata;
 		regaliaEntry.DeleteConfirmed += deleteMetadata;
 		
-		var seemingEntry = GetNode<MetadataEntry>(NodePaths.Seeming);
+		seemingEntry = GetNode<MetadataEntry>(NodePaths.Seeming);
 		seemingEntry.SaveClicked += saveMetadata;
 		seemingEntry.DeleteConfirmed += deleteMetadata;
+		
+		GetNode<Button>(NodePaths.CloseButton).Pressed += Close;
+		
+		animPlayer.Play(AnimationName.SlideUp);
 	}
 	
-	private void closeHandler() => QueueFree();
+	public override void _UnhandledKeyInput(InputEvent evt)
+	{
+		if(evt.IsActionReleased(Actions.Cancel))
+			Close();
+	}
+	
+	public void Close()
+	{
+		animPlayer.PlayBackwards(AnimationName.SlideUp);
+		animPlayer.AnimationFinished += anim => QueueFree();
+	}
 	
 	private void deleteContract(string name)
 	{

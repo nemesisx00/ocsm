@@ -2,7 +2,7 @@ namespace Ocsm;
 
 public static class Actions
 {
-	public const string Cancel = "ui_cancel";
+	public const string Cancel = "cancel";
 	public const string FileNew = "fileNew";
 	public const string FileOpen = "fileOpen";
 	public const string FileSave = "fileSave";

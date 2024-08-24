@@ -59,11 +59,14 @@ public partial class HelpMenu : MenuButton
 		else
 		{
 			var resource = GD.Load<PackedScene>(ScenePaths.AboutOcsm);
-			aboutOcsm = resource.Instantiate<Window>();
-			aboutOcsm.CloseRequested += () => NodeUtilities.QueueFree(ref aboutOcsm);
-			
-			GetTree().CurrentScene.AddChild(aboutOcsm);
-			aboutOcsm.PopupCentered();
+			if(resource.CanInstantiate())
+			{
+				aboutOcsm = resource.Instantiate<Window>();
+				aboutOcsm.CloseRequested += () => NodeUtilities.QueueFree(ref aboutOcsm);
+				
+				GetTree().CurrentScene.AddChild(aboutOcsm);
+				aboutOcsm.PopupCentered();
+			}
 		}
 	}
 	
@@ -74,11 +77,14 @@ public partial class HelpMenu : MenuButton
 		else
 		{
 			var resource = GD.Load<PackedScene>(ScenePaths.GameSystemLicenses);
-			gameLicenses = resource.Instantiate<Window>();
-			gameLicenses.CloseRequested += () => NodeUtilities.QueueFree(ref gameLicenses);
-			
-			GetTree().CurrentScene.AddChild(gameLicenses);
-			gameLicenses.PopupCentered();
+			if(resource.CanInstantiate())
+			{
+				gameLicenses = resource.Instantiate<Window>();
+				gameLicenses.CloseRequested += () => NodeUtilities.QueueFree(ref gameLicenses);
+				
+				GetTree().CurrentScene.AddChild(gameLicenses);
+				gameLicenses.PopupCentered();
+			}
 		}
 	}
 	
@@ -89,12 +95,15 @@ public partial class HelpMenu : MenuButton
 		else
 		{
 			var resource = GD.Load<PackedScene>(ScenePaths.AboutGodot);
-			aboutGodot = resource.Instantiate<Window>();
-			aboutGodot.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
-			aboutGodot.CloseRequested += () => NodeUtilities.QueueFree(ref aboutGodot);
-			
-			GetTree().CurrentScene.AddChild(aboutGodot);
-			aboutGodot.PopupCentered();
+			if(resource.CanInstantiate())
+			{
+				aboutGodot = resource.Instantiate<Window>();
+				aboutGodot.GetNode<TextEdit>("%LicenseText").Text = Engine.GetLicenseText();
+				aboutGodot.CloseRequested += () => NodeUtilities.QueueFree(ref aboutGodot);
+				
+				GetTree().CurrentScene.AddChild(aboutGodot);
+				aboutGodot.PopupCentered();
+			}
 		}
 	}
 }

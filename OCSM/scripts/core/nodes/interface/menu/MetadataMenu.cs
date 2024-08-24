@@ -45,22 +45,23 @@ public partial class MetadataMenu : MenuButton
 		switch(metadataManager.CurrentGameSystem)
 		{
 			case GameSystem.CofdChangeling:
-				generatePopup<CofdChangelingAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Cofd.Changeling.Meta.AddEditMetadata));
+				generatePopup<CofdChangelingAddEditMetadata>(ScenePaths.Cofd.Changeling.Meta.AddEditMetadata);
 				break;
 			
 			case GameSystem.Dnd5e:
-				generatePopup<DndFifthAddEditMetadata>(GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Meta.AddEditMetadata));
+				generatePopup<DndFifthAddEditMetadata>(ScenePaths.Dnd.Fifth.Meta.AddEditMetadata);
 				break;
 		}
 	}
 	
-	private T generatePopup<T>(PackedScene resource)
-		where T: Window, IAddEditMetadata
+	private void generatePopup<T>(string path)
+		where T: Container, IAddEditMetadata
 	{
-		var instance = resource.Instantiate<T>();
-		GetTree().CurrentScene.AddChild(instance);
-		instance.PopupCentered();
-		
-		return instance;
+		var resource = GD.Load<PackedScene>(path);
+		if(resource.CanInstantiate())
+		{
+			var instance = resource.Instantiate<T>();
+			GetTree().CurrentScene.AddChild(instance);
+		}
 	}
 }
