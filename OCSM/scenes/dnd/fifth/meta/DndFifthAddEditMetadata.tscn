@@ -48,8 +48,6 @@ _data = {
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 30.0
-offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6m7kq")
@@ -92,7 +90,7 @@ current_tab = 0
 [node name="Backgrounds" parent="MarginContainer/ScrollContainer/TabContainer/Metadata/TabContainer" instance=ExtResource("3_efsk1")]
 unique_name_in_owner = true
 layout_mode = 2
-MetadataType = 7
+MetadataType = 64
 MetadataTypeLabel = "Background"
 metadata/_tab_index = 0
 
@@ -100,7 +98,7 @@ metadata/_tab_index = 0
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 8
+MetadataType = 128
 MetadataTypeLabel = "Class"
 metadata/_tab_index = 1
 
@@ -108,7 +106,7 @@ metadata/_tab_index = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 9
+MetadataType = 256
 MetadataTypeLabel = "Species"
 metadata/_tab_index = 2
 
