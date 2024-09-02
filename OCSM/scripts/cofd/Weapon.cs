@@ -40,7 +40,7 @@ public class Weapon() : IEmptiable, IEquatable<Weapon>, IComparable<Weapon>
 		if(ret == 0)
 			ret = Strength.CompareTo(other?.Strength);
 		
-		if(ret == 0 && Type.Equals(WeaponType.Ranged))
+		if(ret == 0 && WeaponType.Ranged == Type)
 		{
 			ret = Capacity.CompareTo(other?.Capacity);
 			
@@ -63,17 +63,17 @@ public class Weapon() : IEmptiable, IEquatable<Weapon>, IComparable<Weapon>
 		return ret;
 	}
 	
-	public bool Equals(Weapon other) => Availability.Equals(other?.Availability)
-		&& Capacity.Equals(other?.Capacity)
-		&& Damage.Equals(other?.Damage)
-		&& Name.Equals(other?.Name)
-		&& RangeLong.Equals(other?.RangeLong)
-		&& RangeMid.Equals(other?.RangeMid)
-		&& RangeShort.Equals(other?.RangeShort)
-		&& Size.Equals(other?.Size)
-		&& Special.Equals(other?.Special)
-		&& Strength.Equals(other?.Strength)
-		&& Type.Equals(other?.Type);
+	public bool Equals(Weapon other) => Availability == other?.Availability
+		&& Capacity == other?.Capacity
+		&& Damage == other?.Damage
+		&& Name == other?.Name
+		&& RangeLong == other?.RangeLong
+		&& RangeMid == other?.RangeMid
+		&& RangeShort == other?.RangeShort
+		&& Size == other?.Size
+		&& Special == other?.Special
+		&& Strength == other?.Strength
+		&& Type == other?.Type;
 	
 	public override bool Equals(object obj) => Equals(obj as Weapon);
 	
