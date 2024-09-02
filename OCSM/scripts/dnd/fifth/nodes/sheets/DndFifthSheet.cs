@@ -413,7 +413,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void handleClassHitDie(string name, int sides, int current)
 	{
-		GD.Print($"Class hit die handlers: {name} | {sides} | {current}");
 		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
 		{
 			SheetData.Classes[clazz].HitDie = sides switch
@@ -432,7 +431,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void handleClassLevel(string name, int level)
 	{
-		GD.Print($"Class hit die handlers: {name} | {level}");
 		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
 		{
 			SheetData.Classes[clazz].Level = level;	
