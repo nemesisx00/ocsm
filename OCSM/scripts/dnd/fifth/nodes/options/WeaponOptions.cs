@@ -13,11 +13,12 @@ public partial class WeaponOptions : CustomOption
 			var index = Selected;
 			
 			Clear();
-			AddItem(string.Empty);
-			container.Items
-				.Where(i => i.WeaponData is not null)
-				.ToList()
-				.ForEach(i => AddItem(i.Name));
+			
+			if(EmptyOption)
+				AddItem(string.Empty);
+			
+			foreach(var i in container.Items.Where(i => i.WeaponData is not null))
+				AddItem(i.Name);
 			
 			Selected = index;
 			

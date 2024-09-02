@@ -7,13 +7,15 @@ namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class WeaponTypeOptions : OptionButton
 {
+	[Export]
+	public bool EmptyOption { get; set; }
+	
 	public override void _Ready()
 	{
-		Clear();
+		if(EmptyOption)
+			AddItem(string.Empty);
 		
-		Enum.GetValues<WeaponTypes>()
-			.Select(wt => wt.GetLabel())
-			.ToList()
-			.ForEach(label => AddItem(label));
+		foreach(var label in Enum.GetValues<WeaponTypes>().Select(wt => wt.GetLabel()))
+			AddItem(label);
 	}
 }

@@ -1,15 +1,24 @@
 using System;
 using System.Linq;
-using Ocsm.Nodes;
+using Godot;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class NumericStatOptionsButton : CustomOption
+public partial class NumericStatOptionsButton : OptionButton
 {
-	public override void _Ready() => refreshMetadata();
+	[Export]
+	public bool EmptyOption { get; set; }
 	
-	protected override void refreshMetadata() => replaceItems(Enum.GetValues<NumericStats>()
-		.Where(ns => !string.IsNullOrEmpty(ns.GetLabel()))
-		.Select(ns => ns.GetLabel())
-		.ToList());
+	public override void _Ready()
+	{
+		if(EmptyOption)
+			AddItem(string.Empty);
+		
+		foreach(var label in Enum.GetValues<NumericStats>()
+			.Where(ns => !string.IsNullOrEmpty(ns.GetLabel()))
+			.Select(ns => ns.GetLabel()))
+		{
+			AddItem(label);
+		}
+	}
 }

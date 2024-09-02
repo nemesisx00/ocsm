@@ -1,23 +1,20 @@
 using Godot;
 using System;
 using System.Linq;
-using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class FeatureTypeOptionsButton : CustomOption
+public partial class FeatureTypeOptionsButton : OptionButton
 {
 	[Export]
-	public bool emptyOption = true;
+	public bool EmptyOption { get; set; }
 	
 	public override void _Ready()
 	{
-		if(emptyOption)
+		if(EmptyOption)
 			AddItem(string.Empty);
 		
-		Enum.GetValues<FeatureTypes>()
-			.Select(ft => ft.ToString())
-			.ToList()
-			.ForEach(label => AddItem(label));
+		foreach(var label in Enum.GetValues<FeatureTypes>().Select(ft => ft.ToString()))
+			AddItem(label);
 	}
 }

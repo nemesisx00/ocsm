@@ -1,20 +1,20 @@
 using Godot;
-using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class DieOptionsButton : CustomOption
+public partial class DieOptionsButton : OptionButton
 {
 	[Export]
-	public bool BardicInspiration { get; set; } = false;
+	public bool BardicInspiration { get; set; }
 	[Export]
-	public bool DamageDie { get; set; } = false;
-	
-	public override void _ExitTree() {}
+	public bool DamageDie { get; set; }
+	[Export]
+	public bool EmptyOption { get; set; }
 	
 	public override void _Ready()
 	{
-		AddItem(string.Empty);
+		if(EmptyOption)
+			AddItem(string.Empty);
 		
 		if(!BardicInspiration)
 			AddItem(Die.D4.ToString());

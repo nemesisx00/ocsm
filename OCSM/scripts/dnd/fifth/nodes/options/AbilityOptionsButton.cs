@@ -1,24 +1,20 @@
 using System;
 using System.Linq;
-using Ocsm.Nodes;
+using Godot;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class AbilityOptionsButton : CustomOption
+public partial class AbilityOptionsButton : OptionButton
 {
-	public override void _Ready() => refreshMetadata();
+	[Export]
+	public bool EmptyOption { get; set; }
 	
-	protected override void refreshMetadata()
+	public override void _Ready()
 	{
-		var index = Selected;
+		if(EmptyOption)
+			AddItem(string.Empty);
 		
-		Clear();
-		AddItem(string.Empty);
-		Enum.GetValues<Abilities>()
-			.Select(a => a.GetLabel())
-			.ToList()
-			.ForEach(label => AddItem(label));
-		
-		Selected = index;
+		foreach(var label in Enum.GetValues<Abilities>().Select(a => a.GetLabel()))
+			AddItem(label);
 	}
 }

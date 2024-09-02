@@ -7,14 +7,15 @@ namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class ArmorTypeOptions : OptionButton
 {
+	[Export]
+	public bool EmptyOption { get; set; }
+	
 	public override void _Ready()
 	{
-		Clear();
-		AddItem(string.Empty);
+		if(EmptyOption)
+			AddItem(string.Empty);
 		
-		Enum.GetValues<ArmorTypes>()
-			.Select(at => at.GetLabel())
-			.ToList()
-			.ForEach(label => AddItem(label));
+		foreach(var label in Enum.GetValues<ArmorTypes>().Select(at => at.GetLabel()))
+			AddItem(label);
 	}
 }
