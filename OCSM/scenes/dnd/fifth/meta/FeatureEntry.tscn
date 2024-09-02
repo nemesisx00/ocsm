@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://civ425frlttp6"]
+[gd_scene load_steps=7 format=3 uid="uid://civ425frlttp6"]
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_60b6o"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/SectionList.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_c4444"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureTypeOptionsButton.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeatureEntry.cs" id="5"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureOptionsButton.cs" id="6"]
@@ -168,32 +167,10 @@ layout_mode = 2
 text = "Tags:"
 vertical_alignment = 1
 
-[node name="BackgroundTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
+[node name="TagsRow" type="HBoxContainer" parent="ScrollContainer/Column/Row7"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_c4444")
-EmptyOption = true
-GameSystem = 4
-MetadataType = 7
-
-[node name="ClassTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_c4444")
-EmptyOption = true
-GameSystem = 4
-MetadataType = 8
-
-[node name="SpeciesTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_c4444")
-EmptyOption = true
-GameSystem = 4
-MetadataType = 9
+theme_override_constants/separation = 15
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/Column"]
 layout_mode = 2
