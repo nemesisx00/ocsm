@@ -1,4 +1,5 @@
 using Godot;
+using Ocsm.Meta;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -35,6 +36,16 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		{
 			node.Text = initialValue;
 			node.TextChanged += handler;
+		}
+	}
+	
+	protected static void InitMetadataOptionButton(MetadataOption node, Metadata initialValue, OptionButton.ItemSelectedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+				node.SelectItemByText(initialValue.Name);
+			node.ItemSelected += handler;
 		}
 	}
 	

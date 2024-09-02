@@ -43,16 +43,6 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		}
 	}
 	
-	protected static void InitMetadataOptionButton(MetadataOption node, Metadata initialValue, OptionButton.ItemSelectedEventHandler handler)
-	{
-		if(node is not null)
-		{
-			if(initialValue is not null)
-				node.SelectItemByText(initialValue.Name);
-			node.ItemSelected += handler;
-		}
-	}
-	
 	private MetadataManager metadataManager;
 	
 	private TrackSimple clarity;
