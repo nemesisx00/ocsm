@@ -310,15 +310,14 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void changed_Background(long index)
 	{
-		if(index > 0 && metadataManager.Container is DndFifthContainer container
-			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eBackground)
-				.ToList()[(int)index - 1] is Metadata background)
+		Metadata background = null;
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eBackground).ToList()[(int)index] is Metadata metadata)
 		{
-			SheetData.Background = background;
+			background = metadata;
 		}
-		else
-			SheetData.Background = null;
 		
+		updateFeatures(MetadataType.Dnd5eBackground, background);
 		refreshFeatures();
 	}
 	
@@ -371,30 +370,60 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void changed_Species(long index)
 	{
-		
-		if(SheetData.Species is not null)
-		{
-			var removes = SheetData.Features.Where(f => f.Tags.Contains(SheetData.Species.Name)).ToList();
-			foreach(var feature in removes)
-				SheetData.Features.Remove(feature);
-		}
-		
+		Metadata species = null;
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eSpecies).ToList()[(int)index] is Metadata species)
+			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eSpecies).ToList()[(int)index] is Metadata metadata)
 		{
-			SheetData.Species = species;
-			
-			foreach(var feature in container.Features.Where(f => f.Tags.Contains(SheetData.Species.Name)))
-				SheetData.Features.Add(feature);
+			species = metadata;
 		}
-		else
-			SheetData.Species = null;
 		
+		updateFeatures(MetadataType.Dnd5eSpecies, species);
 		refreshFeatures();
 	}
 	
 	private void changed_Silver(double value) => SheetData.CoinPurse.Silver = (int)value;
 	private void changed_TempHP(double value) => SheetData.HP.Temp = (int)value;
+	
+	private void normalizeFeatures()
+	{
+		if(metadataManager.Container is DndFifthContainer container)
+		{
+			SheetData.Features.Clear();
+			
+			if(SheetData.Background is Metadata background)
+			{
+				foreach(var feature in container.Features
+					.Where(f => f.Tags.Contains(background.Name)
+						&& f.RequiredLevel <= SheetData.Classes.Values.Aggregate(0, (acc, data) => acc + data.Level)))
+				{
+					if(!SheetData.Features.Contains(feature))
+						SheetData.Features.Add(feature);
+				}
+			}
+			
+			if(SheetData.Species is Metadata species)
+			{
+				foreach(var feature in container.Features
+					.Where(f => f.Tags.Contains(species.Name)
+						&& f.RequiredLevel <= SheetData.Classes.Values.Aggregate(0, (acc, data) => acc + data.Level)))
+				{
+					if(!SheetData.Features.Contains(feature))
+						SheetData.Features.Add(feature);
+				}
+			}
+			
+			foreach(var (clazz, data) in SheetData.Classes)
+			{
+				foreach(var feature in container.Features
+					.Where(f => f.Tags.Contains(clazz.Name)
+						&& f.RequiredLevel <= data.Level))
+				{
+					if(!SheetData.Features.Contains(feature))
+						SheetData.Features.Add(feature);
+				}
+			}
+		}
+	}
 	
 	private void refreshFeatures()
 	{
@@ -433,5 +462,21 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		armorClass.Value = calculateAc();
 		initiativeBonus.Value = calculateInitiative();
 		speed.Value = calculateSpeed();
+	}
+	
+	private void updateFeatures(MetadataType type, Metadata metadata)
+	{
+		switch(type)
+		{
+			case MetadataType.Dnd5eBackground:
+				SheetData.Background = metadata;
+				break;
+			
+			case MetadataType.Dnd5eSpecies:
+				SheetData.Species = metadata;
+				break;
+		}
+		
+		normalizeFeatures();
 	}
 }

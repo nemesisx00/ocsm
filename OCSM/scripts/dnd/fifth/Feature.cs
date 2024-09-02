@@ -10,7 +10,7 @@ public class Feature() : Metadata(), IComparable<Feature>, IEquatable<Feature>
 	public List<NumericBonus> NumericBonuses { get; set; } = [];
 	public int RequiredLevel { get; set; }
 	public List<FeatureSection> Sections { get; set; } = [];
-	public string Source { get; set; }
+	public string Source { get; set; } = string.Empty;
 	public Tags Tags { get; set; } = [];
 	public string Text { get; set; }
 	
@@ -25,7 +25,11 @@ public class Feature() : Metadata(), IComparable<Feature>, IEquatable<Feature>
 			ret = Name.CompareTo(other?.Name);
 		
 		if(ret == 0)
-			ret = Source.CompareTo(other?.Source);
+		{
+			ret = !string.IsNullOrEmpty(Source)
+				? Source.CompareTo(other?.Source)
+				: 1;
+		}
 		
 		if(ret == 0)
 			ret = Tags.CompareTo(other?.Tags);

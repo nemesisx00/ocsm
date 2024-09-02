@@ -12,7 +12,7 @@ public partial class MetadataOption : OptionButton
 	public delegate void ItemsChangedEventHandler();
 	
 	[Export]
-	public bool EmptyOption { get; private set; } = false;
+	public bool EmptyOption { get; set; }
 	
 	[Export]
 	public GameSystem GameSystem { get; set; }
@@ -42,7 +42,7 @@ public partial class MetadataOption : OptionButton
 	{
 		get => metadataManager.Container is BaseContainer container
 			? container.Metadata
-				.Where(m => m.Type == MetadataType && m.Name == GetItemText(Selected))
+				.Where(m => MetadataType.HasFlag(m.Type) && m.Name == GetItemText(Selected))
 				.FirstOrDefault()
 			: null;
 		
@@ -69,7 +69,7 @@ public partial class MetadataOption : OptionButton
 		if(metadataManager.Container is BaseContainer container)
 		{
 			replaceItems(container.Metadata
-				.Where(m => m.Type == MetadataType)
+				.Where(m => MetadataType.HasFlag(m.Type))
 				.Select(m => m.Name)
 				.ToList());
 		}
