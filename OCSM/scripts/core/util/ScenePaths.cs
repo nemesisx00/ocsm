@@ -59,6 +59,7 @@ public static class ScenePaths
 		
 		public static class Fifth
 		{
+			public const string ClassRow = $"{PrefixDnd5e}/ClassRow.tscn";
 			public const string Skill = $"{PrefixDnd5e}/Skill.tscn";
 			public const string Sheet = $"{PrefixDnd5e}/Fifth.tscn";
 			public const string NewSheetName = "New Adventurer";

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://do2n200fvn5xi"]
+[gd_scene load_steps=9 format=3 uid="uid://do2n200fvn5xi"]
 
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
 [ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_bwyn1"]
 [ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/ToggleButton.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://b5ja4qd1nmj4c" path="res://scenes/dnd/fifth/AbilityScores.tscn" id="7_6176l"]
+[ext_resource type="PackedScene" uid="uid://bgbixshukqhis" path="res://scenes/dnd/fifth/Classes.tscn" id="7_d270n"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/DieOptionsButton.cs" id="9"]
 [ext_resource type="PackedScene" uid="uid://qfhjanw2gycp" path="res://scenes/dnd/fifth/Inventory.tscn" id="11"]
 
@@ -534,12 +535,10 @@ layout_mode = 2
 theme_override_constants/separation = 15
 metadata/_tab_index = 1
 
-[node name="Classes" type="VBoxContainer" parent="MarginContainer/Column/TabBar"]
+[node name="Classes" parent="MarginContainer/Column/TabBar" instance=ExtResource("7_d270n")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 15
-metadata/_tab_index = 2
 
 [node name="Features" type="VBoxContainer" parent="MarginContainer/Column/TabBar"]
 unique_name_in_owner = true

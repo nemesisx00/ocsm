@@ -4,6 +4,8 @@ namespace Ocsm;
 
 public class Die(int sides) : IComparable<Die>, IEquatable<Die>
 {
+	public const int DefaultHitDieSides = 6;
+	
 	public static readonly Die D2 = new(2);
 	public static readonly Die D4 = new(4);
 	public static readonly Die D6 = new(6);

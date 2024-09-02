@@ -6,7 +6,8 @@ public class ClassData() : IComparable<ClassData>, IEquatable<ClassData>
 {
 	public int Level { get; set; }
 	public Die HitDie { get; set; }
-
+	public int HitDieCurrent { get; set; } = 1;
+	
 	public int CompareTo(ClassData other)
 	{
 		int ret = Level.CompareTo(other?.Level);
@@ -19,8 +20,9 @@ public class ClassData() : IComparable<ClassData>, IEquatable<ClassData>
 	
 	public bool Equals(ClassData other) => base.Equals(other)
 		&& Level == other?.Level
-		&& HitDie == other?.HitDie;
+		&& HitDie == other?.HitDie
+		&& HitDieCurrent == other?.HitDieCurrent;
 	
 	public override bool Equals(object obj) => Equals(obj as ClassData);
-	public override int GetHashCode() => HashCode.Combine(Level, HitDie);
+	public override int GetHashCode() => HashCode.Combine(Level, HitDie, HitDieCurrent);
 }

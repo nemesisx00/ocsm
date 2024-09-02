@@ -8,6 +8,7 @@ using Ocsm.Nodes;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Dnd.Fifth.Nodes;
+using System;
 
 namespace Ocsm.Dnd.Nodes;
 
@@ -23,6 +24,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		public static readonly NodePath BardicInspirationDie = new("%BardicInspirationDie");
 		public static readonly NodePath Bonds = new("%Bonds");
 		public static readonly NodePath CharacterName = new("%CharacterName");
+		public static readonly NodePath Classes = new("%Classes");
 		public static readonly NodePath Copper = new("%Copper");
 		public static readonly NodePath CurrentHP = new("%CurrentHP");
 		public static readonly NodePath Electrum = new("%Electrum");
@@ -48,6 +50,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private List<AbilityRow> abilities = [];
 	private SpinBox armorClass;
+	private Classes classes;
 	private VBoxContainer features;
 	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
@@ -63,6 +66,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	public override void _ExitTree()
 	{
 		bardicInspiration.StateToggled -= changed_BardicInspiration;
+		classes.ClassAdded -= handleClassAdded;
+		classes.ClassHitDie -= handleClassHitDie;
+		classes.ClassLevel -= handleClassLevel;
 		inspiration.StateToggled -= changed_Inspiration;
 		inventory.ItemsChanged -= changed_Inventory;
 		
@@ -78,13 +84,14 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		
 		SheetData ??= new FifthAdventurer();
 		
-		inventory = GetNode<Inventory>(NodePaths.Inventory);
 		bardicInspiration = GetNode<ToggleButton>(NodePaths.BardicInspiration);
 		bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
 		bonds = GetNode<TextEdit>(NodePaths.Bonds);
+		classes = GetNode<Classes>(NodePaths.Classes);
 		flaws = GetNode<TextEdit>(NodePaths.Flaws);
 		ideals = GetNode<TextEdit>(NodePaths.Ideals);
 		inspiration = GetNode<ToggleButton>(NodePaths.Inspiration);
+		inventory = GetNode<Inventory>(NodePaths.Inventory);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
 		features = GetNode<VBoxContainer>(NodePaths.Features);
 		armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
@@ -126,7 +133,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		
 		InitInventory(inventory, SheetData.Inventory, changed_Inventory);
 		
+		classes.ClassAdded += handleClassAdded;
+		classes.ClassHitDie += handleClassHitDie;
+		classes.ClassLevel += handleClassLevel;
+		
 		base._Ready();
+		classes.RefreshClasses(SheetData.Classes);
 		refreshFeatures();
 		toggleBardicInspirationDie();
 		updateCalculatedTraits();
@@ -383,6 +395,53 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void changed_Silver(double value) => SheetData.CoinPurse.Silver = (int)value;
 	private void changed_TempHP(double value) => SheetData.HP.Temp = (int)value;
+	
+	private void handleClassAdded(string name)
+	{
+		if(metadataManager.Container is DndFifthContainer container)
+		{
+			if(container.Metadata.Where(m => m.Type == MetadataType.Dnd5eClass && m.Name == name).FirstOrDefault() is Metadata metadata
+					&& !SheetData.Classes.ContainsKey(metadata))
+				SheetData.Classes.Add(metadata, new() { Level = 1 });
+			
+			classes.RefreshClasses(SheetData.Classes);
+			
+			normalizeFeatures();
+			refreshFeatures();
+		}
+	}
+	
+	private void handleClassHitDie(string name, int sides, int current)
+	{
+		GD.Print($"Class hit die handlers: {name} | {sides} | {current}");
+		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
+		{
+			SheetData.Classes[clazz].HitDie = sides switch
+			{
+				8 => Die.D8,
+				10 => Die.D10,
+				12 => Die.D12,
+				_ => Die.D6,
+			};
+			
+			SheetData.Classes[clazz].HitDieCurrent = current;
+			
+			classes.RefreshClasses(SheetData.Classes);
+		}
+	}
+	
+	private void handleClassLevel(string name, int level)
+	{
+		GD.Print($"Class hit die handlers: {name} | {level}");
+		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
+		{
+			SheetData.Classes[clazz].Level = level;	
+			classes.RefreshClasses(SheetData.Classes);
+			
+			normalizeFeatures();
+			refreshFeatures();
+		}
+	}
 	
 	private void normalizeFeatures()
 	{
