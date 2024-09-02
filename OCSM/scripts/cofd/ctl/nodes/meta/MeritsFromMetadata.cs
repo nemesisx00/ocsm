@@ -1,6 +1,8 @@
 using Godot;
+using System.Linq;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Nodes.Autoload;
+using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Ctl.Nodes.Meta;
 
@@ -35,7 +37,9 @@ public partial class MeritsFromMetadata : Container
 		{
 			optionButton.Clear();
 			optionButton.AddItem(string.Empty);
-			container.Merits.ForEach(m => optionButton.AddItem(m.Name));
+			
+			foreach(var merit in container.Merits)
+				optionButton.AddItem(merit.Name);
 		}
 	}
 	
