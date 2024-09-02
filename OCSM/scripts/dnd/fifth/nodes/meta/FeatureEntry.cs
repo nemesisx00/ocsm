@@ -4,19 +4,21 @@ using System.Collections.Generic;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Nodes;
 using Ocsm.Nodes.Autoload;
+using Ocsm.Meta;
 
 namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
 public partial class FeatureEntry : Container, ICanDelete
 {
-	private sealed class NodePath
+	private sealed class NodePaths
 	{
-		public const string Class = "%Class";
-		public const string ClassLabel = "%ClassLabel";
+		public const string BackgroundTag = "%BackgroundTag";
+		public const string ClassTag = "%ClassTag";
 		public const string Description = "%Description";
 		public const string Name = "%Name";
 		public const string Sections = "%Sections";
 		public const string Source = "%Source";
+		public const string SpeciesTag = "%SpeciesTag";
 		public const string Text = "%Text";
 		public const string Type = "%Type";
 		public const string ClearButton = "%Clear";
@@ -38,13 +40,14 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	public Feature Feature { get; set; }
 	
-	private Label classLabel;
-	private ClassOptionsButton classNode;
+	private MetadataOption backgroundTag;
+	private MetadataOption classTag;
 	private TextEdit descriptionNode;
 	private LineEdit nameNode;
 	private NumericBonusEditList numericBonusesNode;
 	private SpinBox requiredLevel;
 	private SectionList sectionsNode;
+	private MetadataOption speciesTag;
 	private LineEdit sourceNode;
 	private TextEdit textNode;
 	private FeatureTypeOptionsButton typeNode;
@@ -65,18 +68,18 @@ public partial class FeatureEntry : Container, ICanDelete
 		
 		Feature ??= new Feature();
 		
-		classLabel = GetNode<Label>(NodePath.ClassLabel);
-		classNode = GetNode<ClassOptionsButton>(NodePath.Class);
-		descriptionNode = GetNode<TextEdit>(NodePath.Description);
-		nameNode = GetNode<LineEdit>(NodePath.Name);
-		numericBonusesNode = GetNode<NumericBonusEditList>(NodePath.NumericBonusEditListName);
-		requiredLevel = GetNode<SpinBox>(NodePath.RequiredLevel);
-		sectionsNode = GetNode<SectionList>(NodePath.Sections);
-		sourceNode = GetNode<LineEdit>(NodePath.Source);
-		textNode = GetNode<TextEdit>(NodePath.Text);
-		typeNode = GetNode<FeatureTypeOptionsButton>(NodePath.Type);
+		backgroundTag = GetNode<MetadataOption>(NodePaths.BackgroundTag);
+		classTag = GetNode<MetadataOption>(NodePaths.ClassTag);
+		descriptionNode = GetNode<TextEdit>(NodePaths.Description);
+		nameNode = GetNode<LineEdit>(NodePaths.Name);
+		numericBonusesNode = GetNode<NumericBonusEditList>(NodePaths.NumericBonusEditListName);
+		requiredLevel = GetNode<SpinBox>(NodePaths.RequiredLevel);
+		sectionsNode = GetNode<SectionList>(NodePaths.Sections);
+		speciesTag = GetNode<MetadataOption>(NodePaths.SpeciesTag);
+		sourceNode = GetNode<LineEdit>(NodePaths.Source);
+		textNode = GetNode<TextEdit>(NodePaths.Text);
+		typeNode = GetNode<FeatureTypeOptionsButton>(NodePaths.Type);
 		
-		classNode.ItemSelected += classChanged;
 		descriptionNode.TextChanged += descriptionChanged;
 		nameNode.TextChanged += nameChanged;
 		numericBonusesNode.ValuesChanged += numericBonusesChanged;
@@ -86,10 +89,10 @@ public partial class FeatureEntry : Container, ICanDelete
 		textNode.TextChanged += textChanged;
 		typeNode.ItemSelected += typeChanged;
 		
-		GetNode<Button>(NodePath.ClearButton).Pressed += clearInputs;
-		GetNode<Button>(NodePath.SaveButton).Pressed += doSave;
-		GetNode<Button>(NodePath.DeleteButton).Pressed += handleDelete;
-		GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName).ItemSelected += entrySelected;
+		GetNode<Button>(NodePaths.ClearButton).Pressed += clearInputs;
+		GetNode<Button>(NodePaths.SaveButton).Pressed += doSave;
+		GetNode<Button>(NodePaths.DeleteButton).Pressed += handleDelete;
+		GetNode<FeatureOptionsButton>(NodePaths.ExistingEntryName).ItemSelected += entrySelected;
 		
 		refreshValues();
 	}
@@ -98,7 +101,6 @@ public partial class FeatureEntry : Container, ICanDelete
 	{
 		if(Feature is not null)
 		{
-			classNode.Select(Feature.ClassName);
 			descriptionNode.Text = Feature.Description;
 			nameNode.Text = Feature.Name;
 			numericBonusesNode.Values = Feature.NumericBonuses;
@@ -109,9 +111,30 @@ public partial class FeatureEntry : Container, ICanDelete
 			sourceNode.Text = Feature.Source;
 			textNode.Text = Feature.Text;
 			typeNode.SelectItemByText(Feature.FeatureType.GetLabel());
+			
+			if(metadataManager.Container is DndFifthContainer container)
+			{
+				Metadata bgTag = null;
+				Metadata cTag = null;
+				Metadata sTag = null;
+				
+				foreach(var tag in Feature.Tags)
+				{
+					var possibles = container.Metadata.Where(m => m.Name == tag);
+					
+					if(possibles.Where(m => m.Type == MetadataType.Dnd5eBackground).FirstOrDefault() is Metadata bgTagValue)
+						bgTag = bgTagValue;
+					else if(possibles.Where(m => m.Type == MetadataType.Dnd5eClass).FirstOrDefault() is Metadata cTagValue)
+						cTag = cTagValue;
+					else if(possibles.Where(m => m.Type == MetadataType.Dnd5eSpecies).FirstOrDefault() is Metadata sTagValue)
+						sTag = sTagValue;
+				}
+				
+				backgroundTag.SelectedMetadata = bgTag;
+				classTag.SelectedMetadata = cTag;
+				speciesTag.SelectedMetadata = sTag;
+			}
 		}
-		
-		toggleClassInput();
 	}
 	
 	private void clearInputs()
@@ -122,6 +145,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void doSave()
 	{
+		updateTags();
 		EmitSignal(SignalName.SaveClicked, new Transport<Feature>(Feature));
 		clearInputs();
 	}
@@ -140,7 +164,7 @@ public partial class FeatureEntry : Container, ICanDelete
 	
 	private void entrySelected(long index)
 	{
-		var optionsButton = GetNode<FeatureOptionsButton>(NodePath.ExistingEntryName);
+		var optionsButton = GetNode<FeatureOptionsButton>(NodePaths.ExistingEntryName);
 		var name = optionsButton.GetItemText((int)index);
 		if(metadataManager.Container is DndFifthContainer container)
 		{
@@ -162,21 +186,6 @@ public partial class FeatureEntry : Container, ICanDelete
 		}
 	}
 	
-	private void toggleClassInput()
-	{
-		if(Feature.FeatureType == FeatureTypes.Class)
-		{
-			classLabel.Show();
-			classNode.Show();
-		}
-		else
-		{
-			classLabel.Hide();
-			classNode.Hide();
-		}
-	}
-	
-	private void classChanged(long index) => Feature.ClassName = classNode.GetItemText((int)index);
 	private void descriptionChanged() => Feature.Description = descriptionNode.Text;
 	private void nameChanged(string text) => Feature.Name = text;
 	private void numericBonusesChanged(Transport<List<NumericBonus>> transport) => Feature.NumericBonuses = [.. transport?.Value.OrderBy(nb => nb)];
@@ -185,16 +194,25 @@ public partial class FeatureEntry : Container, ICanDelete
 	private void sourceChanged(string text) => Feature.Source = text;
 	private void textChanged() => Feature.Text = textNode.Text;
 	
+	private void updateTags()
+	{
+		Feature.Tags.Clear();
+		
+		if(backgroundTag.SelectedMetadata is Metadata bg)
+			Feature.Tags.Add(bg.Name);
+		
+		if(classTag.SelectedMetadata is Metadata c)
+			Feature.Tags.Add(c.Name);
+		
+		if(speciesTag.SelectedMetadata is Metadata s)
+			Feature.Tags.Add(s.Name);
+	}
+	
 	private void typeChanged(long index)
 	{
 		var text = typeNode.GetItemText((int)index);
 		
 		Feature.FeatureType = System.Enum.GetValues<FeatureTypes>()
 			.FirstOrDefault(ft => ft.GetLabel() == text);
-		
-		if(Feature.FeatureType != FeatureTypes.Class)
-			classNode.Deselect();
-		
-		toggleClassInput();
 	}
 }

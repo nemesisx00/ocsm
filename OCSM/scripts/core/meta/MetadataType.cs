@@ -16,5 +16,5 @@ public enum MetadataType
 	
 	Dnd5eBackground,
 	Dnd5eClass,
-	Dnd5eRace,
+	Dnd5eSpecies,
 }

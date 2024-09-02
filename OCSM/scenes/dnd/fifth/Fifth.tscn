@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://do2n200fvn5xi"]
+[gd_scene load_steps=8 format=3 uid="uid://do2n200fvn5xi"]
 
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
+[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_bwyn1"]
 [ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/ToggleButton.tscn" id="6"]
-[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/BackgroundOptionsButton.cs" id="7"]
 [ext_resource type="PackedScene" uid="uid://b5ja4qd1nmj4c" path="res://scenes/dnd/fifth/AbilityScores.tscn" id="7_6176l"]
-[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/RaceOptionsButton.cs" id="8"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/DieOptionsButton.cs" id="9"]
 [ext_resource type="PackedScene" uid="uid://qfhjanw2gycp" path="res://scenes/dnd/fifth/Inventory.tscn" id="11"]
 
@@ -110,15 +109,17 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/Column/Row/Details/Row4"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Race:"
+text = "Species:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Race" type="OptionButton" parent="MarginContainer/Column/Row/Details/Row4"]
+[node name="Species" type="OptionButton" parent="MarginContainer/Column/Row/Details/Row4"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("8")
+script = ExtResource("3_bwyn1")
+GameSystem = 4
+MetadataType = 9
 
 [node name="Row5" type="HBoxContainer" parent="MarginContainer/Column/Row/Details"]
 layout_mode = 2
@@ -134,7 +135,9 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-script = ExtResource("7")
+script = ExtResource("3_bwyn1")
+GameSystem = 4
+MetadataType = 7
 
 [node name="Traits" type="VBoxContainer" parent="MarginContainer/Column/Row"]
 layout_mode = 2
@@ -538,25 +541,11 @@ layout_mode = 2
 theme_override_constants/separation = 15
 metadata/_tab_index = 2
 
-[node name="Freatures & Traits" type="TabContainer" parent="MarginContainer/Column/TabBar"]
+[node name="Features" type="VBoxContainer" parent="MarginContainer/Column/TabBar"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
-tab_alignment = 1
-current_tab = 0
 metadata/_tab_index = 3
-
-[node name="Background Features" type="VBoxContainer" parent="MarginContainer/Column/TabBar/Freatures & Traits"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 15
-metadata/_tab_index = 0
-
-[node name="Racial Features" type="VBoxContainer" parent="MarginContainer/Column/TabBar/Freatures & Traits"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 15
-metadata/_tab_index = 1
 
 [node name="Inventory" parent="MarginContainer/Column/TabBar" instance=ExtResource("11")]
 unique_name_in_owner = true

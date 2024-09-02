@@ -12,7 +12,10 @@ public partial class FeatureOptionsButton : CustomOption
 			var index = Selected;
 			
 			Clear();
-			AddItem(string.Empty);
+			
+			if(EmptyOption)
+				AddItem(string.Empty);
+			
 			container.Features.ForEach(f => AddItem(f.Name));
 			
 			Selected = index;

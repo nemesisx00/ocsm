@@ -6,13 +6,13 @@ namespace Ocsm.Dnd.Fifth;
 
 public class Feature() : Metadata(), IComparable<Feature>, IEquatable<Feature>
 {
-	public string ClassName { get; set; } = string.Empty;
+	public FeatureTypes FeatureType { get; set; }
 	public List<NumericBonus> NumericBonuses { get; set; } = [];
 	public int RequiredLevel { get; set; }
 	public List<FeatureSection> Sections { get; set; } = [];
-	public string Source { get; set; } = string.Empty;
-	public string Text { get; set; } = string.Empty;
-	public FeatureTypes FeatureType { get; set; }
+	public string Source { get; set; }
+	public Tags Tags { get; set; } = [];
+	public string Text { get; set; }
 	
 	public int CompareTo(Feature other)
 	{
@@ -25,19 +25,33 @@ public class Feature() : Metadata(), IComparable<Feature>, IEquatable<Feature>
 			ret = Name.CompareTo(other?.Name);
 		
 		if(ret == 0)
-			ret = ClassName.CompareTo(other?.ClassName);
+			ret = Source.CompareTo(other?.Source);
+		
+		if(ret == 0)
+			ret = Tags.CompareTo(other?.Tags);
 		
 		return ret;
 	}
 	
 	public bool Equals(Feature other) => base.Equals(other)
+		&& FeatureType == other?.FeatureType
 		&& NumericBonuses == other?.NumericBonuses
 		&& RequiredLevel == other?.RequiredLevel
 		&& Sections == other?.Sections
 		&& Source == other?.Source
-		&& Text == other?.Text
-		&& FeatureType == other?.FeatureType;
+		&& Tags == other?.Tags
+		&& Text == other?.Text;
 	
 	public override bool Equals(object obj) => Equals(obj as Feature);
-	public override int GetHashCode() => HashCode.Combine(base.GetHashCode(), ClassName, NumericBonuses, RequiredLevel, Sections, Source, Text, FeatureType);
+	
+	public override int GetHashCode() => HashCode.Combine(
+		base.GetHashCode(),
+		FeatureType,
+		NumericBonuses,
+		RequiredLevel,
+		Sections,
+		Source,
+		Tags,
+		Text
+	);
 }

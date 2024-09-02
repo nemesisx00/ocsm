@@ -19,7 +19,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		public static readonly NodePath Alignment = new("%Alignment");
 		public static readonly NodePath ArmorClass = new("%ArmorClass");
 		public static readonly NodePath Background = new("%Background");
-		public static readonly NodePath BackgroundFeatures = new("%Background Features");
 		public static readonly NodePath BardicInspiration = new("%BardicInspiration");
 		public static readonly NodePath BardicInspirationDie = new("%BardicInspirationDie");
 		public static readonly NodePath Bonds = new("%Bonds");
@@ -27,6 +26,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		public static readonly NodePath Copper = new("%Copper");
 		public static readonly NodePath CurrentHP = new("%CurrentHP");
 		public static readonly NodePath Electrum = new("%Electrum");
+		public static readonly NodePath Features = new("%Features");
 		public static readonly NodePath Flaws = new("%Flaws");
 		public static readonly NodePath Gold = new("%Gold");
 		public static readonly NodePath HPBar = new("%HPBar");
@@ -38,8 +38,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		public static readonly NodePath PersonalityTraits = new("%PersonalityTraits");
 		public static readonly NodePath Platinum = new("%Platinum");
 		public static readonly NodePath PlayerName = new("%PlayerName");
-		public static readonly NodePath Race = new("%Race");
-		public static readonly NodePath RaceFeatures = new("%Racial Features");
+		public static readonly NodePath Species = new("%Species");
 		public static readonly NodePath Silver = new("%Silver");
 		public static readonly NodePath Speed = new("%Speed");
 		public static readonly NodePath TempHP = new("%TempHP");
@@ -49,7 +48,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private List<AbilityRow> abilities = [];
 	private SpinBox armorClass;
-	private VBoxContainer backgroundFeatures;
+	private VBoxContainer features;
 	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
 	private TextEdit bonds;
@@ -59,7 +58,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private ToggleButton inspiration;
 	private Inventory inventory;
 	private TextEdit personalityTraits;
-	private VBoxContainer raceFeatures;
 	private SpinBox speed;
 	
 	public override void _ExitTree()
@@ -88,8 +86,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		ideals = GetNode<TextEdit>(NodePaths.Ideals);
 		inspiration = GetNode<ToggleButton>(NodePaths.Inspiration);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
-		backgroundFeatures = GetNode<VBoxContainer>(NodePaths.BackgroundFeatures);
-		raceFeatures = GetNode<VBoxContainer>(NodePaths.RaceFeatures);
+		features = GetNode<VBoxContainer>(NodePaths.Features);
 		armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
 		initiativeBonus = GetNode<SpinBox>(NodePaths.InitiativeBonus);
 		speed = GetNode<SpinBox>(NodePaths.Speed);
@@ -97,8 +94,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		InitLineEdit(GetNode<LineEdit>(NodePaths.CharacterName), SheetData.Name, changed_CharacterName);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.PlayerName), SheetData.Player, changed_PlayerName);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Alignment), SheetData.Alignment, changed_Alignment);
-		InitFeaturefulOptionsButton(GetNode<RaceOptionsButton>(NodePaths.Race), SheetData.Race, changed_Race);
-		InitFeaturefulOptionsButton(GetNode<BackgroundOptionsButton>(NodePaths.Background), SheetData.Background, changed_Background);
+		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Species), SheetData.Species, changed_Species);
+		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Background), SheetData.Background, changed_Background);
 		
 		InitSpinBox(GetNode<SpinBox>(NodePaths.CurrentHP), SheetData.HP.Current, changed_CurrentHP);
 		InitSpinBox(GetNode<SpinBox>(NodePaths.MaxHP), SheetData.HP.Max, changed_MaxHP);
@@ -163,28 +160,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		}
 	}
 	
-	protected static void InitFeaturefulOptionsButton(OptionButton node, Featureful initialValue, OptionButton.ItemSelectedEventHandler handler)
-	{
-		if(node is not null)
-		{
-			if(initialValue is not null)
-				node.SelectItemByText(initialValue.Name);
-			
-			node.ItemSelected += handler;
-		}
-	}
-	
-	protected static void InitClassOptionsButton(ClassOptionsButton node, Class initialValue, ClassOptionsButton.ItemSelectedEventHandler handler)
-	{
-		if(node is not null)
-		{
-			if(initialValue is not null)
-				node.SelectItemByText(initialValue.Name);
-			
-			node.ItemSelected += handler;
-		}
-	}
-	
 	protected static void InitDieOptionsButton(DieOptionsButton node, Die initialValue, OptionButton.ItemSelectedEventHandler handler)
 	{
 		if(node is not null)
@@ -237,7 +212,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 				dexLimit = armor.ArmorData.DexterityBonusLimit;
 		}
 		
-		if(SheetData.Abilities.Where(a => a.AbilityType == Abilities.Dexterity).FirstOrDefault() is AbilityInfo dexterity)
+		if(SheetData.Abilities
+			.Where(a => a.AbilityType == Abilities.Dexterity)
+			.FirstOrDefault() is AbilityInfo dexterity)
 		{
 			if(addDex)
 			{
@@ -251,17 +228,17 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 				ac += dexterity.Modifier;
 		}
 		
-		collectAllFeatures().ForEach(f => {
-			f.NumericBonuses
-				.Where(nb => nb.Type == NumericStats.ArmorClass)
-				.ToList()
-				.ForEach(nb => {
-					if(!nb.Add)
-						ac = nb.Value;
-					else
-						ac += nb.Value;
-				});
-		});
+		foreach(var feature in SheetData.Features)
+		{
+			foreach(var nb in feature.NumericBonuses
+				.Where(nb => nb.Type == NumericStats.ArmorClass))
+			{
+				if(!nb.Add)
+					ac = nb.Value;
+				else
+					ac += nb.Value;
+			}
+		}
 		
 		return ac;
 	}
@@ -269,20 +246,22 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private int calculateInitiative()
 	{
 		var bonus = 0;
-		if(SheetData.Abilities.Where(a => a.AbilityType == Abilities.Dexterity).FirstOrDefault() is AbilityInfo dexterity)
+		if(SheetData.Abilities
+				.Where(a => a.AbilityType == Abilities.Dexterity)
+				.FirstOrDefault() is AbilityInfo dexterity)
 			bonus += dexterity.Modifier;
 		
-		collectAllFeatures().ForEach(f => {
-			f.NumericBonuses
-				.Where(nb => nb.Type.Equals(NumericStats.Initiative))
-				.ToList()
-				.ForEach(nb => {
-					if(!nb.Add)
-						bonus = nb.Value;
-					else
-						bonus += nb.Value;
-				});
-		});
+		foreach(var feature in SheetData.Features)
+		{
+			foreach(var nb in feature.NumericBonuses
+				.Where(nb => nb.Type == NumericStats.Initiative))
+			{
+				if(!nb.Add)
+					bonus = nb.Value;
+				else
+					bonus += nb.Value;
+			}
+		}
 		
 		return bonus;
 	}
@@ -291,17 +270,17 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	{
 		var speed = 0;
 		
-		collectAllFeatures().ForEach(f => {
-			f.NumericBonuses
-				.Where(nb => nb.Type.Equals(NumericStats.Speed))
-				.ToList()
-				.ForEach(nb => {
-					if(!nb.Add)
-						speed = nb.Value;
-					else
-						speed += nb.Value;
-				});
-		});
+		foreach(var feature in SheetData.Features)
+		{
+			foreach(var nb in feature.NumericBonuses
+				.Where(nb => nb.Type == NumericStats.Speed))
+			{
+				if(!nb.Add)
+					speed = nb.Value;
+				else
+					speed += nb.Value;
+			}
+		}
 		
 		return speed;
 	}
@@ -332,8 +311,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private void changed_Background(long index)
 	{
 		if(index > 0 && metadataManager.Container is DndFifthContainer container
-			&& container.Featurefuls.Where(f => f.Type == MetadataType.Dnd5eBackground)
-				.ToList()[(int)index - 1] is Featureful background)
+			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eBackground)
+				.ToList()[(int)index - 1] is Metadata background)
 		{
 			SheetData.Background = background;
 		}
@@ -390,15 +369,26 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private void changed_Platinum(double value) => SheetData.CoinPurse.Platinum = (int)value;
 	private void changed_PlayerName(string newText) => SheetData.Player = newText;
 	
-	private void changed_Race(long index)
+	private void changed_Species(long index)
 	{
-		if(index > 0 && metadataManager.Container is DndFifthContainer container
-			&& container.Featurefuls.Where(f => f.Type == MetadataType.Dnd5eRace).ToList()[(int)index - 1] is Featureful race)
+		
+		if(SheetData.Species is not null)
 		{
-			SheetData.Race = race;
+			var removes = SheetData.Features.Where(f => f.Tags.Contains(SheetData.Species.Name)).ToList();
+			foreach(var feature in removes)
+				SheetData.Features.Remove(feature);
+		}
+		
+		if(metadataManager.Container is DndFifthContainer container
+			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eSpecies).ToList()[(int)index] is Metadata species)
+		{
+			SheetData.Species = species;
+			
+			foreach(var feature in container.Features.Where(f => f.Tags.Contains(SheetData.Species.Name)))
+				SheetData.Features.Add(feature);
 		}
 		else
-			SheetData.Race = null;
+			SheetData.Species = null;
 		
 		refreshFeatures();
 	}
@@ -406,39 +396,16 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private void changed_Silver(double value) => SheetData.CoinPurse.Silver = (int)value;
 	private void changed_TempHP(double value) => SheetData.HP.Temp = (int)value;
 	
-	private List<Feature> collectAllFeatures()
-	{
-		List<Feature> allFeatures = [];
-		
-		if(SheetData.Background is not null && SheetData.Background.Features.Count > 0)
-			allFeatures.AddRange(SheetData.Background.Features);
-		
-		if(SheetData.Race is not null && SheetData.Race.Features.Count > 0)
-			allFeatures.AddRange(SheetData.Race.Features);
-		
-		return allFeatures;
-	}
-	
 	private void refreshFeatures()
 	{
-		foreach(Node child in backgroundFeatures.GetChildren())
-			child.QueueFree();
-		
-		foreach(Node child in raceFeatures.GetChildren())
+		foreach(Node child in features.GetChildren())
 			child.QueueFree();
 		
 		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
-		if(SheetData.Background is not null && SheetData.Background.Features.Count != 0)
-		{
-			var last = SheetData.Background.Features.Last();
-			SheetData.Background.Features.ForEach(f => renderFeature(backgroundFeatures, f, resource, f == last));
-		}
 		
-		if(SheetData.Race is not null && SheetData.Race.Features.Count != 0)
-		{
-			var last = SheetData.Race.Features.Last();
-			SheetData.Race.Features.ForEach(f => renderFeature(raceFeatures, f, resource, f == last));
-		}
+		SheetData.Features.Sort();
+		foreach(var feature in SheetData.Features)
+			renderFeature(features, feature, resource, feature == SheetData.Features.Last());
 		
 		updateCalculatedTraits();
 	}

@@ -38,6 +38,32 @@ public partial class MetadataOption : OptionButton
 		RefreshMetadata();
 	}
 	
+	public Metadata SelectedMetadata
+	{
+		get => metadataManager.Container is BaseContainer container
+			? container.Metadata
+				.Where(m => m.Type == MetadataType && m.Name == GetItemText(Selected))
+				.FirstOrDefault()
+			: null;
+		
+		set
+		{
+			if(value is not null)
+			{
+				for(var i = 0; i < ItemCount; i++)
+				{
+					if(GetItemText(i) == value.Name)
+					{
+						Selected = i;
+						break;
+					}
+				}
+			}
+			else
+				Selected = 0;
+		}
+	}
+	
 	public void RefreshMetadata()
 	{
 		if(metadataManager.Container is BaseContainer container)
@@ -65,9 +91,13 @@ public partial class MetadataOption : OptionButton
 	{
 		var index = Selected;
 		Clear();
+		
 		if(EmptyOption)
 			AddItem(string.Empty);
-		items.ForEach(i => AddItem(i));
+		
+		foreach(var i in items)
+			AddItem(i);
+		
 		Selected = index;
 	}
 }

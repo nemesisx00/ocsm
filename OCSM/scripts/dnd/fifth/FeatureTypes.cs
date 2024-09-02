@@ -4,5 +4,6 @@ public enum FeatureTypes
 {
 	Background,
 	Class,
-	Race,
+	Feat,
+	Species,
 }

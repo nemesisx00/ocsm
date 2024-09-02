@@ -2,11 +2,11 @@
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_60b6o"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/SectionList.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_c4444"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureTypeOptionsButton.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeatureEntry.cs" id="5"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/FeatureOptionsButton.cs" id="6"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/NumericBonusEditList.cs" id="7"]
-[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/ClassOptionsButton.cs" id="8"]
 
 [node name="FeatureEntry" type="VBoxContainer"]
 anchors_preset = 15
@@ -93,21 +93,6 @@ custom_minimum_size = Vector2(105, 0)
 layout_mode = 2
 script = ExtResource("4")
 
-[node name="ClassLabel" type="Label" parent="ScrollContainer/Column/Row3"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(50, 0)
-layout_mode = 2
-text = "Class:"
-vertical_alignment = 1
-
-[node name="Class" type="OptionButton" parent="ScrollContainer/Column/Row3"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(105, 0)
-layout_mode = 2
-script = ExtResource("8")
-
 [node name="Label3" type="Label" parent="ScrollContainer/Column/Row3"]
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
@@ -173,6 +158,42 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
+
+[node name="Row7" type="HBoxContainer" parent="ScrollContainer/Column"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/Column/Row7"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Tags:"
+vertical_alignment = 1
+
+[node name="BackgroundTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_c4444")
+EmptyOption = true
+GameSystem = 4
+MetadataType = 7
+
+[node name="ClassTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_c4444")
+EmptyOption = true
+GameSystem = 4
+MetadataType = 8
+
+[node name="SpeciesTag" type="OptionButton" parent="ScrollContainer/Column/Row7"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_c4444")
+EmptyOption = true
+GameSystem = 4
+MetadataType = 9
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/Column"]
 layout_mode = 2

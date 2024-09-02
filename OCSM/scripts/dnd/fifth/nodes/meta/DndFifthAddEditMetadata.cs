@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
+using System.Linq;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Meta;
@@ -24,30 +23,30 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		public static readonly NodePath ClassesName = new("%Classes");
 		public static readonly NodePath CloseButton = new("%CloseButton");
 		public static readonly NodePath FeaturesName = new("%FeatureEntry");
-		public static readonly NodePath RacesName = new("%Races");
+		public static readonly NodePath SpeciesName = new("%Species");
 	}
 	
 	private MetadataManager metadataManager;
 	
 	private AnimationPlayer animPlayer;
 	private ArmorEntry armorEntry;
-	private FeaturefulEntry backgroundEntry;
-	private FeaturefulEntry classEntry;
+	private MetadataEntry backgroundEntry;
+	private MetadataEntry classEntry;
 	private FeatureEntry featureEntry;
-	private FeaturefulEntry raceEntry;
+	private MetadataEntry speciesEntry;
 	
 	public override void _ExitTree()
 	{
 		armorEntry.SaveClicked += saveArmor;
 		armorEntry.DeleteConfirmed += deleteArmor;
-		backgroundEntry.SaveClicked += saveFeatureful;
-		backgroundEntry.DeleteConfirmed += deleteFeatureful;
-		classEntry.SaveClicked += saveFeatureful;
-		classEntry.DeleteConfirmed += deleteFeatureful;
+		backgroundEntry.SaveClicked += saveMetadata;
+		backgroundEntry.DeleteConfirmed += deleteMetadata;
+		classEntry.SaveClicked += saveMetadata;
+		classEntry.DeleteConfirmed += deleteMetadata;
 		featureEntry.SaveClicked += saveFeature;
 		featureEntry.DeleteConfirmed += deleteFeature;
-		raceEntry.SaveClicked += saveFeatureful;
-		raceEntry.DeleteConfirmed += deleteFeatureful;
+		speciesEntry.SaveClicked += saveMetadata;
+		speciesEntry.DeleteConfirmed += deleteMetadata;
 		
 		base._ExitTree();
 	}
@@ -62,21 +61,21 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		armorEntry.SaveClicked += saveArmor;
 		armorEntry.DeleteConfirmed += deleteArmor;
 		
-		backgroundEntry = GetNode<FeaturefulEntry>(NodePaths.BackgroundsName);
-		backgroundEntry.SaveClicked += saveFeatureful;
-		backgroundEntry.DeleteConfirmed += deleteFeatureful;
+		backgroundEntry = GetNode<MetadataEntry>(NodePaths.BackgroundsName);
+		backgroundEntry.SaveClicked += saveMetadata;
+		backgroundEntry.DeleteConfirmed += deleteMetadata;
 		
-		classEntry = GetNode<FeaturefulEntry>(NodePaths.ClassesName);
-		classEntry.SaveClicked += saveFeatureful;
-		classEntry.DeleteConfirmed += deleteFeatureful;
+		classEntry = GetNode<MetadataEntry>(NodePaths.ClassesName);
+		classEntry.SaveClicked += saveMetadata;
+		classEntry.DeleteConfirmed += deleteMetadata;
 		
 		featureEntry = GetNode<FeatureEntry>(NodePaths.FeaturesName);
 		featureEntry.SaveClicked += saveFeature;
 		featureEntry.DeleteConfirmed += deleteFeature;
 		
-		raceEntry = GetNode<FeaturefulEntry>(NodePaths.RacesName);
-		raceEntry.SaveClicked += saveFeatureful;
-		raceEntry.DeleteConfirmed += deleteFeatureful;
+		speciesEntry = GetNode<MetadataEntry>(NodePaths.SpeciesName);
+		speciesEntry.SaveClicked += saveMetadata;
+		speciesEntry.DeleteConfirmed += deleteMetadata;
 		
 		GetNode<Button>(NodePaths.CloseButton).Pressed += Close;
 		
@@ -115,12 +114,12 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	protected void deleteFeatureful(MetadataType type, string name)
+	protected void deleteMetadata(string name, MetadataType type)
 	{
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Featurefuls.Where(f => f.Type == type && f.Name == name).FirstOrDefault() is Featureful entry)
+			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
-			container.Featurefuls.Remove(entry);
+			container.Metadata.Remove(entry);
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}
@@ -151,28 +150,19 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	protected void saveFeatureful(MetadataType type, string name, string description, Transport<List<FeatureSection>> sections, Transport<List<Feature>> features)
+	protected void saveMetadata(string name, string description, MetadataType type)
 	{
 		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(container.Featurefuls.Where(f => f.Type == type && f.Name == name).FirstOrDefault() is Featureful entry)
-				container.Featurefuls.Remove(entry);
+			if(container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+				container.Metadata.Remove(entry);
 			
-			List<FeatureSection> sectionList = [];
-			List<Feature> featureList = [];
-			
-			sections.Value.ForEach(fs => sectionList.Add(fs));
-			features.Value.ForEach(f => featureList.Add(f));
-			
-			container.Featurefuls.Add(new() {
+			container.Metadata.Add(new() {
 				Description = description,
-				Features = featureList,
 				Name = name,
-				Sections = sectionList,
 				Type = type,
 			});
 			
-			container.Featurefuls.Sort();
 			metadataManager.SaveGameSystemMetadata();
 		}
 	}

@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://5e1jp5pipscx"]
+[gd_scene load_steps=10 format=3 uid="uid://5e1jp5pipscx"]
 
-[ext_resource type="PackedScene" uid="uid://ddr6vv5vktghs" path="res://scenes/dnd/fifth/meta/FeaturefulMetadataEntry.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_6m7kq"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/DndFifthAddEditMetadata.cs" id="3"]
+[ext_resource type="PackedScene" uid="uid://dqnjqmoa7s7ua" path="res://scenes/meta/MetadataEntry.tscn" id="3_efsk1"]
 [ext_resource type="PackedScene" uid="uid://civ425frlttp6" path="res://scenes/dnd/fifth/meta/FeatureEntry.tscn" id="5"]
-[ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/meta/FeaturefulEntry.cs" id="6"]
 [ext_resource type="PackedScene" uid="uid://hyx8nnliaktu" path="res://scenes/dnd/fifth/meta/ArmorEntry.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://dbgolm1a7kgox" path="res://scenes/dnd/fifth/meta/WeaponEntry.tscn" id="11"]
 
@@ -76,29 +75,49 @@ size_flags_vertical = 3
 tab_alignment = 1
 current_tab = 0
 
-[node name="Backgrounds" parent="MarginContainer/ScrollContainer/TabContainer" instance=ExtResource("1")]
+[node name="Metadata" type="MarginContainer" parent="MarginContainer/ScrollContainer/TabContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-script = ExtResource("6")
-Type = 7
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+metadata/_tab_index = 0
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/ScrollContainer/TabContainer/Metadata"]
+layout_mode = 2
+tab_alignment = 1
+current_tab = 0
+
+[node name="Backgrounds" parent="MarginContainer/ScrollContainer/TabContainer/Metadata/TabContainer" instance=ExtResource("3_efsk1")]
+unique_name_in_owner = true
+layout_mode = 2
+MetadataType = 7
 MetadataTypeLabel = "Background"
 metadata/_tab_index = 0
 
-[node name="Classes" parent="MarginContainer/ScrollContainer/TabContainer" instance=ExtResource("1")]
+[node name="Classes" parent="MarginContainer/ScrollContainer/TabContainer/Metadata/TabContainer" instance=ExtResource("3_efsk1")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-script = ExtResource("6")
-Type = 8
+MetadataType = 8
 MetadataTypeLabel = "Class"
 metadata/_tab_index = 1
+
+[node name="Species" parent="MarginContainer/ScrollContainer/TabContainer/Metadata/TabContainer" instance=ExtResource("3_efsk1")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+MetadataType = 9
+MetadataTypeLabel = "Species"
+metadata/_tab_index = 2
 
 [node name="Features" type="VBoxContainer" parent="MarginContainer/ScrollContainer/TabContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-metadata/_tab_index = 2
+metadata/_tab_index = 1
 
 [node name="FeatureEntry" parent="MarginContainer/ScrollContainer/TabContainer/Features" instance=ExtResource("5")]
 unique_name_in_owner = true
@@ -109,7 +128,7 @@ size_flags_vertical = 3
 [node name="Items" type="VBoxContainer" parent="MarginContainer/ScrollContainer/TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 3
+metadata/_tab_index = 2
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/ScrollContainer/TabContainer/Items"]
 layout_mode = 2
@@ -127,15 +146,6 @@ metadata/_tab_index = 0
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
-
-[node name="Races" parent="MarginContainer/ScrollContainer/TabContainer" instance=ExtResource("1")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-script = ExtResource("6")
-Type = 9
-MetadataTypeLabel = "Race"
-metadata/_tab_index = 4
 
 [node name="CloseButton" type="Button" parent="."]
 unique_name_in_owner = true
