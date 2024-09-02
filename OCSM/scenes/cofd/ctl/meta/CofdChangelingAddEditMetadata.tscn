@@ -120,7 +120,6 @@ metadata/_tab_index = 4
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataTypeLabel = "Merit"
 metadata/_tab_index = 5
 
 [node name="Regalia" parent="MarginContainer/ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("4_k33dx")]

@@ -19,6 +19,14 @@ public partial class MeritsFromMetadata : Container
 	private MetadataManager metadataManager;
 	private OptionButton optionButton;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= refreshMerits;
+		metadataManager.MetadataSaved -= refreshMerits;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);

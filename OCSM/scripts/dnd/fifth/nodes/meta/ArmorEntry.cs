@@ -55,6 +55,14 @@ public partial class ArmorEntry : Container, ICanDelete
 	private TextEdit descriptionInput;
 	private ArmorOptionsButton armorOptionsButton;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= RefreshMetadata;
+		metadataManager.MetadataSaved -= RefreshMetadata;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);

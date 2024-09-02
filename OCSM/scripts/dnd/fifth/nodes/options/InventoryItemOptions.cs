@@ -12,8 +12,12 @@ public partial class InventoryItemOptions : CustomOption
 			var index = Selected;
 			
 			Clear();
-			AddItem(string.Empty);
-			container.Items.ForEach(i => AddItem(i.Name));
+			
+			if(EmptyOption)
+				AddItem(string.Empty);
+			
+			foreach(var i in container.Items)
+				AddItem(i.Name);
 			
 			Selected = index;
 		}

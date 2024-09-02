@@ -17,6 +17,13 @@ public partial class ContractsList : Container
 	
 	private MetadataManager metadataManager;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= Refresh;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);

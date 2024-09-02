@@ -14,6 +14,14 @@ public abstract partial class CustomOption : OptionButton
 	
 	protected MetadataManager metadataManager;
 	
+	public override void _ExitTree()
+	{
+		metadataManager.MetadataLoaded -= refreshMetadata;
+		metadataManager.MetadataSaved -= refreshMetadata;
+		
+		base._ExitTree();
+	}
+	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);

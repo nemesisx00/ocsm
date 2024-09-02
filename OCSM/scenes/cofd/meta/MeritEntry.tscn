@@ -2,8 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_u8wcu"]
 [ext_resource type="Script" path="res://scripts/core/nodes/TrackSimple.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/cofd/ctl/nodes/meta/MeritsFromMetadata.cs" id="3_4f8r2"]
 [ext_resource type="Script" path="res://scripts/cofd/nodes/meta/MeritEntry.cs" id="4"]
-
 
 [node name="MeritEntry" type="VBoxContainer"]
 anchors_preset = 15
@@ -11,6 +11,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("1_u8wcu")
 script = ExtResource("4")
+MetadataTypeLabel = "Merit"
+OptionsButtonScript = ExtResource("3_4f8r2")
 
 [node name="Row" type="HBoxContainer" parent="."]
 layout_mode = 2

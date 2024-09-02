@@ -36,14 +36,6 @@ public partial class MetadataEntry : Container, ICanDelete
 	private LineEdit name;
 	private TextEdit description;
 	
-	public override void _ExitTree()
-	{
-		metadataManager.MetadataLoaded -= RefreshMetadata;
-		metadataManager.MetadataSaved -= RefreshMetadata;
-		
-		base._ExitTree();
-	}
-	
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);

@@ -10,6 +10,8 @@ public partial class DieOptionsButton : CustomOption
 	[Export]
 	public bool DamageDie { get; set; } = false;
 	
+	public override void _ExitTree() {}
+	
 	public override void _Ready()
 	{
 		AddItem(string.Empty);
