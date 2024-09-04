@@ -159,8 +159,8 @@ layout_mode = 2
 [node name="CurrentHP" type="SpinBox" parent="MarginContainer/Column/Row/Traits/Row1/Col/Row"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 rounded = true
-allow_greater = true
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/Column/Row/Traits/Row1/Col/Row"]
@@ -172,10 +172,10 @@ vertical_alignment = 1
 [node name="MaxHP" type="SpinBox" parent="MarginContainer/Column/Row/Traits/Row1/Col/Row"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 min_value = 1.0
 value = 1.0
 rounded = true
-allow_greater = true
 alignment = 1
 
 [node name="Label" type="Label" parent="MarginContainer/Column/Row/Traits/Row1/Col"]
@@ -200,24 +200,6 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 1
 text = "Temp HP"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Col3" type="VBoxContainer" parent="MarginContainer/Column/Row/Traits/Row1"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HitDice" type="SpinBox" parent="MarginContainer/Column/Row/Traits/Row1/Col3"]
-unique_name_in_owner = true
-layout_mode = 2
-rounded = true
-allow_greater = true
-alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/Column/Row/Traits/Row1/Col3"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "Hit Dice"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -414,7 +396,7 @@ size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="MarginContainer/Column/Row/Traits/Row4"]
 layout_mode = 2
-text = "Inspiration"
+text = "Heroic Inspiration"
 vertical_alignment = 1
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/Column/Row/Traits/Row4"]

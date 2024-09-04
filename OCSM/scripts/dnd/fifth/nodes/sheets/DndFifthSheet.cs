@@ -8,11 +8,10 @@ using Ocsm.Nodes;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Dnd.Fifth.Nodes;
-using System;
 
 namespace Ocsm.Dnd.Nodes;
 
-public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
+public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacterSheet
 {
 	private static class NodePaths
 	{
@@ -51,6 +50,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private List<AbilityRow> abilities = [];
 	private SpinBox armorClass;
 	private Classes classes;
+	private SpinBox currentHp;
 	private VBoxContainer features;
 	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
@@ -60,6 +60,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	private SpinBox initiativeBonus;
 	private ToggleButton inspiration;
 	private Inventory inventory;
+	private SpinBox maxHp;
 	private TextEdit personalityTraits;
 	private SpinBox speed;
 	
@@ -88,10 +89,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
 		bonds = GetNode<TextEdit>(NodePaths.Bonds);
 		classes = GetNode<Classes>(NodePaths.Classes);
+		currentHp = GetNode<SpinBox>(NodePaths.CurrentHP);
 		flaws = GetNode<TextEdit>(NodePaths.Flaws);
 		ideals = GetNode<TextEdit>(NodePaths.Ideals);
 		inspiration = GetNode<ToggleButton>(NodePaths.Inspiration);
 		inventory = GetNode<Inventory>(NodePaths.Inventory);
+		maxHp = GetNode<SpinBox>(NodePaths.MaxHP);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
 		features = GetNode<VBoxContainer>(NodePaths.Features);
 		armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
@@ -104,8 +107,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Species), SheetData.Species, changed_Species);
 		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Background), SheetData.Background, changed_Background);
 		
-		InitSpinBox(GetNode<SpinBox>(NodePaths.CurrentHP), SheetData.HP.Current, changed_CurrentHP);
-		InitSpinBox(GetNode<SpinBox>(NodePaths.MaxHP), SheetData.HP.Max, changed_MaxHP);
+		InitSpinBox(currentHp, SheetData.HP.Current, changed_CurrentHP);
+		InitSpinBox(maxHp, SheetData.HP.Max, changed_MaxHP);
 		InitSpinBox(GetNode<SpinBox>(NodePaths.TempHP), SheetData.HP.Temp, changed_TempHP);
 		
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Copper), SheetData.CoinPurse.Copper, changed_Copper);
@@ -141,6 +144,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		classes.RefreshClasses(SheetData.Classes);
 		refreshFeatures();
 		toggleBardicInspirationDie();
+		updateMaxHpConstraint();
 		updateCalculatedTraits();
 	}
 	
@@ -316,6 +320,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 			inventory.RegenerateItems();
 			updateCalculatedTraits();
 		}
+		else if(ability.AbilityType == Abilities.Constitution)
+			updateMaxHpConstraint();
 	}
 	
 	private void changed_Alignment(string newText) => SheetData.Alignment = newText;
@@ -375,7 +381,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		updateCalculatedTraits();
 	}
 	
-	private void changed_MaxHP(double value) => SheetData.HP.Max = (int)value;
+	private void changed_MaxHP(double value)
+	{
+		SheetData.HP.Max = (int)value;
+		currentHp.MaxValue = value;
+	}
+	
 	private void changed_PersonalityTraits() => SheetData.PersonalityTraits = personalityTraits.Text;
 	private void changed_Platinum(double value) => SheetData.CoinPurse.Platinum = (int)value;
 	private void changed_PlayerName(string newText) => SheetData.Player = newText;
@@ -401,11 +412,11 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		if(metadataManager.Container is DndFifthContainer container)
 		{
 			if(container.Metadata.Where(m => m.Type == MetadataType.Dnd5eClass && m.Name == name).FirstOrDefault() is Metadata metadata
-					&& !SheetData.Classes.ContainsKey(metadata))
-				SheetData.Classes.Add(metadata, new() { Level = 1 });
+					&& !SheetData.Classes.Where(c => c.Class.Name == metadata.Name).Any())
+				SheetData.Classes.Add(new() { Class = metadata, Level = 1 });
 			
 			classes.RefreshClasses(SheetData.Classes);
-			
+			updateMaxHpConstraint();
 			normalizeFeatures();
 			refreshFeatures();
 		}
@@ -413,9 +424,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 	
 	private void handleClassHitDie(string name, int sides, int current)
 	{
-		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
+		if(SheetData.Classes.Where(m => m.Class.Name == name).FirstOrDefault() is ClassData data)
 		{
-			SheetData.Classes[clazz].HitDie = sides switch
+			data.HitDie = sides switch
 			{
 				8 => Die.D8,
 				10 => Die.D10,
@@ -423,19 +434,21 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 				_ => Die.D6,
 			};
 			
-			SheetData.Classes[clazz].HitDieCurrent = current;
+			data.HitDieCurrent = current;
 			
 			classes.RefreshClasses(SheetData.Classes);
+			updateMaxHpConstraint();
 		}
 	}
 	
 	private void handleClassLevel(string name, int level)
 	{
-		if(SheetData.Classes.Keys.Where(m => m.Name == name).FirstOrDefault() is Metadata clazz)
+		if(SheetData.Classes.Where(m => m.Class.Name == name).FirstOrDefault() is ClassData data)
 		{
-			SheetData.Classes[clazz].Level = level;	
-			classes.RefreshClasses(SheetData.Classes);
+			data.Level = level;
 			
+			classes.RefreshClasses(SheetData.Classes);
+			updateMaxHpConstraint();
 			normalizeFeatures();
 			refreshFeatures();
 		}
@@ -451,7 +464,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 			{
 				foreach(var feature in container.Features
 					.Where(f => f.Tags.Contains(background.Name)
-						&& f.RequiredLevel <= SheetData.Classes.Values.Aggregate(0, (acc, data) => acc + data.Level)))
+						&& f.RequiredLevel <= SheetData.Classes.Aggregate(0, (acc, data) => acc + data.Level)))
 				{
 					if(!SheetData.Features.Contains(feature))
 						SheetData.Features.Add(feature);
@@ -462,17 +475,17 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 			{
 				foreach(var feature in container.Features
 					.Where(f => f.Tags.Contains(species.Name)
-						&& f.RequiredLevel <= SheetData.Classes.Values.Aggregate(0, (acc, data) => acc + data.Level)))
+						&& f.RequiredLevel <= SheetData.Classes.Aggregate(0, (acc, data) => acc + data.Level)))
 				{
 					if(!SheetData.Features.Contains(feature))
 						SheetData.Features.Add(feature);
 				}
 			}
 			
-			foreach(var (clazz, data) in SheetData.Classes)
+			foreach(var data in SheetData.Classes)
 			{
 				foreach(var feature in container.Features
-					.Where(f => f.Tags.Contains(clazz.Name)
+					.Where(f => f.Tags.Contains(data.Class.Name)
 						&& f.RequiredLevel <= data.Level))
 				{
 					if(!SheetData.Features.Contains(feature))
@@ -535,5 +548,28 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>
 		}
 		
 		normalizeFeatures();
+	}
+	
+	private void updateMaxHpConstraint()
+	{
+		int characterLevel = 0;
+		int possibleMaxHp = 0;
+		
+		foreach(var data in SheetData.Classes)
+		{
+			characterLevel += data.Level;
+			possibleMaxHp += (data.HitDie?.Sides ?? Die.DefaultHitDieSides) * data.Level;
+		}
+		
+		possibleMaxHp += (SheetData.Classes.Count < 1 ? 1 : characterLevel)
+			* SheetData.Abilities
+				.Where(ai => ai.AbilityType == Abilities.Constitution)
+				.First()
+				.Modifier;
+		
+		if(possibleMaxHp < 1)
+			possibleMaxHp = 1;
+		
+		maxHp.MaxValue = possibleMaxHp;
 	}
 }
