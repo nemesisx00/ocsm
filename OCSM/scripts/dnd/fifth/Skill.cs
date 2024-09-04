@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ocsm.Dnd.Fifth;
 
-public sealed class Skill(Skills skill, Proficiency proficient) : IEquatable<Skill>
+public sealed class Skill() : IEquatable<Skill>
 {
 	public static List<Skill> GenerateBaseSkills() => [
 		new(Skills.Acrobatics, Proficiency.NoProficiency),
@@ -59,8 +59,14 @@ public sealed class Skill(Skills skill, Proficiency proficient) : IEquatable<Ski
 		new(Skills.Athletics, Proficiency.NoProficiency)
 	];
 	
-	public Skills SkillType { get; set; } = skill;
-	public Proficiency Proficient { get; set; } = proficient;
+	public Skills SkillType { get; set; }
+	public Proficiency Proficient { get; set; }
+	
+	public Skill(Skills skill, Proficiency proficient) : this()
+	{
+		SkillType = skill;
+		Proficient = proficient;
+	}
 	
 	public bool Equals(Skill skill) => SkillType == skill?.SkillType && Proficient == skill?.Proficient;
 	public override bool Equals(object obj) => Equals(obj as Skill);
