@@ -13,7 +13,7 @@ public class FifthAdventurer() : Character(GameSystem.Dnd5e)
 	public bool BardicInspiration { get; set; }
 	public Die BardicInspirationDie { get; set; }
 	public string Bonds { get; set; }
-	public Dictionary<Metadata, ClassData> Classes { get; set; } = [];
+	public List<ClassData> Classes { get; set; } = [];
 	public CoinPurse CoinPurse { get; set; } = new();
 	public List<Feature> Features { get; set; } = [];
 	public string Flaws { get; set; }

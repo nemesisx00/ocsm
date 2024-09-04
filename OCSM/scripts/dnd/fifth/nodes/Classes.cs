@@ -31,7 +31,7 @@ public partial class Classes : MarginContainer
 		newClass.ItemSelected += addNewClass;
 	}
 	
-	public void RefreshClasses(Dictionary<Metadata, ClassData> classes)
+	public void RefreshClasses(List<ClassData> classes)
 	{
 		foreach(var child in classList.GetChildren().Cast<ClassRow>())
 		{
@@ -43,12 +43,12 @@ public partial class Classes : MarginContainer
 		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.ClassRow);
 		if(resource.CanInstantiate())
 		{
-			foreach(var (clazz, data) in classes)
+			foreach(var data in classes)
 			{
 				var row = resource.Instantiate<ClassRow>();
 				classList.AddChild(row);
 				
-				row.ClassName = clazz.Name;
+				row.ClassName = data.Class.Name;
 				row.Level = data.Level;
 				row.HitDie = data.HitDie;
 				row.HitDiceCurrent = data.HitDieCurrent;
