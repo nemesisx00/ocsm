@@ -81,7 +81,7 @@ public partial class AbilityRow : Container
 		}
 	}
 	
-	private void instantiateSkill(Ocsm.Dnd.Fifth.Skill skill, PackedScene resource)
+	private void instantiateSkill(Skill skill, PackedScene resource)
 	{
 		var instance = resource.Instantiate<SkillNode>();
 		instance.AbilityModifier = Ability.Modifier;
@@ -94,11 +94,11 @@ public partial class AbilityRow : Container
 		instance.SetProficiency(skill.Proficient);
 	}
 	
-	private void proficiencyChanged(StatefulButton.States currentState, Ocsm.Dnd.Fifth.Skill boundSkill)
+	private void proficiencyChanged(StatefulButton.States currentState, Skill boundSkill)
 	{
 		var proficiency = currentState.ToProficiency();
 		boundSkill.Proficient = proficiency;
-		if(Ability.Skills.Find(s => s.SkillType == boundSkill.SkillType) is Ocsm.Dnd.Fifth.Skill skill)
+		if(Ability.Skills.Find(s => s.SkillType == boundSkill.SkillType) is Skill skill)
 			skill.Proficient = proficiency;
 		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}
