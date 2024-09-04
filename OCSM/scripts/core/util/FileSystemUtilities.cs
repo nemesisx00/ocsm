@@ -22,7 +22,7 @@ public static class FileSystemUtilities
 		getFinalPath(
 			Environment.SpecialFolder.ApplicationData,
 			Sheets
-		).ToLower()
+		)
 	);
 	
 	/// <summary>
@@ -35,7 +35,7 @@ public static class FileSystemUtilities
 		getFinalPath(
 			Environment.SpecialFolder.ApplicationData,
 			Metadata
-		).ToLower()
+		)
 	);
 	
 	/// <summary>
