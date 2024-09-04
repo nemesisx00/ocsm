@@ -49,7 +49,7 @@ public partial class NumericBonusEdit : Container
 	{
 		Value = numericBonus;
 		
-		abilityInput.SelectItemByText(Value.Ability.GetLabel());
+		abilityInput.SelectItemByText(Value.Ability?.GetLabel());
 		methodInput.Selected = Value.Add ? 1 : 0;
 		nameInput.Text = Value.Name;
 		typeInput.SelectItemByText(Value.Type.GetLabel());
@@ -97,7 +97,7 @@ public partial class NumericBonusEdit : Container
 	
 	private void typeChanged(long index)
 	{
-		Value.Type = (NumericStats)index;
+		Value.Type = (NumericStats)index - 1;
 		if(Value.Type != NumericStats.AbilityScore)
 			abilityInput.Deselect();
 		
