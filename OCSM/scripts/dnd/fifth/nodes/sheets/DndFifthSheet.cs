@@ -532,6 +532,11 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		armorClass.Value = calculateAc();
 		initiativeBonus.Value = calculateInitiative();
 		speed.Value = calculateSpeed();
+		
+		if(initiativeBonus.Value >= 0)
+			initiativeBonus.Prefix = "+";
+		else
+			initiativeBonus.Prefix = string.Empty;
 	}
 	
 	private void updateFeatures(MetadataType type, Metadata metadata)
