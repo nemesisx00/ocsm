@@ -74,8 +74,7 @@ public partial class FileMenu : MenuButton
 	
 	private void doOpen()
 	{
-		var resource = GD.Load<PackedScene>(ScenePaths.OpenSheet);
-		var instance = resource.Instantiate<OpenSheet>();
+		var instance = OpenSheet.GenerateInstance();
 		GetTree().CurrentScene.AddChild(instance);
 		instance.PopupCentered();
 		instance.JsonLoaded += handleOpenJson;
@@ -88,8 +87,7 @@ public partial class FileMenu : MenuButton
 		var data = sheetManager.GetActiveSheetJsonData();
 		if(data != null)
 		{
-			var resource = GD.Load<PackedScene>(ScenePaths.SaveSheet);
-			var instance = resource.Instantiate<SaveSheet>();
+			var instance = SaveSheet.GenerateInstance();
 			instance.SheetData = data;
 			GetTree().CurrentScene.AddChild(instance);
 			instance.PopupCentered();

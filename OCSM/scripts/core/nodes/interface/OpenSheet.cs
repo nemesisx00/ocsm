@@ -8,28 +8,31 @@ public partial class OpenSheet : FileDialog
 	[Signal]
 	public delegate void JsonLoadedEventHandler(string json);
 	
-	public override void _Ready()
+	public static OpenSheet GenerateInstance()
 	{
-		var path = FileSystemUtilities.DefaultSheetDirectory;
-		CurrentDir = path;
-		FileSelected += doOpen;
+		return new()
+		{
+			Access = AccessEnum.Filesystem,
+			CurrentDir = FileSystemUtilities.DefaultSheetDirectory,
+			FileMode = FileModeEnum.OpenFile,
+			Filters = ["*.ocsd", "OCSM Character Sheet Data"],
+			InitialPosition = WindowInitialPosition.CenterPrimaryScreen,
+			OkButtonText = "Open",
+			ShowHiddenFiles = true,
+			Size = new(720, 480),
+			Theme = GD.Load<Theme>("res://resources/Default.tres"),
+			Title = "Open Sheet from File",
+		};
 	}
+	
+	public override void _Ready() => FileSelected += doOpen;
 	
 	private void doOpen(string filePath)
 	{
-		var path = filePath;
-		if(string.IsNullOrEmpty(CurrentFile) || CurrentFile.Equals(Constants.SheetFileExtension))
-		{
-			var extensionIndex = path.LastIndexOf(Constants.SheetFileExtension);
-			path = path.Insert(extensionIndex, Constants.NewSheetFileName);
-		}
-		else if(!path.EndsWith(Constants.SheetFileExtension))
-			path += Constants.SheetFileExtension;
-		
 		string json = null;
 		try
 		{
-			json = FileSystemUtilities.ReadString(path);
+			json = FileSystemUtilities.ReadString(filePath);
 		}
 		catch(Exception ex)
 		{
