@@ -70,14 +70,14 @@ public partial class AbilityRow : Container
 	private void renderSkills()
 	{
 		foreach(Node child in skillsContainer.GetChildren())
-		{
 			child.QueueFree();
-		}
 		
 		if(Ability is not null)
 		{
 			var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Skill);
-			Ability.Skills.ForEach(s => instantiateSkill(s, resource));
+			
+			foreach(var s in Ability.Skills)
+				instantiateSkill(s, resource);
 		}
 	}
 	
@@ -111,7 +111,9 @@ public partial class AbilityRow : Container
 	
 	private void scoreChanged(double value)
 	{
-		Ability.Score = (int)value;
+		if(Ability.RawScore != value - Ability.BonusTotal)
+			Ability.Score = (int)value;
+		
 		calculateModifier();
 		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}

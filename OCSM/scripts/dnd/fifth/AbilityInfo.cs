@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Ocsm.Dnd.Fifth;
@@ -16,9 +17,23 @@ public sealed class AbilityInfo() : IEquatable<AbilityInfo>
 	];
 	
 	public Abilities AbilityType { get; set; }
+	
+	[JsonIgnore]
+	public List<int> Bonuses { get; set; } = [];
+	
+	public int BonusTotal => Bonuses.Aggregate(0, (acc, val) => acc + val);
+	public int RawScore => score;
 	public Proficiency SavingThrow { get; set; }
-	public int Score { get; set; }
+	
+	public int Score
+	{
+		get => Bonuses.Aggregate(score, (acc, val) => acc + val);
+		set => score = value;
+	}
+	
 	public List<Skill> Skills { get; set; } = [];
+	
+	private int score;
 	
 	public AbilityInfo(Abilities ability, int score = 10, List<Skill> skills = null) : this()
 	{
@@ -31,6 +46,9 @@ public sealed class AbilityInfo() : IEquatable<AbilityInfo>
 	
 	[JsonIgnore]
 	public int Modifier => (Score / 2) - 5;
+	
+	public void AddBonus(int val) => Bonuses.Add(val);
+	public void ClearBonuses() => Bonuses.Clear();
 	
 	public bool Equals(AbilityInfo other) => AbilityType == other?.AbilityType
 		&& SavingThrow == other?.SavingThrow

@@ -22,9 +22,22 @@ public partial class SkillNode : Container
 	[Export]
 	public int ProficiencyBonus { get; set; } = 2;
 	
+	private AbilityColumn abilityColumn;
+	private AbilityRow abilityRow;
 	private Label label;
 	private StatefulButton proficiency;
 	private Label value;
+	
+	public override void _ExitTree()
+	{
+		if(abilityColumn is not null)
+			abilityColumn.AbilityChanged -= scoreChanged;
+		
+		if(abilityRow is not null)
+			abilityRow.AbilityChanged -= scoreChanged;
+		
+		base._ExitTree();
+	}
 	
 	public override void _Ready()
 	{
@@ -44,8 +57,17 @@ public partial class SkillNode : Container
 		update();
 	}
 	
-	public void TrackAbility(AbilityColumn ability) => ability.AbilityChanged += scoreChanged;
-	public void TrackAbility(AbilityRow ability) => ability.AbilityChanged += scoreChanged;
+	public void TrackAbility(AbilityColumn ability)
+	{
+		abilityColumn = ability;
+		abilityColumn.AbilityChanged += scoreChanged;
+	}
+	
+	public void TrackAbility(AbilityRow ability)
+	{
+		abilityRow = ability;
+		abilityRow.AbilityChanged += scoreChanged;
+	}
 	
 	private void proficiencyUpdated(StatefulButton button)
 	{

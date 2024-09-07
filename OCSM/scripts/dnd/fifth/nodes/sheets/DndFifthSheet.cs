@@ -502,9 +502,23 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		
 		var resource = GD.Load<PackedScene>(ScenePaths.Dnd.Fifth.Feature);
 		
+		foreach(var ability in abilities)
+			ability.Ability.ClearBonuses();
+		
 		SheetData.Features.Sort();
 		foreach(var feature in SheetData.Features)
+		{
 			renderFeature(features, feature, resource, feature == SheetData.Features.Last());
+			
+			foreach(var bonus in feature.NumericBonuses.Where(nb => nb.Type == NumericStats.AbilityScore))
+			{
+				if(abilities.Where(a => a.Ability.AbilityType == bonus.Ability).FirstOrDefault() is AbilityRow ability)
+					ability.Ability.AddBonus(bonus.Value);
+			}
+		}
+		
+		foreach(var ability in abilities)
+			ability.Refresh();
 		
 		updateCalculatedTraits();
 	}
