@@ -9,40 +9,47 @@ public partial class FeatureNode : Container
 		public static readonly NodePath Name = new("%Name");
 		public static readonly NodePath Description = new("%Description");
 		public static readonly NodePath Details = new("%Details");
-		public static readonly NodePath Text = new("%Text");
 		public static readonly NodePath Sections = new("%Sections");
 		public static readonly NodePath ShowHide = new("%ShowHide");
+		public static readonly NodePath Source = new("%Source");
+		public static readonly NodePath Text = new("%Text");
 	}
 	
 	private Label nameNode;
 	private RichTextLabel descriptionNode;
 	private Container detailsNode;
-	private RichTextLabel textNode;
 	private Container sectionsNode;
+	private Label sourceNode;
+	private TextureButton showHide;
+	private RichTextLabel textNode;
+	
+	public override void _GuiInput(InputEvent evt)
+	{
+		if(evt.IsActionReleased(Actions.Click))
+		{
+			showHide.EmitSignal(GodotActions.Pressed);
+			showHide.ButtonPressed = !showHide.ButtonPressed;
+		}
+	}
 	
 	public override void _Ready()
 	{
 		nameNode = GetNode<Label>(NodePaths.Name);
 		descriptionNode = GetNode<RichTextLabel>(NodePaths.Description);
 		detailsNode = GetNode<Container>(NodePaths.Details);
-		textNode = GetNode<RichTextLabel>(NodePaths.Text);
 		sectionsNode = GetNode<Container>(NodePaths.Sections);
+		sourceNode = GetNode<Label>(NodePaths.Source);
+		showHide = GetNode<TextureButton>(NodePaths.ShowHide);
+		textNode = GetNode<RichTextLabel>(NodePaths.Text);
 		
-		//nameNode.GuiInput += toggleSections;
-		GetNode<TextureButton>(NodePaths.ShowHide).Pressed += toggleSections;
+		showHide.Pressed += toggleSections;
 	}
 	
 	public void Update(Feature feature)
 	{
-		var name = feature.Name;
-		
-		if(!string.IsNullOrEmpty(feature.Source))
-			name += $"({feature.FeatureType} Feature, {feature.Source})";
-		else
-			name += $"({feature.FeatureType} Feature)";
-		
-		nameNode.Text = name;
+		nameNode.Text = feature.Name;
 		descriptionNode.Text = feature.Description;
+		sourceNode.Text = feature.Source;
 		textNode.Text = feature.Text;
 		
 		if(feature.Sections.Count != 0)

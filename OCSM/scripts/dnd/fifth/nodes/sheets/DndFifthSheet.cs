@@ -24,12 +24,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		public static readonly NodePath Bonds = new("%Bonds");
 		public static readonly NodePath CharacterName = new("%CharacterName");
 		public static readonly NodePath Classes = new("%Classes");
-		public static readonly NodePath Copper = new("%Copper");
+		public static readonly NodePath Copper = new("%Inventory/%Copper");
 		public static readonly NodePath CurrentHP = new("%CurrentHP");
-		public static readonly NodePath Electrum = new("%Electrum");
-		public static readonly NodePath Features = new("%Features");
+		public static readonly NodePath Electrum = new("%Inventory/%Electrum");
+		public static readonly NodePath FeatureContents = new("%FeatureContents");
 		public static readonly NodePath Flaws = new("%Flaws");
-		public static readonly NodePath Gold = new("%Gold");
+		public static readonly NodePath Gold = new("%Inventory/%Gold");
 		public static readonly NodePath HPBar = new("%HPBar");
 		public static readonly NodePath Ideals = new("%Ideals");
 		public static readonly NodePath InitiativeBonus = new("%InitiativeBonus");
@@ -37,10 +37,10 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		public static readonly NodePath Inventory = new("%Inventory");
 		public static readonly NodePath MaxHP = new("%MaxHP");
 		public static readonly NodePath PersonalityTraits = new("%PersonalityTraits");
-		public static readonly NodePath Platinum = new("%Platinum");
+		public static readonly NodePath Platinum = new("%Inventory/%Platinum");
 		public static readonly NodePath PlayerName = new("%PlayerName");
 		public static readonly NodePath Species = new("%Species");
-		public static readonly NodePath Silver = new("%Silver");
+		public static readonly NodePath Silver = new("%Inventory/%Silver");
 		public static readonly NodePath Speed = new("%Speed");
 		public static readonly NodePath TempHP = new("%TempHP");
 	}
@@ -51,7 +51,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	private SpinBox armorClass;
 	private Classes classes;
 	private SpinBox currentHp;
-	private VBoxContainer features;
+	private GridContainer features;
 	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
 	private TextEdit bonds;
@@ -96,7 +96,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		inventory = GetNode<Inventory>(NodePaths.Inventory);
 		maxHp = GetNode<SpinBox>(NodePaths.MaxHP);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
-		features = GetNode<VBoxContainer>(NodePaths.Features);
+		features = GetNode<GridContainer>(NodePaths.FeatureContents);
 		armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
 		initiativeBonus = GetNode<SpinBox>(NodePaths.InitiativeBonus);
 		speed = GetNode<SpinBox>(NodePaths.Speed);
@@ -508,7 +508,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		SheetData.Features.Sort();
 		foreach(var feature in SheetData.Features)
 		{
-			renderFeature(features, feature, resource, feature == SheetData.Features.Last());
+			renderFeature(features, feature, resource);
 			
 			foreach(var bonus in feature.NumericBonuses.Where(nb => nb.Type == NumericStats.AbilityScore))
 			{
@@ -523,14 +523,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		updateCalculatedTraits();
 	}
 	
-	private static void renderFeature(Container node, Feature feature, PackedScene resource, bool separator = false)
+	private static void renderFeature(Container node, Feature feature, PackedScene resource)
 	{
 		var instance = resource.Instantiate<FeatureNode>();
 		node.AddChild(instance);
+		instance.SizeFlagsHorizontal = SizeFlags.ExpandFill;
 		instance.Update(feature);
-		
-		if(separator)
-			node.AddChild(new HSeparator());
 	}
 	
 	private void toggleBardicInspirationDie()
