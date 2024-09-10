@@ -8,7 +8,9 @@ namespace Ocsm.Nodes;
 public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 	where T: Character
 {
-	protected virtual T SheetData { get; set; }
+	public string CharacterName => SheetData?.Name ?? null;
+	
+	public virtual T SheetData { get; protected set; }
 	
 	public string GetJsonData() => JsonSerializer.Serialize(SheetData);
 	

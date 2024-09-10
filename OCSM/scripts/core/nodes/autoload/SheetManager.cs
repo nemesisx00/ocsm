@@ -27,6 +27,14 @@ public partial class SheetManager : Node
 			var target = GetNode<TabContainer>(AppRoot.NodePaths.SheetTabs);
 			if(target is TabContainer tc)
 			{
+				if(!string.IsNullOrEmpty(json) && instance is ICharacterSheet sheet)
+				{
+					sheet.SetJsonData(json);
+					
+					if(!string.IsNullOrEmpty(sheet.CharacterName))
+						instance.Name = sheet.CharacterName;
+				}
+				
 				var dupeCount = 0;
 				foreach(Node c in tc.GetChildren())
 				{
@@ -36,9 +44,6 @@ public partial class SheetManager : Node
 				
 				if(dupeCount > 0)
 					instance.Name = $"{instance.Name} ({dupeCount})";
-				
-				if(!string.IsNullOrEmpty(json) && instance is ICharacterSheet sheet)
-					sheet.SetJsonData(json);
 				
 				tc.AddChild(instance);
 				tc.CurrentTab = tc.GetTabCount() - 1;
