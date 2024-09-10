@@ -275,11 +275,10 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 1
-current_tab = 3
+current_tab = 0
 
 [node name="Ability Scores" parent="MarginContainer/Column/TabBar" instance=ExtResource("7_6176l")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -295,6 +294,7 @@ visible = false
 layout_mode = 2
 
 [node name="Features" type="MarginContainer" parent="MarginContainer/Column/TabBar"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
