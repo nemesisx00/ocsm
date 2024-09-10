@@ -314,7 +314,7 @@ visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="Miscellaneous" type="MarginContainer" parent="MarginContainer/Column/TabBar"]
+[node name="Personality" type="MarginContainer" parent="MarginContainer/Column/TabBar"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
@@ -323,37 +323,37 @@ theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 metadata/_tab_index = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Column/TabBar/Personality"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "Alignment"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Alignment" type="LineEdit" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer"]
+[node name="Alignment" type="LineEdit" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "Personality Traits"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PersonalityTraits" type="TextEdit" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer2"]
+[node name="PersonalityTraits" type="TextEdit" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -362,18 +362,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer3"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "Ideals"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Ideals" type="TextEdit" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer3"]
+[node name="Ideals" type="TextEdit" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -382,18 +382,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer4"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "Bonds"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Bonds" type="TextEdit" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer4"]
+[node name="Bonds" type="TextEdit" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -402,18 +402,18 @@ size_flags_vertical = 3
 wrap_mode = 1
 scroll_fit_content_height = true
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer5"]
 custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 text = "Flaws"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Flaws" type="TextEdit" parent="MarginContainer/Column/TabBar/Miscellaneous/VBoxContainer/HBoxContainer5"]
+[node name="Flaws" type="TextEdit" parent="MarginContainer/Column/TabBar/Personality/VBoxContainer/HBoxContainer5"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
