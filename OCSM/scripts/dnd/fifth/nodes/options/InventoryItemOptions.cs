@@ -3,7 +3,7 @@ using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class InventoryItemOptions : CustomOption
+public partial class InventoryItemOptions : DynamicOption
 {
 	protected override void refreshMetadata()
 	{

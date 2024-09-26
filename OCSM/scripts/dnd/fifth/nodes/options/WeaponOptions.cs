@@ -4,7 +4,7 @@ using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class WeaponOptions : CustomOption
+public partial class WeaponOptions : DynamicOption
 {
 	protected override void refreshMetadata()
 	{
@@ -22,7 +22,7 @@ public partial class WeaponOptions : CustomOption
 			
 			Selected = index;
 			
-			EmitSignal(CustomOption.SignalName.ItemsChanged);
+			EmitSignal(DynamicOption.SignalName.ItemsChanged);
 		}
 	}
 }

@@ -3,7 +3,7 @@ using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class FeatureOptionsButton : CustomOption
+public partial class FeatureOptionsButton : DynamicOption
 {
 	protected override void refreshMetadata()
 	{

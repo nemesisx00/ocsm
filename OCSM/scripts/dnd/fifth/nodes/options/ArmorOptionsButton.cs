@@ -4,7 +4,7 @@ using Ocsm.Nodes;
 
 namespace Ocsm.Dnd.Fifth.Nodes;
 
-public partial class ArmorOptionsButton : CustomOption
+public partial class ArmorOptionsButton : DynamicOption
 {
 	protected override void refreshMetadata()
 	{
@@ -22,7 +22,7 @@ public partial class ArmorOptionsButton : CustomOption
 			
 			Selected = index;
 			
-			EmitSignal(CustomOption.SignalName.ItemsChanged);
+			EmitSignal(DynamicOption.SignalName.ItemsChanged);
 		}
 	}
 }
