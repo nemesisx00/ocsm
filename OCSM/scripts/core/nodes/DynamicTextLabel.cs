@@ -41,12 +41,6 @@ public partial class DynamicTextLabel : Container
 		}
 	}
 	
-	public override void _ExitTree()
-	{
-		lineEdit.TextChanged -= handleTextChanged;
-		textEdit.TextChanged -= handleTextChanged;
-	}
-	
 	public override void _GuiInput(InputEvent evt)
 	{
 		if(!EditMode && evt.IsActionReleased(Actions.Click))

@@ -120,8 +120,6 @@ public partial class DynamicNumericLabel : Container
 	private double minValue = 0;
 	private SpinBox spinBox;
 	
-	public override void _ExitTree() => spinBox.ValueChanged -= handleValueChanged;
-	
 	public override void _GuiInput(InputEvent evt)
 	{
 		if(!EditMode && evt.IsActionReleased(Actions.Click))
