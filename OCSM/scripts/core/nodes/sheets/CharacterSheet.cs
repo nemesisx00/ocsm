@@ -21,6 +21,41 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 			SheetData = typedData;
 	}
 	
+	protected static void InitDynamicMetadataLabel(DynamicMetadataLabel node, Metadata initialValue, DynamicMetadataLabel.ItemSelectedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+				node.Value = initialValue;
+			node.ItemSelected += handler;
+		}
+	}
+	
+	protected void InitDynamicNumericLabel(DynamicNumericLabel node, long initialValue, DynamicNumericLabel.ValueChangedEventHandler handler, long? minValue = null, long? maxValue = null)
+	{
+		if(node is not null)
+		{
+			node.Value = initialValue;
+			node.ValueChanged += handler;
+			
+			if(minValue is not null)
+				node.MinValue = (long)minValue;
+			
+			if(maxValue is not null)
+				node.MaxValue = (long)maxValue;
+		}
+	}
+	
+	protected void InitDynamicTextLabel(DynamicTextLabel node, string initialValue, DynamicTextLabel.TextChangedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+				node.Value = initialValue;
+			node.TextChanged += handler;
+		}
+	}
+	
 	protected void InitEntryList(EntryList node, List<string> initialValue, EntryList.ValueChangedEventHandler handler)
 	{
 		if(node is not null)

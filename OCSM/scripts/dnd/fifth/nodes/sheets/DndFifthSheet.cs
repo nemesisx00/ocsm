@@ -25,44 +25,41 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		public static readonly NodePath CharacterName = new("%CharacterName");
 		public static readonly NodePath Classes = new("%Classes");
 		public static readonly NodePath Copper = new("%Inventory/%Copper");
-		public static readonly NodePath CurrentHP = new("%CurrentHP");
 		public static readonly NodePath Electrum = new("%Inventory/%Electrum");
 		public static readonly NodePath FeatureContents = new("%FeatureContents");
 		public static readonly NodePath Flaws = new("%Flaws");
 		public static readonly NodePath Gold = new("%Inventory/%Gold");
+		public static readonly NodePath HitPointsNode = new("%HitPoints");
 		public static readonly NodePath HPBar = new("%HPBar");
 		public static readonly NodePath Ideals = new("%Ideals");
 		public static readonly NodePath InitiativeBonus = new("%InitiativeBonus");
 		public static readonly NodePath Inspiration = new("%Inspiration");
 		public static readonly NodePath Inventory = new("%Inventory");
-		public static readonly NodePath MaxHP = new("%MaxHP");
 		public static readonly NodePath PersonalityTraits = new("%PersonalityTraits");
 		public static readonly NodePath Platinum = new("%Inventory/%Platinum");
 		public static readonly NodePath PlayerName = new("%PlayerName");
 		public static readonly NodePath Species = new("%Species");
 		public static readonly NodePath Silver = new("%Inventory/%Silver");
 		public static readonly NodePath Speed = new("%Speed");
-		public static readonly NodePath TempHP = new("%TempHP");
 	}
 	
 	private MetadataManager metadataManager;
 	
-	private List<AbilityRow> abilities = [];
-	private SpinBox armorClass;
+	private readonly List<AbilityRow> abilities = [];
+	private Label armorClass;
 	private Classes classes;
-	private SpinBox currentHp;
 	private GridContainer features;
 	private ToggleButton bardicInspiration;
 	private DieOptionsButton bardicInspirationDie;
 	private TextEdit bonds;
 	private TextEdit flaws;
+	private HitPointsNode hitPoints;
 	private TextEdit ideals;
-	private SpinBox initiativeBonus;
+	private Label initiativeBonus;
 	private ToggleButton inspiration;
 	private Inventory inventory;
-	private SpinBox maxHp;
 	private TextEdit personalityTraits;
-	private SpinBox speed;
+	private Label speed;
 	
 	public override void _ExitTree()
 	{
@@ -89,27 +86,26 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
 		bonds = GetNode<TextEdit>(NodePaths.Bonds);
 		classes = GetNode<Classes>(NodePaths.Classes);
-		currentHp = GetNode<SpinBox>(NodePaths.CurrentHP);
 		flaws = GetNode<TextEdit>(NodePaths.Flaws);
+		hitPoints = GetNode<HitPointsNode>(NodePaths.HitPointsNode);
 		ideals = GetNode<TextEdit>(NodePaths.Ideals);
 		inspiration = GetNode<ToggleButton>(NodePaths.Inspiration);
 		inventory = GetNode<Inventory>(NodePaths.Inventory);
-		maxHp = GetNode<SpinBox>(NodePaths.MaxHP);
 		personalityTraits = GetNode<TextEdit>(NodePaths.PersonalityTraits);
 		features = GetNode<GridContainer>(NodePaths.FeatureContents);
-		armorClass = GetNode<SpinBox>(NodePaths.ArmorClass);
-		initiativeBonus = GetNode<SpinBox>(NodePaths.InitiativeBonus);
-		speed = GetNode<SpinBox>(NodePaths.Speed);
+		armorClass = GetNode<Label>(NodePaths.ArmorClass);
+		initiativeBonus = GetNode<Label>(NodePaths.InitiativeBonus);
+		speed = GetNode<Label>(NodePaths.Speed);
 		
-		InitLineEdit(GetNode<LineEdit>(NodePaths.CharacterName), SheetData.Name, changed_CharacterName);
-		InitLineEdit(GetNode<LineEdit>(NodePaths.PlayerName), SheetData.Player, changed_PlayerName);
+		InitDynamicTextLabel(GetNode<DynamicTextLabel>(NodePaths.CharacterName), SheetData.Name, changed_CharacterName);
+		InitDynamicTextLabel(GetNode<DynamicTextLabel>(NodePaths.PlayerName), SheetData.Player, changed_PlayerName);
 		InitLineEdit(GetNode<LineEdit>(NodePaths.Alignment), SheetData.Alignment, changed_Alignment);
-		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Species), SheetData.Species, changed_Species);
-		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Background), SheetData.Background, changed_Background);
+		InitDynamicMetadataLabel(GetNode<DynamicMetadataLabel>(NodePaths.Species), SheetData.Species, changed_Species);
+		InitDynamicMetadataLabel(GetNode<DynamicMetadataLabel>(NodePaths.Background), SheetData.Background, changed_Background);
 		
-		InitSpinBox(currentHp, SheetData.HP.Current, changed_CurrentHP);
-		InitSpinBox(maxHp, SheetData.HP.Max, changed_MaxHP);
-		InitSpinBox(GetNode<SpinBox>(NodePaths.TempHP), SheetData.HP.Temp, changed_TempHP);
+		InitDynamicNumericLabel(hitPoints.CurrentHP, SheetData.HP.Current, changed_CurrentHP, null, SheetData.HP.Max);
+		InitDynamicNumericLabel(hitPoints.MaxHP, SheetData.HP.Max, changed_MaxHP);
+		InitDynamicNumericLabel(hitPoints.TempHP, SheetData.HP.Temp, changed_TempHP);
 		
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Copper), SheetData.CoinPurse.Copper, changed_Copper);
 		InitSpinBox(GetNode<SpinBox>(NodePaths.Silver), SheetData.CoinPurse.Silver, changed_Silver);
@@ -359,9 +355,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	
 	private void changed_Bonds() => SheetData.Bonds = bonds.Text;
 	
-	private void changed_CharacterName(string newText)
+	private void changed_CharacterName(string text)
 	{
-		SheetData.Name = newText;
+		SheetData.Name = text;
 		if(!string.IsNullOrEmpty(SheetData.Name))
 			Name = SheetData.Name;
 	}
@@ -384,12 +380,12 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	private void changed_MaxHP(double value)
 	{
 		SheetData.HP.Max = (int)value;
-		currentHp.MaxValue = value;
+		hitPoints.CurrentHP.MaxValue = value;
 	}
 	
 	private void changed_PersonalityTraits() => SheetData.PersonalityTraits = personalityTraits.Text;
 	private void changed_Platinum(double value) => SheetData.CoinPurse.Platinum = (int)value;
-	private void changed_PlayerName(string newText) => SheetData.Player = newText;
+	private void changed_PlayerName(string text) => SheetData.Player = text;
 	
 	private void changed_Species(long index)
 	{
@@ -541,14 +537,9 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	
 	private void updateCalculatedTraits()
 	{
-		armorClass.Value = calculateAc();
-		initiativeBonus.Value = calculateInitiative();
-		speed.Value = calculateSpeed();
-		
-		if(initiativeBonus.Value >= 0)
-			initiativeBonus.Prefix = "+";
-		else
-			initiativeBonus.Prefix = string.Empty;
+		armorClass.Text = calculateAc().ToString();
+		initiativeBonus.Text = StringUtilities.FormatModifier(calculateInitiative());
+		speed.Text = calculateSpeed().ToString();
 	}
 	
 	private void updateFeatures(MetadataType type, Metadata metadata)
@@ -587,6 +578,6 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		if(possibleMaxHp < 1)
 			possibleMaxHp = 1;
 		
-		maxHp.MaxValue = possibleMaxHp;
+		hitPoints.MaxHP.MaxValue = possibleMaxHp;
 	}
 }

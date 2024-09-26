@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://do2n200fvn5xi"]
+[gd_scene load_steps=11 format=3 uid="uid://do2n200fvn5xi"]
 
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/sheets/DndFifthSheet.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_03ki6"]
-[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="3_bwyn1"]
+[ext_resource type="PackedScene" uid="uid://v70ttynnlfwd" path="res://scenes/DynamicTextLabel.tscn" id="3_tbyki"]
+[ext_resource type="PackedScene" uid="uid://bqexp6svq06e3" path="res://scenes/DynamicMetadataLabel.tscn" id="4_odafp"]
 [ext_resource type="PackedScene" uid="uid://dlasl05x5a5r6" path="res://scenes/ToggleButton.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://b5ja4qd1nmj4c" path="res://scenes/dnd/fifth/AbilityScores.tscn" id="7_6176l"]
 [ext_resource type="PackedScene" uid="uid://bgbixshukqhis" path="res://scenes/dnd/fifth/Classes.tscn" id="7_d270n"]
+[ext_resource type="PackedScene" uid="uid://diungn2c8pby0" path="res://scenes/dnd/fifth/HitPointsNode.tscn" id="7_mx5sc"]
 [ext_resource type="Script" path="res://scripts/dnd/fifth/nodes/options/DieOptionsButton.cs" id="9"]
 [ext_resource type="PackedScene" uid="uid://qfhjanw2gycp" path="res://scenes/dnd/fifth/Inventory.tscn" id="11"]
 
@@ -65,10 +67,9 @@ text = "Player:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PlayerName" type="LineEdit" parent="MarginContainer/Column/VBoxContainer/HBoxContainer"]
+[node name="PlayerName" parent="MarginContainer/Column/VBoxContainer/HBoxContainer" instance=ExtResource("3_tbyki")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
@@ -77,197 +78,143 @@ text = "Name: "
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="CharacterName" type="LineEdit" parent="MarginContainer/Column/VBoxContainer/HBoxContainer"]
+[node name="CharacterName" parent="MarginContainer/Column/VBoxContainer/HBoxContainer" instance=ExtResource("3_tbyki")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 15
-alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+[node name="Label3" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Species:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Species" type="OptionButton" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+[node name="Species" parent="MarginContainer/Column/VBoxContainer/HBoxContainer" instance=ExtResource("4_odafp")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_bwyn1")
 GameSystem = 4
 MetadataType = 256
 
-[node name="Label2" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+[node name="Label4" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Background:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Background" type="OptionButton" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+[node name="Background" parent="MarginContainer/Column/VBoxContainer/HBoxContainer" instance=ExtResource("4_odafp")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 27)
 layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("3_bwyn1")
 GameSystem = 4
 MetadataType = 64
 
-[node name="Inspiration" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2" instance=ExtResource("6")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Label3" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Heroic Inspiration"
-vertical_alignment = 1
-
-[node name="BardicInspiration" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2" instance=ExtResource("6")]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Label4" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Bardic Inspiration"
-vertical_alignment = 1
-
-[node name="BardicInspirationDie" type="OptionButton" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-script = ExtResource("9")
-BardicInspiration = true
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Hit Points"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer"]
-layout_mode = 2
-
-[node name="CurrentHP" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer/HBoxContainer"]
+[node name="HitPoints" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer" instance=ExtResource("7_mx5sc")]
 unique_name_in_owner = true
 layout_mode = 2
-rounded = true
-alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "/"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MaxHP" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-min_value = 1.0
-value = 1.0
-rounded = true
-alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "Temp HP"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TempHP" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-rounded = true
-allow_greater = true
-alignment = 1
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-theme_override_constants/separation = 5
-alignment = 1
-
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer3"]
+[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "AC"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ArmorClass" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer3"]
+[node name="ArmorClass" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-rounded = true
-allow_greater = true
-allow_lesser = true
-alignment = 1
-editable = false
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer4"]
+[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer3"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Initiative"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InitiativeBonus" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer4"]
+[node name="InitiativeBonus" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-rounded = true
-allow_greater = true
-allow_lesser = true
-alignment = 1
-editable = false
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_constants/separation = 5
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer5"]
+[node name="Label" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer4"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Speed"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Speed" type="SpinBox" parent="MarginContainer/Column/VBoxContainer/HBoxContainer3/HBoxContainer5"]
+[node name="Speed" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer4"]
 unique_name_in_owner = true
 layout_mode = 2
-rounded = true
-allow_greater = true
-allow_lesser = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
-editable = false
+
+[node name="Inspiration" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer5" instance=ExtResource("6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label3" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+text = "Heroic Inspiration"
+vertical_alignment = 1
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BardicInspiration" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer6" instance=ExtResource("6")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label4" type="Label" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer6"]
+layout_mode = 2
+text = "Bardic Inspiration"
+vertical_alignment = 1
+
+[node name="BardicInspirationDie" type="OptionButton" parent="MarginContainer/Column/VBoxContainer/HBoxContainer2/HBoxContainer6"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("9")
+BardicInspiration = true
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/Column"]
 layout_mode = 2
