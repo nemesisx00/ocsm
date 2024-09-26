@@ -21,12 +21,10 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		public static readonly NodePath Glamour = new(CoreSheet<Changeling>.NodePaths.Advantages + "/%Glamour");
 		public static readonly NodePath Kith = new(CoreSheet<Changeling>.NodePaths.Details + "/%Kith");
 		public static readonly NodePath Needle = new(CoreSheet<Changeling>.NodePaths.Details + "/%Needle");
-		public static readonly NodePath NeedleLabel = new(CoreSheet<Changeling>.NodePaths.Advantages + "/%NeedleLabel");
 		public static readonly NodePath Regalia1 = new(CoreSheet<Changeling>.NodePaths.Details + "/%Regalia1");
 		public static readonly NodePath Regalia2 = new(CoreSheet<Changeling>.NodePaths.Details + "/%Regalia2");
 		public static readonly NodePath Seeming = new(CoreSheet<Changeling>.NodePaths.Details + "/%Seeming");
 		public static readonly NodePath Thread = new(CoreSheet<Changeling>.NodePaths.Details + "/%Thread");
-		public static readonly NodePath ThreadLabel = new(CoreSheet<Changeling>.NodePaths.Advantages + "/%ThreadLabel");
 		public static readonly NodePath Touchstones = new(CoreSheet<Changeling>.NodePaths.Details + "/%Touchstones");
 		public static readonly NodePath Wyrd = new(CoreSheet<Changeling>.NodePaths.Advantages + "/%Wyrd");
 	}
@@ -86,9 +84,6 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		InitTrackSimple(clarity, SheetData.Advantages.Integrity, changed_Clarity, DefaultIntegrityMax);
 		InitTrackSimple(wyrd, SheetData.Advantages.Power, changed_Wyrd, DefaultIntegrityMax);
 		InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour, SheetData.Advantages.ResourceMax);
-		
-		GetNode<Label>(NodePaths.NeedleLabel).Text = SheetData.Details.Virtue;
-		GetNode<Label>(NodePaths.ThreadLabel).Text = SheetData.Details.Vice;
 		
 		Metadata court = null;
 		Metadata seeming = null;

@@ -49,7 +49,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	protected TrackSimple beats;
 	protected EntryList conditions;
 	protected Label defense;
-	protected SpinBox experience;
+	protected DynamicNumericLabel experience;
 	protected TrackComplex health;
 	protected Label initiative;
 	protected MeritList merits;
@@ -84,7 +84,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		beats = GetNode<TrackSimple>(NodePaths.Beats);
 		conditions = GetNode<EntryList>(NodePaths.Conditions);
 		defense = GetNode<Label>(NodePaths.Defense);
-		experience = GetNode<SpinBox>(NodePaths.Experience);
+		experience = GetNode<DynamicNumericLabel>(NodePaths.Experience);
 		health = GetNode<TrackComplex>(NodePaths.Health);
 		initiative = GetNode<Label>(NodePaths.Initiative);
 		merits = GetNode<MeritList>(NodePaths.Merits);
@@ -95,7 +95,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		InitEntryList(aspirations, SheetData.Aspirations, changed_Aspirations);
 		InitTrackSimple(beats, SheetData.Beats, changed_Beats);
 		InitEntryList(conditions, SheetData.Conditions, changed_Conditions);
-		InitSpinBox(experience, SheetData.Experience, changed_Experience);
+		InitDynamicNumericLabel(experience, SheetData.Experience, changed_Experience);
 		InitTrackComplex(health, SheetData.Advantages.Health.ToTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
 		InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower, SheetData.Advantages.WillpowerMax);
 		
