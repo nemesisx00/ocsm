@@ -19,21 +19,24 @@ public sealed class AbilityInfo() : IEquatable<AbilityInfo>
 	public Abilities AbilityType { get; set; }
 	
 	[JsonIgnore]
-	public List<int> Bonuses { get; set; } = [];
-	
 	public int BonusTotal => Bonuses.Aggregate(0, (acc, val) => acc + val);
-	public int RawScore => score;
+	
+	[JsonIgnore]
+	public int Modifier => (TotalScore / 2) - 5;
+	
+	[JsonIgnore]
+	public int? OverrideScore { get; set; } = null;
+	
+	[JsonIgnore]
+	public int TotalScore => OverrideScore
+		?? Bonuses.Aggregate(Score, (acc, val) => acc + val);
+	
 	public Proficiency SavingThrow { get; set; }
-	
-	public int Score
-	{
-		get => Bonuses.Aggregate(score, (acc, val) => acc + val);
-		set => score = value;
-	}
-	
+	public int Score { get; set; }
 	public List<Skill> Skills { get; set; } = [];
 	
-	private int score;
+	[JsonIgnore]
+	private List<int> Bonuses { get; set; } = [];
 	
 	public AbilityInfo(Abilities ability, int score = 10, List<Skill> skills = null) : this()
 	{
@@ -43,9 +46,6 @@ public sealed class AbilityInfo() : IEquatable<AbilityInfo>
 		if(skills is not null)
 			Skills = skills;
 	}
-	
-	[JsonIgnore]
-	public int Modifier => (Score / 2) - 5;
 	
 	public void AddBonus(int val) => Bonuses.Add(val);
 	public void ClearBonuses() => Bonuses.Clear();

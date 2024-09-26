@@ -51,7 +51,7 @@ public partial class AbilityColumn : Container
 		if(Ability is not null)
 		{
 			label.Text = Ability.AbilityType.GetLabel();
-			score.Value = Ability.Score;
+			score.Value = Ability.TotalScore;
 			modifier.Value = Ability.Modifier;
 			savingThrow.SetProficiency(Ability.SavingThrow);
 			renderSkills();
@@ -112,7 +112,9 @@ public partial class AbilityColumn : Container
 	
 	private void scoreChanged(double value)
 	{
-		Ability.Score = (int)value;
+		if(Ability.Score != value - Ability.BonusTotal)
+			Ability.Score = (int)value;
+		
 		calculateModifier();
 		EmitSignal(SignalName.AbilityChanged, new Transport<AbilityInfo>(Ability));
 	}

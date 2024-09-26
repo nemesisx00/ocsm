@@ -51,7 +51,7 @@ public partial class AbilityRow : Container
 		if(Ability is not null)
 		{
 			name.Text = Ability.AbilityType.GetLabel();
-			score.Value = Ability.Score;
+			score.Value = Ability.TotalScore;
 			modifier.Value = Ability.Modifier;
 			savingThrow.SetProficiency(Ability.SavingThrow);
 			renderSkills();
@@ -111,7 +111,7 @@ public partial class AbilityRow : Container
 	
 	private void scoreChanged(double value)
 	{
-		if(Ability.RawScore != value - Ability.BonusTotal)
+		if(Ability.Score != value - Ability.BonusTotal)
 			Ability.Score = (int)value;
 		
 		calculateModifier();

@@ -88,7 +88,7 @@ public partial class InventoryItem : HBoxContainer
 		nodes.Add(NodeUtilities.CreateCenteredLabel(ac.ToString()));
 		
 		//TODO: Should this always display or hide when the character's strength meets/exceeds the requirements?
-		if(armor.MinimumStrength > 0 && Strength.Score < armor.MinimumStrength)
+		if(armor.MinimumStrength > 0 && Strength.TotalScore < armor.MinimumStrength)
 			nodes.Add(NodeUtilities.CreateCenteredLabel($"{armor.MinimumStrength} Str Required"));
 		
 		if(armor.StealthDisadvantage)

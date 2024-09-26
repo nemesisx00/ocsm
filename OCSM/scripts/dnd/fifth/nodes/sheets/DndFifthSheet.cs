@@ -216,21 +216,21 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 		var ac = 10;
 		var addDex = true;
 		var dexLimit = 0;
+		var heavyArmor = false;
 		
 		//Find the first equipped armor
-		if(SheetData.Inventory.Where(i => i.ArmorData is not null && (i.Equipped ?? false)).FirstOrDefault() is Item armor
-			&& SheetData.Abilities.Where(a => a.AbilityType == Abilities.Strength).FirstOrDefault() is AbilityInfo strength
-			&& strength.Score >= armor.ArmorData.MinimumStrength)
+		if(SheetData.Inventory.Find(i => i.ArmorData is not null && (i.Equipped ?? false)) is Item armor
+			&& SheetData.Abilities.Find(a => a.AbilityType == Abilities.Strength) is AbilityInfo strength
+			&& strength.TotalScore >= armor.ArmorData.MinimumStrength)
 		{
 			ac = armor.ArmorData.BaseArmorClass;
 			addDex = armor.ArmorData.AllowDexterityBonus;
 			if(armor.ArmorData.LimitDexterityBonus)
 				dexLimit = armor.ArmorData.DexterityBonusLimit;
+			heavyArmor = armor.ArmorData.ArmorType == ArmorTypes.Heavy;
 		}
 		
-		if(SheetData.Abilities
-			.Where(a => a.AbilityType == Abilities.Dexterity)
-			.FirstOrDefault() is AbilityInfo dexterity)
+		if(SheetData.Abilities.Find(a => a.AbilityType == Abilities.Dexterity) is AbilityInfo dexterity)
 		{
 			if(addDex)
 			{
@@ -239,8 +239,8 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 					mod = dexLimit;
 				ac += mod;
 			}
-			//Negative Dex modifiers always reduce AC
-			else if(dexterity.Modifier < 0)
+			//Negative Dex modifiers always reduce AC, except for heavy armor
+			else if(!heavyArmor && dexterity.Modifier < 0)
 				ac += dexterity.Modifier;
 		}
 		

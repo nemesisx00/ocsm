@@ -25,7 +25,9 @@ public partial class SkillNode : Container
 	private AbilityColumn abilityColumn;
 	private AbilityRow abilityRow;
 	private Label label;
+	private int? overrideModifier;
 	private StatefulButton proficiency;
+	private Skills skillType;
 	private Label value;
 	
 	public override void _ExitTree()
@@ -77,7 +79,10 @@ public partial class SkillNode : Container
 	
 	private void scoreChanged(Transport<AbilityInfo> transport)
 	{
-		AbilityModifier = transport.Value.Modifier;
+		var skill = transport.Value.Skills.Find(s => s.SkillType == skillType);
+		
+		overrideModifier = skill?.OverrideModifier;
+		AbilityModifier = transport.Value.Modifier + (skill?.BonusTotal ?? 0);
 		update();
 	}
 	
@@ -100,6 +105,6 @@ public partial class SkillNode : Container
 		}
 		
 		label.Text = Label;
-		value.Text = modifier < 0 ? modifier.ToString() : $"+{modifier}";
+		value.Text = StringUtilities.FormatModifier(overrideModifier ?? modifier);
 	}
 }

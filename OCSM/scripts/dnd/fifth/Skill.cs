@@ -1,31 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Ocsm.Dnd.Fifth;
 
 public sealed class Skill() : IEquatable<Skill>
 {
-	public static List<Skill> GenerateBaseSkills() => [
-		new(Skills.Acrobatics, Proficiency.NoProficiency),
-		new(Skills.AnimalHandling, Proficiency.NoProficiency),
-		new(Skills.Arcana, Proficiency.NoProficiency),
-		new(Skills.Athletics, Proficiency.NoProficiency),
-		new(Skills.Deception, Proficiency.NoProficiency),
-		new(Skills.History, Proficiency.NoProficiency),
-		new(Skills.Insight, Proficiency.NoProficiency),
-		new(Skills.Intimidation, Proficiency.NoProficiency),
-		new(Skills.Investigation, Proficiency.NoProficiency),
-		new(Skills.Medicine, Proficiency.NoProficiency),
-		new(Skills.Nature, Proficiency.NoProficiency),
-		new(Skills.Perception, Proficiency.NoProficiency),
-		new(Skills.Performance, Proficiency.NoProficiency),
-		new(Skills.Persuasion, Proficiency.NoProficiency),
-		new(Skills.Religion, Proficiency.NoProficiency),
-		new(Skills.SleightOfHand, Proficiency.NoProficiency),
-		new(Skills.Stealth, Proficiency.NoProficiency),
-		new(Skills.Survival, Proficiency.NoProficiency)
-	];
-	
 	public static List<Skill> ListDexterity() => [
 		new(Skills.Acrobatics, Proficiency.NoProficiency),
 		new(Skills.SleightOfHand, Proficiency.NoProficiency),
@@ -61,6 +42,15 @@ public sealed class Skill() : IEquatable<Skill>
 	
 	public Skills SkillType { get; set; }
 	public Proficiency Proficient { get; set; }
+	
+	[JsonIgnore]
+	public int BonusTotal => Bonuses.Aggregate(0, (acc, val) => acc + val);
+	
+	[JsonIgnore]
+	public int? OverrideModifier { get; set; } = null;
+	
+	[JsonIgnore]
+	private List<int> Bonuses { get; set; } = [];
 	
 	public Skill(Skills skill, Proficiency proficient) : this()
 	{
