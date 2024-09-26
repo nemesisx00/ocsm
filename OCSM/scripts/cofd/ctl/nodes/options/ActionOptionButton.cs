@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Ocsm.Cofd.Ctl.Nodes;
 
-public partial class ActionOptionButton : CustomOption
+public partial class ActionOptionButton : FixedOption
 {
 	public enum Action
 	{
@@ -15,8 +15,6 @@ public partial class ActionOptionButton : CustomOption
 		Contested,
 		Resisted
 	}
-	
-	public override void _Ready() => refreshMetadata();
 	
 	protected override void refreshMetadata() => replaceItems(Enum.GetValues<Action>()
 		.Select(a => Enum.GetName(a))
