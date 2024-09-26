@@ -7,7 +7,7 @@ namespace Ocsm;
 Class providing convenience methods for evaluating logic.
 </summary>
 */
-public class Logic
+public static class Logic
 {
 	/**
 	<summary>

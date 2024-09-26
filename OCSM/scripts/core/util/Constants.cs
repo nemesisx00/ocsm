@@ -1,6 +1,6 @@
 namespace Ocsm;
 
-public class Constants
+public static class Constants
 {
 	public const string AppVersion = "0.5.0";
 	public const string MetadataFileExtension = ".ocmd";

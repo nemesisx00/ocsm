@@ -9,7 +9,7 @@ namespace Ocsm;
 /// A collection of utility methods for creating or modifying one or more
 /// <c>Godot.Node</c>s.
 /// </summary>
-public class NodeUtilities
+public static class NodeUtilities
 {
 	/// <summary>
 	/// Create a new <c>Godot.Label</c> instance with its <c>Align</c> and
