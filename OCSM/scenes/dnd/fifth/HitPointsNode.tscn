@@ -20,13 +20,15 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Current Hit Points"
-Alignment = 1
+LabelAlignment = 1
+SpinBoxAlignment = 1
 
 [node name="TempHP" parent="HBoxContainer" instance=ExtResource("1_nut56")]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Temporary Hit Points"
-Alignment = 1
+LabelAlignment = 1
+SpinBoxAlignment = 1
 AllowGreater = true
 Prefix = "("
 Suffix = ")"
@@ -38,6 +40,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Maximum Hit Points"
-Alignment = 1
+LabelAlignment = 1
+SpinBoxAlignment = 1
 AllowGreater = true
 MinValue = 1.0
