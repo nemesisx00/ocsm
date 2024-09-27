@@ -276,8 +276,8 @@ vertical_alignment = 1
 [node name="Size" parent="Details/GridContainer/HBoxContainer11" instance=ExtResource("4_qxx4c")]
 unique_name_in_owner = true
 layout_mode = 2
-SpinBoxAlignment = 1
 MinValue = 1.0
+SpinBoxAlignment = 1
 
 [node name="HBoxContainer12" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
