@@ -9,7 +9,7 @@ public abstract partial class FixedOption : OptionButton
 	public delegate void ItemsChangedEventHandler();
 	
 	[Export]
-	public bool EmptyOption { get; protected set; }
+	public bool EmptyOption { get; set; }
 	
 	public override void _Ready() => refreshMetadata();
 	
