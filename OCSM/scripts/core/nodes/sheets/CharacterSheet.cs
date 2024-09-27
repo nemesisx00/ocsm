@@ -67,6 +67,17 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		}
 	}
 	
+	protected void InitFlowList(FlowList node, List<string> initialValue, FlowList.ValueChangedEventHandler handler)
+	{
+		if(node is not null)
+		{
+			if(initialValue is not null)
+				node.Values = initialValue;
+			node.Refresh();
+			node.ValueChanged += handler;
+		}
+	}
+	
 	protected void InitLineEdit(LineEdit node, string initialValue, LineEdit.TextChangedEventHandler handler)
 	{
 		if(node is not null)
