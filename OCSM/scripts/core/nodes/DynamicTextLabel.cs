@@ -2,11 +2,10 @@ using Godot;
 
 namespace Ocsm.Nodes;
 
-public partial class DynamicTextLabel : Container
+public partial class DynamicTextLabel : Label
 {
 	private static class NodePaths
 	{
-		public static readonly NodePath Label = new("%Label");
 		public static readonly NodePath LineEdit = new("%LineEdit");
 		public static readonly NodePath TextEdit = new("%TextEdit");
 	}
@@ -19,7 +18,6 @@ public partial class DynamicTextLabel : Container
 	[Export]
 	public bool Multiline { get; set; }
 	
-	private Label label;
 	private LineEdit lineEdit;
 	private TextEdit textEdit;
 	
@@ -31,66 +29,73 @@ public partial class DynamicTextLabel : Container
 		
 		set
 		{
+			Text = EditMode ? string.Empty : value;
 			lineEdit.Text = value;
 			textEdit.Text = value;
-			
-			if(Multiline)
-				label.Text = lineEdit.Text;
-			else
-				label.Text = textEdit.Text;
 		}
 	}
 	
 	public override void _GuiInput(InputEvent evt)
 	{
 		if(!EditMode && evt.IsActionReleased(Actions.Click))
-			toggleEditMode();
+			ToggleEditMode();
 	}
 	
 	public override void _Ready()
 	{
-		label = GetNode<Label>(NodePaths.Label);
-		
 		lineEdit = GetNode<LineEdit>(NodePaths.LineEdit);
-		lineEdit.FocusExited += toggleEditMode;
+		lineEdit.FocusExited += ToggleEditMode;
 		lineEdit.TextChanged += handleTextChanged;
 		
 		textEdit = GetNode<TextEdit>(NodePaths.TextEdit);
-		textEdit.FocusExited += toggleEditMode;
+		textEdit.FocusExited += ToggleEditMode;
 		textEdit.TextChanged += handleTextChanged;
 	}
 	
-	private void handleTextChanged() => handleTextChanged(Value);
-	private void handleTextChanged(string text) => EmitSignal(SignalName.TextChanged, text);
-	
-	private void toggleEditMode()
+	public void ToggleEditMode()
 	{
 		EditMode = !EditMode;
 		
 		if(EditMode)
 		{
-			label.Hide();
-			
 			if(Multiline)
 			{
+				CustomMinimumSize = textEdit.GetMinimumSize();
 				textEdit.Show();
 				textEdit.GrabFocus();
 			}
 			else
 			{
+				CustomMinimumSize = lineEdit.GetMinimumSize();
 				lineEdit.Show();
 				lineEdit.GrabFocus();
 			}
+			
+			Text = string.Empty;
 		}
 		else
 		{
-			label.Text = Multiline
+			Text = Multiline
 				? textEdit.Text
 				: lineEdit.Text;
 			
 			lineEdit.Hide();
 			textEdit.Hide();
-			label.Show();
+			
+			CustomMinimumSize = Vector2.Zero;
 		}
+	}
+	
+	private void handleTextChanged() => handleTextChanged(null);
+	private void handleTextChanged(string _)
+	{
+		if(EditMode)
+		{
+			CustomMinimumSize = Multiline
+				? textEdit.GetMinimumSize()
+				: lineEdit.GetMinimumSize();
+		}
+		
+		EmitSignal(SignalName.TextChanged, Value);
 	}
 }
