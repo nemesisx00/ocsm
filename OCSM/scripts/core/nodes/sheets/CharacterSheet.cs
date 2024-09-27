@@ -27,7 +27,11 @@ public abstract partial class CharacterSheet<T> : Container, ICharacterSheet
 		{
 			if(initialValue is not null)
 				node.Value = initialValue;
+			
 			node.ItemSelected += handler;
+			
+			if(node.Value is null && !node.EditMode)
+				node.ToggleEditMode();
 		}
 	}
 	
