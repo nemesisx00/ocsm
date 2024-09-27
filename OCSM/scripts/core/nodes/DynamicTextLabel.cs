@@ -8,7 +8,6 @@ public partial class DynamicTextLabel : DynamicLabel
 	{
 		public static readonly NodePath LineEdit = new("%LineEdit");
 		public static readonly NodePath TextEdit = new("%TextEdit");
-		public static readonly NodePath Panel = new("%Panel");
 	}
 	
 	[Signal]

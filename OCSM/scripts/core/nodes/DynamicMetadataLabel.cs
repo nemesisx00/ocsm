@@ -74,7 +74,6 @@ public partial class DynamicMetadataLabel : DynamicLabel
 		{
 			Text = string.Empty;
 			option.Show();
-			option._Pressed();
 		}
 		else
 		{
