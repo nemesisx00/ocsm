@@ -3,7 +3,7 @@ using Ocsm.Meta;
 
 namespace Ocsm.Nodes;
 
-public partial class DynamicMetadataLabel : MarginContainer
+public partial class DynamicMetadataLabel : DynamicLabel
 {
 	private static class NodePaths
 	{
@@ -23,15 +23,10 @@ public partial class DynamicMetadataLabel : MarginContainer
 		{
 			alignment = value;
 			
-			if(label is not null)
-				label.HorizontalAlignment = alignment;
-			
 			if(option is not null)
 				option.Alignment = alignment;
 		}
 	}
-	
-	public bool EditMode { get; set; }
 	
 	[Export]
 	public bool EmptyOption { get; set; }
@@ -49,19 +44,11 @@ public partial class DynamicMetadataLabel : MarginContainer
 	}
 	
 	private HorizontalAlignment alignment;
-	private Label label;
 	private MetadataOption option;
-	
-	public override void _GuiInput(InputEvent evt)
-	{
-		if(!EditMode && evt.IsActionReleased(Actions.Click))
-			toggleEditMode();
-	}
 	
 	public override void _Ready()
 	{
-		label = GetNode<Label>(NodePaths.Label);
-		label.HorizontalAlignment = Alignment;
+		base._Ready();
 		
 		option = GetNode<MetadataOption>(NodePaths.Option);
 		option.Alignment = Alignment;
@@ -76,25 +63,23 @@ public partial class DynamicMetadataLabel : MarginContainer
 	private void handleItemSelected(long index)
 	{
 		EmitSignal(SignalName.ItemSelected, index);
-		toggleEditMode();
+		ToggleEditMode();
 	}
 	
-	private void toggleEditMode()
+	public override void ToggleEditMode()
 	{
-		EditMode = !EditMode;
+		base.ToggleEditMode();
 		
 		if(EditMode)
 		{
-			label.Hide();
+			Text = string.Empty;
 			option.Show();
-			option.GrabFocus();
+			option._Pressed();
 		}
 		else
 		{
-			label.Text = Value.Name;
-			
+			Text = Value.Name;
 			option.Hide();
-			label.Show();
 		}
 	}
 }

@@ -1,8 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://v70ttynnlfwd"]
+[gd_scene load_steps=3 format=3 uid="uid://v70ttynnlfwd"]
 
 [ext_resource type="Script" path="res://scripts/core/nodes/DynamicTextLabel.cs" id="1_henxr"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4dkab"]
+bg_color = Color(0, 0, 0, 0.156863)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
 [node name="DynamicTextLabel" type="Label"]
+z_index = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,6 +28,7 @@ script = ExtResource("1_henxr")
 [node name="LineEdit" type="LineEdit" parent="."]
 unique_name_in_owner = true
 visible = false
+z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 expand_to_text_length = true
@@ -23,6 +36,19 @@ expand_to_text_length = true
 [node name="TextEdit" type="TextEdit" parent="."]
 unique_name_in_owner = true
 visible = false
+z_index = 1
 layout_mode = 2
 size_flags_horizontal = 3
 scroll_fit_content_height = true
+
+[node name="Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4dkab")

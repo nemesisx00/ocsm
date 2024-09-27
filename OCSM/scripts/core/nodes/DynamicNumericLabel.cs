@@ -2,7 +2,7 @@ using Godot;
 
 namespace Ocsm.Nodes;
 
-public partial class DynamicNumericLabel : Container
+public partial class DynamicNumericLabel : DynamicLabel
 {
 	private static class NodePaths
 	{
@@ -12,34 +12,6 @@ public partial class DynamicNumericLabel : Container
 	
 	[Signal]
 	public delegate void ValueChangedEventHandler(double value);
-	
-	[Export]
-	public HorizontalAlignment LabelAlignment
-	{
-		get => labelAlignment;
-		
-		set
-		{
-			labelAlignment = value;
-			
-			if(label is not null)
-				label.HorizontalAlignment = labelAlignment;
-		}
-	}
-	
-	[Export]
-	public HorizontalAlignment SpinBoxAlignment
-	{
-		get => spinBoxAlignment;
-		
-		set
-		{
-			spinBoxAlignment = value;
-			
-			if(spinBox is not null)
-				spinBox.Alignment = spinBoxAlignment;
-		}
-	}
 	
 	[Export]
 	public bool AllowGreater
@@ -66,8 +38,6 @@ public partial class DynamicNumericLabel : Container
 				spinBox.AllowLesser = allowLesser;
 		}
 	}
-	
-	public bool EditMode { get; set; }
 	
 	[Export]
 	public double MaxValue
@@ -104,44 +74,45 @@ public partial class DynamicNumericLabel : Container
 	public bool ShowSign { get; set; }
 	
 	[Export]
+	public HorizontalAlignment SpinBoxAlignment
+	{
+		get => spinBoxAlignment;
+		
+		set
+		{
+			spinBoxAlignment = value;
+			
+			if(spinBox is not null)
+				spinBox.Alignment = spinBoxAlignment;
+		}
+	}
+	
+	[Export]
 	public string Suffix { get; set; } = string.Empty;
 	
 	public double Value
 	{
-		get => currentValue;
-		
+		get => spinBox.Value;
 		set
 		{
-			currentValue = value;
+			spinBox.Value = value;
 			
-			if(spinBox is not null)
-			{
-				spinBox.Value = currentValue;
-				updateLabel();
-			}
+			if(!EditMode)
+				updateText();
 		}
 	}
 	
-	private HorizontalAlignment labelAlignment;
-	private HorizontalAlignment spinBoxAlignment;
 	private bool allowGreater;
 	private bool allowLesser;
 	private double currentValue;
-	private Label label;
 	private double maxValue = 100;
 	private double minValue = 0;
 	private SpinBox spinBox;
-	
-	public override void _GuiInput(InputEvent evt)
-	{
-		if(!EditMode && evt.IsActionReleased(Actions.Click))
-			toggleEditMode();
-	}
+	private HorizontalAlignment spinBoxAlignment;
 	
 	public override void _Ready()
 	{
-		label = GetNode<Label>(NodePaths.Label);
-		label.HorizontalAlignment = LabelAlignment;
+		base._Ready();
 		
 		spinBox = GetNode<SpinBox>(NodePaths.SpinBox);
 		spinBox.Alignment = SpinBoxAlignment;
@@ -149,7 +120,7 @@ public partial class DynamicNumericLabel : Container
 		spinBox.AllowLesser = AllowLesser;
 		spinBox.MaxValue = MaxValue;
 		spinBox.MinValue = MinValue;
-		spinBox.GetLineEdit().FocusExited += toggleEditMode;
+		spinBox.GetLineEdit().FocusExited += ToggleEditMode;
 		spinBox.ValueChanged += handleValueChanged;
 	}
 	
@@ -159,30 +130,29 @@ public partial class DynamicNumericLabel : Container
 		EmitSignal(SignalName.ValueChanged, Value);
 	}
 	
-	private void toggleEditMode()
+	public override void ToggleEditMode()
 	{
-		EditMode = !EditMode;
+		base.ToggleEditMode();
 		
 		if(EditMode)
 		{
-			label.Hide();
+			Text = string.Empty;
 			spinBox.Show();
 			spinBox.GetLineEdit().GrabFocus();
 		}
 		else
 		{
-			updateLabel();
+			updateText();
 			spinBox.Hide();
-			label.Show();
 		}
 	}
 	
-	private void updateLabel()
+	private void updateText()
 	{
 		var value = ShowSign
 			? StringUtilities.FormatModifier(spinBox.Value)
 			: spinBox.Value.ToString();
 		
-		label.Text = $"{Prefix}{value}{Suffix}";
+		Text = $"{Prefix}{value}{Suffix}";
 	}
 }

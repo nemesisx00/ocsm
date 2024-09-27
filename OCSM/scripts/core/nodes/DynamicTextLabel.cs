@@ -2,18 +2,17 @@ using Godot;
 
 namespace Ocsm.Nodes;
 
-public partial class DynamicTextLabel : Label
+public partial class DynamicTextLabel : DynamicLabel
 {
 	private static class NodePaths
 	{
 		public static readonly NodePath LineEdit = new("%LineEdit");
 		public static readonly NodePath TextEdit = new("%TextEdit");
+		public static readonly NodePath Panel = new("%Panel");
 	}
 	
 	[Signal]
 	public delegate void TextChangedEventHandler(string text);
-	
-	public bool EditMode { get; set; }
 	
 	[Export]
 	public bool Multiline { get; set; }
@@ -35,14 +34,10 @@ public partial class DynamicTextLabel : Label
 		}
 	}
 	
-	public override void _GuiInput(InputEvent evt)
-	{
-		if(!EditMode && evt.IsActionReleased(Actions.Click))
-			ToggleEditMode();
-	}
-	
 	public override void _Ready()
 	{
+		base._Ready();
+		
 		lineEdit = GetNode<LineEdit>(NodePaths.LineEdit);
 		lineEdit.FocusExited += ToggleEditMode;
 		lineEdit.TextChanged += handleTextChanged;
@@ -52,9 +47,9 @@ public partial class DynamicTextLabel : Label
 		textEdit.TextChanged += handleTextChanged;
 	}
 	
-	public void ToggleEditMode()
+	public override void ToggleEditMode()
 	{
-		EditMode = !EditMode;
+		base.ToggleEditMode();
 		
 		if(EditMode)
 		{
