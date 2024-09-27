@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwttlfflu2lyi"]
+[gd_scene load_steps=6 format=3 uid="uid://bwttlfflu2lyi"]
 
-[ext_resource type="Script" path="res://scripts/core/nodes/EntryList.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_45tya"]
 [ext_resource type="PackedScene" uid="uid://l2joeymavl7n" path="res://scenes/TrackComplex.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://scenes/TrackSimple.tscn" id="4"]
-
+[ext_resource type="PackedScene" uid="uid://c8gbcaoa6exai" path="res://scenes/DynamicNumericLabel.tscn" id="4_1hlbw"]
+[ext_resource type="PackedScene" uid="uid://dad5cgqtgkto7" path="res://scenes/FlowList.tscn" id="4_hq2k0"]
 
 [node name="Advantages" type="VBoxContainer"]
 anchors_preset = 15
@@ -14,20 +14,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_45tya")
 
-[node name="Row" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_bottom = 15
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Column1" type="VBoxContainer" parent="Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Row1" type="VBoxContainer" parent="Row/Column1"]
-layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Row/Column1/Row1"]
+[node name="Label" type="Label" parent="MarginContainer/GridContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -35,15 +35,16 @@ text = "Health"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Health" parent="Row/Column1/Row1" instance=ExtResource("3")]
+[node name="Health" parent="MarginContainer/GridContainer/VBoxContainer" instance=ExtResource("3")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 
-[node name="Row2" type="VBoxContainer" parent="Row/Column1"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Row/Column1/Row2"]
+[node name="Label" type="Label" parent="MarginContainer/GridContainer/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -51,17 +52,21 @@ text = "Willpower"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Willpower" parent="Row/Column1/Row2" instance=ExtResource("4")]
+[node name="Willpower" parent="MarginContainer/GridContainer/VBoxContainer2" instance=ExtResource("4")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
+Max = 5
+Value = 0
 UseCircles = false
+EnableToggling = true
 
-[node name="Row3" type="VBoxContainer" parent="Row/Column1"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/GridContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Row/Column1/Row3"]
+[node name="Label" type="Label" parent="MarginContainer/GridContainer/VBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -69,97 +74,27 @@ text = "Integrity"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Integrity" parent="Row/Column1/Row3" instance=ExtResource("4")]
+[node name="Integrity" parent="MarginContainer/GridContainer/VBoxContainer3" instance=ExtResource("4")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 columns = 10
 Max = 10
 Value = 7
+UseCircles = true
 EnableToggling = false
 
-[node name="Column2" type="VBoxContainer" parent="Row"]
+[node name="GridContainer2" type="GridContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+columns = 3
 
-[node name="Row1" type="HBoxContainer" parent="Row/Column2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Row/Column2/Row1"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Armor:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Armor" type="Label" parent="Row/Column2/Row1"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0"
-vertical_alignment = 1
-
-[node name="Row2" type="HBoxContainer" parent="Row/Column2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Row/Column2/Row2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Defense:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Defense" type="Label" parent="Row/Column2/Row2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "1"
-vertical_alignment = 1
-
-[node name="Row3" type="HBoxContainer" parent="Row/Column2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Row/Column2/Row3"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Initiative:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Initiative" type="Label" parent="Row/Column2/Row3"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "2"
-vertical_alignment = 1
-
-[node name="Row4" type="HBoxContainer" parent="Row/Column2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Row/Column2/Row4"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Speed:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Speed" type="Label" parent="Row/Column2/Row4"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "7"
-vertical_alignment = 1
-
-[node name="Column3" type="VBoxContainer" parent="Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Row1" type="HBoxContainer" parent="Row/Column3"]
-layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Row/Column3/Row1"]
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -167,16 +102,56 @@ text = "Beats:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Beats" parent="Row/Column3/Row1" instance=ExtResource("4")]
+[node name="Beats" parent="GridContainer2/HBoxContainer" instance=ExtResource("4")]
 unique_name_in_owner = true
 layout_mode = 2
+Max = 5
+Value = 0
 UseCircles = false
+EnableToggling = true
 
-[node name="Row2" type="HBoxContainer" parent="Row/Column3"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer2"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Armor:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Armor" type="Label" parent="GridContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Initiative:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiative" type="Label" parent="GridContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+vertical_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="Row/Column3/Row2"]
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -184,92 +159,85 @@ text = "Experience:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Experience" type="SpinBox" parent="Row/Column3/Row2"]
+[node name="Experience" parent="GridContainer2/HBoxContainer4" instance=ExtResource("4_1hlbw")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+SpinBoxAlignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Row3" type="HBoxContainer" parent="Row/Column3"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Row/Column3/Row3"]
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer5"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Virtue:"
+text = "Defense:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="VirtueLabel" type="Label" parent="Row/Column3/Row3"]
+[node name="Defense" type="Label" parent="GridContainer2/HBoxContainer5"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
+text = "1"
 vertical_alignment = 1
 
-[node name="Row4" type="HBoxContainer" parent="Row/Column3"]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="Row/Column3/Row4"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
-text = "Vice:"
+
+[node name="Label" type="Label" parent="GridContainer2/HBoxContainer6"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ViceLabel" type="Label" parent="Row/Column3/Row4"]
+[node name="Speed" type="Label" parent="GridContainer2/HBoxContainer6"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
-vertical_alignment = 1
-
-[node name="Row2" type="HBoxContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Column" type="VBoxContainer" parent="Row2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="AspirationsLabel" type="Label" parent="Row2/Column"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
 text = "Aspirations"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Aspirations" type="VBoxContainer" parent="Row2/Column"]
+[node name="Aspirations" parent="HBoxContainer/VBoxContainer" instance=ExtResource("4_hq2k0")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 2
-theme_override_constants/separation = 15
-script = ExtResource("1")
+size_flags_vertical = 4
+alignment = 1
 
-[node name="Column2" type="VBoxContainer" parent="Row2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="ConditionsLabel" type="Label" parent="Row2/Column2"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+size_flags_horizontal = 3
+size_flags_vertical = 6
 text = "Conditions"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Conditions" type="VBoxContainer" parent="Row2/Column2"]
+[node name="Conditions" parent="HBoxContainer/VBoxContainer2" instance=ExtResource("4_hq2k0")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
-script = ExtResource("1")
+alignment = 1

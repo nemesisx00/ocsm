@@ -44,15 +44,20 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		public static readonly NodePath Size = new("%Details/%Size");
 	}
 	
-	protected EntryList aspirations;
+	protected FlowList aspirations;
 	protected List<TrackSimple> attributes = [];
 	protected TrackSimple beats;
-	protected EntryList conditions;
+	protected DynamicTextLabel characterName;
+	protected DynamicTextLabel chronicle;
+	protected DynamicTextLabel concept;
+	protected FlowList conditions;
 	protected Label defense;
 	protected DynamicNumericLabel experience;
 	protected TrackComplex health;
 	protected Label initiative;
 	protected MeritList merits;
+	protected DynamicTextLabel playerName;
+	protected DynamicNumericLabel size;
 	protected List<TrackSimple> skills = [];
 	protected SpecialtyList skillSpecialties;
 	protected Label speed;
@@ -62,8 +67,13 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	{
 		aspirations.ValueChanged -= changed_Aspirations;
 		beats.ValueChanged -= changed_Beats;
+		characterName.TextChanged -= changed_Name;
+		chronicle.TextChanged -= changed_Chronicle;
+		concept.TextChanged -= changed_Concept;
 		conditions.ValueChanged -= changed_Conditions;
 		health.ValueChanged -= changed_Health;
+		playerName.TextChanged -= changed_Player;
+		size.ValueChanged -= changed_Size;
 		willpower.ValueChanged -= changed_Willpower;
 		
 		foreach(var a in attributes)
@@ -80,32 +90,37 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 	
 	public override void _Ready()
 	{
-		aspirations = GetNode<EntryList>(NodePaths.Aspirations);
+		aspirations = GetNode<FlowList>(NodePaths.Aspirations);
 		beats = GetNode<TrackSimple>(NodePaths.Beats);
-		conditions = GetNode<EntryList>(NodePaths.Conditions);
+		characterName = GetNode<DynamicTextLabel>(NodePaths.Name);
+		chronicle = GetNode<DynamicTextLabel>(NodePaths.Chronicle);
+		concept = GetNode<DynamicTextLabel>(NodePaths.Concept);
+		conditions = GetNode<FlowList>(NodePaths.Conditions);
 		defense = GetNode<Label>(NodePaths.Defense);
 		experience = GetNode<DynamicNumericLabel>(NodePaths.Experience);
 		health = GetNode<TrackComplex>(NodePaths.Health);
 		initiative = GetNode<Label>(NodePaths.Initiative);
 		merits = GetNode<MeritList>(NodePaths.Merits);
+		size = GetNode<DynamicNumericLabel>(NodePaths.Size);
 		skillSpecialties = GetNode<SpecialtyList>(NodePaths.SkillSpecialties);
 		speed = GetNode<Label>(NodePaths.Speed);
 		willpower = GetNode<TrackSimple>(NodePaths.Willpower);
 		
-		InitEntryList(aspirations, SheetData.Aspirations, changed_Aspirations);
+		InitFlowList(aspirations, SheetData.Aspirations, changed_Aspirations);
 		InitTrackSimple(beats, SheetData.Beats, changed_Beats);
-		InitEntryList(conditions, SheetData.Conditions, changed_Conditions);
+		InitFlowList(conditions, SheetData.Conditions, changed_Conditions);
 		InitDynamicNumericLabel(experience, SheetData.Experience, changed_Experience);
 		InitTrackComplex(health, SheetData.Advantages.Health.ToTrackComplex(), changed_Health, SheetData.Advantages.Health.Max);
 		InitTrackSimple(willpower, SheetData.Advantages.WillpowerSpent, changed_Willpower, SheetData.Advantages.WillpowerMax);
 		
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Chronicle), SheetData.Details.Chronicle, changed_Chronicle);
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Concept), SheetData.Details.Concept, changed_Concept);
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Name), SheetData.Name, changed_Name);
+		InitDynamicTextLabel(characterName, SheetData.Name, changed_Name);
 		if(!string.IsNullOrEmpty(SheetData.Name))
 			Name = SheetData.Name;
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Player), SheetData.Player, changed_Player);
-		InitSpinBox(GetNode<SpinBox>(NodePaths.Size), SheetData.Advantages.Size, changed_Size);
+		
+		InitDynamicTextLabel(chronicle, SheetData.Details.Chronicle, changed_Chronicle);
+		InitDynamicTextLabel(concept, SheetData.Details.Concept, changed_Concept);
+		InitDynamicTextLabel(playerName, SheetData.Player, changed_Player);
+		InitDynamicNumericLabel(size, SheetData.Advantages.Size, changed_Size);
 		
 		foreach(var a in SheetData.Attributes.Where(a => !string.IsNullOrEmpty(a.Name)))
 		{

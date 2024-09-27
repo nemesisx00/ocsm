@@ -45,21 +45,33 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	
 	private TrackSimple clarity;
 	private ContractsList contractsList;
-	private EntryList frailties;
+	private DynamicMetadataLabel court;
+	private FlowList frailties;
 	private TrackSimple glamour;
+	private DynamicMetadataLabel kith;
 	private MeritsFromMetadata meritsFromMetadata;
-	private MetadataOption regalia1;
-	private MetadataOption regalia2;
-	private EntryList touchstones;
+	private DynamicTextLabel needle;
+	private DynamicMetadataLabel regalia1;
+	private DynamicMetadataLabel regalia2;
+	private DynamicMetadataLabel seeming;
+	private DynamicTextLabel thread;
+	private FlowList touchstones;
 	private TrackSimple wyrd;
 	
 	public override void _ExitTree()
 	{
 		clarity.ValueChanged -= changed_Clarity;
 		contractsList.ValueChanged -= changed_Contracts;
+		court.ItemSelected -= changed_Court;
 		glamour.ValueChanged -= changed_Glamour;
 		frailties.ValueChanged -= changed_Frailties;
+		kith.ItemSelected -= changed_Kith;
 		meritsFromMetadata.AddMerit -= addExistingMerit;
+		needle.TextChanged -= changed_Needle;
+		regalia1.ItemSelected -= changed_FavoredRegalia;
+		regalia2.ItemSelected -= changed_FavoredRegalia;
+		seeming.ItemSelected -= changed_Seeming;
+		thread.TextChanged -= changed_Thread;
 		touchstones.ValueChanged -= changed_Touchstones;
 		wyrd.ValueChanged -= changed_Wyrd;
 		
@@ -73,44 +85,46 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		
 		clarity = GetNode<TrackSimple>(NodePaths.Clarity);
 		contractsList = GetNode<ContractsList>(NodePaths.ContractsList);
-		frailties = GetNode<EntryList>(NodePaths.Frailties);
+		frailties = GetNode<FlowList>(NodePaths.Frailties);
 		glamour = GetNode<TrackSimple>(NodePaths.Glamour);
 		meritsFromMetadata = GetNode<MeritsFromMetadata>(CoreSheet<Changeling>.NodePaths.MeritsFromMetadata);
-		regalia1 = GetNode<MetadataOption>(NodePaths.Regalia1);
-		regalia2 = GetNode<MetadataOption>(NodePaths.Regalia2);
-		touchstones = GetNode<EntryList>(NodePaths.Touchstones);
+		needle = GetNode<DynamicTextLabel>(NodePaths.Needle);
+		regalia1 = GetNode<DynamicMetadataLabel>(NodePaths.Regalia1);
+		regalia2 = GetNode<DynamicMetadataLabel>(NodePaths.Regalia2);
+		thread = GetNode<DynamicTextLabel>(NodePaths.Thread);
+		touchstones = GetNode<FlowList>(NodePaths.Touchstones);
 		wyrd = GetNode<TrackSimple>(NodePaths.Wyrd);
 		
 		InitTrackSimple(clarity, SheetData.Advantages.Integrity, changed_Clarity, DefaultIntegrityMax);
 		InitTrackSimple(wyrd, SheetData.Advantages.Power, changed_Wyrd, DefaultIntegrityMax);
 		InitTrackSimple(glamour, SheetData.Advantages.ResourceSpent, changed_Glamour, SheetData.Advantages.ResourceMax);
 		
-		Metadata court = null;
-		Metadata seeming = null;
-		Metadata kith = null;
+		Metadata courtValue = null;
+		Metadata seemingValue = null;
+		Metadata kithValue = null;
 		
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
 			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingCourt && m.Name == SheetData.Details.Faction).FirstOrDefault() is Metadata c)
-				court = c;
+				courtValue = c;
 			
 			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingSeeming && m.Name == SheetData.Details.TypePrimary).FirstOrDefault() is Metadata s)
-				seeming = s;
+				seemingValue = s;
 			
 			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingKith && m.Name == SheetData.Details.TypeSecondary).FirstOrDefault() is Metadata k)
-				kith = k;
+				kithValue = k;
 		}
 		
-		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Court), court, changed_Court);
-		InitEntryList(frailties, SheetData.Frailties, changed_Frailties);
-		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Kith), kith, changed_Kith);
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Needle), SheetData.Details.Virtue, changed_Needle);
-		InitMetadataOptionButton(regalia1, SheetData.FavoredRegalia.Key, changed_FavoredRegalia);
-		InitMetadataOptionButton(regalia2, SheetData.FavoredRegalia.Value, changed_FavoredRegalia);
-		InitMetadataOptionButton(GetNode<MetadataOption>(NodePaths.Seeming), seeming, changed_Seeming);
-		InitLineEdit(GetNode<LineEdit>(NodePaths.Thread), SheetData.Details.Vice, changed_Thread);
-		InitEntryList(touchstones, SheetData.Touchstones, changed_Touchstones);
-
+		InitDynamicMetadataLabel(court, courtValue, changed_Court);
+		InitFlowList(frailties, SheetData.Frailties, changed_Frailties);
+		InitDynamicMetadataLabel(kith, kithValue, changed_Kith);
+		InitDynamicTextLabel(needle, SheetData.Details.Virtue, changed_Needle);
+		InitDynamicMetadataLabel(regalia1, SheetData.FavoredRegalia.Key, changed_FavoredRegalia);
+		InitDynamicMetadataLabel(regalia2, SheetData.FavoredRegalia.Value, changed_FavoredRegalia);
+		InitDynamicMetadataLabel(seeming, seemingValue, changed_Seeming);
+		InitDynamicTextLabel(thread, SheetData.Details.Vice, changed_Thread);
+		InitFlowList(touchstones, SheetData.Touchstones, changed_Touchstones);
+		
 		InitContractsList(contractsList, SheetData.Contracts, changed_Contracts);
 		
 		meritsFromMetadata.AddMerit += addExistingMerit;
@@ -193,15 +207,15 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		Pair<Metadata, Metadata> pair = new();
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			var r1 = regalia1.GetSelectedItemText();
-			var r2 = regalia2.GetSelectedItemText();
+			var r1 = regalia1.Value;
+			var r2 = regalia2.Value;
 			
 			pair.Key = container.Metadata
-				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m.Name == r1)
+				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m == r1)
 				.FirstOrDefault();
 			
 			pair.Value = container.Metadata
-				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m.Name == r2)
+				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m == r2)
 				.FirstOrDefault();
 		}
 		

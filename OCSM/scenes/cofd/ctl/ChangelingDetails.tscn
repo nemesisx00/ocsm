@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3drftehkkh7q"]
+[gd_scene load_steps=6 format=3 uid="uid://c3drftehkkh7q"]
 
-[ext_resource type="Script" path="res://scripts/core/nodes/EntryList.cs" id="1"]
 [ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_163af"]
-[ext_resource type="Script" path="res://scripts/core/nodes/MetadataOption.cs" id="4_awl86"]
+[ext_resource type="PackedScene" uid="uid://v70ttynnlfwd" path="res://scenes/DynamicTextLabel.tscn" id="2_6ojcg"]
+[ext_resource type="PackedScene" uid="uid://dad5cgqtgkto7" path="res://scenes/FlowList.tscn" id="3_tarvs"]
+[ext_resource type="PackedScene" uid="uid://c8gbcaoa6exai" path="res://scenes/DynamicNumericLabel.tscn" id="4_qxx4c"]
+[ext_resource type="PackedScene" uid="uid://bqexp6svq06e3" path="res://scenes/DynamicMetadataLabel.tscn" id="5_dnqna"]
 
 [node name="MarginContainer" type="MarginContainer"]
 anchors_preset = 15
@@ -23,101 +25,13 @@ size_flags_stretch_ratio = 7.0
 theme = ExtResource("1_163af")
 theme_override_constants/separation = 15
 
-[node name="Grid" type="GridContainer" parent="Details"]
-layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 2
-
-[node name="Row1" type="HBoxContainer" parent="Details/Grid"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Details"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/Grid/Row1"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Player:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Player" type="LineEdit" parent="Details/Grid/Row1"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the player's name here."
-focus_neighbor_right = NodePath("../../../GridContainer/Row6/Needle")
-focus_neighbor_bottom = NodePath("../../Row2/Chronicle")
-focus_next = NodePath("../../Row2/Chronicle")
-focus_previous = NodePath("../../../GridContainer/Row10/Court")
-
-[node name="Row2" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row2"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Chronicle:"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Chronicle" type="LineEdit" parent="Details/Grid/Row2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the Chronicle name here."
-focus_neighbor_top = NodePath("../../Row1/Player")
-focus_neighbor_right = NodePath("../../../GridContainer/Row7/Thread")
-focus_neighbor_bottom = NodePath("../../Row3/Name")
-focus_next = NodePath("../../Row3/Name")
-focus_previous = NodePath("../../Row1/Player")
-
-[node name="Row3" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row3"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-text = "Name:"
-horizontal_alignment = 2
-
-[node name="Name" type="LineEdit" parent="Details/Grid/Row3"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's name here."
-focus_neighbor_top = NodePath("../../Row2/Chronicle")
-focus_neighbor_right = NodePath("../../../GridContainer/Row8/Seeming")
-focus_neighbor_bottom = NodePath("../../Row4/Concept")
-focus_next = NodePath("../../Row4/Concept")
-focus_previous = NodePath("../../Row2/Chronicle")
-
-[node name="Row4" type="HBoxContainer" parent="Details/Grid"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 15
-
-[node name="Label" type="Label" parent="Details/Grid/Row4"]
+[node name="Label" type="Label" parent="Details/HBoxContainer4"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -126,31 +40,83 @@ text = "Concept:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Concept" type="LineEdit" parent="Details/Grid/Row4"]
+[node name="Concept" parent="Details/HBoxContainer4" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's age here."
-focus_neighbor_top = NodePath("../../Row3/Name")
-focus_neighbor_right = NodePath("../../../GridContainer/Row9/Kith")
-focus_neighbor_bottom = NodePath("../../../GridContainer/Row5/Size")
-focus_next = NodePath("../../../GridContainer/Row5/Size")
-focus_previous = NodePath("../../Row3/Name")
 
 [node name="GridContainer" type="GridContainer" parent="Details"]
 layout_mode = 2
 theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
 columns = 3
 
-[node name="Row8" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row8"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Player:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Player" parent="Details/GridContainer/HBoxContainer" instance=ExtResource("2_6ojcg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Name:"
+horizontal_alignment = 2
+
+[node name="Name" parent="Details/GridContainer/HBoxContainer2" instance=ExtResource("2_6ojcg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(127, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Chronicle:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Chronicle" parent="Details/GridContainer/HBoxContainer3" instance=ExtResource("2_6ojcg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Details/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer4"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -159,29 +125,19 @@ text = "Seeming:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Seeming" type="OptionButton" parent="Details/GridContainer/Row8"]
+[node name="Seeming" parent="Details/GridContainer/HBoxContainer4" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's Vice here."
-focus_neighbor_left = NodePath("../../../Grid/Row3/Name")
-focus_neighbor_top = NodePath("../../Row7/Thread")
-focus_neighbor_bottom = NodePath("../../Row9/Kith")
-focus_next = NodePath("../../Row9/Kith")
-focus_previous = NodePath("../../Row7/Thread")
-script = ExtResource("4_awl86")
 GameSystem = 1
 MetadataType = 32
 
-[node name="Row6" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row6"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer5"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -190,33 +146,44 @@ text = "Needle:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Needle" type="LineEdit" parent="Details/GridContainer/Row6"]
+[node name="Needle" parent="Details/GridContainer/HBoxContainer5" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's core concept here."
-focus_neighbor_left = NodePath("../../../Grid/Row1/Player")
-focus_neighbor_bottom = NodePath("../../Row7/Thread")
-focus_next = NodePath("../../Row7/Thread")
-focus_previous = NodePath("../../../Grid/Row1/Player")
 
-[node name="Label" type="Label" parent="Details/GridContainer"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 20
-text = "Favored Regalia"
-horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(127, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Favored Regalia:"
+horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Row9" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="Regalia1" parent="Details/GridContainer/HBoxContainer6" instance=ExtResource("5_dnqna")]
+unique_name_in_owner = true
+layout_mode = 2
+Alignment = 1
+GameSystem = 1
+MetadataType = 16
+
+[node name="Regalia2" parent="Details/GridContainer/HBoxContainer6" instance=ExtResource("5_dnqna")]
+unique_name_in_owner = true
+layout_mode = 2
+Alignment = 1
+GameSystem = 1
+MetadataType = 16
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row9"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer7"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -225,29 +192,19 @@ text = "Kith:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Kith" type="OptionButton" parent="Details/GridContainer/Row9"]
+[node name="Kith" parent="Details/GridContainer/HBoxContainer7" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "If the character is a part of a Faction, enter that Faction here."
-focus_neighbor_left = NodePath("../../../Grid/Row4/Concept")
-focus_neighbor_top = NodePath("../../Row8/Seeming")
-focus_neighbor_bottom = NodePath("../../Row10/Court")
-focus_next = NodePath("../../Row10/Court")
-focus_previous = NodePath("../../Row8/Seeming")
-script = ExtResource("4_awl86")
 GameSystem = 1
 MetadataType = 8
 
-[node name="Row7" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer8" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row7"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer8"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -256,39 +213,34 @@ text = "Thread:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Thread" type="LineEdit" parent="Details/GridContainer/Row7"]
+[node name="Thread" parent="Details/GridContainer/HBoxContainer8" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's Virtue here."
-focus_neighbor_left = NodePath("../../../Grid/Row2/Chronicle")
-focus_neighbor_top = NodePath("../../Row6/Needle")
-focus_neighbor_bottom = NodePath("../../Row8/Seeming")
-focus_next = NodePath("../../Row8/Seeming")
-focus_previous = NodePath("../../Row6/Needle")
 
-[node name="MarginContainer" type="MarginContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer9" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 35
-theme_override_constants/margin_right = 35
+theme_override_constants/separation = 15
 
-[node name="Regalia1" type="OptionButton" parent="Details/GridContainer/MarginContainer"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(127, 0)
+layout_mode = 2
+text = "Touchstones:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Touchstones" parent="Details/GridContainer/HBoxContainer9" instance=ExtResource("3_tarvs")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-script = ExtResource("4_awl86")
-GameSystem = 1
-MetadataType = 16
+size_flags_horizontal = 3
 
-[node name="Row10" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer10" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row10"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer10"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 5
@@ -297,88 +249,43 @@ text = "Court:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Court" type="OptionButton" parent="Details/GridContainer/Row10"]
+[node name="Court" parent="Details/GridContainer/HBoxContainer10" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../Row5/Size")
-focus_previous = NodePath("../../Row9/Kith")
-script = ExtResource("4_awl86")
 GameSystem = 1
 MetadataType = 4
 
-[node name="Row5" type="HBoxContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer11" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Details/GridContainer/Row5"]
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer11"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
 text = "Size:"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Size" type="SpinBox" parent="Details/GridContainer/Row5"]
+[node name="Size" parent="Details/GridContainer/HBoxContainer11" instance=ExtResource("4_qxx4c")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tooltip_text = "Enter the character's size here."
-focus_neighbor_top = NodePath("../../../Grid/Row4/Concept")
-focus_neighbor_right = NodePath("../../Row10/Court")
-focus_next = NodePath("../../Row6/Needle")
-focus_previous = NodePath("../../../Grid/Row4/Concept")
-min_value = 1.0
-value = 5.0
+SpinBoxAlignment = 1
+MinValue = 1.0
 
-[node name="MarginContainer2" type="MarginContainer" parent="Details/GridContainer"]
+[node name="HBoxContainer12" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 35
-theme_override_constants/margin_right = 35
+theme_override_constants/separation = 15
 
-[node name="Regalia2" type="OptionButton" parent="Details/GridContainer/MarginContainer2"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 0)
+[node name="Label" type="Label" parent="Details/GridContainer/HBoxContainer12"]
+custom_minimum_size = Vector2(127, 0)
 layout_mode = 2
-script = ExtResource("4_awl86")
-GameSystem = 1
-MetadataType = 16
-
-[node name="Label2" type="Label" parent="Details"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Frailties"
-horizontal_alignment = 1
+text = "Frailties:"
+horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Frailties" type="GridContainer" parent="Details"]
+[node name="Frailties" parent="Details/GridContainer/HBoxContainer12" instance=ExtResource("3_tarvs")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 2
-script = ExtResource("1")
-
-[node name="Label3" type="Label" parent="Details"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Touchstones"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Touchstones" type="GridContainer" parent="Details"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 2
-script = ExtResource("1")
