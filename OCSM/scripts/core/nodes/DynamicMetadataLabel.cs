@@ -14,6 +14,23 @@ public partial class DynamicMetadataLabel : MarginContainer
 	[Signal]
 	public delegate void ItemSelectedEventHandler(long index);
 	
+	[Export]
+	public HorizontalAlignment Alignment
+	{
+		get => alignment;
+		
+		set
+		{
+			alignment = value;
+			
+			if(label is not null)
+				label.HorizontalAlignment = alignment;
+			
+			if(option is not null)
+				option.Alignment = alignment;
+		}
+	}
+	
 	public bool EditMode { get; set; }
 	
 	[Export]
@@ -31,6 +48,7 @@ public partial class DynamicMetadataLabel : MarginContainer
 		set => option.SelectedMetadata = value;
 	}
 	
+	private HorizontalAlignment alignment;
 	private Label label;
 	private MetadataOption option;
 	
@@ -43,8 +61,10 @@ public partial class DynamicMetadataLabel : MarginContainer
 	public override void _Ready()
 	{
 		label = GetNode<Label>(NodePaths.Label);
+		label.HorizontalAlignment = Alignment;
 		
 		option = GetNode<MetadataOption>(NodePaths.Option);
+		option.Alignment = Alignment;
 		option.EmptyOption = EmptyOption;
 		option.GameSystem = GameSystem;
 		option.MetadataType = MetadataType;
