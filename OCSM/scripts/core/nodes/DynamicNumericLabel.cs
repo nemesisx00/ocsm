@@ -14,19 +14,30 @@ public partial class DynamicNumericLabel : Container
 	public delegate void ValueChangedEventHandler(double value);
 	
 	[Export]
-	public HorizontalAlignment Alignment
+	public HorizontalAlignment LabelAlignment
 	{
-		get => alignment;
+		get => labelAlignment;
 		
 		set
 		{
-			alignment = value;
+			labelAlignment = value;
 			
 			if(label is not null)
-				label.HorizontalAlignment = alignment;
+				label.HorizontalAlignment = labelAlignment;
+		}
+	}
+	
+	[Export]
+	public HorizontalAlignment SpinBoxAlignment
+	{
+		get => spinBoxAlignment;
+		
+		set
+		{
+			spinBoxAlignment = value;
 			
 			if(spinBox is not null)
-				spinBox.Alignment = alignment;
+				spinBox.Alignment = spinBoxAlignment;
 		}
 	}
 	
@@ -111,7 +122,8 @@ public partial class DynamicNumericLabel : Container
 		}
 	}
 	
-	private HorizontalAlignment alignment;
+	private HorizontalAlignment labelAlignment;
+	private HorizontalAlignment spinBoxAlignment;
 	private bool allowGreater;
 	private bool allowLesser;
 	private double currentValue;
@@ -129,10 +141,10 @@ public partial class DynamicNumericLabel : Container
 	public override void _Ready()
 	{
 		label = GetNode<Label>(NodePaths.Label);
-		label.HorizontalAlignment = Alignment;
+		label.HorizontalAlignment = LabelAlignment;
 		
 		spinBox = GetNode<SpinBox>(NodePaths.SpinBox);
-		spinBox.Alignment = Alignment;
+		spinBox.Alignment = SpinBoxAlignment;
 		spinBox.AllowGreater = AllowGreater;
 		spinBox.AllowLesser = AllowLesser;
 		spinBox.MaxValue = MaxValue;
