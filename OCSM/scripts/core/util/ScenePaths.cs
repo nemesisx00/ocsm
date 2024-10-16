@@ -7,7 +7,9 @@ public static class ScenePaths
 	public const string ConfirmQuit = $"{Prefix}/ConfirmQuit.tscn";
 	public const string DarkPack = $"{Prefix}/DarkPack.tscn";
 	public const string GameSystemLicenses = $"{Prefix}/GameSystemLicenses.tscn";
+	public const string AddSheet = $"{Prefix}/AddSheet.tscn";
 	public const string NewSheet = $"{Prefix}/NewSheet.tscn";
+	public const string NewSheetSection = $"{Prefix}/NewSheetSection.tscn";
 	public const string OpenSheet = $"{Prefix}/OpenSheet.tscn";
 	public const string SaveSheet = $"{Prefix}/SaveSheet.tscn";
 	public const string DynamicTextLabel = $"{Prefix}/DynamicTextLabel.tscn";
