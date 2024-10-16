@@ -14,7 +14,7 @@ public partial class ConfirmQuit : ConfirmationDialog
 	private void quitGame()
 	{
 		//The current node tree is freed automatically on quit.
-		if(OS.IsDebugBuild())
+		if(OS.HasFeature("debug") || OS.IsDebugBuild())
 		{
 			GD.Print("DEBUG Stray Nodes ----- START");
 			PrintOrphanNodes();
