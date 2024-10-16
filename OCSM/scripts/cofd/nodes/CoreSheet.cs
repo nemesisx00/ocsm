@@ -101,6 +101,7 @@ public abstract partial class CoreSheet<T> : CharacterSheet<T>
 		health = GetNode<TrackComplex>(NodePaths.Health);
 		initiative = GetNode<Label>(NodePaths.Initiative);
 		merits = GetNode<MeritList>(NodePaths.Merits);
+		playerName = GetNode<DynamicTextLabel>(NodePaths.Player);
 		size = GetNode<DynamicNumericLabel>(NodePaths.Size);
 		skillSpecialties = GetNode<SpecialtyList>(NodePaths.SkillSpecialties);
 		speed = GetNode<Label>(NodePaths.Speed);

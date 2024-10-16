@@ -63,8 +63,8 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		clarity.ValueChanged -= changed_Clarity;
 		contractsList.ValueChanged -= changed_Contracts;
 		court.ItemSelected -= changed_Court;
-		glamour.ValueChanged -= changed_Glamour;
 		frailties.ValueChanged -= changed_Frailties;
+		glamour.ValueChanged -= changed_Glamour;
 		kith.ItemSelected -= changed_Kith;
 		meritsFromMetadata.AddMerit -= addExistingMerit;
 		needle.TextChanged -= changed_Needle;
@@ -85,12 +85,15 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		
 		clarity = GetNode<TrackSimple>(NodePaths.Clarity);
 		contractsList = GetNode<ContractsList>(NodePaths.ContractsList);
+		court = GetNode<DynamicMetadataLabel>(NodePaths.Court);
 		frailties = GetNode<FlowList>(NodePaths.Frailties);
 		glamour = GetNode<TrackSimple>(NodePaths.Glamour);
+		kith = GetNode<DynamicMetadataLabel>(NodePaths.Kith);
 		meritsFromMetadata = GetNode<MeritsFromMetadata>(CoreSheet<Changeling>.NodePaths.MeritsFromMetadata);
 		needle = GetNode<DynamicTextLabel>(NodePaths.Needle);
 		regalia1 = GetNode<DynamicMetadataLabel>(NodePaths.Regalia1);
 		regalia2 = GetNode<DynamicMetadataLabel>(NodePaths.Regalia2);
+		seeming = GetNode<DynamicMetadataLabel>(NodePaths.Seeming);
 		thread = GetNode<DynamicTextLabel>(NodePaths.Thread);
 		touchstones = GetNode<FlowList>(NodePaths.Touchstones);
 		wyrd = GetNode<TrackSimple>(NodePaths.Wyrd);
