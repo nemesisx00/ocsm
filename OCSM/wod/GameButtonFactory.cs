@@ -12,8 +12,8 @@ public static class GameButtonFactory
 		if(AddSheetButtonFactory.GenerateButton(
 			"Vampire: The Masquerade",
 			"5th Edition",
-			ResourcePaths.Vampire.Sheet,
-			ResourcePaths.Vampire.NewSheetName,
+			ResourcePaths.VtmV5.Sheet,
+			ResourcePaths.VtmV5.NewSheetName,
 			$"{ResourcePaths.PrefixAssets}/textures/AnkhVTM.png",
 			$"{ResourcePaths.PrefixAssets}/textures/AnkhVTM-disabled.png"
 		) is AddSheet vampire)
