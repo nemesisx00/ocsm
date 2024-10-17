@@ -24,7 +24,7 @@ public class Vampire(GameSystem gameSystem, string name = "") : Character(gameSy
 	public int Humanity { get; set; }
 	public int Hunger { get; set; }
 	public Metadata PredatorType { get; set; }
-	public Metadata Resonance { get; set; }
+	public BloodResonance Resonance { get; set; }
 	public string Sire { get; set; }
 	public List<TraitDots> Skills { get; set; } = TraitDots.Skills;
 	public Dictionary<Traits, string> Specialties { get; set; } = [];
