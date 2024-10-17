@@ -1,0 +1,220 @@
+[gd_scene load_steps=4 format=3 uid="uid://dipgl2l1ptdw0"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_s0vy2"]
+[ext_resource type="PackedScene" uid="uid://v70ttynnlfwd" path="res://nodes/DynamicTextLabel.tscn" id="2_0g7bx"]
+[ext_resource type="PackedScene" uid="uid://c8gbcaoa6exai" path="res://nodes/DynamicNumericLabel.tscn" id="3_c2dl6"]
+
+[node name="Details" type="MarginContainer"]
+offset_top = 199.0
+offset_right = 1152.0
+offset_bottom = 199.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 7.0
+theme = ExtResource("1_s0vy2")
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Concept:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Concept" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Player:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Player" parent="VBoxContainer/GridContainer/HBoxContainer" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Name" parent="VBoxContainer/GridContainer/HBoxContainer2" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Chronicle:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Chronicle" parent="VBoxContainer/GridContainer/HBoxContainer3" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Virtue:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Virtue" parent="VBoxContainer/GridContainer/HBoxContainer4" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Faction:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Faction" parent="VBoxContainer/GridContainer/HBoxContainer5" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Age:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Age" parent="VBoxContainer/GridContainer/HBoxContainer6" instance=ExtResource("3_c2dl6")]
+unique_name_in_owner = true
+layout_mode = 2
+SpinBoxAlignment = 1
+AllowGreater = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Vice:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Vice" parent="VBoxContainer/GridContainer/HBoxContainer7" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Group Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="GroupName" parent="VBoxContainer/GridContainer/HBoxContainer8" instance=ExtResource("2_0g7bx")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+text = "Size:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Size" parent="VBoxContainer/GridContainer/HBoxContainer9" instance=ExtResource("3_c2dl6")]
+unique_name_in_owner = true
+layout_mode = 2
+SpinBoxAlignment = 1
+MinValue = 1.0

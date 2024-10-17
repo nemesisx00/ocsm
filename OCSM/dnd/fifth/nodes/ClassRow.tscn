@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://y2fkewemy3rw"]
+
+[ext_resource type="Script" path="res://dnd/fifth/nodes/options/DieOptionsButton.cs" id="1_388rl"]
+[ext_resource type="Script" path="res://dnd/fifth/nodes/ClassRow.cs" id="1_yi4s8"]
+
+[node name="ClassRow" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 1
+script = ExtResource("1_yi4s8")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Level:"
+
+[node name="Level" type="SpinBox" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+rounded = true
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HBoxContainer2"]
+layout_mode = 2
+text = "Hit Dice:"
+
+[node name="HitDiceCurrent" type="SpinBox" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 20.0
+value = 1.0
+rounded = true
+alignment = 1
+select_all_on_focus = true
+
+[node name="HitDie" type="OptionButton" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("1_388rl")
+BardicInspiration = true

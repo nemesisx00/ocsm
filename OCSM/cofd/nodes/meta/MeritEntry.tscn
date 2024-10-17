@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1mq7osydydws"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_u8wcu"]
+[ext_resource type="Script" path="res://nodes/TrackSimple.cs" id="3"]
+[ext_resource type="Script" path="res://cofd/ctl/nodes/meta/MeritsFromMetadata.cs" id="3_4f8r2"]
+[ext_resource type="Script" path="res://cofd/nodes/meta/MeritEntry.cs" id="4"]
+
+[node name="MeritEntry" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_u8wcu")
+script = ExtResource("4")
+MetadataTypeLabel = "Merit"
+OptionsButtonScript = ExtResource("3_4f8r2")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="ExistingLabel" type="Label" parent="Row"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Existing Merits:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ExistingEntry" type="OptionButton" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Row2" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Save" type="Button" parent="Row2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save"
+
+[node name="Clear" type="Button" parent="Row2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Clear"
+
+[node name="Delete" type="Button" parent="Row2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Delete"
+
+[node name="Row3" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Row3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Name:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Name" type="LineEdit" parent="Row3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Row4"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Value:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Dots" type="GridContainer" parent="Row4"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 5
+script = ExtResource("3")
+
+[node name="Row5" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Row5"]
+layout_mode = 2
+text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="TextEdit" parent="Row5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true

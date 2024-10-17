@@ -11,15 +11,15 @@ config_version=5
 [application]
 
 config/name="Open Character Sheet Manager"
-run/main_scene="res://App.tscn"
+run/main_scene="res://nodes/AppRoot.tscn"
 config/features=PackedStringArray("4.3", "C#")
 config/icon="res://icon.png"
 
 [autoload]
 
-AppManager="*res://scripts/core/nodes/autoload/AppManager.cs"
-MetadataManager="*res://scripts/core/nodes/autoload/MetadataManager.cs"
-SheetManager="*res://scripts/core/nodes/autoload/SheetManager.cs"
+AppManager="*res://nodes/autoload/AppManager.cs"
+MetadataManager="*res://nodes/autoload/MetadataManager.cs"
+SheetManager="*res://nodes/autoload/SheetManager.cs"
 
 [display]
 
