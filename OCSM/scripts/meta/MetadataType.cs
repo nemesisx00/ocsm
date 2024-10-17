@@ -21,7 +21,6 @@ public enum MetadataType
 	Dnd5eSpecies = 1 << 8,
 	
 	WodVtmV5Advantage = 1 << 9,
-	WodVtmV5BloodResonance = 1 << 10,
-	WodVtmV5Flaw = 1 << 11,
-	WodVtmV5PredatorType = 1 << 12,
+	WodVtmV5Flaw = 1 << 10,
+	WodVtmV5PredatorType = 1 << 11,
 }
