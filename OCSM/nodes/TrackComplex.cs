@@ -14,6 +14,9 @@ public partial class TrackComplex : GridContainer
 	[Export]
 	public int Max { get; set; } = DefaultMax;
 	
+	[Export]
+	public bool TwoState { get; set; }
+	
 	public Dictionary<StatefulButton.States, int> Values
 	{
 		get
@@ -102,6 +105,7 @@ public partial class TrackComplex : GridContainer
 			for(var i = children.Count; i < Max; i++)
 			{
 				var instance = resource.Instantiate<StatefulButton>();
+				instance.TwoState = TwoState;
 				AddChild(instance);
 				instance.StateChanged += handleStatefulButton;
 			}
