@@ -19,12 +19,12 @@ public partial class ToggleButton : TextureButton
 		if(UseCircles)
 		{
 			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackCircle);
-			ToggledTexture = GD.Load<CompressedTexture2D>(TexturePaths.TrackCircleFill);
+			ToggledTexture ??= GD.Load<CompressedTexture2D>(TexturePaths.TrackCircleFill);
 		}
 		else
 		{
 			GetChild<TextureRect>(0).Texture = GD.Load<CompressedTexture2D>(TexturePaths.TrackBoxBorder);
-			ToggledTexture = GD.Load<CompressedTexture2D>(TexturePaths.TrackBox2);
+			ToggledTexture ??= GD.Load<CompressedTexture2D>(TexturePaths.TrackBox2);
 		}
 		
 		EmptyTexture = GD.Load<CompressedTexture2D>(TexturePaths.FullTransparent);
