@@ -11,7 +11,6 @@ public static class ResourcePaths
 		private const string PrefixVtm = $"{PrefixWod}/vtmv5/nodes";
 		
 		public const string NewSheetName = "New Kindred";
-		//public const string Sheet = $"{PrefixVtr}/VampireTheRequiem.tscn";
-		public const string Sheet = "";
+		public const string Sheet = $"{PrefixVtm}/VampireTheMasquerade.tscn";
 	}
 }
