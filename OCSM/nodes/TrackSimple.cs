@@ -20,6 +20,8 @@ public partial class TrackSimple : GridContainer
 	public bool UseCircles { get; set; } = true;
 	[Export]
 	public bool EnableToggling { get; set; } = true;
+	[Export]
+	public CompressedTexture2D ToggledTextureOverride { get; set; }
 	
 	public override void _Ready()
 	{
@@ -62,6 +64,10 @@ public partial class TrackSimple : GridContainer
 			{
 				var instance = resource.Instantiate<ToggleButton>();
 				instance.UseCircles = UseCircles;
+				
+				if(ToggledTextureOverride is not null)
+					instance.ToggledTexture = ToggledTextureOverride;
+				
 				AddChild(instance);
 				instance.StateToggled += handleToggle;
 			}
