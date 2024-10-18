@@ -12,12 +12,12 @@ public partial class StatefulButton : TextureButton
 		Three,
 	}
 	
-	private static States nextState(States state, bool reverse = false) => state switch
+	private States nextState(States state, bool reverse = false) => state switch
 	{
 		States.One => reverse ? States.None : States.Two,
-		States.Two => reverse ? States.One : States.Three,
+		States.Two => reverse ? States.One : TwoState ? States.None : States.Three,
 		States.Three => reverse ? States.Two : States.None,
-		States.None => reverse ? States.Three : States.One,
+		States.None => reverse ? TwoState ? States.Two : States.Three : States.One,
 		_ => States.None,
 	};
 	
@@ -25,6 +25,8 @@ public partial class StatefulButton : TextureButton
 	public States CurrentState { get; set; }
 	[Export]
 	public bool UseCircles { get; set; }
+	[Export]
+	public bool TwoState { get; set; }
 	
 	[Signal]
 	public delegate void StateChangedEventHandler(StatefulButton box);
