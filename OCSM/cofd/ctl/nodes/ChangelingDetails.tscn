@@ -247,7 +247,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_next = NodePath("../../HBoxContainer10/Court")
 focus_previous = NodePath("../../HBoxContainer8/Thread")
-focus_mode = 2
 
 [node name="HBoxContainer10" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -310,4 +309,3 @@ layout_mode = 2
 size_flags_horizontal = 3
 focus_next = NodePath("../../../HBoxContainer4/Concept")
 focus_previous = NodePath("../../HBoxContainer11/Size")
-focus_mode = 2
