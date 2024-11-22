@@ -115,8 +115,7 @@ public partial class FeatureEntry : Container, ICanDelete
 		var opt = new MetadataOption()
 		{
 			EmptyOption = true,
-			GameSystem = GameSystem.Dnd5e,
-			MetadataType = MetadataType.Dnd5eBackground | MetadataType.Dnd5eClass | MetadataType.Dnd5eSpecies,
+			MetadataTypes = [ "Background", "Class", "Species" ]
 		};
 		
 		tagsRow.AddChild(opt);

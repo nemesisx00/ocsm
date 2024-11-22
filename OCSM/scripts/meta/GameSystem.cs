@@ -1,12 +1,13 @@
 using System;
+using System.Collections.Generic;
 
 namespace Ocsm.Meta;
 
-[Flags]
-public enum GameSystem
+public class GameSystem()
 {
-	None = 0,
-	CofdChangeling = 1,
-	CofdMortal = 2,
-	Dnd5e = 4,
+	public string Name { get; set; }
+	public Type MetadataContainerType { get; set; }
+	public List<string> MetadataTypes { get; set; } = [];
+	public string SheetDefaultName { get; set; }
+	public string SheetResourcePath { get; set; }
 }

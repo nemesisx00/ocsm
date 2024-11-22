@@ -147,14 +147,14 @@ public partial class ContractNode : MarginContainer
 		Metadata contractTypeObj = null;
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingContractRegalia && m.Name == regalia).FirstOrDefault() is Metadata r)
+			if(container.Metadata.Where(m => m.Types.Contains("ContractRegalia") && m.Name == regalia).FirstOrDefault() is Metadata r)
 				regaliaObj = r;
 			
-			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingContractType && m.Name == contractType).FirstOrDefault() is Metadata ct)
+			if(container.Metadata.Where(m => m.Types.Contains("ContractType") && m.Name == contractType).FirstOrDefault() is Metadata ct)
 				contractTypeObj = ct;
 		}
 		
-		return new Ocsm.Cofd.Ctl.Contract()
+		return new()
 		{
 			Action = action,
 			Attribute = attribute,

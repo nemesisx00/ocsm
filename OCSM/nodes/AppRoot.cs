@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using Godot;
 using Ocsm.Nodes.Autoload;
 
@@ -45,6 +48,15 @@ public partial class AppRoot : Control
 	public override void _Ready()
 	{
 		appManager = GetNode<AppManager>(AppManager.NodePath);
-		GetNode<MetadataManager>(MetadataManager.NodePath).InitializeGameSystems();
+		
+		var metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
+		
+		//Register all game systems that have defined a GameSystemFactory class
+		AppDomain.CurrentDomain.GetAssemblies()
+			.SelectMany(t => t.GetTypes())
+			.Where(t => t.IsClass && t.Name == MetadataManager.TypeName_GameSystemFactory)
+			.ToList()
+			.ForEach(t => t.GetMethod("RegisterGameSystem", BindingFlags.Public | BindingFlags.Static)?
+				.Invoke(null, [metadataManager.Registry]));
 	}
 }

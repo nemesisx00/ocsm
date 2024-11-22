@@ -3,7 +3,7 @@ using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Ctl;
 
-public class Changeling(string name = "") : CofdCore(GameSystem.CofdChangeling, name)
+public class Changeling(string name = "") : CofdCore(GameSystemFactory.Name, name)
 {
 	public readonly static Dictionary<int, int> WyrdGlamour = new(10)
 	{

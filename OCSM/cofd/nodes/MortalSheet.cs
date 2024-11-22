@@ -36,7 +36,7 @@ public partial class MortalSheet : CoreSheet<Mortal>, ICharacterSheet
 	
 	public override void _Ready()
 	{
-		SheetData ??= new Mortal();
+		SheetData ??= new();
 		
 		age = GetNode<DynamicNumericLabel>(NodePaths.Age);
 		faction = GetNode<DynamicTextLabel>(NodePaths.Faction);

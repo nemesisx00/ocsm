@@ -118,10 +118,13 @@ public partial class DynamicNumericLabel : DynamicLabel
 		spinBox.Alignment = SpinBoxAlignment;
 		spinBox.AllowGreater = AllowGreater;
 		spinBox.AllowLesser = AllowLesser;
+		spinBox.FocusNext = $"../{FocusNext}";
+		spinBox.FocusPrevious = $"../{FocusPrevious}";
 		spinBox.MaxValue = MaxValue;
 		spinBox.MinValue = MinValue;
 		spinBox.GetLineEdit().FocusExited += ToggleEditMode;
 		spinBox.ValueChanged += handleValueChanged;
+		spinBox.SizeFlagsHorizontal = SizeFlagsHorizontal;
 	}
 	
 	private void handleValueChanged(double value)
@@ -130,13 +133,21 @@ public partial class DynamicNumericLabel : DynamicLabel
 		EmitSignal(SignalName.ValueChanged, Value);
 	}
 	
+	public new void GrabFocus()
+	{
+		if(EditMode)
+			spinBox.GrabFocus();
+		else
+			ToggleEditMode();
+	}
+	
 	public override void ToggleEditMode()
 	{
 		base.ToggleEditMode();
 		
 		if(EditMode)
 		{
-			Text = string.Empty;
+			label.Text = string.Empty;
 			spinBox.Show();
 			spinBox.GetLineEdit().GrabFocus();
 		}
@@ -153,6 +164,6 @@ public partial class DynamicNumericLabel : DynamicLabel
 			? StringUtilities.FormatModifier(spinBox.Value)
 			: spinBox.Value.ToString();
 		
-		Text = $"{Prefix}{value}{Suffix}";
+		label.Text = $"{Prefix}{value}{Suffix}";
 	}
 }

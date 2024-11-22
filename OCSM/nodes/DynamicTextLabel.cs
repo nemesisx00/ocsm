@@ -6,6 +6,7 @@ public partial class DynamicTextLabel : DynamicLabel
 {
 	private static class NodePaths
 	{
+		public static readonly NodePath Label = new("%Label");
 		public static readonly NodePath LineEdit = new("%LineEdit");
 		public static readonly NodePath TextEdit = new("%TextEdit");
 	}
@@ -27,7 +28,7 @@ public partial class DynamicTextLabel : DynamicLabel
 		
 		set
 		{
-			Text = EditMode ? string.Empty : value;
+			label.Text = EditMode ? string.Empty : value;
 			lineEdit.Text = value;
 			textEdit.Text = value;
 		}
@@ -40,10 +41,29 @@ public partial class DynamicTextLabel : DynamicLabel
 		lineEdit = GetNode<LineEdit>(NodePaths.LineEdit);
 		lineEdit.FocusExited += ToggleEditMode;
 		lineEdit.TextChanged += handleTextChanged;
+		lineEdit.FocusNext = $"../{FocusNext}";
+		lineEdit.FocusPrevious = $"../{FocusPrevious}";
+		lineEdit.SizeFlagsHorizontal = SizeFlagsHorizontal;
 		
 		textEdit = GetNode<TextEdit>(NodePaths.TextEdit);
 		textEdit.FocusExited += ToggleEditMode;
 		textEdit.TextChanged += handleTextChanged;
+		textEdit.FocusNext = $"../{FocusNext}";
+		textEdit.FocusPrevious = $"../{FocusPrevious}";
+		textEdit.SizeFlagsHorizontal = SizeFlagsHorizontal;
+	}
+	
+	public new void GrabFocus()
+	{
+		if(EditMode)
+		{
+			if(Multiline)
+				textEdit.GrabFocus();
+			else
+				lineEdit.GrabFocus();
+		}
+		else
+			ToggleEditMode();
 	}
 	
 	public override void ToggleEditMode()
@@ -65,11 +85,11 @@ public partial class DynamicTextLabel : DynamicLabel
 				lineEdit.GrabFocus();
 			}
 			
-			Text = string.Empty;
+			label.Text = string.Empty;
 		}
 		else
 		{
-			Text = Multiline
+			label.Text = Multiline
 				? textEdit.Text
 				: lineEdit.Text;
 			

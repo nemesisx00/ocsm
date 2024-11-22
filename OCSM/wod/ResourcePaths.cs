@@ -8,9 +8,14 @@ public static class ResourcePaths
 	
 	public static class VtmV5
 	{
-		private const string PrefixVtm = $"{PrefixWod}/vtmv5/nodes";
+		private const string PrefixVtmV5 = $"{PrefixWod}/vtmv5/nodes";
 		
 		public const string NewSheetName = "New Kindred";
-		public const string Sheet = $"{PrefixVtm}/VampireTheMasquerade.tscn";
+		public const string Sheet = $"{PrefixVtmV5}/VampireSheet.tscn";
+		
+		public static class Meta
+		{
+			public const string AddEditMetadata = $"{PrefixVtmV5}/meta/WodVtmV5AddEditMetadata.tscn";
+		}
 	}
 }

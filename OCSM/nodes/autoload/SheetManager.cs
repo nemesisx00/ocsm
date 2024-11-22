@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Godot;
 using Ocsm.Meta;
 
@@ -6,6 +7,9 @@ namespace Ocsm.Nodes.Autoload;
 public partial class SheetManager : Node
 {
 	public static readonly NodePath NodePath = new("/root/SheetManager");
+	
+	[GeneratedRegex(".*\"GameSystem\":\"(.*?)\".*")]
+	private static partial Regex JsonGameSystemRegex();
 	
 	private MetadataManager metadataManager;
 	private TabContainer sheetTabs;
@@ -94,22 +98,19 @@ public partial class SheetManager : Node
 			if(sheetTabs is not null)
 			{
 				var loaded = false;
-				if(json.Contains(GameSystem.CofdChangeling.ToString()))
+				
+				if(JsonGameSystemRegex().Match(json) is Match match
+						&& match.Groups.Count > 0 && !string.IsNullOrEmpty(match.Groups[1].Value)
+						&& metadataManager.Registry.GetGameSystem(match.Groups[1].Value) is GameSystem gs)
 				{
-					metadataManager.CurrentGameSystem = GameSystem.CofdChangeling;
-					AddNewSheet(Cofd.ResourcePaths.Changeling.Sheet, Cofd.ResourcePaths.Changeling.NewSheetName, json);
-					loaded = true;
-				}
-				else if(json.Contains(GameSystem.CofdMortal.ToString()))
-				{
-					metadataManager.CurrentGameSystem = GameSystem.CofdMortal;
-					AddNewSheet(Cofd.ResourcePaths.Mortal.Sheet, Cofd.ResourcePaths.Mortal.NewSheetName, json);
-					loaded = true;
-				}
-				else if(json.Contains(GameSystem.Dnd5e.ToString()))
-				{
-					metadataManager.CurrentGameSystem = GameSystem.Dnd5e;
-					AddNewSheet(Dnd.ResourcePaths.Fifth.Sheet, Dnd.ResourcePaths.Fifth.NewSheetName, json);
+					metadataManager.CurrentGameSystem = gs;
+					
+					AddNewSheet(
+						gs.SheetResourcePath,
+						gs.SheetDefaultName,
+						json
+					);
+					
 					loaded = true;
 				}
 				
@@ -131,7 +132,7 @@ public partial class SheetManager : Node
 			instance.UniqueNameInOwner = true;
 			GetNode<Control>(AppRoot.NodePaths.Self).AddChild(instance);
 			
-			GetNode<MetadataManager>(MetadataManager.NodePath).CurrentGameSystem = GameSystem.None;
+			GetNode<MetadataManager>(MetadataManager.NodePath).CurrentGameSystem = null;
 		}
 	}
 }

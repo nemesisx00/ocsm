@@ -36,6 +36,8 @@ public class TraitDots(Traits trait, int value = 1) : IComparable<TraitDots>, IE
 	
 	public string Name => Kind.GetLabel();
 	
+	public TraitDots() : this(Traits.Academics, 1) {}
+	
 	public int CompareTo(TraitDots other)
 	{
 		var ret = Type.CompareTo(other?.Type);

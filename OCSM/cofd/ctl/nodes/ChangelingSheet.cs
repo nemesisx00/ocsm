@@ -81,7 +81,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 	public override void _Ready()
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
-		SheetData ??= new Changeling();
+		SheetData ??= new();
 		
 		clarity = GetNode<TrackSimple>(NodePaths.Clarity);
 		contractsList = GetNode<ContractsList>(NodePaths.ContractsList);
@@ -108,13 +108,13 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingCourt && m.Name == SheetData.Details.Faction).FirstOrDefault() is Metadata c)
+			if(container.Metadata.Where(m => m.Types.Contains("Court") && m.Name == SheetData.Details.Faction).FirstOrDefault() is Metadata c)
 				courtValue = c;
 			
-			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingSeeming && m.Name == SheetData.Details.TypePrimary).FirstOrDefault() is Metadata s)
+			if(container.Metadata.Where(m => m.Types.Contains("Seeming") && m.Name == SheetData.Details.TypePrimary).FirstOrDefault() is Metadata s)
 				seemingValue = s;
 			
-			if(container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingKith && m.Name == SheetData.Details.TypeSecondary).FirstOrDefault() is Metadata k)
+			if(container.Metadata.Where(m => m.Types.Contains("Kith") && m.Name == SheetData.Details.TypeSecondary).FirstOrDefault() is Metadata k)
 				kithValue = k;
 		}
 		
@@ -179,7 +179,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		var name = string.Empty;
 		
 		if(index > 0 && metadataManager.Container is CofdChangelingContainer ccc
-			&& ccc.Metadata.Where(m => m.Type == MetadataType.CofdChangelingCourt).ToList()[(int)index - 1] is Metadata court)
+			&& ccc.Metadata.Where(m => m.Types.Contains("Court")).ToList()[(int)index - 1] is Metadata court)
 		{
 			name = court.Name;
 		}
@@ -195,7 +195,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		var name = string.Empty;
 		if(index > 0
 			&& metadataManager.Container is CofdChangelingContainer container
-			&& container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingKith).ToList()[(int)index - 1] is Metadata kith)
+			&& container.Metadata.Where(m => m.Types.Contains("Kith")).ToList()[(int)index - 1] is Metadata kith)
 		{
 			name = kith.Name;
 		}
@@ -214,11 +214,11 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 			var r2 = regalia2.Value;
 			
 			pair.Key = container.Metadata
-				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m == r1)
+				.Where(m => m.Types.Contains("Regalia") && m == r1)
 				.FirstOrDefault();
 			
 			pair.Value = container.Metadata
-				.Where(m => m.Type == MetadataType.CofdChangelingRegalia && m == r2)
+				.Where(m => m.Types.Contains("Regalia") && m == r2)
 				.FirstOrDefault();
 		}
 		
@@ -230,7 +230,7 @@ public partial class ChangelingSheet : CoreSheet<Changeling>, ICharacterSheet
 		var name = string.Empty;
 		if(index > 0
 			&& metadataManager.Container is CofdChangelingContainer container
-			&& container.Metadata.Where(m => m.Type == MetadataType.CofdChangelingSeeming)
+			&& container.Metadata.Where(m => m.Types.Contains("Seeming"))
 			.ToList()[(int)index - 1] is Metadata seeming)
 		{
 			name = seeming.Name;

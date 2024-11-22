@@ -1,9 +1,9 @@
 using Godot;
 using Ocsm.Cofd.Ctl.Nodes.Meta;
 using Ocsm.Dnd.Fifth.Nodes.Meta;
-using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes.Meta;
+using Ocsm.Wod.VtmV5.Nodes.Meta;
 
 namespace Ocsm.Nodes;
 
@@ -42,14 +42,19 @@ public partial class MetadataMenu : MenuButton
 	
 	private void showAddEditMetadata()
 	{
-		switch(metadataManager.CurrentGameSystem)
+		//TODO: Update to not require explicit use of specific namespaced types
+		switch(metadataManager.CurrentGameSystem.Name)
 		{
-			case GameSystem.CofdChangeling:
+			case Cofd.Ctl.GameSystemFactory.Name:
 				generatePopup<CofdChangelingAddEditMetadata>(Cofd.ResourcePaths.Changeling.Meta.AddEditMetadata);
 				break;
 			
-			case GameSystem.Dnd5e:
+			case Dnd.Fifth.GameSystemFactory.Name:
 				generatePopup<DndFifthAddEditMetadata>(Dnd.ResourcePaths.Fifth.Meta.AddEditMetadata);
+				break;
+			
+			case Wod.VtmV5.GameSystemFactory.Name:
+				generatePopup<WodVtmV5AddEditMetadata>(Wod.ResourcePaths.VtmV5.Meta.AddEditMetadata);
 				break;
 		}
 	}

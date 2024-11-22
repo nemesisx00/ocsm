@@ -12,53 +12,53 @@ public class CofdChangelingContainer() : CofdCoreContainer(), IMetadataContainer
 	{
 		var container = new CofdChangelingContainer();
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Crown" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Jewels" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Mirror" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Shield" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Steed" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Sword" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Autumn" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Spring" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Summer" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Winter" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractRegalia, Name = "Goblin" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Crown" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Jewels" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Mirror" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Shield" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Steed" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Sword" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Autumn" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Spring" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Summer" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Winter" });
+		container.Metadata.Add(new() { Types = ["ContractRegalia"], Name = "Goblin" });
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Common" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Royal" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingContractType, Name = "Goblin" });
+		container.Metadata.Add(new() { Types = ["ContractType"], Name = "Common" });
+		container.Metadata.Add(new() { Types = ["ContractType"], Name = "Royal" });
+		container.Metadata.Add(new() { Types = ["ContractType"], Name = "Goblin" });
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Autumn" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Spring" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Summer" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingCourt, Name = "Winter" });
+		container.Metadata.Add(new() { Types = ["Court"], Name = "Autumn" });
+		container.Metadata.Add(new() { Types = ["Court"], Name = "Spring" });
+		container.Metadata.Add(new() { Types = ["Court"], Name = "Summer" });
+		container.Metadata.Add(new() { Types = ["Court"], Name = "Winter" });
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Artist" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Bright One" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Chatelaine" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Gristlegrinder" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Helldiver" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Hunterheart" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Leechfinger" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Mirrorskin" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Nightsinger" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Notary" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Playmate" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingKith, Name = "Snowskin" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Artist" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Bright One" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Chatelaine" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Gristlegrinder" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Helldiver" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Hunterheart" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Leechfinger" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Mirrorskin" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Nightsinger" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Notary" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Playmate" });
+		container.Metadata.Add(new() { Types = ["Kith"], Name = "Snowskin" });
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Crown" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Jewels" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Mirror" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Shield" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Steed" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingRegalia, Name = "Sword" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Crown" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Jewels" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Mirror" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Shield" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Steed" });
+		container.Metadata.Add(new() { Types = ["Regalia"], Name = "Sword" });
 		
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Beast" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Darkling" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Elemental" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Fairest" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Ogre" });
-		container.Metadata.Add(new() { Type = MetadataType.CofdChangelingSeeming, Name = "Wizened" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Beast" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Darkling" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Elemental" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Fairest" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Ogre" });
+		container.Metadata.Add(new() { Types = ["Seeming"], Name = "Wizened" });
 		
 		return container;
 	}

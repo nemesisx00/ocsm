@@ -47,8 +47,6 @@ _data = {
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 2000.0
-offset_bottom = 2000.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_4lj0f")
@@ -88,7 +86,6 @@ metadata/_tab_index = 0
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 1
 MetadataTypeLabel = "Contract Regalia"
 metadata/_tab_index = 1
 
@@ -96,7 +93,6 @@ metadata/_tab_index = 1
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 2
 MetadataTypeLabel = "Contract Type"
 metadata/_tab_index = 2
 
@@ -104,7 +100,6 @@ metadata/_tab_index = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 3
 MetadataTypeLabel = "Court"
 metadata/_tab_index = 3
 
@@ -112,7 +107,6 @@ metadata/_tab_index = 3
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 4
 MetadataTypeLabel = "Kith"
 metadata/_tab_index = 4
 
@@ -126,7 +120,6 @@ metadata/_tab_index = 5
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 5
 MetadataTypeLabel = "Regalia"
 metadata/_tab_index = 6
 
@@ -134,7 +127,6 @@ metadata/_tab_index = 6
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-MetadataType = 6
 MetadataTypeLabel = "Seeming"
 metadata/_tab_index = 7
 

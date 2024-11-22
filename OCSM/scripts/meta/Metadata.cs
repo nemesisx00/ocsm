@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace Ocsm.Meta;
 
@@ -18,14 +19,11 @@ public class Metadata() : IComparable<Metadata>, IEquatable<Metadata>
 	public string Description { get; set; } = string.Empty;
 	public Texture2D Icon { get; set; }
 	public string Name { get; set; } = string.Empty;
-	public MetadataType Type { get; set; }
+	public List<string> Types { get; set; } = [];
 	
 	public int CompareTo(Metadata other)
 	{
-		var ret = Type.CompareTo(other?.Type);
-		
-		if(ret == 0)
-			ret = Name.CompareTo(other?.Name);
+		var ret = Name.CompareTo(other?.Name);
 		
 		if(ret == 0)
 			ret = Description.CompareTo(other?.Description);
@@ -36,8 +34,8 @@ public class Metadata() : IComparable<Metadata>, IEquatable<Metadata>
 	public bool Equals(Metadata other) => Description == other?.Description
 		&& Logic.AreEqualOrNull(Icon, other?.Icon)
 		&& Name == other?.Name
-		&& Type == other?.Type;
+		&& Types == other?.Types;
 	
 	public override bool Equals(object obj) => Equals(obj as Metadata);
-	public override int GetHashCode() => HashCode.Combine(Description, Icon, Name, Type);
+	public override int GetHashCode() => HashCode.Combine(Description, Icon, Name, Types);
 }

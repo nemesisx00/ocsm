@@ -14,10 +14,6 @@ public class CofdCoreContainer() : BaseContainer(), IMetadataContainer, IEquatab
 	public override void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<CofdCoreContainer>(json);
-		if(result is not null)
-		{
-			GD.Print(result.Metadata.FirstOrDefault()?.Type);
-		}
 		if(result is CofdCoreContainer container)
 		{
 			Metadata = container.Metadata;

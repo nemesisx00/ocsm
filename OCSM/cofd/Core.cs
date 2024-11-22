@@ -3,7 +3,7 @@ using Ocsm.Meta;
 
 namespace Ocsm.Cofd;
 
-public class CofdCore(GameSystem gameSystem, string name = "") : Character(gameSystem, name)
+public class CofdCore(string gameSystem, string name = "") : Character(gameSystem, name)
 {
 	public int Beats { get; set; }
 	public int Experience { get; set; }

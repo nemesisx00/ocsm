@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Godot.Collections;
 using Ocsm.Meta;
 
 namespace Ocsm.Nodes;
@@ -8,15 +9,13 @@ namespace Ocsm.Nodes;
 public partial class MetadataOption : DynamicOption
 {
 	[Export]
-	public GameSystem GameSystem { get; set; }
-	[Export]
-	public MetadataType MetadataType { get; set; }
+	public Array<string> MetadataTypes { get; set; } = [];
 	
 	public Metadata SelectedMetadata
 	{
 		get => metadataManager.Container is BaseContainer container
 			? container.Metadata.Find(
-				m => MetadataType.HasFlag(m.Type)
+				m => MetadataTypes.Where(mt => m.Types.Contains(mt)).Any()
 					&& Selected > -1
 					&& m.Name == GetItemText(Selected)
 			)
@@ -47,7 +46,7 @@ public partial class MetadataOption : DynamicOption
 		if(metadataManager.Container is BaseContainer container)
 		{
 			replaceItems(container.Metadata
-				.Where(m => MetadataType.HasFlag(m.Type))
+				.Where(m => MetadataTypes.Where(mt => m.Types.Contains(mt)).Any())
 				.Select(m => m.Name)
 				.ToList());
 		}

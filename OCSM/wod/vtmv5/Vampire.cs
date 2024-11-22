@@ -3,7 +3,7 @@ using Ocsm.Meta;
 
 namespace Ocsm.Wod.VtmV5;
 
-public class Vampire(GameSystem gameSystem, string name = "") : Character(gameSystem, name)
+public class Vampire() : Character(GameSystemFactory.Name)
 {
 	public List<MetadataNumber> Advantages { get; set; } = [];
 	public string Ambition { get; set; }

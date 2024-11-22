@@ -5,7 +5,7 @@ using Ocsm.Meta;
 
 namespace Ocsm.Dnd.Fifth;
 
-public class FifthAdventurer() : Character(GameSystem.Dnd5e)
+public class FifthAdventurer() : Character(GameSystemFactory.Name)
 {
 	public List<AbilityInfo> Abilities { get; set; } = AbilityInfo.GenerateBaseAbilityScores();
 	public string Alignment { get; set; }

@@ -5,6 +5,8 @@ using Ocsm.Dnd.Fifth.Inventory;
 using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes.Meta;
+using System.Collections.Generic;
+using Godot.Collections;
 
 namespace Ocsm.Dnd.Fifth.Nodes.Meta;
 
@@ -114,10 +116,10 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	protected void deleteMetadata(string name, MetadataType type)
+	protected void deleteMetadata(string name, Array<string> type)
 	{
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+			&& container.Metadata.Where(m => m.Types == type.ToList() && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
 			container.Metadata.Remove(entry);
 			metadataManager.SaveGameSystemMetadata();
@@ -150,17 +152,17 @@ public partial class DndFifthAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	protected void saveMetadata(string name, string description, MetadataType type)
+	protected void saveMetadata(string name, string description, Array<string> types)
 	{
 		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+			if(container.Metadata.Where(m => m.Types == types.ToList() && m.Name == name).FirstOrDefault() is Metadata entry)
 				container.Metadata.Remove(entry);
 			
 			container.Metadata.Add(new() {
 				Description = description,
 				Name = name,
-				Type = type,
+				Types = [.. types],
 			});
 			
 			metadataManager.SaveGameSystemMetadata();

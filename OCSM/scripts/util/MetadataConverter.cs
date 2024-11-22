@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Godot;
@@ -20,14 +21,14 @@ public class MetadataConverter : JsonConverter<Metadata>
 		var description = reader.GetString();
 		var icon = JsonSerializer.Deserialize<Texture2D>(reader.GetString());
 		var name = reader.GetString();
-		var type = (MetadataType)reader.GetInt32();
+		var type = JsonSerializer.Deserialize<List<string>>(reader.GetString());
 		
 		return new()
 		{
 			Description = description,
 			Icon = icon,
 			Name = name,
-			Type = type,
+			Types = type,
 		};
 	}
 	
@@ -47,7 +48,12 @@ public class MetadataConverter : JsonConverter<Metadata>
 			writer.WriteStringValue(value.Name);
 			
 			writer.WritePropertyName(PropertyNames.Type);
-			writer.WriteNumberValue((int)value.Type);
+			writer.WriteStartArray();
+			foreach(var t in value.Types)
+			{
+				writer.WriteStringValue(t);
+			}
+			writer.WriteEndArray();
 			
 			writer.WriteEndObject();
 		}

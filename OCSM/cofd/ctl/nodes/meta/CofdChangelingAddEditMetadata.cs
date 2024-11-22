@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using Godot.Collections;
 using Ocsm.Cofd.Ctl.Meta;
 using Ocsm.Cofd.Nodes.Meta;
 using Ocsm.Meta;
@@ -143,10 +144,10 @@ public partial class CofdChangelingAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	private void deleteMetadata(string name, MetadataType type)
+	private void deleteMetadata(string name, Array<string> types)
 	{
 		if(metadataManager.Container is CofdChangelingContainer container
-			&& container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+			&& container.Metadata.Where(m => m.Types == types.ToList() && m.Name == name).FirstOrDefault() is Metadata entry)
 		{
 			container.Metadata.Remove(entry);
 			metadataManager.SaveGameSystemMetadata();
@@ -179,18 +180,18 @@ public partial class CofdChangelingAddEditMetadata : Container, IAddEditMetadata
 		}
 	}
 	
-	private void saveMetadata(string name, string description, MetadataType type)
+	private void saveMetadata(string name, string description, Array<string> types)
 	{
 		if(metadataManager.Container is CofdChangelingContainer container)
 		{
-			if(container.Metadata.Where(m => m.Type == type && m.Name == name).FirstOrDefault() is Metadata entry)
+			if(container.Metadata.Where(m => m.Types == types.ToList() && m.Name == name).FirstOrDefault() is Metadata entry)
 				container.Metadata.Remove(entry);
 			
 			container.Metadata.Add(new()
 			{
 				Description = description,
 				Name = name,
-				Type = type,
+				Types = [.. types],
 			});
 			
 			metadataManager.SaveGameSystemMetadata();

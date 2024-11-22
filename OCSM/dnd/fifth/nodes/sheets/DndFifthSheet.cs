@@ -1,15 +1,13 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
-using Ocsm.Dnd.Fifth;
 using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
 using Ocsm.Nodes;
 using Ocsm.Dnd.Fifth.Meta;
 using Ocsm.Dnd.Fifth.Inventory;
-using Ocsm.Dnd.Fifth.Nodes;
 
-namespace Ocsm.Dnd.Nodes;
+namespace Ocsm.Dnd.Fifth.Nodes;
 
 public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacterSheet
 {
@@ -80,7 +78,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	{
 		metadataManager = GetNode<MetadataManager>(MetadataManager.NodePath);
 		
-		SheetData ??= new FifthAdventurer();
+		SheetData ??= new();
 		
 		bardicInspiration = GetNode<ToggleButton>(NodePaths.BardicInspiration);
 		bardicInspirationDie = GetNode<DieOptionsButton>(NodePaths.BardicInspirationDie);
@@ -326,7 +324,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	{
 		Metadata background = null;
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eBackground).ToList()[(int)index] is Metadata metadata)
+			&& container.Metadata.Where(f => f.Types.Contains("Background")).ToList()[(int)index] is Metadata metadata)
 		{
 			background = metadata;
 		}
@@ -391,7 +389,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	{
 		Metadata species = null;
 		if(metadataManager.Container is DndFifthContainer container
-			&& container.Metadata.Where(f => f.Type == MetadataType.Dnd5eSpecies).ToList()[(int)index] is Metadata metadata)
+			&& container.Metadata.Where(f => f.Types.Contains("Species")).ToList()[(int)index] is Metadata metadata)
 		{
 			species = metadata;
 		}
@@ -407,7 +405,7 @@ public partial class DndFifthSheet : CharacterSheet<FifthAdventurer>, ICharacter
 	{
 		if(metadataManager.Container is DndFifthContainer container)
 		{
-			if(container.Metadata.Where(m => m.Type == MetadataType.Dnd5eClass && m.Name == name).FirstOrDefault() is Metadata metadata
+			if(container.Metadata.Where(m => m.Types.Contains("Class") && m.Name == name).FirstOrDefault() is Metadata metadata
 					&& !SheetData.Classes.Where(c => c.Class.Name == metadata.Name).Any())
 				SheetData.Classes.Add(new() { Class = metadata, Level = 1 });
 			

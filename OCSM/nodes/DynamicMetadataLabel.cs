@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using Ocsm.Meta;
 
 namespace Ocsm.Nodes;
@@ -32,10 +33,7 @@ public partial class DynamicMetadataLabel : DynamicLabel
 	public bool EmptyOption { get; set; }
 	
 	[Export]
-	public GameSystem GameSystem { get; set; }
-	
-	[Export]
-	public MetadataType MetadataType { get; set; }
+	public Array<string> MetadataTypes { get; set; }
 	
 	public Metadata Value
 	{
@@ -53,17 +51,22 @@ public partial class DynamicMetadataLabel : DynamicLabel
 		option = GetNode<MetadataOption>(NodePaths.Option);
 		option.Alignment = Alignment;
 		option.EmptyOption = EmptyOption;
-		option.GameSystem = GameSystem;
-		option.MetadataType = MetadataType;
+		option.FocusNext = $"../{FocusNext}";
+		option.FocusPrevious = $"../{FocusPrevious}";
+		option.MetadataTypes = MetadataTypes;
+		option.SizeFlagsHorizontal = SizeFlagsHorizontal;
 		
 		option.RefreshMetadata();
+		option.FocusExited += ToggleEditMode;
 		option.ItemSelected += handleItemSelected;
 	}
 	
-	private void handleItemSelected(long index)
+	public new void GrabFocus()
 	{
-		EmitSignal(SignalName.ItemSelected, index);
-		ToggleEditMode();
+		if(EditMode)
+			option.GrabFocus();
+		else
+			ToggleEditMode();
 	}
 	
 	public override void ToggleEditMode()
@@ -72,13 +75,22 @@ public partial class DynamicMetadataLabel : DynamicLabel
 		
 		if(EditMode)
 		{
-			Text = string.Empty;
+			label.Text = string.Empty;
 			option.Show();
+			option.GrabFocus();
 		}
 		else
 		{
-			Text = Value.Name;
+			if(Value is not null)
+				label.Text = Value.Name;
+			
 			option.Hide();
 		}
+	}
+	
+	private void handleItemSelected(long index)
+	{
+		EmitSignal(SignalName.ItemSelected, index);
+		ToggleEditMode();
 	}
 }

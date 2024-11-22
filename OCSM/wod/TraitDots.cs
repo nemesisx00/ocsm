@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Ocsm.Wod;
-
-
 
 /**
 <summary>
@@ -36,7 +35,10 @@ public class TraitDots(Traits trait, int value = 1) : IComparable<TraitDots>, IE
 	public Trait.Type Type { get; set; } = trait.GetTraitType();
 	public int Value { get; set; } = value;
 	
+	[JsonIgnore]
 	public string Name => Kind.GetLabel();
+	
+	public TraitDots() : this(Traits.Academics, 1) {}
 	
 	public int CompareTo(TraitDots other)
 	{

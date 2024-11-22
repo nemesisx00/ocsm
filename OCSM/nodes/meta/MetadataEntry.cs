@@ -1,7 +1,9 @@
 using Godot;
+using Godot.Collections;
 using System.Linq;
 using Ocsm.Meta;
 using Ocsm.Nodes.Autoload;
+using System.Collections.Generic;
 
 namespace Ocsm.Nodes.Meta;
 
@@ -21,12 +23,12 @@ public partial class MetadataEntry : Container, ICanDelete
 	private const string ExistingLabelFormat = "Existing {0}";
 	
 	[Signal]
-	public delegate void SaveClickedEventHandler(string name, string description, MetadataType type);
+	public delegate void SaveClickedEventHandler(string name, string description, Array<string> type);
 	[Signal]
-	public delegate void DeleteConfirmedEventHandler(string name, MetadataType type);
+	public delegate void DeleteConfirmedEventHandler(string name, Array<string> type);
 	
 	[Export]
-	public MetadataType MetadataType { get; set; }
+	public Array<string> MetadataTypes { get; set; }
 	[Export]
 	public string MetadataTypeLabel { get; set; } = string.Empty;
 	
@@ -50,7 +52,7 @@ public partial class MetadataEntry : Container, ICanDelete
 		description = GetNode<TextEdit>(NodePaths.DescriptionInput);
 		
 		optionsButton = GetNode<MetadataOption>(NodePaths.ExistingEntryName);
-		optionsButton.MetadataType = MetadataType;
+		optionsButton.MetadataTypes = MetadataTypes;
 		optionsButton.ItemSelected += entrySelected;
 		
 		RefreshMetadata();
@@ -61,7 +63,7 @@ public partial class MetadataEntry : Container, ICanDelete
 		var name = GetNode<LineEdit>(NodePaths.NameInput).Text;
 		if(!string.IsNullOrEmpty(name))
 		{
-			EmitSignal(SignalName.DeleteConfirmed, name, (int)MetadataType);
+			EmitSignal(SignalName.DeleteConfirmed, name, MetadataTypes);
 			clearInputs();
 		}
 		//TODO: Display error message if name is empty
@@ -86,7 +88,7 @@ public partial class MetadataEntry : Container, ICanDelete
 		var name = GetNode<LineEdit>(NodePaths.NameInput).Text;
 		var description = GetNode<TextEdit>(NodePaths.DescriptionInput).Text;
 		
-		EmitSignal(SignalName.SaveClicked, name, description, (int)MetadataType);
+		EmitSignal(SignalName.SaveClicked, name, description, MetadataTypes);
 		clearInputs();
 	}
 	
@@ -96,7 +98,7 @@ public partial class MetadataEntry : Container, ICanDelete
 		var name = optionsButton.GetItemText((int)index);
 		
 		if(metadataManager.Container is BaseContainer container
-			&& container.Metadata.Where(m => m.Type == MetadataType && m.Name == name).FirstOrDefault() is Metadata metadata)
+			&& container.Metadata.Where(m => m.Types == MetadataTypes.ToList() && m.Name == name).FirstOrDefault() is Metadata metadata)
 		{
 			LoadEntry(metadata);
 			optionsButton.Deselect();

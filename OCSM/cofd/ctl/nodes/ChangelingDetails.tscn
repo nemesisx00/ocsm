@@ -43,7 +43,8 @@ vertical_alignment = 1
 [node name="Concept" parent="Details/HBoxContainer4" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../GridContainer/HBoxContainer/Player")
+focus_previous = NodePath("../../GridContainer/HBoxContainer12/Frailties")
 
 [node name="GridContainer" type="GridContainer" parent="Details"]
 layout_mode = 2
@@ -69,7 +70,8 @@ vertical_alignment = 1
 [node name="Player" parent="Details/GridContainer/HBoxContainer" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer2/Name")
+focus_previous = NodePath("../../../HBoxContainer4/Concept")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -88,7 +90,8 @@ horizontal_alignment = 2
 [node name="Name" parent="Details/GridContainer/HBoxContainer2" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer3/Chronicle")
+focus_previous = NodePath("../../HBoxContainer/Player")
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -108,7 +111,8 @@ vertical_alignment = 1
 [node name="Chronicle" parent="Details/GridContainer/HBoxContainer3" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer4/Seeming")
+focus_previous = NodePath("../../HBoxContainer2/Name")
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -128,9 +132,10 @@ vertical_alignment = 1
 [node name="Seeming" parent="Details/GridContainer/HBoxContainer4" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
 layout_mode = 2
+focus_next = NodePath("../../HBoxContainer5/Needle")
+focus_previous = NodePath("../../HBoxContainer3/Chronicle")
 Alignment = 1
-GameSystem = 1
-MetadataType = 32
+MetadataTypes = Array[String](["Seeming"])
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -150,7 +155,8 @@ vertical_alignment = 1
 [node name="Needle" parent="Details/GridContainer/HBoxContainer5" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer6/Regalia1")
+focus_previous = NodePath("../../HBoxContainer4/Seeming")
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
@@ -167,18 +173,18 @@ vertical_alignment = 1
 [node name="Regalia1" parent="Details/GridContainer/HBoxContainer6" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
 layout_mode = 2
-horizontal_alignment = 1
+focus_next = NodePath("../Regalia2")
+focus_previous = NodePath("../../HBoxContainer5/Needle")
 Alignment = 1
-GameSystem = 1
-MetadataType = 16
+MetadataTypes = Array[String](["Regalia"])
 
 [node name="Regalia2" parent="Details/GridContainer/HBoxContainer6" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
 layout_mode = 2
-horizontal_alignment = 1
+focus_next = NodePath("../../HBoxContainer7/Kith")
+focus_previous = NodePath("../Regalia1")
 Alignment = 1
-GameSystem = 1
-MetadataType = 16
+MetadataTypes = Array[String](["Regalia"])
 
 [node name="HBoxContainer7" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -198,9 +204,10 @@ vertical_alignment = 1
 [node name="Kith" parent="Details/GridContainer/HBoxContainer7" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
 layout_mode = 2
+focus_next = NodePath("../../HBoxContainer8/Thread")
+focus_previous = NodePath("../../HBoxContainer6/Regalia2")
 Alignment = 1
-GameSystem = 1
-MetadataType = 8
+MetadataTypes = Array[String](["Kith"])
 
 [node name="HBoxContainer8" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -220,7 +227,8 @@ vertical_alignment = 1
 [node name="Thread" parent="Details/GridContainer/HBoxContainer8" instance=ExtResource("2_6ojcg")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer9/Touchstones")
+focus_previous = NodePath("../../HBoxContainer7/Kith")
 
 [node name="HBoxContainer9" type="HBoxContainer" parent="Details/GridContainer"]
 layout_mode = 2
@@ -237,6 +245,9 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer10/Court")
+focus_previous = NodePath("../../HBoxContainer8/Thread")
+focus_mode = 2
 
 [node name="HBoxContainer10" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -256,9 +267,10 @@ vertical_alignment = 1
 [node name="Court" parent="Details/GridContainer/HBoxContainer10" instance=ExtResource("5_dnqna")]
 unique_name_in_owner = true
 layout_mode = 2
+focus_next = NodePath("../../HBoxContainer11/Size")
+focus_previous = NodePath("../../HBoxContainer9/Touchstones")
 Alignment = 1
-GameSystem = 1
-MetadataType = 4
+MetadataTypes = Array[String](["Court"])
 
 [node name="HBoxContainer11" type="HBoxContainer" parent="Details/GridContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -276,6 +288,8 @@ vertical_alignment = 1
 [node name="Size" parent="Details/GridContainer/HBoxContainer11" instance=ExtResource("4_qxx4c")]
 unique_name_in_owner = true
 layout_mode = 2
+focus_next = NodePath("../../HBoxContainer12/Frailties")
+focus_previous = NodePath("../../HBoxContainer10/Court")
 MinValue = 1.0
 SpinBoxAlignment = 1
 
@@ -294,3 +308,6 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_next = NodePath("../../../HBoxContainer4/Concept")
+focus_previous = NodePath("../../HBoxContainer11/Size")
+focus_mode = 2
