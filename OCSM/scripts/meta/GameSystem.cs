@@ -5,6 +5,7 @@ namespace Ocsm.Meta;
 
 public class GameSystem()
 {
+	public Type FactoryType { get; set; }
 	public string Name { get; set; }
 	public Type MetadataContainerType { get; set; }
 	public List<string> MetadataTypes { get; set; } = [];

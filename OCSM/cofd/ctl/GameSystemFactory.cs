@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Godot;
 using Ocsm.Cofd.Ctl.Meta;
+using Ocsm.Cofd.Ctl.Nodes.Meta;
 using Ocsm.Meta;
 
 namespace Ocsm.Cofd.Ctl;
@@ -17,9 +19,21 @@ public static class GameSystemFactory
 		"Seeming",
 	];
 	
+	public static Node GenerateAddEditMetadata()
+	{
+		Node node = null;
+		
+		var resource = GD.Load<PackedScene>(ResourcePaths.Changeling.Meta.AddEditMetadata);
+		if(resource.CanInstantiate())
+			node = resource.Instantiate<CofdChangelingAddEditMetadata>();
+		
+		return node;
+	}
+	
 	public static void RegisterGameSystem(GameSystemRegistry registry)
 	{
 		registry.RegisterGameSystem(
+			typeof(GameSystemFactory),
 			Name,
 			typeof(CofdChangelingContainer),
 			MetadataTypes,

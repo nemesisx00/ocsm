@@ -10,7 +10,7 @@ public class GameSystemRegistry()
 	
 	public GameSystem GetGameSystem(string name) => gameSystems.FirstOrDefault(gs => gs.Name == name);
 	
-	public bool RegisterGameSystem(string name, Type containerType, List<string> metadataTypes, string sheetName, string sheetPath)
+	public bool RegisterGameSystem(Type factoryType, string name, Type containerType, List<string> metadataTypes, string sheetName, string sheetPath)
 	{
 		var exists = gameSystems.Where(gs => gs.Name == name).Any();
 		
@@ -18,6 +18,7 @@ public class GameSystemRegistry()
 		{
 			gameSystems.Add(new()
 			{
+				FactoryType = factoryType,
 				Name = name,
 				MetadataContainerType = containerType,
 				MetadataTypes = metadataTypes,

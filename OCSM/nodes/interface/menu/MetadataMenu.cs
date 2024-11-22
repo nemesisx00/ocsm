@@ -1,3 +1,4 @@
+using System.Reflection;
 using Godot;
 using Ocsm.Cofd.Ctl.Nodes.Meta;
 using Ocsm.Dnd.Fifth.Nodes.Meta;
@@ -42,31 +43,11 @@ public partial class MetadataMenu : MenuButton
 	
 	private void showAddEditMetadata()
 	{
-		//TODO: Update to not require explicit use of specific namespaced types
-		switch(metadataManager.CurrentGameSystem.Name)
-		{
-			case Cofd.Ctl.GameSystemFactory.Name:
-				generatePopup<CofdChangelingAddEditMetadata>(Cofd.ResourcePaths.Changeling.Meta.AddEditMetadata);
-				break;
-			
-			case Dnd.Fifth.GameSystemFactory.Name:
-				generatePopup<DndFifthAddEditMetadata>(Dnd.ResourcePaths.Fifth.Meta.AddEditMetadata);
-				break;
-			
-			case Wod.VtmV5.GameSystemFactory.Name:
-				generatePopup<WodVtmV5AddEditMetadata>(Wod.ResourcePaths.VtmV5.Meta.AddEditMetadata);
-				break;
-		}
-	}
-	
-	private void generatePopup<T>(string path)
-		where T: Container, IAddEditMetadata
-	{
-		var resource = GD.Load<PackedScene>(path);
-		if(resource.CanInstantiate())
-		{
-			var instance = resource.Instantiate<T>();
-			GetTree().CurrentScene.AddChild(instance);
-		}
+		var node = metadataManager.CurrentGameSystem.FactoryType
+			.GetMethod("GenerateAddEditMetadata", BindingFlags.Public | BindingFlags.Static)?
+			.Invoke(null, null) as Node;
+		
+		if(node is not null)
+			GetTree().CurrentScene.AddChild(node);
 	}
 }

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using Godot;
 using Ocsm.Meta;
+using Ocsm.Nodes.Meta;
 using Ocsm.Wod.VtmV5.Meta;
+using Ocsm.Wod.VtmV5.Nodes.Meta;
 
 namespace Ocsm.Wod.VtmV5;
 
@@ -14,9 +17,21 @@ public static class GameSystemFactory
 		"PredatorType",
 	];
 	
+	public static Node GenerateAddEditMetadata()
+	{
+		Node node = null;
+		
+		var resource = GD.Load<PackedScene>(ResourcePaths.VtmV5.Meta.AddEditMetadata);
+		if(resource.CanInstantiate())
+			node = resource.Instantiate<WodVtmV5AddEditMetadata>();
+		
+		return node;
+	}
+	
 	public static void RegisterGameSystem(GameSystemRegistry registry)
 	{
 		registry.RegisterGameSystem(
+			typeof(GameSystemFactory),
 			Name,
 			typeof(WodVtmV5Container),
 			MetadataTypes,

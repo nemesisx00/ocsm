@@ -97,7 +97,7 @@ public partial class MetadataManager : Node
 	{
 		if(CurrentGameSystem is not null)
 		{
-			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem}{Constants.MetadataFileExtension}");
+			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem.Name}{Constants.MetadataFileExtension}");
 			var json = FileSystemUtilities.ReadString(path);
 			if(!string.IsNullOrEmpty(json) && Container is not null)
 			{
@@ -112,7 +112,7 @@ public partial class MetadataManager : Node
 		if(Container is not null)
 		{
 			var metadata = Container.Serialize();
-			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem}{Constants.MetadataFileExtension}");
+			var path = System.IO.Path.GetFullPath($"{FileSystemUtilities.DefaultMetadataDirectory}{CurrentGameSystem.Name}{Constants.MetadataFileExtension}");
 			FileSystemUtilities.WriteString(path, metadata);
 			EmitSignal(SignalName.MetadataSaved);
 		}
