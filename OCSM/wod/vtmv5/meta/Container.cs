@@ -6,24 +6,6 @@ namespace Ocsm.Wod.VtmV5.Meta;
 
 public class WodVtmV5Container() : BaseContainer(), IMetadataContainer, IEquatable<WodVtmV5Container>
 {
-	public static WodVtmV5Container InitializeWithDefaultValues()
-	{
-		var container = new WodVtmV5Container();
-		
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Alleycat" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Bagger" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Blood Leech" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Cleaver" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Consensualist" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Farmer" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Osiris" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Sandman" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Scene Queen" });
-		container.Metadata.Add(new() { Types = ["PredatorType"], Name = "Siren" });
-		
-		return container;
-	}
-	
 	public override void Deserialize(string json)
 	{
 		var result = JsonSerializer.Deserialize<WodVtmV5Container>(json);
@@ -31,6 +13,24 @@ public class WodVtmV5Container() : BaseContainer(), IMetadataContainer, IEquatab
 		{
 			Metadata = container.Metadata;
 		}
+	}
+	
+	public override void InitializeWithDefaultValues()
+	{
+		Metadata.Clear();
+		
+		Metadata.AddRange([
+			new() { Types = ["PredatorType"], Name = "Alleycat" },
+			new() { Types = ["PredatorType"], Name = "Bagger" },
+			new() { Types = ["PredatorType"], Name = "Blood Leech" },
+			new() { Types = ["PredatorType"], Name = "Cleaver" },
+			new() { Types = ["PredatorType"], Name = "Consensualist" },
+			new() { Types = ["PredatorType"], Name = "Farmer" },
+			new() { Types = ["PredatorType"], Name = "Osiris" },
+			new() { Types = ["PredatorType"], Name = "Sandman" },
+			new() { Types = ["PredatorType"], Name = "Scene Queen" },
+			new() { Types = ["PredatorType"], Name = "Siren" },
+		]);
 	}
 	
 	public bool Equals(WodVtmV5Container container) => base.Equals(container);

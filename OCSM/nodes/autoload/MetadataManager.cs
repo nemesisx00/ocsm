@@ -88,12 +88,8 @@ public partial class MetadataManager : Node
 		
 		if(Container is not null && Container.IsEmpty())
 		{
-			Container.GetType()
-				.GetMethod(
-					MethodName_Container_InitializeWithDefaultValues,
-					BindingFlags.Public | BindingFlags.Static
-				)?
-				.Invoke(null, null);
+			Container.InitializeWithDefaultValues();
+			SaveGameSystemMetadata();
 		}
 	}
 	
