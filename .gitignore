@@ -1,7 +1,7 @@
 **/.godot
 .vs/
 .vscode/
+bin
 Export/
-OCSM.Test/obj
-OCSM.Test/bin
-OCSM/**/*.old*
+obj
+*.old*
