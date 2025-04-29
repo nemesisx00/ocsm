@@ -1,14 +1,18 @@
-use std::cell::{Cell, RefCell};
+use std::cell::Cell;
+use std::path::Path;
 use std::sync::OnceLock;
-use gtk4::glib::subclass::Signal;
-use gtk4::{BinLayout, GestureClick, Image, Widget};
+use gtk4::glib::subclass::{InitializingObject, Signal};
+use gtk4::{BinLayout, CompositeTemplate, GestureClick, Image, TemplateChild, Widget};
 use gtk4::glib::{self, clone, Properties};
-use gtk4::glib::object::{Cast, CastNone, ObjectExt};
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::prelude::{GestureExt, WidgetExt};
+use gtk4::prelude::{GestureExt, StaticType, WidgetExt};
 use gtk4::subclass::prelude::DerivedObjectProperties;
-use gtk4::subclass::widget::{WidgetClassExt, WidgetImpl};
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
+use super::mode::StatefulMode;
+
+pub const Signal_StateToggled: &'static str = "stateToggled";
 
 pub const StatefulButton_Mode: &'static str = "mode";
 pub const StatefulButton_State: &'static str = "state";
@@ -23,73 +27,25 @@ const SlashOne: &'static str = "slash-one.png";
 const SlashTwo: &'static str = "slash-two.png";
 const SlashThree: &'static str = "slash-three.png";
 
-#[derive(Copy, Clone)]
-pub enum StatefulMode
-{
-	CircleOne,
-	CircleThree,
-	BoxOne,
-	BoxTwo,
-	BoxThree,
-}
-
-impl From<u32> for StatefulMode
-{
-	fn from(value: u32) -> Self
-	{
-		return match value
-		{
-			1 => StatefulMode::CircleThree,
-			2 => StatefulMode::BoxOne,
-			3 => StatefulMode::BoxTwo,
-			4 => StatefulMode::BoxThree,
-			_ => StatefulMode::CircleOne,
-		};
-	}
-}
-
-impl From<StatefulMode> for u32
-{
-	fn from(value: StatefulMode) -> Self
-	{
-		return match value
-		{
-			StatefulMode::CircleThree => 1,
-			StatefulMode::BoxOne => 2,
-			StatefulMode::BoxTwo => 3,
-			StatefulMode::BoxThree => 4,
-			_ => 0,
-		};
-	}
-}
-
-impl StatefulMode
-{
-	pub fn getMaxStates(mode: Self) -> u32
-	{
-		return match mode
-		{
-			StatefulMode::CircleOne => 2,
-			StatefulMode::CircleThree => 4,
-			StatefulMode::BoxOne => 2,
-			StatefulMode::BoxTwo => 3,
-			StatefulMode::BoxThree => 4,
-		};
-	}
-}
-
-#[derive(Default, Properties)]
+#[derive(CompositeTemplate, Default, Properties)]
 #[properties(wrapper_type = super::StatefulButton)]
+#[template(resource = "/io/github/nemesisx00/OCSM/widgets/statefulButton.ui")]
 pub struct StatefulButton
 {
 	#[property(construct, default = StatefulMode::CircleOne.into(), get, set = StatefulButton::setMode)]
 	mode: Cell<u32>,
 	
+	#[property(construct, get, set)]
+	index: Cell<u32>,
+	
 	#[property(construct, default = 0, get, set)]
 	state: Cell<u32>,
 	
-	outline: RefCell<Option<Widget>>,
-	fill: RefCell<Option<Widget>>,
+	#[template_child]
+	fill: TemplateChild<Image>,
+	
+	#[template_child]
+	outline: TemplateChild<Image>,
 }
 
 #[glib::derived_properties]
@@ -99,45 +55,18 @@ impl ObjectImpl for StatefulButton
 	{
 		self.parent_constructed();
 		
-		self.obj().set_cursor_from_name(Some("pointer"));
-		self.obj().add_css_class("stateful");
-		self.obj().set_margin_bottom(0);
-		self.obj().set_margin_end(0);
-		self.obj().set_margin_start(0);
-		self.obj().set_margin_top(0);
-		self.obj().set_size_request(14, 14);
-		
-        let obj = self.obj();
 		let assetDir = env!("CARGO_MANIFEST_DIR");
+		let obj = self.obj();
 		
-		let outline = Image::builder()
-			.hexpand(false)
-			.margin_bottom(0)
-			.margin_end(0)
-			.margin_start(0)
-			.margin_top(0)
-			.vexpand(false)
-			.file(format!(
-				"{}/../../assets/{}",
-				assetDir,
-				CircleEmpty
-			))
-			.build();
+		obj.set_cursor_from_name(Some("pointer"));
+		obj.add_css_class("stateful");
+		obj.set_size_request(14, 14);
 		
-		outline.set_parent(&*obj);
-		*self.outline.borrow_mut() = Some(outline.upcast::<Widget>());
-		
-		let fill = Image::builder()
-			.hexpand(false)
-			.margin_bottom(0)
-			.margin_end(0)
-			.margin_start(0)
-			.margin_top(0)
-			.vexpand(false)
-			.build();
-		
-		fill.set_parent(&*obj);
-		*self.fill.borrow_mut() = Some(fill.upcast::<Widget>());
+		self.outline.set_from_file(Some(Path::new(format!(
+			"{}/../../assets/{}",
+			assetDir,
+			CircleEmpty
+		).as_str())));
 		
 		// Connect a gesture to handle clicks.
 		let gesture = GestureClick::new();
@@ -150,16 +79,8 @@ impl ObjectImpl for StatefulButton
 	
 	fn dispose(&self)
 	{
-		// Child widgets need to be manually un-parented in `dispose()`.
-		if let Some(child) = self.outline.borrow_mut().take()
-		{
-			child.unparent();
-		}
-		
-		if let Some(child) = self.fill.borrow_mut().take()
-		{
-			child.unparent();
-		}
+		self.fill.unparent();
+		self.outline.unparent();
 	}
 	
 	fn signals() -> &'static [Signal]
@@ -167,7 +88,8 @@ impl ObjectImpl for StatefulButton
 		static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
 		return SIGNALS.get_or_init(|| {
 			vec![
-				Signal::builder("stateToggled")
+				Signal::builder(Signal_StateToggled)
+					.param_types([u32::static_type()])
 					.build()
 			]
 		});
@@ -185,9 +107,15 @@ impl ObjectSubclass for StatefulButton
 	
 	fn class_init(klass: &mut Self::Class)
 	{
+		klass.bind_template();
 		klass.set_accessible_role(gtk4::AccessibleRole::Button);
 		klass.set_css_name("button");
 		klass.set_layout_manager_type::<BinLayout>();
+	}
+	
+	fn instance_init(obj: &InitializingObject<Self>)
+	{
+		obj.init_template();
 	}
 }
 
@@ -199,7 +127,10 @@ impl StatefulButton
 		self.incrementState();
 		self.updateImage();
 		
-		self.obj().emit_by_name::<()>("stateToggled", &[]);
+		self.obj().emit_by_name::<()>(
+			Signal_StateToggled,
+			&[&self.index.get()]
+		);
 	}
 	
 	fn incrementState(&self)
@@ -230,7 +161,7 @@ impl StatefulButton
 			
 			StatefulMode::BoxOne => match self.state.get()
 			{
-				1 => SlashOne,
+				1 => SlashTwo,
 				_ => BoxEmpty,
 			},
 			
@@ -260,46 +191,40 @@ impl StatefulButton
 	
 	pub fn updateImage(&self)
 	{
-		if let Some(i) = self.outline.borrow_mut().and_downcast_ref::<Image>()
+		match self.mode.get().into()
 		{
-			match self.mode.get().into()
-			{
-				StatefulMode::CircleOne | StatefulMode::CircleThree => {
-					let assetDir = env!("CARGO_MANIFEST_DIR");
-					i.set_from_file(Some(format!(
-						"{}/../../assets/{}",
-						assetDir,
-						CircleEmpty
-					)));
-				},
-				
-				_ => {
-					let assetDir = env!("CARGO_MANIFEST_DIR");
-					i.set_from_file(Some(format!(
-						"{}/../../assets/{}",
-						assetDir,
-						BoxBorder
-					)));
-				}
+			StatefulMode::CircleOne | StatefulMode::CircleThree => {
+				let assetDir = env!("CARGO_MANIFEST_DIR");
+				self.outline.set_from_file(Some(Path::new(format!(
+					"{}/../../assets/{}",
+					assetDir,
+					CircleEmpty
+				).as_str())));
+			},
+			
+			_ => {
+				let assetDir = env!("CARGO_MANIFEST_DIR");
+				self.outline.set_from_file(Some(Path::new(format!(
+					"{}/../../assets/{}",
+					assetDir,
+					BoxBorder
+				).as_str())));
 			}
 		}
 		
-		if let Some(i) = self.fill.borrow_mut().and_downcast_ref::<Image>()
+		let name = self.getImageName();
+		if name == CircleEmpty || name == BoxEmpty
 		{
-			let name = self.getImageName();
-			if name == CircleEmpty || name == BoxEmpty
-			{
-				i.clear();
-			}
-			else
-			{
-				let assetDir = env!("CARGO_MANIFEST_DIR");
-				i.set_from_file(Some(format!(
-					"{}/../../assets/{}",
-					assetDir,
-					name
-				)));
-			}
+			self.fill.clear();
+		}
+		else
+		{
+			let assetDir = env!("CARGO_MANIFEST_DIR");
+			self.fill.set_from_file(Some(Path::new(format!(
+				"{}/../../assets/{}",
+				assetDir,
+				name
+			).as_str())));
 		}
 	}
 }
