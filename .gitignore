@@ -5,3 +5,5 @@ bin
 Export/
 obj
 *.old*
+old/
+target/

@@ -1,0 +1,33 @@
+[package]
+authors = ["Peter Lunneberg"]
+edition = "2024"
+name = "ocsm"
+version = "0.1.0"
+publish = false
+
+[build-dependencies]
+glib-build-tools = "0"
+widgets = { package = "ocsm-widgets", path = "shared/widgets" }
+
+[dependencies]
+cofd = { package = "ocsm-cofd", path = "game-systems/cofd" }
+widgets = { package = "ocsm-widgets", path = "shared/widgets" }
+anyhow = "1"
+gtk4 = { version = "0", features = [ "v4_16" ] }
+serde = { version = "1", features = [ "derive" ] }
+serde_json = "1"
+serde_with = "3"
+
+[lints.rust]
+non_snake_case = "allow"
+non_upper_case_globals = "allow"
+
+[workspace]
+members = [
+	"game-systems/cofd",
+	"game-systems/ctl2e",
+	"game-systems/dnd5e",
+	"game-systems/mta2e",
+	"game-systems/vtr2e",
+	"shared/widgets"
+]

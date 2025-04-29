@@ -1,0 +1,12 @@
+[package]
+authors = ["Peter Lunneberg"]
+edition = "2024"
+name = "ocsm-cofd"
+version = "0.1.0"
+publish = false
+
+[dependencies]
+
+[lints.rust]
+non_snake_case = "allow"
+non_upper_case_globals = "allow"
