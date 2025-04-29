@@ -161,7 +161,7 @@ impl StatefulTrack
 	}
 	
 	/**
-	 Recurse through all child widgets and accumulate the StatefulButton:state()
+	 Recurse through all child widgets and accumulate the StatefulButton::state()
 	 values.
 	 */
 	fn accumulateChildState(&self, child: StatefulButton, acc: StateValue) -> StateValue
