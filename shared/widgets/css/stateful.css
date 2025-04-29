@@ -1,0 +1,25 @@
+button.stateful
+{
+	border: 0 none;
+	background: none;
+	border-radius: 0;
+	margin: 4px 0;
+	padding: 0 2px;
+}
+
+button.stateful:hover
+{
+	border: 0 none;
+	background: none;
+}
+
+button.stateful > image
+{
+	background: transparent;
+	border: 0 none;
+}
+
+.statefulTrack.withSpace button.stateful:nth-child(5n)
+{
+	padding-right: 8px;
+}

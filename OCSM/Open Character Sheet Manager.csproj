@@ -1,9 +1,0 @@
-<Project Sdk="Godot.NET.Sdk/4.3.0">
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>OpenCharacterSheetManager</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="6.*" />
-  </ItemGroup>
-</Project>
