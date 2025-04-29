@@ -3,7 +3,7 @@ use gtk4::Box;
 use gtk4::glib::{self, closure_local, Properties};
 use gtk4::prelude::*;
 use gtk4::subclass::prelude::*;
-use crate::button::stateful::{StatefulButton, StatefulMode};
+use crate::button::stateful::{Signal_StateToggled, StatefulButton, StatefulMode};
 use super::data::StateValue;
 
 #[derive(Default, Properties)]
@@ -61,7 +61,6 @@ impl StatefulTrack
 {
 	fn clear(&self)
 	{
-		
 		let obj = self.obj();
 		while let Some(child) = obj.last_child()
 		{
@@ -93,13 +92,39 @@ impl StatefulTrack
 				state = 3;
 			};
 			
-			let but = StatefulButton::withState(self.mode.get(), state);
+			let button = StatefulButton::withState(self.mode.get(), state);
+			button.set_index(i);
+			
 			let me = self;
-			but.connect_closure("stateToggled", false, closure_local!(#[weak] me, move |_: StatefulButton| {
-				me.updateValue();
-				me.refresh();
-			}));
-			self.obj().append(&but);
+			button.connect_closure(
+				Signal_StateToggled,
+				false,
+				closure_local!(#[weak] me, move |_: StatefulButton, index: u32| {
+					me.updateValue();
+					
+					match me.mode.get().into()
+					{
+						StatefulMode::CircleOne | StatefulMode::BoxOne => {
+							let indexValue = match me.value.get().one == index
+							{
+								true => index,
+								false => index + 1,
+							};
+							
+							me.setValue(StateValue {
+								one: indexValue,
+								..Default::default()
+							});
+						},
+						
+						_ => {},
+					}
+					
+					me.refresh();
+				})
+			);
+			
+			self.obj().append(&button);
 		}
 	}
 	

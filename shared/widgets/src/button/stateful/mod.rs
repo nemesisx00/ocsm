@@ -1,8 +1,10 @@
 mod implementation;
+pub mod mode;
 
 use gtk4::glib::{self, Object};
 use implementation::{StatefulButton_Mode, StatefulButton_State};
-pub use implementation::StatefulMode;
+pub use implementation::Signal_StateToggled;
+pub use mode::StatefulMode;
 
 glib::wrapper!
 {
