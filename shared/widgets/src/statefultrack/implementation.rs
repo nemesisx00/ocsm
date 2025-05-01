@@ -16,7 +16,7 @@ pub struct StatefulTrack
 	#[property(construct, default = StatefulMode::CircleOne.into(), get, set)]
 	mode: Cell<u32>,
 	
-	#[property(construct, default = true, get, set)]
+	#[property(construct, default = false, get, set)]
 	withSpace: Cell<bool>,
 	
 	value: Cell<StateValue>,
