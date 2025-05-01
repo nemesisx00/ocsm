@@ -5,18 +5,51 @@
 		<property name="margin-start">10</property>
 		<property name="margin-top">10</property>
 		<property name="orientation">1</property>
-		<property name="spacing">10</property>
+		<property name="spacing">5</property>
 		
 		<child>
 			<object class="GtkBox">
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
-				<property name="spacing">10</property>
 				
 				<child>
 					<object class="GtkLabel">
-						<property name="label">Name:</property>
+						<property name="label">Name</property>
+						<property name="margin-end">5</property>
+						<property name="xalign">0</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="margin-end">20</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="label">Vice</property>
+						<property name="margin-end">5</property>
+						<property name="xalign">0</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="margin-end">20</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="label">Virtue</property>
+						<property name="margin-end">5</property>
+						<property name="xalign">0</property>
 					</object>
 				</child>
 				
@@ -26,10 +59,20 @@
 						<property name="hexpand">1</property>
 					</object>
 				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">1</property>
+				<property name="spacing">5</property>
 				
 				<child>
 					<object class="GtkLabel">
-						<property name="label">Concept:</property>
+						<property name="halign">0</property>
+						<property name="label">Concept</property>
 					</object>
 				</child>
 				
@@ -100,9 +143,17 @@
 		</child>
 		
 		<child>
+			<object class="GtkSeparator">
+				<property name="margin-top">5</property>
+				<property name="margin-bottom">5</property>
+			</object>
+		</child>
+		
+		<child>
 			<object class="GtkBox">
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
+				<property name="margin-bottom">5</property>
 				<property name="orientation">0</property>
 				<property name="spacing">25</property>
 				
@@ -181,31 +232,31 @@
 		</child>
 		
 		<child>
-			<object class="GtkSeparator" />
-		</child>
-		
-		<child>
 			<object class="GtkBox">
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
-				<property name="spacing">10</property>
+				<property name="spacing">25</property>
 				
 				<child>
 					<object class="GtkBox">
 						<property name="halign">3</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
-						<property name="spacing">10</property>
 						
 						<child>
 							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
 								<property name="label">Mental</property>
+								<property name="margin-bottom">5</property>
 							</object>
 						</child>
 						
 						<child>
-							<object class="AttributesCofdMental" id="attributesMental" />
+							<object class="AttributesCofdMental" id="attributesMental">
+								<property name="margin-bottom">10</property>
+							</object>
 						</child>
 						
 						<child>
@@ -219,16 +270,20 @@
 						<property name="halign">3</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
-						<property name="spacing">10</property>
 						
 						<child>
 							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
 								<property name="label">Physical</property>
+								<property name="margin-bottom">5</property>
 							</object>
 						</child>
 						
 						<child>
-							<object class="AttributesCofdPhysical" id="attributesPhysical" />
+							<object class="AttributesCofdPhysical" id="attributesPhysical">
+								<property name="margin-bottom">10</property>
+							</object>
 						</child>
 						
 						<child>
@@ -242,16 +297,20 @@
 						<property name="halign">3</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
-						<property name="spacing">10</property>
 						
 						<child>
 							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
 								<property name="label">Social</property>
+								<property name="margin-bottom">5</property>
 							</object>
 						</child>
 						
 						<child>
-							<object class="AttributesCofdSocial" id="attributesSocial" />
+							<object class="AttributesCofdSocial" id="attributesSocial">
+								<property name="margin-bottom">10</property>
+							</object>
 						</child>
 						
 						<child>
@@ -263,7 +322,16 @@
 		</child>
 		
 		<child>
-			<object class="GtkSeparator" />
+			<object class="GtkSeparator">
+				<property name="margin-top">5</property>
+				<property name="margin-bottom">5</property>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				
+			</object>
 		</child>
 	</template>
 </interface>
