@@ -5,7 +5,7 @@ use gtk4::glib::{self};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
+use gtk4::prelude::GtkWindowExt;
 use gtk4::subclass::prelude::ApplicationWindowImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
 use gtk4::subclass::window::WindowImpl;
@@ -44,7 +44,7 @@ impl ObjectImpl for OcsmWindow
 	{
 		self.parent_constructed();
 		
-		self.obj().set_size_request(640, 480);
+		self.obj().set_default_size(640, 480);
 	}
 }
 
