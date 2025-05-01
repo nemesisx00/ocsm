@@ -8,6 +8,9 @@ use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use super::mental::AttributesCofdMental;
+use super::physical::AttributesCofdPhysical;
+use super::social::AttributesCofdSocial;
 
 #[derive(CompositeTemplate, Default)]
 //#[properties(wrapper_type = super::AttributesCofd)]
@@ -44,6 +47,9 @@ impl ObjectSubclass for AttributesCofd
 	
 	fn class_init(klass: &mut Self::Class)
 	{
+		AttributesCofdMental::ensure_type();
+		AttributesCofdPhysical::ensure_type();
+		AttributesCofdSocial::ensure_type();
 		StatefulTrack::ensure_type();
 		klass.bind_template();
 	}
