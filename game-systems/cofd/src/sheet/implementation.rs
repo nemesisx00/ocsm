@@ -18,7 +18,7 @@ use crate::widgets::skills::SkillsCofd;
 
 #[derive(CompositeTemplate, Default)]
 //#[properties(wrapper_type = super::SheetCofdMortal)]
-#[template(resource = "/io/github/nemesisx00/OCSM/cofd/sheet.ui")]
+#[template(resource = "/io/github/nemesisx00/OCSM/cofd/sheetMortal.ui")]
 pub struct SheetCofdMortal {}
 
 impl BoxImpl for SheetCofdMortal {}
