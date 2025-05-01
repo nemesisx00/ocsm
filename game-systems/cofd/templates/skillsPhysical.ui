@@ -24,6 +24,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -48,6 +49,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -72,6 +74,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -96,6 +99,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -120,6 +124,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -144,6 +149,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -168,6 +174,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
@@ -192,6 +199,7 @@
 						<property name="hexpand">1</property>
 						<property name="max">5</property>
 						<property name="mode">0</property>
+						<property name="withSpace">1</property>
 					</object>
 				</child>
 			</object>
