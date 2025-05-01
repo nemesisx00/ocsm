@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="SheetCofdMortal" parent="GtkBox">
+		<property name="margin-end">5</property>
+		<property name="margin-start">10</property>
+		<property name="margin-top">10</property>
+		<property name="orientation">1</property>
+		<property name="spacing">10</property>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="label">Name:</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="label">Concept:</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">25</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Health</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="healthTrack">
+								<property name="halign">3</property>
+								<property name="max">10</property>
+								<property name="mode">4</property>
+								<property name="withSpace">0</property>
+							</object>
+						</child>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Willpower</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="willpowerTrack">
+								<property name="halign">3</property>
+								<property name="max">10</property>
+								<property name="mode">2</property>
+								<property name="withSpace">0</property>
+							</object>
+						</child>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Integrity</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="integrityTrack">
+								<property name="halign">3</property>
+								<property name="max">10</property>
+								<property name="mode">0</property>
+								<property name="withSpace">0</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkSeparator" />
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">3</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="label">Mental</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="AttributesCofdMental" id="attributesMental" />
+						</child>
+						
+						<child>
+							<object class="SkillsCofdMental" id="skillsMental" />
+						</child>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">3</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="label">Physical</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="AttributesCofdPhysical" id="attributesPhysical" />
+						</child>
+						
+						<child>
+							<object class="SkillsCofdPhysical" id="skillsPhysical" />
+						</child>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">3</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="label">Social</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="AttributesCofdSocial" id="attributesSocial" />
+						</child>
+						
+						<child>
+							<object class="SkillsCofdSocial" id="skillsSocial" />
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkSeparator" />
+		</child>
+	</template>
+</interface>

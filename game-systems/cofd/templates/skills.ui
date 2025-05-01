@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="SkillsCofd" parent="GtkBox">
+		<property name="margin-end">5</property>
+		<property name="margin-start">10</property>
+		<property name="margin-top">10</property>
+		<property name="orientation">0</property>
+		<property name="spacing">10</property>
+		
+		<child>
+			<object class="SkillsCofdMental" id="mental" />
+		</child>
+		
+		<child>
+			<object class="SkillsCofdPhysical" id="physical" />
+		</child>
+		
+		<child>
+			<object class="SkillsCofdSocial" id="social" />
+		</child>
+	</template>
+</interface>

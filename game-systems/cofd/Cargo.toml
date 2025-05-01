@@ -5,7 +5,12 @@ name = "ocsm-cofd"
 version = "0.1.0"
 publish = false
 
+[build-dependencies]
+glib-build-tools = "0"
+
 [dependencies]
+gtk4 = { version = "0", features = [ "v4_16" ] }
+widgets = { package = "ocsm-widgets", path = "../../shared/widgets" }
 
 [lints.rust]
 non_snake_case = "allow"
