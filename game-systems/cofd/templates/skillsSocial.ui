@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="SkillsCofdSocial" parent="GtkBox">
+		<property name="halign">0</property>
+		<property name="hexpand">1</property>
+		<property name="orientation">1</property>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Animal Ken</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="animalKenTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Empathy</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="empathyTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Expression</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="expressionTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Intimidation</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="intimidationTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Persuasion</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="persuasionTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Socialize</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="socializeTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Streetwise</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="streetwiseTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">3</property>
+						<property name="label">Subterfuge</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack" id="subterfugeTrack">
+						<property name="halign">2</property>
+						<property name="hexpand">1</property>
+						<property name="max">5</property>
+						<property name="mode">0</property>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>

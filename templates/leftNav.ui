@@ -4,8 +4,9 @@
 		<property name="orientation">1</property>
 		<property name="halign">3</property>
 		<property name="hexpand">0</property>
-		<property name="margin-start">5</property>
 		<property name="margin-end">5</property>
+		<property name="margin-start">10</property>
+		<property name="margin-top">10</property>
 		<property name="spacing">10</property>
 		<property name="valign">1</property>
 		<property name="vexpand">1</property>
@@ -13,10 +14,10 @@
 		<child>
 			<object class="GtkButton">
 				<property name="label">Home</property>
-				<property name="halign">3</property>
+				<property name="halign">0</property>
 				<property name="hexpand">1</property>
-				<property name="margin-start">0</property>
 				<property name="margin-end">0</property>
+				<property name="margin-start">0</property>
 				<property name="valign">3</property>
 				<property name="vexpand">1</property>
 			</object>
@@ -25,10 +26,10 @@
 		<child>
 			<object class="GtkButton">
 				<property name="label">Metadata</property>
-				<property name="halign">3</property>
+				<property name="halign">0</property>
 				<property name="hexpand">1</property>
-				<property name="margin-start">0</property>
 				<property name="margin-end">0</property>
+				<property name="margin-start">0</property>
 				<property name="valign">3</property>
 				<property name="vexpand">1</property>
 			</object>
@@ -37,10 +38,10 @@
 		<child>
 			<object class="GtkButton">
 				<property name="label">Settings</property>
-				<property name="halign">3</property>
+				<property name="halign">0</property>
 				<property name="hexpand">1</property>
-				<property name="margin-start">0</property>
 				<property name="margin-end">0</property>
+				<property name="margin-start">0</property>
 				<property name="valign">3</property>
 				<property name="vexpand">1</property>
 			</object>

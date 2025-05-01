@@ -1,21 +1,19 @@
+use cofd::sheet::SheetCofdMortal;
+use gtk4::CompositeTemplate;
 use glib::subclass::InitializingObject;
-use gtk4::prelude::*;
-use gtk4::subclass::prelude::*;
-use gtk4::{glib, Button, CompositeTemplate};
-use widgets::statefultrack::data::StateValue;
-use widgets::statefultrack::StatefulTrack;
+use gtk4::glib::{self};
+use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::types::StaticTypeExt;
+use gtk4::prelude::WidgetExt;
+use gtk4::subclass::prelude::ApplicationWindowImpl;
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::subclass::window::WindowImpl;
 use crate::ui::nav::LeftNav;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/window.ui")]
-pub struct OcsmWindow
-{
-	#[template_child]
-	pub button: TemplateChild<Button>,
-	
-	#[template_child]
-	pub boxes3: TemplateChild<StatefulTrack>,
-}
+pub struct OcsmWindow {}
 
 impl ApplicationWindowImpl for OcsmWindow {}
 
@@ -29,8 +27,8 @@ impl ObjectSubclass for OcsmWindow
 	
 	fn class_init(klass: &mut Self::Class)
 	{
-		StatefulTrack::ensure_type();
 		LeftNav::ensure_type();
+		SheetCofdMortal::ensure_type();
 		klass.bind_template();
 	}
 	
@@ -46,18 +44,7 @@ impl ObjectImpl for OcsmWindow
 	{
 		self.parent_constructed();
 		
-		self.boxes3.setValue(StateValue {
-			one: 3,
-			two: 1,
-			three: 2,
-		});
-		
-		let boxes = self.boxes3.clone();
-		self.button.connect_clicked(move |button|
-		{
-			button.set_label("Hello World!");
-			println!("Dots value: {:?}", boxes.value());
-		});
+		self.obj().set_size_request(640, 480);
 	}
 }
 

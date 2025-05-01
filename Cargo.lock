@@ -651,6 +651,11 @@ dependencies = [
 [[package]]
 name = "ocsm-cofd"
 version = "0.1.0"
+dependencies = [
+ "glib-build-tools",
+ "gtk4",
+ "ocsm-widgets",
+]
 
 [[package]]
 name = "ocsm-ctl2e"
