@@ -1,5 +1,5 @@
 use std::cell::Cell;
-use gtk4::Box;
+use gtk4::Grid;
 use gtk4::glib::{self, closure_local, Properties};
 use gtk4::prelude::*;
 use gtk4::subclass::prelude::*;
@@ -16,13 +16,16 @@ pub struct StatefulTrack
 	#[property(construct, default = StatefulMode::CircleOne.into(), get, set)]
 	mode: Cell<u32>,
 	
+	#[property(construct, default = 10, get, set)]
+	rowLength: Cell<u32>,
+	
 	#[property(construct, default = false, get, set)]
 	withSpace: Cell<bool>,
 	
 	value: Cell<StateValue>,
 }
 
-impl BoxImpl for StatefulTrack {}
+impl GridImpl for StatefulTrack {}
 
 #[glib::derived_properties]
 impl ObjectImpl for StatefulTrack
@@ -51,7 +54,7 @@ impl ObjectImpl for StatefulTrack
 impl ObjectSubclass for StatefulTrack
 {
 	const NAME: &'static str = "StatefulTrack";
-	type ParentType = Box;
+	type ParentType = Grid;
 	type Type = super::StatefulTrack;
 }
 
@@ -100,12 +103,10 @@ impl StatefulTrack
 				Signal_StateToggled,
 				false,
 				closure_local!(#[weak] me, move |_: StatefulButton, index: u32| {
-					me.updateValue();
-					
 					match me.mode.get().into()
 					{
 						StatefulMode::CircleOne | StatefulMode::BoxOne => {
-							let indexValue = match me.value.get().one == index
+							let indexValue = match me.value.get().one == index + 1
 							{
 								true => index,
 								false => index + 1,
@@ -121,10 +122,23 @@ impl StatefulTrack
 					}
 					
 					me.refresh();
+					me.updateValue();
 				})
 			);
 			
-			self.obj().append(&button);
+			let rowLength = match self.rowLength.get() > 0
+			{
+				true => self.rowLength.get(),
+				false => 10,
+			};
+			
+			self.obj().attach(
+				&button,
+				(i % rowLength) as i32,
+				(i / rowLength) as i32,
+				1,
+				1
+			);
 		}
 	}
 	
@@ -167,6 +181,7 @@ impl StatefulTrack
 	fn accumulateChildState(&self, child: StatefulButton, acc: StateValue) -> StateValue
 	{
 		let mut val = acc;
+		
 		match child.state()
 		{
 			1 => val.one = val.one + 1,

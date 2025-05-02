@@ -8,7 +8,7 @@ use gtk4::subclass::prelude::ObjectSubclassIsExt;
 glib::wrapper!
 {
 	pub struct StatefulTrack(ObjectSubclass<implementation::StatefulTrack>)
-		@extends gtk4::Box, gtk4::Widget,
+		@extends gtk4::Grid, gtk4::Widget,
 		@implements gtk4::Accessible, gtk4::Buildable,
 			gtk4::ConstraintTarget, gtk4::Orientable;
 }
