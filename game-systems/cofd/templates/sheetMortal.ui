@@ -11,12 +11,38 @@
 			<object class="GtkBox">
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
+				<property name="margin-bottom">5</property>
+				<property name="orientation">1</property>
+				<property name="spacing">5</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">0</property>
+						<property name="label">Concept</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
+				<property name="margin-bottom">5</property>
 				
 				<child>
 					<object class="GtkLabel">
 						<property name="label">Name</property>
 						<property name="margin-end">5</property>
+						<property name="width-request">40</property>
 						<property name="xalign">0</property>
 					</object>
 				</child>
@@ -31,8 +57,43 @@
 				
 				<child>
 					<object class="GtkLabel">
+						<property name="label">Experience</property>
+						<property name="margin-end">5</property>
+						<property name="xalign">0</property>
+						<property name="width-request">40</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkSpinButton">
+						<property name="halign">0</property>
+						<property name="hexpand">0</property>
+						<property name="margin-end">10</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="StatefulTrack">
+						<property name="halign">3</property>
+						<property name="max">5</property>
+						<property name="mode">2</property>
+						<property name="valign">3</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				
+				<child>
+					<object class="GtkLabel">
 						<property name="label">Vice</property>
 						<property name="margin-end">5</property>
+						<property name="width-request">40</property>
 						<property name="xalign">0</property>
 					</object>
 				</child>
@@ -50,29 +111,6 @@
 						<property name="label">Virtue</property>
 						<property name="margin-end">5</property>
 						<property name="xalign">0</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkEntry">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-					</object>
-				</child>
-			</object>
-		</child>
-		
-		<child>
-			<object class="GtkBox">
-				<property name="halign">0</property>
-				<property name="hexpand">1</property>
-				<property name="orientation">1</property>
-				<property name="spacing">5</property>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="halign">0</property>
-						<property name="label">Concept</property>
 					</object>
 				</child>
 				
@@ -324,10 +362,88 @@
 				<property name="margin-bottom">5</property>
 			</object>
 		</child>
+				
+		<child>
+			<object class="GtkLabel">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="label">Merits</property>
+				<property name="margin-bottom">5</property>
+			</object>
+		</child>
 		
 		<child>
 			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">20</property>
 				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkBox">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="orientation">0</property>
+								<property name="spacing">10</property>
+								
+								<child>
+									<object class="GtkEntry">
+										<property name="halign">0</property>
+										<property name="hexpand">1</property>
+									</object>
+								</child>
+								
+								<child>
+									<object class="StatefulTrack">
+										<property name="halign">3</property>
+										<property name="max">5</property>
+										<property name="mode">0</property>
+										<property name="valign">3</property>
+									</object>
+								</child>
+							</object>
+						</child>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkBox">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="orientation">0</property>
+								<property name="spacing">10</property>
+								
+								<child>
+									<object class="GtkEntry">
+										<property name="halign">0</property>
+										<property name="hexpand">1</property>
+									</object>
+								</child>
+								
+								<child>
+									<object class="StatefulTrack">
+										<property name="halign">3</property>
+										<property name="max">5</property>
+										<property name="mode">0</property>
+										<property name="valign">3</property>
+									</object>
+								</child>
+							</object>
+						</child>
+					</object>
+				</child>
 			</object>
 		</child>
 	</template>
