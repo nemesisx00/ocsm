@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="HomeScreen" parent="GtkBox">
+		<property name="orientation">1</property>
+		<property name="halign">0</property>
+		<property name="hexpand">1</property>
+		<property name="valign">1</property>
+		<property name="vexpand">1</property>
+		
+		<child>
+			<object class="GtkLabel">
+				<property name="label">News can potentially go here</property>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkGrid">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="margin-end">0</property>
+				<property name="margin-start">0</property>
+				<property name="valign">3</property>
+				<property name="vexpand">1</property>
+				
+				<child>
+					<object class="GtkButton" id="cofdMortal">
+						<property name="label">CofD Mortal</property>
+						
+						<layout>
+							<property name="column">0</property>
+							<property name="row">0</property>
+						</layout>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>
