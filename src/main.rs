@@ -1,7 +1,6 @@
 mod ui;
 
 use std::path::Path;
-
 use gtk4::gdk::Display;
 use gtk4::prelude::{ApplicationExt, ApplicationExtManual, GtkWindowExt};
 use gtk4::{gio, Application, CssProvider};

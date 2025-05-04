@@ -2,28 +2,31 @@
 <interface>
 	<template class="OcsmWindow" parent="GtkApplicationWindow">
 		<property name="title">OCSM</property>
+		
 		<child>
 			<object class="GtkBox" id="mainBox">
+				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
 				<property name="spacing">10</property>
 				
 				<child>
-					<object class="LeftNav" id="leftNav" />
+					<object class="GtkStackSidebar" id="sidebar" />
 				</child>
 				
 				<child>
-					<object class="GtkSeparator">
-						<property name="orientation">1</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkScrolledWindow" id="sheetWindow">
-						<property name="hscrollbar_policy">2</property>
-						<property name="vscrollbar_policy">1</property>
+					<object class="GtkStack" id="stack">
+						<property name="hexpand">1</property>
+						<property name="vexpand">1</property>
 						
 						<child>
-							<object class="SheetCofdMortal" id="cofd" />
+							<object class="GtkStackPage">
+								<property name="name">Home</property>
+								<property name="title">Home</property>
+								
+								<property name="child">
+									<object class="HomeScreen" id="homeScreen" />
+								</property>
+							</object>
 						</child>
 					</object>
 				</child>
