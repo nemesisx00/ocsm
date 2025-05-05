@@ -34,12 +34,19 @@ fn loadAllCss()
 {
 	loadCss();
 	widgets::loadCss();
+	cofd::loadCss();
+	ctl2e::loadCss();
+	mta2e::loadCss();
+	vtr2e::loadCss();
 }
 
 fn loadAllResources()
 {
-	cofd::loadResources();
 	widgets::loadResources();
+	cofd::loadResources();
+	ctl2e::loadResources();
+	mta2e::loadResources();
+	vtr2e::loadResources();
 }
 
 fn loadCss()

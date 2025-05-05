@@ -10,8 +10,11 @@ glib-build-tools = "0"
 widgets = { package = "ocsm-widgets", path = "shared/widgets" }
 
 [dependencies]
-cofd = { package = "ocsm-cofd", path = "game-systems/cofd" }
 widgets = { package = "ocsm-widgets", path = "shared/widgets" }
+cofd = { package = "ocsm-cofd", path = "game-systems/cofd" }
+ctl2e = { package = "ocsm-ctl2e", path = "game-systems/ctl2e" }
+mta2e = { package = "ocsm-mta2e", path = "game-systems/mta2e" }
+vtr2e = { package = "ocsm-vtr2e", path = "game-systems/vtr2e" }
 anyhow = "1"
 gtk4 = { version = "0", features = [ "v4_16" ] }
 serde = { version = "1", features = [ "derive" ] }

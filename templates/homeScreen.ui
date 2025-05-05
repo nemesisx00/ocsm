@@ -4,6 +4,8 @@
 		<property name="orientation">1</property>
 		<property name="halign">0</property>
 		<property name="hexpand">1</property>
+		<property name="margin-top">10</property>
+		<property name="spacing">10</property>
 		<property name="valign">1</property>
 		<property name="vexpand">1</property>
 		
@@ -15,20 +17,55 @@
 		
 		<child>
 			<object class="GtkGrid">
+				<property name="column-spacing">10</property>
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
 				<property name="margin-end">0</property>
 				<property name="margin-start">0</property>
+				<property name="row-spacing">10</property>
 				<property name="valign">3</property>
 				<property name="vexpand">1</property>
 				
 				<child>
 					<object class="GtkButton" id="cofdMortal">
-						<property name="label">CofD Mortal</property>
+						<property name="label">Chronicles of Darkness Mortal</property>
 						
 						<layout>
 							<property name="column">0</property>
 							<property name="row">0</property>
+						</layout>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkButton" id="cofdCtl2e">
+						<property name="label">Changeling: The Lost 2e</property>
+						
+						<layout>
+							<property name="column">0</property>
+							<property name="row">1</property>
+						</layout>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkButton" id="cofdMta2e">
+						<property name="label">Mage: The Awakening 2e</property>
+						
+						<layout>
+							<property name="column">0</property>
+							<property name="row">2</property>
+						</layout>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkButton" id="cofdVtr2e">
+						<property name="label">Vampire: The Requiem 2e</property>
+						
+						<layout>
+							<property name="column">0</property>
+							<property name="row">3</property>
 						</layout>
 					</object>
 				</child>
