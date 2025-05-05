@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+	<gresource prefix="/io/github/nemesisx00/OCSM/cofd/ctl2e">
+		<file compressed="true" preprocess="xml-stripblanks">sheet.ui</file>
+	</gresource>
+</gresources>

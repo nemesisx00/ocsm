@@ -1,4 +1,5 @@
 use cofd::sheet::SheetCofdMortal;
+use ctl2e::sheet::SheetCofdCtl2e;
 use gtk4::glib::object::ObjectExt;
 use gtk4::{CompositeTemplate, Stack, StackSidebar, TemplateChild};
 use glib::subclass::InitializingObject;
@@ -10,6 +11,8 @@ use gtk4::prelude::GtkWindowExt;
 use gtk4::subclass::prelude::ApplicationWindowImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use gtk4::subclass::window::WindowImpl;
+use mta2e::sheet::SheetCofdMta2e;
+use vtr2e::sheet::SheetCofdVtr2e;
 use crate::ui::home::{HomeScreen, Signal_NewSheet};
 
 #[derive(CompositeTemplate, Default)]
@@ -50,6 +53,21 @@ impl ObjectImpl for OcsmWindow
 						me.stack.add_titled(&sheet, Some("cofdMortal"), "Mortal");
 					},
 					
+					1 => {
+						let sheet = SheetCofdCtl2e::new();
+						me.stack.add_titled(&sheet, Some("cofdCtl2e"), "Changeling");
+					},
+					
+					2 => {
+						let sheet = SheetCofdMta2e::new();
+						me.stack.add_titled(&sheet, Some("cofdMta2e"), "Mage");
+					},
+					
+					3 => {
+						let sheet = SheetCofdVtr2e::new();
+						me.stack.add_titled(&sheet, Some("cofdVtr2e"), "Vampire");
+					},
+					
 					_ => {},
 				}
 			})
@@ -68,7 +86,6 @@ impl ObjectSubclass for OcsmWindow
 	fn class_init(klass: &mut Self::Class)
 	{
 		HomeScreen::ensure_type();
-		SheetCofdMortal::ensure_type();
 		klass.bind_template();
 	}
 	

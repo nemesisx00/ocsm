@@ -15,6 +15,15 @@ pub struct HomeScreen
 {
 	#[template_child]
 	cofdMortal: TemplateChild<Button>,
+	
+	#[template_child]
+	cofdCtl2e: TemplateChild<Button>,
+	
+	#[template_child]
+	cofdMta2e: TemplateChild<Button>,
+	
+	#[template_child]
+	cofdVtr2e: TemplateChild<Button>,
 }
 
 impl BoxImpl for HomeScreen {}
@@ -46,12 +55,10 @@ impl ObjectImpl for HomeScreen
 		
 		let me = self;
 		
-		self.cofdMortal.connect_clicked(clone!(#[weak] me, move |_| {
-			me.obj().emit_by_name::<()>(
-				Signal_NewSheet,
-				&[&0u32]
-			);
-		}));
+		self.cofdMortal.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(0)));
+		self.cofdCtl2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(1)));
+		self.cofdMta2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(2)));
+		self.cofdVtr2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(3)));
 	}
 	
 	fn dispose(&self)
@@ -73,3 +80,14 @@ impl ObjectImpl for HomeScreen
 }
 
 impl WidgetImpl for HomeScreen {}
+
+impl HomeScreen
+{
+	fn emitNewSheet(&self, gameSystem: u32)
+	{
+		self.obj().emit_by_name::<()>(
+			Signal_NewSheet,
+			&[&gameSystem]
+		);
+	}
+}

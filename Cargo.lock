@@ -642,6 +642,9 @@ dependencies = [
  "glib-build-tools",
  "gtk4",
  "ocsm-cofd",
+ "ocsm-ctl2e",
+ "ocsm-mta2e",
+ "ocsm-vtr2e",
  "ocsm-widgets",
  "serde",
  "serde_json",
@@ -660,6 +663,12 @@ dependencies = [
 [[package]]
 name = "ocsm-ctl2e"
 version = "0.1.0"
+dependencies = [
+ "glib-build-tools",
+ "gtk4",
+ "ocsm-cofd",
+ "ocsm-widgets",
+]
 
 [[package]]
 name = "ocsm-dnd5e"
@@ -668,10 +677,22 @@ version = "0.1.0"
 [[package]]
 name = "ocsm-mta2e"
 version = "0.1.0"
+dependencies = [
+ "glib-build-tools",
+ "gtk4",
+ "ocsm-cofd",
+ "ocsm-widgets",
+]
 
 [[package]]
 name = "ocsm-vtr2e"
 version = "0.1.0"
+dependencies = [
+ "glib-build-tools",
+ "gtk4",
+ "ocsm-cofd",
+ "ocsm-widgets",
+]
 
 [[package]]
 name = "ocsm-widgets"
