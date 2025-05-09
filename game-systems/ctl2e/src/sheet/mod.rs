@@ -5,7 +5,7 @@ use gtk4::glib::{self, Object};
 glib::wrapper!
 {
 	pub struct SheetCofdCtl2e(ObjectSubclass<implementation::SheetCofdCtl2e>)
-		@extends gtk4::Box, gtk4::Widget,
+		@extends gtk4::ScrolledWindow, gtk4::Widget,
 		@implements gtk4::Accessible, gtk4::Actionable,
 			gtk4::Buildable, gtk4::ConstraintTarget;
 }
