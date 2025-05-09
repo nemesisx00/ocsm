@@ -55,18 +55,11 @@ impl ObjectImpl for StatefulButton
 	{
 		self.parent_constructed();
 		
-		let assetDir = env!("CARGO_MANIFEST_DIR");
 		let obj = self.obj();
 		
 		obj.set_cursor_from_name(Some("pointer"));
 		obj.add_css_class("stateful");
 		obj.set_size_request(14, 14);
-		
-		self.outline.set_from_file(Some(Path::new(format!(
-			"{}/../../assets/{}",
-			assetDir,
-			CircleEmpty
-		).as_str())));
 		
 		// Connect a gesture to handle clicks.
 		let gesture = GestureClick::new();

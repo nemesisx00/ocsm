@@ -22,7 +22,7 @@
 					<object class="StatefulTrack" id="athleticsTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -47,7 +47,7 @@
 					<object class="StatefulTrack" id="brawlTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -72,7 +72,7 @@
 					<object class="StatefulTrack" id="driveTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -97,7 +97,7 @@
 					<object class="StatefulTrack" id="firearmsTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -122,7 +122,7 @@
 					<object class="StatefulTrack" id="larcenyTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -147,7 +147,7 @@
 					<object class="StatefulTrack" id="stealthTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -172,7 +172,7 @@
 					<object class="StatefulTrack" id="survivalTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -197,7 +197,7 @@
 					<object class="StatefulTrack" id="weaponryTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>

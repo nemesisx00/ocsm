@@ -1,22 +1,30 @@
+use gtk4::{Box, CompositeTemplate, TemplateChild};
+use gtk4::glib::{self};
 use gtk4::glib::subclass::InitializingObject;
+use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate};
-use gtk4::glib::{self};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
-use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 
 #[derive(CompositeTemplate, Default)]
-//#[properties(wrapper_type = super::AttributesCofdPhysical)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/attributesPhysical.ui")]
-pub struct AttributesCofdPhysical {}
+pub struct AttributesCofdPhysical
+{
+	#[template_child]
+	dexterityTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	staminaTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	strengthTrack: TemplateChild<StatefulTrack>,
+}
 
 impl BoxImpl for AttributesCofdPhysical {}
 
-//#[glib::derived_properties]
 impl ObjectImpl for AttributesCofdPhysical
 {
 	fn constructed(&self)
@@ -54,4 +62,19 @@ impl ObjectSubclass for AttributesCofdPhysical
 
 impl WidgetImpl for AttributesCofdPhysical {}
 
-impl AttributesCofdPhysical {}
+impl AttributesCofdPhysical
+{
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.dexterityTrack.set_maximum(max);
+		self.staminaTrack.set_maximum(max);
+		self.strengthTrack.set_maximum(max);
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.dexterityTrack.set_rowLength(length);
+		self.staminaTrack.set_rowLength(length);
+		self.strengthTrack.set_rowLength(length);
+	}
+}

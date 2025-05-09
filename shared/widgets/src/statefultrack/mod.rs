@@ -15,6 +15,8 @@ glib::wrapper!
 
 impl StatefulTrack
 {
+	pub const Signal_ValueUpdated: &'static str = "valueUpdated";
+	
 	pub fn new() -> Self
 	{
 		return Object::builder()

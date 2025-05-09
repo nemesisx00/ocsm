@@ -1,4 +1,6 @@
 use std::cell::Cell;
+use std::sync::OnceLock;
+use gtk4::glib::subclass::Signal;
 use gtk4::Grid;
 use gtk4::glib::{self, closure_local, Properties};
 use gtk4::prelude::*;
@@ -10,13 +12,13 @@ use super::data::StateValue;
 #[properties(wrapper_type = super::StatefulTrack)]
 pub struct StatefulTrack
 {
-	#[property(construct, default = 5, get, set = StatefulTrack::setMax)]
-	max: Cell<u32>,
+	#[property(construct, default = 5, get, set = Self::setMaximum)]
+	maximum: Cell<u32>,
 	
 	#[property(construct, default = StatefulMode::CircleOne.into(), get, set)]
 	mode: Cell<u32>,
 	
-	#[property(construct, default = 10, get, set)]
+	#[property(construct, default = 10, get, set = Self::setRowLength)]
 	rowLength: Cell<u32>,
 	
 	#[property(construct, default = false, get, set)]
@@ -48,6 +50,22 @@ impl ObjectImpl for StatefulTrack
 	{
 		self.clear();
 	}
+	
+	fn signals() -> &'static [Signal]
+	{
+		static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+		return SIGNALS.get_or_init(|| {
+			vec![
+				Signal::builder(super::StatefulTrack::Signal_ValueUpdated)
+					.param_types([
+						u32::static_type(),
+						u32::static_type(),
+						u32::static_type(),
+					])
+					.build(),
+			]
+		});
+	}
 }
 
 #[glib::object_subclass]
@@ -71,12 +89,12 @@ impl StatefulTrack
 		}
 	}
 	
-	fn refresh(&self)
+	pub fn refresh(&self)
 	{
 		self.clear();
 		
 		let value = self.value.get();
-		for i in 0..self.max.get()
+		for i in 0..self.maximum.get()
 		{
 			let mut state = 0;
 			
@@ -116,13 +134,21 @@ impl StatefulTrack
 								one: indexValue,
 								..Default::default()
 							});
+							
+							me.refresh();
+							me.updateValue();
 						},
 						
-						_ => {},
+						/*
+						If it's not one of the single-state modes, then we
+						need to update the value by reading from the current
+						state of each button before refreshing.
+						*/
+						_ => {
+							me.updateValue();
+							me.refresh();
+						}
 					}
-					
-					me.refresh();
-					me.updateValue();
 				})
 			);
 			
@@ -151,9 +177,15 @@ impl StatefulTrack
 		};
 	}
 	
-	pub fn setMax(&self, max: u32)
+	pub fn setMaximum(&self, max: u32)
 	{
-		self.max.set(max);
+		self.maximum.set(max);
+		self.refresh();
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.rowLength.set(length);
 		self.refresh();
 	}
 	
@@ -172,6 +204,11 @@ impl StatefulTrack
 		};
 		
 		self.value.set(value);
+		
+		self.obj().emit_by_name::<()>(
+			super::StatefulTrack::Signal_ValueUpdated,
+			&[&value.one, &value.two, &value.three]
+		);
 	}
 	
 	/**

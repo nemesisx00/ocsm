@@ -1,22 +1,30 @@
+use gtk4::{Box, CompositeTemplate, TemplateChild};
+use gtk4::glib::{self};
 use gtk4::glib::subclass::InitializingObject;
+use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate};
-use gtk4::glib::{self};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
-use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 
 #[derive(CompositeTemplate, Default)]
-//#[properties(wrapper_type = super::AttributesCofdSocial)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/attributesSocial.ui")]
-pub struct AttributesCofdSocial {}
+pub struct AttributesCofdSocial
+{
+	#[template_child]
+	composureTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	manipulationTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	presenceTrack: TemplateChild<StatefulTrack>,
+}
 
 impl BoxImpl for AttributesCofdSocial {}
 
-//#[glib::derived_properties]
 impl ObjectImpl for AttributesCofdSocial
 {
 	fn constructed(&self)
@@ -54,4 +62,19 @@ impl ObjectSubclass for AttributesCofdSocial
 
 impl WidgetImpl for AttributesCofdSocial {}
 
-impl AttributesCofdSocial {}
+impl AttributesCofdSocial
+{
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.composureTrack.set_maximum(max);
+		self.manipulationTrack.set_maximum(max);
+		self.presenceTrack.set_maximum(max);
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.composureTrack.set_rowLength(length);
+		self.manipulationTrack.set_rowLength(length);
+		self.presenceTrack.set_rowLength(length);
+	}
+}
