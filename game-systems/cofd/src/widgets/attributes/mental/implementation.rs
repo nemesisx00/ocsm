@@ -1,35 +1,34 @@
-use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
-use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate};
+use gtk4::{Box, CompositeTemplate, TemplateChild};
 use gtk4::glib::{self};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::glib::subclass::types::ObjectSubclass;
+use gtk4::glib::types::StaticTypeExt;
+use gtk4::subclass::box_::BoxImpl;
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 
 #[derive(CompositeTemplate, Default)]
-//#[properties(wrapper_type = super::AttributesCofdMental)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/attributesMental.ui")]
-pub struct AttributesCofdMental {}
+pub struct AttributesCofdMental
+{
+	#[template_child]
+	intelligenceTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	witsTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	resolveTrack: TemplateChild<StatefulTrack>,
+}
 
 impl BoxImpl for AttributesCofdMental {}
 
-//#[glib::derived_properties]
 impl ObjectImpl for AttributesCofdMental
 {
 	fn constructed(&self)
 	{
 		self.parent_constructed();
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 
@@ -54,4 +53,19 @@ impl ObjectSubclass for AttributesCofdMental
 
 impl WidgetImpl for AttributesCofdMental {}
 
-impl AttributesCofdMental {}
+impl AttributesCofdMental
+{
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.intelligenceTrack.set_maximum(max);
+		self.resolveTrack.set_maximum(max);
+		self.witsTrack.set_maximum(max);
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.intelligenceTrack.set_rowLength(length);
+		self.resolveTrack.set_rowLength(length);
+		self.witsTrack.set_rowLength(length);
+	}
+}

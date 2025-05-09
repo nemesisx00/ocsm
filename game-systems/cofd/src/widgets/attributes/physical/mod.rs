@@ -1,6 +1,7 @@
 mod implementation;
 
 use gtk4::glib::{self, Object};
+use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
 glib::wrapper!
 {
@@ -16,5 +17,15 @@ impl AttributesCofdPhysical
 	{
 		return Object::builder()
 			.build();
+	}
+	
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.imp().setMaximum(max);
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.imp().setRowLength(length);
 	}
 }

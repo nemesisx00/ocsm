@@ -2,21 +2,44 @@ use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate};
+use gtk4::{Box, CompositeTemplate, TemplateChild};
 use gtk4::glib::{self};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 
 #[derive(CompositeTemplate, Default)]
-//#[properties(wrapper_type = super::SkillsCofdMental)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/skillsMental.ui")]
-pub struct SkillsCofdMental {}
+pub struct SkillsCofdMental
+{
+	#[template_child]
+	academicsTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	computerTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	craftsTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	investigationTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	medicineTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	occultTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	politicsTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	scienceTrack: TemplateChild<StatefulTrack>,
+}
 
 impl BoxImpl for SkillsCofdMental {}
 
-//#[glib::derived_properties]
 impl ObjectImpl for SkillsCofdMental
 {
 	fn constructed(&self)
@@ -54,4 +77,29 @@ impl ObjectSubclass for SkillsCofdMental
 
 impl WidgetImpl for SkillsCofdMental {}
 
-impl SkillsCofdMental {}
+impl SkillsCofdMental
+{
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.academicsTrack.set_maximum(max);
+		self.computerTrack.set_maximum(max);
+		self.craftsTrack.set_maximum(max);
+		self.investigationTrack.set_maximum(max);
+		self.medicineTrack.set_maximum(max);
+		self.occultTrack.set_maximum(max);
+		self.politicsTrack.set_maximum(max);
+		self.scienceTrack.set_maximum(max);
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.academicsTrack.set_rowLength(length);
+		self.computerTrack.set_rowLength(length);
+		self.craftsTrack.set_rowLength(length);
+		self.investigationTrack.set_rowLength(length);
+		self.medicineTrack.set_rowLength(length);
+		self.occultTrack.set_rowLength(length);
+		self.politicsTrack.set_rowLength(length);
+		self.scienceTrack.set_rowLength(length);
+	}
+}

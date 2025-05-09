@@ -22,7 +22,7 @@
 					<object class="StatefulTrack" id="strengthTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -47,7 +47,7 @@
 					<object class="StatefulTrack" id="dexterityTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -72,7 +72,7 @@
 					<object class="StatefulTrack" id="staminaTrack">
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
-						<property name="max">5</property>
+						<property name="maximum">5</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
