@@ -1,7 +1,7 @@
 use cofd::sheet::SheetCofdMortal;
 use ctl2e::sheet::SheetCofdCtl2e;
 use gtk4::glib::object::ObjectExt;
-use gtk4::{CompositeTemplate, Stack, StackSidebar, TemplateChild};
+use gtk4::{CompositeTemplate, PolicyType, ScrolledWindow, Stack, StackPage, StackSidebar, TemplateChild};
 use glib::subclass::InitializingObject;
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
@@ -39,6 +39,8 @@ impl ObjectImpl for OcsmWindow
 		
 		self.obj().set_default_size(640, 480);
 		
+		self.stack.set_transition_duration(500);
+		self.stack.set_transition_type(gtk4::StackTransitionType::UnderDown);
 		self.sidebar.set_stack(&self.stack);
 		
 		let me = self;
@@ -46,29 +48,52 @@ impl ObjectImpl for OcsmWindow
 			Signal_NewSheet,
 			false,
 			closure_local!(#[weak] me, move |_: HomeScreen, gameSystem: u32| {
-				match gameSystem
+				let page: Option<StackPage> = match gameSystem
 				{
 					0 => {
 						let sheet = SheetCofdMortal::new();
-						me.stack.add_titled(&sheet, Some("cofdMortal"), "Mortal");
+						let scroll = ScrolledWindow::new();
+						scroll.set_hscrollbar_policy(PolicyType::Never);
+						scroll.set_child(Some(&sheet));
+						Some(me.stack.add_titled(&scroll, Some("cofdMortal"), "Mortal"))
 					},
 					
 					1 => {
 						let sheet = SheetCofdCtl2e::new();
-						me.stack.add_titled(&sheet, Some("cofdCtl2e"), "Changeling");
+						let scroll = ScrolledWindow::new();
+						scroll.set_hscrollbar_policy(PolicyType::Never);
+						scroll.set_child(Some(&sheet));
+						Some(me.stack.add_titled(&scroll, Some("cofdCtl2e"), "Changeling"))
 					},
 					
 					2 => {
 						let sheet = SheetCofdMta2e::new();
-						me.stack.add_titled(&sheet, Some("cofdMta2e"), "Mage");
+						let scroll = ScrolledWindow::new();
+						scroll.set_hscrollbar_policy(PolicyType::Never);
+						scroll.set_child(Some(&sheet));
+						Some(me.stack.add_titled(&scroll, Some("cofdMta2e"), "Mage"))
 					},
 					
 					3 => {
 						let sheet = SheetCofdVtr2e::new();
-						me.stack.add_titled(&sheet, Some("cofdVtr2e"), "Vampire");
+						let scroll = ScrolledWindow::new();
+						scroll.set_hscrollbar_policy(PolicyType::Never);
+						scroll.set_child(Some(&sheet));
+						Some(me.stack.add_titled(&scroll, Some("cofdVtr2e"), "Vampire"))
 					},
 					
-					_ => {},
+					_ => None,
+				};
+				
+				if let Some(p) = page
+				{
+					if let Some(name) = p.name()
+					{
+						me.stack.set_visible_child_full(
+							&name,
+							gtk4::StackTransitionType::OverUp
+						);
+					}
 				}
 			})
 		);
