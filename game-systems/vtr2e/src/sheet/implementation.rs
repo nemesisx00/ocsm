@@ -1,12 +1,12 @@
+use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
+use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
-use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate, TemplateChild};
-use gtk4::glib::{self, closure_local};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::types::StaticTypeExt;
+use gtk4::prelude::{EditableExt, WidgetExt};
+use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
@@ -34,6 +34,12 @@ pub struct SheetCofdVtr2e
 	bloodPotencyTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
+	healthTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	sizeEntry: TemplateChild<Entry>,
+	
+	#[template_child]
 	skillsMental: TemplateChild<SkillsCofdMental>,
 	
 	#[template_child]
@@ -44,6 +50,9 @@ pub struct SheetCofdVtr2e
 	
 	#[template_child]
 	vitaeTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	willpowerTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for SheetCofdVtr2e {}
@@ -63,24 +72,7 @@ impl ObjectImpl for SheetCofdVtr2e
 		self.skillsPhysical.setRowLength(rowLength);
 		self.skillsSocial.setRowLength(rowLength);
 		
-		let me = self;
-		self.attributesPhysical.connectStamina(
-			StatefulTrack::Signal_ValueUpdated,
-			false,
-			closure_local!(
-				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleBloodPotencyChanged()
-			)
-		);
-		
-		self.bloodPotencyTrack.connect_closure(
-			StatefulTrack::Signal_ValueUpdated,
-			false,
-			closure_local!(
-				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleBloodPotencyChanged()
-			)
-		);
+		self.connectHandlers();
 	}
 	
 	fn dispose(&self)
@@ -122,6 +114,50 @@ impl WidgetImpl for SheetCofdVtr2e {}
 
 impl SheetCofdVtr2e
 {
+	fn connectHandlers(&self)
+	{
+		let me = self;
+		
+		self.attributesMental.connectResolve(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+			)
+		);
+		
+		self.attributesPhysical.connectStamina(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| {
+					me.handleBloodPotencyChanged();
+					me.updateHealthMaximum();
+				}
+			)
+		);
+		
+		self.attributesSocial.connectComposure(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+			)
+		);
+		
+		self.bloodPotencyTrack.connect_closure(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleBloodPotencyChanged()
+			)
+		);
+	}
+	
 	fn handleBloodPotencyChanged(&self)
 	{
 		let value = self.bloodPotencyTrack.get().value().one;
@@ -165,5 +201,24 @@ impl SheetCofdVtr2e
 		};
 		
 		self.vitaeTrack.set_maximum(glamourMax);
+	}
+	
+	fn updateHealthMaximum(&self)
+	{
+		let size = match self.sizeEntry.text().parse::<u32>()
+		{
+			Ok(value) => value,
+			Err(_) => 5,
+		};
+		
+		self.healthTrack.set_maximum(size + self.attributesPhysical.stamina());
+	}
+	
+	fn updateWillpowerMaximum(&self)
+	{
+		self.willpowerTrack.set_maximum(
+			self.attributesMental.resolve()
+			+ self.attributesSocial.composure()
+		);
 	}
 }

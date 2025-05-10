@@ -257,7 +257,7 @@
 								</child>
 								
 								<child>
-									<object class="GtkEntry">
+									<object class="GtkEntry" id="sizeEntry">
 										<property name="halign">0</property>
 										<property name="hexpand">1</property>
 									</object>
