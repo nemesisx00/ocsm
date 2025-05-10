@@ -1,34 +1,62 @@
+use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
+use gtk4::glib::{self, closure_local};
 use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
-use gtk4::subclass::box_::BoxImpl;
-use gtk4::{Box, CompositeTemplate};
-use gtk4::glib::{self};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
+use gtk4::glib::types::StaticTypeExt;
+use gtk4::prelude::{EditableExt, WidgetExt};
+use gtk4::subclass::box_::BoxImpl;
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
 use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
 use crate::widgets::attributes::social::AttributesCofdSocial;
+use crate::widgets::skills::SkillsCofd;
 use crate::widgets::skills::mental::SkillsCofdMental;
 use crate::widgets::skills::physical::SkillsCofdPhysical;
 use crate::widgets::skills::social::SkillsCofdSocial;
-use crate::widgets::skills::SkillsCofd;
 
 #[derive(CompositeTemplate, Default)]
-//#[properties(wrapper_type = super::SheetCofdMortal)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/sheetMortal.ui")]
-pub struct SheetCofdMortal {}
+pub struct SheetCofdMortal
+{
+	#[template_child]
+	attributesMental: TemplateChild<AttributesCofdMental>,
+	
+	#[template_child]
+	attributesPhysical: TemplateChild<AttributesCofdPhysical>,
+	
+	#[template_child]
+	attributesSocial: TemplateChild<AttributesCofdSocial>,
+	
+	#[template_child]
+	healthTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	sizeEntry: TemplateChild<Entry>,
+	
+	#[template_child]
+	skillsMental: TemplateChild<SkillsCofdMental>,
+	
+	#[template_child]
+	skillsPhysical: TemplateChild<SkillsCofdPhysical>,
+	
+	#[template_child]
+	skillsSocial: TemplateChild<SkillsCofdSocial>,
+	
+	#[template_child]
+	willpowerTrack: TemplateChild<StatefulTrack>,
+}
 
 impl BoxImpl for SheetCofdMortal {}
 
-//#[glib::derived_properties]
 impl ObjectImpl for SheetCofdMortal
 {
 	fn constructed(&self)
 	{
 		self.parent_constructed();
+		
+		self.connectHandlers();
 	}
 	
 	fn dispose(&self)
@@ -68,4 +96,56 @@ impl ObjectSubclass for SheetCofdMortal
 
 impl WidgetImpl for SheetCofdMortal {}
 
-impl SheetCofdMortal {}
+impl SheetCofdMortal
+{
+	fn connectHandlers(&self)
+	{
+		let me = self;
+		
+		self.attributesMental.connectResolve(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+			)
+		);
+		
+		self.attributesPhysical.connectStamina(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateHealthMaximum()
+			)
+		);
+		
+		self.attributesSocial.connectComposure(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+			)
+		);
+	}
+	
+	fn updateHealthMaximum(&self)
+	{
+		let size = match self.sizeEntry.text().parse::<u32>()
+		{
+			Ok(value) => value,
+			Err(_) => 5,
+		};
+		
+		self.healthTrack.set_maximum(size + self.attributesPhysical.stamina());
+	}
+	
+	fn updateWillpowerMaximum(&self)
+	{
+		self.willpowerTrack.set_maximum(
+			self.attributesMental.resolve()
+			+ self.attributesSocial.composure()
+		);
+	}
+}

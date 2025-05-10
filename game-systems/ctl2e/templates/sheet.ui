@@ -256,7 +256,7 @@
 								</child>
 								
 								<child>
-									<object class="GtkEntry">
+									<object class="GtkEntry" id="sizeEntry">
 										<property name="halign">0</property>
 										<property name="hexpand">1</property>
 									</object>
@@ -486,6 +486,7 @@
 								<property name="halign">3</property>
 								<property name="maximum">10</property>
 								<property name="mode">4</property>
+								<property name="withSpace">1</property>
 							</object>
 						</child>
 					</object>
@@ -542,6 +543,7 @@
 								<property name="halign">3</property>
 								<property name="maximum">10</property>
 								<property name="mode">2</property>
+								<property name="withSpace">1</property>
 							</object>
 						</child>
 					</object>
