@@ -439,6 +439,7 @@
 								<property name="halign">3</property>
 								<property name="maximum">10</property>
 								<property name="mode">0</property>
+								<property name="withSpace">1</property>
 							</object>
 						</child>
 					</object>
