@@ -1,5 +1,6 @@
 use gtk4::{Box, CompositeTemplate, TemplateChild};
-use gtk4::glib::{self};
+use gtk4::glib::{self, RustClosure, SignalHandlerId};
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::subclass::types::ObjectSubclass;
@@ -13,13 +14,13 @@ use widgets::statefultrack::StatefulTrack;
 pub struct AttributesCofdMental
 {
 	#[template_child]
-	intelligenceTrack: TemplateChild<StatefulTrack>,
+	pub intelligenceTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	witsTrack: TemplateChild<StatefulTrack>,
+	pub resolveTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	resolveTrack: TemplateChild<StatefulTrack>,
+	pub witsTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for AttributesCofdMental {}
@@ -55,6 +56,21 @@ impl WidgetImpl for AttributesCofdMental {}
 
 impl AttributesCofdMental
 {
+	pub fn connectClosure_intelligence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.intelligenceTrack.connect_closure(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_resolve(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.resolveTrack.connect_closure(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_wits(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.witsTrack.connect_closure(signalName, after, closure);
+	}
+	
 	pub fn setMaximum(&self, max: u32)
 	{
 		self.intelligenceTrack.set_maximum(max);
