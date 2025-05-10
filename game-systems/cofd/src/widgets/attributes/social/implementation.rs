@@ -1,6 +1,5 @@
 use gtk4::{Box, CompositeTemplate, TemplateChild};
-use gtk4::glib::{self, RustClosure, SignalHandlerId};
-use gtk4::glib::object::ObjectExt;
+use gtk4::glib::{self};
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
@@ -65,21 +64,6 @@ impl WidgetImpl for AttributesCofdSocial {}
 
 impl AttributesCofdSocial
 {
-	pub fn connectClosure_composure(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
-	{
-		return self.composureTrack.connect_closure(signalName, after, closure);
-	}
-	
-	pub fn connectClosure_manipulation(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
-	{
-		return self.manipulationTrack.connect_closure(signalName, after, closure);
-	}
-	
-	pub fn connectClosure_presence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
-	{
-		return self.presenceTrack.connect_closure(signalName, after, closure);
-	}
-	
 	pub fn setMaximum(&self, max: u32)
 	{
 		self.composureTrack.set_maximum(max);

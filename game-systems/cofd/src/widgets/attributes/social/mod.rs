@@ -1,5 +1,6 @@
 mod implementation;
 
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
@@ -24,19 +25,19 @@ impl AttributesCofdSocial
 		return self.imp().composureTrack.value().one;
 	}
 	
-	pub fn connectClosure_composure(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectComposure(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_composure(signalName, after, closure);
+		return self.imp().composureTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_manipulation(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectManipulation(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_manipulation(signalName, after, closure);
+		return self.imp().manipulationTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_presence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectPresence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_presence(signalName, after, closure);
+		return self.imp().presenceTrack.connect_closure(signalName, after, closure);
 	}
 	
 	pub fn manipulation(&self) -> u32
