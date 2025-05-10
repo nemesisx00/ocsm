@@ -180,6 +180,30 @@ impl StatefulTrack
 	pub fn setMaximum(&self, max: u32)
 	{
 		self.maximum.set(max);
+		
+		let value = self.getValue();
+		let truncatedValue = StateValue
+		{
+			one: match value.one > max
+			{
+				true => max,
+				false => value.one,
+			},
+			
+			two: match value.two > max
+			{
+				true => max,
+				false => value.two,
+			},
+			
+			three: match value.three > max
+			{
+				true => max,
+				false => value.three,
+			},
+		};
+		self.setValue(truncatedValue);
+		
 		self.refresh();
 	}
 	
