@@ -14,28 +14,28 @@ use widgets::statefultrack::StatefulTrack;
 pub struct SkillsCofdPhysical
 {
 	#[template_child]
-	athleticsTrack: TemplateChild<StatefulTrack>,
+	pub athleticsTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	brawlTrack: TemplateChild<StatefulTrack>,
+	pub brawlTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	driveTrack: TemplateChild<StatefulTrack>,
+	pub driveTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	firearmsTrack: TemplateChild<StatefulTrack>,
+	pub firearmsTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	larcenyTrack: TemplateChild<StatefulTrack>,
+	pub larcenyTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	stealthTrack: TemplateChild<StatefulTrack>,
+	pub stealthTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	survivalTrack: TemplateChild<StatefulTrack>,
+	pub survivalTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	weaponryTrack: TemplateChild<StatefulTrack>,
+	pub weaponryTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for SkillsCofdPhysical {}

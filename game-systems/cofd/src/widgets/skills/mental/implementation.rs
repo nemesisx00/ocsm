@@ -14,28 +14,28 @@ use widgets::statefultrack::StatefulTrack;
 pub struct SkillsCofdMental
 {
 	#[template_child]
-	academicsTrack: TemplateChild<StatefulTrack>,
+	pub academicsTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	computerTrack: TemplateChild<StatefulTrack>,
+	pub computerTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	craftsTrack: TemplateChild<StatefulTrack>,
+	pub craftsTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	investigationTrack: TemplateChild<StatefulTrack>,
+	pub investigationTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	medicineTrack: TemplateChild<StatefulTrack>,
+	pub medicineTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	occultTrack: TemplateChild<StatefulTrack>,
+	pub occultTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	politicsTrack: TemplateChild<StatefulTrack>,
+	pub politicsTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	scienceTrack: TemplateChild<StatefulTrack>,
+	pub scienceTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for SkillsCofdMental {}

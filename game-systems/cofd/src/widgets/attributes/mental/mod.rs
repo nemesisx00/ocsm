@@ -1,7 +1,7 @@
 mod implementation;
 
-use gtk4::glib::object::ObjectExt;
 use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
 glib::wrapper!
