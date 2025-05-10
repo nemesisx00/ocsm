@@ -1,6 +1,6 @@
 mod implementation;
 
-use gtk4::glib::{self, Object};
+use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
 glib::wrapper!
@@ -17,6 +17,36 @@ impl AttributesCofdSocial
 	{
 		return Object::builder()
 			.build();
+	}
+	
+	pub fn composure(&self) -> u32
+	{
+		return self.imp().composureTrack.value().one;
+	}
+	
+	pub fn connectClosure_composure(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.imp().connectClosure_composure(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_manipulation(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.imp().connectClosure_manipulation(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_presence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.imp().connectClosure_presence(signalName, after, closure);
+	}
+	
+	pub fn manipulation(&self) -> u32
+	{
+		return self.imp().manipulationTrack.value().one;
+	}
+	
+	pub fn presence(&self) -> u32
+	{
+		return self.imp().presenceTrack.value().one;
 	}
 	
 	pub fn setMaximum(&self, max: u32)

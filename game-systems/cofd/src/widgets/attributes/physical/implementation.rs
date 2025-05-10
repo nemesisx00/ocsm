@@ -1,5 +1,6 @@
 use gtk4::{Box, CompositeTemplate, TemplateChild};
-use gtk4::glib::{self};
+use gtk4::glib::{self, RustClosure, SignalHandlerId};
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
@@ -14,13 +15,13 @@ use widgets::statefultrack::StatefulTrack;
 pub struct AttributesCofdPhysical
 {
 	#[template_child]
-	dexterityTrack: TemplateChild<StatefulTrack>,
+	pub dexterityTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	staminaTrack: TemplateChild<StatefulTrack>,
+	pub staminaTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	strengthTrack: TemplateChild<StatefulTrack>,
+	pub strengthTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for AttributesCofdPhysical {}
@@ -64,6 +65,21 @@ impl WidgetImpl for AttributesCofdPhysical {}
 
 impl AttributesCofdPhysical
 {
+	pub fn connectClosure_dexterity(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.dexterityTrack.connect_closure(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_stamina(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.staminaTrack.connect_closure(signalName, after, closure);
+	}
+	
+	pub fn connectClosure_strength(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	{
+		return self.strengthTrack.connect_closure(signalName, after, closure);
+	}
+	
 	pub fn setMaximum(&self, max: u32)
 	{
 		self.dexterityTrack.set_maximum(max);
