@@ -1,5 +1,6 @@
 mod implementation;
 
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
@@ -19,19 +20,19 @@ impl AttributesCofdPhysical
 			.build();
 	}
 	
-	pub fn connectClosure_dexterity(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectDexterity(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_dexterity(signalName, after, closure);
+		return self.imp().dexterityTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_stamina(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectStamina(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_stamina(signalName, after, closure);
+		return self.imp().staminaTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_strength(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectStrength(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_strength(signalName, after, closure);
+		return self.imp().strengthTrack.connect_closure(signalName, after, closure);
 	}
 	
 	pub fn dexterity(&self) -> u32

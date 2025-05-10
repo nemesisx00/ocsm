@@ -1,5 +1,6 @@
 mod implementation;
 
+use gtk4::glib::object::ObjectExt;
 use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 
@@ -19,19 +20,19 @@ impl AttributesCofdMental
 			.build();
 	}
 	
-	pub fn connectClosure_intelligence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectIntelligence(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_intelligence(signalName, after, closure);
+		return self.imp().intelligenceTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_resolve(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectResolve(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_resolve(signalName, after, closure);
+		return self.imp().resolveTrack.connect_closure(signalName, after, closure);
 	}
 	
-	pub fn connectClosure_wits(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
+	pub fn connectWits(&self, signalName: &str, after: bool, closure: RustClosure) -> SignalHandlerId
 	{
-		return self.imp().connectClosure_wits(signalName, after, closure);
+		return self.imp().witsTrack.connect_closure(signalName, after, closure);
 	}
 	
 	pub fn intelligence(&self) -> u32
