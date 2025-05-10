@@ -14,28 +14,28 @@ use widgets::statefultrack::StatefulTrack;
 pub struct SkillsCofdSocial
 {
 	#[template_child]
-	animalKenTrack: TemplateChild<StatefulTrack>,
+	pub animalKenTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	empathyTrack: TemplateChild<StatefulTrack>,
+	pub empathyTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	expressionTrack: TemplateChild<StatefulTrack>,
+	pub expressionTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	intimidationTrack: TemplateChild<StatefulTrack>,
+	pub intimidationTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	persuasionTrack: TemplateChild<StatefulTrack>,
+	pub persuasionTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	socializeTrack: TemplateChild<StatefulTrack>,
+	pub socializeTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	streetwiseTrack: TemplateChild<StatefulTrack>,
+	pub streetwiseTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	subterfugeTrack: TemplateChild<StatefulTrack>,
+	pub subterfugeTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for SkillsCofdSocial {}
