@@ -68,41 +68,7 @@ impl ObjectImpl for SheetCofdCtl2e
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: StatefulTrack, value: u32, _: u32, _: u32|
-				{
-					let max = match value
-					{
-						6 => 6,
-						7 => 7,
-						8 => 8,
-						9 => 9,
-						10 => 10,
-						_ => 5,
-					};
-					
-					me.attributesMental.setMaximum(max);
-					me.attributesPhysical.setMaximum(max);
-					me.attributesSocial.setMaximum(max);
-					me.skillsMental.setMaximum(max);
-					me.skillsPhysical.setMaximum(max);
-					me.skillsSocial.setMaximum(max);
-					
-					let glamourMax = match value
-					{
-						2 => 11,
-						3 => 12,
-						4 => 13,
-						5 => 15,
-						6 => 20,
-						7 => 25,
-						8 => 30,
-						9 => 50,
-						10 => 75,
-						_ => 10,
-					};
-					
-					me.glamourTrack.set_maximum(glamourMax);
-				}
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleWyrdChanged()
 			)
 		);
 	}
@@ -143,4 +109,43 @@ impl ObjectSubclass for SheetCofdCtl2e
 
 impl WidgetImpl for SheetCofdCtl2e {}
 
-impl SheetCofdCtl2e {}
+impl SheetCofdCtl2e
+{
+	fn handleWyrdChanged(&self)
+	{
+		let value = self.wyrdTrack.get().value().one;
+		
+		let max = match value
+		{
+			6 => 6,
+			7 => 7,
+			8 => 8,
+			9 => 9,
+			10 => 10,
+			_ => 5,
+		};
+		
+		self.attributesMental.setMaximum(max);
+		self.attributesPhysical.setMaximum(max);
+		self.attributesSocial.setMaximum(max);
+		self.skillsMental.setMaximum(max);
+		self.skillsPhysical.setMaximum(max);
+		self.skillsSocial.setMaximum(max);
+		
+		let glamourMax = match value
+		{
+			2 => 11,
+			3 => 12,
+			4 => 13,
+			5 => 15,
+			6 => 20,
+			7 => 25,
+			8 => 30,
+			9 => 50,
+			10 => 75,
+			_ => 10,
+		};
+		
+		self.glamourTrack.set_maximum(glamourMax);
+	}
+}
