@@ -8,6 +8,7 @@ use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::statefultrack::data::StateValue;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/attributesSocial.ui")]
@@ -30,6 +31,11 @@ impl ObjectImpl for AttributesCofdSocial
 	fn constructed(&self)
 	{
 		self.parent_constructed();
+		
+		let initialValue = StateValue { one: 1, ..Default::default() };
+		self.composureTrack.setValue(initialValue);
+		self.manipulationTrack.setValue(initialValue);
+		self.presenceTrack.setValue(initialValue);
 	}
 	
 	fn dispose(&self)

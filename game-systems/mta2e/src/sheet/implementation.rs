@@ -9,6 +9,7 @@ use gtk4::prelude::{EditableExt, WidgetExt};
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::statefultrack::data::StateValue;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
@@ -53,6 +54,9 @@ pub struct SheetCofdMta2e
 	
 	#[template_child]
 	willpowerTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	wisdomTrack: TemplateChild<StatefulTrack>,
 }
 
 impl BoxImpl for SheetCofdMta2e {}
@@ -62,6 +66,9 @@ impl ObjectImpl for SheetCofdMta2e
 	fn constructed(&self)
 	{
 		self.parent_constructed();
+		
+		self.gnosisTrack.setValue(StateValue { one: 1, ..Default::default() });
+		self.wisdomTrack.setValue(StateValue { one: 7, ..Default::default() });
 		
 		let rowLength = 5;
 		
@@ -73,6 +80,10 @@ impl ObjectImpl for SheetCofdMta2e
 		self.skillsSocial.setRowLength(rowLength);
 		
 		self.connectHandlers();
+		
+		self.handleGnosisChanged();
+		self.updateHealthMaximum();
+		self.updateWillpowerMaximum();
 	}
 	
 	fn dispose(&self)

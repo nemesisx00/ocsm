@@ -9,6 +9,7 @@ use gtk4::prelude::{EditableExt, WidgetExt};
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::statefultrack::data::StateValue;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
@@ -37,6 +38,9 @@ pub struct SheetCofdVtr2e
 	healthTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
+	humanityTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
 	sizeEntry: TemplateChild<Entry>,
 	
 	#[template_child]
@@ -63,6 +67,10 @@ impl ObjectImpl for SheetCofdVtr2e
 	{
 		self.parent_constructed();
 		
+		self.bloodPotencyTrack.setValue(StateValue { one: 1, ..Default::default() });
+		self.humanityTrack.setValue(StateValue { one: 7, ..Default::default() });
+		self.sizeEntry.set_text("5");
+		
 		let rowLength = 5;
 		
 		self.attributesMental.setRowLength(rowLength);
@@ -73,6 +81,10 @@ impl ObjectImpl for SheetCofdVtr2e
 		self.skillsSocial.setRowLength(rowLength);
 		
 		self.connectHandlers();
+		
+		self.handleBloodPotencyChanged();
+		self.updateHealthMaximum();
+		self.updateWillpowerMaximum();
 	}
 	
 	fn dispose(&self)

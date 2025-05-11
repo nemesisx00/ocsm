@@ -7,6 +7,7 @@ use gtk4::glib::types::StaticTypeExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::statefultrack::data::StateValue;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/attributesMental.ui")]
@@ -29,6 +30,11 @@ impl ObjectImpl for AttributesCofdMental
 	fn constructed(&self)
 	{
 		self.parent_constructed();
+		
+		let initialValue = StateValue { one: 1, ..Default::default() };
+		self.intelligenceTrack.setValue(initialValue);
+		self.resolveTrack.setValue(initialValue);
+		self.witsTrack.setValue(initialValue);
 	}
 }
 
