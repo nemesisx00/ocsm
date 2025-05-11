@@ -1,13 +1,13 @@
 mod implementation;
 
+use gtk4::{Accessible, Actionable, Box, Buildable, ConstraintTarget, Widget};
 use gtk4::glib::{self, Object};
 
 glib::wrapper!
 {
 	pub struct SheetCofdCtl2e(ObjectSubclass<implementation::SheetCofdCtl2e>)
-		@extends gtk4::ScrolledWindow, gtk4::Widget,
-		@implements gtk4::Accessible, gtk4::Actionable,
-			gtk4::Buildable, gtk4::ConstraintTarget;
+		@extends Box, Widget,
+		@implements Accessible, Actionable, Buildable, ConstraintTarget;
 }
 
 impl SheetCofdCtl2e

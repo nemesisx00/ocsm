@@ -1,6 +1,7 @@
 mod implementation;
 pub mod mode;
 
+use gtk4::{Accessible, Actionable, Buildable, ConstraintTarget, Widget};
 use gtk4::glib::{self, Object};
 use implementation::{StatefulButton_Mode, StatefulButton_State};
 pub use implementation::Signal_StateToggled;
@@ -9,9 +10,8 @@ pub use mode::StatefulMode;
 glib::wrapper!
 {
 	pub struct StatefulButton(ObjectSubclass<implementation::StatefulButton>)
-		@extends gtk4::Widget,
-		@implements gtk4::Accessible, gtk4::Actionable,
-			gtk4::Buildable, gtk4::ConstraintTarget;
+		@extends Widget,
+		@implements Accessible, Actionable, Buildable, ConstraintTarget;
 }
 
 impl StatefulButton

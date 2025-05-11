@@ -1,7 +1,7 @@
 use cofd::sheet::SheetCofdMortal;
 use ctl2e::sheet::SheetCofdCtl2e;
 use gtk4::glib::object::ObjectExt;
-use gtk4::{CompositeTemplate, PolicyType, ScrolledWindow, Stack, StackPage, StackSidebar, TemplateChild};
+use gtk4::{CompositeTemplate, Stack, StackPage, TemplateChild};
 use glib::subclass::InitializingObject;
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
@@ -23,9 +23,6 @@ pub struct OcsmWindow
 	homeScreen: TemplateChild<HomeScreen>,
 	
 	#[template_child]
-	sidebar: TemplateChild<StackSidebar>,
-	
-	#[template_child]
 	stack: TemplateChild<Stack>,
 }
 
@@ -39,64 +36,10 @@ impl ObjectImpl for OcsmWindow
 		
 		self.obj().set_default_size(640, 480);
 		
-		self.stack.set_transition_duration(500);
+		self.stack.set_transition_duration(300);
 		self.stack.set_transition_type(gtk4::StackTransitionType::UnderDown);
-		self.sidebar.set_stack(&self.stack);
 		
-		let me = self;
-		self.homeScreen.connect_closure(
-			Signal_NewSheet,
-			false,
-			closure_local!(#[weak] me, move |_: HomeScreen, gameSystem: u32| {
-				let page: Option<StackPage> = match gameSystem
-				{
-					0 => {
-						let sheet = SheetCofdMortal::new();
-						let scroll = ScrolledWindow::new();
-						scroll.set_hscrollbar_policy(PolicyType::Never);
-						scroll.set_child(Some(&sheet));
-						Some(me.stack.add_titled(&scroll, Some("cofdMortal"), "Mortal"))
-					},
-					
-					1 => {
-						let sheet = SheetCofdCtl2e::new();
-						let scroll = ScrolledWindow::new();
-						scroll.set_hscrollbar_policy(PolicyType::Never);
-						scroll.set_child(Some(&sheet));
-						Some(me.stack.add_titled(&scroll, Some("cofdCtl2e"), "Changeling"))
-					},
-					
-					2 => {
-						let sheet = SheetCofdMta2e::new();
-						let scroll = ScrolledWindow::new();
-						scroll.set_hscrollbar_policy(PolicyType::Never);
-						scroll.set_child(Some(&sheet));
-						Some(me.stack.add_titled(&scroll, Some("cofdMta2e"), "Mage"))
-					},
-					
-					3 => {
-						let sheet = SheetCofdVtr2e::new();
-						let scroll = ScrolledWindow::new();
-						scroll.set_hscrollbar_policy(PolicyType::Never);
-						scroll.set_child(Some(&sheet));
-						Some(me.stack.add_titled(&scroll, Some("cofdVtr2e"), "Vampire"))
-					},
-					
-					_ => None,
-				};
-				
-				if let Some(p) = page
-				{
-					if let Some(name) = p.name()
-					{
-						me.stack.set_visible_child_full(
-							&name,
-							gtk4::StackTransitionType::OverUp
-						);
-					}
-				}
-			})
-		);
+		self.connectHandlers();
 	}
 }
 
@@ -122,3 +65,59 @@ impl ObjectSubclass for OcsmWindow
 
 impl WidgetImpl for OcsmWindow {}
 impl WindowImpl for OcsmWindow {}
+
+impl OcsmWindow
+{
+	fn connectHandlers(&self)
+	{
+		let me = self;
+		
+		self.homeScreen.connect_closure(
+			Signal_NewSheet,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: HomeScreen, gameSystem: u32| me.handleNewSheetPressed(gameSystem)
+			)
+		);
+	}
+	
+	fn handleNewSheetPressed(&self, gameSystem: u32)
+	{
+		let page: Option<StackPage> = match gameSystem
+		{
+			0 => {
+				let sheet = SheetCofdMortal::new();
+				Some(self.stack.add_titled(&sheet, Some("cofdMortal"), "Mortal"))
+			},
+			
+			1 => {
+				let sheet = SheetCofdCtl2e::new();
+				Some(self.stack.add_titled(&sheet, Some("cofdCtl2e"), "Changeling"))
+			},
+			
+			2 => {
+				let sheet = SheetCofdMta2e::new();
+				Some(self.stack.add_titled(&sheet, Some("cofdMta2e"), "Mage"))
+			},
+			
+			3 => {
+				let sheet = SheetCofdVtr2e::new();
+				Some(self.stack.add_titled(&sheet, Some("cofdVtr2e"), "Vampire"))
+			},
+			
+			_ => None,
+		};
+		
+		if let Some(p) = page
+		{
+			if let Some(name) = p.name()
+			{
+				self.stack.set_visible_child_full(
+					&name,
+					gtk4::StackTransitionType::OverUp
+				);
+			}
+		}
+	}
+}

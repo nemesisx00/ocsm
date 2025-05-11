@@ -2,9 +2,8 @@ use gtk4::{Box, CompositeTemplate, TemplateChild};
 use gtk4::glib::{self};
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
@@ -36,14 +35,6 @@ impl ObjectImpl for AttributesCofdPhysical
 		self.dexterityTrack.setValue(initialValue);
 		self.staminaTrack.setValue(initialValue);
 		self.strengthTrack.setValue(initialValue);
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 

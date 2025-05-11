@@ -1,13 +1,11 @@
-use cofd::widgets::equipment::EquipmentCofd;
-use cofd::widgets::weapons::WeaponsCofd;
 use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::{EditableExt, WidgetExt};
+use gtk4::prelude::EditableExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
@@ -15,10 +13,12 @@ use widgets::statefultrack::data::StateValue;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
+use cofd::widgets::equipment::EquipmentCofd;
 use cofd::widgets::skills::mental::SkillsCofdMental;
 use cofd::widgets::skills::physical::SkillsCofdPhysical;
 use cofd::widgets::skills::social::SkillsCofdSocial;
 use cofd::widgets::skills::SkillsCofd;
+use cofd::widgets::weapons::WeaponsCofd;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/mta2e/sheet.ui")]
@@ -86,14 +86,6 @@ impl ObjectImpl for SheetCofdMta2e
 		self.handleGnosisChanged();
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 

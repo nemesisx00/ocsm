@@ -1,10 +1,10 @@
 use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::{EditableExt, WidgetExt};
+use gtk4::prelude::EditableExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::data::StateValue;
@@ -69,14 +69,6 @@ impl ObjectImpl for SheetCofdMortal
 		
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 

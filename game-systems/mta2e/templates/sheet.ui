@@ -553,10 +553,6 @@
 				
 				<child>
 					<object class="GtkBox">
-						<layout>
-							<property name="column">2</property>
-							<property name="row">0</property>
-						</layout>
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
