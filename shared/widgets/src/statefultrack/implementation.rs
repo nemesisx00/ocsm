@@ -1,10 +1,16 @@
 use std::cell::Cell;
 use std::sync::OnceLock;
-use gtk4::glib::subclass::Signal;
 use gtk4::Grid;
+use gtk4::prelude::{GridExt, WidgetExt};
 use gtk4::glib::{self, closure_local, Properties};
-use gtk4::prelude::*;
-use gtk4::subclass::prelude::*;
+use gtk4::glib::object::{CastNone, ObjectExt};
+use gtk4::glib::subclass::Signal;
+use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::subclass::prelude::DerivedObjectProperties;
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::prelude::StaticType;
+use gtk4::subclass::grid::GridImpl;
+use gtk4::subclass::widget::WidgetImpl;
 use crate::button::stateful::{Signal_StateToggled, StatefulButton, StatefulMode};
 use super::data::StateValue;
 
@@ -44,11 +50,6 @@ impl ObjectImpl for StatefulTrack
 		}
 		
 		self.refresh();
-	}
-	
-	fn dispose(&self)
-	{
-		self.clear();
 	}
 	
 	fn signals() -> &'static [Signal]

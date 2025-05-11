@@ -1,15 +1,16 @@
 mod implementation;
 
-use glib::Object;
-use gtk4::{gio, glib, Application};
+use gtk4::{Accessible, Application, ApplicationWindow, Buildable, ConstraintTarget, Native, Root, ShortcutManager, Widget, Window};
+use gtk4::gio::{ActionGroup, ActionMap};
+use gtk4::glib::{self, Object};
 
 glib::wrapper!
 {
 	pub struct OcsmWindow(ObjectSubclass<implementation::OcsmWindow>)
-		@extends gtk4::ApplicationWindow, gtk4::Window, gtk4::Widget,
-		@implements gio::ActionGroup, gio::ActionMap, gtk4::Accessible,
-			gtk4::Buildable, gtk4::ConstraintTarget, gtk4::Native,
-			gtk4::Root, gtk4::ShortcutManager;
+		@extends ApplicationWindow, Window, Widget,
+		@implements ActionGroup, ActionMap, Accessible,
+			Buildable, ConstraintTarget, Native,
+			Root, ShortcutManager;
 }
 
 impl OcsmWindow

@@ -1,14 +1,14 @@
 mod implementation;
 
-use glib::Object;
-use gtk4::glib;
+use gtk4::{Accessible, Box, Buildable, ConstraintTarget, Widget};
+use gtk4::glib::{self, Object};
 pub use implementation::Signal_NewSheet;
 
 glib::wrapper!
 {
 	pub struct HomeScreen(ObjectSubclass<implementation::HomeScreen>)
-		@extends gtk4::Box, gtk4::Widget,
-		@implements gtk4::Accessible, gtk4::Buildable, gtk4::ConstraintTarget;
+		@extends Box, Widget,
+		@implements Accessible, Buildable, ConstraintTarget;
 }
 
 impl HomeScreen

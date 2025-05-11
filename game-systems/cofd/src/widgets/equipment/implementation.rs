@@ -2,16 +2,13 @@ use gtk4::{Box, CompositeTemplate};
 use gtk4::glib::{self};
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
-use gtk4::prelude::WidgetExt;
+use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/equipment.ui")]
-pub struct EquipmentCofd
-{
-}
+pub struct EquipmentCofd {}
 
 impl BoxImpl for EquipmentCofd {}
 
@@ -20,14 +17,6 @@ impl ObjectImpl for EquipmentCofd
 	fn constructed(&self)
 	{
 		self.parent_constructed();
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 
@@ -51,6 +40,4 @@ impl ObjectSubclass for EquipmentCofd
 
 impl WidgetImpl for EquipmentCofd {}
 
-impl EquipmentCofd
-{
-}
+impl EquipmentCofd {}

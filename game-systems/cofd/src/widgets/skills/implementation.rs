@@ -1,10 +1,9 @@
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::WidgetExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::{Box, CompositeTemplate};
 use gtk4::glib::{self};
-use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
+use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
@@ -27,14 +26,6 @@ impl ObjectImpl for SkillsCofd
 	fn constructed(&self)
 	{
 		self.parent_constructed();
-	}
-	
-	fn dispose(&self)
-	{
-		if let Some(child) = self.obj().first_child()
-		{
-			child.unparent();
-		}
 	}
 }
 

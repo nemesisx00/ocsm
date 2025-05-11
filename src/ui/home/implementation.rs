@@ -1,11 +1,15 @@
 use std::sync::OnceLock;
 use glib::subclass::InitializingObject;
-use gtk4::glib::clone;
+use gtk4::{Box, Button, CompositeTemplate, TemplateChild};
+use gtk4::glib::{self, clone};
 use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::Signal;
-use gtk4::prelude::{ButtonExt, StaticType, WidgetExt};
-use gtk4::subclass::prelude::*;
-use gtk4::{glib, Button, CompositeTemplate};
+use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
+use gtk4::glib::subclass::types::ObjectSubclassExt;
+use gtk4::prelude::{ButtonExt, StaticType};
+use gtk4::subclass::box_::BoxImpl;
+use gtk4::subclass::prelude::ObjectSubclass;
+use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 
 pub const Signal_NewSheet: &'static str = "newSheet";
 
@@ -34,7 +38,7 @@ impl ObjectSubclass for HomeScreen
 	// `NAME` needs to match `class` attribute of template
 	const NAME: &'static str = "HomeScreen";
 	type Type = super::HomeScreen;
-	type ParentType = gtk4::Box;
+	type ParentType = Box;
 	
 	fn class_init(klass: &mut Self::Class)
 	{
@@ -59,11 +63,6 @@ impl ObjectImpl for HomeScreen
 		self.cofdCtl2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(1)));
 		self.cofdMta2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(2)));
 		self.cofdVtr2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(3)));
-	}
-	
-	fn dispose(&self)
-	{
-		self.cofdMortal.unparent();
 	}
 	
 	fn signals() -> &'static [Signal]

@@ -1,5 +1,6 @@
 mod implementation;
 
+use gtk4::{Accessible, Actionable, Box, Buildable, ConstraintTarget, Widget};
 use gtk4::glib::{self, Object, RustClosure, SignalHandlerId};
 use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::types::ObjectSubclassIsExt;
@@ -7,9 +8,8 @@ use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 glib::wrapper!
 {
 	pub struct AttributesCofdPhysical(ObjectSubclass<implementation::AttributesCofdPhysical>)
-		@extends gtk4::Box, gtk4::Widget,
-		@implements gtk4::Accessible, gtk4::Actionable,
-			gtk4::Buildable, gtk4::ConstraintTarget;
+		@extends Box, Widget,
+		@implements Accessible, Actionable, Buildable, ConstraintTarget;
 }
 
 impl AttributesCofdPhysical
