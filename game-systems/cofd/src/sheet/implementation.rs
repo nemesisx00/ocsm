@@ -12,10 +12,12 @@ use widgets::statefultrack::StatefulTrack;
 use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
 use crate::widgets::attributes::social::AttributesCofdSocial;
+use crate::widgets::equipment::EquipmentCofd;
 use crate::widgets::skills::SkillsCofd;
 use crate::widgets::skills::mental::SkillsCofdMental;
 use crate::widgets::skills::physical::SkillsCofdPhysical;
 use crate::widgets::skills::social::SkillsCofdSocial;
+use crate::widgets::weapons::WeaponsCofd;
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/sheetMortal.ui")]
@@ -90,11 +92,14 @@ impl ObjectSubclass for SheetCofdMortal
 		AttributesCofdMental::ensure_type();
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
+		EquipmentCofd::ensure_type();
 		SkillsCofd::ensure_type();
 		SkillsCofdMental::ensure_type();
 		SkillsCofdPhysical::ensure_type();
 		SkillsCofdSocial::ensure_type();
 		StatefulTrack::ensure_type();
+		WeaponsCofd::ensure_type();
+		
 		klass.bind_template();
 	}
 	

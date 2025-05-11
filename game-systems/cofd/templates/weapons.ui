@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+	<template class="WeaponsCofd" parent="GtkBox">
+		<property name="halign">0</property>
+		<property name="hexpand">1</property>
+		<property name="orientation">0</property>
+		<property name="spacing">10</property>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">1</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkLabel">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="label">Weapon / Attack</property>
+					</object>
+				</child>
+				
+				<child>
+					<object class="GtkEntry">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Damage</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Range</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Clip</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Initiative</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Strength</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		
+		<child>
+			<object class="GtkBox">
+				<property name="halign">0</property>
+				<property name="hexpand">1</property>
+				<property name="orientation">0</property>
+				<property name="spacing">10</property>
+				
+				<child>
+					<object class="GtkBox">
+						<property name="halign">0</property>
+						<property name="hexpand">1</property>
+						<property name="orientation">1</property>
+						<property name="spacing">10</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+								<property name="label">Size</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkEntry">
+								<property name="halign">0</property>
+								<property name="hexpand">1</property>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>
