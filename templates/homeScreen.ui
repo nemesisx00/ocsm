@@ -16,6 +16,10 @@
 		</child>
 		
 		<child>
+			<object class="GtkSeparator" />
+		</child>
+		
+		<child>
 			<object class="GtkGrid">
 				<property name="column-spacing">10</property>
 				<property name="halign">0</property>
