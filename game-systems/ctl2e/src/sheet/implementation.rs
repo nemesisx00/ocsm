@@ -9,6 +9,7 @@ use gtk4::prelude::{EditableExt, WidgetExt};
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::statefultrack::data::StateValue;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
@@ -28,6 +29,9 @@ pub struct SheetCofdCtl2e
 	
 	#[template_child]
 	attributesSocial: TemplateChild<AttributesCofdSocial>,
+	
+	#[template_child]
+	clarityTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
 	glamourTrack: TemplateChild<StatefulTrack>,
@@ -62,6 +66,8 @@ impl ObjectImpl for SheetCofdCtl2e
 	{
 		self.parent_constructed();
 		
+		self.wyrdTrack.setValue(StateValue { one: 1, ..Default::default() });
+		
 		let rowLength = 5;
 		
 		self.attributesMental.setRowLength(rowLength);
@@ -72,6 +78,11 @@ impl ObjectImpl for SheetCofdCtl2e
 		self.skillsSocial.setRowLength(rowLength);
 		
 		self.connectHandlers();
+		
+		self.handleWyrdChanged();
+		self.updateClarityMaximum();
+		self.updateHealthMaximum();
+		self.updateWillpowerMaximum();
 	}
 	
 	fn dispose(&self)
@@ -125,6 +136,15 @@ impl SheetCofdCtl2e
 			)
 		);
 		
+		self.attributesMental.connectWits(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateClarityMaximum()
+			)
+		);
+		
 		self.attributesPhysical.connectStamina(
 			StatefulTrack::Signal_ValueUpdated,
 			false,
@@ -142,7 +162,10 @@ impl SheetCofdCtl2e
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| {
+					me.updateClarityMaximum();
+					me.updateWillpowerMaximum();
+				}
 			)
 		);
 		
@@ -192,6 +215,14 @@ impl SheetCofdCtl2e
 		};
 		
 		self.glamourTrack.set_maximum(glamourMax);
+	}
+	
+	fn updateClarityMaximum(&self)
+	{
+		self.clarityTrack.set_maximum(
+			self.attributesMental.wits()
+			+ self.attributesSocial.composure()
+		);
 	}
 	
 	fn updateHealthMaximum(&self)

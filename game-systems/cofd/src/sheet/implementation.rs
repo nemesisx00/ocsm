@@ -7,6 +7,7 @@ use gtk4::glib::types::StaticTypeExt;
 use gtk4::prelude::{EditableExt, WidgetExt};
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
+use widgets::statefultrack::data::StateValue;
 use widgets::statefultrack::StatefulTrack;
 use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
@@ -33,6 +34,9 @@ pub struct SheetCofdMortal
 	healthTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
+	integrityTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
 	sizeEntry: TemplateChild<Entry>,
 	
 	#[template_child]
@@ -56,7 +60,13 @@ impl ObjectImpl for SheetCofdMortal
 	{
 		self.parent_constructed();
 		
+		self.integrityTrack.setValue(StateValue { one: 7, ..Default::default() });
+		self.sizeEntry.set_text("5");
+		
 		self.connectHandlers();
+		
+		self.updateHealthMaximum();
+		self.updateWillpowerMaximum();
 	}
 	
 	fn dispose(&self)
