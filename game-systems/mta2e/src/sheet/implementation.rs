@@ -1,3 +1,5 @@
+use cofd::widgets::equipment::EquipmentCofd;
+use cofd::widgets::weapons::WeaponsCofd;
 use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
@@ -107,11 +109,14 @@ impl ObjectSubclass for SheetCofdMta2e
 		AttributesCofdMental::ensure_type();
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
+		EquipmentCofd::ensure_type();
 		SkillsCofd::ensure_type();
 		SkillsCofdMental::ensure_type();
 		SkillsCofdPhysical::ensure_type();
 		SkillsCofdSocial::ensure_type();
 		StatefulTrack::ensure_type();
+		WeaponsCofd::ensure_type();
+		
 		klass.bind_template();
 	}
 	

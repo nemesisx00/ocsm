@@ -5,10 +5,12 @@
 		<file compressed="true" preprocess="xml-stripblanks">attributesMental.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">attributesPhysical.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">attributesSocial.ui</file>
+		<file compressed="true" preprocess="xml-stripblanks">equipment.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">skills.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">skillsMental.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">skillsPhysical.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">skillsSocial.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">sheetMortal.ui</file>
+		<file compressed="true" preprocess="xml-stripblanks">weapons.ui</file>
 	</gresource>
 </gresources>
