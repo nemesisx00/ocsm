@@ -472,78 +472,22 @@
 					<object class="GtkBox">
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
+						<property name="margin-bottom">5</property>
 						<property name="orientation">1</property>
 						
 						<child>
 							<object class="GtkLabel">
-								<property name="halign">3</property>
-								<property name="label">Health</property>
+								<property name="halign">0</property>
+								<property name="label">Glamour</property>
 							</object>
 						</child>
 						
 						<child>
-							<object class="StatefulTrack" id="healthTrack">
-								<property name="halign">3</property>
-								<property name="maximum">10</property>
-								<property name="mode">4</property>
-								<property name="withSpace">1</property>
-							</object>
-						</child>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkBox">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="orientation">1</property>
-						
-						<child>
-							<object class="GtkLabel">
-								<property name="halign">3</property>
-								<property name="label">Clarity</property>
-							</object>
-						</child>
-						
-						<child>
-							<object class="StatefulTrack" id="clarityTrack">
-								<property name="halign">3</property>
-								<property name="maximum">10</property>
-								<property name="mode">3</property>
-								<property name="withSpace">1</property>
-							</object>
-						</child>
-					</object>
-				</child>
-			</object>
-		</child>
-		
-		<child>
-			<object class="GtkBox">
-				<property name="halign">0</property>
-				<property name="hexpand">1</property>
-				<property name="margin-bottom">5</property>
-				<property name="orientation">0</property>
-				<property name="spacing">25</property>
-				
-				<child>
-					<object class="GtkBox">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="orientation">1</property>
-						
-						<child>
-							<object class="GtkLabel">
-								<property name="halign">3</property>
-								<property name="label">Willpower</property>
-							</object>
-						</child>
-						
-						<child>
-							<object class="StatefulTrack" id="willpowerTrack">
+							<object class="StatefulTrack" id="glamourTrack">
 								<property name="halign">3</property>
 								<property name="maximum">10</property>
 								<property name="mode">2</property>
+								<property name="rowLength">25</property>
 								<property name="withSpace">1</property>
 							</object>
 						</child>
@@ -552,10 +496,6 @@
 				
 				<child>
 					<object class="GtkBox">
-						<layout>
-							<property name="column">2</property>
-							<property name="row">0</property>
-						</layout>
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
@@ -584,32 +524,6 @@
 			<object class="GtkBox">
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
-				<property name="margin-bottom">5</property>
-				<property name="orientation">1</property>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="halign">0</property>
-						<property name="label">Glamour</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="StatefulTrack" id="glamourTrack">
-						<property name="halign">3</property>
-						<property name="maximum">10</property>
-						<property name="mode">2</property>
-						<property name="rowLength">30</property>
-						<property name="withSpace">1</property>
-					</object>
-				</child>
-			</object>
-		</child>
-		
-		<child>
-			<object class="GtkBox">
-				<property name="halign">0</property>
-				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
 				<property name="spacing">25</property>
 				
@@ -618,6 +532,23 @@
 						<property name="halign">3</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Health</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="healthTrack">
+								<property name="halign">3</property>
+								<property name="margin-bottom">10</property>
+								<property name="maximum">10</property>
+								<property name="mode">4</property>
+								<property name="withSpace">1</property>
+							</object>
+						</child>
 						
 						<child>
 							<object class="GtkLabel">
@@ -648,6 +579,23 @@
 						
 						<child>
 							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Willpower</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="willpowerTrack">
+								<property name="halign">3</property>
+								<property name="margin-bottom">10</property>
+								<property name="maximum">10</property>
+								<property name="mode">2</property>
+								<property name="withSpace">1</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="GtkLabel">
 								<property name="halign">0</property>
 								<property name="hexpand">1</property>
 								<property name="label">Physical</property>
@@ -672,6 +620,23 @@
 						<property name="halign">3</property>
 						<property name="hexpand">1</property>
 						<property name="orientation">1</property>
+						
+						<child>
+							<object class="GtkLabel">
+								<property name="halign">3</property>
+								<property name="label">Clarity</property>
+							</object>
+						</child>
+						
+						<child>
+							<object class="StatefulTrack" id="clarityTrack">
+								<property name="halign">3</property>
+								<property name="margin-bottom">10</property>
+								<property name="maximum">10</property>
+								<property name="mode">3</property>
+								<property name="withSpace">1</property>
+							</object>
+						</child>
 						
 						<child>
 							<object class="GtkLabel">
