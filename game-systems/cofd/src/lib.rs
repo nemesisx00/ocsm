@@ -1,7 +1,10 @@
 pub mod sheet;
 pub mod widgets;
 
+use std::path::Path;
 use std::sync::LazyLock;
+use gtk4::CssProvider;
+use gtk4::gdk::Display;
 use gtk4::gio;
 
 pub fn loadResources()
@@ -12,9 +15,8 @@ pub fn loadResources()
 
 pub fn loadCss()
 {
-	/*
 	let provider = CssProvider::new();
-	let filePath = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), "css/stateful.css");
+	let filePath = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), "css/combatAdvantages.css");
 	let p = Path::new(&filePath);
 	provider.load_from_path(p);
 	
@@ -23,7 +25,6 @@ pub fn loadCss()
 		&provider,
 		gtk4::STYLE_PROVIDER_PRIORITY_APPLICATION
 	);
-	*/
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, PartialOrd, Ord)]

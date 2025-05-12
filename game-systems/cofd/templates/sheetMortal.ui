@@ -230,82 +230,6 @@
 				<property name="halign">0</property>
 				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
-				<property name="margin-bottom">5</property>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="label">Armor</property>
-						<property name="margin-end">5</property>
-						<property name="width-request">45</property>
-						<property name="xalign">0</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkEntry">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="margin-end">20</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="label">Defense</property>
-						<property name="margin-end">5</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkEntry">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="margin-end">20</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="label">Initiative</property>
-						<property name="margin-end">5</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkEntry">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="margin-end">20</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkLabel">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="label">Speed</property>
-						<property name="margin-end">5</property>
-					</object>
-				</child>
-				
-				<child>
-					<object class="GtkEntry">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-					</object>
-				</child>
-			</object>
-		</child>
-		
-		<child>
-			<object class="GtkBox">
-				<property name="halign">0</property>
-				<property name="hexpand">1</property>
-				<property name="orientation">0</property>
 				<property name="spacing">10</property>
 				
 				<child>
@@ -363,6 +287,10 @@
 				<property name="margin-top">5</property>
 				<property name="margin-bottom">5</property>
 			</object>
+		</child>
+		
+		<child>
+			<object class="CombatAdvantagesCofd" id="combatAdvantages" />
 		</child>
 		
 		<child>
