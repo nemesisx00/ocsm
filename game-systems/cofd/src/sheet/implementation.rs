@@ -9,6 +9,7 @@ use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::data::StateValue;
 use widgets::statefultrack::StatefulTrack;
+use crate::widgets::advantages::CombatAdvantagesCofd;
 use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
 use crate::widgets::attributes::social::AttributesCofdSocial;
@@ -31,6 +32,9 @@ pub struct SheetCofdMortal
 	
 	#[template_child]
 	attributesSocial: TemplateChild<AttributesCofdSocial>,
+	
+	#[template_child]
+	combatAdvantages: TemplateChild<CombatAdvantagesCofd>,
 	
 	#[template_child]
 	healthTrack: TemplateChild<StatefulTrack>,
@@ -67,6 +71,7 @@ impl ObjectImpl for SheetCofdMortal
 		
 		self.connectHandlers();
 		
+		self.updateCombatAdvantages();
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
 	}
@@ -84,6 +89,7 @@ impl ObjectSubclass for SheetCofdMortal
 		AttributesCofdMental::ensure_type();
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
+		CombatAdvantagesCofd::ensure_type();
 		EquipmentCofd::ensure_type();
 		SkillsCofd::ensure_type();
 		SkillsCofdMental::ensure_type();
@@ -118,6 +124,24 @@ impl SheetCofdMortal
 			)
 		);
 		
+		self.attributesMental.connectWits(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
+		self.attributesPhysical.connectDexterity(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
 		self.attributesPhysical.connectStamina(
 			StatefulTrack::Signal_ValueUpdated,
 			false,
@@ -127,13 +151,45 @@ impl SheetCofdMortal
 			)
 		);
 		
+		self.attributesPhysical.connectStrength(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
 		self.attributesSocial.connectComposure(
 			StatefulTrack::Signal_ValueUpdated,
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| {
+					me.updateCombatAdvantages();
+					me.updateWillpowerMaximum();
+				}
 			)
+		);
+		
+		self.skillsPhysical.connectAthletics(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+	}
+	
+	fn updateCombatAdvantages(&self)
+	{
+		self.combatAdvantages.updateAdvantages(
+			self.skillsPhysical.athletics(),
+			self.attributesSocial.composure(),
+			self.attributesPhysical.dexterity(),
+			self.attributesPhysical.strength(),
+			self.attributesMental.wits()
 		);
 	}
 	
