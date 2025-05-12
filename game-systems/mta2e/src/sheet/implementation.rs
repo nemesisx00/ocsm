@@ -70,6 +70,7 @@ impl ObjectImpl for SheetCofdMta2e
 		self.parent_constructed();
 		
 		self.gnosisTrack.setValue(StateValue { one: 1, ..Default::default() });
+		self.sizeEntry.set_text("5");
 		self.wisdomTrack.setValue(StateValue { one: 7, ..Default::default() });
 		
 		let rowLength = 5;

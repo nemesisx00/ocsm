@@ -68,6 +68,7 @@ impl ObjectImpl for SheetCofdCtl2e
 	{
 		self.parent_constructed();
 		
+		self.sizeEntry.set_text("5");
 		self.wyrdTrack.setValue(StateValue { one: 1, ..Default::default() });
 		
 		let rowLength = 5;
