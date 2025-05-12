@@ -21,7 +21,7 @@ pub struct StatefulTrack
 	#[property(construct, default = 5, get, set = Self::setMaximum)]
 	maximum: Cell<u32>,
 	
-	#[property(construct, default = StatefulMode::CircleOne.into(), get, set)]
+	#[property(construct, default = StatefulMode::CircleOne.into(), get, set = Self::setMode)]
 	mode: Cell<u32>,
 	
 	#[property(construct, default = 10, get, set = Self::setRowLength)]
@@ -81,161 +81,6 @@ impl WidgetImpl for StatefulTrack {}
 
 impl StatefulTrack
 {
-	fn clear(&self)
-	{
-		let obj = self.obj();
-		while let Some(child) = obj.last_child()
-		{
-			obj.remove(&child);
-		}
-	}
-	
-	pub fn refresh(&self)
-	{
-		self.clear();
-		
-		let value = self.value.get();
-		for i in 0..self.maximum.get()
-		{
-			let mut state = 0;
-			
-			if i < value.three + value.two + value.one
-			{
-				state = 1;
-			}
-			
-			if i < value.three + value.two
-			{
-				state = 2;
-			}
-			
-			if i < value.three
-			{
-				state = 3;
-			};
-			
-			let button = StatefulButton::withState(self.mode.get(), state);
-			button.set_index(i);
-			
-			let me = self;
-			button.connect_closure(
-				Signal_StateToggled,
-				false,
-				closure_local!(#[weak] me, move |_: StatefulButton, index: u32| {
-					match me.mode.get().into()
-					{
-						StatefulMode::CircleOne | StatefulMode::BoxOne => {
-							let indexValue = match me.value.get().one == index + 1
-							{
-								true => index,
-								false => index + 1,
-							};
-							
-							me.setValue(StateValue {
-								one: indexValue,
-								..Default::default()
-							});
-							
-							me.refresh();
-							me.updateValue();
-						},
-						
-						/*
-						If it's not one of the single-state modes, then we
-						need to update the value by reading from the current
-						state of each button before refreshing.
-						*/
-						_ => {
-							me.updateValue();
-							me.refresh();
-						}
-					}
-				})
-			);
-			
-			let rowLength = match self.rowLength.get() > 0
-			{
-				true => self.rowLength.get(),
-				false => 10,
-			};
-			
-			self.obj().attach(
-				&button,
-				(i % rowLength) as i32,
-				(i / rowLength) as i32,
-				1,
-				1
-			);
-		}
-	}
-	
-	pub fn getValue(&self) -> StateValue
-	{
-		return match self.obj().first_child().and_downcast::<StatefulButton>()
-		{
-			None => StateValue::default(),
-			Some(first) => self.accumulateChildState(first, StateValue::default()),
-		};
-	}
-	
-	pub fn setMaximum(&self, max: u32)
-	{
-		self.maximum.set(max);
-		
-		let value = self.getValue();
-		let truncatedValue = StateValue
-		{
-			one: match value.one > max
-			{
-				true => max,
-				false => value.one,
-			},
-			
-			two: match value.two > max
-			{
-				true => max,
-				false => value.two,
-			},
-			
-			three: match value.three > max
-			{
-				true => max,
-				false => value.three,
-			},
-		};
-		self.setValue(truncatedValue);
-		
-		self.refresh();
-	}
-	
-	pub fn setRowLength(&self, length: u32)
-	{
-		self.rowLength.set(length);
-		self.refresh();
-	}
-	
-	pub fn setValue(&self, value: StateValue)
-	{
-		self.value.set(value);
-		self.refresh();
-	}
-	
-	pub fn updateValue(&self)
-	{
-		let value = match self.obj().first_child().and_downcast::<StatefulButton>()
-		{
-			None => StateValue::default(),
-			Some(first) => self.accumulateChildState(first, StateValue::default()),
-		};
-		
-		self.value.set(value);
-		
-		self.obj().emit_by_name::<()>(
-			super::StatefulTrack::Signal_ValueUpdated,
-			&[&value.one, &value.two, &value.three]
-		);
-	}
-	
 	/**
 	 Recurse through all child widgets and accumulate the StatefulButton::state()
 	 values.
@@ -257,5 +102,265 @@ impl StatefulTrack
 			None => val,
 			Some(next) => self.accumulateChildState(next, val),
 		};
+	}
+	
+	fn addNewButton(&self, index: u32) -> StatefulButton
+	{
+		let button = StatefulButton::withMode(self.mode.get());
+		button.set_index(index);
+		
+		let me = self;
+		let rowLength = match self.rowLength.get() > 0
+		{
+			true => self.rowLength.get(),
+			false => 10,
+		};
+		
+		self.obj().attach(
+			&button,
+			(index % rowLength) as i32,
+			(index / rowLength) as i32,
+			1,
+			1
+		);
+		
+		button.connect_closure(
+			Signal_StateToggled,
+			false,
+			closure_local!(#[weak] me, move |_: StatefulButton, index: u32| me.handleClick(index))
+		);
+		
+		button.refresh();
+		
+		return button;
+	}
+	
+	#[allow(unused)]
+	fn clear(&self)
+	{
+		self.value.set(StateValue::default());
+		if let Some(child) = self.obj().first_child().and_downcast::<StatefulButton>()
+		{
+			self.clearChildState(child);
+		}
+	}
+	
+	fn clearChildState(&self, child: StatefulButton)
+	{
+		child.set_state(0);
+		child.refresh();
+		
+		if let Some(next) = child.next_sibling().and_downcast::<StatefulButton>()
+		{
+			self.clearChildState(next);
+		}
+	}
+	
+	fn emitValue(&self)
+	{
+		let value = self.value.get();
+		
+		self.obj().emit_by_name::<()>(
+			super::StatefulTrack::Signal_ValueUpdated,
+			&[&value.one, &value.two, &value.three]
+		);
+	}
+	
+	pub fn getValue(&self) -> StateValue
+	{
+		return match self.obj().first_child().and_downcast::<StatefulButton>()
+		{
+			None => StateValue::default(),
+			Some(first) => self.accumulateChildState(first, StateValue::default()),
+		};
+	}
+	
+	fn handleClick(&self, index: u32)
+	{
+		match self.mode.get().into()
+		{
+			StatefulMode::CircleOne | StatefulMode::BoxOne => {
+				let indexValue = match self.value.get().one == index + 1
+				{
+					true => index,
+					false => index + 1,
+				};
+				
+				self.setValue(StateValue {
+					one: indexValue,
+					..Default::default()
+				});
+			},
+			
+			/*
+			If it's not one of the single-state modes, then we
+			need to update the value by reading from the current
+			state of each button before refreshing.
+			*/
+			_ => self.updateValue()
+		}
+		
+		self.emitValue();
+		self.refresh();
+	}
+	
+	pub fn refresh(&self)
+	{
+		let child = self.obj().first_child().and_downcast::<StatefulButton>();
+		self.regenerateChildStates(child, 0, self.value.get());
+	}
+	
+	fn regenerateChildStates(&self, child: Option<StatefulButton>, index: u32, prevValue: StateValue)
+	{
+		let nextIndex = index + 1;
+		match child
+		{
+			None => {
+				if index < self.maximum.get()
+				{
+					let button = self.addNewButton(index);
+					
+					let mut state = 0;
+					let mut value = prevValue;
+					
+					if value.three > 0
+					{
+						state = 3;
+						value.three = value.three - 1;
+					}
+					else if value.two > 0
+					{
+						state = 2;
+						value.two = value.two - 1;
+					}
+					else if value.one > 0
+					{
+						state = 1;
+						value.one = value.one - 1;
+					}
+					
+					button.set_state(state);
+					button.refresh();
+					
+					self.regenerateChildStates(None, nextIndex, prevValue);
+				}
+			},
+			
+			Some(button) => {
+				if index >= self.maximum.get()
+				{
+					let next = button.next_sibling().and_downcast::<StatefulButton>();
+					button.unparent();
+					self.regenerateChildStates(next, nextIndex, prevValue);
+				}
+				else
+				{
+					let mut value = prevValue;
+					
+					let mut state = 0;
+					if value.three > 0
+					{
+						state = 3;
+						value.three = value.three - 1;
+					}
+					else if value.two > 0
+					{
+						state = 2;
+						value.two = value.two - 1;
+					}
+					else if value.one > 0
+					{
+						state = 1;
+						value.one = value.one - 1;
+					}
+					
+					button.set_mode(self.mode.get());
+					button.set_state(state);
+					button.refresh();
+					
+					if index < self.maximum.get()
+					{
+						self.regenerateChildStates(button.next_sibling().and_downcast::<StatefulButton>(), nextIndex, value);
+					}
+				}
+			}
+		}
+	}
+	
+	fn removeChildPosition(&self, child: StatefulButton, children: &mut Vec<StatefulButton>) -> Vec<StatefulButton>
+	{
+		let next = child.next_sibling().and_downcast::<StatefulButton>();
+		
+		self.obj().remove(&child);
+		children.push(child);
+		
+		return match next
+		{
+			None => children.clone(),
+			Some(c) => self.removeChildPosition(c, children),
+		};
+	}
+	
+	pub fn setMaximum(&self, max: u32)
+	{
+		self.maximum.set(max);
+		
+		let mut value = self.value.get();
+		value.truncate(max);
+		
+		self.setValue(value);
+	}
+	
+	pub fn setMode(&self, mode: u32)
+	{
+		self.mode.set(mode);
+		self.refresh();
+	}
+	
+	pub fn setRowLength(&self, length: u32)
+	{
+		self.rowLength.set(length);
+		
+		let children = match self.obj().first_child().and_downcast::<StatefulButton>()
+		{
+			Some(child) => self.removeChildPosition(child, &mut vec![]),
+			None => vec![],
+		};
+		
+		let rowLength = match self.rowLength.get() > 0
+		{
+			true => self.rowLength.get(),
+			false => 10,
+		};
+		
+		for child in children
+		{
+			let index = child.index();
+			
+			self.obj().attach(
+				&child,
+				(index % rowLength) as i32,
+				(index / rowLength) as i32,
+				1,
+				1
+			);
+		}
+	}
+	
+	pub fn setValue(&self, value: StateValue)
+	{
+		self.value.set(value);
+		self.refresh();
+	}
+	
+	pub fn updateValue(&self)
+	{
+		let value = match self.obj().first_child().and_downcast::<StatefulButton>()
+		{
+			None => StateValue::default(),
+			Some(first) => self.accumulateChildState(first, StateValue::default()),
+		};
+		
+		self.value.set(value);
 	}
 }
