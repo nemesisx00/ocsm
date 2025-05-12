@@ -1,6 +1,7 @@
 mod implementation;
 pub mod mode;
 
+use gtk4::glib::subclass::types::ObjectSubclassIsExt;
 use gtk4::{Accessible, Actionable, Buildable, ConstraintTarget, Widget};
 use gtk4::glib::{self, Object};
 use implementation::{StatefulButton_Mode, StatefulButton_State};
@@ -35,5 +36,10 @@ impl StatefulButton
 			.property(StatefulButton_Mode, mode)
 			.property(StatefulButton_State, state)
 			.build();
+	}
+	
+	pub fn refresh(&self)
+	{
+		self.imp().updateImage();
 	}
 }
