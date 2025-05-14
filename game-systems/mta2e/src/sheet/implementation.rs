@@ -14,6 +14,7 @@ use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
 use cofd::widgets::equipment::EquipmentCofd;
+use cofd::widgets::experiences::ExperiencesCofd;
 use cofd::widgets::skills::mental::SkillsCofdMental;
 use cofd::widgets::skills::physical::SkillsCofdPhysical;
 use cofd::widgets::skills::social::SkillsCofdSocial;
@@ -103,6 +104,7 @@ impl ObjectSubclass for SheetCofdMta2e
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
 		EquipmentCofd::ensure_type();
+		ExperiencesCofd::ensure_type();
 		SkillsCofd::ensure_type();
 		SkillsCofdMental::ensure_type();
 		SkillsCofdPhysical::ensure_type();
