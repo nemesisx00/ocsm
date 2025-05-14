@@ -14,6 +14,7 @@ use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
 use crate::widgets::attributes::social::AttributesCofdSocial;
 use crate::widgets::equipment::EquipmentCofd;
+use crate::widgets::experiences::ExperiencesCofd;
 use crate::widgets::skills::SkillsCofd;
 use crate::widgets::skills::mental::SkillsCofdMental;
 use crate::widgets::skills::physical::SkillsCofdPhysical;
@@ -91,6 +92,7 @@ impl ObjectSubclass for SheetCofdMortal
 		AttributesCofdSocial::ensure_type();
 		CombatAdvantagesCofd::ensure_type();
 		EquipmentCofd::ensure_type();
+		ExperiencesCofd::ensure_type();
 		SkillsCofd::ensure_type();
 		SkillsCofdMental::ensure_type();
 		SkillsCofdPhysical::ensure_type();
