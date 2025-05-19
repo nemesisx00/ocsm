@@ -175,10 +175,20 @@
 				</child>
 				
 				<child>
-					<object class="GtkEntry">
+					<object class="GtkSpinButton">
+						<property name="adjustment">
+							<object class="GtkAdjustment">
+								<property name="lower">0</property>
+								<property name="step-increment">1</property>
+								<property name="upper">999999999</property>
+							</object>
+						</property>
+						<property name="digits">0</property>
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
 						<property name="margin-end">20</property>
+						<property name="orientation">0</property>
+						<property name="snap-to-ticks">1</property>
 					</object>
 				</child>
 				
@@ -257,9 +267,21 @@
 								</child>
 								
 								<child>
-									<object class="GtkEntry" id="sizeEntry">
+									<object class="GtkSpinButton" id="sizeButton">
+										<property name="adjustment">
+											<object class="GtkAdjustment">
+												<property name="lower">0</property>
+												<property name="step-increment">1</property>
+												<property name="upper">100</property>
+												<property name="value">5</property>
+											</object>
+										</property>
+										<property name="digits">0</property>
 										<property name="halign">0</property>
 										<property name="hexpand">1</property>
+										<property name="margin-end">20</property>
+										<property name="orientation">0</property>
+										<property name="snap-to-ticks">1</property>
 									</object>
 								</child>
 							</object>

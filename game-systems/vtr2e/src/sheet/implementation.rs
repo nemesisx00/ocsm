@@ -1,11 +1,10 @@
-use gtk4::{Box, CompositeTemplate, Entry, TemplateChild};
+use gtk4::{Box, CompositeTemplate, SpinButton, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
 use gtk4::glib::subclass::InitializingObject;
 use gtk4::glib::subclass::types::ObjectSubclass;
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::types::StaticTypeExt;
-use gtk4::prelude::EditableExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
@@ -44,7 +43,7 @@ pub struct SheetCofdVtr2e
 	humanityTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
-	sizeEntry: TemplateChild<Entry>,
+	sizeButton: TemplateChild<SpinButton>,
 	
 	#[template_child]
 	skillsMental: TemplateChild<SkillsCofdMental>,
@@ -72,7 +71,7 @@ impl ObjectImpl for SheetCofdVtr2e
 		
 		self.bloodPotencyTrack.setValue(StateValue { one: 1, ..Default::default() });
 		self.humanityTrack.setValue(StateValue { one: 7, ..Default::default() });
-		self.sizeEntry.set_text("5");
+		self.sizeButton.set_value(5.0);
 		
 		let rowLength = 5;
 		
@@ -167,6 +166,15 @@ impl SheetCofdVtr2e
 				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleBloodPotencyChanged()
 			)
 		);
+		
+		self.sizeButton.connect_closure(
+			"value-changed",
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: SpinButton| me.updateHealthMaximum()
+			)
+		);
 	}
 	
 	fn handleBloodPotencyChanged(&self)
@@ -216,13 +224,10 @@ impl SheetCofdVtr2e
 	
 	fn updateHealthMaximum(&self)
 	{
-		let size = match self.sizeEntry.text().parse::<u32>()
-		{
-			Ok(value) => value,
-			Err(_) => 5,
-		};
-		
-		self.healthTrack.set_maximum(size + self.attributesPhysical.stamina());
+		self.healthTrack.set_maximum(
+			self.sizeButton.value_as_int() as u32
+			+ self.attributesPhysical.stamina()
+		);
 	}
 	
 	fn updateWillpowerMaximum(&self)
