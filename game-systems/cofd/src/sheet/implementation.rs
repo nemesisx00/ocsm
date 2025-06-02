@@ -7,7 +7,6 @@ use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
-use widgets::statefultrack::data::StateValue;
 use widgets::statefultrack::StatefulTrack;
 use crate::widgets::advantages::CombatAdvantagesCofd;
 use crate::widgets::attributes::mental::AttributesCofdMental;
@@ -67,7 +66,7 @@ impl ObjectImpl for SheetCofdMortal
 	{
 		self.parent_constructed();
 		
-		self.integrityTrack.setValue(StateValue { one: 7, ..Default::default() });
+		self.integrityTrack.setValue(7.into());
 		self.sizeButton.set_value(5.0);
 		
 		self.connectHandlers();

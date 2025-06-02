@@ -1,10 +1,23 @@
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default, Deserialize, Serialize)]
 pub struct StateValue
 {
 	pub one: u32,
 	pub two: u32,
 	pub three: u32,
+}
+
+impl From<u32> for StateValue
+{
+	fn from(value: u32) -> Self
+	{
+		return Self
+		{
+			one: value,
+			..Default::default()
+		};
+	}
 }
 
 impl StateValue
