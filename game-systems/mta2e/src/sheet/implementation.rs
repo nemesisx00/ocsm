@@ -1,3 +1,4 @@
+use cofd::widgets::advantages::CombatAdvantagesCofd;
 use gtk4::{Box, CompositeTemplate, SpinButton, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
@@ -8,7 +9,6 @@ use gtk4::glib::types::StaticTypeExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
-use widgets::statefultrack::data::StateValue;
 use cofd::widgets::attributes::mental::AttributesCofdMental;
 use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
@@ -25,6 +25,9 @@ use cofd::widgets::weapons::WeaponsCofd;
 pub struct SheetCofdMta2e
 {
 	#[template_child]
+	arcaneExperiences: TemplateChild<ExperiencesCofd>,
+	
+	#[template_child]
 	attributesMental: TemplateChild<AttributesCofdMental>,
 	
 	#[template_child]
@@ -32,6 +35,9 @@ pub struct SheetCofdMta2e
 	
 	#[template_child]
 	attributesSocial: TemplateChild<AttributesCofdSocial>,
+	
+	#[template_child]
+	combatAdvantages: TemplateChild<CombatAdvantagesCofd>,
 	
 	#[template_child]
 	gnosisTrack: TemplateChild<StatefulTrack>,
@@ -69,9 +75,11 @@ impl ObjectImpl for SheetCofdMta2e
 	{
 		self.parent_constructed();
 		
-		self.gnosisTrack.setValue(StateValue { one: 1, ..Default::default() });
+		self.arcaneExperiences.setLabel("Arcane Experiences".into());
+		
+		self.gnosisTrack.setValue(1.into());
 		self.sizeButton.set_value(5.0);
-		self.wisdomTrack.setValue(StateValue { one: 7, ..Default::default() });
+		self.wisdomTrack.setValue(7.into());
 		
 		let rowLength = 5;
 		
@@ -85,6 +93,7 @@ impl ObjectImpl for SheetCofdMta2e
 		self.connectHandlers();
 		
 		self.handleGnosisChanged();
+		self.updateCombatAdvantages();
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
 	}
@@ -102,6 +111,7 @@ impl ObjectSubclass for SheetCofdMta2e
 		AttributesCofdMental::ensure_type();
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
+		CombatAdvantagesCofd::ensure_type();
 		EquipmentCofd::ensure_type();
 		ExperiencesCofd::ensure_type();
 		SkillsCofd::ensure_type();
@@ -137,6 +147,24 @@ impl SheetCofdMta2e
 			)
 		);
 		
+		self.attributesMental.connectWits(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
+		self.attributesPhysical.connectDexterity(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
 		self.attributesPhysical.connectStamina(
 			StatefulTrack::Signal_ValueUpdated,
 			false,
@@ -149,12 +177,24 @@ impl SheetCofdMta2e
 			)
 		);
 		
+		self.attributesPhysical.connectStrength(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
+			)
+		);
+		
 		self.attributesSocial.connectComposure(
 			StatefulTrack::Signal_ValueUpdated,
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateWillpowerMaximum()
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| {
+					me.updateCombatAdvantages();
+					me.updateWillpowerMaximum();
+				}
 			)
 		);
 		
@@ -163,7 +203,12 @@ impl SheetCofdMta2e
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.handleGnosisChanged()
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| {
+					me.handleGnosisChanged();
+					me.updateCombatAdvantages();
+					me.updateHealthMaximum();
+					me.updateWillpowerMaximum();
+				}
 			)
 		);
 		
@@ -173,6 +218,15 @@ impl SheetCofdMta2e
 			closure_local!(
 				#[weak] me,
 				move |_: SpinButton| me.updateHealthMaximum()
+			)
+		);
+		
+		self.skillsPhysical.connectAthletics(
+			StatefulTrack::Signal_ValueUpdated,
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: StatefulTrack, _: u32, _: u32, _: u32| me.updateCombatAdvantages()
 			)
 		);
 	}
@@ -213,6 +267,17 @@ impl SheetCofdMta2e
 		};
 		
 		self.manaTrack.set_maximum(manaMax);
+	}
+	
+	fn updateCombatAdvantages(&self)
+	{
+		self.combatAdvantages.updateAdvantages(
+			self.skillsPhysical.athletics(),
+			self.attributesSocial.composure(),
+			self.attributesPhysical.dexterity(),
+			self.attributesPhysical.strength(),
+			self.attributesMental.wits()
+		);
 	}
 	
 	fn updateHealthMaximum(&self)

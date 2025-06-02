@@ -167,6 +167,7 @@
 				
 				<child>
 					<object class="GtkLabel">
+						<property name="halign">0</property>
 						<property name="label">Age</property>
 						<property name="margin-end">5</property>
 						<property name="width-request">45</property>
@@ -186,7 +187,7 @@
 						<property name="digits">0</property>
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
-						<property name="margin-end">20</property>
+						<property name="margin-end">35</property>
 						<property name="orientation">0</property>
 						<property name="snap-to-ticks">1</property>
 					</object>
@@ -217,176 +218,42 @@
 				<property name="hexpand">1</property>
 				<property name="orientation">0</property>
 				<property name="margin-bottom">5</property>
-				<property name="spacing">20</property>
 				
 				<child>
-					<object class="GtkBox">
+					<object class="GtkLabel">
 						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="orientation">1</property>
-						<property name="spacing">10</property>
-						
-						<child>
-							<object class="GtkBox">
-								<property name="halign">0</property>
-								<property name="hexpand">1</property>
-								<property name="orientation">0</property>
-								<property name="spacing">5</property>
-								
-								<child>
-									<object class="GtkLabel">
-										<property name="label">Armor</property>
-										<property name="width-request">45</property>
-										<property name="xalign">0</property>
-									</object>
-								</child>
-								
-								<child>
-									<object class="GtkEntry">
-										<property name="halign">0</property>
-										<property name="hexpand">1</property>
-									</object>
-								</child>
-							</object>
-						</child>
-						
-						<child>
-							<object class="GtkBox">
-								<property name="halign">0</property>
-								<property name="hexpand">1</property>
-								<property name="orientation">0</property>
-								<property name="spacing">5</property>
-								
-								<child>
-									<object class="GtkLabel">
-										<property name="halign">0</property>
-										<property name="label">Size</property>
-										<property name="width-request">45</property>
-										<property name="xalign">0</property>
-									</object>
-								</child>
-								
-								<child>
-									<object class="GtkSpinButton" id="sizeButton">
-										<property name="adjustment">
-											<object class="GtkAdjustment">
-												<property name="lower">0</property>
-												<property name="step-increment">1</property>
-												<property name="upper">100</property>
-												<property name="value">5</property>
-											</object>
-										</property>
-										<property name="digits">0</property>
-										<property name="halign">0</property>
-										<property name="hexpand">1</property>
-										<property name="margin-end">20</property>
-										<property name="orientation">0</property>
-										<property name="snap-to-ticks">1</property>
-									</object>
-								</child>
-							</object>
-						</child>
+						<property name="label">Size</property>
+						<property name="margin-end">5</property>
+						<property name="width-request">45</property>
+						<property name="xalign">0</property>
 					</object>
 				</child>
 				
 				<child>
-					<object class="GtkBox">
+					<object class="GtkSpinButton" id="sizeButton">
+						<property name="adjustment">
+							<object class="GtkAdjustment">
+								<property name="lower">0</property>
+								<property name="step-increment">1</property>
+								<property name="upper">100</property>
+								<property name="value">5</property>
+							</object>
+						</property>
+						<property name="digits">0</property>
 						<property name="halign">0</property>
 						<property name="hexpand">1</property>
-						<property name="orientation">1</property>
-						<property name="spacing">10</property>
-						
-						<child>
-							<object class="GtkBox">
-								<property name="halign">0</property>
-								<property name="hexpand">1</property>
-								<property name="orientation">0</property>
-								<property name="spacing">5</property>
-								
-								<child>
-									<object class="GtkLabel">
-										<property name="halign">1</property>
-										<property name="hexpand">0</property>
-										<property name="label">Defense</property>
-										<property name="margin-end">5</property>
-										<property name="xalign">0</property>
-									</object>
-								</child>
-								
-								<child>
-									<object class="GtkEntry">
-										<property name="halign">0</property>
-										<property name="hexpand">1</property>
-									</object>
-								</child>
-							</object>
-						</child>
-						
-						<child>
-							<object class="GtkBox">
-								<property name="halign">0</property>
-								<property name="hexpand">1</property>
-								<property name="orientation">0</property>
-								<property name="spacing">5</property>
-								
-								<child>
-									<object class="GtkLabel">
-										<property name="halign">1</property>
-										<property name="hexpand">0</property>
-										<property name="label">Speed</property>
-										<property name="margin-end">18</property>
-										<property name="xalign">0</property>
-									</object>
-								</child>
-								
-								<child>
-									<object class="GtkEntry">
-										<property name="halign">0</property>
-										<property name="hexpand">1</property>
-									</object>
-								</child>
-							</object>
-						</child>
+						<property name="margin-end">20</property>
+						<property name="orientation">0</property>
+						<property name="snap-to-ticks">1</property>
 					</object>
 				</child>
 				
 				<child>
-					<object class="GtkBox">
-						<property name="halign">0</property>
-						<property name="hexpand">1</property>
-						<property name="orientation">1</property>
-						<property name="spacing">10</property>
-						
-						<child>
-							<object class="GtkBox">
-								<property name="halign">0</property>
-								<property name="hexpand">1</property>
-								<property name="orientation">0</property>
-								<property name="spacing">5</property>
-								
-								<child>
-									<object class="GtkLabel">
-										<property name="halign">0</property>
-										<property name="hexpand">0</property>
-										<property name="label">Initiative</property>
-										<property name="margin-end">14</property>
-										<property name="xalign">0</property>
-									</object>
-								</child>
-								
-								<child>
-									<object class="GtkEntry">
-										<property name="halign">0</property>
-										<property name="hexpand">1</property>
-									</object>
-								</child>
-							</object>
-						</child>
-						
-						<child>
-							<object class="ExperiencesCofd" id="experiences" />
-						</child>
-					</object>
+					<object class="ExperiencesCofd" id="experiences" />
+				</child>
+				
+				<child>
+					<object class="ExperiencesCofd" id="arcaneExperiences" />
 				</child>
 			</object>
 		</child>
@@ -453,6 +320,10 @@
 				<property name="margin-top">5</property>
 				<property name="margin-bottom">5</property>
 			</object>
+		</child>
+		
+		<child>
+			<object class="CombatAdvantagesCofd" id="combatAdvantages" />
 		</child>
 		
 		<child>
