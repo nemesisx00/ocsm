@@ -75,4 +75,9 @@ impl ExperiencesCofd
 			self.beats.setValue(StateValue::default());
 		}
 	}
+	
+	pub fn setTextLabel(&self, label: String)
+	{
+		self.textLabel.set_label(label.as_str());
+	}
 }
