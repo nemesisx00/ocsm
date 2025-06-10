@@ -61,16 +61,8 @@ public class ClassName(bool initialValue = false)
 	private void doFalse() => memberVariable = true;
 }
 ```
-- Use `PascalCase` for constants, static variables, public members, and class/enum/object/struct names
-- Use `camelCase` for non-public functions, non-constant and non-static variable names
+- Use `PascalCase` for constants, static variables, and class/enum/object/struct names
+- Use `camelCase` for member functions, non-constant and non-static variable names
 - Keep namespace segments to single words as much as possible, only capitalizing the first letter
-- Prefer iterating with a guaranteed end condition
 - Avoid hard-coding raw data
 	- Prefer creating immutable variables when necessary
-
-## C# Style Guide
-
-- Use `PascalCase` for Properties
-- Use the expression body syntax (`=>`) for single-line methods
-- Prefer interpolated strings (`$"{variable}"`) over `string.Format` and the concatenation operator (`+`)
-- When in doubt, rely on the `.editerconfig` and .NET 8.0 conventions
