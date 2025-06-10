@@ -2,7 +2,7 @@
 
 <div align="center" width="100%">
 	<img alt="GitHub" src="https://img.shields.io/github/license/nemesisx00/ocsm" />
-	<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/nemesisx00/ocsm/dotnet.yml" />
+	<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/nemesisx00/ocsm/rust.yml" />
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/nemesisx00/ocsm" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/nemesisx00/ocsm" />
 	<!-- <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/nemesisx00/ocsm" /> -->
