@@ -62,7 +62,12 @@ public class ClassName(bool initialValue = false)
 }
 ```
 - Use `PascalCase` for constants, static variables, and class/enum/object/struct names
-- Use `camelCase` for member functions, non-constant and non-static variable names
+	- Otherwise use `camelCase`
 - Keep namespace segments to single words as much as possible, only capitalizing the first letter
 - Avoid hard-coding raw data
 	- Prefer creating immutable variables when necessary
+
+## Rust Style Guide
+
+- Use the naming conventions as defined above
+	- Do not use `snake_case`
