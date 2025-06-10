@@ -1,0 +1,218 @@
+[gd_scene load_steps=5 format=3 uid="uid://hyx8nnliaktu"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_3cf65"]
+[ext_resource type="Script" path="res://dnd/fifth/nodes/options/ArmorOptionsButton.cs" id="3"]
+[ext_resource type="Script" path="res://dnd/fifth/nodes/meta/ArmorEntry.cs" id="4"]
+[ext_resource type="Script" path="res://dnd/fifth/nodes/options/ArmorTypeOptions.cs" id="4_gcrxs"]
+
+[node name="ArmorEntry" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+pivot_offset = Vector2(112, -192)
+theme = ExtResource("1_3cf65")
+script = ExtResource("4")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ExistingLabel" type="Label" parent="Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Existing Armor:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ExistingEntry" type="OptionButton" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+script = ExtResource("3")
+
+[node name="Row2" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Save" type="Button" parent="Row2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save"
+
+[node name="Clear" type="Button" parent="Row2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Clear"
+
+[node name="Delete" type="Button" parent="Row2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+text = "Delete"
+
+[node name="Row3" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Row3"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Name:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Name" type="LineEdit" parent="Row3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Row4" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="Row4"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="Row4/HBox"]
+layout_mode = 2
+text = "Type:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Type" type="OptionButton" parent="Row4/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+script = ExtResource("4_gcrxs")
+
+[node name="HBox2" type="HBoxContainer" parent="Row4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Row4/HBox2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Armor Class:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ArmorClass" type="SpinBox" parent="Row4/HBox2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 23)
+layout_mode = 2
+rounded = true
+alignment = 1
+
+[node name="HBox3" type="HBoxContainer" parent="Row4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Row4/HBox3"]
+layout_mode = 2
+text = "Cost:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cost" type="SpinBox" parent="Row4/HBox3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+rounded = true
+allow_greater = true
+alignment = 1
+suffix = "gp"
+
+[node name="HBox4" type="HBoxContainer" parent="Row4"]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="Label2" type="Label" parent="Row4/HBox4"]
+layout_mode = 2
+text = "Weight:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Weight" type="SpinBox" parent="Row4/HBox4"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+suffix = "lbs"
+
+[node name="Row5" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="AllowDexterityBonus" type="CheckBox" parent="Row5"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Allow Dexterity Bonus"
+
+[node name="HBox3" type="HBoxContainer" parent="Row5"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="LimitDexterityBonus" type="CheckBox" parent="Row5/HBox3"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Limit Dexterity Bonus?"
+
+[node name="DexterityBonusLimit" type="SpinBox" parent="Row5/HBox3"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+rounded = true
+prefix = "+"
+
+[node name="Row6" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="StealthDisadvantage" type="CheckBox" parent="Row6"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Disadvantage on Stealth Checks"
+
+[node name="HBox" type="HBoxContainer" parent="Row6"]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="ShowStrength" type="CheckBox" parent="Row6/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Minimum Strength Required?"
+
+[node name="MinimumStrength" type="SpinBox" parent="Row6/HBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+max_value = 30.0
+rounded = true
+
+[node name="Row7" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Row7"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Description"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="TextEdit" parent="Row7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+wrap_mode = 1
+scroll_fit_content_height = true

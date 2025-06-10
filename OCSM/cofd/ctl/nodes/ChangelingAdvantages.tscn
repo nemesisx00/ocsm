@@ -1,0 +1,278 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpifivu3e3epa"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_bnclb"]
+[ext_resource type="PackedScene" uid="uid://l2joeymavl7n" path="res://nodes/TrackComplex.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bjnh65fra4qoc" path="res://nodes/TrackSimple.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://c8gbcaoa6exai" path="res://nodes/DynamicNumericLabel.tscn" id="4_bsywe"]
+[ext_resource type="PackedScene" uid="uid://dad5cgqtgkto7" path="res://nodes/FlowList.tscn" id="5_1oikr"]
+
+[node name="Advantages" type="VBoxContainer"]
+offset_right = 1152.0
+offset_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_bnclb")
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Health"
+horizontal_alignment = 1
+
+[node name="Health" parent="HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("3")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Willpower"
+horizontal_alignment = 1
+
+[node name="Willpower" parent="HBoxContainer/VBoxContainer/VBoxContainer2" instance=ExtResource("4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 10
+Max = 5
+Value = 0
+UseCircles = false
+EnableToggling = true
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Glamour"
+horizontal_alignment = 1
+
+[node name="Glamour" parent="HBoxContainer/VBoxContainer/VBoxContainer3" instance=ExtResource("4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+columns = 10
+Max = 10
+Value = 0
+UseCircles = false
+EnableToggling = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Armor:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Armor" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Defense:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Defense" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Initiative:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiative" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+vertical_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Speed:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Speed" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7"
+vertical_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Experience:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Experience" parent="HBoxContainer/VBoxContainer2/HBoxContainer5" instance=ExtResource("4_bsywe")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 2
+AllowGreater = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="ConditionsLabel" type="Label" parent="HBoxContainer/VBoxContainer2/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Conditions:"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Conditions" parent="HBoxContainer/VBoxContainer2/HBoxContainer6" instance=ExtResource("5_1oikr")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Clarity"
+horizontal_alignment = 1
+
+[node name="Clarity" parent="HBoxContainer/VBoxContainer3/VBoxContainer" instance=ExtResource("4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 10
+Max = 10
+Value = 7
+UseCircles = true
+EnableToggling = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer3/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Wyrd"
+horizontal_alignment = 1
+
+[node name="Wyrd" parent="HBoxContainer/VBoxContainer3/VBoxContainer2" instance=ExtResource("4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 10
+Max = 10
+Value = 1
+UseCircles = true
+EnableToggling = false
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer3/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Beats"
+horizontal_alignment = 1
+
+[node name="Beats" parent="HBoxContainer/VBoxContainer3/VBoxContainer3" instance=ExtResource("4")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+Max = 5
+Value = 0
+UseCircles = false
+EnableToggling = true
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer3/VBoxContainer4"]
+layout_mode = 2
+text = "Aspirations"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Aspirations" parent="HBoxContainer/VBoxContainer3/VBoxContainer4" instance=ExtResource("5_1oikr")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1

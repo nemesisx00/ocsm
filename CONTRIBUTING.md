@@ -35,30 +35,35 @@ Regardless of the language, code contributions must follow this style guide. A p
 		- Adhoc functions, closures, and lambdas which require multiple lines
 ```csharp
 //Example in C#
-namespace NameSpace
+namespace Namespace;
+
+public class ClassName(bool initialValue = false)
 {
-	public class ClassName
+	public bool MemberReadonlyProperty => memberVariable;
+	
+	private bool memberVariable = initialValue;
+	private List<object> collection = [];
+	
+	public void FunctionName()
 	{
-		public void functionName()
+		if(memberVariable)
 		{
-			if(isTrue)
-			{
-				collection.ForEach(v => {
-					if(v is bool)
-						isFalse = isFalse && v;
-				});
-			}
-			
-			if(isFalse)
-				doFalse();
+			collection.ForEach(v => {
+				if(v is bool b)
+					memberVariable = b;
+			});
 		}
 		
-		public void doFalse() { isTrue = false; }
+		if(!memberVariable)
+			doFalse();
 	}
+	
+	private void doFalse() => memberVariable = true;
 }
 ```
-- Use `PascalCase` for constants, static variables, class/enum/object/struct names, and namespaces
-- Use `camelCase` for functions, non-constant and non-static variable names
+- Use `PascalCase` for constants, static variables, public members, and class/enum/object/struct names
+- Use `camelCase` for non-public functions, non-constant and non-static variable names
+- Keep namespace segments to single words as much as possible, only capitalizing the first letter
 - Prefer iterating with a guaranteed end condition
 - Avoid hard-coding raw data
 	- Prefer creating immutable variables when necessary
@@ -66,3 +71,6 @@ namespace NameSpace
 ## C# Style Guide
 
 - Use `PascalCase` for Properties
+- Use the expression body syntax (`=>`) for single-line methods
+- Prefer interpolated strings (`$"{variable}"`) over `string.Format` and the concatenation operator (`+`)
+- When in doubt, rely on the `.editerconfig` and .NET 8.0 conventions

@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://uxwdffvnm73h"]
+
+[ext_resource type="Script" path="res://nodes/AddSheet.cs" id="1_gcpdk"]
+
+[node name="AddSheet" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+script = ExtResource("1_gcpdk")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Game" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Edition" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,94 @@
+[gd_scene load_steps=7 format=3 uid="uid://0ux2jq36r5td"]
+
+[ext_resource type="Theme" uid="uid://djnv70tbq0knw" path="res://resources/Default.tres" id="1_yg7ud"]
+[ext_resource type="Script" path="res://wod/vtmv5/nodes/meta/WodVtmV5AddEditMetadata.cs" id="2_gjw1s"]
+[ext_resource type="PackedScene" uid="uid://dqnjqmoa7s7ua" path="res://nodes/meta/MetadataEntry.tscn" id="3_k21ws"]
+
+[sub_resource type="Animation" id="Animation_ork4d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_impt8"]
+resource_name = "slideUp"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(0, 2000), Vector2(0, 30)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4fsm"]
+_data = {
+"RESET": SubResource("Animation_ork4d"),
+"slideUp": SubResource("Animation_impt8")
+}
+
+[node name="AddEditMetadata" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yg7ud")
+script = ExtResource("2_gjw1s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_d4fsm")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 15
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_alignment = 1
+current_tab = 0
+
+[node name="Predator Type" parent="MarginContainer/ScrollContainer/VBoxContainer/TabContainer" instance=ExtResource("3_k21ws")]
+unique_name_in_owner = true
+layout_mode = 2
+MetadataTypes = Array[String](["PredatorType"])
+MetadataTypeLabel = "Predator Type"
+metadata/_tab_index = 0
+
+[node name="CloseButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "✖️"
