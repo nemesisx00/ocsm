@@ -1,9 +1,12 @@
-use gtk4::{Box, CompositeTemplate, SpinButton, TemplateChild};
+use std::cell::RefCell;
+use std::sync::OnceLock;
+use gtk4::prelude::EditableExt;
+use gtk4::{Box, CompositeTemplate, Entry, SpinButton, TemplateChild};
 use gtk4::glib::{self, closure_local};
 use gtk4::glib::object::ObjectExt;
-use gtk4::glib::subclass::InitializingObject;
+use gtk4::glib::subclass::{InitializingObject, Signal};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
-use gtk4::glib::subclass::types::ObjectSubclass;
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
@@ -18,6 +21,7 @@ use cofd::widgets::skills::mental::SkillsCofdMental;
 use cofd::widgets::skills::physical::SkillsCofdPhysical;
 use cofd::widgets::skills::social::SkillsCofdSocial;
 use cofd::widgets::weapons::WeaponsCofd;
+use widgets::traits::{CharacterSheet, Signal_SheetUpdated};
 
 #[derive(CompositeTemplate, Default)]
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/ctl2e/sheet.ui")]
@@ -33,6 +37,9 @@ pub struct SheetCofdCtl2e
 	attributesSocial: TemplateChild<AttributesCofdSocial>,
 	
 	#[template_child]
+	characterNameEntry: TemplateChild<Entry>,
+	
+	#[template_child]
 	clarityTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
@@ -40,6 +47,8 @@ pub struct SheetCofdCtl2e
 	
 	#[template_child]
 	healthTrack: TemplateChild<StatefulTrack>,
+	
+	pageName: RefCell<String>,
 	
 	#[template_child]
 	sizeButton: TemplateChild<SpinButton>,
@@ -61,6 +70,24 @@ pub struct SheetCofdCtl2e
 }
 
 impl BoxImpl for SheetCofdCtl2e {}
+
+impl CharacterSheet for SheetCofdCtl2e
+{
+	fn characterName(&self) -> String
+	{
+		return self.characterNameEntry.text().into();
+	}
+	
+	fn pageName(&self) -> String
+	{
+		return self.pageName.borrow().clone();
+	}
+	
+	fn setPageName(&self, name: String)
+	{
+		*self.pageName.borrow_mut() = name;
+	}
+}
 
 impl ObjectImpl for SheetCofdCtl2e
 {
@@ -86,6 +113,17 @@ impl ObjectImpl for SheetCofdCtl2e
 		self.updateClarityMaximum();
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
+	}
+	
+	fn signals() -> &'static [Signal]
+	{
+		static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+		return SIGNALS.get_or_init(|| {
+			vec![
+				Signal::builder(Signal_SheetUpdated)
+					.build()
+			]
+		});
 	}
 }
 
@@ -165,6 +203,15 @@ impl SheetCofdCtl2e
 					me.updateClarityMaximum();
 					me.updateWillpowerMaximum();
 				}
+			)
+		);
+		
+		self.characterNameEntry.connect_closure(
+			"changed",
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: Entry| me.obj().emit_by_name::<()>(Signal_SheetUpdated, &[])
 			)
 		);
 		

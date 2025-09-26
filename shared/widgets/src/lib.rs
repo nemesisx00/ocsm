@@ -1,17 +1,18 @@
 pub mod button;
 pub mod statefultrack;
+pub mod traits;
 
 use std::path::Path;
 use gtk4::{gio, CssProvider};
 use gtk4::gdk::Display;
 
-pub fn loadResources()
+pub fn initializeResources()
 {
 	gio::resources_register_include!("templates.gresource")
 		.expect("Failed to register template resources.");
 }
 
-pub fn loadCss()
+pub fn initializeCss()
 {
 	let provider = CssProvider::new();
 	let filePath = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), "css/stateful.css");

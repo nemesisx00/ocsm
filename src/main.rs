@@ -30,26 +30,7 @@ fn generateUi(app: &Application)
 	window.present();
 }
 
-fn loadAllCss()
-{
-	loadCss();
-	widgets::loadCss();
-	cofd::loadCss();
-	ctl2e::loadCss();
-	mta2e::loadCss();
-	vtr2e::loadCss();
-}
-
-fn loadAllResources()
-{
-	widgets::loadResources();
-	cofd::loadResources();
-	ctl2e::loadResources();
-	mta2e::loadResources();
-	vtr2e::loadResources();
-}
-
-fn loadCss()
+fn initializeCss()
 {
 	let provider = CssProvider::new();
 	let filePath = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), "css/window.css");
@@ -65,6 +46,16 @@ fn loadCss()
 
 fn startup(_: &Application)
 {
-	loadAllCss();
-	loadAllResources();
+	initializeCss();
+	widgets::initializeCss();
+	cofd::initializeCss();
+	ctl2e::initializeCss();
+	mta2e::initializeCss();
+	vtr2e::initializeCss();
+	
+	widgets::initializeResources();
+	cofd::initializeResources();
+	ctl2e::initializeResources();
+	mta2e::initializeResources();
+	vtr2e::initializeResources();
 }

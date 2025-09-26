@@ -2,13 +2,15 @@ pub mod sheet;
 
 use gtk4::gio;
 
-pub fn loadResources()
+pub const GameSystemId: &str = "cofd-mta2e";
+
+pub fn initializeResources()
 {
 	gio::resources_register_include!("templates.gresource")
 		.expect("Failed to register template resources.");
 }
 
-pub fn loadCss()
+pub fn initializeCss()
 {
 	/*
 	let provider = CssProvider::new();

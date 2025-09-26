@@ -59,21 +59,21 @@ impl ObjectImpl for HomeScreen
 		
 		let me = self;
 		
-		self.cofdMortal.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(0)));
-		self.cofdCtl2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(1)));
-		self.cofdMta2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(2)));
-		self.cofdVtr2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(3)));
+		self.cofdMortal.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(cofd::GameSystemId.into())));
+		self.cofdCtl2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(ctl2e::GameSystemId.into())));
+		self.cofdMta2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(mta2e::GameSystemId.into())));
+		self.cofdVtr2e.connect_clicked(clone!(#[weak] me, move |_| me.emitNewSheet(vtr2e::GameSystemId.into())));
 	}
 	
 	fn signals() -> &'static [Signal]
 	{
 		static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
 		return SIGNALS.get_or_init(|| {
-			vec![
+			return vec![
 				Signal::builder(Signal_NewSheet)
-					.param_types([u32::static_type()])
+					.param_types([String::static_type()])
 					.build()
-			]
+			];
 		});
 	}
 }
@@ -82,7 +82,7 @@ impl WidgetImpl for HomeScreen {}
 
 impl HomeScreen
 {
-	fn emitNewSheet(&self, gameSystem: u32)
+	fn emitNewSheet(&self, gameSystem: String)
 	{
 		self.obj().emit_by_name::<()>(
 			Signal_NewSheet,

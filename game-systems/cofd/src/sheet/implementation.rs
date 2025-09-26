@@ -1,13 +1,17 @@
+use std::cell::RefCell;
+use std::sync::OnceLock;
 use gtk4::glib::object::ObjectExt;
-use gtk4::{Box, CompositeTemplate, SpinButton, TemplateChild};
+use gtk4::prelude::EditableExt;
+use gtk4::{Box, CompositeTemplate, Entry, SpinButton, TemplateChild};
 use gtk4::glib::{self, closure_local};
-use gtk4::glib::subclass::InitializingObject;
-use gtk4::glib::subclass::types::ObjectSubclass;
+use gtk4::glib::subclass::{InitializingObject, Signal};
+use gtk4::glib::subclass::types::{ObjectSubclass, ObjectSubclassExt};
 use gtk4::glib::subclass::object::{ObjectImpl, ObjectImplExt};
 use gtk4::glib::types::StaticTypeExt;
 use gtk4::subclass::box_::BoxImpl;
 use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializingExt, WidgetClassExt, WidgetImpl};
 use widgets::statefultrack::StatefulTrack;
+use widgets::traits::{CharacterSheet, Signal_SheetUpdated};
 use crate::widgets::advantages::CombatAdvantagesCofd;
 use crate::widgets::attributes::mental::AttributesCofdMental;
 use crate::widgets::attributes::physical::AttributesCofdPhysical;
@@ -34,6 +38,9 @@ pub struct SheetCofdMortal
 	attributesSocial: TemplateChild<AttributesCofdSocial>,
 	
 	#[template_child]
+	characterNameEntry: TemplateChild<Entry>,
+	
+	#[template_child]
 	combatAdvantages: TemplateChild<CombatAdvantagesCofd>,
 	
 	#[template_child]
@@ -41,6 +48,8 @@ pub struct SheetCofdMortal
 	
 	#[template_child]
 	integrityTrack: TemplateChild<StatefulTrack>,
+	
+	pageName: RefCell<String>,
 	
 	#[template_child]
 	sizeButton: TemplateChild<SpinButton>,
@@ -60,6 +69,24 @@ pub struct SheetCofdMortal
 
 impl BoxImpl for SheetCofdMortal {}
 
+impl CharacterSheet for SheetCofdMortal
+{
+	fn characterName(&self) -> String
+	{
+		return self.characterNameEntry.text().into();
+	}
+	
+	fn pageName(&self) -> String
+	{
+		return self.pageName.borrow().clone();
+	}
+	
+	fn setPageName(&self, name: String)
+	{
+		*self.pageName.borrow_mut() = name;
+	}
+}
+
 impl ObjectImpl for SheetCofdMortal
 {
 	fn constructed(&self)
@@ -74,6 +101,17 @@ impl ObjectImpl for SheetCofdMortal
 		self.updateCombatAdvantages();
 		self.updateHealthMaximum();
 		self.updateWillpowerMaximum();
+	}
+	
+	fn signals() -> &'static [Signal]
+	{
+		static SIGNALS: OnceLock<Vec<Signal>> = OnceLock::new();
+		return SIGNALS.get_or_init(|| {
+			vec![
+				Signal::builder(Signal_SheetUpdated)
+					.build()
+			]
+		});
 	}
 }
 
@@ -170,6 +208,15 @@ impl SheetCofdMortal
 					me.updateCombatAdvantages();
 					me.updateWillpowerMaximum();
 				}
+			)
+		);
+		
+		self.characterNameEntry.connect_closure(
+			"changed",
+			false,
+			closure_local!(
+				#[weak] me,
+				move |_: Entry| me.obj().emit_by_name::<()>(Signal_SheetUpdated, &[])
 			)
 		);
 		

@@ -1,5 +1,6 @@
 use cofd::sheet::SheetCofdMortal;
 use ctl2e::sheet::SheetCofdCtl2e;
+use gtk4::gio::prelude::ListModelExt;
 use gtk4::glib::object::ObjectExt;
 use gtk4::{CompositeTemplate, Stack, StackPage, TemplateChild};
 use glib::subclass::InitializingObject;
@@ -13,6 +14,7 @@ use gtk4::subclass::widget::{CompositeTemplateClass, CompositeTemplateInitializi
 use gtk4::subclass::window::WindowImpl;
 use mta2e::sheet::SheetCofdMta2e;
 use vtr2e::sheet::SheetCofdVtr2e;
+use widgets::traits::{CharacterSheet, Signal_SheetUpdated};
 use crate::ui::home::{HomeScreen, Signal_NewSheet};
 
 #[derive(CompositeTemplate, Default)]
@@ -77,33 +79,81 @@ impl OcsmWindow
 			false,
 			closure_local!(
 				#[weak] me,
-				move |_: HomeScreen, gameSystem: u32| me.handleNewSheetPressed(gameSystem)
+				move |_: HomeScreen, gameSystem: String| me.handleNewSheetPressed(gameSystem)
 			)
 		);
 	}
 	
-	fn handleNewSheetPressed(&self, gameSystem: u32)
+	fn handleNewSheetPressed(&self, gameSystem: String)
 	{
-		let page: Option<StackPage> = match gameSystem
+		let me = self;
+		
+		let pageName = format!("{}-{}", gameSystem, self.stack.pages().n_items());
+		
+		let page: Option<StackPage> = match gameSystem.as_str()
 		{
-			0 => {
+			cofd::GameSystemId => {
 				let sheet = SheetCofdMortal::new();
-				Some(self.stack.add_titled(&sheet, Some("cofdMortal"), "Mortal"))
+				sheet.setPageName(pageName.clone());
+				
+				sheet.connect_closure(
+					Signal_SheetUpdated,
+					false,
+					closure_local!(
+						#[weak] me,
+						move |sheet: SheetCofdMortal| me.handleSheetUpdate(sheet)
+					)
+				);
+				
+				Some(self.stack.add_titled(&sheet, Some(pageName.as_str()), "New Mortal"))
 			},
 			
-			1 => {
+			ctl2e::GameSystemId => {
 				let sheet = SheetCofdCtl2e::new();
-				Some(self.stack.add_titled(&sheet, Some("cofdCtl2e"), "Changeling"))
+				sheet.setPageName(pageName.clone());
+				
+				sheet.connect_closure(
+					Signal_SheetUpdated,
+					false,
+					closure_local!(
+						#[weak] me,
+						move |sheet: SheetCofdCtl2e| me.handleSheetUpdate(sheet)
+					)
+				);
+				
+				Some(self.stack.add_titled(&sheet, Some(pageName.as_str()), "New Changeling"))
 			},
 			
-			2 => {
+			mta2e::GameSystemId => {
 				let sheet = SheetCofdMta2e::new();
-				Some(self.stack.add_titled(&sheet, Some("cofdMta2e"), "Mage"))
+				sheet.setPageName(pageName.clone());
+				
+				sheet.connect_closure(
+					Signal_SheetUpdated,
+					false,
+					closure_local!(
+						#[weak] me,
+						move |sheet: SheetCofdMta2e| me.handleSheetUpdate(sheet)
+					)
+				);
+				
+				Some(self.stack.add_titled(&sheet, Some(pageName.as_str()), "New Mage"))
 			},
 			
-			3 => {
+			vtr2e::GameSystemId => {
 				let sheet = SheetCofdVtr2e::new();
-				Some(self.stack.add_titled(&sheet, Some("cofdVtr2e"), "Vampire"))
+				sheet.setPageName(pageName.clone());
+				
+				sheet.connect_closure(
+					Signal_SheetUpdated,
+					false,
+					closure_local!(
+						#[weak] me,
+						move |sheet: SheetCofdVtr2e| me.handleSheetUpdate(sheet)
+					)
+				);
+				
+				Some(self.stack.add_titled(&sheet, Some(pageName.as_str()), "New Vampire"))
 			},
 			
 			_ => None,
@@ -118,6 +168,15 @@ impl OcsmWindow
 					gtk4::StackTransitionType::OverUp
 				);
 			}
+		}
+	}
+	
+	fn handleSheetUpdate<T>(&self, sheet: T)
+		where T: CharacterSheet
+	{
+		if let Some(p) = self.stack.child_by_name(sheet.pageName().as_str())
+		{
+			self.stack.page(&p).set_title(sheet.characterName().as_str());
 		}
 	}
 }
