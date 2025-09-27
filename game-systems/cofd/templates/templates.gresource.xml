@@ -6,6 +6,8 @@
 		<file compressed="true" preprocess="xml-stripblanks">attributesPhysical.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">attributesSocial.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">combatAdvantages.ui</file>
+		<file compressed="true" preprocess="xml-stripblanks">dotLabel.ui</file>
+		<file compressed="true" preprocess="xml-stripblanks">dotLabelList.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">equipment.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">experiences.ui</file>
 		<file compressed="true" preprocess="xml-stripblanks">skills.ui</file>

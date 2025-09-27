@@ -18,6 +18,7 @@ use crate::widgets::attributes::physical::AttributesCofdPhysical;
 use crate::widgets::attributes::social::AttributesCofdSocial;
 use crate::widgets::equipment::EquipmentCofd;
 use crate::widgets::experiences::ExperiencesCofd;
+use crate::widgets::list::dotLabelList::DotLabelList;
 use crate::widgets::skills::SkillsCofd;
 use crate::widgets::skills::mental::SkillsCofdMental;
 use crate::widgets::skills::physical::SkillsCofdPhysical;
@@ -50,6 +51,9 @@ pub struct SheetCofdMortal
 	integrityTrack: TemplateChild<StatefulTrack>,
 	
 	pageName: RefCell<String>,
+	
+	#[template_child]
+	meritsList: TemplateChild<DotLabelList>,
 	
 	#[template_child]
 	sizeButton: TemplateChild<SpinButton>,
@@ -128,6 +132,7 @@ impl ObjectSubclass for SheetCofdMortal
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
 		CombatAdvantagesCofd::ensure_type();
+		DotLabelList::ensure_type();
 		EquipmentCofd::ensure_type();
 		ExperiencesCofd::ensure_type();
 		SkillsCofd::ensure_type();
