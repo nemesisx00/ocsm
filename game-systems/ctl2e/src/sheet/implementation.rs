@@ -17,6 +17,7 @@ use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
 use cofd::widgets::equipment::EquipmentCofd;
 use cofd::widgets::experiences::ExperiencesCofd;
+use cofd::widgets::list::dotLabelList::DotLabelList;
 use cofd::widgets::skills::mental::SkillsCofdMental;
 use cofd::widgets::skills::physical::SkillsCofdPhysical;
 use cofd::widgets::skills::social::SkillsCofdSocial;
@@ -43,10 +44,16 @@ pub struct SheetCofdCtl2e
 	clarityTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
+	contractsList: TemplateChild<DotLabelList>,
+	
+	#[template_child]
 	glamourTrack: TemplateChild<StatefulTrack>,
 	
 	#[template_child]
 	healthTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	meritsList: TemplateChild<DotLabelList>,
 	
 	pageName: RefCell<String>,
 	
@@ -139,6 +146,7 @@ impl ObjectSubclass for SheetCofdCtl2e
 		AttributesCofdMental::ensure_type();
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
+		DotLabelList::ensure_type();
 		EquipmentCofd::ensure_type();
 		ExperiencesCofd::ensure_type();
 		SkillsCofdMental::ensure_type();

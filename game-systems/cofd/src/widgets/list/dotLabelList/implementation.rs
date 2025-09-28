@@ -1,5 +1,5 @@
 use gtk4::glib::object::Cast;
-use gtk4::prelude::{GridExt, ObjectExt, WidgetExt};
+use gtk4::prelude::{GridExt, ObjectExt, RootExt, WidgetExt};
 use gtk4::subclass::grid::GridImpl;
 use gtk4::{CompositeTemplate, Grid, Label, TemplateChild};
 use gtk4::glib::{self, closure_local, GString, Properties};
@@ -96,7 +96,22 @@ impl DotLabelList
 			column = i % 2 * 3;
 			row = 1 + i / 2;
 			
-			self.obj().attach(&dotLabel, column as i32, row as i32, 3, 1);
+			self.obj().attach(
+				&dotLabel,
+				column as i32,
+				row as i32,
+				DotLabel::GridWidth,
+				DotLabel::GridHeight
+			);
+		}
+		
+		//TODO: Come up with a better solution to handle focus
+		if let Some(root) = self.obj().root()
+		{
+			if let Some(child) = self.obj().last_child()
+			{
+				root.set_focus(Some(&child));
+			}
 		}
 	}
 	

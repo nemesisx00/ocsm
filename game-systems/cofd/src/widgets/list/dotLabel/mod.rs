@@ -12,6 +12,8 @@ glib::wrapper!
 
 impl DotLabel
 {
+	pub const GridHeight: i32 = 1;
+	pub const GridWidth: i32 = 3;
 	pub const Signal_DotLabelChanged: &'static str = "dotLabelChanged";
 	
 	pub fn new() -> Self

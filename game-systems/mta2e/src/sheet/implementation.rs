@@ -17,6 +17,7 @@ use cofd::widgets::attributes::physical::AttributesCofdPhysical;
 use cofd::widgets::attributes::social::AttributesCofdSocial;
 use cofd::widgets::equipment::EquipmentCofd;
 use cofd::widgets::experiences::ExperiencesCofd;
+use cofd::widgets::list::dotLabelList::DotLabelList;
 use cofd::widgets::skills::mental::SkillsCofdMental;
 use cofd::widgets::skills::physical::SkillsCofdPhysical;
 use cofd::widgets::skills::social::SkillsCofdSocial;
@@ -28,6 +29,9 @@ use widgets::traits::{CharacterSheet, Signal_SheetUpdated};
 #[template(resource = "/io/github/nemesisx00/OCSM/cofd/mta2e/sheet.ui")]
 pub struct SheetCofdMta2e
 {
+	#[template_child]
+	arcanaList: TemplateChild<DotLabelList>,
+	
 	#[template_child]
 	arcaneExperiences: TemplateChild<ExperiencesCofd>,
 	
@@ -54,6 +58,9 @@ pub struct SheetCofdMta2e
 	
 	#[template_child]
 	manaTrack: TemplateChild<StatefulTrack>,
+	
+	#[template_child]
+	meritsList: TemplateChild<DotLabelList>,
 	
 	pageName: RefCell<String>,
 	
@@ -150,6 +157,7 @@ impl ObjectSubclass for SheetCofdMta2e
 		AttributesCofdPhysical::ensure_type();
 		AttributesCofdSocial::ensure_type();
 		CombatAdvantagesCofd::ensure_type();
+		DotLabelList::ensure_type();
 		EquipmentCofd::ensure_type();
 		ExperiencesCofd::ensure_type();
 		SkillsCofd::ensure_type();
