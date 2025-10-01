@@ -21,6 +21,9 @@ pub struct StatefulTrack
 	#[property(construct, default = 5, get, set = Self::setMaximum)]
 	maximum: Cell<u32>,
 	
+	#[property(construct, default = 0, get, set = Self::setMinimum)]
+	minimum: Cell<u32>,
+	
 	#[property(construct, default = StatefulMode::CircleOne.into(), get, set = Self::setMode)]
 	mode: Cell<u32>,
 	
@@ -109,7 +112,6 @@ impl StatefulTrack
 		let button = StatefulButton::withMode(self.mode.get());
 		button.set_index(index);
 		
-		let me = self;
 		let rowLength = match self.rowLength.get() > 0
 		{
 			true => self.rowLength.get(),
@@ -127,7 +129,10 @@ impl StatefulTrack
 		button.connect_closure(
 			Signal_StateToggled,
 			false,
-			closure_local!(#[weak] me, move |_: StatefulButton, index: u32| me.handleClick(index))
+			closure_local!(
+				#[weak(rename_to = this)] self,
+				move |_: StatefulButton, index: u32| this.handleClick(index)
+			)
 		);
 		
 		button.refresh();
@@ -306,7 +311,17 @@ impl StatefulTrack
 		self.maximum.set(max);
 		
 		let mut value = self.value.get();
-		value.truncate(max);
+		value.truncateMin(max, self.minimum.get());
+		
+		self.setValue(value);
+	}
+	
+	pub fn setMinimum(&self, min: u32)
+	{
+		self.minimum.set(min);
+		
+		let mut value = self.value.get();
+		value.truncateMin(self.maximum.get(), min);
 		
 		self.setValue(value);
 	}
@@ -349,7 +364,9 @@ impl StatefulTrack
 	
 	pub fn setValue(&self, value: StateValue)
 	{
-		self.value.set(value);
+		let mut val = value;
+		val.truncateMin(self.maximum.get(), self.minimum.get());
+		self.value.set(val);
 		self.refresh();
 	}
 	

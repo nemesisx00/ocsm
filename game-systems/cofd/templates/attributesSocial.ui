@@ -23,6 +23,7 @@
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
 						<property name="maximum">5</property>
+						<property name="minimum">1</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -48,6 +49,7 @@
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
 						<property name="maximum">5</property>
+						<property name="minimum">1</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
@@ -73,6 +75,7 @@
 						<property name="halign">2</property>
 						<property name="hexpand">1</property>
 						<property name="maximum">5</property>
+						<property name="minimum">1</property>
 						<property name="mode">0</property>
 						<property name="withSpace">1</property>
 					</object>
