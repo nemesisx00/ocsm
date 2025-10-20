@@ -18,8 +18,14 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install build-essential
+    
     - name: Build
-      run: cargo build --verbose
+      run: cargo build --release --verbose
     
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --release --verbose
