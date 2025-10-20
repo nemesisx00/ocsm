@@ -43,7 +43,7 @@ It also can facilitate sharing characters, either between players or to keep you
 
 ## What OCSM Is Not
 
-This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter most, if not all, of the information you want in your sheet yourself. Though, with the addition of a Metadata layer, you will only need to enter new information once, at which point you will be able to reuse it across all your character sheets in that particular game system.
+This application is not intended to be a replacement for official game system source material. It's a **Character Sheet** manager, not a game system manager. You will need to enter most, if not all, of the information you want in your sheet yourself. <!-- Though, with the addition of a Metadata layer, you will only need to enter new information once, at which point you will be able to reuse it across all your character sheets in that particular game system. -->
 
 &nbsp;
 
@@ -86,7 +86,7 @@ Since online communication tools like Discord, among many others, provide access
 
 ## Inside OCSM
 
-OCSM is built in [Rust](https://rust-lang.org), relying on [GTK4](https://gtk.org) to draw the GUI. Linux is the target platform but it should be compatible with any platform that GTK also supports.
+OCSM is built in [Rust](https://rust-lang.org), relying on [Freya](https://freyaui.dev) to draw the GUI. Linux is the target platform but it should be compatible with any platform that [Freya](https://freyaui.dev) also supports.
 
 &nbsp;
 
@@ -97,6 +97,8 @@ OCSM isn't ready for release just yet but you are more than welcome to try it ou
 #### Requirements
 
 - [Rust](https://rust-lang.org/learn/get-started)
+
+Because [Freya](https://freyaui.dev) relies on [Skia](https://skia.org) to actually draw the UI, you may need to install some extra development libraries depending on your environment. The fastest way to find out what it is you are missing is to attempt to compile the project. Either it will compile or it will inform you of what is missing.
 
 #### Compiling, Running, and Testing
 
