@@ -114,7 +114,7 @@ fn getJson(id: SheetId) -> Result<String>
 			.find(|s| s.id == id)
 		{
 			None => Err(anyhow!("Failed to serialize sheet data for id: {:?}", id)),
-			Some(s) => s.save(),
+			Some(s) => s.serialize(),
 		},
 		
 		GameSystem::Vtr2e => match AppState().sheets.vtr2e.iter()
@@ -122,6 +122,7 @@ fn getJson(id: SheetId) -> Result<String>
 		{
 			None => Err(anyhow!("Failed to serialize sheet data for id: {:?}", id)),
 			Some(s) => s.save(),
+			Some(s) => s.serialize(),
 		},
 		
 		GameSystem::None => Err(anyhow!("No GameSystem: {:?}", id)),

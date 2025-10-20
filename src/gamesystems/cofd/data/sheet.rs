@@ -30,7 +30,7 @@ pub struct Sheet
 
 impl CharacterSheet for Sheet
 {
-	fn save(&self) -> Result<String>
+	fn serialize(&self) -> Result<String>
 	{
 		return Ok(serde_json::to_string(self)?);
 	}
