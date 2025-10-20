@@ -20,6 +20,9 @@ jobs:
     
     - name: Install Dependencies
       run: |
+        sudo apt update
+        sudo apt upgrade
+        sudo apt install libegl-dev libfontconfig-dev libfreetype-dev libgl-dev libgles-dev libwayland-dev
         rustup update
     
     - name: Build
