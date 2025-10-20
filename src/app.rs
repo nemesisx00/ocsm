@@ -5,7 +5,7 @@ use freya::prelude::{dioxus_elements, fc_to_builder, rsx, Button, Element,
 	ThemeProvider};
 use crate::data::AppState;
 use crate::constants::{BackgroundColor, TextColor, Theme};
-use crate::menu::{saveHandler, MainMenu};
+use crate::menu::{loadHandler, saveHandler, MainMenu};
 
 pub fn App() -> Element
 {
@@ -112,12 +112,12 @@ pub fn App() -> Element
 
 fn saveKeyEventHandler(event: Event<KeyboardData>)
 {
-	match event.code
+	match event.modifiers
 	{
-		Code::KeyS => match event.modifiers
+		Modifiers::CONTROL => match event.code
 		{
-			Modifiers::CONTROL => saveHandler(),
-			
+			Code::KeyO => loadHandler(),
+			Code::KeyS => saveHandler(),
 			_ => {},
 		},
 		
