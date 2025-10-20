@@ -85,11 +85,7 @@ fn AddSheetMenu() -> Element
 fn addSheet(game: GameSystem)
 {
 	AppState.write().sheets.addSheet(game);
-	AppState.write().activeId = match AppState().sheets.len()
-	{
-		1 => AppState().sheets.getLastSheetId(game),
-		_ => None,
-	};
+	AppState.write().updateActiveId(AppState().sheets.getLastSheetId(game));
 }
 
 fn doSave(json: String)
@@ -110,7 +106,7 @@ fn getJson(id: SheetId) -> Result<String>
 {
 	return match id.game
 	{
-		GameSystem::Cofd => match AppState().sheets.cofd.iter_mut()
+		GameSystem::Cofd => match AppState().sheets.cofd.iter()
 			.find(|s| s.id == id)
 		{
 			None => Err(anyhow!("Failed to serialize sheet data for id: {:?}", id)),
@@ -121,7 +117,6 @@ fn getJson(id: SheetId) -> Result<String>
 			.find(|s| s.id == id)
 		{
 			None => Err(anyhow!("Failed to serialize sheet data for id: {:?}", id)),
-			Some(s) => s.save(),
 			Some(s) => s.serialize(),
 		},
 		
@@ -139,14 +134,16 @@ fn loadJson(json: String) -> Result<()>
 		GameSystem::Cofd => {
 			let mut sheet: CofdSheet = serde_json::from_value(value.clone())?;
 			sheet.id.index = AppState().sheets.cofd.len() as u32;
-			AppState.write().sheets.cofd.push(sheet);
+			AppState.write().sheets.cofd.push(sheet.clone());
+			AppState.write().updateActiveId(Some(sheet.id));
 			Ok(())
 		},
 		
 		GameSystem::Vtr2e => {
 			let mut sheet: Vtr2eSheet = serde_json::from_value(value.clone())?;
 			sheet.id.index = AppState().sheets.vtr2e.len() as u32;
-			AppState.write().sheets.vtr2e.push(sheet);
+			AppState.write().sheets.vtr2e.push(sheet.clone());
+			AppState.write().updateActiveId(Some(sheet.id));
 			Ok(())
 		},
 		

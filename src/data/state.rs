@@ -17,6 +17,18 @@ pub struct AppStateData
 	pub sheets: SheetData,
 }
 
+impl AppStateData
+{
+	pub fn updateActiveId(&mut self, id: Option<SheetId>)
+	{
+		match self.sheets.len()
+		{
+			1 => self.activeId = id,
+			_ => self.activeId = None,
+		}
+	}
+}
+
 #[derive(Clone, Debug, Default)]
 pub struct SheetData
 {
