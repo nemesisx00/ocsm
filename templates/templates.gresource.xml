@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<gresources>
-	<gresource prefix="/io/github/nemesisx00/OCSM">
-		<file compressed="true" preprocess="xml-stripblanks">homeScreen.ui</file>
-		<file compressed="true" preprocess="xml-stripblanks">window.ui</file>
-	</gresource>
-</gresources>

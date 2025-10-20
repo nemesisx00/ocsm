@@ -55,10 +55,10 @@ This application is not intended to be a replacement for official game system so
 
 - Chronicles of Darkness
 	- [x] Core Chronicles of Darkness
-	- [x] Changeling: The Lost - Second Edition
+	- [ ] Changeling: The Lost - Second Edition
 	- [ ] Mage: The Awakening - Second Edition
 		<!-- - Includes a Spellcasting Calculator to quickly determine your dice pool and paradox risk! -->
-	- [ ] Vampire: The Requiem - Second Edition
+	- [x] Vampire: The Requiem - Second Edition
 - Dungeons & Dragons
 	- [ ] 5th Edition
 - Lancer
@@ -97,19 +97,20 @@ OCSM isn't ready for release just yet but you are more than welcome to try it ou
 #### Requirements
 
 - [Rust](https://rust-lang.org/learn/get-started)
-- [GTK4](https://gtk.org/docs/installations/)
 
 #### Compiling, Running, and Testing
 
 Now that you've got all the tools you'll need, the next step is to acquire the source code. The easiest way is to use git to clone this repository directly. If you're not sure how to do that, GitHub has provided very detailed instructions here: [Cloning a Repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-Now you're ready to get to it! Verify that everything is installed correctly by navigating to the folder in a console and entering the following command to build and run OCSM in debug mode:
+Now you're ready to get to it! Verify that everything is installed correctly by navigating to the folder in a console and entering the following command to build and run the release build of OCSM:
 
 ```
-cargo run
+cargo run --release
 ```
 
 That's it!
+
+Note: At the moment, there is an issue with Freya where running the debug build will result in excessive lag in the UI. It still functions but, for the time being, it is recommended to only run the release build of OCSM.
 
 If you are so inclined, you can also contribute and submit a Pull Request. If you're new to [Rust](https://rust-lang.org), you should take some time to become more familiar with [Cargo](https://doc.rust-lang.org/cargo) as well.
 
@@ -125,12 +126,13 @@ First, and foremost, this was a learning opportunity for me. Originally, I wante
 
 Because I am particularly interested in TableTop Role Playing Games (TTRPGs), I thought an application to manage character sheets and data would be sufficiently complex to provide interesting development challenges and also produce a meaningful piece of software that people could use in the real world. Also, in my opinion, all the free options for character sheet management aren't great and all the great options aren't free. And I'm pretty sure none of them are available offline. So OCSM was created to fill that void as a free high quality offline desktop application.
 
-In searching for [Rust](https://rust-lang.org) GUI implementations, I happened upon [Tauri](https://tauri.studio) and my interest in writing a WebView2 desktop application was piqued. While that original version of the project, using [React](https://reactjs.org) to build the frontend, was absolutely functional, I was disappointed with the fact that more than 80% of the project was written in JavaScript rather than [Rust](https://rust-lang.org), my primary focus.
+The journey to today has brought the project into contact with numerous GUI solutions:
 
-More searching lead me to discover [Dioxus](https://dioxuslabs.com/) which provides most of the same functionality I was getting from [Tauri](https://tauri.studio/) along with the added benefit of writing the frontend code in [Rust](https://rust-lang.org) as well. Also, because [Dioxus](https://dioxuslabs.com/)' design is intentionally modelled after [React](https://reactjs.org), it was relatively easy for me to get back up to speed.
+- [Tauri](https://tauri.studio)
+- [Dioxus](https://dioxuslabs.com)
+- [Godot](https://godotengine.org)
+- [gtk-rs](https://gtk-rs.org)
 
-After making considerable progress building the application with [Rust](https://rust-lang.org) & [Dioxus](https://dioxuslabs.com/), I started realizing that, while it was a very educational experience, it was also just a lot of work to create & maintain new sheets. At the same time, I had started exploring game development using [Godot](https://godotengine.org) and realized [Godot](https://godotengine.org)'s UI scenes would be an acceptable replacement which would be less hassle in the long run.
-
-After working within [Godot](https://godotengine.org) for a time, I began to realize that a modular approach was going to be the best way to organize everything. At the time, [Godot](https://godotengine.org) was being more difficult than I liked when trying to break things apart into separate libraries. This was mostly due to the FFI nature of how C# is used in [Godot](https://godotengine.org) and trying to load C#-based nodes across library boundaries. So I started looking for a better way. This is when I found my way to GTK4 and the [Rust](https://rust-lang.org) crate [gtk-rs](https://gtk-rs.org). Unifying the project into a single language and splitting each game system out into its own library made it much easier to work with overall and GTK's XML templates mitigated the issues of building a UI in code. It seems likely that this is the stack that will carry the project forward for the foreseeable future.
+All of these have their strengths and their weaknesses and using each of them has been a beneficial learning experience for me. As for OCSM, I have settled upon using [Freya](https://freyaui.dev) for the foreseeable future, both because it allows the project to be written purely in [Rust](https://rust-lang.org) and because it leverages the best parts of [Dioxus](https://dioxuslabs.com) without the complications which result from using a web frontend for an offline desktop application.
 
 Anyway, thank you for making it all the way through my rambling!

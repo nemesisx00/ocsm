@@ -1,61 +1,27 @@
-mod ui;
+mod app;
+mod components;
+mod constants;
+mod data;
+mod gamesystems;
+mod io;
+mod menu;
 
-use std::path::Path;
-use gtk4::gdk::Display;
-use gtk4::prelude::{ApplicationExt, ApplicationExtManual, GtkWindowExt};
-use gtk4::{gio, Application, CssProvider};
-use gtk4::glib::ExitCode;
-use ui::window::OcsmWindow;
+use freya::launch::launch_cfg;
+use freya::prelude::{LaunchConfig, WindowConfig};
+use crate::app::App;
+use crate::constants::{AppTitle, BackgroundColor, DefaultWindowSize, MinimumWindowSize};
 
-const AppId: &str = "io.github.nemesisx00.OCSM";
-
-fn main() -> ExitCode
+fn main()
 {
-	gio::resources_register_include!("templates.gresource")
-		.expect("Failed to register template resources.");
-	
-	let app = Application::builder()
-		.application_id(AppId)
-		.build();
-	
-	app.connect_startup(startup);
-	app.connect_activate(generateUi);
-	
-	return app.run();
-}
-
-fn generateUi(app: &Application)
-{
-	let window = OcsmWindow::new(app);
-	window.present();
-}
-
-fn initializeCss()
-{
-	let provider = CssProvider::new();
-	let filePath = format!("{}/{}", env!("CARGO_MANIFEST_DIR"), "css/window.css");
-	let p = Path::new(&filePath);
-	provider.load_from_path(p);
-	
-	gtk4::style_context_add_provider_for_display(
-		&Display::default().expect("Could not connect to a display"),
-		&provider,
-		gtk4::STYLE_PROVIDER_PRIORITY_APPLICATION
+	launch_cfg(
+		LaunchConfig::new()
+			.with_window(
+				WindowConfig::new(App)
+					.with_background(BackgroundColor)
+					.with_min_size(MinimumWindowSize.0, MinimumWindowSize.1)
+					.with_size(DefaultWindowSize.0, DefaultWindowSize.1)
+					.with_title(AppTitle)
+					.with_transparency(false)
+			)
 	);
-}
-
-fn startup(_: &Application)
-{
-	initializeCss();
-	widgets::initializeCss();
-	cofd::initializeCss();
-	ctl2e::initializeCss();
-	mta2e::initializeCss();
-	vtr2e::initializeCss();
-	
-	widgets::initializeResources();
-	cofd::initializeResources();
-	ctl2e::initializeResources();
-	mta2e::initializeResources();
-	vtr2e::initializeResources();
 }
