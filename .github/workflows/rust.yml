@@ -16,13 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install Dependencies
-      run: |
-        sudo apt update
-        sudo apt upgrade
-        sudo apt install libgtk-4-dev build-essential
+    - uses: actions/checkout@v5
     
     - name: Build
       run: cargo build --verbose
