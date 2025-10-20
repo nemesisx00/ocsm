@@ -20,9 +20,7 @@ jobs:
     
     - name: Install Dependencies
       run: |
-        sudo apt update
-        sudo apt upgrade
-        sudo apt install build-essential
+        rustup update
     
     - name: Build
       run: cargo build --release --verbose
