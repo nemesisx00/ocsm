@@ -33,11 +33,13 @@ pub fn DisciplineListElement() -> Element
 			direction: "vertical",
 			main_align: "space-evenly",
 			margin: "15 0 0 0",
+			spacing: "5",
 			width: "fill",
 			
 			label
 			{
 				font_size: "20",
+				margin: "0 0 5 0",
 				text_align: "center",
 				width: "fill",
 				"Disciplines"
@@ -63,6 +65,7 @@ pub fn DisciplineListElement() -> Element
 			{
 				direction: "horizontal",
 				main_align: "center",
+				margin: "5 0 0 0",
 				width: "fill",
 				
 				Button
