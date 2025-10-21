@@ -85,7 +85,8 @@ fn AddSheetMenu() -> Element
 fn addSheet(game: GameSystem)
 {
 	AppState.write().sheets.addSheet(game);
-	AppState.write().updateActiveId(AppState().sheets.getLastSheetId(game));
+	let id = AppState().sheets.getLastSheetId(game);
+	AppState.write().updateActiveId(id);
 }
 
 fn doSave(json: String)
