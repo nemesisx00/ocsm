@@ -10,6 +10,7 @@ pub fn TracksElement() -> Element
 	
 	let bloodPotency: Signal<StateValue> = use_signal(|| sheetData().bloodPotency.into());
 	let health = use_signal(|| sheetData().health);
+	let humanity: Signal<StateValue> = use_signal(|| sheetData().humanity.into());
 	let vitae: Signal<StateValue> = use_signal(|| sheetData().vitae.into());
 	let willpower: Signal<StateValue> = use_signal(|| sheetData().willpower.into());
 	
@@ -18,6 +19,7 @@ pub fn TracksElement() -> Element
 		
 		sheetDataWrite.bloodPotency = bloodPotency().one;
 		sheetDataWrite.health = health();
+		sheetDataWrite.humanity = humanity().one;
 		sheetDataWrite.vitae = vitae().one;
 		sheetDataWrite.willpower = willpower().one;
 	});
@@ -40,6 +42,22 @@ pub fn TracksElement() -> Element
 				direction: "horizontal",
 				main_align: "space-evenly",
 				width: "fill",
+				
+				rect
+				{
+					direction: "vertical",
+					cross_align: "center",
+					spacing: "5",
+					width: "20%",
+					
+					label { text_align: "center", "Humanity" }
+					StatefulTrack
+					{
+						max: 10,
+						mode: StatefulMode::CircleOne,
+						value: humanity
+					}
+				}
 				
 				rect
 				{
