@@ -32,6 +32,7 @@ pub fn SheetElement(id: SheetId) -> Element
 		rect
 		{
 			direction: "vertical",
+			margin: "0 0 400 0",
 			spacing: "10",
 			width: "fill",
 			
