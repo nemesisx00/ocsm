@@ -9,7 +9,7 @@ use super::entry::DisciplineElement;
 pub fn DisciplineListElement() -> Element
 {
 	let mut sheetData = use_context::<Signal<Vtr2eSheet>>();
-	let mut disciplines = use_signal(|| sheetData().disciplines.clone());
+	let mut disciplines = use_signal(|| sheetData().disciplines);
 	
 	use_memo(move || sheetData.write().disciplines = disciplines());
 	
