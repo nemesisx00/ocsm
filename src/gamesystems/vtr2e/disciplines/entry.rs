@@ -1,6 +1,7 @@
 use std::collections::HashMap;
-use freya::hooks::use_platform;
-use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx, use_memo, use_signal, CursorIcon, Dropdown, DropdownItem, Element, GlobalSignal, IntoDynNode, Props, Readable, Signal, Writable};
+use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx, use_memo,
+	use_signal, Button, Dropdown, DropdownItem, Element, GlobalSignal,
+	IntoDynNode, Props, Readable, Signal, Writable};
 use strum::IntoEnumIterator;
 use crate::components::{StateValue, StatefulMode, StatefulTrack};
 use super::super::data::Discipline;
@@ -8,7 +9,6 @@ use super::super::data::Discipline;
 #[component]
 pub fn DisciplineElement(discipline: Discipline, signal: Signal<HashMap<Discipline, u32>>) -> Element
 {
-	let platform = use_platform();
 	let dotValue: Signal<StateValue> = use_signal(|| match signal().get(&discipline)
 	{
 		None => Default::default(),
@@ -58,15 +58,11 @@ pub fn DisciplineElement(discipline: Discipline, signal: Signal<HashMap<Discipli
 				mode: StatefulMode::CircleOne,
 				value: dotValue,
 			}
-			
-			rect { margin: "0 0 0 5", }
-			
-			label
+					
+			Button
 			{
-				onpointerenter: move |_| platform.set_cursor(CursorIcon::Pointer),
-				onpointerleave: move |_| platform.set_cursor(CursorIcon::Default),
-				onclick: move |_| _ = signal.write().remove(&selected()),
-				"X"
+				onpress: move |_| _ = signal.write().remove(&selected()),
+				label { "x" }
 			}
 		}
 	);

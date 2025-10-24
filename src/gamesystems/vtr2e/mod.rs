@@ -1,3 +1,5 @@
+mod combat;
+mod conditions;
 pub mod data;
 mod disciplines;
 mod info;

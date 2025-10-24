@@ -20,13 +20,32 @@ pub fn MeritListElement() -> Element
 			spacing: "5",
 			width: "fill",
 			
-			label
+			rect
 			{
-				font_size: "20",
+				direction: "horizontal",
+				main_align: "center",
 				margin: "0 0 5 0",
-				text_align: "center",
+				spacing: "5",
 				width: "fill",
-				"Merits"
+				
+				label
+				{
+					font_size: "20",
+					text_align: "center",
+					"Merits"
+				}
+				
+				rect
+				{
+					direction: "horizontal",
+					main_align: "center",
+					
+					Button
+					{
+						onpress: move |_| _ = merits.write().push(Default::default()),
+						label { "+" }
+					}
+				}
 			}
 			
 			for i in 0..merits().len()
@@ -47,20 +66,6 @@ pub fn MeritListElement() -> Element
 							MeritElement { index: i + 1, signal: merits }
 						}
 					}
-				}
-			}
-			
-			rect
-			{
-				direction: "horizontal",
-				main_align: "center",
-				margin: "5 0 0 0",
-				width: "fill",
-				
-				Button
-				{
-					onpress: move |_| merits.write().push(Default::default()),
-					label { "Add Merit" }
 				}
 			}
 		}

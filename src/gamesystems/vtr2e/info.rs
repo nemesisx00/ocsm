@@ -1,7 +1,82 @@
 use freya::hooks::{cow_borrowed, theme_with};
 use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx, use_context,
-	Element, GlobalSignal, Input, InputThemeWith, Readable, Signal, Writable};
+	Accordion, AccordionBody, AccordionSummary, Element, GlobalSignal, Input,
+	IntoDynNode, InputThemeWith, Readable, Signal, Writable};
 use crate::gamesystems::Vtr2eSheet;
+
+#[component]
+pub fn InfoAccordionElement() -> Element
+{
+	let sheetData = use_context::<Signal<Vtr2eSheet>>();
+	
+	let summary = match sheetData().name.is_empty()
+	{
+		false => match sheetData().clan.is_empty()
+		{
+			false => match sheetData().bloodline.is_empty()
+			{
+				false => format!("{} ({} {})", sheetData().name, sheetData().clan, sheetData().bloodline),
+				true => format!("{} ({})", sheetData().name, sheetData().clan),
+			},
+			true => sheetData().name,
+		},
+		true => "Character Name".into(),
+	};
+	
+	return rsx!(
+		rect
+		{
+			cross_align: "center",
+			direction: "vertical",
+			width: "fill",
+			
+			rect
+			{
+				cross_align: "center",
+				direction: "vertical",
+				width: "85%",
+				
+				Accordion
+				{
+					summary: rsx!(AccordionSummary
+					{
+						rect
+						{
+							direction: "vertical",
+							spacing: "5",
+							width: "fill",
+							
+							label
+							{
+								text_align: "center",
+								width: "fill",
+								
+								"{summary}"
+							}
+							
+							if !sheetData().concept.is_empty()
+							{
+								label
+								{
+									font_size: "10",
+									text_align: "center",
+									width: "fill",
+									
+									"{sheetData().concept}"
+								}
+							}
+						}
+					}),
+					
+					AccordionBody
+					{
+						InfoElement {}
+					}
+				}
+			}
+		}
+	);
+}
 
 /**
 Component enabling display and editing of general free text character information
@@ -11,8 +86,9 @@ name, etc.
 #[component]
 pub fn InfoElement() -> Element
 {
-	let mut sheetData = use_context::<Signal<Vtr2eSheet>>();
 	let labelMinWidth = 80;
+	
+	let mut sheetData = use_context::<Signal<Vtr2eSheet>>();
 	
 	return rsx!(
 		rect
@@ -23,9 +99,11 @@ pub fn InfoElement() -> Element
 			
 			rect
 			{
+				content: "flex",
 				cross_align: "center",
 				direction: "horizontal",
 				main_align: "center",
+				spacing: "5",
 				width: "fill",
 				
 				label
@@ -38,17 +116,14 @@ pub fn InfoElement() -> Element
 				Input
 				{
 					onchange: move |value| sheetData.write().concept = value,
-					theme: theme_with!(InputTheme
-					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
 					value: sheetData().concept,
-					width: "75%",
+					width: "flex",
 				}
 			}
 			
 			rect
 			{
+				content: "flex",
 				cross_align: "center",
 				direction: "horizontal",
 				main_align: "center",
@@ -70,7 +145,7 @@ pub fn InfoElement() -> Element
 						margin: cow_borrowed!("0 15 0 0"),
 					}),
 					value: sheetData().player,
-					width: "35%",
+					width: "flex",
 				}
 				
 				label
@@ -84,12 +159,13 @@ pub fn InfoElement() -> Element
 				{
 					onchange: move |value| sheetData.write().chronicle = value,
 					value: sheetData().chronicle,
-					width: "35%",
+					width: "flex",
 				}
 			}
 			
 			rect
 			{
+				content: "flex",
 				cross_align: "center",
 				direction: "horizontal",
 				main_align: "center",
@@ -111,7 +187,7 @@ pub fn InfoElement() -> Element
 						margin: cow_borrowed!("0 15 0 0"),
 					}),
 					value: sheetData().name,
-					width: "35%",
+					width: "flex",
 				}
 				
 				label
@@ -125,12 +201,13 @@ pub fn InfoElement() -> Element
 				{
 					onchange: move |value| sheetData.write().clan = value,
 					value: sheetData().clan,
-					width: "35%",
+					width: "flex",
 				}
 			}
 			
 			rect
 			{
+				content: "flex",
 				cross_align: "center",
 				direction: "horizontal",
 				main_align: "center",
@@ -152,7 +229,7 @@ pub fn InfoElement() -> Element
 						margin: cow_borrowed!("0 15 0 0"),
 					}),
 					value: sheetData().mask,
-					width: "35%",
+					width: "flex",
 				}
 			
 				label
@@ -165,17 +242,14 @@ pub fn InfoElement() -> Element
 				Input
 				{
 					onchange: move |value| sheetData.write().bloodline = value,
-					theme: theme_with!(InputTheme
-					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
 					value: sheetData().bloodline,
-					width: "35%",
+					width: "flex",
 				}
 			}
 			
 			rect
 			{
+				content: "flex",
 				cross_align: "center",
 				direction: "horizontal",
 				main_align: "center",
@@ -197,7 +271,7 @@ pub fn InfoElement() -> Element
 						margin: cow_borrowed!("0 15 0 0"),
 					}),
 					value: sheetData().dirge,
-					width: "35%",
+					width: "flex",
 				}
 				
 				label
@@ -210,12 +284,8 @@ pub fn InfoElement() -> Element
 				Input
 				{
 					onchange: move |value| sheetData.write().covenant = value,
-					theme: theme_with!(InputTheme
-					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
 					value: sheetData().covenant,
-					width: "35%",
+					width: "flex",
 				}
 			}
 		}

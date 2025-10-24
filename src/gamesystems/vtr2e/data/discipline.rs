@@ -14,6 +14,16 @@ pub enum Discipline
 	Protean,
 	Resilience,
 	Vigor,
+	#[strum(serialize = "Coil of the Ascendant")]
+	CoilAscendant,
+	#[strum(serialize = "Coil of the Voivode")]
+	CoilVoivode,
+	#[strum(serialize = "Coil of the Wyrm")]
+	CoilWrym,
+	#[strum(serialize = "Crúac")]
+	Cruac,
+	#[strum(serialize = "Theban Sorcery")]
+	ThebanSorcery,
 	
 	#[default]
 	#[strum(serialize = "None", serialize = "")]

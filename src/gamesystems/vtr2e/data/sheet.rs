@@ -10,17 +10,21 @@ use super::Discipline;
 pub struct Sheet
 {
 	pub id: SheetId,
-	pub attributes: Attributes,
+	pub armor: u32,
 	pub aspirations: Vec<String>,
+	pub attributes: Attributes,
 	pub banes: Vec<String>,
+	pub beats: u32,
 	pub bloodline: String,
 	pub bloodPotency: u32,
 	pub chronicle: String,
 	pub clan: String,
 	pub concept: String,
+	pub conditions: Vec<String>,
 	pub covenant: String,
 	pub dirge: String,
 	pub disciplines: HashMap<Discipline, u32>,
+	pub experience: u32,
 	pub health: StateValue,
 	pub humanity: u32,
 	pub mask: String,
@@ -42,22 +46,28 @@ impl CharacterSheet for Sheet
 	
 	fn update(&mut self, other: &Sheet)
 	{
+		self.armor = other.armor;
 		self.aspirations = other.aspirations.to_owned();
 		self.attributes = other.attributes;
 		self.banes = other.banes.to_owned();
+		self.beats = other.beats;
 		self.bloodline = other.bloodline.to_owned();
 		self.bloodPotency = other.bloodPotency;
 		self.chronicle = other.chronicle.to_owned();
 		self.clan = other.clan.to_owned();
 		self.concept = other.concept.to_owned();
+		self.conditions = other.conditions.to_owned();
 		self.covenant = other.covenant.to_owned();
 		self.dirge = other.dirge.to_owned();
 		self.disciplines = other.disciplines.to_owned();
+		self.experience = other.experience;
 		self.health = other.health;
+		self.humanity = other.humanity;
 		self.mask = other.mask.to_owned();
 		self.merits = other.merits.to_owned();
 		self.name = other.name.to_owned();
 		self.player = other.player.to_owned();
+		self.size = other.size;
 		self.skills = other.skills;
 		self.vitae = other.vitae;
 		self.willpower = other.willpower;
@@ -70,17 +80,21 @@ impl Default for Sheet
 	{
 		return Self
 		{
+			armor: 0,
 			aspirations: vec![],
 			attributes: Attributes::default(),
 			banes: vec![],
+			beats: 0,
 			bloodPotency: 1,
 			bloodline: String::default(),
 			chronicle: String::default(),
 			clan: String::default(),
 			concept: String::default(),
+			conditions: vec![],
 			covenant: String::default(),
 			dirge: String::default(),
 			disciplines: HashMap::default(),
+			experience: 0,
 			health: StateValue::default(),
 			humanity: 7,
 			id: SheetId::default(),
@@ -98,6 +112,27 @@ impl Default for Sheet
 
 impl Sheet
 {
+	pub fn calculateDefense(&self) -> u32
+	{
+		return self.skills.athletics
+		+ match self.attributes.dexterity > self.attributes.wits
+		{
+			false => self.attributes.dexterity,
+			true => self.attributes.wits,
+		}
+		+ match self.disciplines.get(&Discipline::Celerity)
+		{
+			None => 0,
+			Some(celerity) => *celerity,
+		};
+	}
+	
+	pub fn calculateInitiative(&self) -> u32
+	{
+		return self.attributes.dexterity
+			+ self.attributes.composure;
+	}
+	
 	pub fn calculateMaxHealth(&self) -> u32
 	{
 		let resilience = match self.disciplines.get(&Discipline::Resilience)
@@ -165,5 +200,17 @@ impl Sheet
 	pub fn calculateMaxWillpower(&self) -> u32
 	{
 		return self.attributes.resolve + self.attributes.composure;
+	}
+	
+	pub fn calculateSpeed(&self) -> u32
+	{
+		return self.size
+			+ self.attributes.dexterity
+			+ self.attributes.strength
+			+ match self.disciplines.get(&Discipline::Vigor)
+			{
+				None => 0,
+				Some(vigor) => *vigor,
+			}
 	}
 }

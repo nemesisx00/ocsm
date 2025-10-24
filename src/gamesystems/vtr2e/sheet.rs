@@ -2,8 +2,10 @@ use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx,
 	use_context_provider, use_memo, use_signal, Element, GlobalSignal, Props,
 	Readable};
 use crate::data::{AppState, CharacterSheet, SheetId};
-use crate::gamesystems::vtr2e::disciplines::list::DisciplineListElement;
-use super::info::InfoElement;
+use crate::gamesystems::vtr2e::combat::CombatElement;
+use super::conditions::ConditionsElement;
+use super::disciplines::list::DisciplineListElement;
+use super::info::InfoAccordionElement;
 use super::merits::MeritListElement;
 use super::tracks::TracksElement;
 use super::traits::TraitsElement;
@@ -36,7 +38,9 @@ pub fn SheetElement(id: SheetId) -> Element
 			spacing: "10",
 			width: "fill",
 			
-			InfoElement {}
+			InfoAccordionElement {}
+			ConditionsElement {}
+			CombatElement {}
 			TracksElement {}
 			TraitsElement {}
 			DisciplineListElement {}

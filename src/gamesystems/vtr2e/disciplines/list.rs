@@ -36,13 +36,32 @@ pub fn DisciplineListElement() -> Element
 			spacing: "5",
 			width: "fill",
 			
-			label
+			rect
 			{
-				font_size: "20",
+				direction: "horizontal",
+				main_align: "center",
 				margin: "0 0 5 0",
-				text_align: "center",
+				spacing: "5",
 				width: "fill",
-				"Disciplines"
+				
+				label
+				{
+					font_size: "20",
+					text_align: "center",
+					"Disciplines"
+				}
+				
+				rect
+				{
+					direction: "horizontal",
+					main_align: "center",
+					
+					Button
+					{
+						onpress: move |_| _ = disciplines.write().insert(Discipline::None, 0),
+						label { "+" }
+					}
+				}
 			}
 			
 			for row in rows
@@ -58,20 +77,6 @@ pub fn DisciplineListElement() -> Element
 					{
 						DisciplineElement { discipline: d, signal: disciplines }
 					}
-				}
-			}
-			
-			rect
-			{
-				direction: "horizontal",
-				main_align: "center",
-				margin: "5 0 0 0",
-				width: "fill",
-				
-				Button
-				{
-					onpress: move |_| _ = disciplines.write().insert(Discipline::None, 0),
-					label { "Add Discipline" }
 				}
 			}
 		}
