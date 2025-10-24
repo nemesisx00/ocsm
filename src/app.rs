@@ -1,10 +1,9 @@
-use dioxus_core::Event;
 use freya::events::{Code, KeyboardData, Modifiers};
 use freya::prelude::{dioxus_elements, fc_to_builder, rsx, Button, Element,
-	GlobalSignal, IntoDynNode, Readable, ScrollView, Tab, Tabsbar,
-	ThemeProvider};
+	Event, GlobalSignal, IntoDynNode, Readable, ScrollView, ThemeProvider};
 use crate::data::AppState;
 use crate::constants::{BackgroundColor, TextColor, Theme};
+use crate::gamesystems::{CofdSheetList, Vtr2eSheetList};
 use crate::menu::{loadHandler, saveHandler, MainMenu};
 
 pub fn App() -> Element
@@ -60,37 +59,18 @@ pub fn App() -> Element
 				match AppState().activeId
 				{
 					None => rsx!(
-						rect
+						ScrollView
 						{
-							direction: "vertical",
-							spacing: "15",
+							height: "fill",
+							width: "fill",
 							
-							Tabsbar
+							rect
 							{
-								for id in AppState().sheets.cofd.iter()
-									.map(|s| s.id)
-								{
-									Tab
-									{
-										onpress: move |_| AppState.write().activeId = Some(id),
-										
-										label { "Mortal {id.index}" },
-									}
-								}
-							}
-							
-							Tabsbar
-							{
-								for id in AppState().sheets.vtr2e.iter()
-									.map(|s| s.id)
-								{
-									Tab
-									{
-										onpress: move |_| AppState.write().activeId = Some(id),
-										
-										label { "Vampire {id.index}" },
-									}
-								}
+								direction: "vertical",
+								spacing: "15",
+								
+								CofdSheetList {}
+								Vtr2eSheetList {}
 							}
 						}
 					),

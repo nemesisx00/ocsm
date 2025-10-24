@@ -4,6 +4,7 @@ pub const AppTitle: &str = "Open Character Sheet Manager";
 pub const DefaultWindowSize: (f64, f64) = (1280.0, 720.0);
 pub const MinimumWindowSize: (f64, f64) = (880.0, 495.0);
 
+pub const SheetListNodeHeight: u32 = 75;
 pub const BackgroundColor: &str = "rgb(35, 35, 35)";
 pub const ButtonBackgroundColor: &str = "rgb(26, 26, 26)";
 pub const ButtonHoverColor: &str = "rgb(48, 48, 48)";
