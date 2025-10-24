@@ -52,217 +52,237 @@ pub fn InfoElement() -> Element
 	return rsx!(
 		rect
 		{
+			cross_align: "center",
 			direction: "vertical",
-			spacing: "5",
 			width: "fill",
 			
 			rect
 			{
 				cross_align: "center",
-				direction: "horizontal",
-				main_align: "center",
-				width: "fill",
+				direction: "vertical",
+				width: "80%",
 				
-				label
+				rect
 				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Player"
-				}
-				
-				Input
-				{
-					onchange: move |value| player.set(value),
-					theme: theme_with!(InputTheme
+					direction: "vertical",
+					spacing: "5",
+					width: "fill",
+					
+					rect
 					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
-					value: player,
-					width: "35%",
-				}
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Concept"
-				}
-				
-				Input
-				{
-					onchange: move |value| concept.set(value),
-					value: concept,
-					width: "35%",
-				}
-			}
-			
-			rect
-			{
-				cross_align: "center",
-				direction: "horizontal",
-				main_align: "center",
-				spacing: "5",
-				width: "fill",
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Name"
-				}
-				
-				Input
-				{
-					onchange: move |value| name.set(value),
-					theme: theme_with!(InputTheme
+						content: "flex",
+						cross_align: "center",
+						direction: "horizontal",
+						main_align: "center",
+						spacing: "5",
+						width: "fill",
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Player"
+						}
+						
+						Input
+						{
+							onchange: move |value| player.set(value),
+							theme: theme_with!(InputTheme
+							{
+								margin: cow_borrowed!("0 15 0 0"),
+							}),
+							value: player,
+							width: "flex",
+						}
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Concept"
+						}
+						
+						Input
+						{
+							onchange: move |value| concept.set(value),
+							value: concept,
+							width: "flex",
+						}
+					}
+					
+					rect
 					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
-					value: name,
-					width: "35%",
-				}
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Chronicle"
-				}
-				
-				Input
-				{
-					onchange: move |value| chronicle.set(value),
-					value: chronicle,
-					width: "35%",
-				}
-			}
-			
-			rect
-			{
-				cross_align: "center",
-				direction: "horizontal",
-				main_align: "center",
-				spacing: "5",
-				width: "fill",
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Virtue"
-				}
-				
-				Input
-				{
-					onchange: move |value| virtue.set(value),
-					theme: theme_with!(InputTheme
+						content: "flex",
+						cross_align: "center",
+						direction: "horizontal",
+						main_align: "center",
+						spacing: "5",
+						width: "fill",
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Name"
+						}
+						
+						Input
+						{
+							onchange: move |value| name.set(value),
+							theme: theme_with!(InputTheme
+							{
+								margin: cow_borrowed!("0 15 0 0"),
+							}),
+							value: name,
+							width: "flex",
+						}
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Chronicle"
+						}
+						
+						Input
+						{
+							onchange: move |value| chronicle.set(value),
+							value: chronicle,
+							width: "flex",
+						}
+					}
+					
+					rect
 					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
-					value: virtue,
-					width: "35%",
-				}
-			
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Vice"
-				}
-				
-				Input
-				{
-					onchange: move |value| vice.set(value),
-					value: vice,
-					width: "35%",
-				}
-			}
-			
-			rect
-			{
-				cross_align: "center",
-				direction: "horizontal",
-				main_align: "center",
-				spacing: "5",
-				width: "fill",
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Group"
-				}
-				
-				Input
-				{
-					onchange: move |value| group.set(value),
-					theme: theme_with!(InputTheme
+						content: "flex",
+						cross_align: "center",
+						direction: "horizontal",
+						main_align: "center",
+						spacing: "5",
+						width: "fill",
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Virtue"
+						}
+						
+						Input
+						{
+							onchange: move |value| virtue.set(value),
+							theme: theme_with!(InputTheme
+							{
+								margin: cow_borrowed!("0 15 0 0"),
+							}),
+							value: virtue,
+							width: "flex",
+						}
+					
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Vice"
+						}
+						
+						Input
+						{
+							onchange: move |value| vice.set(value),
+							value: vice,
+							width: "flex",
+						}
+					}
+					
+					rect
 					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
-					value: group,
-					width: "35%",
-				}
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Faction"
-				}
-				
-				Input
-				{
-					onchange: move |value| faction.set(value),
-					value: faction,
-					width: "35%",
-				}
-			}
-			
-			rect
-			{
-				cross_align: "center",
-				direction: "horizontal",
-				main_align: "center",
-				spacing: "5",
-				width: "fill",
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Age"
-				}
-				
-				Input
-				{
-					onchange: move |value: String| if let Ok(ageNum) = value.parse::<u32>()
+						content: "flex",
+						cross_align: "center",
+						direction: "horizontal",
+						main_align: "center",
+						spacing: "5",
+						width: "fill",
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Group"
+						}
+						
+						Input
+						{
+							onchange: move |value| group.set(value),
+							theme: theme_with!(InputTheme
+							{
+								margin: cow_borrowed!("0 15 0 0"),
+							}),
+							value: group,
+							width: "flex",
+						}
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Faction"
+						}
+						
+						Input
+						{
+							onchange: move |value| faction.set(value),
+							value: faction,
+							width: "flex",
+						}
+					}
+					
+					rect
 					{
-						age.set(ageNum);
-					},
-					theme: theme_with!(InputTheme
-					{
-						margin: cow_borrowed!("0 15 0 0"),
-					}),
-					value: age.to_string(),
-					width: "35%",
-				}
-				
-				label
-				{
-					min_width: "{labelMinWidth}",
-					width: "5%",
-					"Size"
-				}
-				
-				Input
-				{
-					onchange: move |value: String| if let Ok(sizeNum) = value.parse::<u32>()
-					{
-						size.set(sizeNum);
-					},
-					value: size.to_string(),
-					width: "35%",
+						content: "flex",
+						cross_align: "center",
+						direction: "horizontal",
+						main_align: "center",
+						spacing: "5",
+						width: "fill",
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Age"
+						}
+						
+						Input
+						{
+							onchange: move |value: String| if let Ok(ageNum) = value.parse::<u32>()
+							{
+								age.set(ageNum);
+							},
+							theme: theme_with!(InputTheme
+							{
+								margin: cow_borrowed!("0 15 0 0"),
+							}),
+							value: age.to_string(),
+							width: "flex",
+						}
+						
+						label
+						{
+							min_width: "{labelMinWidth}",
+							width: "5%",
+							"Size"
+						}
+						
+						Input
+						{
+							onchange: move |value: String| if let Ok(sizeNum) = value.parse::<u32>()
+							{
+								size.set(sizeNum);
+							},
+							value: size.to_string(),
+							width: "flex",
+						}
+					}
 				}
 			}
 		}
