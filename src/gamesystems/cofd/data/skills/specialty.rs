@@ -1,5 +1,4 @@
 use std::cmp::Ordering;
-
 use serde::{Deserialize, Serialize};
 use crate::gamesystems::cofd::data::Skill;
 
