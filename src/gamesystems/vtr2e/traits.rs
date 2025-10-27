@@ -20,12 +20,7 @@ pub fn TraitsElement() -> Element
 	let skillPhysical: Signal<SkillsPhysical> = use_signal(|| sheetData().skills.into());
 	let skillSocial: Signal<SkillsSocial> = use_signal(|| sheetData().skills.into());
 	
-	let mut specialties: Signal<Vec<Specialty>> = use_signal(|| sheetData().specialties);
-	
-	if specialties().is_empty()
-	{
-		specialties.write().push(Default::default());
-	}
+	let specialties: Signal<Vec<Specialty>> = use_signal(|| sheetData().specialties);
 	
 	use_memo(move || {
 		let mut sheetDataWrite = sheetData.write();

@@ -2,7 +2,8 @@ use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx,
 	use_context, use_memo, use_signal, Button, Element, GlobalSignal,
 	IntoDynNode, Props, Readable, Signal, Writable};
 use itertools::Itertools;
-use crate::gamesystems::{vtr2e::data::Discipline, Vtr2eSheet};
+use crate::gamesystems::Vtr2eSheet;
+use crate::gamesystems::vtr2e::data::Discipline;
 use super::entry::DisciplineElement;
 
 #[component]
@@ -21,7 +22,10 @@ pub fn DisciplineListElement(width: Option<&'static str>) -> Element
 	
 	let mut rows = vec![];
 	let mut row = 0;
-	for (i, (d, _)) in disciplines().iter().sorted().enumerate()
+	
+	for (i, (d, _)) in disciplines().iter()
+		.sorted()
+		.enumerate()
 	{
 		if i % 3 == 0
 		{

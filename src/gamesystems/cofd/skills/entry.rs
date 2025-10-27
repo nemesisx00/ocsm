@@ -23,7 +23,6 @@ pub fn SkillSpecialtyElement(
 	let mut skill = use_signal(|| specialty.skill);
 	let mut spec = use_signal(|| specialty.specialty);
 	
-	
 	use_memo({
 		to_owned![sp];
 		move || if let Some(specialty) = signal.write().iter_mut()
@@ -75,7 +74,9 @@ pub fn SkillSpecialtyElement(
 				onpress: {
 					to_owned![sp];
 					move |_| {
-						if let Some(index) = signal().iter().cloned().enumerate()
+						if let Some(index) = signal().iter()
+							.cloned()
+							.enumerate()
 							.find(|(_, s)| s.to_owned() == sp)
 							.map(|(i, _)| i)
 						{

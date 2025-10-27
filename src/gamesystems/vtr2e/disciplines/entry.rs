@@ -32,11 +32,9 @@ pub fn DisciplineElement(
 		Some(d) => d,
 	});
 	
-	use_memo(move || {
-		if let Some(dots) = signal.write().get_mut(&selected())
-		{
-			*dots = dotValue().one;
-		}
+	use_memo(move || if let Some(dots) = signal.write().get_mut(&selected())
+	{
+		*dots = dotValue().one;
 	});
 	
 	return rsx!(
