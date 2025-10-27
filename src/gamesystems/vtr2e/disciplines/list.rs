@@ -1,23 +1,29 @@
 use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx,
 	use_context, use_memo, use_signal, Button, Element, GlobalSignal,
-	IntoDynNode, Readable, Signal, Writable};
+	IntoDynNode, Props, Readable, Signal, Writable};
 use itertools::Itertools;
 use crate::gamesystems::{vtr2e::data::Discipline, Vtr2eSheet};
 use super::entry::DisciplineElement;
 
 #[component]
-pub fn DisciplineListElement() -> Element
+pub fn DisciplineListElement(width: Option<&'static str>) -> Element
 {
+	let width = match width
+	{
+		None => "auto",
+		Some(w) => w,
+	};
+	
 	let mut sheetData = use_context::<Signal<Vtr2eSheet>>();
 	let mut disciplines = use_signal(|| sheetData().disciplines);
 	
 	use_memo(move || sheetData.write().disciplines = disciplines());
 	
-	let mut rows = vec![vec![]];
+	let mut rows = vec![];
 	let mut row = 0;
 	for (i, (d, _)) in disciplines().iter().sorted().enumerate()
 	{
-		if i > 0 && i % 3 == 0
+		if i % 3 == 0
 		{
 			rows.push(vec![]);
 			row = rows.len() - 1;
@@ -31,10 +37,10 @@ pub fn DisciplineListElement() -> Element
 		{
 			cross_align: "center",
 			direction: "vertical",
-			main_align: "space-evenly",
+			main_align: "center",
 			margin: "15 0 0 0",
 			spacing: "5",
-			width: "fill",
+			width: "{width}",
 			
 			rect
 			{
@@ -68,14 +74,20 @@ pub fn DisciplineListElement() -> Element
 			{
 				rect
 				{
-					cross_align: "center",
+					content: "flex",
 					direction: "horizontal",
-					main_align: "space-between",
-					spacing: "10",
+					main_align: "space-around",
+					spacing: "5",
+					width: "fill",
 					
 					for d in row
 					{
-						DisciplineElement { discipline: d, signal: disciplines }
+						DisciplineElement
+						{
+							discipline: d,
+							signal: disciplines,
+							width: "flex"
+						}
 					}
 				}
 			}

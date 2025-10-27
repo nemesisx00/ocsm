@@ -1,14 +1,24 @@
 use std::collections::HashMap;
 use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx, use_memo,
 	use_signal, Button, Dropdown, DropdownItem, Element, GlobalSignal,
-	IntoDynNode, Props, Readable, Signal, Writable};
+	IntoDynNode, Props, Readable, ScrollView, Signal, Writable};
 use strum::IntoEnumIterator;
 use crate::components::{StateValue, StatefulMode, StatefulTrack};
 use super::super::data::Discipline;
 
 #[component]
-pub fn DisciplineElement(discipline: Discipline, signal: Signal<HashMap<Discipline, u32>>) -> Element
+pub fn DisciplineElement(
+	discipline: Discipline,
+	signal: Signal<HashMap<Discipline, u32>>,
+	width: Option<&'static str>
+) -> Element
 {
+	let width = match width
+	{
+		None => "auto",
+		Some(w) => w,
+	};
+	
 	let dotValue: Signal<StateValue> = use_signal(|| match signal().get(&discipline)
 	{
 		None => Default::default(),
@@ -34,21 +44,27 @@ pub fn DisciplineElement(discipline: Discipline, signal: Signal<HashMap<Discipli
 		{
 			cross_align: "center",
 			direction: "horizontal",
+			main_align: "center",
 			spacing: "5",
-			width: "30%",
+			width: "{width}",
 			
 			Dropdown
 			{
 				selected_item: rsx!(label { "{selected().as_ref()}" }),
 				
-				for d in Discipline::iter()
-					.filter(|d| !signal().contains_key(&d))
+				ScrollView
 				{
-					DropdownItem
+					height: "200",
+					
+					for d in Discipline::iter()
+						.filter(|d| !signal().contains_key(&d))
 					{
-						selected: selected() == d,
-						onpress: move |_| swapSelected(d, &mut selected, &mut signal),
-						label { min_width: "100", "{d.as_ref()}" }
+						DropdownItem
+						{
+							selected: selected() == d,
+							onpress: move |_| swapSelected(d, &mut selected, &mut signal),
+							label { min_width: "100", "{d.as_ref()}" }
+						}
 					}
 				}
 			}
