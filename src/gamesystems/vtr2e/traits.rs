@@ -1,10 +1,10 @@
 use freya::prelude::{component, dioxus_elements, fc_to_builder, rsx, use_context,
 	use_memo, use_signal, Element, GlobalSignal, Readable, Signal, Writable};
-use crate::gamesystems::cofd::{AttributesMentalElement,
-	AttributesPhysicalElement, AttributesSocialElement, SkillsMentalElement,
+use crate::gamesystems::cofd::{AttributesMentalElement, AttributesPhysicalElement,
+	AttributesSocialElement, SkillSpecialtyListElement, SkillsMentalElement,
 	SkillsPhysicalElement, SkillsSocialElement};
 use crate::gamesystems::cofd::data::{AttributesMental, AttributesPhysical,
-	AttributesSocial, SkillsMental, SkillsPhysical, SkillsSocial};
+	AttributesSocial, SkillsMental, SkillsPhysical, SkillsSocial, Specialty};
 use crate::gamesystems::Vtr2eSheet;
 
 #[component]
@@ -20,6 +20,13 @@ pub fn TraitsElement() -> Element
 	let skillPhysical: Signal<SkillsPhysical> = use_signal(|| sheetData().skills.into());
 	let skillSocial: Signal<SkillsSocial> = use_signal(|| sheetData().skills.into());
 	
+	let mut specialties: Signal<Vec<Specialty>> = use_signal(|| sheetData().specialties);
+	
+	if specialties().is_empty()
+	{
+		specialties.write().push(Default::default());
+	}
+	
 	use_memo(move || {
 		let mut sheetDataWrite = sheetData.write();
 		
@@ -30,6 +37,8 @@ pub fn TraitsElement() -> Element
 		sheetDataWrite.skills.updateMental(skillMental());
 		sheetDataWrite.skills.updatePhysical(skillPhysical());
 		sheetDataWrite.skills.updateSocial(skillSocial());
+		
+		sheetDataWrite.specialties = specialties();
 	});
 	
 	let traitMax = sheetData().calculateMaxTrait();
@@ -62,6 +71,8 @@ pub fn TraitsElement() -> Element
 				SkillsPhysicalElement { signal: skillPhysical, traitMax }
 				SkillsSocialElement { signal: skillSocial, traitMax }
 			}
+			
+			SkillSpecialtyListElement { signal: specialties, width: "fill" }
 		}
 	);
 }

@@ -1,6 +1,8 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use crate::{components::StateValue, data::CharacterSheet};
+use crate::gamesystems::cofd::data::Specialty;
+use crate::components::StateValue;
+use crate::data::CharacterSheet;
 use crate::data::SheetId;
 use super::{Attributes, Merit, Skills};
 
@@ -23,6 +25,7 @@ pub struct Sheet
 	pub player: String,
 	pub size: u32,
 	pub skills: Skills,
+	pub specialties: Vec<Specialty>,
 	pub vice: String,
 	pub virtue: String,
 	pub willpower: u32,
@@ -37,10 +40,25 @@ impl CharacterSheet for Sheet
 	
 	fn update(&mut self, other: &Sheet)
 	{
+		self.age = other.age;
+		self.aspirations = other.aspirations.to_owned();
 		self.attributes = other.attributes;
-		self.name = other.name.to_owned();
+		self.chronicle = other.chronicle.to_owned();
+		self.concept = other.concept.to_owned();
+		self.conditions = other.conditions.to_owned();
+		self.faction = other.faction.to_owned();
+		self.group = other.group.to_owned();
 		self.health = other.health;
+		self.integrity = other.integrity;
+		self.merits = other.merits.to_owned();
+		self.name = other.name.to_owned();
+		self.player = other.player.to_owned();
+		self.size = other.size;
 		self.skills = other.skills;
+		self.specialties = other.specialties.to_owned();
+		self.vice = other.vice.to_owned();
+		self.virtue = other.virtue.to_owned();
+		self.willpower = other.willpower;
 	}
 }
 
@@ -66,6 +84,7 @@ impl Default for Sheet
 			player: String::default(),
 			size: 5,
 			skills: Skills::default(),
+			specialties: vec![],
 			vice: String::default(),
 			virtue: String::default(),
 			willpower: 0,

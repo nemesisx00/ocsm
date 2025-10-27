@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use crate::components::StateValue;
-use crate::gamesystems::cofd::data::{Attributes, Merit, Skills};
+use crate::gamesystems::cofd::data::{Attributes, Merit, Skills, Specialty};
 use crate::data::{CharacterSheet, SheetId};
 use super::Discipline;
 
@@ -33,6 +33,7 @@ pub struct Sheet
 	pub player: String,
 	pub size: u32,
 	pub skills: Skills,
+	pub specialties: Vec<Specialty>,
 	pub vitae: u32,
 	pub willpower: u32,
 }
@@ -69,6 +70,7 @@ impl CharacterSheet for Sheet
 		self.player = other.player.to_owned();
 		self.size = other.size;
 		self.skills = other.skills;
+		self.specialties = other.specialties.to_owned();
 		self.vitae = other.vitae;
 		self.willpower = other.willpower;
 	}
@@ -104,6 +106,7 @@ impl Default for Sheet
 			player: String::default(),
 			size: 5,
 			skills: Skills::default(),
+			specialties: vec![],
 			vitae: 0,
 			willpower: 0,
 		};
